@@ -148,6 +148,13 @@ export function plateBox(tier: PlateTier, ratio: number): { w: number; h: number
  *   - `medical`'s in-hospital device-test photograph (Clay: "the pressure ulcer photo").
  *     The brochure DRAWING stays — it is the design; the clinical photograph goes.
  *
+ * A SECOND PASS the same day (Clay confirmed the recommendation) took two more:
+ *
+ *   - `resia`'s product screenshot — a SaaS landing page reads startup, not design/cultural
+ *     work. The stage photograph of Clay pitching leads that moment alone now, at hero.
+ *   - `newyork`'s office desk selfie — the door elevation drawing is the design work, the
+ *     selfie is biographical. The NYC door closes the timeline alone.
+ *
  * With `origin-2021` gone the page has no visual opening bracket (the closing graduation photo
  * went in round 11), so the copy carries the bracket alone: "Bower is new…" over the intro,
  * the obsession coda at the foot.
@@ -320,20 +327,14 @@ export const CLUSTERS: Cluster[] = [
     hint: 'Resia: AI-Remodel Software',
     nodes: [
       {
+        // THE PITCH LEADS ALONE (2026-07-23 curation, second pass — Clay: "Take the Resia landing
+        // page off the timeline"). The product screenshot read as SaaS, not design/cultural work;
+        // the cultural moment is Clay on the stage, so it is the cluster's lone plate now,
+        // promoted standard -> hero to match every other single-plate cluster on this spine.
+        // (History of the photo itself: Daniel placed it "next to Resia"; it is Clay presenting —
+        // the ledger has Resia `by: 'clay'` — and round 11 swapped a portrait title-slide shot for
+        // this landscape stage photograph.)
         tier: 'hero',
-        media: {
-          src: `${A}/12-resia/resia-product-screenshot-1.webp`,
-          ratio: 1.8397,
-          alt: 'The Resia landing page, a one-stop remodeling solution to generate, estimate, contract, and manage a renovation',
-        },
-      },
-      {
-        // Daniel: "next to Resia." Clay presenting Resia — named because the ledger has Resia as
-        // `by: 'clay'` and Daniel confirms it is Clay presenting. REPLACED round 11 with a new
-        // LANDSCAPE photograph (was a portrait shot of a "Resi.AI" title slide, ratio 0.75): now Clay
-        // on a stage with a microphone, a child's crayon drawing of a house on the screen behind him,
-        // and an audience in front — so the alt describes the stage, not a slide's wording.
-        tier: 'standard',
         media: {
           src: `${T}/resia-pitch.webp`,
           ratio: 1.9025,
@@ -414,14 +415,9 @@ export const CLUSTERS: Cluster[] = [
           fit: 'contain',
         },
       },
-      {
-        tier: 'standard',
-        media: {
-          src: `${A}/16-rogers-partners-nyc/rogers-partners-nyc-office-desk-selfie.webp`,
-          ratio: 1.7778,
-          alt: 'Daniel at his dual-monitor desk in the Rogers Partners office in New York',
-        },
-      },
+      // The office desk selfie stood below the door drawing until the 2026-07-23 curation's second
+      // pass (Clay agreed with the recommendation: the drawing is the design work, the selfie is
+      // biographical). The NYC door closes the timeline alone.
     ],
   },
 ];
