@@ -160,6 +160,12 @@ const r = await page.evaluate(() => {
     vb && markWorldY != null && svgH && viewportH
       ? +(markWorldY - (viewportH * (vb[3] / svgH)) / 2).toFixed(1)
       : null;
+  // Since the 2026-07-23 top bleed, `vb[1]` is camY MINUS the upward bleed (the canvas runs under
+  // the transparent header). Add it back through the same scale, or this prints a "got" that is
+  // ~130 world units below the "want" and reads as a failed pin when the pin is fine. The bleed is
+  // the svg's own negative top margin, which is its px size by construction.
+  const topBleedPx = svg ? Math.max(0, -(parseFloat(getComputedStyle(svg).marginTop) || 0)) : 0;
+  const camYHonest = vb && svgH ? +(vb[1] + topBleedPx * (vb[3] / svgH)).toFixed(1) : null;
 
   return {
     screenCenterY: window.innerHeight / 2,
@@ -167,7 +173,7 @@ const r = await page.evaluate(() => {
     colBoxCenterY: mid(col),
     frameCenterY: mid(viewport),
     markCenterY: mid(markPt),
-    camY: vb ? vb[1] : null,
+    camY: camYHonest,
     expectedCamY,
     markStrokePx: px(markCircle),
     spineStrokePx: px(spineStroke),

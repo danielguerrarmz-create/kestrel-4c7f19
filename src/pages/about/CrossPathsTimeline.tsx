@@ -717,19 +717,21 @@ const DRAW_AHEAD = 0.35;
 /** The spine is top-clipped this far above the top edge, so it never shows a top terminus in frame. */
 const TOP_CLIP = 60;
 /**
- * ITEM 1c: how far the drawing dissolves at the frame's top, in CSS px.
+ * ITEM 1c's surviving half: how far the drawing dissolves at its top, in CSS px.
  *
  * `TOP_CLIP` already keeps the spine's TERMINUS out of the viewBox, and that was never the complaint —
- * the line was being sliced flat by the frame's own top EDGE, which is a different thing and is why
- * `revealProps` could not fix it ("both terminals sit off-frame and the line runs edge to edge" is
- * true of the viewBox and false of the screen). This is in px because it is about the SCREEN: a fade
- * measured in world units would get longer or shorter with the camera's scale, and the reader's eye
- * does not know what a world unit is.
+ * the line was being sliced flat by a hard EDGE, which is a different thing and is why `revealProps`
+ * could not fix it ("both terminals sit off-frame and the line runs edge to edge" is true of the
+ * viewBox and false of the screen). This is in px because it is about the SCREEN: a fade measured in
+ * world units would get longer or shorter with the camera's scale, and the reader's eye does not know
+ * what a world unit is.
  *
- * 72 rather than a rounder number: the frame's top sits 16px below the header, so the fade has 16px of
- * clearance to finish in and 56 more to work with before it starts eating the drawing. It is deep
- * enough that the sliced edge stops reading as an edge, and shallow enough not to ghost the first
- * plate. This is a look call and it is the one number here Daniel may want to move.
+ * SINCE 2026-07-23 THE FADE SITS AT THE SCREEN'S OWN TOP EDGE, not the frame's: the canvas bleeds
+ * upward under the fully transparent header (Clay's ruling — see the bleed note by the viewBox), so
+ * the element's top IS the screen's top and the dissolve happens behind the nav. At 72 the drawing is
+ * faint under the wordmark's band and fully inked just below the header. Item 1c's other half ("stay
+ * clear of the header") is retired by the same ruling. Still a look call; still Daniel's number to
+ * move.
  */
 const TOP_FADE_PX = 72;
 
@@ -1859,8 +1861,13 @@ export function computePlates(): Array<{
  * below the frame, and converting that bleed from px into world units needs the frame's real scale
  * (`viewH / frameH`), which an aspect alone cannot give.
  */
-function useFrameBox(ref: React.RefObject<HTMLElement>): { aspect: number; h: number; bleed: number } {
-  const [box, setBox] = useState({ aspect: 16 / 9, h: 0, bleed: 0 });
+function useFrameBox(ref: React.RefObject<HTMLElement>): {
+  aspect: number;
+  h: number;
+  bleed: number;
+  bleedTop: number;
+} {
+  const [box, setBox] = useState({ aspect: 16 / 9, h: 0, bleed: 0, bleedTop: 0 });
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
@@ -1883,8 +1890,15 @@ function useFrameBox(ref: React.RefObject<HTMLElement>): { aspect: number; h: nu
        * scroll. The padding is the same at every scroll position, which is what the bleed has to be.
        */
       const row = el.parentElement;
-      const pad = row ? parseFloat(getComputedStyle(row).paddingBottom) || 0 : 0;
-      setBox({ aspect: width / height, h: height, bleed: pad });
+      const cs = row ? getComputedStyle(row) : null;
+      const pad = cs ? parseFloat(cs.paddingBottom) || 0 : 0;
+      // The paper ABOVE the frame, measured the same way and for the same reason: it is the row's
+      // sticky offset (the header, via `top: var(--header-h)`) plus the row's own top padding.
+      // Hardcoding today's ~100px would go quietly wrong the first time the header changed height.
+      // Reduced motion's row is not sticky, so `top` computes 'auto' -> NaN -> 0 — harmless, the
+      // static poster takes no bleed anyway.
+      const padTop = cs ? (parseFloat(cs.top) || 0) + (parseFloat(cs.paddingTop) || 0) : 0;
+      setBox({ aspect: width / height, h: height, bleed: pad, bleedTop: padTop });
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -1940,7 +1954,7 @@ function DesktopTimeline({
   // clock — see the cue's render. Stillness alone cannot tell "not started" from "finished", so it is
   // never the gate on its own; it only decides whether an already-finished mark has been left sitting.
   const [scrollIdle, setScrollIdle] = useState(false);
-  const { aspect, h: frameH, bleed: BLEED_PX } = useFrameBox(frameRef);
+  const { aspect, h: frameH, bleed: BLEED_PX, bleedTop: TOP_BLEED_PX } = useFrameBox(frameRef);
   // Page-centre expressed in the frame's viewBox-x (see the descD comment). The frame sits in the
   // right column, so its axis (CX=600) is NOT the page centre; this measures the gap so the finale's
   // descending line can exit exactly above the founders' node below.
@@ -2154,8 +2168,14 @@ function DesktopTimeline({
     : p <= PIN_FRAC
       ? lerp(0, pinCamY, p1)
       : lerp(pinCamY, camYEnd, easeInOutCubic(clamp01((q - 0.4) / 0.6)));
+  // Both bleeds' world sizes, converted at the frame's own scale (see the item-1b note below —
+  // element and viewBox grow by the same physical distance, so worldPerPx never changes).
+  const bleedWorld = frameH > 0 ? BLEED_PX * (viewH / frameH) : 0;
+  const topBleedWorld = frameH > 0 ? TOP_BLEED_PX * (viewH / frameH) : 0;
   const frontY = camY + viewH * (1 + DRAW_AHEAD);
-  const topY = camY - TOP_CLIP;
+  // The reveal's top now reaches past the UPWARD bleed too, or the spine would dash itself out
+  // exactly where the drawing became newly visible under the header.
+  const topY = camY - topBleedWorld - TOP_CLIP;
   // THE STAGGER AND THE LINE COME FROM THE SAME viewH, IN ONE PLACE, ON PURPOSE. The line is placed
   // to finish the most-lagged thing by the halfway mark, so it is only correct if it is placed
   // against the SAME stagger the branches are actually lagged by. Computing them apart is how they
@@ -2192,13 +2212,24 @@ function DesktopTimeline({
    *
    * WHY THE SCALE AND THE MARK CANNOT MOVE, which is the whole reason this is safe: the element and
    * the viewBox grow by the same physical distance, so `worldPerPx` is unchanged —
-   * `(viewH + bleedWorld) / (frameH + BLEED)` = `viewH / frameH` by construction. The viewBox's TOP
-   * edge is still `camY` at the element's top, so every world point renders at the pixel it already
-   * did. **`viewH`, `pinCamY`, the camera and the lockup are all untouched: strictly more drawing is
-   * visible below, and nothing that was visible moved.**
+   * `(viewH + bleedWorld) / (frameH + BLEED)` = `viewH / frameH` by construction. **`viewH`,
+   * `pinCamY`, the camera and the lockup are all untouched: strictly more drawing is visible, and
+   * nothing that was visible moved.**
+   *
+   * AND THE TOP NOW BLEEDS TOO (2026-07-23) — the same construction, mirrored, on Clay's ruling:
+   * "make the header on that page actually fully transparent." The frame starts below the header
+   * (`top: var(--header-h)`), so even with the round-11 vellum band gone the drawing terminated at
+   * the header's line and read as a solid bar. The canvas now grows `TOP_BLEED_PX` upward on a
+   * negative top margin (measured off the row, like the bottom), the viewBox's top moves up by the
+   * same distance in world units, and the drawing runs under the floating nav to the screen's own
+   * edge, where TOP_FADE_PX dissolves it. This intentionally retires the "stay clear of the header"
+   * half of Daniel's item 1c — Clay overrode it for the client-facing pass; the "fade, not cut"
+   * half stands, relocated to the screen top. (The bleeds are computed with `topY`, above, because
+   * the reveal window must span them.)
    */
-  const bleedWorld = frameH > 0 ? BLEED_PX * (viewH / frameH) : 0;
-  const viewBox = reduced ? `0 0 ${W} ${H}` : `0 ${camY} ${W} ${viewH + bleedWorld}`;
+  const viewBox = reduced
+    ? `0 0 ${W} ${H}`
+    : `0 ${camY - topBleedWorld} ${W} ${viewH + bleedWorld + topBleedWorld}`;
 
   /** The middle-segment reveal for the spine: draw only from the top clip to the draw-ahead front,
    *  so both terminals sit off-frame and the line runs edge to edge.
@@ -2416,32 +2447,33 @@ function DesktopTimeline({
               reduced
                 ? undefined
                 : {
-                    /* ITEM 1b + 1c — the drawing's two ends, and they are DELIBERATELY ASYMMETRIC.
-                       Daniel wants the bottom to come out of the screen and the top to dissolve.
+                    /* THE CANVAS BLEEDS PAST THE CAMERA'S FRAME AT BOTH ENDS, on negative margins,
+                       so it takes no layout space and the hero lockup never hears about it. Paired
+                       with the viewBox's matching growth (see `bleedWorld`/`topBleedWorld`), the
+                       scale is identical and the line simply keeps going through both screen edges.
 
-                       THE BLEED (1b): the canvas grows past the camera's frame on a NEGATIVE MARGIN,
-                       so it takes no layout space and nothing above it moves — the hero lockup, which
-                       is the thing this padding exists for, never hears about it. Paired with the
-                       viewBox's matching growth (see `bleedWorld`), the scale is identical and the
-                       line simply keeps going, through the bottom of the screen, with no terminus in
-                       frame. `DRAW_AHEAD` (0.35 of viewH) already draws well past this, so the reveal
-                       front is never what the viewer sees down there. */
-                    height: `calc(100% + ${BLEED_PX}px)`,
+                       BOTTOM (item 1b): Daniel — flush with the bottom of the screen, no terminus
+                       in frame. `DRAW_AHEAD` (0.35 of viewH) already draws well past it.
+                       TOP (2026-07-23): Clay — the header is fully transparent, so the drawing runs
+                       UNDER the floating nav to the screen's own edge instead of terminating at the
+                       header line. This retires the "stay clear of the header" half of item 1c. */
+                    height: `calc(100% + ${BLEED_PX + TOP_BLEED_PX}px)`,
+                    marginTop: -TOP_BLEED_PX,
                     marginBottom: -BLEED_PX,
-                    /* THE TOP FADE (1c): the line dissolves rather than showing a cut end, and it is
-                       finished well before the header. Daniel: the top should fade, not cut, and stay
-                       clear of the header. `TOP_CLIP` already puts the terminus off-frame — but "off
-                       the viewBox" is not "off the screen" (the frame is inset 100px), so what he sees
-                       is the line being sliced flat by the frame's own edge. A mask cannot be undone
-                       by the frame being inset: it is measured from the element's own top, which IS
-                       where the slice was happening. */
+                    /* THE TOP FADE (1c's surviving half): the line dissolves rather than showing a
+                       cut end. The element's top IS the screen's top now, so the fade lives at the
+                       screen edge, behind the nav — the drawing is faint under the wordmark and
+                       fully inked just below the header band. */
                     maskImage: `linear-gradient(to bottom, transparent 0, black ${TOP_FADE_PX}px)`,
                     WebkitMaskImage: `linear-gradient(to bottom, transparent 0, black ${TOP_FADE_PX}px)`,
                   }
             }
-            /* THE CAMERA'S ONLY HANDLE. `viewBox`'s y IS camY, so this element is the one place the
-               camera's ACTUAL position is observable from outside React — which is what
-               qa/growth-timing.mjs must wait on. It cannot wait on `scrollY`: scrollY lands instantly
+            /* THE CAMERA'S ONLY HANDLE. `viewBox`'s y is `camY - topBleedWorld` (the camera's top
+               minus the constant upward bleed, 2026-07-23), so this element is still the one place
+               the camera's motion is observable from outside React — which is what
+               qa/growth-timing.mjs must wait on (it needs movement and stillness, which a constant
+               offset does not disturb; anything wanting ABSOLUTE camY must add the bleed back, as
+               qa/hero-lockup.mjs does). It cannot wait on `scrollY`: scrollY lands instantly
                while camY is a rAF lerp (`current += (target-current)*0.1`, ~72 frames to settle), so a
                harness that guards the scroll is guarding a proxy and will measure a camera that has not
                arrived. It did exactly that, and reported a confident PASS on a stalled camera.
@@ -2454,7 +2486,7 @@ function DesktopTimeline({
                thing it found is not a check. Grep before you claim a data attribute. */
             data-timeline-camera
             role="img"
-            aria-label="A timeline from 2021 to 2025 that travels downward as you scroll. At the top, two strands, Clay and Daniel, come in from off the frame and twist together into one line: the spine is born where they fuse in 2021. Each later event branches off the spine to a picture held in a small calyx: a medical device, startups, buildings grown in place, computational design research, fabrication, robotics, a lamp, and a year in New York. At the end the line leans off its axis and winds itself up into the Bower mark, with the wordmark, Bower, beneath it."
+            aria-label="A timeline that travels downward as you scroll. At the top, two strands, Clay and Daniel, come in from off the frame and twist together into one line: the spine is born where they fuse. Each later event branches off the spine to a picture held in a small calyx: a medical device, startups, buildings grown in place, computational design research, fabrication, robotics, a lamp, and a year in New York. At the end the line leans off its axis and winds itself up into the Bower mark, with the wordmark, Bower, beneath it."
           >
             {/* THE TWIST-FUSE. Two equal strands cross once over-under and become the spine at 2021.
                 The right strand is painted last through the crossing (a vellum halo opens the gap
