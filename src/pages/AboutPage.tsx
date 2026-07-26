@@ -2119,28 +2119,15 @@ export function AboutPage() {
 
   return (
     <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
-      <SplashHeader transparent />
+      <SplashHeader transparent logoPill />
 
-      {/* NOTHING TOUCHES THE HEADER (round 11). The transparent nav floats directly on the page, so
-          content scrolling up would ride straight over "bower" and the links. This fixed band fades
-          scrolling content into the page ground (paperVellum) before it reaches the nav — the same
-          dissolve the drawing already uses at its own top edge. It is OPAQUE through the header's own
-          height (`--header-h`) and fades out over the ~2.5rem below it, so the line/text is gone by
-          the time it would meet the chrome and eased in just under it.
-          - `z-40`: under the header (`z-50`) so the nav stays crisp on top, over the content.
-          - `max-w-canvas`: the About content measure — the header's own frame, not full-bleed. Its
-            paperVellum top blends invisibly into the page's paperVellum margins, so there is no band
-            edge; only content passing under it fades.
-          - `pointer-events-none`: it must never eat a nav click or a scroll. */}
-      <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center">
-        <div
-          className="w-full max-w-canvas"
-          style={{
-            height: 'calc(var(--header-h) + 2.5rem)',
-            background: 'linear-gradient(to bottom, #FBF9F3, #FBF9F3 var(--header-h), rgba(251,249,243,0))',
-          }}
-        />
-      </div>
+      {/* THE HEADER IS FULLY TRANSPARENT AGAIN (2026-07-23, Clay: "make the header on that page
+          actually fully transparent... It used to be that way"). Round 11 stood an opaque-to-clear
+          vellum band here ("NOTHING TOUCHES THE HEADER") so scrolling content dissolved before it
+          reached the nav; the cost was a header that read as a solid bar the moment anything
+          scrolled under it. Clay chose the float: the nav's ink now rides directly over whatever
+          passes beneath, as it did before round 11. If content-under-chrome ever bothers Daniel
+          again, the band is one commit back in this file's git history. */}
 
       <motion.main
         className="mx-auto w-full max-w-canvas px-gutter pb-24 pt-[calc(var(--header-h)+2rem)]"

@@ -182,6 +182,7 @@ export function SplashHeader({
   actions,
   measure = 'canvas',
   transparent = false,
+  logoPill = false,
 }: {
   actions?: React.ReactNode;
   /** The header must adopt the measure of the PAGE it sits on, or its left edge misses the
@@ -192,10 +193,17 @@ export function SplashHeader({
    *  logo and nav float directly on the page — About wants a fully transparent header on its vellum.
    *  The ink stays `text-inkBlack`, which reads on that ground without the capsule backing. */
   transparent?: boolean;
+  /** With `transparent`: give ONLY the logo lockup its frosted capsule back. 2026-07-23, Clay —
+   *  once the About drawing started riding under the fully transparent header, the wordmark sat
+   *  directly on plates and vines: "Give the 'Bower' and logo the partial-opacity pill shape
+   *  around it." The nav stays bare (his ask named the lockup alone); if the ABOUT link ever
+   *  collides the same way, extending this flag to the nav is the move, not a second mechanism. */
+  logoPill?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
   // Present only when the pills are; the filter's whole job is the pills' backdrop lens.
   const pill = transparent ? '' : 'nav-pill ';
+  const logoCapsule = transparent && !logoPill ? '' : 'nav-pill ';
 
   /**
    * The header publishes its own height as `--header-h`.
@@ -219,7 +227,7 @@ export function SplashHeader({
 
   return (
     <header ref={ref} className="fixed inset-x-0 top-0 z-50 pb-4 pt-5">
-      {!transparent && <LensFilter />}
+      {(!transparent || logoPill) && <LensFilter />}
       {/* The header sits in the SAME frame as the page content, so the wordmark's left edge
           IS the content's left edge at every width. Before this it gutter'd off the raw
           viewport, so on a wide monitor it floated hundreds of px outside the column
@@ -235,7 +243,7 @@ export function SplashHeader({
           href="#/"
           aria-label="Bower, home"
           data-cursor-solid
-          className={`${pill}flex items-center gap-2.5 px-4 py-2 text-inkBlack`}
+          className={`${logoCapsule}flex items-center gap-2.5 px-4 py-2 text-inkBlack`}
         >
           <BowerMark
             markSize={30}
