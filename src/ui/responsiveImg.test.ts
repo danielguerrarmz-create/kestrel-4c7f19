@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { srcSetFor, MAX_SRCSET_W } from './responsiveImg';
+import { HERO_STILL } from '../pages/splash/heroStill';
 import VARIANTS from '../data/imageVariants.generated.json';
 
 /**
@@ -82,16 +83,18 @@ describe('no srcset candidate is enormous (the 2026-07-23 hero regression)', () 
     }
   });
 
-  it('THE CASE THAT CAUSED THIS: the home hero never offers its multi-megabyte original', () => {
-    const hero = '/hero/v3/pavilion.jpg';
-    expect(MANIFEST[hero], 'the hero left the manifest — re-point this guard').toBeDefined();
-    const set = srcSetFor(hero)!;
-    expect(set).not.toContain('pavilion.jpg');
-    // Whatever the browser picks, it is a variant, and every variant is a fraction of the 2.6 MB
-    // original. Asserted in BYTES, because the pixel width was never what hurt.
-    for (const p of candidatePaths(hero)) {
+  it('THE CASE THAT CAUSED THIS: no home-hero candidate is heavy', () => {
+    // Read from HERO_STILL rather than hardcoding the path: the hero is versioned (v3 -> v4 on
+    // 2026-07-23) and a guard pinned to a retired filename silently stops guarding.
+    const hero: string = HERO_STILL.src;
+    expect(MANIFEST[hero], `${hero} is not in the variant manifest — run npm run gen:images`).toBeDefined();
+    const paths = candidatePaths(hero);
+    expect(paths.length, 'the hero offers no candidates').toBeGreaterThan(2);
+    // Asserted in BYTES, because the pixel width was never what hurt: v3's 5,056px original was
+    // 2,606 KB and the browser took it on any desktop.
+    for (const p of paths) {
       const kb = statSync(resolve(PUBLIC, p.replace(/^\//, ''))).size / 1024;
-      expect(kb, `${p} is ${Math.round(kb)} KB`).toBeLessThan(900);
+      expect(kb, `${p} is ${Math.round(kb)} KB — too heavy for an above-the-fold hero`).toBeLessThan(900);
     }
   });
 });

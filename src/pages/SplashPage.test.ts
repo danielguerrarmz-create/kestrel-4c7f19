@@ -118,9 +118,22 @@ describe('SplashPage', () => {
     // The prose lead was a summary of the list beneath it; the subtraction pass cut it.
     expect(html).not.toContain("that's genuinely the whole of it");
     expect(html).toContain('Plant, and let it start becoming');
-    // component count + weeks, reused from the commission-sheet source of truth
-    expect(html).toMatch(/~\d+ components/);
-    expect(html).toMatch(/~\d+ wks/);
+    // The component count + lead time are still LIVE engine output, but they stopped being a
+    // mono uppercase annotation strip ("~176 components · ~10 wks") in the 2026-07-23 elegance
+    // pass -- that read as a dimension note on a drawing. Same numbers, page's own voice.
+    expect(html).toMatch(/about \d+ components/);
+    expect(html).toMatch(/about \d+ weeks/);
+  });
+
+  it('speaks in the page voice, not a terminal (2026-07-23 elegance pass)', () => {
+    // Mono type reads as code or as an instrument readout. It is right for the engine's
+    // drawing annotations and for the brand lockup, and wrong for everything a client reads
+    // on the front door. Pinned as an ABSENCE so the tech register cannot creep back.
+    expect(html).not.toContain('font-mono text-[11px] uppercase'); // the old eyebrow
+    expect(html).not.toContain('font-mono text-[10px] uppercase'); // the old annotation strip
+    // ...and the flat field-colour block is gone: the home is one continuous paper now.
+    expect(html).not.toContain('bg-fieldBlue');
+    expect(html).not.toContain('text-inkNavy');
   });
 });
 

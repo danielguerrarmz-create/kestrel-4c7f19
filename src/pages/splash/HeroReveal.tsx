@@ -130,8 +130,30 @@ function HeroCopy({
   );
 }
 
-/** The beauty still, full-bleed. Framed 3:2 with sky headroom; object-bottom pins the
- *  image's bottom edge so short windows crop the disposable sky, not the foreground. */
+/**
+ * The beauty still, full-bleed, and THE PAVILION IS THE IMAGE'S OWN VERTICAL CENTRE, which is
+ * what keeps it centred on screen at every window shape (2026-07-23, Clay: "the bower ... sits
+ * way too high up", with the structure circled on a short laptop window).
+ *
+ * WHY `object-bottom` WAS THE BUG, and why a different percentage would not have fixed it.
+ * `object-bottom` pinned the image's bottom edge, so on a window wider than the photo all the
+ * overflow was cropped off the TOP and everything left slid upward: measured at 1339x663, the
+ * pavilion's centre landed 135px above the frame's centre. That pin was correct for v3, whose
+ * top third was disposable Texas sky. v4 has a manor and mature trees up there and a rose border
+ * down here, so there is no longer a throwaway end.
+ *
+ * A tuned `object-position: 50% N%` cannot solve it either: the vertical overflow depends on the
+ * window's aspect, so the N that centres the subject at 1339x663 (~30%) leaves it 18px high at
+ * 1440x900 and 45px high on a phone. **The only value that holds for every aspect is 50%** —
+ * because `cover` crops symmetrically about the position point, so whatever is at the image's
+ * centre stays at the frame's centre, always.
+ *
+ * So the MASTER was recropped instead of the CSS: the pavilion's bounding box was measured on a
+ * percentage grid (crown 29%, base 61%, centre 45%), and 340px was trimmed off the bottom of the
+ * 5056x3392 original to move that centre to exactly 50% (now 2560x1545, ratio 1.657). Hence no
+ * `object-position` here at all — `cover`'s own 50% 50% default is the whole fix. Re-crop the
+ * master if the hero image is ever replaced; do not reach for object-position.
+ */
 function HeroStill() {
   return (
     <img
@@ -141,7 +163,7 @@ function HeroStill() {
       alt=""
       decoding="async"
       fetchPriority="high"
-      className="absolute inset-0 h-full w-full object-cover object-bottom"
+      className="absolute inset-0 h-full w-full object-cover object-center"
     />
   );
 }
@@ -195,12 +217,30 @@ function StillHero({ animate }: { animate: boolean }) {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-paperVellum text-inkBlack">
       <HeroStill />
-      {/* Full-bleed legibility scrim: darkest at the bottom-left where the copy sits, fading
-          to transparent toward the top-right. Because it covers the whole hero (not a clipped
-          bottom column), there is no hard horizontal edge across the sky. */}
+      {/* THE LEGIBILITY SCRIM, IN TWO SOFT LAYERS.
+          Both are full-bleed (not a clipped bottom column), so there is never a hard horizontal
+          edge across the sky.
+
+          (1) The diagonal, unchanged: darkest bottom-left where the copy sits, clearing toward
+              the top-right so the structure and the house stay bright.
+          (2) A GENTLE FOOT, added 2026-07-23 with the v4 hero. v3's bottom-left was dark
+              pavement; v4's is a sunlit rose and lavender border, and over it the subline was
+              fighting the flowers. The diagonal alone could not fix that without dimming the
+              whole frame, because it is already near-transparent by the middle of the copy's
+              own width. This bottom-up stop is confined to the lower ~55% and eases out well
+              before the pavilion, so the copy sits on quiet ground and the garden keeps its
+              light. Measured against the rendered page, not guessed. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/60 via-black/10 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.12) 38%, transparent 55%)',
+        }}
       />
       <CopyColumn>
         <HeroCopy orchestrate={animate} show={show} />

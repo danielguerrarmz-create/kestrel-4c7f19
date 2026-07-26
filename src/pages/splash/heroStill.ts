@@ -10,10 +10,28 @@
  * and docs/hero-fuser-prompt.md. Bump the version folder (v1 -> v2) to reland a new render.
  */
 export const HERO_STILL = {
-  /** Public path to the beauty still that cross-fades in at the end of the reveal.
-   *  v3: the Eden pavilion in an Austin neighbourhood park at golden hour, framed at
-   *  3:2 (5056x3392) with sky headroom so it covers the full-bleed hero without bars. */
-  src: '/hero/v3/pavilion.jpg',
+  /**
+   * Public path to the beauty still that cross-fades in at the end of the reveal.
+   *
+   * v4 (2026-07-23), and the reason is the AUDIENCE, not the picture's quality. Clay: "the
+   * setting on the current one is really confusing as we sell to english garden owners." v3
+   * was the pavilion in an Austin neighbourhood park — a city skyline, a sidewalk, parked
+   * cars, cyclists. Read by an English estate owner, that is a municipal green in Texas, and
+   * it quietly says the product is not for them.
+   *
+   * v4 is a walled garden at a brick manor house: clipped box and yew, roses, delphiniums and
+   * foxgloves, a stone wall, morning light. It also carries the brief Clay set for the page
+   * ("elegant, and also kind of avante-garde. But with homages to the old"): the Jacobean
+   * house and the formal parterre ARE the homage, and the timber shell is the one modern
+   * object in the frame. Chosen over ten alternatives because it holds all three of: an
+   * unmistakably English setting, the structure large enough to read as the product, and NO
+   * figures (the populated options read as a public botanical garden, not a commission).
+   *
+   * Framed 3:2 (2560x1717, ratio 1.4910 — v3 was 1.4906, so the full-bleed crop is unchanged).
+   * A 2560 master, NOT the 12 MB 5056 original: `MAX_SRCSET_W` caps the srcset at 2560 and the
+   * hero never opens in the Lightbox, so nothing can ask for more than this file.
+   */
+  src: '/hero/v4/manor-garden.webp',
   placeholder: false,
 } as const;
 

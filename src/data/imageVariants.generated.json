@@ -610,16 +610,6 @@
       800
     ]
   },
-  "/hero/v3/pavilion.jpg": {
-    "w": 5056,
-    "variants": [
-      400,
-      800,
-      1280,
-      1920,
-      2560
-    ]
-  },
   "/hero/v4/eden-bare-frame.webp": {
     "w": 1600,
     "variants": [
@@ -665,6 +655,15 @@
       400,
       800,
       1280
+    ]
+  },
+  "/hero/v4/manor-garden.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
     ]
   }
 }
