@@ -33,5 +33,10 @@ docs/brief-for-evaluators.md
 qa-*.mjs
 docs/**/*-redlining-direction.md
 
+# Throwaway probe output (my one-off audit scripts write here). Staged once by a blanket
+# `git add -A` on 2026-07-23 and caught only by reading the index; ignore it at the source.
+qa-out/
+qa/tmp-*.mjs
+
 # QA screenshot review artifacts (large PNGs; regenerate with npm run qa:matrix)
 qa/shots/

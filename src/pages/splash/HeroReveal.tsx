@@ -109,11 +109,16 @@ function HeroCopy({
       </h1>
       <motion.p
         variants={growLine}
-        className="mt-4 max-w-[36ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
+        className="mt-4 max-w-[38ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
       >
-        A one of a kind living structure, computed for your garden and finished when the garden has
-        grown into it.
+        We design and build living garden pavilions.
       </motion.p>
+      {/* THE SUBLINE IS THE WHOLE SENTENCE (2026-07-23). Two passes landed here: first the plain
+          noun (Clay: a reader "didn't understand what it is that we actually do"), then the cut
+          (Clay: "nothing left to take away"). The photograph shows the timber and the planting, so
+          the words only have to name the thing. What went: "one of a kind timber structures,
+          shaped for your garden, grown through by climbing plants" — every clause of it survives
+          below, said once, where it earns its place. */}
 
       {/* THE HERO HAS NO CTA (2026-07-21). It carried two: a filled "Shape your Eden" into
           `#/studio` and a quiet "See how it works" into `#/engine`. Both destinations are

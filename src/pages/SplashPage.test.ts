@@ -10,9 +10,10 @@ describe('SplashPage', () => {
   const html = clean(renderToString(createElement(SplashPage)));
 
   it('renders live copy and the two product photographs without throwing', () => {
-    // New stripped hero: outcome headline + mission line (the cursive "Eden" word).
+    // New stripped hero: outcome headline + the plain subline (2026-07-23 product-
+    // communication pass: the subline names the noun, "living garden pavilions").
     expect(html).toContain('Grow a living');
-    expect(html).toContain('computed for your garden');
+    expect(html).toContain('living garden pavilions');
     // the register section's form label is still present lower on the page
     expect(html).toContain('register interest');
     // the hero's old CTAs / stats strip are gone
@@ -80,12 +81,22 @@ describe('SplashPage', () => {
     }
   });
 
-  it('states what Bower is, without pointing at the engine', () => {
-    // The first content band explains the product in one pass. Its `#how-it-works` anchor
-    // and its "see the full engine walkthrough" link were removed on 2026-07-21; the band
-    // and its photograph stay, because they say what Bower is without showing the tool.
+  it('states what Bower is, plainly, without pointing at the engine', () => {
+    // The first content band explains the product in one pass. REWRITTEN 2026-07-23 (Clay's
+    // product-communication pass: a first-time reader "didn't understand what it is that we
+    // actually do, or what a bower is"): the band now leads with the dictionary sense of the
+    // name and the plain noun, and the engine jargon ("a grammar computes") is gone from the
+    // front door. These pins are the point: the plain words must stay plain.
     expect(html).toContain('What Bower is');
-    expect(html).toContain('grammar computes the');
+    expect(html).toContain('bower,');
+    expect(html).toContain('A shaded resting place in a garden');
+    expect(html).toContain('that grows through it');
+    // The differentiator, and the ONLY claim the band's body still makes: everything else it
+    // used to say (practice, fixed price, flat components) is the ritual band's job, and the
+    // 2026-07-23 subtraction pass stopped saying it twice.
+    expect(html).toContain('Never chosen from a catalogue');
+    expect(html).not.toContain('grammar computes');
+    expect(html).not.toContain('generative design studio');
     expect(html).not.toContain('id="how-it-works"');
     expect(html).not.toContain('See the full engine walkthrough');
     // the sun-path / growth-phases detail is NOT on the home page
@@ -98,9 +109,14 @@ describe('SplashPage', () => {
   });
 
   it('teaches the commission ritual with live production figures', () => {
-    expect(html).toContain('What actually'); // the second band's heading
-    expect(html).toContain('after you shape it');
-    expect(html).toContain('Shape it in the studio');
+    // "after you shape it" / "Shape it in the studio" left 2026-07-23 with the product-
+    // communication pass: both implied a tool the reader could open, and the engine is
+    // dev-only. The ritual describes the commission as it actually runs.
+    expect(html).toContain('to garden'); // the band's heading, "From design to garden."
+    expect(html).toContain('We design it with you');
+    expect(html).not.toContain('Shape it in the studio');
+    // The prose lead was a summary of the list beneath it; the subtraction pass cut it.
+    expect(html).not.toContain("that's genuinely the whole of it");
     expect(html).toContain('Plant, and let it start becoming');
     // component count + weeks, reused from the commission-sheet source of truth
     expect(html).toMatch(/~\d+ components/);

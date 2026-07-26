@@ -14,27 +14,27 @@
 
 # Grow a living Eden in your garden.
 
-A one of a kind living structure, computed for your garden and finished when the garden has grown into it.
+We design and build living garden pavilions.
 
 ![A woven timber gridshell pavilion in a garden, its open oculus at the crown, wisteria and green planting grown through the lattice, a bed of wildflowers in front](/assets/product/pavilion-exterior-garden.webp)
 
 What Bower is
 
-## Not a catalogue of shapes to choose from. A grammar computes the one that's yours.
+bower, noun. A shaded resting place in a garden, made of woven branches and climbing plants.
 
-Bower is a generative design studio. An engine computes a one of a kind timber structure for your garden, priced and buildable as you shape it, that a climber grows into season after season.
+## Designed for your garden, and for the plant that grows through it.
 
-## What actually happens after you shape it.
+One of a kind. Never chosen from a catalogue.
 
-You shape it, we cut it, you plant it, and that's genuinely the whole of it.
+## From design to garden.
 
-- 1 Shape it in the studio
+- 1 We design it with you
 
-- 2 The price fixes itself as you do
+- 2 The price is fixed as we design
 
-- 3 We CNC-cut flat timber components from the live cut list
+- 3 Flat timber components, CNC-cut
 
-- 4 Days to raise, ground screws, no slab, no wet trades
+- 4 Days to raise, on ground screws, no slab
 
 - 5 Plant, and let it start becoming.
 
@@ -44,7 +44,7 @@ this design: ~176 components · ~10 wks
 
 ## Begin.
 
-These are the first Edens, and yours could be among them. Put your name down, which takes about ten seconds, or find your way in below.
+These are the first Edens. Yours could be among them.
 
 register interest
 

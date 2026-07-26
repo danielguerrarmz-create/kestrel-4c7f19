@@ -13,15 +13,37 @@ import VARIANTS from '../data/imageVariants.generated.json';
 type VariantEntry = { w: number; variants: number[] };
 const MANIFEST = VARIANTS as Record<string, VariantEntry>;
 
-/** The srcset for `src`, or undefined when no variants were generated for it. The original is included
- *  as the top candidate at its natural width, so desktop and hi-DPI still resolve to full quality. */
+/**
+ * THE WIDEST CANDIDATE ANY `srcset` MAY OFFER.
+ *
+ * This exists because the rule it replaces was "include the original at its natural width, so
+ * desktop and hi-DPI still resolve to full quality" — true about quality, and it cost **2,606 KB
+ * on the home page's above-the-fold hero** (measured 2026-07-23 against the production build at
+ * 1440x900: the browser needed >1280, the only wider candidate was the 5,056px original JPEG, so
+ * it took it. Whole-page image weight was 2,861 KB).
+ *
+ * 2560 covers a 1440 CSS viewport at DPR 2 to within ~11% of ideal density, which is invisible on
+ * a photograph and cheap by comparison. **Full resolution is NOT lost by this**: the Lightbox
+ * renders `image.src` directly with no srcset, so the original is still exactly one tap away
+ * wherever a reader actually wants to study a picture.
+ */
+export const MAX_SRCSET_W = 2560;
+
+/**
+ * The srcset for `src`, or undefined when no variants were generated for it (a small image, or a
+ * PNG line-drawing left un-varianted) — the caller then keeps its plain `src`.
+ *
+ * The original is offered as the top candidate ONLY when it is no wider than `MAX_SRCSET_W`; past
+ * that the widest generated variant is the ceiling. A source narrower than the cap is by
+ * definition a modest file, so there is no jump to guard against.
+ */
 export function srcSetFor(src: string): string | undefined {
   const entry = MANIFEST[src];
   if (!entry) return undefined;
   const base = src.replace(/\.(webp|jpe?g)$/i, '');
   const parts = entry.variants.map((w) => `${base}-${w}w.webp ${w}w`);
-  parts.push(`${src} ${entry.w}w`);
-  return parts.join(', ');
+  if (entry.w <= MAX_SRCSET_W) parts.push(`${src} ${entry.w}w`);
+  return parts.length ? parts.join(', ') : undefined;
 }
 
 /** `sizes` presets. The value is the CSS width the image actually renders at, per viewport, so the
