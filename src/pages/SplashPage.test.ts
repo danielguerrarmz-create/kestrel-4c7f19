@@ -54,27 +54,29 @@ describe('SplashPage', () => {
     expect(html).toContain('Bower'); // the company wordmark (hero header)
   });
 
-  it('carries the global nav, which is now about and nothing else', () => {
+  it('carries the global nav, which is now gallery + about and nothing else', () => {
     // 2026-07-21: "how it works" (#/engine) and "studio" left the nav when the engine came
-    // off the live site. The SplashHeader renders NAV_LINKS twice (the inline pill and the
-    // mobile dropdown), so a leaked entry would show up here twice over.
+    // off the live site. 2026-07-23: "gallery" joined (Clay's client pass). The SplashHeader
+    // renders NAV_LINKS twice (the inline pill and the mobile dropdown), so a leaked entry
+    // would show up here twice over.
     expect(html).toContain('about');
     expect(html).toContain('href="#/about"');
+    expect(html).toContain('href="#/gallery"');
     expect(html).not.toContain('>studio<');
     expect(html).not.toContain('>how it works<');
     expect(html).not.toContain('(the pavilion)');
   });
 
-  it('links nowhere except #/about and its own #register anchor', () => {
+  it('links nowhere except the public routes and its own #register anchor', () => {
     // THE HOME MUST NOT DEAD-END INTO A HIDDEN ROUTE. Every engine destination is dev-only
     // now, so any href into one would 'work' locally and land on the splash in production,
     // which is a link that silently lies. Sweep the rendered hrefs rather than naming the
     // ones we happened to remember removing. Anchors only: the nav pill's lens filter
     // carries an `feImage href="data:image/svg+xml…"`, which is a bump map, not a destination.
     const hrefs = [...html.matchAll(/<a\b[^>]*?\shref="([^"]*)"/g)].map((m) => m[1]);
-    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's about, the close's door
+    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's two links, the close's door
     for (const href of hrefs) {
-      expect(['#/', '#/about', '#register']).toContain(href);
+      expect(['#/', '#/about', '#/gallery', '#register']).toContain(href);
     }
   });
 

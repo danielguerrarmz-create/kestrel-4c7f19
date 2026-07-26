@@ -1,10 +1,11 @@
 /**
  * routing.ts — a deliberately tiny hash router (no dependency).
  *
- * THE PUBLIC SITE IS TWO PAGES: the home at `#/` and the about page at `#/about`.
- * Everything engine-facing (the studio/draw tool, the engine walkthrough, the shape
- * and sculpt spikes, the labs) is DEV-ONLY as of 2026-07-21 — Daniel's ruling: the
- * engine "is not something to be proud of at this time", so it comes off production
+ * THE PUBLIC SITE IS THREE PAGES: the home at `#/`, the about page at `#/about`, and
+ * the gallery of commission visions at `#/gallery` (added 2026-07-23, Clay's client
+ * pass). Everything engine-facing (the studio/draw tool, the engine walkthrough, the
+ * shape and sculpt spikes, the labs) is DEV-ONLY as of 2026-07-21 — Daniel's ruling:
+ * the engine "is not something to be proud of at this time", so it comes off production
  * and stays hidden until it is worth showing. The code is untouched and every one of
  * those routes still works under `npm run dev`; see `ENGINE_ROUTES` / `resolveRoute`
  * below and `src/DevRoutes.tsx`. This is a gate, not a deletion.
@@ -36,13 +37,16 @@ export function useRoute(): string {
 }
 
 /** Hash hrefs, so links stay real anchors (openable in new tab, no JS needed).
- *  Only `home` and `about` may be linked from a surface that ships to production —
- *  everything below them is dev-only (see `ENGINE_ROUTES`). */
+ *  Only `home`, `about` and `gallery` may be linked from a surface that ships to
+ *  production — everything else is dev-only (see `ENGINE_ROUTES`). */
 export const routes = {
   home: '#/',
   engine: '#/engine',
   studio: '#/studio',
   about: '#/about',
+  /** The commission visions: seven concept renderings of Bower pavilions in their
+   *  gardens (2026-07-23, Clay). A public page, NOT an engine route. */
+  gallery: '#/gallery',
   /** The drawing flow: pick a site, scribble the plan, drag the spines. The
    *  sliders become a readout of what you drew rather than the design act. */
   draw: '#/draw',
@@ -78,7 +82,7 @@ export const ENGINE_ROUTES: readonly string[] = [
 ];
 
 /** What a path resolves to. `engine` is only ever returned when `dev` is true. */
-export type RouteTarget = 'splash' | 'about' | 'engine';
+export type RouteTarget = 'splash' | 'about' | 'gallery' | 'engine';
 
 /**
  * The whole route decision as one pure function, so the production gate is testable
@@ -88,6 +92,7 @@ export type RouteTarget = 'splash' | 'about' | 'engine';
  */
 export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.about.replace(/^#/, '')) return 'about';
+  if (path === routes.gallery.replace(/^#/, '')) return 'gallery';
   if (dev && ENGINE_ROUTES.includes(path)) return 'engine';
   return 'splash';
 }

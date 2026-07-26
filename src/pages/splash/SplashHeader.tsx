@@ -20,8 +20,10 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
 /** The global nav destinations, in one place so the inline pill and the mobile dropdown can
  *  never drift apart. "how it works" (`#/engine`) and "studio" were removed on 2026-07-21
  *  when the engine came off the live site: a nav entry is a promise, and neither page ships
- *  to production any more. Restore both here when the engine is worth showing again. */
+ *  to production any more. Restore both here when the engine is worth showing again.
+ *  "gallery" joined 2026-07-23 (Clay's client pass) — a public page needs a door. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
+  { href: routes.gallery, label: 'gallery' },
   { href: routes.about, label: 'about' },
 ];
 

@@ -4,7 +4,9 @@ Loaded automatically at the start of every session in this repo. Keep it short.
 
 ## Where the work is — read this first
 
-**THE LIVE SITE IS TWO PAGES: `#/` and `#/about`. The engine is DEV-ONLY (2026-07-21).** Daniel's
+**THE LIVE SITE IS THREE PAGES: `#/`, `#/about` and `#/gallery` (seven concept renderings of
+commissions, added 2026-07-23 on Clay's client pass — `src/pages/GalleryPage.tsx`, assets in
+`public/assets/gallery/`). The engine is DEV-ONLY (2026-07-21).** Daniel's
 ruling: the studio/engine "is not something to be proud of at this time", so `#/studio`, `#/draw`,
 `#/engine`, `#/shape`, `#/sculpt` and both labs render only under `import.meta.env.DEV` and all links
 into them were stripped from the nav, footer, home and hero. **It is a gate, not a deletion** — every

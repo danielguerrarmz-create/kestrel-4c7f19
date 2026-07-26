@@ -15,6 +15,62 @@
       1280
     ]
   },
+  "/assets/gallery/01-wisteria-walk.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/02-garden-pavilion.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/03-glass-crown.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/04-stained-glass-walk.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/05-stained-glass-interior.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/06-party-canopy.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/gallery/07-fountain-room.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
   "/assets/product/pavilion-exterior-garden.webp": {
     "w": 2000,
     "variants": [
