@@ -11,11 +11,17 @@
  * trees never coexist in the committed DOM (the wrapper picks one via `useMediaQuery`), which is also
  * what keeps the founders' `[data-timeline-camera]` lookup pointed at the desktop svg, never here.
  *
- * THE FORM IS A CENTRE SPINE (Sai's 2026-07-20 redesign, Daniel signed off). One sepia line dead
- * centre, cards alternating left/right off it by their authored `packSide`. Each plate is a SMALL,
- * fixed-size specimen mark hugging the spine edge — a silhouette and a colour mass, not a document —
- * with generous paper around it; the point is "absorb about 10% of the photo," a mark along the line,
- * not a photo reel. A cluster's extra images collapse to a tight chip row rather than a stacked column.
+ * THE FORM IS A CENTRE SPINE (Sai's 2026-07-20 redesign, Daniel signed off), and since 2026-07-23
+ * THE PLATES ARE SUBSTANTIAL, riding OVER the line. Clay, on the client-facing pass: "on mobile,
+ * the timeline is still this terrible line... Can we fix this?" — the terrible part was Sai's §4
+ * specimen scale (~84px marks beside a 2px wire, acres of vellum), which read skeletal to a
+ * commission client, not curated. So that half of §4 is overridden: each cluster's primary plate is
+ * now a mounted print at ~74vw, flush to its authored side, crossing the centre line (the spine
+ * passes BEHIND it — the opaque vellum mat makes the overlap clean), with a chip row for the
+ * cluster's extra images. The plates wear the SAME mount as the gallery below (Sai §5's hairline
+ * sepia rule + vellum mat), so the timeline and the work read as one register. What survives of
+ * Sai's form: the centre spine, alternation by authored side, the twist glyph and finale lockup
+ * bookends, reveal-once choreography, tap → shared Lightbox, FIT_FRAME no-crop discipline.
  *
  * MOTION (Sai §3): no scroll-scrubbed camera — that is the whole reason this tree exists. "Growth" is
  * IntersectionObserver reveal-once, one clock per unit (framer `whileInView` + `viewport.once`), which
@@ -74,16 +80,18 @@ export function caption(c: Cluster): string {
   return c.hint.trim();
 }
 
-/** Small, fixed specimen size (Sai §4): ~21-22% of the viewport — 80px at 375, ~84 at 390, capped 96
- *  by 430. Height follows the image's own ratio (FIT_FRAME), so a landscape lands ~53-64px tall: enough
- *  to read "that's a robot / a growing building / a research plot," not enough to invite study. */
-const PLATE_MAX_W = 'clamp(80px, 22vw, 96px)';
-/** A cluster's non-primary images, as a huddle of chips ~half the plate's width. */
-const CHIP_MAX_W = 'clamp(38px, 11vw, 46px)';
-/** The plate/chip render at their own CSS width; the smallest generated variant (400w) already covers
- *  them at DPR 3, so a fixed `sizes` keeps the browser from pulling anything larger. */
-const PLATE_SIZES = '96px';
-const CHIP_SIZES = '48px';
+/** The primary plate: a mounted print, not a specimen mark (2026-07-23, Clay — see the header).
+ *  ~74% of the viewport so it crosses the centre spine and the photograph carries the page; capped
+ *  so a wide phone/small tablet does not blow a 400w-class asset past its detail. Height still
+ *  follows the image's own ratio (FIT_FRAME) — the scale changed, the no-crop law did not. */
+const PLATE_MAX_W = 'min(74vw, 330px)';
+/** A cluster's non-primary images, as a chip row under the primary — roughly a third of its width,
+ *  and never below the 44px tap floor. */
+const CHIP_MAX_W = 'min(22vw, 96px)';
+/** `sizes` matches the CSS widths above so the browser pulls the right srcset variant: a 74vw plate
+ *  at DPR 2-3 wants the 800w/1280w files, not the 400w thumb the old 96px marks lived on. */
+const PLATE_SIZES = '74vw';
+const CHIP_SIZES = '22vw';
 
 /**
  * One plate image, sized by its container. The box is given the picture's OWN measured ratio
@@ -121,10 +129,12 @@ function PlateImg({ node, sizes }: { node: Node; sizes: string }) {
 }
 
 /**
- * A plate wrapped in a real button that opens the shared Lightbox (Daniel's call). The visible plate is
- * small (~80px) and chips are smaller (~44px), so the HIT AREA is floored at 44px (minHeight, and
- * minWidth for chips) even though the image is smaller — the tap target is never below the visible mark.
- * Each carries an `aria-label` naming the year and the work. A pending plate is not tappable.
+ * A plate wrapped in a real button that opens the shared Lightbox (Daniel's call), wearing the
+ * gallery's own mounted-plate frame (Sai §5: hairline sepia rule + vellum mat) so the timeline and
+ * the work below read as one register. The mat is OPAQUE vellum on purpose — the primary plates
+ * cross the centre spine, and the mount is what makes that overlap read as a print laid over the
+ * line rather than a photo colliding with it. Chips keep the 44px hit floor; the primary is well
+ * past it at ~74vw. Each carries an `aria-label` naming the work. A pending plate is not tappable.
  */
 function TappablePlate({
   node,
@@ -141,9 +151,10 @@ function TappablePlate({
   label: string;
   onOpen: (src: string) => void;
 }) {
+  const mount = { border: `1px solid ${INK_SEPIA}33` };
   if (node.media.pending) {
     return (
-      <div className="w-full" style={{ maxWidth: maxW }}>
+      <div className="w-full bg-paperVellum p-1.5" style={{ maxWidth: maxW, ...mount }}>
         <PlateImg node={node} sizes={sizes} />
       </div>
     );
@@ -153,8 +164,8 @@ function TappablePlate({
       type="button"
       onClick={() => onOpen(node.media.src)}
       aria-label={label}
-      className="relative flex cursor-zoom-in items-center overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inkBlack"
-      style={{ width: '100%', maxWidth: maxW, minWidth: minW, minHeight: 44 }}
+      className="relative flex cursor-zoom-in items-center bg-paperVellum p-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inkBlack"
+      style={{ width: '100%', maxWidth: maxW, minWidth: minW, minHeight: 44, ...mount }}
     >
       <PlateImg node={node} sizes={sizes} />
     </button>
@@ -222,11 +233,13 @@ function TwistGlyph() {
 }
 
 /** The finale lockup: the Oculus mark over the wordmark, a short spine stub arriving into it so the
- *  line reads as ending in the mark — the same resolution the desktop finale winds into. */
+ *  line reads as ending in the mark — the same resolution the desktop finale winds into. The stub
+ *  matches the spine's 0.9 opacity so the handoff from the wrapper-scoped line (see TimelineBody)
+ *  is invisible: one line, two elements, no seam. */
 function FinaleLockup() {
   return (
     <div className="flex flex-col items-center" style={{ color: INK_SEPIA }}>
-      <span aria-hidden className="block w-[2px] flex-none" style={{ height: 40, background: INK_SEPIA }} />
+      <span aria-hidden className="block w-[2px] flex-none" style={{ height: 40, background: INK_SEPIA, opacity: 0.9 }} />
       <OculusMark size={76} className="mt-1" />
       <span className="mt-4 font-serifDisplay text-[2rem] lowercase leading-none" style={{ color: INK_SEPIA_TEXT }}>
         {WORDMARK.toLowerCase()}
@@ -236,11 +249,11 @@ function FinaleLockup() {
 }
 
 /**
- * One cluster, off the spine. The card takes the half named by `cluster.side` and its plate hugs the
- * SPINE-side edge of that half (right edge for a left card, left edge for a right card) — reading as
- * sprouting off the line, not floating in a box. The rest of the half is paper. A cluster's first node
- * is the primary plate; any extras become a tight chip row beneath it. Caption, where authored, sits
- * at the same edge.
+ * One cluster: a mounted print laid over the spine (2026-07-23 — see the header). The card is a
+ * full-width row; the plate sits flush to the gutter of its authored side and, at ~74vw, crosses
+ * the centre line, which passes behind its opaque mat. Alternation by `cluster.side` is what keeps
+ * the scroll reading as a composed sequence rather than a feed. A cluster's extra images run as a
+ * chip row beneath the primary, at the same edge; the caption, where authored, sits under both.
  */
 function ClusterCard({ cluster, reduced, armed, onOpen }: { cluster: Cluster; reduced: boolean; armed: boolean; onOpen: (src: string) => void }) {
   const cap = caption(cluster);
@@ -250,14 +263,12 @@ function ClusterCard({ cluster, reduced, armed, onOpen }: { cluster: Cluster; re
   // No year in the label: the years came off the timeline (2026-07-23), and a screen reader should
   // not hear a date the page no longer shows anyone else.
   const label = (m: Plate) => `Open ${cap || m.alt.slice(0, 56)}`;
-  // The half-column, pushed to its side of the spine, its contents aligned to the spine edge.
-  const half = `flex w-1/2 flex-col gap-1.5 ${isLeft ? 'items-end pr-3' : 'ml-auto items-start pl-3'}`;
   return (
-    <Reveal reduced={reduced} armed={armed} y={16} scale={0.96} duration={0.45} className="relative z-10 my-9 flex">
-      <div className={half}>
+    <Reveal reduced={reduced} armed={armed} y={16} scale={0.96} duration={0.45} className="relative z-10 my-8 flex w-full">
+      <div className={`flex w-full flex-col gap-1.5 ${isLeft ? 'items-start' : 'items-end'}`}>
         <TappablePlate node={primary} sizes={PLATE_SIZES} maxW={PLATE_MAX_W} label={label(primary.media)} onOpen={onOpen} />
         {extra.length > 0 && (
-          <div className="flex gap-1">
+          <div className={`flex gap-1.5 ${isLeft ? 'justify-start' : 'justify-end'}`}>
             {extra.map((n) => (
               <TappablePlate key={n.media.src} node={n} sizes={CHIP_SIZES} maxW={CHIP_MAX_W} minW={44} label={label(n.media)} onOpen={onOpen} />
             ))}
@@ -265,7 +276,7 @@ function ClusterCard({ cluster, reduced, armed, onOpen }: { cluster: Cluster; re
         )}
         {cap && (
           <figcaption
-            className={`font-mono text-[11px] uppercase tracking-[0.14em] ${isLeft ? 'text-right' : 'text-left'}`}
+            className={`font-mono text-[11px] uppercase tracking-[0.14em] ${isLeft ? 'text-left' : 'text-right'}`}
             style={{ color: INK_SEPIA_TEXT }}
           >
             {cap}
@@ -294,47 +305,57 @@ function TimelineBody({ reduced, revealed, onOpen }: { reduced: boolean; reveale
   }, [reduced, revealed]);
 
   return (
-    <div className="relative">
-      {/* THE SPINE. Structure, so sepia; behind the cards (z default) while every unit is z-10. A fixed
-          2px line, centred by a -1px margin so framer's scaleY grow (transform-origin top) never fights
-          a centring translate. It is bracketed by the twist glyph and the finale lockup. */}
-      <div aria-hidden className="pointer-events-none absolute" style={{ left: '50%', marginLeft: -1, top: 8, bottom: 8, width: 2 }}>
-        {reduced ? (
-          <div className="h-full w-full" style={{ background: INK_SEPIA, opacity: 0.9 }} />
-        ) : (
-          <motion.div
-            className="h-full w-full"
-            style={{ background: INK_SEPIA, opacity: 0.9, transformOrigin: 'top' }}
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: grown ? 1 : 0 }}
-            transition={{ duration: 0.9, ease: EASE_LINE }}
-          />
-        )}
-      </div>
-
+    <div>
+      {/* THE SPINE wraps ONLY the glyph + cards run. It used to span the whole body (bottom-8),
+          which drove the line straight through the Oculus mark and the wordmark beneath it — always
+          true, but invisible while the plates were 84px specimens and glaring once they became the
+          page (caught on the 2026-07-23 render). The finale now sits OUTSIDE the spine's wrapper
+          and its own stub carries the arrival, so the line ENDS in the mark — the same resolution
+          the desktop finale winds to. */}
       <div className="relative">
-        <div className="pb-2">
+        {/* Structure, so sepia; behind the cards (z default) while every unit is z-10. A fixed
+            2px line, centred by a -1px margin so framer's scaleY grow (transform-origin top) never
+            fights a centring translate. */}
+        <div aria-hidden className="pointer-events-none absolute" style={{ left: '50%', marginLeft: -1, top: 8, bottom: 0, width: 2 }}>
           {reduced ? (
-            <TwistGlyph />
+            <div className="h-full w-full" style={{ background: INK_SEPIA, opacity: 0.9 }} />
           ) : (
             <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: grown ? 1 : 0, scale: grown ? 1 : 0.92 }}
-              transition={{ duration: 0.5, ease: EASE_LINE }}
-            >
-              <TwistGlyph />
-            </motion.div>
+              className="h-full w-full"
+              style={{ background: INK_SEPIA, opacity: 0.9, transformOrigin: 'top' }}
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: grown ? 1 : 0 }}
+              transition={{ duration: 0.9, ease: EASE_LINE }}
+            />
           )}
         </div>
 
-        {LAID.map((cluster) => (
-          <ClusterCard key={cluster.id} cluster={cluster} reduced={reduced} armed={grown} onOpen={onOpen} />
-        ))}
+        <div className="relative">
+          <div className="pb-2">
+            {reduced ? (
+              <TwistGlyph />
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: grown ? 1 : 0, scale: grown ? 1 : 0.92 }}
+                transition={{ duration: 0.5, ease: EASE_LINE }}
+              >
+                <TwistGlyph />
+              </motion.div>
+            )}
+          </div>
 
-        <Reveal reduced={reduced} armed={grown} y={16} scale={0.96} duration={0.45} className="relative z-10 pt-10">
-          <FinaleLockup />
-        </Reveal>
+          {LAID.map((cluster) => (
+            <ClusterCard key={cluster.id} cluster={cluster} reduced={reduced} armed={grown} onOpen={onOpen} />
+          ))}
+        </div>
       </div>
+
+      {/* No top padding here: the spine's wrapper ends exactly above, and the lockup's own stub
+          continues the line into the mark with no gap and no double-draw. */}
+      <Reveal reduced={reduced} armed={grown} y={16} scale={0.96} duration={0.45} className="relative z-10">
+        <FinaleLockup />
+      </Reveal>
     </div>
   );
 }

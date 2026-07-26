@@ -18,8 +18,11 @@ routes); the register form is the home's only conversion point until the engine 
 `docs/handoffs/2026-07-20-mobile-about-redesign.md`** (design-of-record:
 `docs/design/2026-07-20-mobile-about-redesign.md`). Below `lg` the About timeline is a center-spine
 DOM tree (`src/pages/about/MobileTimeline.tsx`): centred intro title, questions-first then a
-grow/scroll-reveal choreography, small spine-hugging specimens (tap → shared Lightbox), reframed
-projects gallery. Also live: hamburger nav below `md`, responsive `srcset` across About/Splash/Engine
+grow/scroll-reveal choreography, reframed projects gallery. **AMENDED 2026-07-23 (Clay, client
+pass): the plates are no longer Sai §4's ~84px specimen marks — each cluster's primary is a
+mounted print at ~74vw riding OVER the spine (gallery's own mat register), chips for extras, and
+the spine now ENDS in the finale mark instead of running through it.** Tap → shared Lightbox
+unchanged. Also live: hamburger nav below `md`, responsive `srcset` across About/Splash/Engine
 (handoff `2026-07-20-mobile-phase1.md`). Phase 2 (font cleanup, `/shape`+`/sculpt` gate cards, mobile
 QA probes) still open. **Base new work on `origin/main`** — the old `about-round-10` branch is 52
 commits behind and carries an unrelated `/lab/seeds` dev-rig WIP.

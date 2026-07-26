@@ -2119,7 +2119,7 @@ export function AboutPage() {
 
   return (
     <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
-      <SplashHeader transparent />
+      <SplashHeader transparent logoPill />
 
       {/* THE HEADER IS FULLY TRANSPARENT AGAIN (2026-07-23, Clay: "make the header on that page
           actually fully transparent... It used to be that way"). Round 11 stood an opaque-to-clear
