@@ -24,7 +24,18 @@ const ROOTS = [
   'public/assets/gallery',
   'public/hero',
 ];
-const WIDTHS = [400, 800, 1280];
+/**
+ * MEASURED 2026-07-23, and 1920/2560 were added because of it. With the ladder stopping at 1280,
+ * a 1440 desktop needed a candidate wider than 1280 and the only one left was the ORIGINAL: the
+ * home page's hero fetched `/hero/v3/pavilion.jpg`, **2,606 KB, above the fold, at
+ * fetchPriority="high"** (2,861 KB for the whole page). The gap between 1280 and a 5,056px
+ * original is not a rounding error, it is every desktop visitor.
+ *
+ * 2560 is the top rung because it covers the common hi-DPI desktop case (a 1440 CSS viewport at
+ * DPR 2 wants 2880; 2560 is an ~11% density shortfall on a photograph, which is not visible) and
+ * because `srcSetFor` refuses to offer anything wider — see MAX_SRCSET_W there.
+ */
+const WIDTHS = [400, 800, 1280, 1920, 2560];
 /** Eligible only if the source is at least this wide — otherwise every target width is an upscale. */
 const MIN_NATURAL_W = 900;
 const QUALITY = 78;

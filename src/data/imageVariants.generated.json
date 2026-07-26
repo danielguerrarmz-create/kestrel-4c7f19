@@ -76,7 +76,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/product/pavilion-garden-sunset.webp": {
@@ -84,7 +85,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/product/pavilion-oculus-interior.webp": {
@@ -92,7 +94,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/01-synergy/synergy-cosmos-biocore-axon.webp": {
@@ -100,7 +103,9 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920,
+      2560
     ]
   },
   "/assets/projects/01-synergy/synergy-cosmos-building-elevation.webp": {
@@ -108,7 +113,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/01-synergy/synergy-cosmos-compression-test.webp": {
@@ -153,7 +159,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/04-search-by-assembly/search-by-assembly-node-based-workflow-canvas.webp": {
@@ -161,7 +168,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/04-search-by-assembly/search-by-assembly-system-pipeline.webp": {
@@ -169,7 +177,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/05-dougherty/dougherty-arts-center-catenary-entrance-skyline-money-shot.webp": {
@@ -185,7 +194,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/05-dougherty/dougherty-arts-center-ground-floor-plan.webp": {
@@ -193,7 +203,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/05-dougherty/dougherty-arts-center-north-facade-perspective-austin-skyline.webp": {
@@ -209,7 +220,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/05-dougherty/dougherty-arts-center-structural-axonometric-timber-roof.webp": {
@@ -217,7 +229,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/05-dougherty/dougherty-arts-center-wall-section-south-facing-east-wing-HERO.webp": {
@@ -225,7 +238,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/06-kuka-robotics/kuka-robotics-arm-sanding-aluminum-sheet-platen.webp": {
@@ -241,7 +255,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/06-kuka-robotics/kuka-robotics-metal-surface-sanding-end-effector.webp": {
@@ -257,7 +272,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/06-kuka-robotics/kuka-robotics-plotted-serpentine-drawing-resolved.webp": {
@@ -265,7 +281,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/06-kuka-robotics/kuka-robotics-robot-loop-poster.webp": {
@@ -280,7 +297,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/07-flowerfield/flowerfield-biophilic-ecodistrict-hero-render.webp": {
@@ -288,7 +306,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/07-flowerfield/flowerfield-cherry-blossom-garden-people.webp": {
@@ -320,7 +339,9 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920,
+      2560
     ]
   },
   "/assets/projects/07-flowerfield/flowerfield-vaulted-pavilion-boardwalk-water.webp": {
@@ -407,7 +428,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/10-robotic-factory/robotic-factory-long-section-clipped.webp": {
@@ -415,7 +437,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/10-robotic-factory/robotic-factory-planted-vaults-interior.webp": {
@@ -423,7 +446,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/10-robotic-factory/robotic-factory-section-assembly-poster.webp": {
@@ -559,7 +583,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/assets/projects/17-hydraulic-commons/hydraulic-commons-generation-aerial-terraced-landscape.webp": {
@@ -574,7 +599,8 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920
     ]
   },
   "/hero/v1/pavilion.jpg": {
@@ -589,7 +615,9 @@
     "variants": [
       400,
       800,
-      1280
+      1280,
+      1920,
+      2560
     ]
   },
   "/hero/v4/eden-bare-frame.webp": {
