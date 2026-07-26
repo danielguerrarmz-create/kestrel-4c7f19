@@ -43,18 +43,21 @@ describe('the engine routes are dev-only in production', () => {
     );
   });
 
-  it('the two public pages resolve the same either way', () => {
+  it('the three public pages resolve the same either way', () => {
     for (const dev of [true, false]) {
       expect(resolveRoute('/', dev)).toBe('splash');
       expect(resolveRoute('/about', dev)).toBe('about');
+      // The gallery joined the public site 2026-07-23 (Clay's client pass).
+      expect(resolveRoute('/gallery', dev)).toBe('gallery');
       // An in-page anchor normalizes to an unknown path and must land on the home, not a blank.
       expect(resolveRoute('/register', dev)).toBe('splash');
       expect(resolveRoute('/how-it-works', dev)).toBe('splash');
     }
   });
 
-  it('routes.about is the path resolveRoute matches on (they cannot drift)', () => {
+  it('routes.about / routes.gallery are the paths resolveRoute matches on (they cannot drift)', () => {
     expect(resolveRoute(routes.about.replace(/^#/, ''), true)).toBe('about');
+    expect(resolveRoute(routes.gallery.replace(/^#/, ''), true)).toBe('gallery');
   });
 });
 

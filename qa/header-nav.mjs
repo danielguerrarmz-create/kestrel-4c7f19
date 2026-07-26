@@ -99,7 +99,7 @@ for (const vp of WIDTHS) {
     // Only routes a PRODUCTION build renders may be in the nav. Keep in step with `routes` /
     // `ENGINE_ROUTES` in src/routing.ts: an engine href here would work in dev and land the user
     // on the splash in production, which is a link that silently lies.
-    const PUBLIC_HREFS = ['#/', '#/about'];
+    const PUBLIC_HREFS = ['#/', '#/about', '#/gallery'];
     const stowaway = dropdownHrefs.find((h) => !PUBLIC_HREFS.includes(h));
     if (stowaway) fail(`${vp.w}: nav links ${stowaway}, which is not a public route`);
     if (open.links.some((l) => l.h < 44)) fail(`${vp.w}: a dropdown row < 44px`);

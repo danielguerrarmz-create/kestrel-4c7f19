@@ -4,7 +4,9 @@ Loaded automatically at the start of every session in this repo. Keep it short.
 
 ## Where the work is — read this first
 
-**THE LIVE SITE IS TWO PAGES: `#/` and `#/about`. The engine is DEV-ONLY (2026-07-21).** Daniel's
+**THE LIVE SITE IS THREE PAGES: `#/`, `#/about` and `#/gallery` (seven concept renderings of
+commissions, added 2026-07-23 on Clay's client pass — `src/pages/GalleryPage.tsx`, assets in
+`public/assets/gallery/`). The engine is DEV-ONLY (2026-07-21).** Daniel's
 ruling: the studio/engine "is not something to be proud of at this time", so `#/studio`, `#/draw`,
 `#/engine`, `#/shape`, `#/sculpt` and both labs render only under `import.meta.env.DEV` and all links
 into them were stripped from the nav, footer, home and hero. **It is a gate, not a deletion** — every
@@ -73,6 +75,14 @@ POINTER; the round log is the record.*
   spine garland's `GARLAND_SEED` was curated by sweeping takes and comparing them, because
   `passesGate` (`engine/gongbi/quality.ts`) is a FLOOR, not a parity check: two seeds can both
   "pass" and still hang as a full plant next to a weed. Curate in `#/lab/gongbi` before pinning.
+- **THE SITE HAS AN AGENT-READABLE MIRROR (2026-07-23), AND IT REGENERATES OR THE SUITE GOES
+  RED.** `/llms.txt` + `/agent/{home,about,gallery}.md` are markdown mirrors of the three public
+  pages, GENERATED from the same components via `renderToString` (`src/agent/mirror.ts`) and
+  drift-guarded by `src/agent/agentMirror.generated.test.ts` (the subBranches GEN pattern). Any
+  page-copy change fails the suite until `GEN=1 npx vitest run agentMirror.generated` reruns.
+  index.html carries a `<noscript>` block + `rel="alternate"` pointer; `public/robots.txt`
+  allows all agents. The converter is for OUR renderToString output only — never point it at
+  foreign HTML.
 - **THE TIMELINE SHOWS NO YEARS (2026-07-23).** Clay's client-curation note: the year labels,
   ticks and mobile year headers are gone, and the intro reads "Bower is new… The obsession is
   old." (no more "five years"). The `year` fields STAY — they order and band the layout — they

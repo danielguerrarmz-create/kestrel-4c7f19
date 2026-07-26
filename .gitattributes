@@ -1,0 +1,9 @@
+# The agent mirror is drift-guarded BYTE-IDENTICAL against a fresh render
+# (src/agent/agentMirror.generated.test.ts), and the generator emits LF. Without
+# this pin, a Windows clone with core.autocrlf=true checks these files out as
+# CRLF and the guard false-fails for everyone on that platform — the same class
+# of trap as a probe measuring the wrong tree. Same reasoning for the other
+# generated artifact.
+public/llms.txt text eol=lf
+public/agent/*.md text eol=lf
+src/pages/about/subBranches.generated.json text eol=lf

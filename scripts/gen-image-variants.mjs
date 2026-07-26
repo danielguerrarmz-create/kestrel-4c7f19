@@ -17,7 +17,13 @@ import { readdir, stat, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 
-const ROOTS = ['public/assets/projects', 'public/assets/product', 'public/assets/about', 'public/hero'];
+const ROOTS = [
+  'public/assets/projects',
+  'public/assets/product',
+  'public/assets/about',
+  'public/assets/gallery',
+  'public/hero',
+];
 const WIDTHS = [400, 800, 1280];
 /** Eligible only if the source is at least this wide — otherwise every target width is an upscale. */
 const MIN_NATURAL_W = 900;

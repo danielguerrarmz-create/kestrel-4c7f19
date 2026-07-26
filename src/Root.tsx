@@ -1,11 +1,13 @@
 /**
  * Root.tsx — top-level route switch.
  *
- * THE PRODUCTION SITE IS TWO PAGES AND NOTHING ELSE:
+ * THE PRODUCTION SITE IS THREE PAGES AND NOTHING ELSE:
  *
- * `#/`      -> the home: hero, the two product-photograph bands, the register close,
- *              and the company monument (SplashPage).
- * `#/about` -> the founders / timeline page (AboutPage).
+ * `#/`        -> the home: hero, the two product-photograph bands, the register close,
+ *                and the company monument (SplashPage).
+ * `#/about`   -> the founders / timeline page (AboutPage).
+ * `#/gallery` -> the commission visions, seven concept renderings (GalleryPage;
+ *                added 2026-07-23, Clay's client pass).
  * anything else -> the home splash (fallback, so a stray hash never dead-ends and the
  *                  splash's in-page `#register` anchor keeps resolving).
  *
@@ -25,6 +27,7 @@
 import { Suspense, lazy } from 'react';
 import { SplashPage } from './pages/SplashPage';
 import { AboutPage } from './pages/AboutPage';
+import { GalleryPage } from './pages/GalleryPage';
 import { resolveRoute, useRoute } from './routing';
 
 /** Null in production. See the note above: this ternary IS the gate. */
@@ -36,6 +39,7 @@ export function Root() {
   const route = useRoute();
   const target = resolveRoute(route, import.meta.env.DEV);
   if (target === 'about') return <AboutPage />;
+  if (target === 'gallery') return <GalleryPage />;
   if (target === 'engine' && DevRoutes) {
     return (
       <Suspense fallback={null}>
