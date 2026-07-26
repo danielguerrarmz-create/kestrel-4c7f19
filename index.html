@@ -11,6 +11,13 @@
     <meta name="theme-color" content="#FBF9F3" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- FOR AI AGENTS AND OTHER NON-JAVASCRIPT READERS (2026-07-23): this site is a hash-routed
+         JavaScript app, so fetching this document yields no page content. The whole public site is
+         mirrored as markdown, generated from the same components the human pages render and
+         drift-guarded by the test suite: start at /llms.txt, or go straight to /agent/home.md,
+         /agent/about.md and /agent/gallery.md. -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site guide" />
+
     <!-- Social cards -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Bower: shape a living pavilion, priced fixed as you shape it" />
@@ -50,6 +57,26 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="max-width: 40rem; margin: 4rem auto; padding: 0 1.5rem; font-family: Georgia, serif; color: #17160f; line-height: 1.6">
+        <h1>Bower</h1>
+        <p>
+          Bower designs and builds living garden pavilions: organic timber gridshell structures,
+          designed for the climbing plants that grow into them, fabricated from flat CNC
+          components.
+        </p>
+        <p>
+          This site needs JavaScript to render. A full markdown mirror of every page is published
+          for non-JavaScript readers:
+        </p>
+        <ul>
+          <li><a href="/llms.txt">Site guide (llms.txt)</a></li>
+          <li><a href="/agent/home.md">Home</a></li>
+          <li><a href="/agent/about.md">About: the founders and the work</a></li>
+          <li><a href="/agent/gallery.md">Gallery: concept renderings of commissions</a></li>
+        </ul>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

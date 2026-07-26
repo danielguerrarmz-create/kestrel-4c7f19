@@ -1,0 +1,9 @@
+# Bower — all readers welcome, human or agent.
+# Non-JavaScript readers: the site is a JS app; use the markdown mirrors.
+#   /llms.txt          site guide
+#   /agent/home.md     home
+#   /agent/about.md    about
+#   /agent/gallery.md  gallery
+
+User-agent: *
+Allow: /
