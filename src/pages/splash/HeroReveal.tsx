@@ -109,11 +109,16 @@ function HeroCopy({
       </h1>
       <motion.p
         variants={growLine}
-        className="mt-4 max-w-[36ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
+        className="mt-4 max-w-[38ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
       >
-        A one of a kind living structure, computed for your garden and finished when the garden has
-        grown into it.
+        We design and build living garden pavilions: one of a kind timber structures, shaped for
+        your garden, grown through by climbing plants.
       </motion.p>
+      {/* THE SUBLINE SAYS THE PLAIN THING (2026-07-23, Clay: a first-time reader "didn't
+          understand what it is that we actually do" — product communication pass). It was "A one
+          of a kind living structure, computed for your garden and finished when the garden has
+          grown into it." — poetry with no noun. "Pavilion" is the noun; the finished-by-the-garden
+          line moved to band 2, where it closes the plain explanation instead of replacing it. */}
 
       {/* THE HERO HAS NO CTA (2026-07-21). It carried two: a filled "Shape your Eden" into
           `#/studio` and a quiet "See how it works" into `#/engine`. Both destinations are

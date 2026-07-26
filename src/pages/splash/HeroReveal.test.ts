@@ -38,7 +38,9 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
     expect(html).toContain('Grow a living');
     expect(html).toContain('Eden');
     expect(html).toContain('in your garden');
-    expect(html).toContain('computed for your garden');
+    // The subline says the plain thing (2026-07-23): the noun is "pavilions", not
+    // "a living structure, computed".
+    expect(html).toContain('living garden pavilions');
     // THE HERO CARRIES NO CTA (2026-07-21). It had two, "Shape your Eden" into #/studio and
     // "See how it works" into #/engine, and both destinations are dev-only now. A hero
     // button pointing at a hidden route is worse than no button, so they were removed

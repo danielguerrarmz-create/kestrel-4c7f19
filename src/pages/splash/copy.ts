@@ -18,9 +18,12 @@ export interface RitualStep {
  * The commission ritual, numbered 1 to 5, one line each.
  */
 export function ritualSteps(): RitualStep[] {
+  // Steps 1 and 2 rewritten 2026-07-23 (product-communication pass): "Shape it in the studio"
+  // promised a tool that is dev-only, and "the price fixes itself as you do" leaned on that
+  // promise. The commission as it actually runs: we design it with the client.
   return [
-    { n: '1', text: 'Shape it in the studio' },
-    { n: '2', text: 'The price fixes itself as you do' },
+    { n: '1', text: 'We design your Eden with you, for your garden' },
+    { n: '2', text: 'The price is fixed while we design, not after' },
     { n: '3', text: `We CNC-cut flat timber components from the live cut list` },
     { n: '4', text: 'Days to raise, ground screws, no slab, no wet trades' },
     { n: '5', text: 'Plant, and let it start becoming.' },
@@ -29,7 +32,7 @@ export function ritualSteps(): RitualStep[] {
 
 /** The same ritual condensed to one mono line for the close (process shown twice). */
 export function ritualCompact(componentCount: number): string {
-  return `shape it in the studio · the price fixes itself · ~${componentCount} components, CNC-cut · days to raise on ground screws · plant, and it begins to become`;
+  return `designed with you · the price fixed as it is designed · ~${componentCount} components, CNC-cut · days to raise on ground screws · plant, and it begins to become`;
 }
 
 /**

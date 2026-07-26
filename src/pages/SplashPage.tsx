@@ -83,14 +83,31 @@ export function SplashPage() {
 
           <div className="order-2">
             <Eyebrow>What Bower is</Eyebrow>
+            {/* THE DICTIONARY DEVICE (2026-07-23 product-communication pass, Clay: a reader
+                "didn't understand what it is that we actually do, or what a bower is"). The name
+                is the explanation: define the word and the product is defined with it. This is
+                the real dictionary sense, not invented marketing. */}
+            <p className="mt-4 font-serifDisplay text-[17px] italic leading-snug text-inkBlack/60">
+              bower, <span className="not-italic font-mono text-[12px] uppercase tracking-[0.12em]">noun</span>.
+              {' '}A shaded resting place in a garden, made of woven branches and climbing plants.
+            </p>
             <h2 className={`mt-4 ${H2}`}>
-              Not a catalogue of shapes to choose from. A grammar computes the{' '}
-              <em className="italic">one</em> that's yours.
+              A living pavilion, designed for your garden and for the{' '}
+              <em className="italic">plant</em> that grows through it.
             </h2>
+            {/* REWRITTEN 2026-07-23. Was: "Not a catalogue of shapes to choose from. A grammar
+                computes the one that's yours." over "Bower is a generative design studio. An
+                engine computes a one of a kind timber structure..." — the differentiator led and
+                the jargon (grammar, engine, computes) carried the explanation, so a first-time
+                reader left without the noun. NOTE: this reopens the copy half of Daniel's
+                2026-07-21 "LEAVE THEM" ruling, deliberately, on Clay's instruction — flagged on
+                the PR, not smuggled. The computation story survives as the "never picked from a
+                catalogue" clause; the engine goes unnamed until it is worth showing. */}
             <p className={BODY}>
-              Bower is a generative design studio. An engine computes a one of a kind timber
-              structure for your garden, priced and buildable as you shape it, that a climber grows
-              into season after season.
+              Bower is a design and build practice. Each Eden is a one of a kind timber lattice,
+              computed for its site and its climbing species rather than picked from a catalogue,
+              priced fixed before anything is cut, and raised from flat precision cut components in
+              days. The structure is finished when the garden has grown into it.
             </p>
           </div>
         </div>
@@ -103,10 +120,14 @@ export function SplashPage() {
         <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
           <div className="order-2 md:order-1">
             <h2 className={H2}>
-              What actually <em className="italic">happens</em> after you shape it.
+              What actually <em className="italic">happens</em>, from design to garden.
             </h2>
+            {/* "after you shape it" implied a tool the reader could use today; the engine is
+                dev-only (2026-07-21), so the heading and the lead now describe the commission
+                as it actually runs: we design it with you. Part of the 2026-07-23 product-
+                communication pass. */}
             <p className={BODY}>
-              You shape it, we cut it, you plant it, and that's genuinely the whole of it.
+              We design it with you, we cut it, you plant it, and that's genuinely the whole of it.
             </p>
 
             <ol className="mt-8 max-w-[560px]">
