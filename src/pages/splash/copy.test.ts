@@ -17,13 +17,20 @@ const defaults: DesignParams = {
 };
 
 describe('splash precedent copy (hand-authored, house dash rule)', () => {
-  it('the ritual is five steps, and step three names the live cut list', () => {
+  it('the ritual is five steps, each one fact, none of them jargon', () => {
     const steps = ritualSteps();
     expect(steps).toHaveLength(5);
-    // The ~count moved out of step 3 to the compact recap (home copy pass); step
-    // three now names the SOURCE (the live cut list) rather than the number.
-    expect(steps[2].text).toContain('flat timber components from the live cut list');
-    for (const step of steps) expect(step.text).not.toMatch(DASHES);
+    expect(steps[2].text).toContain('Flat timber components');
+    // CUT 2026-07-23 (subtraction pass): "from the live cut list" is engine vocabulary on a
+    // page whose reader cannot see the engine, and "no wet trades" is trade jargon. Pinned as
+    // absences so they cannot drift back in.
+    expect(steps[2].text).not.toContain('live cut list');
+    expect(steps[3].text).not.toContain('wet trades');
+    // No step may outgrow a glance: one line, one fact.
+    for (const step of steps) {
+      expect(step.text.split(/\s+/).length, `step ${step.n} is a sentence, not a step`).toBeLessThanOrEqual(8);
+      expect(step.text).not.toMatch(DASHES);
+    }
   });
 
   it('the compact recap inlines the count and stays clean', () => {

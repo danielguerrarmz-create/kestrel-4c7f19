@@ -16,6 +16,19 @@ route still works under `npm run dev`. See `src/Root.tsx` + `src/DevRoutes.tsx` 
 `DevRoutes` or it ships.** The hero currently has NO call to action (both pointed into hidden
 routes); the register form is the home's only conversion point until the engine returns.
 
+**THE HOME COPY WAS REWRITTEN 2026-07-23, WHICH PARTLY OVERRODE DANIEL'S "LEAVE THEM" RULING.**
+That ruling (handoff `2026-07-21-engine-hidden.md`) said the engine language in band 2 and ritual
+step 1 stays until the engine returns. Clay reopened it with information the ruling did not have:
+a real first-time reader could not tell what Bower does, or what a bower is. So the home now leads
+with the plain noun (pavilions) and a dictionary definition of the name, and nothing on it
+references a tool nobody can open — which serves the ruling's own intent. Then a second pass cut
+the page from **240 rendered words to 123**. **The law that came out of it lives in
+`SplashPage.tsx`'s header and governs every future edit: SAY EACH FACT ONCE, IN THE PLACE THAT
+OWNS IT** (the hero owns the noun; the dictionary line owns the name; band 2 owns "one of a kind";
+the ritual owns price, components and speed). Guards: no ritual step over 8 words, and
+"grammar computes" / "generative design studio" / "live cut list" / "wet trades" are pinned
+ABSENT in `SplashPage.test.ts` and `copy.test.ts`.
+
 **Prior: mobile About REDESIGN shipped LIVE on `main` (2026-07-20). Handoff:
 `docs/handoffs/2026-07-20-mobile-about-redesign.md`** (design-of-record:
 `docs/design/2026-07-20-mobile-about-redesign.md`). Below `lg` the About timeline is a center-spine

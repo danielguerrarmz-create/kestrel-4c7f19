@@ -90,8 +90,11 @@ describe('SplashPage', () => {
     expect(html).toContain('What Bower is');
     expect(html).toContain('bower,');
     expect(html).toContain('A shaded resting place in a garden');
-    expect(html).toContain('living pavilion');
-    expect(html).toContain('design and build practice');
+    expect(html).toContain('that grows through it');
+    // The differentiator, and the ONLY claim the band's body still makes: everything else it
+    // used to say (practice, fixed price, flat components) is the ritual band's job, and the
+    // 2026-07-23 subtraction pass stopped saying it twice.
+    expect(html).toContain('Never chosen from a catalogue');
     expect(html).not.toContain('grammar computes');
     expect(html).not.toContain('generative design studio');
     expect(html).not.toContain('id="how-it-works"');
@@ -106,13 +109,14 @@ describe('SplashPage', () => {
   });
 
   it('teaches the commission ritual with live production figures', () => {
-    expect(html).toContain('What actually'); // the second band's heading
     // "after you shape it" / "Shape it in the studio" left 2026-07-23 with the product-
     // communication pass: both implied a tool the reader could open, and the engine is
     // dev-only. The ritual describes the commission as it actually runs.
-    expect(html).toContain('from design to garden');
-    expect(html).toContain('We design your Eden with you');
+    expect(html).toContain('to garden'); // the band's heading, "From design to garden."
+    expect(html).toContain('We design it with you');
     expect(html).not.toContain('Shape it in the studio');
+    // The prose lead was a summary of the list beneath it; the subtraction pass cut it.
+    expect(html).not.toContain("that's genuinely the whole of it");
     expect(html).toContain('Plant, and let it start becoming');
     // component count + weeks, reused from the commission-sheet source of truth
     expect(html).toMatch(/~\d+ components/);

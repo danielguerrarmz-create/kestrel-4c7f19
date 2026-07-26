@@ -18,14 +18,30 @@ export interface RitualStep {
  * The commission ritual, numbered 1 to 5, one line each.
  */
 export function ritualSteps(): RitualStep[] {
-  // Steps 1 and 2 rewritten 2026-07-23 (product-communication pass): "Shape it in the studio"
-  // promised a tool that is dev-only, and "the price fixes itself as you do" leaned on that
-  // promise. The commission as it actually runs: we design it with the client.
+  /*
+   * CUT TO ONE FACT PER LINE (2026-07-23 subtraction pass, Clay: "nothing left to take away").
+   * What went, and why none of it is a loss:
+   *
+   *   1. "...your Eden with you, for your garden" -> the band's own heading is "From design to
+   *      garden"; a step need not repeat its own band.
+   *   2. "...while we design, NOT AFTER" -> defending against an objection the reader has not
+   *      made yet.
+   *   3. "from the live cut list" -> engine vocabulary for a reader who cannot see the engine.
+   *      (It replaced the component count here in an earlier pass; the count lives in the
+   *      annotation strip beside this list, which is where a number belongs.)
+   *   4. "no wet trades" -> trade jargon. "No slab" already says it to anyone who cares, and
+   *      the speed is the actual point.
+   *   5. UNTOUCHED. Six words, and the only line here allowed to be beautiful rather than
+   *      informative: it is the payoff the other four build to.
+   *
+   * Steps 1 and 2 had just been rewritten off "Shape it in the studio" / "the price fixes
+   * itself as you do", which promised a dev-only tool. That correction stands; this only cuts.
+   */
   return [
-    { n: '1', text: 'We design your Eden with you, for your garden' },
-    { n: '2', text: 'The price is fixed while we design, not after' },
-    { n: '3', text: `We CNC-cut flat timber components from the live cut list` },
-    { n: '4', text: 'Days to raise, ground screws, no slab, no wet trades' },
+    { n: '1', text: 'We design it with you' },
+    { n: '2', text: 'The price is fixed as we design' },
+    { n: '3', text: `Flat timber components, CNC-cut` },
+    { n: '4', text: 'Days to raise, on ground screws, no slab' },
     { n: '5', text: 'Plant, and let it start becoming.' },
   ];
 }

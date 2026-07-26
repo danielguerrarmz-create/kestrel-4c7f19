@@ -24,6 +24,19 @@
  * output, not a written number.
  *
  * Copy note: no em/en dashes anywhere in this page's hand-authored copy.
+ *
+ * COPY LAW, 2026-07-23 (Clay, on the whole page): "less words across the page, instead of more...
+ * nothing left to take away." The home went through two passes that day and they pull in opposite
+ * directions unless you read them together: the first added plain speech because a real reader
+ * could not tell what Bower does; the second cut everything the page said TWICE. The rule that
+ * came out of it, and the one to hold when editing this file:
+ *
+ *   SAY EACH FACT ONCE, IN THE PLACE THAT OWNS IT.
+ *
+ * Fixed price, flat components and the build speed belong to the numbered ritual. The noun
+ * (pavilions) belongs to the hero. The name's meaning belongs to the dictionary line. "One of a
+ * kind" belongs to band 2, because nothing else on the page claims it. When a new sentence wants
+ * in, the question is not whether it is true — it is which of those places already says it.
  */
 import { useDesign } from '../state/store';
 import { useReducedMotion } from '../ui/useReducedMotion';
@@ -92,23 +105,22 @@ export function SplashPage() {
               {' '}A shaded resting place in a garden, made of woven branches and climbing plants.
             </p>
             <h2 className={`mt-4 ${H2}`}>
-              A living pavilion, designed for your garden and for the{' '}
-              <em className="italic">plant</em> that grows through it.
+              Designed for your garden, and for the <em className="italic">plant</em> that grows
+              through it.
             </h2>
-            {/* REWRITTEN 2026-07-23. Was: "Not a catalogue of shapes to choose from. A grammar
+            {/* REWRITTEN 2026-07-23, in two passes, and the second one is the point.
+                PASS 1 (plain speech): "Not a catalogue of shapes to choose from. A grammar
                 computes the one that's yours." over "Bower is a generative design studio. An
-                engine computes a one of a kind timber structure..." — the differentiator led and
-                the jargon (grammar, engine, computes) carried the explanation, so a first-time
-                reader left without the noun. NOTE: this reopens the copy half of Daniel's
-                2026-07-21 "LEAVE THEM" ruling, deliberately, on Clay's instruction — flagged on
-                the PR, not smuggled. The computation story survives as the "never picked from a
-                catalogue" clause; the engine goes unnamed until it is worth showing. */}
-            <p className={BODY}>
-              Bower is a design and build practice. Each Eden is a one of a kind timber lattice,
-              computed for its site and its climbing species rather than picked from a catalogue,
-              priced fixed before anything is cut, and raised from flat precision cut components in
-              days. The structure is finished when the garden has grown into it.
-            </p>
+                engine computes..." left a first-time reader without the noun. NOTE: that reopened
+                the copy half of Daniel's 2026-07-21 "LEAVE THEM" ruling, deliberately and flagged
+                on the PR, not smuggled.
+                PASS 2 (subtraction — Clay: "nothing left to take away"): pass 1's body ran four
+                claims (practice, one of a kind, fixed price, flat components in days) and THREE
+                OF THEM ARE THE RITUAL BAND, verbatim, one screen below. A fact stated twice is
+                not emphasis, it is noise the reader has to sort. So the body keeps only what
+                nothing else on the page says — that yours is not chosen from a set — and the
+                rest is left to the numbered steps that already own it. */}
+            <p className={BODY}>One of a kind. Never chosen from a catalogue.</p>
           </div>
         </div>
       </EngineSection>
@@ -120,17 +132,16 @@ export function SplashPage() {
         <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
           <div className="order-2 md:order-1">
             <h2 className={H2}>
-              What actually <em className="italic">happens</em>, from design to garden.
+              From <em className="italic">design</em> to garden.
             </h2>
-            {/* "after you shape it" implied a tool the reader could use today; the engine is
-                dev-only (2026-07-21), so the heading and the lead now describe the commission
-                as it actually runs: we design it with you. Part of the 2026-07-23 product-
-                communication pass. */}
-            <p className={BODY}>
-              We design it with you, we cut it, you plant it, and that's genuinely the whole of it.
-            </p>
+            {/* The old heading, "What actually happens after you shape it", promised a tool the
+                reader cannot open (the engine is dev-only, 2026-07-21). ITS LEAD LINE IS GONE
+                TOO (2026-07-23 subtraction pass): "We design it with you, we cut it, you plant
+                it, and that's genuinely the whole of it" was a prose summary of the five numbered
+                steps directly beneath it — the list says it better, and saying it twice only
+                delayed the list. */}
 
-            <ol className="mt-8 max-w-[560px]">
+            <ol className="mt-6 max-w-[560px]">
               {ritualSteps().map((step) => (
                 <li
                   key={step.n}
@@ -169,10 +180,12 @@ export function SplashPage() {
         <h2 className={H2}>
           <em className="italic">Begin.</em>
         </h2>
-        <p className={BODY}>
-          These are the first Edens, and yours could be among them. Put your name down, which takes
-          about ten seconds, or find your way in below.
-        </p>
+        {/* The instructions went with the 2026-07-23 subtraction pass: "Put your name down, which
+            takes about ten seconds, or find your way in below" narrated a form that is directly
+            beneath it, already labelled "register interest", beside a door already labelled "Who
+            is behind this". Copy that describes the widget next to it is the easiest kind of
+            sentence to cut. */}
+        <p className={BODY}>These are the first Edens. Yours could be among them.</p>
 
         <RegisterInterest />
 

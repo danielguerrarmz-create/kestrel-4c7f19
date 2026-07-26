@@ -111,14 +111,14 @@ function HeroCopy({
         variants={growLine}
         className="mt-4 max-w-[38ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
       >
-        We design and build living garden pavilions: one of a kind timber structures, shaped for
-        your garden, grown through by climbing plants.
+        We design and build living garden pavilions.
       </motion.p>
-      {/* THE SUBLINE SAYS THE PLAIN THING (2026-07-23, Clay: a first-time reader "didn't
-          understand what it is that we actually do" — product communication pass). It was "A one
-          of a kind living structure, computed for your garden and finished when the garden has
-          grown into it." — poetry with no noun. "Pavilion" is the noun; the finished-by-the-garden
-          line moved to band 2, where it closes the plain explanation instead of replacing it. */}
+      {/* THE SUBLINE IS THE WHOLE SENTENCE (2026-07-23). Two passes landed here: first the plain
+          noun (Clay: a reader "didn't understand what it is that we actually do"), then the cut
+          (Clay: "nothing left to take away"). The photograph shows the timber and the planting, so
+          the words only have to name the thing. What went: "one of a kind timber structures,
+          shaped for your garden, grown through by climbing plants" — every clause of it survives
+          below, said once, where it earns its place. */}
 
       {/* THE HERO HAS NO CTA (2026-07-21). It carried two: a filled "Shape your Eden" into
           `#/studio` and a quiet "See how it works" into `#/engine`. Both destinations are
