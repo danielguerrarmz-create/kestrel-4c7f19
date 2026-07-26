@@ -34,6 +34,25 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
   const outputs = runEngine(defaults);
   const html = renderToString(createElement(HeroReveal, { outputs, reduced: false }));
 
+  it('centres the still, and does NOT pin its bottom edge (2026-07-23)', () => {
+    /**
+     * Clay, on a 1339x663 window: "the bower ... sits way too high up." The cause was
+     * `object-bottom` — it pinned the photo's bottom edge, so a window wider than the photo
+     * cropped all the overflow off the TOP and slid the pavilion up (measured: 135px above the
+     * frame's centre). The fix moved the pavilion to the MASTER's own vertical centre (340px
+     * trimmed off the original's bottom), which makes `cover`'s default 50% 50% correct at every
+     * window aspect — verified 0px offset at 1339x663, 1440x900, 1920x700 and 390x844.
+     *
+     * Pinned as an ABSENCE because the failure mode is a well-meaning restoration: `object-bottom`
+     * reads like a sensible thing to want on a full-bleed hero, and re-adding it silently
+     * un-centres the product on every short window again. Any object-position override is wrong
+     * here; re-crop the master instead.
+     */
+    expect(html).toContain('object-cover');
+    expect(html).not.toContain('object-bottom');
+    expect(html).not.toContain('object-top');
+  });
+
   it('renders the outcome copy with the product word "Eden", over the beauty still', () => {
     expect(html).toContain('Grow a living');
     expect(html).toContain('Eden');

@@ -38,7 +38,7 @@ One of a kind. Never chosen from a catalogue.
 
 - 5 Plant, and let it start becoming.
 
-this design: ~176 components · ~10 wks
+This one: about 176 components, about 10 weeks.
 
 ![Looking up inside a woven timber gridshell at its open oculus, the lattice converging on the ring with wisteria hanging through it](/assets/product/pavilion-oculus-interior.webp)
 

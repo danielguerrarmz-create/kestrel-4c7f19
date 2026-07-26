@@ -41,7 +41,7 @@
 import { useDesign } from '../state/store';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { routes } from '../routing';
-import { AnnotationStrip, EngineSection, Eyebrow } from './engine/EngineSection';
+import { EngineSection, Eyebrow } from './engine/EngineSection';
 import { srcSetFor, SIZES } from '../ui/responsiveImg';
 import { HeroReveal } from './splash/HeroReveal';
 import { SplashHeader } from './splash/SplashHeader';
@@ -101,7 +101,11 @@ export function SplashPage() {
                 is the explanation: define the word and the product is defined with it. This is
                 the real dictionary sense, not invented marketing. */}
             <p className="mt-4 font-serifDisplay text-[17px] italic leading-snug text-inkBlack/60">
-              bower, <span className="not-italic font-mono text-[12px] uppercase tracking-[0.12em]">noun</span>.
+              bower,{' '}
+              <span className="not-italic" style={{ fontVariant: 'small-caps', letterSpacing: '0.1em' }}>
+                noun
+              </span>
+              .
               {' '}A shaded resting place in a garden, made of woven branches and climbing plants.
             </p>
             <h2 className={`mt-4 ${H2}`}>
@@ -125,10 +129,17 @@ export function SplashPage() {
         </div>
       </EngineSection>
 
-      {/* 3 — WHAT HAPPENS AFTER YOU SHAPE IT (blue). TEXT LEFT / PHOTO RIGHT.
-          The whole process in five lines, beside the oculus from within. The annotation is
-          the one live production figure kept on the front door. */}
-      <EngineSection ground="blue" reduced={reduced} wide>
+      {/* 3 — FROM DESIGN TO GARDEN. TEXT LEFT / PHOTO RIGHT. The whole process in five lines,
+          beside the oculus from within.
+
+          THE FLAT BLUE FIELD IS GONE (2026-07-23 elegance pass). `ground="blue"` painted this
+          band `#C3DEF2` edge to edge, and a page built from alternating flat colour blocks is
+          the grammar of a software marketing site — it was the loudest thing on the page saying
+          "tech". The whole home is now ONE continuous warm paper, divided the way a book
+          divides: by a hairline rule and by air (`rule`). The field colours still belong to the
+          documentation layer they were designed for (the engine walkthrough), which is where
+          DESIGN-DIRECTION.md §5's "one field colour per section" now lives alone. */}
+      <EngineSection ground="vellum" reduced={reduced} wide rule>
         <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
           <div className="order-2 md:order-1">
             <h2 className={H2}>
@@ -141,23 +152,32 @@ export function SplashPage() {
                 steps directly beneath it — the list says it better, and saying it twice only
                 delayed the list. */}
 
-            <ol className="mt-6 max-w-[560px]">
+            {/* THE STEPS, AS A RULED LIST RATHER THAN A PRODUCT TABLE (2026-07-23). The numerals
+                were mono tabular at 12px on `border-inkNavy/15` rules — the numbered-feature
+                block every SaaS page ships. Now: serif numerals in the olive accent, hairlines
+                at half the weight, and roughly double the air. Same five facts, read as a
+                garden ledger instead of a spec sheet. */}
+            <ol className="mt-8 max-w-[560px]">
               {ritualSteps().map((step) => (
                 <li
                   key={step.n}
-                  className="flex gap-5 border-t border-inkNavy/15 py-4 first:border-t-0 sm:py-5"
+                  className="flex items-baseline gap-6 border-t border-inkBlack/[0.08] py-5 first:border-t-0 sm:py-6"
                 >
-                  <span className="pt-[3px] font-mono text-[12px] tabular-nums opacity-50">
-                    {step.n}
+                  <span className="font-serifDisplay text-[15px] italic text-accentOlive">{step.n}</span>
+                  <span className="font-serifDisplay text-[17px] leading-snug sm:text-[18px]">
+                    {step.text}
                   </span>
-                  <span className="text-[16px] leading-snug sm:text-[17px]">{step.text}</span>
                 </li>
               ))}
             </ol>
 
-            <AnnotationStrip>
-              this design: ~{components.totalCount} components · ~{buildPlan.leadTimeWeeks} wks
-            </AnnotationStrip>
+            {/* The one live engine figure on the front door, and it stays LIVE — but it no longer
+                reads as an instrument readout. It was `AnnotationStrip`: 10px mono, uppercase,
+                0.12em tracking, i.e. a dimension annotation on a drawing. As an italic serif
+                footnote it is the same true numbers in the page's own voice. */}
+            <p className="mt-8 font-serifDisplay text-[15px] italic leading-relaxed text-inkBlack/50">
+              This one: about {components.totalCount} components, about {buildPlan.leadTimeWeeks} weeks.
+            </p>
           </div>
 
           <figure className="order-1 md:order-2">
@@ -176,7 +196,7 @@ export function SplashPage() {
 
       {/* 4 — CLOSE (vellum, #register): the low-commitment register, then quiet real doors so
           no reader (buyer, advisor, investor) dead-ends. Each door is a working link. */}
-      <EngineSection ground="vellum" reduced={reduced} id="register">
+      <EngineSection ground="vellum" reduced={reduced} id="register" rule>
         <h2 className={H2}>
           <em className="italic">Begin.</em>
         </h2>
@@ -221,7 +241,7 @@ function Door({ label, href, note }: { label: string; href: string; note: string
           →
         </span>
       </span>
-      <span className="mt-1 block font-mono text-[11px] leading-relaxed tracking-[0.04em] text-inkBlack/50">
+      <span className="mt-1 block font-serifDisplay text-[15px] italic leading-relaxed text-inkBlack/50">
         {note}
       </span>
     </a>

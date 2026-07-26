@@ -27,6 +27,7 @@ export function EngineSection({
   id,
   wide = false,
   lead = false,
+  rule = false,
 }: {
   ground: Ground;
   reduced: boolean;
@@ -38,6 +39,10 @@ export function EngineSection({
   wide?: boolean;
   /** This is the page's FIRST band, so it must clear the fixed header itself. */
   lead?: boolean;
+  /** Open the section with a hairline rule across the reading column. What separates two
+   *  sections when they share one paper ground (see the home's 2026-07-23 elegance pass, where
+   *  the flat blue field was retired): a ruled page rather than a stack of coloured blocks. */
+  rule?: boolean;
 }) {
   const g = GROUND[ground];
   const ref = useRef<HTMLElement>(null);
@@ -84,18 +89,31 @@ export function EngineSection({
           clear the fixed header on its own: below md the header wraps to two rows and the
           old flat py-20 let the nav sit on top of the eyebrow. */}
       <Frame measure={wide ? 'page' : 'read'} className={`py-rhythm ${lead ? 'pt-header' : ''}`}>
+        {rule && <div aria-hidden className="mb-rhythm h-px w-full bg-current opacity-[0.12]" />}
         <InkProvider value={g.ink}>{children}</InkProvider>
       </Frame>
     </section>
   );
 }
 
-/** Mono eyebrow used to open every section. */
+/**
+ * The section eyebrow.
+ *
+ * WAS MONO UPPERCASE, and that was the single strongest "tech landing page" signal in the
+ * page's type (2026-07-23, Clay: the home "feels very tech-focused... feels like a technology
+ * website landing page, not a beautiful elegant garden structures landing page"). A monospaced
+ * face reads as code or as an instrument readout, because that is what it is for.
+ *
+ * Now a letterspaced SERIF small-cap: the same quiet label at the same size, in the voice of a
+ * botanical plate or a title page rather than a terminal. `font-variant: small-caps` on the
+ * serif keeps the uppercase silhouette (so nothing reflows) while the letterforms stop being
+ * mechanical. Mono is still correct for genuinely instrumental text; see AnnotationStrip.
+ */
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <p
-      className="font-mono text-[11px] uppercase tracking-[0.2em] opacity-70"
-      style={{ letterSpacing: '0.2em' }}
+      className="font-serifDisplay text-[13px] italic opacity-60"
+      style={{ fontVariant: 'small-caps', letterSpacing: '0.16em' }}
     >
       {children}
     </p>

@@ -26,16 +26,31 @@ export function RegisterInterest() {
 
   if (submitted) {
     return (
-      <p className="mt-8 font-mono text-[13px] tracking-[0.02em] opacity-80">
+      <p className="mt-8 font-serifDisplay text-[17px] italic leading-relaxed text-inkBlack/70">
         Noted. We will be in touch.
       </p>
     );
   }
 
+  /*
+   * A RULED LINE ON PAPER, NOT A BOXED FORM (2026-07-23 elegance pass).
+   *
+   * This was the most software-looking object on the page: a hard 1px box around the field, a
+   * bordered button, both labelled in mono uppercase at 11px. That is a sign-up widget, and it
+   * sat directly under "Begin." — the page's most graceful line.
+   *
+   * Now the field is an underline the text sits on (the way a name goes on a card), the label is
+   * the page's serif small-cap eyebrow, and the submit is a serif word with the nav's own
+   * olive arrow and left-origin underline. NOTHING about behaviour changed: same input id, same
+   * name, same type/autoComplete/required, same 44px coarse-pointer floor, same submit path.
+   */
   return (
-    <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end">
-      <label className="flex flex-col gap-2">
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] opacity-70">
+    <form onSubmit={onSubmit} className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-8">
+      <label className="flex flex-col gap-3">
+        <span
+          className="font-serifDisplay text-[13px] italic opacity-60"
+          style={{ fontVariant: 'small-caps', letterSpacing: '0.16em' }}
+        >
           register interest
         </span>
         <input
@@ -47,14 +62,23 @@ export function RegisterInterest() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full min-w-[16rem] border border-inkBlack/50 bg-transparent px-3 py-2 font-mono text-[13px] text-inkBlack outline-none transition focus:border-inkBlack placeholder:opacity-40 sm:w-[22rem] [@media(pointer:coarse)]:min-h-[44px]"
+          className="w-full min-w-[16rem] border-0 border-b border-inkBlack/25 bg-transparent pb-2 font-serifDisplay text-[18px] text-inkBlack outline-none transition-colors focus:border-inkBlack placeholder:italic placeholder:text-inkBlack/25 sm:w-[22rem] [@media(pointer:coarse)]:min-h-[44px]"
         />
       </label>
       <button
         type="submit"
-        className="inline-flex items-center justify-center border border-inkBlack/60 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack transition hover:border-inkBlack hover:bg-inkBlack/5 focus-visible:border-inkBlack [@media(pointer:coarse)]:min-h-[44px]"
+        className="group inline-flex items-center gap-1.5 self-start pb-2 font-serifDisplay text-[18px] text-inkBlack sm:self-auto [@media(pointer:coarse)]:min-h-[44px]"
       >
-        submit
+        <span className="relative">
+          submit
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-inkBlack transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+          />
+        </span>
+        <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
+          →
+        </span>
       </button>
     </form>
   );
