@@ -214,14 +214,44 @@ loaded the HTML shell and every pageview would have posted into a 200 that meant
 errors, zero visible symptoms, a dashboard reading zero forever. `_vercel/` is excluded now and
 `routing.test.ts` pins it.
 
-**3. `qa/header-nav.mjs` was missing `/questions` in `PUBLIC_HREFS`** (added the same day the page
-shipped, never added to the probe). Fixed while updating the probes to real paths, but it means
-that probe has not passed since 2026-07-28 and nobody noticed. Worth a run.
+**3. RESOLVED (`059374e`). `qa/header-nav.mjs` was missing `/questions` in `PUBLIC_HREFS`** (added
+the same day the page shipped, never added to the probe). Fixed and re-run; it reads the nav as
+`/gallery, /questions, /about` at five widths.
 
-**4. The QA probes were mechanically rewritten to real paths and NOT re-run** (they need a dev
-server and a screenshot review loop). The URL rewrite is trivial; the risk is low but non-zero.
-`qa/base.mjs`'s `aboutUrl` note keeps the old hazard as a tombstone because the failure mode has
-not changed: a probe pointed at the wrong page still returns numbers.
+**4. RESOLVED. The QA probes were re-run: 16 of 19 pass, ZERO regressions from the migration and
+zero probes broken by the rewrite.** Categorised by standing up a second worktree at the fork point
+`23bf223` with its own dev server on the old hash URLs and comparing — the three failures produce
+identical numbers on both trees, which converts "I believe this is pre-existing" into something
+checkable. Screenshots were read rather than exit codes counted: `about/6-timeline.png` at 1440x900,
+the exact viewport `capture-matrix` called a fault, renders completely.
+
+Still failing, both pre-existing and neither related to the migration:
+- **`title-alignment.mjs`** — "never saw the intro's flying title". Identical pre-migration.
+- **`capture-seeds.mjs`** — targets `/lab/seeds`, which lives on `about-round-10`, not this branch,
+  and defaults to port 5334. Its own header documents this. Not applicable here.
+
+**4b. FIXED (`059374e`): `waitForReady` reported a number it never measured.** `capture-matrix`
+failed at width >= 1024 with "only 0/4 garland bitmaps painted in 45s" while 4-5 blobs were on the
+page and nothing 404'd. `waitForReady` shares one budget across three waits; step 2 (lazy images)
+was handed `timeoutMs - elapsed`, i.e. ALL of it, and About has 47 lazy off-screen images that
+never complete, so it burned the full 45s. Step 3's loop was then guarded by
+`Date.now() - t0 < timeoutMs`, already false, so **its body ran zero times and `seen` kept its
+initialiser**. The zero was not a measurement; it was an initialiser wearing a measurement's error
+message, which is why it read as a confident, specific fact about the page.
+
+Step 2 is capped at 8s by a pure exported `imageWaitMs`, so the arithmetic is a test and not a
+comment (`qa/lib.test.mjs`, 6 assertions). **Verified by restoring the old formula, at which point
+5 of the 6 fail** — a test never observed failing is not yet evidence. Step 3 checks the budget
+AFTER measuring, and the two findings no longer share a sentence: out of budget is a HARNESS fault
+that says nothing about the page, polled to exhaustion is a claim ABOUT the page. `vitest.config.ts`
+now collects `qa/**/*.test.mjs` — pure functions in the node environment, the rule the config
+already states.
+
+**4c. FIXED (`059374e`): `qa/growth-frames.mjs` defaulted its output to `.`**, writing seven
+`grow-NN.png` into the repo root, untracked and unignored — one `git add -A` from being committed
+to a **PUBLIC** repo. It writes to `qa/shots/growth` now, with `/grow-*.png` ignored as the net
+under the fix rather than in place of it. The other probes were audited: all write to `qa/shots/`
+except `capture-seeds.mjs`, which targets `~/Downloads` outside the repo.
 
 **5. Nothing is submitted to Google.** After deploy, `sitemap.xml` should be submitted in Search
 Console and the four URLs requested for indexing; the old `/#/...` URLs were never indexed as
