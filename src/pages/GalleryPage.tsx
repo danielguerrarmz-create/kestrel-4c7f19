@@ -42,6 +42,26 @@ interface GalleryPlateData extends ProjectImage {
   /** Short exhibit title (DRAFT COPY, 2026-07-23 — authored here so the plates read curated
    *  rather than anonymous; Daniel renames freely, the numbering convention stays). */
   title: string;
+  /**
+   * One line of fact under the title (2026-07-28): roughly how big, and what is growing on it.
+   *
+   * WHY, and what these are and are NOT. Seven titled photographs with no information is a mood
+   * board: a reader could not tell whether these were the same size, the same product, or the
+   * same order of money, and the page's whole job at this point in the site is to make the thing
+   * feel real. One line fixes it.
+   *
+   * They describe the DESIGN SHOWN, not a built record, because these are concept renderings and
+   * the page says so twice. The scales are drawn from the commission range stated on
+   * `#/questions` (25 to 40 m², about three metres tall, a table of eight), so the gallery and
+   * the answers cannot quote different numbers at the same reader; the planting in each is read
+   * off that plate's own `alt`. Everything is hedged with "about" because none of it has been
+   * surveyed.
+   *
+   * DRAFT, and Clay/Daniel's to overwrite — the images are generated, so there is no source of
+   * truth to check these against except the studio's own intent. If a plate ever depicts a real
+   * commission, its line must become the real figures.
+   */
+  fact: string;
 }
 
 /** The seven visions, in Clay's order, numbered and titled like catalogue plates. Ratios
@@ -50,6 +70,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '01',
     title: 'The wisteria walk',
+    fact: 'A covered walk rather than a room. Wisteria through the crown, seating along one side.',
     src: `${G}/01-wisteria-walk.webp`,
     ratio: 1.8356,
     alt: 'A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond',
@@ -57,6 +78,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '02',
     title: 'A pavilion in a walled garden',
+    fact: 'About 30 square metres, open on every side. Climbing rose over a lattice crown.',
     src: `${G}/02-garden-pavilion.webp`,
     ratio: 1.8338,
     alt: 'A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside',
@@ -64,6 +86,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '03',
     title: 'The glass crown',
+    fact: 'About 30 square metres, with glazing set into the crown. Roses and wisteria over the rim.',
     src: `${G}/03-glass-crown.webp`,
     ratio: 1.8338,
     alt: 'A pavilion whose lattice crown carries glazing, roses and wisteria growing over the rim, carved benches inside and a pond at its feet',
@@ -71,6 +94,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '04',
     title: 'The stained glass walk',
+    fact: 'A walk again, following an existing path. Coloured glass set between the timbers.',
     src: `${G}/04-stained-glass-walk.webp`,
     ratio: 1.8338,
     alt: 'A garden walk under a sweeping lattice roof, stained glass set between the timbers, a curved bench following the path',
@@ -78,6 +102,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '05',
     title: 'Inside the bower',
+    fact: 'The same structure from within, in its third or fourth summer, once the climbers have closed the crown.',
     src: `${G}/05-stained-glass-interior.webp`,
     ratio: 1.8356,
     alt: 'Inside the bower, stained glass glowing between woven branches, wisteria hanging through the crown, cushioned benches along the walls',
@@ -85,6 +110,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '06',
     title: 'The garden party',
+    fact: 'About 40 square metres, the top of the usual range. Roses and clematis over a broad canopy.',
     src: `${G}/06-party-canopy.webp`,
     ratio: 1.8338,
     alt: 'A garden party under a broad lattice canopy, roses and clematis growing over the crown, the structure rising from rooted trunks',
@@ -92,6 +118,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '07',
     title: 'The fountain room',
+    fact: 'A landmark piece, larger than a garden commission: a planted dome built around a fountain.',
     src: `${G}/07-fountain-room.webp`,
     ratio: 1.8356,
     alt: 'The heart of a large bower, a lattice dome carried on rooted columns, benches and a small fountain among the planting',
@@ -142,9 +169,20 @@ function GalleryPlate({
           className="block w-full bg-paperDeep/40"
         />
       </button>
-      <figcaption className="mt-3 flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-[0.16em]">
-        <span className="text-inkBlack/35">{image.n}</span>
-        <span className="text-inkBlack/60">{image.title}</span>
+      {/* THE CAPTION CARRIES A FACT NOW (2026-07-28), and the label register went up two steps.
+          It was `01 THE WISTERIA WALK` in 11px uppercase mono at 0.16em tracking: the least
+          legible setting on the site, on the page most likely to be read by someone over sixty,
+          saying nothing a reader could act on. 13px keeps the ledger voice and stops being a
+          squint; the fact line beneath is set in the page's own serif at reading size, because
+          it is prose and prose is not a label. */}
+      <figcaption className="mt-4">
+        <span className="flex items-baseline gap-3 font-mono text-[13px] uppercase tracking-[0.16em]">
+          <span className="text-inkBlack/35">{image.n}</span>
+          <span className="text-inkBlack/60">{image.title}</span>
+        </span>
+        <span className="mt-2 block max-w-[60ch] font-serifDisplay text-[16px] leading-[1.5] text-inkBlack/55">
+          {image.fact}
+        </span>
       </figcaption>
     </figure>
   );

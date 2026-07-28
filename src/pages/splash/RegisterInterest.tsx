@@ -10,6 +10,7 @@
  * and close engine CTA.
  */
 import { useState, type FormEvent } from 'react';
+import { CONTACT } from '../../data/config';
 
 export function RegisterInterest() {
   const [email, setEmail] = useState('');
@@ -24,11 +25,36 @@ export function RegisterInterest() {
     setSubmitted(true);
   };
 
+  /*
+   * THE CONFIRMATION NO LONGER CLAIMS SOMETHING THAT WILL NOT HAPPEN (2026-07-28).
+   *
+   * It said "Noted. We will be in touch." above a handler that does `console.log` and nothing
+   * else: there is no backend and, until today, no inbox anywhere on the site (config.ts's
+   * CONTACT block was deliberately empty). So the site's ONE conversion point told every visitor
+   * a falsehood and then dropped them, on a site whose whole codebase is careful not to present
+   * a cost as a price.
+   *
+   * The mechanism is unchanged here on purpose (wiring a real endpoint is a provider choice, not
+   * a copy fix). What changed is that the message is now true and hands over a route that works.
+   * WHEN AN ENDPOINT LANDS, this whole comment and the second sentence go, and "we will be in
+   * touch" becomes sayable again.
+   */
   if (submitted) {
     return (
-      <p className="mt-8 font-serifDisplay text-[17px] italic leading-relaxed text-inkBlack/70">
-        Noted. We will be in touch.
-      </p>
+      <div className="mt-8 flex flex-col gap-2 font-serifDisplay text-[17px] leading-relaxed text-inkBlack/70">
+        <p className="italic">Noted, and thank you.</p>
+        <p className="italic">
+          Our inbox is not set up yet, so the sure way to reach us is directly:{' '}
+          <a href={`tel:${CONTACT.phoneHref}`} className="not-italic text-inkBlack underline decoration-inkBlack/25 underline-offset-4 transition-colors hover:decoration-inkBlack">
+            {CONTACT.phone}
+          </a>{' '}
+          or{' '}
+          <a href={`mailto:${CONTACT.email}`} className="not-italic text-inkBlack underline decoration-inkBlack/25 underline-offset-4 transition-colors hover:decoration-inkBlack">
+            {CONTACT.email}
+          </a>
+          .
+        </p>
+      </div>
     );
   }
 

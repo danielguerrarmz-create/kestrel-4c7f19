@@ -1,15 +1,23 @@
 /**
  * Root.tsx — top-level route switch.
  *
- * THE PRODUCTION SITE IS THREE PAGES AND NOTHING ELSE:
+ * THE PRODUCTION SITE IS FOUR PAGES AND NOTHING ELSE:
  *
  * `#/`        -> the home: hero, the two product-photograph bands, the register close,
  *                and the company monument (SplashPage).
  * `#/about`   -> the founders / timeline page (AboutPage).
  * `#/gallery` -> the commission visions, seven concept renderings (GalleryPage;
  *                added 2026-07-23, Clay's client pass).
+ * `#/questions` -> the practical answers and the only contact route (QuestionsPage;
+ *                added 2026-07-28).
  * anything else -> the home splash (fallback, so a stray hash never dead-ends and the
  *                  splash's in-page `#register` anchor keeps resolving).
+ *
+ * `#/about/tree` IS DEV-ONLY (2026-07-28, Clay), having been public and unlinked since
+ * 2026-07-26. It is lazy behind the same DEV ternary the engine uses, NOT merely absent
+ * from the nav: it was statically imported here while it was "hidden", which shipped the
+ * whole tree page (geometry, milestones, growth windows) into the production bundle for
+ * a route nobody could reach. Unlinked is not gated.
  *
  * EVERYTHING ENGINE-FACING IS DEV-ONLY (2026-07-21). Daniel's ruling: the studio/engine
  * "is not something to be proud of at this time", so it comes off the live site entirely
@@ -28,6 +36,7 @@ import { Suspense, lazy } from 'react';
 import { SplashPage } from './pages/SplashPage';
 import { AboutPage } from './pages/AboutPage';
 import { GalleryPage } from './pages/GalleryPage';
+import { QuestionsPage } from './pages/QuestionsPage';
 import { resolveRoute, useRoute } from './routing';
 
 /** Null in production. See the note above: this ternary IS the gate. */
@@ -35,11 +44,24 @@ const DevRoutes = import.meta.env.DEV
   ? lazy(() => import('./DevRoutes').then((m) => ({ default: m.DevRoutes })))
   : null;
 
+/** Null in production, for the same reason and by the same mechanism (2026-07-28). */
+const AboutTreePage = import.meta.env.DEV
+  ? lazy(() => import('./pages/about-tree/AboutTreePage').then((m) => ({ default: m.AboutTreePage })))
+  : null;
+
 export function Root() {
   const route = useRoute();
   const target = resolveRoute(route, import.meta.env.DEV);
   if (target === 'about') return <AboutPage />;
   if (target === 'gallery') return <GalleryPage />;
+  if (target === 'questions') return <QuestionsPage />;
+  if (target === 'aboutTree' && AboutTreePage) {
+    return (
+      <Suspense fallback={null}>
+        <AboutTreePage />
+      </Suspense>
+    );
+  }
   if (target === 'engine' && DevRoutes) {
     return (
       <Suspense fallback={null}>

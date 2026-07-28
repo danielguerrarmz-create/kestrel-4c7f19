@@ -350,9 +350,25 @@ export const CTA_PRIMARY_EVALUATOR = 'See how the engine works';
 export const CTA_PRIMARY_BUYER = 'Shape your Bower';
 
 /**
- * CONTACT — deliberately empty (2026-07-17, Daniel): there is no inbox to route to
- * yet, so the site exposes no contact address rather than a stale or dead one. The
- * email-based "doors" (advisor / investor mailto links) were removed with it. Restore
- * a real address here and re-add those doors when a Bower inbox exists.
+ * CONTACT — REAL AS OF 2026-07-28 (Clay). This was deliberately empty from 2026-07-17
+ * (Daniel: no inbox to route to, so expose nothing rather than something dead), and the
+ * emptiness had a second cost nobody had priced: `RegisterInterest` told every visitor
+ * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
+ * A site with no contact route AND a form that claims one is worse than either alone.
+ *
+ * These are Clay's own details, given for the `#/questions` close. Two things to know:
+ *   - THIS REPO IS PUBLIC (see CLAUDE.md), so both values are already scrapeable here as
+ *     well as on the rendered page. That is a decision, not an oversight; swap in a
+ *     studio inbox and a UK number when they exist and nothing else has to change.
+ *   - The site sells to UK gardens and the number is a US mobile. Also deliberate for
+ *     now (it is the number Clay answers), and the first thing to revisit.
+ *
+ * `phoneHref` is the E.164 form for `tel:`; `phone` is the printed form.
  */
+export const CONTACT = {
+  name: 'Clay Seifert',
+  phone: '+1 972-363-6298',
+  phoneHref: '+19723636298',
+  email: 'clayhseifert@gmail.com',
+} as const;
 

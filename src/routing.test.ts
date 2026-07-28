@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
-import { ENGINE_ROUTES, resolveRoute, routes } from './routing';
+import { DEV_ONLY_ROUTES, ENGINE_ROUTES, resolveRoute, routes } from './routing';
 
 /**
  * THE PRODUCTION GATE ON THE ENGINE (2026-07-21).
@@ -43,21 +43,65 @@ describe('the engine routes are dev-only in production', () => {
     );
   });
 
-  it('the three public pages resolve the same either way', () => {
+  it('the four public pages resolve the same either way', () => {
     for (const dev of [true, false]) {
       expect(resolveRoute('/', dev)).toBe('splash');
       expect(resolveRoute('/about', dev)).toBe('about');
       // The gallery joined the public site 2026-07-23 (Clay's client pass).
       expect(resolveRoute('/gallery', dev)).toBe('gallery');
+      // The questions page joined 2026-07-28: the price, the planning position, the contact.
+      expect(resolveRoute('/questions', dev)).toBe('questions');
       // An in-page anchor normalizes to an unknown path and must land on the home, not a blank.
       expect(resolveRoute('/register', dev)).toBe('splash');
       expect(resolveRoute('/how-it-works', dev)).toBe('splash');
     }
   });
 
-  it('routes.about / routes.gallery are the paths resolveRoute matches on (they cannot drift)', () => {
+  it('routes.* are the paths resolveRoute matches on (they cannot drift)', () => {
     expect(resolveRoute(routes.about.replace(/^#/, ''), true)).toBe('about');
     expect(resolveRoute(routes.gallery.replace(/^#/, ''), true)).toBe('gallery');
+    expect(resolveRoute(routes.questions.replace(/^#/, ''), true)).toBe('questions');
+    expect(resolveRoute(routes.aboutTree.replace(/^#/, ''), true)).toBe('aboutTree');
+  });
+});
+
+/**
+ * THE SECOND GATE (2026-07-28): finished pages that are not ready to be seen.
+ *
+ * `#/about/tree` shipped public on 2026-07-26 linked from no nav surface, which is the failure
+ * mode this file exists to prevent one level out: not "an unfinished route leaked", but "a route
+ * was public, unreachable, and therefore unreviewed". Clay's call was to gate it. It is a
+ * DUPLICATE of `#/about`, so nothing is lost to a reader.
+ *
+ * Same two halves as the engine gate, for the same reason: the truth table AND the wiring. The
+ * wiring half matters more here than it looks, because before this change `AboutTreePage` was a
+ * STATIC import in Root — the page was "hidden" while its whole bundle shipped to production.
+ */
+describe('the about/tree page is dev-only', () => {
+  it('falls through to the splash when dev is false', () => {
+    for (const path of DEV_ONLY_ROUTES) {
+      expect(resolveRoute(path, false)).toBe('splash');
+    }
+    expect(resolveRoute('/about/tree', false)).toBe('splash');
+  });
+
+  it('still resolves in dev (a gate, not a deletion)', () => {
+    expect(resolveRoute('/about/tree', true)).toBe('aboutTree');
+  });
+
+  it('gating it did not take the real about page with it', () => {
+    for (const dev of [true, false]) expect(resolveRoute('/about', dev)).toBe('about');
+  });
+
+  it('DEV_ONLY_ROUTES is pinned by name, so removing an entry (which would ship it) fails here', () => {
+    expect([...DEV_ONLY_ROUTES]).toEqual(['/about/tree']);
+  });
+
+  it('is lazy behind the DEV ternary in Root, so the build folds the tree bundle away', () => {
+    const root = readFileSync(new URL('./Root.tsx', import.meta.url), 'utf8');
+    expect(root).toContain("import('./pages/about-tree/AboutTreePage')");
+    // The bug this pins: a static import ships the page even when the route is unreachable.
+    expect(root).not.toMatch(/^import\s+\{[^}]*AboutTreePage[^}]*\}\s+from/m);
   });
 });
 

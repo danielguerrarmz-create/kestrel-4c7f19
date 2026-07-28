@@ -21,9 +21,12 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
  *  never drift apart. "how it works" (`#/engine`) and "studio" were removed on 2026-07-21
  *  when the engine came off the live site: a nav entry is a promise, and neither page ships
  *  to production any more. Restore both here when the engine is worth showing again.
- *  "gallery" joined 2026-07-23 (Clay's client pass) — a public page needs a door. */
+ *  "gallery" joined 2026-07-23 (Clay's client pass) — a public page needs a door.
+ *  "questions" joined 2026-07-28, and the ORDER is the reader's, not the studio's: see the
+ *  work, find out what it costs and what it involves, then look up who we are. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
   { href: routes.gallery, label: 'gallery' },
+  { href: routes.questions, label: 'questions' },
   { href: routes.about, label: 'about' },
 ];
 

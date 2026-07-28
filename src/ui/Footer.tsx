@@ -30,8 +30,12 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
           gated so the desktop footer's density is unchanged.
           "how it works" (`#/engine`) and "studio" were removed on 2026-07-21 with the rest of the
           engine's public surface; only routes that ship to production may be linked here. */}
-      <nav aria-label="Footer" className="flex items-center gap-5 font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/55">
+      {/* 13px, not 11 (2026-07-28). Uppercase mono at 0.14em tracking is the least legible
+          register on the site and it was set two steps below the body; this page's readers are
+          not all twenty-five. Same for the gallery's plate captions. */}
+      <nav aria-label="Footer" className="flex flex-wrap items-center gap-5 font-mono text-[13px] uppercase tracking-[0.14em] text-inkBlack/55">
         <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">gallery</a>
+        <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">questions</a>
         <a href={routes.about} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">about</a>
       </nav>
       <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/40">© {year} Bower</span>

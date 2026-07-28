@@ -255,11 +255,27 @@ export function SplashPage() {
 
         <RegisterInterest />
 
-        {/* "Commission one" (into the studio) was removed on 2026-07-21 with the rest of the
-            engine's public surface. Registering interest is the one way in now, which is the
-            honest state of things until there is a tool worth handing someone. */}
+        {/* THE DOORS, 2026-07-28. There was one, and it was a trapdoor: "Who is behind this /
+            The people building Bower" was the home's ONLY outbound link, and it opened onto a
+            timeline of Vision Transformers, saliency heatmaps, a robotic factory and two
+            conference papers. That page is right for an investor or a journalist and wrong for
+            the person who came here about a garden: it promises people and delivers research,
+            and it does not contain a single garden pavilion.
+            The fix is not to rewrite About. It is to stop sending the wrong reader there and to
+            SAY what it is, so the label sets the expectation the page actually meets. So:
+            questions first (the practical door, and the only route to a person), about second,
+            renamed to what it honestly holds. */}
         <div className="mt-12 grid gap-x-10 gap-y-6 border-t border-inkBlack/15 pt-8 sm:grid-cols-2">
-          <Door label="Who is behind this" href={routes.about} note="The people building Bower." />
+          <Door
+            label="Questions"
+            href={routes.questions}
+            note="What one costs, planning, and how long it takes."
+          />
+          <Door
+            label="Our background"
+            href={routes.about}
+            note="The practice, the research, and the work so far."
+          />
         </div>
       </EngineSection>
 
