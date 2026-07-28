@@ -12,7 +12,7 @@
  * solar declination/azimuth, density fields, saturating curves) and its five technical
  * diagrams. Graphics were cut from five to TWO meaningful ones: a simple "kit of real
  * parts" schematic (drawn from the live component counts, so it stays honest output),
- * and a render of an Eden grown in beside a home at dusk (Daniel's image, 2026-07-17,
+ * and a render of a Bower grown in beside a home at dusk (Daniel's image, 2026-07-17,
  * which replaced a growth timelapse video). No pricing on this page by Daniel's ruling:
  * product and process only, numbers live in the studio/commission flow.
  *
@@ -101,7 +101,7 @@ export function HowItWorks({
             You <em className="italic">grow</em> a garden structure. You don't buy one off a shelf.
           </h2>
           <p className="mt-8 text-[18px] leading-relaxed opacity-90">
-            An Eden is a one of a kind timber structure for your garden, a curved, woven canopy on a
+            A Bower is a one of a kind timber structure for your garden, a curved, woven canopy on a
             few feet, open to the sky and made to be covered by a climbing plant. You shape a few
             simple things, a design engine turns them into a real structure you could build, and a
             plant grows into it season after season. Here is the whole of it, in four steps.
@@ -183,7 +183,7 @@ export function HowItWorks({
               src="/assets/product/pavilion-garden-sunset.webp"
               srcSet={srcSetFor('/assets/product/pavilion-garden-sunset.webp')}
               sizes={SIZES.photoBand}
-              alt="An Eden grown in at dusk: the woven timber pavilion covered in wisteria and roses in a garden beside a stone house, a couple and their dog nearby"
+              alt="A Bower grown in at dusk: the woven timber pavilion covered in wisteria and roses in a garden beside a stone house, a couple and their dog nearby"
               loading="lazy"
               decoding="async"
               className="block h-auto w-full"
@@ -195,7 +195,7 @@ export function HowItWorks({
               A plant grows into it, and we help you <em className="italic">keep</em> it alive.
             </h2>
             <p className={BODY}>
-              An Eden is planted the day it is built, a bare lattice and a young climber. Each season
+              A Bower is planted the day it is built, a bare lattice and a young climber. Each season
               it holds more leaf and more flower than the one before, until the timber is half hidden
               under it. It is never quite finished, in the best way.
             </p>
@@ -214,7 +214,7 @@ export function HowItWorks({
           <Eyebrow>One honest note</Eyebrow>
           <p className={`${BODY} mt-4`}>
             The growth you see over the years is a careful projection, worked out from how quickly your
-            chosen plant tends to climb. It is an honest picture of how an Eden fills in, not a promise
+            chosen plant tends to climb. It is an honest picture of how a Bower fills in, not a promise
             of an exact year. Everything about the structure itself, its shape, its parts, the fact
             that it can be built, is real.
           </p>

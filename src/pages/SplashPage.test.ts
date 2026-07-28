@@ -50,9 +50,16 @@ describe('SplashPage', () => {
     expect(pitch.toLowerCase()).not.toMatch(/year (one|two|three|3|1|0)/);
   });
 
-  it('uses the Eden product name and the Bower brand coherently', () => {
-    expect(html).toContain('Eden'); // the product a client commissions
-    expect(html).toContain('Bower'); // the company wordmark (hero header)
+  it('speaks ONE name, and defines it (2026-07-23)', () => {
+    // The home carried two proper nouns until Clay retired the split: "Bower" in the nav and
+    // "Eden" in the headline, with nothing joining them. Pinned as an absence so the second
+    // name cannot drift back onto the front door.
+    expect(html).toContain('Bower');
+    expect(html).not.toContain('Eden');
+    // ...and the one name is defined on the page rather than assumed: the full-spread band.
+    expect(html).toContain('A shaded resting place in a garden');
+    // The definition lives in exactly ONE place (it moved out of band 2 to become the spread).
+    expect(html.match(/A shaded resting place in a garden/g)).toHaveLength(1);
   });
 
   it('carries the global nav, which is now gallery + about and nothing else', () => {
@@ -126,11 +133,15 @@ describe('SplashPage', () => {
   });
 
   it('speaks in the page voice, not a terminal (2026-07-23 elegance pass)', () => {
-    // Mono type reads as code or as an instrument readout. It is right for the engine's
-    // drawing annotations and for the brand lockup, and wrong for everything a client reads
-    // on the front door. Pinned as an ABSENCE so the tech register cannot creep back.
-    expect(html).not.toContain('font-mono text-[11px] uppercase'); // the old eyebrow
-    expect(html).not.toContain('font-mono text-[10px] uppercase'); // the old annotation strip
+    // Mono type reads as code or as an instrument readout. It is wrong for the page's EDITORIAL
+    // voice — the section labels and the engine readout a client reads — and right for CHROME,
+    // where it is the site's long-standing convention: the nav pill, the brand lockup, and the
+    // footer's links and copyright line all keep it (the footer joined the home 2026-07-23, which
+    // is what taught this guard to be specific instead of banning the family outright).
+    //
+    // So the pins name the exact retired signatures, tracking included, rather than "font-mono":
+    expect(html).not.toContain('font-mono text-[11px] uppercase tracking-[0.2em]'); // old Eyebrow
+    expect(html).not.toContain('font-mono text-[10px] uppercase'); // old AnnotationStrip
     // ...and the flat field-colour block is gone: the home is one continuous paper now.
     expect(html).not.toContain('bg-fieldBlue');
     expect(html).not.toContain('text-inkNavy');

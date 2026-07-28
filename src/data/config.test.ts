@@ -16,12 +16,16 @@ describe('brand naming constants (chrome reads these, so a rename is one line)',
 
   it('both primary CTA labels exist so the post-deadline swap is one line', () => {
     expect(CTA_PRIMARY_EVALUATOR).toBe('See how the engine works');
-    expect(CTA_PRIMARY_BUYER).toBe('Shape your Eden');
+    expect(CTA_PRIMARY_BUYER).toBe('Shape your Bower');
   });
 
-  it('keeps the confirmed company and product nouns', () => {
+  it('the company and the object share ONE name (2026-07-23)', () => {
+    // Was WORDMARK 'Bower' + PRODUCT 'Eden', the two-noun system confirmed 2026-07-05. Clay
+    // retired it because a first-time reader meets one word in the nav and another in the
+    // headline with nothing joining them. Pinned as an equality rather than two literals, so
+    // the invariant under test is the thing that matters: there is only one name.
     expect(WORDMARK).toBe('Bower');
-    expect(PRODUCT).toBe('Eden');
+    expect(PRODUCT).toBe(WORDMARK);
   });
 
   it('no naming or CTA constant carries an em/en dash', () => {

@@ -4,7 +4,7 @@
  * 2026-07-17 honesty pass. This panel used to headline one computed figure as
  * "YOUR PRICE, FIXED". Both halves of that were wrong: no fab quote has landed,
  * so every rate behind the figure is a placeholder (see pricing.ts's header),
- * and the figure is a cost of construction sitting ~10x under what an Eden is
+ * and the figure is a cost of construction sitting ~10x under what a Bower is
  * actually commissioned for. "Fixed" is a word for after the quotes come back.
  *
  * So the headline is the STATED commission floor (from £150k, Daniel's own
@@ -91,7 +91,7 @@ export function PricePanel() {
           {/* The admission travels WITH the figure, always. Without it the total
               sits under the floor looking like a cheaper version of the same
               number, which is exactly the misreading to prevent: this is a COST
-              at invented rates, the floor is what an Eden sells FOR. */}
+              at invented rates, the floor is what a Bower sells FOR. */}
           <p className="pt-2 text-[10px] leading-relaxed text-inkBlack/45">{COST_BUILDUP_NOTE}</p>
         </div>
       </details>
@@ -100,7 +100,7 @@ export function PricePanel() {
         onClick={() => setCommissionOpen(true)}
         className="mt-4 w-full rounded-lg bg-inkBlack px-4 py-2.5 font-mono text-[12px] uppercase tracking-[0.16em] text-paperVellum transition-colors hover:bg-accentOlive hover:text-inkBlack"
       >
-        Commission this Eden
+        Commission this Bower
       </button>
       <p className="mt-2 text-center font-mono text-[10px] tracking-[0.08em] text-inkBlack/40">
         ready in about {buildPlan.leadTimeWeeks} weeks, planted

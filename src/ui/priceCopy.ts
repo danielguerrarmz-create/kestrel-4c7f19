@@ -16,7 +16,7 @@
  * distinction it enforces is the thing to preserve:
  *
  *   COMMISSION FLOOR (from £150k) is STATED, and it is a PRICE. Daniel's own
- *   ladder — a business decision about what an Eden is sold for. No code
+ *   ladder — a business decision about what a Bower is sold for. No code
  *   computes it. It does not move when you shape the form.
  *
  *   COST TO CONSTRUCT (~£15k) is COMPUTED, and it is a COST. `pricing.ts`
@@ -92,7 +92,7 @@ export const COMMISSION_QUALIFIER = 'indicative · pre-quote';
 
 /** The floor in a sentence, for surfaces with room for one. */
 export const COMMISSION_NOTE =
-  'What an Eden of this kind commissions from, installed and planted. Landmark and hospitality pieces run into the mid six figures. Your own figure is set after a site survey and a fabrication quote, not before.';
+  'What a Bower of this kind commissions from, installed and planted. Landmark and hospitality pieces run into the mid six figures. Your own figure is set after a site survey and a fabrication quote, not before.';
 
 /**
  * DEMO ONLY (2026-07-17). For a very short demo video Daniel asked the `#/draw`
@@ -259,7 +259,7 @@ export const COST_BUILDUP_NOTE =
  * Words, not figures. Do not add numbers to this sentence.
  */
 export const COST_TO_COMMISSION_BRIDGE =
-  'What this kit costs to construct is not what an Eden commissions for. Between them sit the design, the engineering stamp, the specifier’s fee, project management, insurance and VAT. Those numbers land when the quotes do.';
+  'What this kit costs to construct is not what a Bower commissions for. Between them sit the design, the engineering stamp, the specifier’s fee, project management, insurance and VAT. Those numbers land when the quotes do.';
 
 /**
  * WHICH RUNG THIS IS.
