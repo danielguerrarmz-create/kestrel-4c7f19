@@ -1171,7 +1171,7 @@ export const PROJECTS: Project[] = [
     description:
       "Austin's first ecodistrict: a high-density, low-rise housing community grown like nature, curving and alive. It reaches net-zero energy and carbon, filters all of its water on site down to the city's blackwater, and lifts the block from 155 to 630 homes, with room for 2,000 more.",
     learned:
-      'A building can carry the full complexity of a living system, its water, growth, and habitat, and house more people rather than fewer. This is the closest ancestor to Eden.',
+      'A building can carry the full complexity of a living system, its water, growth, and habitat, and house more people rather than fewer. This is the closest ancestor to Bower.',
     // TODO(Daniel): collaborators/professors
     images: [
       {

@@ -308,16 +308,28 @@ export const LEAD_TIME = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// NAMING — two distinct proper nouns, both correct (confirmed 2026-07-05):
-//   WORDMARK ("Bower")  = the COMPANY / studio / brand behind the work. Used in
-//                         all brand chrome (headers, nav, commission-sheet mark).
-//   PRODUCT  ("Eden")   = the thing a client commissions (the object itself).
-//                         Used in product copy, e.g. "Commission a living Eden".
-// The common noun "bower" (a garden structure, like pavilion/arbor) may still be
-// used lowercase in generic prose; only the COMPANY brand is the proper noun.
+// NAMING — ONE NAME (2026-07-23). Clay: "shift the homepage so it says 'Bower'
+// instead of 'Eden'. It is super confusing right now."
+//
+// This retires the two-proper-noun system confirmed on 2026-07-05, under which
+// WORDMARK ("Bower") was the company and PRODUCT ("Eden") was the object a client
+// commissions. Both names were defensible on their own and the split was invisible
+// from inside; the problem is what it does to a first-time reader, who meets one
+// word in the nav and a different one in the headline with nothing explaining the
+// relationship. The page now teaches a single word three ways — the wordmark, the
+// dictionary definition on the home's full-spread band, and the object itself.
+//
+// The common noun "bower" (a garden structure, like pavilion or arbor) is the whole
+// point of the choice: the brand IS the dictionary word, so lowercase generic prose
+// and the proper noun reinforce each other instead of competing.
+//
+// STILL SAYING "Eden" and deliberately left alone: dev-only engine/studio surfaces
+// (ui/priceCopy.ts, ui/PricePanel.tsx hardcode it) and the historical record in
+// about/projects.ts + handoffs. None of those are client-facing today; sweeping
+// them is a follow-up, not a silent side effect of a homepage change.
 // ---------------------------------------------------------------------------
 export const WORDMARK = 'Bower';
-export const PRODUCT = 'Eden';
+export const PRODUCT = 'Bower';
 
 /**
  * ENGINE_NAME — the generative engine's proper noun. NOT YET DECIDED: Daniel and
@@ -335,7 +347,7 @@ export const ENGINE_NAME = 'the engine';
  * the swap is one line. Do NOT swap without the call.
  */
 export const CTA_PRIMARY_EVALUATOR = 'See how the engine works';
-export const CTA_PRIMARY_BUYER = 'Shape your Eden';
+export const CTA_PRIMARY_BUYER = 'Shape your Bower';
 
 /**
  * CONTACT — deliberately empty (2026-07-17, Daniel): there is no inbox to route to

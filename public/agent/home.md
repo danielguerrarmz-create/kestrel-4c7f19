@@ -12,15 +12,17 @@
 
 [gallery](#/gallery) [about](#/about)
 
-# Grow a living Eden in your garden.
+# Grow a living Bower in your garden.
 
 We design and build living garden pavilions.
+
+![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
+
+bower, noun A shaded resting place in a garden, made of woven branches and climbing plants.
 
 ![A woven timber gridshell pavilion in a garden, its open oculus at the crown, wisteria and green planting grown through the lattice, a bed of wildflowers in front](/assets/product/pavilion-exterior-garden.webp)
 
 What Bower is
-
-bower, noun. A shaded resting place in a garden, made of woven branches and climbing plants.
 
 ## Designed for your garden, and for the plant that grows through it.
 
@@ -44,7 +46,7 @@ This one: about 176 components, about 10 weeks.
 
 ## Begin.
 
-These are the first Edens. Yours could be among them.
+These are the first Bowers. Yours could be among them.
 
 register interest
 
@@ -53,3 +55,9 @@ submit
 [Who is behind this→ The people building Bower.](#/about)
 
 bower
+
+Bower 
+
+[gallery](#/gallery) [about](#/about)
+
+© 2026 Bower

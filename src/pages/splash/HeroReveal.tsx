@@ -13,7 +13,7 @@
  *
  * Copy layout: a lower-LEFT column (not a centered band) so the middle + right of the
  * image stay open. The hero sentence is set in the hand-lettered "Realistic Nature"
- * face (font-heroScript) and the one big product word "Eden" in "Paperlight Script"
+ * face (font-heroScript) and the one big product word "Bower" in "Paperlight Script"
  * (font-handwrite).
  *
  * Fallbacks:
@@ -41,17 +41,24 @@ export function heroMode(o: { isBrowser: boolean; reduced: boolean }): HeroMode 
 }
 
 /**
- * The product name "Eden" as the hero's one hand-lettered moment, set in the cursive
- * `handwrite` face (Paperlight Script). Real, selectable, accessible text — not a path.
+ * The product name as the hero's one hand-lettered moment, set in the cursive `handwrite`
+ * face (Paperlight Script). Real, selectable, accessible text — not a path.
+ *
+ * IT SAYS "BOWER" NOW, NOT "EDEN" (2026-07-23, Clay: "shift the homepage so it says 'Bower'
+ * instead of 'Eden'. It is super confusing right now"). The site had carried two proper nouns
+ * since 2026-07-05 — Bower the company, Eden the object — which is a distinction a first-time
+ * reader has no way to hold: the nav says one word and the headline says another, and neither
+ * is explained. One name, and it is the one the whole page already teaches: the wordmark, the
+ * dictionary definition on the spread below, and the thing itself are now all "bower".
  */
-function EdenWord({ className = '' }: { className?: string }) {
+function ProductWord({ className = '' }: { className?: string }) {
   return (
     <span
       role="img"
-      aria-label="Eden"
+      aria-label="Bower"
       className={`inline-block font-handwrite font-normal leading-[0.9] ${className}`}
     >
-      Eden
+      Bower
     </span>
   );
 }
@@ -99,10 +106,10 @@ function HeroCopy({
         </motion.span>
         {/* The product name is the hero's one display moment: a hand-lettered word on
             its own line, drastically larger than the sentence. */}
-        {/* The script "Eden" carries its ink high in its line box (empty descender space
+        {/* The script product word carries its ink high in its line box (empty descender space
             below), so equal margins read as sitting closer to the line above. Asymmetric
             margins (more above, tighter below) drop it to the optical centre of the gap. */}
-        <EdenWord className="mt-3 -mb-2 block text-[clamp(4.5rem,12vw,8.5rem)]" />
+        <ProductWord className="mt-3 -mb-2 block text-[clamp(4.5rem,12vw,8.5rem)]" />
         <motion.span variants={growLine} className="block origin-bottom will-change-transform">
           in your garden.
         </motion.span>

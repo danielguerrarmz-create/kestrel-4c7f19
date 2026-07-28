@@ -53,9 +53,12 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
     expect(html).not.toContain('object-top');
   });
 
-  it('renders the outcome copy with the product word "Eden", over the beauty still', () => {
+  it('renders the outcome copy with the product word "Bower", over the beauty still', () => {
     expect(html).toContain('Grow a living');
-    expect(html).toContain('Eden');
+    // ONE NAME (2026-07-23): the hand-lettered display word was "Eden" until Clay retired the
+    // two-noun split. The headline and the wordmark now say the same thing.
+    expect(html).toContain('Bower');
+    expect(html).not.toContain('>Eden<');
     expect(html).toContain('in your garden');
     // The subline says the plain thing (2026-07-23): the noun is "pavilions", not
     // "a living structure, computed".

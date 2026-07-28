@@ -199,10 +199,10 @@ export function analyseSite(parcel: Parcel): SiteAnalysis {
     );
   }
 
-  // An Eden needs roughly a 2.2 m clear radius at the smallest footprint.
+  // A Bower needs roughly a 2.2 m clear radius at the smallest footprint.
   if (placementRadiusM < 2.2) {
     warnings.push(
-      `The roomiest spot is only ${placementRadiusM.toFixed(1)} m clear. The smallest Eden in the validated family needs about 2.2 m. This yard may not take one without moving something.`,
+      `The roomiest spot is only ${placementRadiusM.toFixed(1)} m clear. The smallest Bower in the validated family needs about 2.2 m. This yard may not take one without moving something.`,
     );
   }
 

@@ -43,6 +43,7 @@ import { useReducedMotion } from '../ui/useReducedMotion';
 import { routes } from '../routing';
 import { EngineSection, Eyebrow } from './engine/EngineSection';
 import { srcSetFor, SIZES } from '../ui/responsiveImg';
+import { Footer } from '../ui/Footer';
 import { HeroReveal } from './splash/HeroReveal';
 import { SplashHeader } from './splash/SplashHeader';
 import { AdaptiveCursor } from './splash/AdaptiveCursor';
@@ -73,6 +74,58 @@ export function SplashPage() {
       {/* 1 — HERO: the scroll-scrubbed 2D Oculus -> 3D gridshell -> render reveal */}
       <HeroReveal outputs={outputs} reduced={reduced} />
 
+      {/* 1b — THE DEFINITION, AS A FULL SPREAD (2026-07-23, Clay: "in the section below, put a
+          full-spread image, use contrast and put over it what a bower is (the noun definition)").
+
+          This is the page's thesis and it now gets the page's largest gesture: edge to edge, no
+          reading frame, the photograph darkened under a scrim so the words carry. The image is
+          the wisteria walk from the gallery, chosen because it IS the definition — woven branches,
+          climbing plants, a shaded place to sit.
+
+          `object-cover` inside a fixed-height band is deliberate here and does NOT break the
+          page's "give the picture its own shape" law: that law protects PLATES, where a crop
+          silently loses documentary content. This is the hero pattern — a full-bleed field the
+          type sits on — and the same photograph is shown uncropped, at its own ratio, on
+          `#/gallery`. Nothing is hidden by the crop; it is the same picture doing a different job. */}
+      <section className="relative w-full overflow-hidden bg-inkBlack">
+        <img
+          src="/assets/gallery/01-wisteria-walk.webp"
+          srcSet={srcSetFor('/assets/gallery/01-wisteria-walk.webp')}
+          sizes="100vw"
+          alt="A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it"
+          loading="lazy"
+          decoding="async"
+          className="block h-[clamp(420px,72vh,760px)] w-full object-cover object-center"
+        />
+        {/* THE CONTRAST. A flat wash would grey the photograph out; this is weighted to the
+            centre where the words are, so the wisteria and the timber keep their colour at the
+            edges and the type still clears AA against the ground behind it. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(120% 90% at 50% 50%, rgba(12,10,6,0.72) 0%, rgba(12,10,6,0.62) 45%, rgba(12,10,6,0.34) 100%)',
+          }}
+        />
+        <div className="absolute inset-0 flex items-center justify-center px-gutter">
+          {/* The measure is in `rem`, NOT `ch`: `ch` resolves against THIS element's font-size,
+              and the size lives on the children (the clamps below), so `max-w-[30ch]` measured
+              against the inherited 16px and squeezed the definition into five narrow lines. */}
+          <p className="max-w-[34rem] text-center font-serifDisplay text-paperVellum [text-shadow:0_1px_24px_rgba(0,0,0,0.5)]">
+            <span className="block text-[clamp(1.5rem,3.6vw,2.6rem)] italic leading-[1.15]">
+              bower,{' '}
+              <span className="not-italic" style={{ fontVariant: 'small-caps', letterSpacing: '0.12em' }}>
+                noun
+              </span>
+            </span>
+            <span className="mt-5 block text-[clamp(1.15rem,2.2vw,1.75rem)] leading-[1.45] text-paperVellum/90">
+              A shaded resting place in a garden, made of woven branches and climbing plants.
+            </span>
+          </p>
+        </div>
+      </section>
+
       {/* 2 — WHAT BOWER IS (vellum). PHOTO LEFT / TEXT RIGHT.
           The product said once, plainly, beside the built thing.
           The `#how-it-works` anchor and the "see the full engine walkthrough" link out to
@@ -96,18 +149,11 @@ export function SplashPage() {
 
           <div className="order-2">
             <Eyebrow>What Bower is</Eyebrow>
-            {/* THE DICTIONARY DEVICE (2026-07-23 product-communication pass, Clay: a reader
-                "didn't understand what it is that we actually do, or what a bower is"). The name
-                is the explanation: define the word and the product is defined with it. This is
-                the real dictionary sense, not invented marketing. */}
-            <p className="mt-4 font-serifDisplay text-[17px] italic leading-snug text-inkBlack/60">
-              bower,{' '}
-              <span className="not-italic" style={{ fontVariant: 'small-caps', letterSpacing: '0.1em' }}>
-                noun
-              </span>
-              .
-              {' '}A shaded resting place in a garden, made of woven branches and climbing plants.
-            </p>
+            {/* The dictionary definition used to sit here as a small italic line. It became the
+                page's full-spread band above (2026-07-23, Clay: "put a full-spread image, use
+                contrast and put over it what a bower is"), which is the right home for it: the
+                definition is the page's thesis, and a thesis should not be a footnote to a
+                photograph. It is NOT duplicated here. */}
             <h2 className={`mt-4 ${H2}`}>
               Designed for your garden, and for the <em className="italic">plant</em> that grows
               through it.
@@ -205,7 +251,7 @@ export function SplashPage() {
             beneath it, already labelled "register interest", beside a door already labelled "Who
             is behind this". Copy that describes the widget next to it is the easiest kind of
             sentence to cut. */}
-        <p className={BODY}>These are the first Edens. Yours could be among them.</p>
+        <p className={BODY}>These are the first Bowers. Yours could be among them.</p>
 
         <RegisterInterest />
 
@@ -217,15 +263,25 @@ export function SplashPage() {
         </div>
       </EngineSection>
 
-      {/* Company monument: Bower is the company, Eden its one product. One quiet,
-          viewport-wide lowercase wordmark closes the page. */}
-      <footer className="w-full overflow-hidden bg-paperVellum pb-16">
+      {/* The monument: one quiet, viewport-wide lowercase wordmark closing the page. (It used to
+          be captioned "Bower is the company, Eden its one product" — the two-name system Clay
+          retired on 2026-07-23. There is one name now; see data/config.ts.) */}
+      <div className="w-full overflow-hidden bg-paperVellum pb-10">
         <div className="mx-auto w-full max-w-read border-t border-inkBlack/15 px-gutter pt-8">
           <p className="whitespace-nowrap font-serifDisplay font-semibold lowercase leading-none tracking-[-0.03em] text-inkBlack text-[clamp(4rem,20vw,14rem)]">
             bower
           </p>
         </div>
-      </footer>
+      </div>
+
+      {/* THE FOOTER, added 2026-07-23 on Clay's ask. The home had suppressed it deliberately so
+          the monument stayed the page's unique big gesture — but that left the front door as the
+          one page with no way out of it and no company line, while `#/about` and `#/gallery` both
+          close properly. The two now read as one close rather than a competition: the monument is
+          the gesture, and the footer is the small print beneath it (mark, wordmark, the ways on,
+          the year). `Footer` draws its own mark rather than using `BowerMark`, so it never mints a
+          second `[data-wordmark]` for the intro to fly onto. */}
+      <Footer />
     </div>
   );
 }

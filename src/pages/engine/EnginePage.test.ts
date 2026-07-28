@@ -18,7 +18,7 @@ describe('EnginePage (the restored /engine walkthrough)', () => {
     expect(html).toContain('A plant grows into it');
     // the growth honesty note (the one caveat kept), and the close CTA into the studio
     expect(html).toContain('projection');
-    expect(html).toContain('Shape your own Eden');
+    expect(html).toContain('Shape your own Bower');
     // the old engineer-facing walkthrough and its jargon are GONE
     expect(html).not.toContain('The generative engine');
     expect(html).not.toContain('Solar geometry');
