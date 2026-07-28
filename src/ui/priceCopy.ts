@@ -68,21 +68,38 @@
 export const PRICE_QUALIFIER = 'indicative · pre-quote';
 
 /**
- * The commission FLOOR. STATED, not computed. Daniel's own ladder, 2026-07-17:
- * "core commissions from £150k, landmark and hospitality pieces into the mid
- * six figures."
+ * BREAK-EVEN. A COST FACT, not a ladder: Clay, 2026-07-28, "never below £220,000 inc VAT —
+ * that's break-even on the smallest object worth building."
  *
- * It said `£75k to £150k` this morning, taken from the written ladder in the
- * evaluator brief. **The founder superseded that ladder.** £150k is now the
- * FLOOR, not the ceiling, and the £25-50k entry tier is gone from his model
- * entirely — do not reintroduce tier logic to chase it.
+ * It exists as a constant so the published figure can be TESTED against it rather than merely
+ * compared to the last published figure. That distinction is the whole point of this addition:
+ * for eleven days the site's stated floor was £150k, every surface agreed with every other
+ * surface, and all of them were **below cost**. Agreement is not evidence. A number you may
+ * publish is one that clears a number you actually incur.
  *
- * A floor, not a single figure, and that distinction is load-bearing: "from
- * £150k" is open-ended and cannot be mistaken for a quote, which is the same
- * property the old range had and the reason neither ever says "your price".
+ * Nothing may be published below this. See `priceCopy.test.ts`.
+ */
+export const COMMISSION_BREAKEVEN_GBP = 220_000;
+
+/**
+ * The published commission STARTING POINT. STATED, not computed.
+ *
+ * £350,000 (Clay, 2026-07-28): a 30 m2 Bower at 35% margin, which is the brief's own target
+ * band. **It replaced `from £150k`, which was BELOW `COMMISSION_BREAKEVEN_GBP` and had been on
+ * the public `#/questions` page for a matter of hours** — Clay: "Take £150,000 off the site
+ * today. It is below your cost. Every hour it's up is a chance someone anchors to it."
+ *
+ * History, because this number has now moved three times and each move was a founder overriding
+ * the last: `£75k to £150k` (evaluator brief) -> `from £150k` as a FLOOR not a ceiling (Daniel,
+ * 2026-07-17, killing the £25-50k entry tier — do not reintroduce tier logic to chase it) ->
+ * `from £350k` (Clay, 2026-07-28, on cost). **Do not move it back without a founder saying so,
+ * and do not derive it from anything.**
+ *
+ * A starting point, not a single figure, and that distinction is load-bearing: "from £350k" is
+ * open-ended and cannot be mistaken for a quote, which is the reason it never says "your price".
  * This is the one place the number lives.
  */
-export const COMMISSION_FROM = 'from £150k';
+export const COMMISSION_FROM = 'from £350k';
 
 /** What the floor is a floor OF. Sits with it, never with a computed figure. */
 export const COMMISSION_LABEL = 'commission, installed and planted';
@@ -90,11 +107,37 @@ export const COMMISSION_LABEL = 'commission, installed and planted';
 /** The qualifier for the STATED floor: indicative, and no quote behind it. */
 export const COMMISSION_QUALIFIER = 'indicative · pre-quote';
 
-/** The floor in a sentence, for surfaces with room for one. */
+/** The starting point in a sentence, for surfaces with room for one. "Seven figures" as of
+ *  2026-07-28 (Clay), not "mid six": the published floor moved to £350k and the old ceiling
+ *  language would now read as barely above it. */
 export const COMMISSION_NOTE =
-  'What a Bower of this kind commissions from, installed and planted. Landmark and hospitality pieces run into the mid six figures. Your own figure is set after a site survey and a fabrication quote, not before.';
+  'What a Bower of this kind commissions from, installed and planted. Landmark pieces run into seven figures. Your own figure is set after a paid siting study, not before.';
 
 /**
+ * ⚠ STALE AND BELOW COST AS OF 2026-07-28. EVERY CONSTANT FROM HERE TO THE END OF
+ * THE DEMO BLOCK IS ANCHORED TO THE SUPERSEDED £150k FLOOR.
+ *
+ * `COMMISSION_DEMO_FIGURE` (£150,000), `COMMISSION_ANCHOR_GBP` (£173,820) and
+ * `COMMISSION_FLOOR_GBP` (150_000) all sit at or below
+ * `COMMISSION_BREAKEVEN_GBP` (£220,000). They are LEFT NUMERICALLY UNTOUCHED on
+ * purpose, for two reasons, and neither is inertia:
+ *
+ *   1. NOTHING HERE IS PUBLIC. Every surface that renders them (`#/draw`,
+ *      `#/studio`, `#/shape`, PricePanel, CommissionSheet) has been dev-only
+ *      since 2026-07-21, so there is no customer-facing exposure to close and
+ *      Clay's "take it off the site today" is already satisfied by the
+ *      `#/questions` change.
+ *   2. FIXING THEM IS NOT A FIND-AND-REPLACE. The anchor is the calibration
+ *      point of a weighted formula ("must feel computed, not flat"): raising
+ *      `COMMISSION_FLOOR_GBP` to 220_000 while the anchor stays at 173,820
+ *      would clamp EVERY draw to the floor and silently kill the one property
+ *      the figure exists to have. Recalibrating it is Daniel's call, not a
+ *      side effect of a copy fix.
+ *
+ * **So this is a flag, not a fix. Do not film, screenshot or demo any of these
+ * numbers, and re-derive the whole block from `COMMISSION_BREAKEVEN_GBP` before
+ * the engine comes back off the gate.**
+ *
  * DEMO ONLY (2026-07-17). For a very short demo video Daniel asked the `#/draw`
  * panel to state ONE general commission figure and not get into the specifics
  * of pricing: no computed build-up, no itemisation, no money hop, no bridge, no

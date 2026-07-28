@@ -4,6 +4,7 @@ import {
   COMMISSION_ANCHOR_GBP,
   COMMISSION_ANCHOR_NODES,
   COMMISSION_ANCHOR_PIECES,
+  COMMISSION_BREAKEVEN_GBP,
   COMMISSION_DEMO_FIGURE,
   COMMISSION_DEMO_LABEL,
   COMMISSION_FLOOR_GBP,
@@ -89,9 +90,26 @@ describe('the stated commission floor is stated, and says so', () => {
     // written ladder. Daniel superseded that ladder himself — £150k is the
     // FLOOR now, not the ceiling. The assertion moved because the FACT moved,
     // which is the only reason it is allowed to move.
-    expect(COMMISSION_FROM).toContain('150k');
+    //
+    // CHANGED AGAIN 2026-07-28: `from £150k` was BELOW COST. Clay set break-even at £220k on
+    // the smallest object worth building and put the published figure at £350k (a 30 m2 Bower
+    // at 35% margin). Again the assertion moved because the fact moved.
+    expect(COMMISSION_FROM).toContain('350k');
     expect(COMMISSION_FROM).not.toContain('75k'); // the superseded ceiling
+    expect(COMMISSION_FROM).not.toContain('150k'); // the superseded, below-cost floor
     expect(COMMISSION_FROM).not.toContain('15,'); // never the cost build-up
+  });
+
+  /**
+   * THE INVARIANT THAT OUTLIVES ANY PARTICULAR FIGURE.
+   *
+   * Every assertion above pins a STRING, so all of them would have gone green on a published
+   * number below cost — and for eleven days they did. This one pins the RELATIONSHIP, and it is
+   * the only test here that could have caught the actual mistake.
+   */
+  it('the published figure clears break-even', () => {
+    const k = Number(COMMISSION_FROM.match(/£(\d+)k/)![1]) * 1000;
+    expect(k).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
   });
 
   it('is open-ended, and never a single definite figure', () => {

@@ -26,11 +26,15 @@ Each one is drawn for the garden it stands in, so size is a conversation. Larger
 
 ## 2 What does it cost?
 
-Commissions start at £150,000, including VAT. Landmark pieces go considerably higher.
+Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.
 
-That covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
+Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid siting study.
 
-Two smaller numbers. A siting study is £1,500, and comes off the price if you go ahead. Looking after the planting through the first three years runs at 6 to 10% of the commission a year.
+It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
+
+The steps before it are smaller. Stage 1, the siting study, is £6,500. Stage 2, design and engineering, is typically £18,000 to £25,000, confirmed at the end of Stage 1, because it varies with heritage statements and tree surveys.
+
+Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.
 
 ## 3 Do I need planning permission?
 
@@ -58,7 +62,7 @@ The structure goes up in summer, when the ground is dry enough to bring a crew a
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
 
-Siting study
+Stage 1, the siting study
 
 2 to 4 weeks
 
@@ -114,7 +118,9 @@ Clay Seifert
 
 The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
 
-After that, the siting study: £1,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide. If you commission, it comes off the price.
+After that, Stage 1: the siting study, £6,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
+
+Stage 2, design and engineering, follows if you want it: typically £18,000 to £25,000, confirmed at the end of Stage 1.
 
 Bower 
 

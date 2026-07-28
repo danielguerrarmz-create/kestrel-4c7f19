@@ -92,8 +92,13 @@ describe('the commissioning surfaces do not claim a price nobody has quoted', ()
     // Was `£75k to £150k` this morning. Daniel superseded that ladder himself
     // on 2026-07-17: £150k is the FLOOR now, not the ceiling. The assertion
     // moved because the FACT moved.
+    //
+    // Moved AGAIN on 2026-07-28, same reason: £150k was below break-even (£220k), so the
+    // published figure is £350k. These panels are dev-only, so they were never a public
+    // exposure — but they read COMMISSION_FROM, so they track the corrected number for free.
     for (const html of [panel, sheet]) {
-      expect(html).toContain('from £150k');
+      expect(html).toContain('from £350k');
+      expect(html).not.toContain('from £150k');
       expect(html.toLowerCase()).toContain('indicative');
       expect(html.toLowerCase()).toContain('pre-quote');
     }
