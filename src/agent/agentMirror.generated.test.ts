@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { homeMirror, aboutMirror, galleryMirror, llmsTxt } from './mirror';
+import { homeMirror, aboutMirror, galleryMirror, questionsMirror, llmsTxt } from './mirror';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -24,6 +24,7 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   { rel: 'agent/home.md', fresh: homeMirror },
   { rel: 'agent/about.md', fresh: aboutMirror },
   { rel: 'agent/gallery.md', fresh: galleryMirror },
+  { rel: 'agent/questions.md', fresh: questionsMirror },
 ];
 
 describe('the agent mirror is fresh', () => {
@@ -39,6 +40,14 @@ describe('the agent mirror is fresh', () => {
     // All seven plates, as fetchable markdown images.
     expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(7);
     expect(llmsTxt()).toContain('/agent/gallery.md');
+    // The questions page is the one an agent asked "what does a Bower cost" most needs, so its
+    // load-bearing facts are asserted on the FRESH render: the price, the planning position, and
+    // a way to reach a person. A mirror that lost these would still look like a page.
+    const questions = questionsMirror();
+    expect(questions).toContain('£150,000');
+    expect(questions).toContain('planning permission');
+    expect(questions).toContain('clayhseifert@gmail.com');
+    expect(llmsTxt()).toContain('/agent/questions.md');
   });
 
   it('the committed mirrors are byte-identical to a fresh render of the live pages', () => {

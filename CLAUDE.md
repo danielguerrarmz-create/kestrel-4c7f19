@@ -4,17 +4,50 @@ Loaded automatically at the start of every session in this repo. Keep it short.
 
 ## Where the work is — read this first
 
-**THE LIVE SITE IS THREE PAGES: `#/`, `#/about` and `#/gallery` (seven concept renderings of
-commissions, added 2026-07-23 on Clay's client pass — `src/pages/GalleryPage.tsx`, assets in
-`public/assets/gallery/`). The engine is DEV-ONLY (2026-07-21).** Daniel's
-ruling: the studio/engine "is not something to be proud of at this time", so `#/studio`, `#/draw`,
-`#/engine`, `#/shape`, `#/sculpt` and both labs render only under `import.meta.env.DEV` and all links
-into them were stripped from the nav, footer, home and hero. **It is a gate, not a deletion** — every
-route still works under `npm run dev`. See `src/Root.tsx` + `src/DevRoutes.tsx` + `ENGINE_ROUTES` in
-`src/routing.ts`, guarded by `src/routing.test.ts`; handoff
-`docs/handoffs/2026-07-21-engine-hidden.md`. **Add a new engine route to `ENGINE_ROUTES` AND
-`DevRoutes` or it ships.** The hero currently has NO call to action (both pointed into hidden
-routes); the register form is the home's only conversion point until the engine returns.
+**THE LIVE SITE IS FOUR PAGES: `#/`, `#/gallery` (seven concept renderings, 2026-07-23 —
+`src/pages/GalleryPage.tsx`, assets in `public/assets/gallery/`), `#/questions` and `#/about`.**
+
+**`#/questions` IS NEW (2026-07-28) AND IT IS THE PRACTICAL PAGE THE SITE HAD NEVER HAD.**
+Size, price, planning permission, groundworks, the timeline, pruning, winter, and the ONLY way
+to reach a person. `src/pages/QuestionsPage.tsx`, content in `src/pages/questions/copy.ts`
+(Clay's own answers, 2026-07-28), guarded by `questions/copy.test.ts`. Two things it fixed that
+are worth remembering as a CLASS of bug:
+- **The answers already existed and rendered nowhere.** `COMMISSION_FROM` ('from £150k') was
+  written, tested, and only ever mounted on `#/studio` and `#/shape` — both dev-only since
+  2026-07-21 — so gating the engine had silently taken the site's only price with it. `PD_FACT`
+  was authored in `splash/copy.ts` and mounted on nothing, ever. **Gating a surface can orphan a
+  fact that was never engine-specific; grep for what a gated page was the last renderer of.**
+- **The one conversion point was lying.** `RegisterInterest` said "Noted. We will be in touch."
+  over a handler that does `console.log` and nothing else, while `config.ts`'s CONTACT block was
+  deliberately empty — so the site promised a reply it had no way to send. CONTACT is real now
+  (Clay's own details; **this repo is PUBLIC**). The form still has NO BACKEND: its confirmation
+  now says so and hands over the real route. **When an endpoint lands, restore the short message
+  and delete the apology.**
+
+**THE HERO HAS A CTA AGAIN (2026-07-28), and `#/about`'s door was renamed.** The pair removed on
+2026-07-21 is back against real destinations: filled -> `#/gallery`, quiet -> `#/questions`
+("What one costs"). The home's close now leads with a Questions door, and the About door reads
+"Our background", because "Who is behind this / The people building Bower" promised people and
+opened onto a research timeline (Vision Transformers, saliency heatmaps, two papers) containing
+no garden pavilion. **About is right for investors and press and wrong for a buyer; the fix was
+the label and the ordering, not the page.** Pinned as absences in `SplashPage.test.ts`.
+
+**`#/about/tree` IS DEV-ONLY (2026-07-28, Clay), having been public and unlinked since
+2026-07-26.** A public URL nobody could reach is also a page nobody has reviewed. It is a
+DUPLICATE of `#/about`, so gating costs a reader nothing. **It was a STATIC import in Root while
+it was "hidden", so the whole tree bundle shipped to production for an unreachable route —
+unlinked is not gated.** It is lazy behind the DEV ternary now; verified by build (`treeLayout`
+and `data-tree-track` absent from `dist/`). Second gate, separate list: `DEV_ONLY_ROUTES` in
+`src/routing.ts`, NOT `ENGINE_ROUTES` (different reason, different render target), guarded in
+`src/routing.test.ts`. Source: `src/pages/about-tree/`, probe `qa/tree-page.mjs`.
+
+**The engine is DEV-ONLY (2026-07-21).** Daniel's ruling: the studio/engine "is not something to
+be proud of at this time", so `#/studio`, `#/draw`, `#/engine`, `#/shape`, `#/sculpt` and both labs
+render only under `import.meta.env.DEV` and all links into them were stripped from the nav, footer,
+home and hero. **It is a gate, not a deletion** — every route still works under `npm run dev`. See
+`src/Root.tsx` + `src/DevRoutes.tsx` + `ENGINE_ROUTES` in `src/routing.ts`, guarded by
+`src/routing.test.ts`; handoff `docs/handoffs/2026-07-21-engine-hidden.md`. **Add a new engine
+route to `ENGINE_ROUTES` AND `DevRoutes` or it ships.**
 
 **THE HOME COPY WAS REWRITTEN 2026-07-23, WHICH PARTLY OVERRODE DANIEL'S "LEAVE THEM" RULING.**
 That ruling (handoff `2026-07-21-engine-hidden.md`) said the engine language in band 2 and ritual
@@ -89,8 +122,8 @@ POINTER; the round log is the record.*
   `passesGate` (`engine/gongbi/quality.ts`) is a FLOOR, not a parity check: two seeds can both
   "pass" and still hang as a full plant next to a weed. Curate in `#/lab/gongbi` before pinning.
 - **THE SITE HAS AN AGENT-READABLE MIRROR (2026-07-23), AND IT REGENERATES OR THE SUITE GOES
-  RED.** `/llms.txt` + `/agent/{home,about,gallery}.md` are markdown mirrors of the three public
-  pages, GENERATED from the same components via `renderToString` (`src/agent/mirror.ts`) and
+  RED.** `/llms.txt` + `/agent/{home,gallery,questions,about}.md` are markdown mirrors of the four
+  public pages, GENERATED from the same components via `renderToString` (`src/agent/mirror.ts`) and
   drift-guarded by `src/agent/agentMirror.generated.test.ts` (the subBranches GEN pattern). Any
   page-copy change fails the suite until `GEN=1 npx vitest run agentMirror.generated` reruns.
   index.html carries a `<noscript>` block + `rel="alternate"` pointer; `public/robots.txt`

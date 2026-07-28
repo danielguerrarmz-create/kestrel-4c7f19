@@ -1,10 +1,19 @@
 /**
  * routing.ts — a deliberately tiny hash router (no dependency).
  *
- * THE PUBLIC SITE IS THREE PAGES: the home at `#/`, the about page at `#/about`, and
- * the gallery of commission visions at `#/gallery` (added 2026-07-23, Clay's client
- * pass). Everything engine-facing (the studio/draw tool, the engine walkthrough, the
- * shape and sculpt spikes, the labs) is DEV-ONLY as of 2026-07-21 — Daniel's ruling:
+ * THE PUBLIC SITE IS FOUR PAGES: the home at `#/`, the about page at `#/about`, the
+ * gallery of commission visions at `#/gallery` (added 2026-07-23, Clay's client
+ * pass), and the practical questions at `#/questions` (added 2026-07-28: the price,
+ * the planning position, the lawn, the timeline, and the only way to reach a person).
+ *
+ * `#/about/tree` WAS public and is DEV-ONLY as of 2026-07-28 (Clay). It shipped on
+ * 2026-07-26 linked from no nav surface at all, which is the worst of both: a public
+ * URL nobody can find and nobody has reviewed. It is a duplicate of `#/about`, not a
+ * replacement, so gating it costs the reader nothing. Same mechanism as the engine
+ * (see below), and like the engine this is a gate, not a deletion.
+ *
+ * Everything engine-facing (the studio/draw tool, the engine walkthrough,
+ * the shape and sculpt spikes, the labs) is DEV-ONLY as of 2026-07-21 — Daniel's ruling:
  * the engine "is not something to be proud of at this time", so it comes off production
  * and stays hidden until it is worth showing. The code is untouched and every one of
  * those routes still works under `npm run dev`; see `ENGINE_ROUTES` / `resolveRoute`
@@ -37,8 +46,9 @@ export function useRoute(): string {
 }
 
 /** Hash hrefs, so links stay real anchors (openable in new tab, no JS needed).
- *  Only `home`, `about` and `gallery` may be linked from a surface that ships to
- *  production — everything else is dev-only (see `ENGINE_ROUTES`). */
+ *  Only `home`, `about`, `gallery` and `questions` may be linked from a surface that
+ *  ships to production — everything else is dev-only (see `ENGINE_ROUTES` and
+ *  `DEV_ONLY_ROUTES`). */
 export const routes = {
   home: '#/',
   engine: '#/engine',
@@ -47,6 +57,12 @@ export const routes = {
   /** The commission visions: seven concept renderings of Bower pavilions in their
    *  gardens (2026-07-23, Clay). A public page, NOT an engine route. */
   gallery: '#/gallery',
+  /** The practical questions (2026-07-28): size, price, planning, the lawn, the
+   *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
+  questions: '#/questions',
+  /** The Tree of Life About (2026-07-26): the same history as #/about retold as a
+   *  scroll-grown tree. DEV-ONLY since 2026-07-28 — see `DEV_ONLY_ROUTES`. */
+  aboutTree: '#/about/tree',
   /** The drawing flow: pick a site, scribble the plan, drag the spines. The
    *  sliders become a readout of what you drew rather than the design act. */
   draw: '#/draw',
@@ -81,8 +97,21 @@ export const ENGINE_ROUTES: readonly string[] = [
   '/lab/gongbi',
 ];
 
-/** What a path resolves to. `engine` is only ever returned when `dev` is true. */
-export type RouteTarget = 'splash' | 'about' | 'gallery' | 'engine';
+/**
+ * Non-engine routes that are ALSO dev-only, as normalized route paths.
+ *
+ * Kept separate from `ENGINE_ROUTES` because they are gated for a different reason and render
+ * through a different component. `ENGINE_ROUTES` is Daniel's ruling about an unfinished TOOL and
+ * every one of them resolves to the shared `engine` target (DevRoutes); this list is for finished
+ * PAGES that simply are not ready to be seen, and each keeps its own target. Folding about/tree
+ * into ENGINE_ROUTES would have been the quick move and it would have been a lie in two
+ * directions: it would claim the tree page is engine-facing, and it would route it to DevRoutes,
+ * which knows nothing about it.
+ */
+export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree'];
+
+/** What a path resolves to. `engine` and `aboutTree` are only ever returned when `dev` is true. */
+export type RouteTarget = 'splash' | 'about' | 'aboutTree' | 'gallery' | 'questions' | 'engine';
 
 /**
  * The whole route decision as one pure function, so the production gate is testable
@@ -93,6 +122,10 @@ export type RouteTarget = 'splash' | 'about' | 'gallery' | 'engine';
 export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.about.replace(/^#/, '')) return 'about';
   if (path === routes.gallery.replace(/^#/, '')) return 'gallery';
+  if (path === routes.questions.replace(/^#/, '')) return 'questions';
+  // The two gated families. Both fall through to the home in production, so a stray bookmark or a
+  // guessed URL lands somewhere real instead of on a blank or a page we are not ready to show.
+  if (dev && path === routes.aboutTree.replace(/^#/, '')) return 'aboutTree';
   if (dev && ENGINE_ROUTES.includes(path)) return 'engine';
   return 'splash';
 }

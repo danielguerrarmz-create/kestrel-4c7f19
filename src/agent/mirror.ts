@@ -30,6 +30,7 @@ import { createElement, type ComponentType } from 'react';
 import { SplashPage } from '../pages/SplashPage';
 import { AboutPage } from '../pages/AboutPage';
 import { GalleryPage } from '../pages/GalleryPage';
+import { QuestionsPage } from '../pages/QuestionsPage';
 
 /* ------------------------------ html -> markdown --------------------------- */
 
@@ -227,6 +228,16 @@ export function galleryMirror(): string {
   return PREAMBLE('the Bower gallery (`/#/gallery`)', 'Bower — gallery') + render(GalleryPage) + '\n';
 }
 
+/** The practical answers (2026-07-28). The one mirror whose content an agent asked about Bower is
+ *  most likely to actually need: price, planning, timeline, and the contact details. */
+export function questionsMirror(): string {
+  return (
+    PREAMBLE('the Bower questions page (`/#/questions`)', 'Bower — questions') +
+    render(QuestionsPage) +
+    '\n'
+  );
+}
+
 /** The llms.txt site guide (llmstxt.org convention): a short orientation plus links to the full
  *  mirrors. The one-line description is index.html's own meta description, so the two cannot
  *  disagree about what Bower is without this file going red in the drift test. */
@@ -241,13 +252,15 @@ export function llmsTxt(): string {
 ## Pages
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
-- [About](/agent/about.md): the founders, the timeline of the practice, the work so far
 - [Gallery](/agent/gallery.md): seven concept renderings of Bower commissions in their gardens
+- [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
+  pruning, and how to contact the studio
+- [About](/agent/about.md): the founders, the timeline of the practice, the work so far
 
 ## Notes for agents
 
-- The human site lives at \`/#/\`, \`/#/about\` and \`/#/gallery\` (hash routes; they all serve
-  the same HTML shell and need JavaScript).
+- The human site lives at \`/#/\`, \`/#/gallery\`, \`/#/questions\` and \`/#/about\` (hash routes;
+  they all serve the same HTML shell and need JavaScript).
 - Images referenced in the mirrors are root-relative and fetchable directly.
 - The gallery images are concept renderings (generated visualizations), not photographs of
   built work, and the site says so.

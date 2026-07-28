@@ -82,9 +82,21 @@ describe('SplashPage', () => {
     // ones we happened to remember removing. Anchors only: the nav pill's lens filter
     // carries an `feImage href="data:image/svg+xml…"`, which is a bump map, not a destination.
     const hrefs = [...html.matchAll(/<a\b[^>]*?\shref="([^"]*)"/g)].map((m) => m[1]);
-    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's two links, the close's door
+    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's three links, the close's doors
     for (const href of hrefs) {
-      expect(['#/', '#/about', '#/gallery', '#register']).toContain(href);
+      expect(['#/', '#/about', '#/gallery', '#/questions', '#register']).toContain(href);
+    }
+  });
+
+  it('the hero has a call to action again, pointing only at pages that exist', () => {
+    // It had none from 2026-07-21 (both old CTAs pointed into the dev-only engine) to
+    // 2026-07-28. The pair is back against two real destinations. This pins the SHAPE of the
+    // regression that removed them: a hero action whose href is not a live public route.
+    expect(html).toContain('See what we');
+    expect(html).toContain('What one costs');
+    const heroHrefs = [...html.matchAll(/<a\b[^>]*?\shref="(#\/[^"]*)"/g)].map((m) => m[1]);
+    for (const href of heroHrefs) {
+      expect(['#/', '#/about', '#/gallery', '#/questions']).toContain(href);
     }
   });
 
@@ -110,9 +122,23 @@ describe('SplashPage', () => {
     expect(html).not.toContain('Solar geometry');
   });
 
-  it('closes on the register, with the studio door gone', () => {
-    expect(html).toContain('Who is behind this');
+  it('closes on the register, with the studio door gone and the about door renamed', () => {
     expect(html).not.toContain('Commission one');
+    // RENAMED 2026-07-28. "Who is behind this / The people building Bower" promised people and
+    // opened onto a research timeline (Vision Transformers, saliency heatmaps, two conference
+    // papers) with no garden pavilion in it. The label now says what the page holds, and the
+    // practical door sits before it. Pinned as an ABSENCE so the old promise cannot drift back.
+    expect(html).not.toContain('Who is behind this');
+    expect(html).toContain('Our background');
+    expect(html).toContain('href="#/questions"');
+  });
+
+  it('the register close no longer promises a reply nothing can send', () => {
+    // The submitted state said "We will be in touch." over a handler that does console.log and
+    // nothing else, on a site that exposed no contact address at all. The message is now true
+    // and hands over a route that works; see RegisterInterest.tsx. This pins the claim itself,
+    // so restoring it requires restoring it deliberately (i.e. after an endpoint lands).
+    expect(html).not.toContain('We will be in touch');
   });
 
   it('teaches the commission ritual with live production figures', () => {

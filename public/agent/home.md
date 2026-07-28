@@ -10,11 +10,13 @@
 
 [Bower](#/)
 
-[gallery](#/gallery) [about](#/about)
+[gallery](#/gallery) [questions](#/questions) [about](#/about)
 
 # Grow a living Bower in your garden.
 
 We design and build living garden pavilions.
+
+[See what we’re building](#/gallery) [What one costs](#/questions)
 
 ![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
 
@@ -52,12 +54,12 @@ register interest
 
 submit
 
-[Who is behind this→ The people building Bower.](#/about)
+[Questions→ What one costs, planning, and how long it takes.](#/questions) [Our background→ The practice, the research, and the work so far.](#/about)
 
 bower
 
 Bower 
 
-[gallery](#/gallery) [about](#/about)
+[gallery](#/gallery) [questions](#/questions) [about](#/about)
 
 © 2026 Bower

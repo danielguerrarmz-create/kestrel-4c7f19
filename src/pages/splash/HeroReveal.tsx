@@ -24,6 +24,7 @@ import { Frame } from '../../ui/Frame';
 import { motion, type Variants } from 'framer-motion';
 import type { EngineOutputs } from '../../engine/types';
 import { srcSetFor } from '../../ui/responsiveImg';
+import { routes } from '../../routing';
 import { SESSION_KEY, INTRO_DONE_EVENT } from './BowerIntro';
 import { HERO_STILL } from './heroStill';
 
@@ -127,12 +128,46 @@ function HeroCopy({
           shaped for your garden, grown through by climbing plants" — every clause of it survives
           below, said once, where it earns its place. */}
 
-      {/* THE HERO HAS NO CTA (2026-07-21). It carried two: a filled "Shape your Eden" into
-          `#/studio` and a quiet "See how it works" into `#/engine`. Both destinations are
-          dev-only now (Root.tsx), and a hero button that scrolls nowhere is worse than no
-          button, so both were removed rather than repointed. The register form in the
-          "Begin." section is the page's only conversion point until the engine returns —
-          relanding the pair here is the first thing to do when it does. */}
+      {/* THE CTA PAIR IS BACK (2026-07-28), REPOINTED AT PAGES THAT EXIST.
+          It was removed on 2026-07-21 with the engine: the old pair was a filled "Shape your
+          Eden" into `#/studio` and a quiet "See how it works" into `#/engine`, and when both
+          destinations went dev-only the honest move was to remove them rather than repoint them
+          at nothing. That left the hero with no action at all and the whole front door with one
+          conversion point, a register form four screens down.
+          There are now two real destinations, so the same two SHAPES return against the same
+          rule (exactly one filled action per page):
+            filled  -> the gallery, because the work is what earns the second minute;
+            quiet   -> the questions, phrased as the question it answers. "What one costs" beats
+                       "Questions" here: the label should name the reader's worry, and the page
+                       it opens leads with the price.
+          Both grow in with the rest of the copy (same stagger child), so nothing new appears
+          after the reveal has settled. */}
+      <motion.div variants={growLine} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 origin-bottom will-change-transform">
+        <a
+          href={routes.gallery}
+          data-cursor-solid
+          className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
+        >
+          See what we’re building
+          <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
+            →
+          </span>
+        </a>
+        <a
+          href={routes.questions}
+          data-cursor-solid
+          className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
+        >
+          <span className="relative">
+            What one costs
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+            />
+          </span>
+          <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+        </a>
+      </motion.div>
     </motion.div>
   );
 }

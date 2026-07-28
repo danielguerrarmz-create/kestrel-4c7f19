@@ -10,7 +10,7 @@
 
 [Bower](#/)
 
-[gallery](#/gallery) [about](#/about)
+[gallery](#/gallery) [questions](#/questions) [about](#/about)
 
 # The obsession is old.
 
@@ -436,6 +436,6 @@ What we learned A building can carry the full complexity of a living system, its
 
 Bower 
 
-[gallery](#/gallery) [about](#/about)
+[gallery](#/gallery) [questions](#/questions) [about](#/about)
 
 © 2026 Bower
