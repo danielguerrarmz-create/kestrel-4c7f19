@@ -113,6 +113,17 @@ wants. So `route` is the canonical route production serves and `path` is the rea
 mapping is `metaForPath` — the same "what does production actually serve here" decision that
 already picks the canonical tag and the title, rather than a second list that can drift.
 
+**On the bundle-leak probe: chain it on a SUCCESSFUL build, do not merely run it after one.**
+`npm run build && node qa/bundle-leak.mjs`. This is recorded because it caught me out rather than
+because it sounds prudent: while proving the probe could fail, my second attempt injected a bug that
+`tsc` rejected. The build stopped, `dist/` still held the previous artifact, and the unchained probe
+scanned it and printed a confident pass over a build that had never happened. **A guard that reads a
+stale artifact is worse than no guard, because it launders staleness as evidence.** So the probe no
+longer relies on the operator remembering: it compares source mtimes against `dist/` and exits 2 as
+a harness failure rather than reporting anything. Verified by injecting a type error and confirming
+it refuses. The same requirement holds for anything that reads a build output, a cache or a
+generated file.
+
 **On `useFragmentScroll`.** Under the hash router `/questions#winter` could not exist — the hash
 *was* the route, so it parsed as the unknown path `/winter` and threw you to the splash. Real
 paths made per-answer deep links possible, and FAQ structured data keyed on the same `id`s makes
@@ -152,7 +163,7 @@ Beyond the suite, the **built** site was driven in headless Chrome against `npx 
 | `mailto:` click on `/questions` | not swallowed by the delegate, router stays on `/questions` |
 | `/studio`, `/draw`, `/engine`, `/shape`, `/sculpt`, `/lab/gongbi`, `/about/tree` in the prod build | 7/7 fall through to the home splash |
 | `/sitemap.xml`, `/robots.txt`, `/agent/questions.md`, `/llms.txt` | 200, correct content types |
-| **no gated surface in the production bundle** (`node qa/bundle-leak.mjs`) | clean across 8 surfaces, 639 KB scanned; **and the probe was proven able to fail** by making `AboutTreePage` a static import again, which it caught (`data-tree-track`, `data-tree-canvas`, dist 639 KB -> 687 KB) |
+| **no gated surface in the production bundle** (`npm run build && node qa/bundle-leak.mjs`) | clean across 8 surfaces; **proven able to fail** by making `AboutTreePage` a static import again, which it caught (`data-tree-track`, `data-tree-canvas`, dist 639 KB -> 687 KB); **and proven to refuse a stale artifact** by injecting a type error so the build fails, after which it exits 2 instead of passing |
 | **`og:image` resolves to a real file** | 200 `image/jpeg`, 251 KB, and the **served bytes decode to 1200x630** (JPEG SOF marker parsed directly, not asked of sharp) |
 | analytics under `npm run dev` | `window.va` undefined, no script tag, **zero network requests** |
 | analytics in the production build | injects `/_vercel/insights/script.js` (production path, `vam: production`), one pageview queued on load |
@@ -217,7 +228,8 @@ Console and the four URLs requested for indexing; the old `/#/...` URLs were nev
 pages, so there is no redirect debt to clear, but there is also no existing ranking to inherit.
 
 **6. Two tests that could no longer fail were found and fixed while doing this**, and there may be
-more of the same class. `HeroReveal.test.ts` asserted `not.toContain('#/studio')`, which after the
+more of the same class. **Both lessons are now recorded in `CLAUDE.md` as classes**, not only here,
+since that is the file the next session actually reads and the next routing change will hit this. `HeroReveal.test.ts` asserted `not.toContain('#/studio')`, which after the
 path migration is a string the page cannot produce under any bug; it is an href sweep against the
 live public routes now, and I verified it fails by pointing a hero CTA at `/studio`.
 `qa/header-nav.mjs`'s `PUBLIC_HREFS` was missing `/questions`. **A routing change silently converts

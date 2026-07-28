@@ -343,6 +343,25 @@ POINTER; the round log is the record.*
   the gongbi genome, generated geometry) needs **3-5 runs before its number means anything** — and any
   assert whose threshold came from observing one run (`> 10`, `> 100`, `> 1.5`) is a latent flake **even
   while green**, because it pinned a MEASUREMENT as a LAW.
+- **CHANGING A STRING SHAPE SILENTLY DISARMS EVERY GUARD THAT PINNED THE OLD ONE. They stay GREEN
+  forever.** The path migration (2026-07-28) turned `expect(html).not.toContain('#/studio')` into a
+  check that cannot fail: after it, the page cannot emit that string under ANY bug. The guard was
+  protecting something real (no CTA may point at a route production does not serve) and the
+  migration disarmed it while leaving it passing. Found two of these in one session
+  (`HeroReveal.test.ts`, and `qa/header-nav.mjs`'s hand-copied `PUBLIC_HREFS`, which had been
+  silently wrong since `/questions` shipped). **After any URL / class-name / attribute rename, grep
+  for `not.toContain('<old shape>')`** and re-express each one as the PROPERTY it was defending —
+  sweep the rendered output and assert every href is a live public route — because a property
+  survives the change of scheme and a literal does not. **And guard every sweep against emptiness**
+  (`expect(hrefs.length).toBeGreaterThan(0)`): a for-loop over zero matches is the same no-op
+  wearing a different hat, and that guard is exactly what exposed a regex I had corrupted.
+- **A GUARD THAT READS A STALE ARTIFACT IS WORSE THAN NO GUARD: it launders staleness as evidence.**
+  `npm run build && node qa/bundle-leak.mjs` — **the `&&` is the point.** A failing build leaves the
+  PREVIOUS `dist/` in place, so an unchained probe scans an artifact that predates the change it is
+  judging and prints a confident pass. This is not hypothetical: it fooled me while I was proving
+  that very probe could fail. `bundle-leak.mjs` now compares source mtimes against `dist/` and exits
+  2 rather than reporting at all. Applies to every check that reads a build output, a cache, or a
+  generated file.
 - **IF A GUARD FILTERS ITS INPUTS, CHECK WHETHER THE SCREEN CAN THROW AWAY THE PROOF.** The
   no-crowding test filtered `if (g <= GAP + 1) continue` — "a ~40px gap must be one cluster's own
   stack". True of a healthy lane, **false of exactly the lane it guards**, because a *crowded* gap is

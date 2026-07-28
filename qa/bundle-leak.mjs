@@ -15,7 +15,18 @@
  * already covers the two things a unit test can honestly answer — the `resolveRoute` truth table
  * for both values of `dev`, and that Root is wired to it by reading its source. Neither can see
  * what rollup emitted, and the vitest environment has `DEV` true, so a render there can only ever
- * exercise the dev branch. Run this after a build, or in CI after `npm run build`.
+ * exercise the dev branch.
+ *
+ * CHAIN IT ON A SUCCESSFUL BUILD. `npm run build && node qa/bundle-leak.mjs` — the `&&` is not
+ * decoration. Proving this probe could fail, the second attempt injected a bug that `tsc` rejected;
+ * the build stopped, `dist/` still held the PREVIOUS artifact, and because the commands were not
+ * chained the probe scanned yesterday's output and printed a confident pass over a build that had
+ * never happened. **A guard that reads a stale artifact is worse than no guard, because it
+ * launders staleness as evidence.**
+ *
+ * So it does not merely say so in a comment: it compares mtimes and refuses to report at all when
+ * any source file is newer than the newest thing in `dist/`. A comment cannot fail; it can only be
+ * believed.
  *
  * WHAT A HIT MEANS: the named surface is in the bundle every visitor downloads. That is a payload
  * regression (three.js alone is ~1 MB) and, for an unfinished tool Daniel took off the site
@@ -38,7 +49,7 @@
  * dependency's own strings, or the post-minification form of one of ours (`173_820` in source is
  * `173820` in a bundle) — so they are exempt from that check and are labelled as such.
  */
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const DIST = process.env.DIST ?? 'dist';
@@ -73,14 +84,18 @@ const GATED = {
   },
 };
 
-function walk(dir, acc = []) {
+function walk(dir, acc = [], match = /\.(js|css|html)$/) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
-    if (e.isDirectory()) walk(p, acc);
-    else if (/\.(js|css|html)$/.test(e.name)) acc.push(p);
+    if (e.isDirectory()) walk(p, acc, match);
+    else if (match.test(e.name)) acc.push(p);
   }
   return acc;
 }
+
+/** Newest mtime under a tree, in ms. */
+const newestMtime = (dir, match) =>
+  walk(dir, [], match).reduce((max, f) => Math.max(max, statSync(f).mtimeMs), 0);
 
 let files;
 try {
@@ -91,6 +106,33 @@ try {
 }
 if (files.length === 0) {
   console.error(`${DIST}/ has no js/css/html — refusing to report a pass on an empty scan`);
+  process.exit(2);
+}
+
+/**
+ * IS THE ARTIFACT EVEN FROM THIS SOURCE TREE? The failure this exists for: a build that fails
+ * (a type error, a syntax error) leaves the PREVIOUS `dist/` in place, so an unchained
+ * `node qa/bundle-leak.mjs` scans an artifact that predates the change it is supposed to judge and
+ * reports a confident pass. It fooled me once while I was proving this very probe could fail.
+ *
+ * mtime is a coarse instrument and deliberately so: it only has to catch "you edited source and
+ * did not successfully rebuild", which is the whole of the failure mode. Erring toward a false
+ * HARNESS FAILURE is correct here — the cost is re-running the build, and the alternative is a
+ * pass that means nothing.
+ */
+const newestSrc = Math.max(
+  newestMtime('src', /\.(ts|tsx|css)$/),
+  statSync('index.html').mtimeMs,
+  statSync('package.json').mtimeMs,
+);
+const newestDist = newestMtime(DIST);
+if (newestSrc > newestDist) {
+  const behind = Math.round((newestSrc - newestDist) / 1000);
+  console.error(
+    `HARNESS FAILURE: ${DIST}/ is ${behind}s older than the newest source file, so it does not\n` +
+      `describe this tree. A build probably failed and left the previous artifact in place.\n` +
+      `Run:  npm run build && node qa/bundle-leak.mjs   (the && is the point)`,
+  );
   process.exit(2);
 }
 
