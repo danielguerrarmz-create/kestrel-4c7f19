@@ -44,7 +44,11 @@ describe('the agent mirror is fresh', () => {
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and
     // a way to reach a person. A mirror that lost these would still look like a page.
     const questions = questionsMirror();
-    expect(questions).toContain('£150,000');
+    // £350,000 as of 2026-07-28: the £150,000 this line used to assert was below break-even.
+    // Both are pinned — the live figure present, the superseded one absent — because an agent
+    // quoting a stale price back to a buyer is the same anchoring harm as the page doing it.
+    expect(questions).toContain('£350,000');
+    expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
     expect(questions).toContain('clayhseifert@gmail.com');
     expect(llmsTxt()).toContain('/agent/questions.md');

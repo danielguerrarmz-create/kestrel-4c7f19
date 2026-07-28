@@ -19,13 +19,33 @@
  * summer) it is stated in the answer rather than softened, because a reader spending six figures
  * can tell the difference and the honesty is the pitch.
  *
- * THE NUMBERS HERE ARE CLAY'S OWN, given 2026-07-28. They are business facts, not computed
- * output, and NOTHING in the engine derives them:
- *   - £150,000 commission floor, including VAT. Matches `COMMISSION_FROM` in ui/priceCopy.ts,
- *     which is the same figure Daniel set on 2026-07-17. If one moves, move both.
- *   - £1,500 siting study, credited against the commission.
+ * THE NUMBERS HERE ARE CLAY'S OWN. They are business facts, not computed output, and NOTHING in
+ * the engine derives them:
+ *   - £350,000 published starting point, including VAT, running to seven figures for landmark
+ *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
+ *   - Stage 1, the siting study: £6,500.
+ *   - Stage 2, design and engineering: £18,000 to £25,000, deliberately a RANGE and deliberately
+ *     "confirmed at the end of Stage 1", because it varies with heritage statements and tree
+ *     surveys. Do not collapse it to a single figure.
  *   - 6 to 10% of the commission a year for the first three years' training. Matches
  *     `STEWARDSHIP_NOTE` in ui/priceCopy.ts.
+ *
+ * CORRECTED 2026-07-28, HOURS AFTER THIS PAGE FIRST SHIPPED, AND THE CORRECTION IS THE LESSON.
+ * The page originally published "£150,000" and "a siting study is £1,500", taken from
+ * `COMMISSION_FROM` (Daniel's ladder of 2026-07-17) and from Clay's first pass. Clay: "£150,000
+ * is below your cost. Every hour it's up is a chance someone anchors to it." The real floor is
+ * £220,000 break-even on the smallest object worth building; £350,000 is a 30 m2 Bower at 35%
+ * margin, which is what a published number has to be.
+ *
+ * So: **a figure inherited from a constant is not automatically a figure you may publish.** The
+ * drift test in copy.test.ts was doing its job when it bound this page to `COMMISSION_FROM` --
+ * it just bound it to a number that was itself wrong, and agreement between two places is not
+ * evidence about either. The floor is now a COST fact (`COMMISSION_BREAKEVEN_GBP`) that the
+ * published figure must clear, which is a claim a test can actually check.
+ *
+ * WHAT THIS PAGE NO LONGER CLAIMS: that the study "comes off the price". That was true of the
+ * £1,500 version and was NOT restated when the fee became £6,500 and a defined product, so it is
+ * gone rather than carried forward on momentum. Restore it only if Clay says it is credited.
  * The three-metre height is the same threshold `GRAMMAR.pdHeightCapM` enforces (2.5 m) rounded UP
  * in prose to the permitted-development ceiling for a garden structure, which is why this file
  * says "about three metres" and never quotes the engine's cap as a promise. Do not wire these to
@@ -57,9 +77,11 @@ export const QUESTIONS: readonly QA[] = [
     id: 'cost',
     q: 'What does it cost?',
     a: [
-      'Commissions start at £150,000, including VAT. Landmark pieces go considerably higher.',
-      'That covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
-      'Two smaller numbers. A siting study is £1,500, and comes off the price if you go ahead. Looking after the planting through the first three years runs at 6 to 10% of the commission a year.',
+      'Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.',
+      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid siting study.',
+      'It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
+      'The steps before it are smaller. Stage 1, the siting study, is £6,500. Stage 2, design and engineering, is typically £18,000 to £25,000, confirmed at the end of Stage 1, because it varies with heritage statements and tree surveys.',
+      'Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.',
     ],
   },
   {
@@ -90,7 +112,7 @@ export const QUESTIONS: readonly QA[] = [
       'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.',
     ],
     rows: [
-      { stage: 'Siting study', span: '2 to 4 weeks' },
+      { stage: 'Stage 1, the siting study', span: '2 to 4 weeks' },
       { stage: 'Design', span: '6 to 10 weeks' },
       { stage: 'Engineering', span: '6 to 10 weeks' },
       { stage: 'Planning', span: 'none, or up to 6 months' },
@@ -135,7 +157,10 @@ export const RING = {
     'The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.',
   /** What the paid step buys, stated as deliverables. */
   study:
-    'After that, the siting study: £1,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide. If you commission, it comes off the price.',
+    'After that, Stage 1: the siting study, £6,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.',
+  /** The step after it, named but deliberately not fixed. */
+  next:
+    'Stage 2, design and engineering, follows if you want it: typically £18,000 to £25,000, confirmed at the end of Stage 1.',
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product. */

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { QUESTIONS, RING, INTRO } from './copy';
-import { COMMISSION_FROM, STEWARDSHIP_NOTE } from '../../ui/priceCopy';
+import { COMMISSION_BREAKEVEN_GBP, COMMISSION_FROM, STEWARDSHIP_NOTE } from '../../ui/priceCopy';
 import { CONTACT } from '../../data/config';
 
 const DASHES = /[—–]/; // em dash, en dash: never allowed in on-screen copy
@@ -13,6 +13,7 @@ const ALL_COPY: string[] = [
   RING.q,
   RING.first,
   RING.study,
+  RING.next,
   ...QUESTIONS.flatMap((q) => [q.q, ...q.a, ...(q.rows ?? []).flatMap((r) => [r.stage, r.span])]),
 ];
 
@@ -55,10 +56,37 @@ describe('the questions page copy (hand-authored, house dash rule)', () => {
 describe('the stated figures agree with the module that owns them', () => {
   const costAnswer = QUESTIONS.find((q) => q.id === 'cost')!.a.join(' ');
 
-  it('the commission floor matches ui/priceCopy COMMISSION_FROM', () => {
-    // COMMISSION_FROM is 'from £150k'; the page writes it long, for a reader.
-    expect(COMMISSION_FROM).toContain('150k');
-    expect(costAnswer).toContain('£150,000');
+  it('the published starting point matches ui/priceCopy COMMISSION_FROM', () => {
+    // COMMISSION_FROM is 'from £350k'; the page writes it long, for a reader.
+    expect(COMMISSION_FROM).toContain('350k');
+    expect(costAnswer).toContain('£350,000');
+  });
+
+  /**
+   * THE GUARD THAT WOULD HAVE CAUGHT THE ACTUAL BUG.
+   *
+   * The first version of this file bound the page to `COMMISSION_FROM` and went green while
+   * BOTH said £150,000, which was below cost. Two places agreeing is not evidence about either
+   * of them. So the real invariant is not "the page matches the constant" — it is "the number
+   * we publish clears the number we incur", and that is checkable.
+   */
+  it('the published COMMISSION figure clears break-even', () => {
+    // Scoped to the sentence that states the commission, NOT to every pound sign on the page:
+    // the Stage 1 and Stage 2 fees (£6,500, £18,000 to £25,000) are professional fees and are
+    // *supposed* to sit far below break-even on the object. Sweeping every figure here was the
+    // first version of this test and it failed on exactly those, which is the difference
+    // between guarding a quantity and guarding every number that looks like one.
+    const commissionLine = QUESTIONS.find((q) => q.id === 'cost')!.a.find((p) =>
+      p.includes('Commissions begin at'),
+    )!;
+    const gbp = Number(commissionLine.match(/£([\d,]+)/)![1].replace(/,/g, ''));
+    expect(gbp, `£${gbp.toLocaleString('en-GB')} is at or below break-even`).toBeGreaterThan(
+      COMMISSION_BREAKEVEN_GBP,
+    );
+  });
+
+  it('the superseded below-cost figure appears nowhere on the page', () => {
+    expect(ALL_COPY.join(' ')).not.toContain('£150,000');
   });
 
   it('the stewardship band matches ui/priceCopy STEWARDSHIP_NOTE', () => {
@@ -68,9 +96,20 @@ describe('the stated figures agree with the module that owns them', () => {
     expect(QUESTIONS.find((q) => q.id === 'pruning')!.a.join(' ')).toContain('6 to 10%');
   });
 
-  it('the siting study fee is the same number in the answer and in the close', () => {
-    expect(costAnswer).toContain('£1,500');
-    expect(RING.study).toContain('£1,500');
+  it('the Stage 1 fee is the same number in the answer and in the close', () => {
+    expect(costAnswer).toContain('£6,500');
+    expect(RING.study).toContain('£6,500');
+    // Superseded on 2026-07-28 along with the £150k floor; pinned absent so it cannot return.
+    expect(ALL_COPY.join(' ')).not.toContain('£1,500');
+  });
+
+  it('Stage 2 stays a RANGE, and stays explicitly unconfirmed', () => {
+    // Clay: "don't fix it, since it varies with heritage statements and tree surveys." A single
+    // figure here would read as a quote for work nobody has scoped.
+    for (const s of [costAnswer, RING.next]) {
+      expect(s).toContain('£18,000 to £25,000');
+    }
+    expect(`${costAnswer} ${RING.next}`).toContain('confirmed at the end of Stage 1');
   });
 });
 
@@ -88,7 +127,7 @@ describe('the page is a way to reach a person', () => {
     // is deliberately NOT used here. This page explains the test (unlisted, no conservation area
     // or National Landscape, behind the house, under three metres) instead of naming the statute,
     // because the reader it was written for does not know the phrase and does not need to.
-    for (const fact of ['£150,000', 'planning', 'conservation area', 'square metres', 'listed building']) {
+    for (const fact of ['£350,000', 'planning', 'conservation area', 'square metres', 'listed building']) {
       expect(all, `the page no longer answers: ${fact}`).toContain(fact.toLowerCase());
     }
   });

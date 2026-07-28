@@ -12,11 +12,26 @@ Size, price, planning permission, groundworks, the timeline, pruning, winter, an
 to reach a person. `src/pages/QuestionsPage.tsx`, content in `src/pages/questions/copy.ts`
 (Clay's own answers, 2026-07-28), guarded by `questions/copy.test.ts`. Two things it fixed that
 are worth remembering as a CLASS of bug:
-- **The answers already existed and rendered nowhere.** `COMMISSION_FROM` ('from £150k') was
-  written, tested, and only ever mounted on `#/studio` and `#/shape` — both dev-only since
-  2026-07-21 — so gating the engine had silently taken the site's only price with it. `PD_FACT`
-  was authored in `splash/copy.ts` and mounted on nothing, ever. **Gating a surface can orphan a
-  fact that was never engine-specific; grep for what a gated page was the last renderer of.**
+- **The answers already existed and rendered nowhere.** `COMMISSION_FROM` was written, tested,
+  and only ever mounted on `#/studio` and `#/shape` — both dev-only since 2026-07-21 — so gating
+  the engine had silently taken the site's only price with it. `PD_FACT` was authored in
+  `splash/copy.ts` and mounted on nothing, ever. **Gating a surface can orphan a fact that was
+  never engine-specific; grep for what a gated page was the last renderer of.**
+- **AND THE FIGURE IT INHERITED WAS BELOW COST.** The page published "£150,000" for a few hours
+  because that is what `COMMISSION_FROM` said (Daniel's ladder, 2026-07-17). Clay: "£150,000 is
+  below your cost. Every hour it's up is a chance someone anchors to it." Break-even is £220k on
+  the smallest object worth building; the published figure is **£350k** (a 30 m² Bower at 35%
+  margin), phrased as a qualifying statement rather than a price, with **Stage 1 £6,500** and
+  **Stage 2 £18,000 to £25,000, deliberately a RANGE and deliberately unconfirmed** (it varies
+  with heritage statements and tree surveys — do not collapse it). **A figure inherited from a
+  constant is not automatically a figure you may publish**, and the drift test that bound the
+  page to `COMMISSION_FROM` went green the whole time, because **two places agreeing is not
+  evidence about either.** The real invariant is now a test: `COMMISSION_BREAKEVEN_GBP` is a COST
+  fact and the published number must clear it (`priceCopy.test.ts`, `questions/copy.test.ts`).
+  **The demo constants (`COMMISSION_DEMO_FIGURE`, `COMMISSION_ANCHOR_GBP`, `COMMISSION_FLOOR_GBP`)
+  are STILL anchored to £150k and are flagged, not fixed** — all dev-only, and raising the floor
+  without recalibrating the anchor would clamp every draw and kill the "feels computed" property.
+  Daniel's call before the engine returns.
 - **The one conversion point was lying.** `RegisterInterest` said "Noted. We will be in touch."
   over a handler that does `console.log` and nothing else, while `config.ts`'s CONTACT block was
   deliberately empty — so the site promised a reply it had no way to send. CONTACT is real now

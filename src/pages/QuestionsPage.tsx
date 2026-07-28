@@ -146,6 +146,7 @@ export function QuestionsPage() {
             <div className="mt-8 flex flex-col gap-5">
               <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.first}</p>
               <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.study}</p>
+              <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.next}</p>
             </div>
           </section>
         </div>
