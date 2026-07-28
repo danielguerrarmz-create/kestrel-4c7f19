@@ -3,17 +3,22 @@
  *
  * THE PRODUCTION SITE IS FOUR PAGES AND NOTHING ELSE:
  *
- * `#/`        -> the home: hero, the two product-photograph bands, the register close,
+ * `/`          -> the home: hero, the two product-photograph bands, the register close,
  *                and the company monument (SplashPage).
- * `#/about`   -> the founders / timeline page (AboutPage).
- * `#/gallery` -> the commission visions, seven concept renderings (GalleryPage;
+ * `/about`     -> the founders / timeline page (AboutPage).
+ * `/gallery`   -> the commission visions, seven concept renderings (GalleryPage;
  *                added 2026-07-23, Clay's client pass).
- * `#/questions` -> the practical answers and the only contact route (QuestionsPage;
+ * `/questions` -> the practical answers and the only contact route (QuestionsPage;
  *                added 2026-07-28).
- * anything else -> the home splash (fallback, so a stray hash never dead-ends and the
- *                  splash's in-page `#register` anchor keeps resolving).
+ * anything else -> the home splash (fallback, so a stray URL never dead-ends).
  *
- * `#/about/tree` IS DEV-ONLY (2026-07-28, Clay), having been public and unlinked since
+ * THESE ARE REAL PATHS AS OF 2026-07-28, not `#/` hashes: a fragment is never sent to a
+ * server, so all four pages were one URL to a crawler and to every link unfurler. See
+ * routing.ts for the migration and for the shim that keeps already-shared `#/gallery`
+ * links working. Each route also carries its own title, description and canonical now
+ * (`useDocumentMeta`), which is the point of having separate URLs in the first place.
+ *
+ * `/about/tree` IS DEV-ONLY (2026-07-28, Clay), having been public and unlinked since
  * 2026-07-26. It is lazy behind the same DEV ternary the engine uses, NOT merely absent
  * from the nav: it was statically imported here while it was "hidden", which shipped the
  * whole tree page (geometry, milestones, growth windows) into the production bundle for
@@ -21,8 +26,8 @@
  *
  * EVERYTHING ENGINE-FACING IS DEV-ONLY (2026-07-21). Daniel's ruling: the studio/engine
  * "is not something to be proud of at this time", so it comes off the live site entirely
- * and stays hidden while it is rebuilt. `#/studio`, `#/draw`, `#/engine`, `#/shape`,
- * `#/sculpt`, `#/lab/botanical` and `#/lab/gongbi` render only under
+ * and stays hidden while it is rebuilt. `/studio`, `/draw`, `/engine`, `/shape`,
+ * `/sculpt`, `/lab/botanical` and `/lab/gongbi` render only under
  * `import.meta.env.DEV` and all still work under `npm run dev` — that is the point of a
  * gate rather than a deletion. In a production build they resolve to the home splash.
  *
@@ -37,7 +42,8 @@ import { SplashPage } from './pages/SplashPage';
 import { AboutPage } from './pages/AboutPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
-import { resolveRoute, useRoute } from './routing';
+import { resolveRoute, useFragmentScroll, useRoute } from './routing';
+import { useDocumentMeta } from './seo';
 
 /** Null in production. See the note above: this ternary IS the gate. */
 const DevRoutes = import.meta.env.DEV
@@ -51,6 +57,12 @@ const AboutTreePage = import.meta.env.DEV
 
 export function Root() {
   const route = useRoute();
+  // Before the switch, so it runs for every target including the dev-only ones (which carry the
+  // home's head, because the home is what production serves at those paths).
+  useDocumentMeta(route);
+  // Same reason, and it must sit here too: a deep link like /questions#cost can only land once
+  // the page owning that id has rendered, which is after this component returns.
+  useFragmentScroll(route);
   const target = resolveRoute(route, import.meta.env.DEV);
   if (target === 'about') return <AboutPage />;
   if (target === 'gallery') return <GalleryPage />;

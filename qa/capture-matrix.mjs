@@ -42,9 +42,9 @@ const VIEWPORTS = [
  * (base.mjs documents why the query must precede the hash) so an unpinned species does not roll per load.
  */
 const ROUTES = [
-  { name: 'home', url: `${BASE}/#/`, blobs: 0 },
-  { name: 'engine', url: `${BASE}/#/engine`, blobs: 0 },
-  { name: 'about', url: `${BASE}/?species=spine-2#/about`, blobs: 4, motion: true, sections: [
+  { name: 'home', url: `${BASE}/`, blobs: 0 },
+  { name: 'engine', url: `${BASE}/engine`, blobs: 0 },
+  { name: 'about', url: `${BASE}/about?species=spine-2`, blobs: 4, motion: true, sections: [
       { label: 'timeline', selector: '[aria-label="How we crossed paths"]' },
       { label: 'founders', selector: '[aria-label="The founders"]' },
       { label: 'projects', selector: '[aria-label="Projects"]' },

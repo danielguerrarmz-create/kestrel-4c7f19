@@ -1,5 +1,5 @@
 /**
- * qa/tree-page.mjs — screenshot review loop for the Tree of Life About (#/about/tree).
+ * qa/tree-page.mjs — screenshot review loop for the Tree of Life About (/about/tree).
  *
  * The page is a scroll-grown drawing, so a single shot proves nothing: this walks the
  * scroll track and captures the journey — roots, low trunk, mid tree, upper tree, crown —
@@ -13,7 +13,7 @@
  */
 import { BASE, launch, setViewport, setReducedMotion, waitForReady, capture, sleep } from './lib.mjs';
 
-const URL = `${BASE}/#/about/tree`;
+const URL = `${BASE}/about/tree`;
 const OUT = 'qa/shots/tree';
 
 /** Scroll the window to a fraction of the tree track's own travel, then let the camera

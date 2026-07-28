@@ -63,14 +63,23 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
     // The subline says the plain thing (2026-07-23): the noun is "pavilions", not
     // "a living structure, computed".
     expect(html).toContain('living garden pavilions');
-    // THE HERO CARRIES NO CTA (2026-07-21). It had two, "Shape your Eden" into #/studio and
-    // "See how it works" into #/engine, and both destinations are dev-only now. A hero
-    // button pointing at a hidden route is worse than no button, so they were removed
-    // rather than repointed; the register form in the "Begin." section is the one way in.
+    // THE HERO'S CTAs MUST NOT POINT AT A GATED ROUTE. It had two, "Shape your Eden" into the
+    // studio and "See how it works" into the engine walkthrough; both destinations went dev-only
+    // on 2026-07-21 and the pair was removed rather than repointed. A different pair returned on
+    // 2026-07-28 against real public pages (/gallery, /questions), so the invariant is not "no
+    // CTA" any more, it is "no CTA into something production does not serve".
     expect(html).not.toContain('Shape your Eden');
     expect(html).not.toContain('See how it works');
-    expect(html).not.toContain('#/studio');
-    expect(html).not.toContain('#/engine');
+    // Sweep the hrefs rather than naming the two we happen to remember. UPDATED 2026-07-28: this
+    // used to assert `not.toContain('#/studio')`, which after the path migration is a string the
+    // page can no longer produce under any bug — a check that cannot fail. The real question is
+    // whether every destination is a live public route, and that survives the routing scheme.
+    const hrefs = [...html.matchAll(/<a\s[^>]*?href="([^"]*)"/g)].map((m) => m[1]);
+    expect(hrefs.length, 'the hero has CTAs again, so this sweep must have something to sweep')
+      .toBeGreaterThan(0);
+    for (const href of hrefs) {
+      expect(['/', '/about', '/gallery', '/questions', '#register']).toContain(href);
+    }
     // The 3D reveal is tabled: no three.js canvas is referenced by the hero.
     expect(html).not.toContain('<canvas');
     // The nav lives in the global fixed SplashHeader, not the hero SSR.

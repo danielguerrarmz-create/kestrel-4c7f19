@@ -1,5 +1,5 @@
 /**
- * milestones.ts — the CONTENT of the Tree of Life About draft (#/about/tree, dev-only).
+ * milestones.ts — the CONTENT of the Tree of Life About draft (/about/tree, dev-only).
  *
  * DATA AND THE SHAPE OF DATA ONLY, same law as about/clusters.ts: nothing here may import
  * from the page or the layout. The geometry reads this list; this list knows nothing of
@@ -10,7 +10,7 @@
  *     (the timeline plates Daniel curated) and about/projects.ts (project heroes). If an
  *     asset is swapped there, re-check it here.
  *   - `blurb` / `fact` / `impact` are condensed from the SAME project's `description` and
- *     `learned` fields in about/projects.ts, or from facts already published on #/about
+ *     `learned` fields in about/projects.ts, or from facts already published on /about
  *     (the TEAM provenance block: Resia's two accelerators and ten people; Rogers
  *     Partners June to December 2025; the fourteen-student Kenya team; CAADRIA 2026).
  *     Shortened, never extended — no new claims.
@@ -26,7 +26,7 @@
  * ON CROPPING: `cover` images render inside ORGANIC frames (the brief: "organic shapes…
  * natural crops. Never use rigid square blocks"), so the edges of a photograph are
  * deliberately eaten by the frame here. That is this page's licensed exception to the
- * no-crop law on #/about — the law protects project documentation surfaces; this page is
+ * no-crop law on /about — the law protects project documentation surfaces; this page is
  * a narrative drawing. Anything with baked-in text or linework stays `contain` on a mat
  * and is never clipped.
  */

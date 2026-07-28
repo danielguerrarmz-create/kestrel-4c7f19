@@ -3,7 +3,7 @@
  *
  *   node qa/capture-seeds.mjs [outDir]    (needs THIS checkout's dev server)
  *
- * `#/lab/seeds` exposes `__captureSeeds()`, which saves each seed by clicking a
+ * `/lab/seeds` exposes `__captureSeeds()`, which saves each seed by clicking a
  * synthetic `<a download>`. That is the right call in a browser a human is sitting
  * in front of, and the wrong one for a batch: ten anchor clicks trip Chrome's
  * "download multiple files?" prompt, and a prompt nobody clicks means only seed 01
@@ -35,7 +35,7 @@ const EXPECT = 10;
  * MEASURED, and the reason this exists: `restless-egg/engine-session` is a second
  * checkout of this repo that also configures port 5333 with `strictPort`, so
  * whichever dev server starts first owns the port and the second refuses to boot.
- * Point this script at that one and it does NOT fail — `#/lab/seeds` is not a route
+ * Point this script at that one and it does NOT fail — `/lab/seeds` is not a route
  * on that branch, so its router falls through to the splash, the rig never installs,
  * and the only symptom is a timeout thirty seconds later that reads like a slow page.
  *
@@ -93,7 +93,7 @@ try {
   });
 
   console.log(`\ncapturing ten seeds -> ${OUT}\n`);
-  await page.goto(`${ORIGIN}/#/lab/seeds`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${ORIGIN}/lab/seeds`, { waitUntil: 'domcontentloaded' });
 
   // Wait for the RIG, not for the clock: __captureSeeds is installed in an effect
   // once the Canvas mounts, and the seed chunk is lazy.

@@ -1,36 +1,94 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bower</title>
+
+    <!-- THE HEAD IN THIS FILE DESCRIBES THE HOME PAGE, and that is also the correct fallback:
+         the router serves the home splash for any path it does not recognise. Each of the four
+         public routes overwrites the title, description, canonical and og:title/og:description
+         on navigation (src/seo.ts, applied from Root) — which is what having real paths instead
+         of `#/` hashes was for.
+
+         DELIBERATELY ABSENT HERE: `<link rel="canonical">` and `og:url`. A static canonical would
+         tell a crawler that does not run JavaScript that /gallery is a duplicate of /, which is
+         the opposite of the truth and worse than having none; a static og:url would make a link
+         unfurler print the home URL under a shared /questions link. Both are injected per route
+         instead. See docs/handoffs/2026-07-28-routes-and-social-cards.md for what this still
+         leaves on the table (unfurlers do not run JavaScript, so they all get the home's card
+         copy over the correct image). -->
+    <title>Living garden pavilions, designed and built | Bower</title>
     <meta
       name="description"
-      content="Shape an organic timber gridshell like clay while a guaranteed fixed price moves live beside it. Every reachable form compiles to flat CNC components, an assembly sequence and a price, and the lattice is designed for the climbing plant that will grow into it, greener and more alive with every season."
+      content="Bower designs and builds living garden pavilions: woven timber gridshells planted with the climbers that grow into them, drawn for the garden they stand in."
     />
     <meta name="theme-color" content="#FBF9F3" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- FOR AI AGENTS AND OTHER NON-JAVASCRIPT READERS (2026-07-23): this site is a hash-routed
-         JavaScript app, so fetching this document yields no page content. The whole public site is
-         mirrored as markdown, generated from the same components the human pages render and
-         drift-guarded by the test suite: start at /llms.txt, or go straight to /agent/home.md,
-         /agent/about.md and /agent/gallery.md. -->
+    <!-- FOR AI AGENTS AND OTHER NON-JAVASCRIPT READERS (2026-07-23): the four public pages are
+         real paths as of 2026-07-28 (/, /gallery, /questions, /about), but fetching any of them
+         still yields this shell with no page content, because the site is client-rendered. The
+         whole public site is mirrored as markdown, generated from the same components the human
+         pages render and drift-guarded by the test suite: start at /llms.txt, or go straight to
+         /agent/home.md, /agent/gallery.md, /agent/questions.md and /agent/about.md. -->
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site guide" />
 
-    <!-- Social cards -->
+    <!-- SOCIAL CARDS. Rewritten 2026-07-28: the previous pair sold "a generative design engine
+         constrained by a fabrication grammar" — the studio/draw tool, which came off the live site
+         on 2026-07-21 — and carried NO og:image, so a pasted link showed a blank card advertising a
+         product that no longer exists. The image is a real 1200x630 JPEG (not WebP: iMessage and
+         WhatsApp are unreliable with it and fail to no image at all), generated from the gallery's
+         wisteria walk by `npm run gen:og`. -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Bower: shape a living pavilion, priced fixed as you shape it" />
+    <meta property="og:site_name" content="Bower" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content="Bower: living garden pavilions" />
     <meta
       property="og:description"
-      content="A generative design engine constrained by a fabrication grammar: every form you can touch is buildable, priceable, and designed for the plant that grows through it."
+      content="A design practice building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden."
     />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Bower: shape a living pavilion, priced fixed as you shape it" />
+    <meta property="og:image" content="https://www.bowerbuild.org/assets/social/og-card.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bower: living garden pavilions" />
     <meta
       name="twitter:description"
-      content="A generative design engine constrained by a fabrication grammar: every form you can touch is buildable, priceable, and designed for the plant that grows through it."
+      content="A design practice building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden."
     />
+    <meta name="twitter:image" content="https://www.bowerbuild.org/assets/social/og-card.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it"
+    />
+
+    <!-- Organization schema, STATIC so a crawler that does not execute JavaScript still gets it.
+         Kept byte-identical to `organizationJsonLd()` in src/seo.ts, which src/seo.test.ts asserts,
+         so the two cannot drift. The FAQPage schema for /questions is injected per route instead:
+         it belongs to that one page, and claiming every URL is an FAQ page is a policy violation
+         as well as a lie. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Bower",
+        "url": "https://www.bowerbuild.org/",
+        "logo": "https://www.bowerbuild.org/favicon.svg",
+        "image": "https://www.bowerbuild.org/assets/social/og-card.jpg",
+        "description": "Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them, fabricated from flat CNC components.",
+        "founder": [
+          { "@type": "Person", "name": "Clay Seifert" },
+          { "@type": "Person", "name": "Daniel Guerra" }
+        ],
+        "email": "clayhseifert@gmail.com",
+        "telephone": "+1 972-363-6298"
+      }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,8 +130,9 @@
         <ul>
           <li><a href="/llms.txt">Site guide (llms.txt)</a></li>
           <li><a href="/agent/home.md">Home</a></li>
-          <li><a href="/agent/about.md">About: the founders and the work</a></li>
           <li><a href="/agent/gallery.md">Gallery: concept renderings of commissions</a></li>
+          <li><a href="/agent/questions.md">Questions: cost, planning permission, timeline, contact</a></li>
+          <li><a href="/agent/about.md">About: the founders and the work</a></li>
         </ul>
       </div>
     </noscript>

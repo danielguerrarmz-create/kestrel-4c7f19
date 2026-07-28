@@ -1,5 +1,5 @@
 /**
- * ShapePage.tsx — the direct-manipulation shaping prototype (`#/shape`).
+ * ShapePage.tsx — the direct-manipulation shaping prototype (`/shape`).
  *
  * A feasibility spike for Goal 2: shape the pavilion by DRAGGING a control cage
  * instead of sliders. The scene mounts in `manipulate` mode (draggable handles),
@@ -25,6 +25,7 @@ import {
 } from '../ui/priceCopy';
 import { deDash } from '../ui/text';
 import { SplashHeader } from './splash/SplashHeader';
+import { routes } from '../routing';
 
 export function ShapePage() {
   const params = useDesign((s) => s.params);
@@ -120,7 +121,7 @@ export function ShapePage() {
             ))}
           </div>
           <a
-            href="#/engine"
+            href={routes.engine}
             className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.14em] underline decoration-inkBlack/30 underline-offset-4 transition hover:decoration-accentOlive"
           >
             how the engine works →

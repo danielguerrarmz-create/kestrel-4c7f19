@@ -54,7 +54,7 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.setViewport({ width: VW, height: VH, deviceScaleFactor: 1 });
 await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-await page.goto(`${BASE}/?species=spine-2#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about?species=spine-2`, { waitUntil: 'domcontentloaded' });
 await sleep(9000);
 
 const names = await page.evaluate(() =>

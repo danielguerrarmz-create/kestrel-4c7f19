@@ -356,7 +356,7 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
  * A site with no contact route AND a form that claims one is worse than either alone.
  *
- * These are Clay's own details, given for the `#/questions` close. Two things to know:
+ * These are Clay's own details, given for the `/questions` close. Two things to know:
  *   - THIS REPO IS PUBLIC (see CLAUDE.md), so both values are already scrapeable here as
  *     well as on the rendered page. That is a decision, not an oversight; swap in a
  *     studio inbox and a UK number when they exist and nothing else has to change.

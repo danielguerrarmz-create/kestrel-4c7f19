@@ -1,5 +1,5 @@
 /**
- * SculptPage.tsx — the form-finding SPIKE route (`#/sculpt`).
+ * SculptPage.tsx — the form-finding SPIKE route (`/sculpt`).
  *
  * A de-risking prototype for the Bower / Eden bet: SCULPT the pavilion instead of
  * setting parameters. Grab a lattice node and pull; a position-based relaxation
@@ -7,7 +7,7 @@
  * BUILDABLE gridshell every frame. The shell visibly settles as you pull and
  * stiffens at the fabrication limits — "clay with a grain".
  *
- * This runs ALONGSIDE the existing param engine (#/shape, #/studio) — it does not
+ * This runs ALONGSIDE the existing param engine (/shape, /studio) — it does not
  * touch the store or the four-param model. Self-contained Canvas + solver so the
  * spike stays isolated and reviewable. The HUD makes buildability + perf visible:
  * node/strut counts, live fps, out-of-spec struts (must stay 0), strut length range.
@@ -17,6 +17,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 import { webglSupported } from '../ui/webgl';
 import { SplashHeader } from './splash/SplashHeader';
+import { routes } from '../routing';
 import { SculptShell } from '../scene/SculptShell';
 import { FAB_MIN_M, FAB_MAX_M, type ShellStats } from '../engine/formFinding';
 
@@ -179,7 +180,7 @@ export function SculptPage() {
           </button>
 
           <a
-            href="#/shape"
+            href={routes.shape}
             className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.14em] underline decoration-inkBlack/30 underline-offset-4 transition hover:decoration-accentOlive"
           >
             the param prototype →

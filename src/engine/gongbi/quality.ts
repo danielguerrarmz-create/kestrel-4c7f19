@@ -12,7 +12,7 @@
  *
  * Everything here is pure math over raw RGBA bytes so it runs identically in the paint
  * worker and in node tests. The thresholds are TUNED VALUES, calibrated against a real
- * bench run in the gongbi lab on 2026-07-16 (#/lab/gongbi prints each cell's measured
+ * bench run in the gongbi lab on 2026-07-16 (/lab/gongbi prints each cell's measured
  * stats): healthy plants on the 1200px canvas measure coverage 0.025–0.065, ink
  * 0.007–0.035, chroma 0.10–0.14 — delicate branches are THIN, so coverage runs far
  * lower than intuition suggests. What separates a hangable painting from the washed-out

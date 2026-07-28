@@ -35,7 +35,7 @@ await page.evaluateOnNewDocument(() => {
 });
 
 const t0 = Date.now();
-await page.goto(`${BASE}/?species=spine-2#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about?species=spine-2`, { waitUntil: 'domcontentloaded' });
 await sleep(600);
 await page.keyboard.down('Shift');
 await page.keyboard.up('Shift');

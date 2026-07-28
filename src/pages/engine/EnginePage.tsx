@@ -1,5 +1,5 @@
 /**
- * EnginePage.tsx — the restored standalone engine walkthrough at `#/engine`.
+ * EnginePage.tsx — the restored standalone engine walkthrough at `/engine`.
  *
  * The home page carries only a condensed engine section (pipeline mechanics +
  * honesty coda); whoever wants the full detail follows "See the full engine

@@ -13,7 +13,7 @@
  * `PAINTINGS`, `ALL_COMMISSIONS`, `FOUNDER_SPECIMENS` and their test file went with them.
  *
  * WHAT SURVIVES, AND WHY THIS FILE STILL EXISTS: the `Commission` shape. It is not ledger-only —
- * the gongbi lab (`#/lab/gongbi`, the curation room) builds Commissions on the fly from a typed
+ * the gongbi lab (`/lab/gongbi`, the curation room) builds Commissions on the fly from a typed
  * seed family, and `FanPainting` takes one. So the page can still paint a commission; it just does
  * not pin any. If a slot is ever added back, the ledger returns here, and it should return because
  * a real surface asked for it.

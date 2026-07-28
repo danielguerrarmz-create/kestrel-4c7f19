@@ -60,7 +60,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--window-size=1440,900'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 900 });
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(1200);
 // Cancel the 14s autoplay without moving the page (End would jump to the document bottom).
 await page.keyboard.down('Shift');

@@ -1,5 +1,5 @@
 /**
- * AboutIntro.tsx — the one-time narration intro for the projects page (#/about).
+ * AboutIntro.tsx — the one-time narration intro for the projects page (/about).
  *
  * On first load per tab a full-bleed narration plays: the page TITLE enters large and
  * centred and FLIES onto the real header title, so the narration "nests" into the regular

@@ -36,7 +36,7 @@ const { browser, page } = await launch(WIDTHS[0]);
 for (const vp of WIDTHS) {
   await setViewport(page, { width: vp.w, height: vp.h, dpr: vp.dpr, mobile: vp.mobile });
   await setReducedMotion(page, true);
-  await page.goto(`${BASE}/#/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
   await waitForReady(page, { blobs: 0 });
 
   const clip = { x: 0, y: 0, width: vp.w, height: 300 };
@@ -99,7 +99,9 @@ for (const vp of WIDTHS) {
     // Only routes a PRODUCTION build renders may be in the nav. Keep in step with `routes` /
     // `ENGINE_ROUTES` in src/routing.ts: an engine href here would work in dev and land the user
     // on the splash in production, which is a link that silently lies.
-    const PUBLIC_HREFS = ['#/', '#/about', '#/gallery'];
+    // Real paths since 2026-07-28, and `/questions` joined the nav the same day. This list was
+    // missing it, which is what a hand-maintained copy of `routes` does.
+    const PUBLIC_HREFS = ['/', '/gallery', '/questions', '/about'];
     const stowaway = dropdownHrefs.find((h) => !PUBLIC_HREFS.includes(h));
     if (stowaway) fail(`${vp.w}: nav links ${stowaway}, which is not a public route`);
     if (open.links.some((l) => l.h < 44)) fail(`${vp.w}: a dropdown row < 44px`);

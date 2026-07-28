@@ -1,5 +1,5 @@
 /**
- * SplashPage.tsx — the home (`#/`), the full-bleed editorial landing.
+ * SplashPage.tsx — the home (`/`), the full-bleed editorial landing.
  *
  * REDUCED 2026-07-17 (round 11, Daniel): the home was cut to the shortest path that
  * explains the product. It is now HERO -> what Bower is -> what happens after you shape
@@ -10,7 +10,7 @@
  *
  * AMENDED 2026-07-21: `/engine` and `/studio` are dev-only now (see Root.tsx), so every
  * link into them was removed from this page along with the `#how-it-works` anchor that
- * served the old nav entry. The home no longer links anywhere except `#/about` and its own
+ * served the old nav entry. The home no longer links anywhere except `/about` and its own
  * `#register`. This page is the live site's front door and very nearly all of it.
  *
  * The two product photographs (exterior in the garden, and the oculus from within) carry
@@ -86,7 +86,7 @@ export function SplashPage() {
           page's "give the picture its own shape" law: that law protects PLATES, where a crop
           silently loses documentary content. This is the hero pattern — a full-bleed field the
           type sits on — and the same photograph is shown uncropped, at its own ratio, on
-          `#/gallery`. Nothing is hidden by the crop; it is the same picture doing a different job. */}
+          `/gallery`. Nothing is hidden by the crop; it is the same picture doing a different job. */}
       <section className="relative w-full overflow-hidden bg-inkBlack">
         <img
           src="/assets/gallery/01-wisteria-walk.webp"
@@ -292,7 +292,7 @@ export function SplashPage() {
 
       {/* THE FOOTER, added 2026-07-23 on Clay's ask. The home had suppressed it deliberately so
           the monument stayed the page's unique big gesture — but that left the front door as the
-          one page with no way out of it and no company line, while `#/about` and `#/gallery` both
+          one page with no way out of it and no company line, while `/about` and `/gallery` both
           close properly. The two now read as one close rather than a competition: the monument is
           the gesture, and the footer is the small print beneath it (mark, wordmark, the ways on,
           the year). `Footer` draws its own mark rather than using `BowerMark`, so it never mints a

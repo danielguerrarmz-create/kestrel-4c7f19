@@ -63,18 +63,26 @@ describe('the design URL', () => {
     expect(q.get('y')).toBe('0');
   });
 
-  it('KEEPS THE HASH ROUTE — touching a param must not navigate you away', () => {
-    // Routing is hash-based. Dropping `#/studio` here sends the user to the
-    // splash mid-design, and any link they copy goes to the splash too.
-    const url = composeDesignUrl('/', P, '#/studio');
-    expect(url).toContain('#/studio');
+  it('KEEPS THE ROUTE — touching a param must not navigate you away', () => {
+    // The route lives in the PATHNAME since 2026-07-28 (it was the hash before), and
+    // `urlFor` passes `window.location.pathname` straight through, so the studio's own path
+    // survives a param write by construction. Dropping it would send the user to the splash
+    // mid-design, and any link they copied would go to the splash too.
+    const url = composeDesignUrl('/studio', P, '');
+    expect(url.startsWith('/studio?')).toBe(true);
     expect(url).toContain('a=15.0');
-    // The query has to precede the hash or it stops being a query.
-    expect(url.indexOf('?')).toBeLessThan(url.indexOf('#'));
   });
 
   it('keeps the drawing flow route too', () => {
-    expect(composeDesignUrl('/', P, '#/draw')).toContain('#/draw');
+    expect(composeDesignUrl('/draw', P, '').startsWith('/draw?')).toBe(true);
+  });
+
+  it('still carries a trailing fragment when there is one', () => {
+    // `hash` is no longer the route, but it is still an in-page anchor and still has to
+    // land after the query or it stops being a query.
+    const url = composeDesignUrl('/studio', P, '#panel');
+    expect(url.indexOf('?')).toBeLessThan(url.indexOf('#'));
+    expect(url.endsWith('#panel')).toBe(true);
   });
 
   it('is fine with no hash at all', () => {

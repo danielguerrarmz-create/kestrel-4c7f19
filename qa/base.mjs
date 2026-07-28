@@ -30,13 +30,18 @@ export const BASE = process.env.BASE ?? `http://localhost:${PORT}`;
 
 /** The About page, with the species PINNED.
  *
- *  THE QUERY GOES BEFORE THE HASH. `species.ts` reads `new URLSearchParams(window.location.search)`,
- *  so `#/about?species=x` pins NOTHING — the param lands in the hash, `location.search` is empty, and
- *  `PAGE_SPECIES` rolls per load, which means an unpinned A/B measures the species and not the change.
- *  Worse: it does not even route — the page renders the SPLASH, so you profile the wrong page entirely
- *  and it still looks like a page. (Cost me a run on 2026-07-17.)
+ *  PIN THE SPECIES OR THE A/B MEASURES THE SPECIES. `species.ts` reads
+ *  `new URLSearchParams(window.location.search)`, and `PAGE_SPECIES` rolls per load, so an
+ *  unpinned run compares two different plants and calls the difference your change.
+ *
+ *  This used to read `${BASE}/?species=x#/about`, and the ORDER was the whole note: under the
+ *  hash router `#/about?species=x` put the param inside the fragment, so `location.search` was
+ *  empty and it did not even route — the page rendered the SPLASH and still looked like a page.
+ *  (Cost a run on 2026-07-17.) Routing moved to real paths on 2026-07-28, so the query sits where
+ *  a query goes and the hazard is gone. Kept as a tombstone because the FAILURE MODE is not:
+ *  a probe pointed at the wrong page still returns numbers.
  */
-export const aboutUrl = (species = 'spine-2') => `${BASE}/?species=${species}#/about`;
+export const aboutUrl = (species = 'spine-2') => `${BASE}/about?species=${species}`;
 
 /**
  * Prove the server is the tree you think it is, and print it, so a run can never be quoted against the

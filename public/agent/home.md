@@ -4,19 +4,19 @@
 
 # Bower — home
 
-> Markdown mirror of the Bower home page (`/#/`) for AI agents and other non-JavaScript readers, generated
+> Markdown mirror of the Bower home page (`/`) for AI agents and other non-JavaScript readers, generated
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](#/)
+[Bower](/)
 
-[gallery](#/gallery) [questions](#/questions) [about](#/about)
+[gallery](/gallery) [questions](/questions) [about](/about)
 
 # Grow a living Bower in your garden.
 
 We design and build living garden pavilions.
 
-[See what we’re building](#/gallery) [What one costs](#/questions)
+[See what we’re building](/gallery) [What one costs](/questions)
 
 ![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
 
@@ -54,12 +54,12 @@ register interest
 
 submit
 
-[Questions→ What one costs, planning, and how long it takes.](#/questions) [Our background→ The practice, the research, and the work so far.](#/about)
+[Questions→ What one costs, planning, and how long it takes.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
 
 bower
 
 Bower 
 
-[gallery](#/gallery) [questions](#/questions) [about](#/about)
+[gallery](/gallery) [questions](/questions) [about](/about)
 
 © 2026 Bower

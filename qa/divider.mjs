@@ -29,7 +29,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: [`--window-size=${VW},${VH}`] });
 const page = await browser.newPage();
 await page.setViewport({ width: VW, height: VH });
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(1500);
 
 const names = await page.evaluate(() =>

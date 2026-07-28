@@ -1,9 +1,15 @@
 # Bower — all readers welcome, human or agent.
 # Non-JavaScript readers: the site is a JS app; use the markdown mirrors.
-#   /llms.txt          site guide
-#   /agent/home.md     home
-#   /agent/about.md    about
-#   /agent/gallery.md  gallery
+#   /llms.txt            site guide
+#   /agent/home.md       home
+#   /agent/gallery.md    gallery
+#   /agent/questions.md  questions: size, price, planning, the lawn, timeline, contact
+#   /agent/about.md      about
+#
+# The four public pages are real paths (/, /gallery, /questions, /about) as of 2026-07-28;
+# they were `#/` hash routes before that, so an old link still lands via a client-side redirect.
 
 User-agent: *
 Allow: /
+
+Sitemap: https://www.bowerbuild.org/sitemap.xml

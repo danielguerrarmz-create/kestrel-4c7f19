@@ -3,13 +3,18 @@
  * trouble ever getting claude/other agents to be able to view the site... is there anything you
  * can change so that now and going forward non-humans can see the site?").
  *
- * WHY A MIRROR AND NOT SSR: the site is a hash-routed SPA, so a fetch of any URL returns an empty
- * `<div id="root">` and a JS bundle — an agent that does not execute JavaScript sees nothing, and
- * `#/about` is not even a distinct URL server-side. Rather than re-architect routing for a
- * marketing site, we publish what such agents actually consume: `/llms.txt` (the llms.txt
- * convention: a markdown site guide at a well-known path) plus full markdown mirrors of each
- * public page under `/agent/`. They are static files in `public/`, so every host that serves the
- * site serves them, dev and production alike.
+ * WHY A MIRROR AND NOT SSR: the site is a client-rendered SPA, so a fetch of any URL returns an
+ * empty `<div id="root">` and a JS bundle — an agent that does not execute JavaScript sees
+ * nothing. Rather than re-architect rendering for a marketing site, we publish what such agents
+ * actually consume: `/llms.txt` (the llms.txt convention: a markdown site guide at a well-known
+ * path) plus full markdown mirrors of each public page under `/agent/`. They are static files in
+ * `public/`, so every host that serves the site serves them, dev and production alike.
+ *
+ * HALF OF THAT PROBLEM WENT AWAY ON 2026-07-28 and half did not. The routes are real paths now
+ * (`/about`, not `#/about`), so each page IS a distinct URL server-side and can be crawled,
+ * canonicalized and ranked separately — see routing.ts. What has not changed is that the HTML at
+ * those URLs is still an empty shell until JavaScript runs, which is exactly what these mirrors
+ * are for. Both are needed: the paths make the pages addressable, the mirrors make them readable.
  *
  * "GOING FORWARD" IS THE DRIFT GUARD, NOT GOOD INTENTIONS. The mirrors are GENERATED from the
  * same components the human site renders — `renderToString` over SplashPage / AboutPage /
@@ -217,22 +222,22 @@ const PREAMBLE = (human: string, title: string) =>
 `;
 
 export function homeMirror(): string {
-  return PREAMBLE('the Bower home page (`/#/`)', 'Bower — home') + render(SplashPage) + '\n';
+  return PREAMBLE('the Bower home page (`/`)', 'Bower — home') + render(SplashPage) + '\n';
 }
 
 export function aboutMirror(): string {
-  return PREAMBLE('the Bower about page (`/#/about`)', 'Bower — about') + render(AboutPage) + '\n';
+  return PREAMBLE('the Bower about page (`/about`)', 'Bower — about') + render(AboutPage) + '\n';
 }
 
 export function galleryMirror(): string {
-  return PREAMBLE('the Bower gallery (`/#/gallery`)', 'Bower — gallery') + render(GalleryPage) + '\n';
+  return PREAMBLE('the Bower gallery (`/gallery`)', 'Bower — gallery') + render(GalleryPage) + '\n';
 }
 
 /** The practical answers (2026-07-28). The one mirror whose content an agent asked about Bower is
  *  most likely to actually need: price, planning, timeline, and the contact details. */
 export function questionsMirror(): string {
   return (
-    PREAMBLE('the Bower questions page (`/#/questions`)', 'Bower — questions') +
+    PREAMBLE('the Bower questions page (`/questions`)', 'Bower — questions') +
     render(QuestionsPage) +
     '\n'
   );
@@ -259,9 +264,11 @@ export function llmsTxt(): string {
 
 ## Notes for agents
 
-- The human site lives at \`/#/\`, \`/#/gallery\`, \`/#/questions\` and \`/#/about\` (hash routes;
-  they all serve the same HTML shell and need JavaScript).
+- The human site lives at \`/\`, \`/gallery\`, \`/questions\` and \`/about\`. These are real paths
+  (they were \`#/\` hash routes until 2026-07-28, and an old hash link still redirects to the
+  new path), but each one serves the same HTML shell and needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
+- \`/sitemap.xml\` lists the four public URLs.
 - The gallery images are concept renderings (generated visualizations), not photographs of
   built work, and the site says so.
 `;

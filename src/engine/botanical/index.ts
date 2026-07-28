@@ -1,7 +1,7 @@
 /**
  * botanical — procedural single-colour vector botany, adapted from nonflowers
  * (Lingdong Huang, MIT). Deterministic per seed; outputs SVG path data in
- * `INK_BLUE`. Phase 1: generator + isolated preview only (see #/lab/botanical).
+ * `INK_BLUE`. Phase 1: generator + isolated preview only (see /lab/botanical).
  */
 export {
   growPlant,

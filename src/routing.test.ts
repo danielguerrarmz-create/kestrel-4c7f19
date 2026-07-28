@@ -1,6 +1,123 @@
 import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
-import { DEV_ONLY_ROUTES, ENGINE_ROUTES, resolveRoute, routes } from './routing';
+import {
+  DEV_ONLY_ROUTES,
+  ENGINE_ROUTES,
+  PUBLIC_ROUTES,
+  claimsLink,
+  legacyHashRedirect,
+  normalizePath,
+  resolveRoute,
+  routes,
+} from './routing';
+
+/**
+ * THE PATH MIGRATION (2026-07-28). The site was hash-routed until this change, which meant every
+ * page was the same URL to a crawler and to every link unfurler: a fragment is never sent to a
+ * server. The tests below cover the three things that migration can break, and each of them
+ * breaks silently.
+ *
+ *   1. PARSING. `/gallery/` and `/gallery` must be one route, or the canonical tag and the router
+ *      disagree about which page you are on.
+ *   2. THE SHIM. Every link shared while the site was hash-routed is `/#/gallery`. If those stop
+ *      resolving, the change costs more traffic than it earns, and nothing in the app would fail.
+ *   3. THE CLICK DELEGATE. One document-level handler now decides which anchors the router takes
+ *      over. Every case it gets wrong is a link that used to work: `mailto:`/`tel:` (the questions
+ *      page's ONLY contact route), a new tab, an in-page anchor, another site.
+ */
+describe('path parsing', () => {
+  it('normalizes the shapes a URL bar and a crawler actually produce', () => {
+    expect(normalizePath('/')).toBe('/');
+    expect(normalizePath('')).toBe('/');
+    expect(normalizePath('/gallery')).toBe('/gallery');
+    // A trailing slash is the classic duplicate-URL source. One route, one canonical.
+    expect(normalizePath('/gallery/')).toBe('/gallery');
+    expect(normalizePath('/lab/gongbi/')).toBe('/lab/gongbi');
+    expect(normalizePath('//gallery')).toBe('/gallery');
+    expect(normalizePath('gallery')).toBe('/gallery');
+    expect(normalizePath('/about/tree/')).toBe('/about/tree');
+  });
+
+  it('a trailing slash resolves to the same page, so /gallery/ is not a second page', () => {
+    for (const path of PUBLIC_ROUTES) {
+      expect(resolveRoute(normalizePath(path + '/'), false)).toBe(resolveRoute(path, false));
+    }
+  });
+});
+
+describe('the legacy hash shim', () => {
+  const loc = (hash: string, search = '') => ({ hash, search });
+
+  it('rewrites every link shared while the site was hash-routed', () => {
+    expect(legacyHashRedirect(loc('#/'))).toBe('/');
+    expect(legacyHashRedirect(loc('#/gallery'))).toBe('/gallery');
+    expect(legacyHashRedirect(loc('#/questions'))).toBe('/questions');
+    expect(legacyHashRedirect(loc('#/about'))).toBe('/about');
+    // The gated families too: they must land on the same place the router would send them,
+    // not dead-end on a hash the new router ignores.
+    expect(legacyHashRedirect(loc('#/about/tree'))).toBe('/about/tree');
+    expect(legacyHashRedirect(loc('#/studio'))).toBe('/studio');
+  });
+
+  it('LEAVES A BARE IN-PAGE ANCHOR ALONE, which is the whole reason it checks for `#/`', () => {
+    // Rewriting `#register` to `/register` is precisely the old router's behaviour and precisely
+    // what this change removes. The home's register anchor, and any future one on any page, is a
+    // fragment and must stay a fragment.
+    expect(legacyHashRedirect(loc('#register'))).toBeNull();
+    expect(legacyHashRedirect(loc('#how-it-works'))).toBeNull();
+    expect(legacyHashRedirect(loc('#cost'))).toBeNull();
+    expect(legacyHashRedirect(loc('#'))).toBeNull();
+    expect(legacyHashRedirect(loc(''))).toBeNull();
+  });
+
+  it('keeps a query string whichever side of the hash it sat on', () => {
+    // Outside: how the QA probes and the engine's share links are shaped, because
+    // `composeDesignUrl` writes the params before the hash.
+    expect(legacyHashRedirect(loc('#/about', '?species=spine-2'))).toBe('/about?species=spine-2');
+    // Inside: a hand-edited URL.
+    expect(legacyHashRedirect(loc('#/studio?a=15.0'))).toBe('/studio?a=15.0');
+    // Both, inner wins on a collision, because it travelled with the route.
+    expect(legacyHashRedirect(loc('#/studio?a=9', '?a=1&sp=x'))).toBe('/studio?a=9&sp=x');
+  });
+
+  it('normalizes on the way through, so the shim cannot mint a duplicate URL', () => {
+    expect(legacyHashRedirect(loc('#/gallery/'))).toBe('/gallery');
+  });
+});
+
+describe('the click delegate decides which links the router takes over', () => {
+  const here = 'https://www.bowerbuild.org/gallery';
+
+  it('claims plain in-app links', () => {
+    for (const href of ['/', '/about', '/questions', 'https://www.bowerbuild.org/about']) {
+      expect(claimsLink({ href }, here)).toBe(true);
+    }
+  });
+
+  it('NEVER claims mailto: or tel:, the questions page\'s only contact route', () => {
+    // If the router swallowed these, the site's single conversion point would stop working and
+    // nothing would throw: the click would just navigate to the splash.
+    expect(claimsLink({ href: 'mailto:clayhseifert@gmail.com' }, here)).toBe(false);
+    expect(claimsLink({ href: 'tel:+19723636298' }, here)).toBe(false);
+  });
+
+  it('leaves other origins, new tabs, downloads and rel=external to the browser', () => {
+    expect(claimsLink({ href: 'https://github.com/LingDong-/nonflowers' }, here)).toBe(false);
+    expect(claimsLink({ href: '/about', target: '_blank' }, here)).toBe(false);
+    expect(claimsLink({ href: '/paper.pdf', download: true }, here)).toBe(false);
+    expect(claimsLink({ href: '/about', rel: 'noopener external' }, here)).toBe(false);
+    // `_self` is explicit "this tab", which is ours.
+    expect(claimsLink({ href: '/about', target: '_self' }, here)).toBe(true);
+  });
+
+  it('leaves an in-page fragment to the browser, so #register still scrolls', () => {
+    expect(claimsLink({ href: '#register' }, 'https://www.bowerbuild.org/')).toBe(false);
+    expect(claimsLink({ href: '#how-it-works' }, 'https://www.bowerbuild.org/')).toBe(false);
+    expect(claimsLink({ href: '#cost' }, 'https://www.bowerbuild.org/questions')).toBe(false);
+    // A fragment on a DIFFERENT page is a real navigation and is ours.
+    expect(claimsLink({ href: '/questions#cost' }, here)).toBe(true);
+  });
+});
 
 /**
  * THE PRODUCTION GATE ON THE ENGINE (2026-07-21).
@@ -58,10 +175,90 @@ describe('the engine routes are dev-only in production', () => {
   });
 
   it('routes.* are the paths resolveRoute matches on (they cannot drift)', () => {
-    expect(resolveRoute(routes.about.replace(/^#/, ''), true)).toBe('about');
-    expect(resolveRoute(routes.gallery.replace(/^#/, ''), true)).toBe('gallery');
-    expect(resolveRoute(routes.questions.replace(/^#/, ''), true)).toBe('questions');
-    expect(resolveRoute(routes.aboutTree.replace(/^#/, ''), true)).toBe('aboutTree');
+    expect(resolveRoute(routes.about, true)).toBe('about');
+    expect(resolveRoute(routes.gallery, true)).toBe('gallery');
+    expect(resolveRoute(routes.questions, true)).toBe('questions');
+    expect(resolveRoute(routes.aboutTree, true)).toBe('aboutTree');
+  });
+
+  it('every routes.* value is a real path, not a leftover hash', () => {
+    // The migration's own regression: one `#/shape` left in the table would render an href the
+    // click delegate reads as an in-page anchor, so the link would silently do nothing.
+    for (const [name, href] of Object.entries(routes)) {
+      expect(href.startsWith('/'), `routes.${name} = ${href}`).toBe(true);
+      expect(href).not.toContain('#');
+    }
+  });
+
+  it('PUBLIC_ROUTES is exactly the four that ship, in nav order', () => {
+    // The sitemap and the per-page metadata are both built from this list, so it is the one place
+    // a page becomes public. Pinned by name so adding a fifth is a deliberate act.
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/gallery', '/questions', '/about']);
+    for (const path of PUBLIC_ROUTES) {
+      expect(ENGINE_ROUTES).not.toContain(path);
+      expect(DEV_ONLY_ROUTES).not.toContain(path);
+      // Public means public in BOTH builds; a route that only resolves in dev is not shippable.
+      expect(resolveRoute(path, false)).toBe(resolveRoute(path, true));
+    }
+  });
+});
+
+/**
+ * THE HOST CONFIG IS PART OF THE ROUTER NOW, and it is the one piece no unit test would otherwise
+ * touch. Under the hash router every URL was `/` and the server needed no configuration at all;
+ * with real paths, `https://www.bowerbuild.org/gallery` is a request the host must answer with
+ * index.html or the page 404s for everyone who did not arrive via a click. The other half is just
+ * as easy to get wrong in the other direction: a catch-all that also swallows `/agent/*.md` or
+ * `/sitemap.xml` would serve HTML to exactly the readers those files exist for.
+ *
+ * Vercel compiles `source` with path-to-regexp and passes a bare regex inside a capture group
+ * through, so the same expression can be exercised here.
+ */
+describe('the Vercel SPA rewrite', () => {
+  const cfg = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+  const rule = cfg.rewrites[0];
+  const re = new RegExp('^' + rule.source + '$');
+
+  it('sends every app route to index.html', () => {
+    expect(rule.destination).toBe('/index.html');
+    for (const path of [...PUBLIC_ROUTES, ...ENGINE_ROUTES, ...DEV_ONLY_ROUTES, '/typo']) {
+      expect(re.test(path), `${path} must serve the app shell`).toBe(true);
+    }
+  });
+
+  it('leaves the static files alone, including the ones agents read', () => {
+    for (const path of [
+      '/assets/index-abc123.js',
+      '/assets/social/og-card.jpg',
+      '/assets/gallery/01-wisteria-walk.webp',
+      '/agent/home.md',
+      '/agent/questions.md',
+      '/robots.txt',
+      '/llms.txt',
+      '/sitemap.xml',
+      '/favicon.svg',
+      '/hero/v3/pavilion.jpg',
+      '/fonts/x.woff2',
+    ]) {
+      expect(re.test(path), `${path} must be served from disk, not rewritten to HTML`).toBe(false);
+    }
+  });
+});
+
+describe('main.tsx installs the router before the first render', () => {
+  const main = readFileSync(new URL('./main.tsx', import.meta.url), 'utf8');
+
+  it('calls installRouter()', () => {
+    // Without it there is no click delegation (every internal link full-page reloads) and no
+    // legacy-hash shim (every link shared before 2026-07-28 lands on the home). Neither throws.
+    expect(main).toMatch(/installRouter\(\)/);
+  });
+
+  it('calls it BEFORE createRoot(...).render, not inside an effect', () => {
+    // Order is the whole point: the shim rewrites `/#/gallery` to `/gallery` in place, and doing
+    // that after mount paints the home for a frame first.
+    expect(main.indexOf('installRouter()')).toBeLessThan(main.indexOf('.render('));
+    expect(main.indexOf('installRouter()')).toBeGreaterThan(-1);
   });
 });
 
@@ -115,6 +312,27 @@ describe('Root is wired to the gate', () => {
   it('loads the engine routes behind a DEV ternary, so the build folds them away', () => {
     expect(root).toMatch(/import\.meta\.env\.DEV\s*\r?\n?\s*\?\s*lazy\(/);
     expect(root).toContain("import('./DevRoutes')");
+  });
+
+  it('sets the per-route head, and does it BEFORE the target switch', () => {
+    // `useDocumentMeta` is a hook: called after any of Root's early returns it would run
+    // conditionally and React would throw on the first navigation between two targets. It also
+    // has to run for the dev-only targets, which carry the home's head because the home is what
+    // production serves at those paths.
+    expect(root).toContain('useDocumentMeta(route)');
+    expect(root.indexOf('useDocumentMeta(route)')).toBeLessThan(
+      root.indexOf("if (target === 'about')"),
+    );
+  });
+
+  it('lands deep links on their answer, after the page has rendered', () => {
+    // `/questions#cost` is new surface: the hash USED to be the route, so a fragment could not
+    // exist. It exists now, FAQPage structured data is keyed on the same ids, and a browser gives
+    // up resolving a fragment before a client-rendered page mounts. Hook, same rule as above.
+    expect(root).toContain('useFragmentScroll(route)');
+    expect(root.indexOf('useFragmentScroll(route)')).toBeLessThan(
+      root.indexOf("if (target === 'about')"),
+    );
   });
 
   it('statically imports nothing engine-facing (that would reship the bundle)', () => {

@@ -18,7 +18,7 @@ import { routes } from '../../routing';
 import { useReducedMotion } from '../../ui/useReducedMotion';
 
 /** The global nav destinations, in one place so the inline pill and the mobile dropdown can
- *  never drift apart. "how it works" (`#/engine`) and "studio" were removed on 2026-07-21
+ *  never drift apart. "how it works" (`/engine`) and "studio" were removed on 2026-07-21
  *  when the engine came off the live site: a nav entry is a promise, and neither page ships
  *  to production any more. Restore both here when the engine is worth showing again.
  *  "gallery" joined 2026-07-23 (Clay's client pass) — a public page needs a door.
@@ -245,7 +245,7 @@ export function SplashHeader({
             legible on any ground — the frosted capsule gives the dark ink a consistent
             backing over the hero photo or the vellum pages, no colour-blend needed. */}
         <a
-          href="#/"
+          href={routes.home}
           aria-label="Bower, home"
           data-cursor-solid
           className={`${logoCapsule}flex items-center gap-2.5 px-4 py-2 text-inkBlack`}

@@ -12,7 +12,8 @@
     "test": "vitest run",
     "qa:matrix": "node qa/capture-matrix.mjs",
     "qa:nav": "node qa/header-nav.mjs",
-    "gen:images": "node scripts/gen-image-variants.mjs"
+    "gen:images": "node scripts/gen-image-variants.mjs",
+    "gen:og": "node scripts/gen-og-card.mjs"
   },
   "dependencies": {
     "@fontsource-variable/source-serif-4": "^5.2.9",

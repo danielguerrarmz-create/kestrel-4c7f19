@@ -30,7 +30,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: [`--window-size=1440,${VH}`] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: VH });
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(1500);
 
 // The list rows are the only way to page between projects; find them by their own markup.

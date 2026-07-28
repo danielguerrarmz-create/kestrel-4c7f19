@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Root } from './Root';
 import { ErrorBoundary } from './ui/ErrorBoundary';
+import { installRouter } from './routing';
 
 // Self-hosted fonts for the documentation layer (the studio keeps its
 // Google-served Fraunces + Inter). Source Serif 4 = free Freight Big Pro
@@ -16,6 +17,11 @@ import '@fontsource/bodoni-moda/500-italic.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import './index.css';
+
+// BEFORE the first render, not in an effect. `installRouter` rewrites an inbound legacy
+// `/#/gallery` to `/gallery` in place; doing that after mount would paint the home for a frame
+// first, and every link shared while the site was hash-routed would flash the wrong page.
+installRouter();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

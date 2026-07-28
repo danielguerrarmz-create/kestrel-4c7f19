@@ -348,7 +348,7 @@ export function Folly({
   explodeUniforms?: ExplodeUniforms;
   /**
    * Index into `geometry.pieces` for the piece a click landed on, or null for a
-   * click that hit nothing. OPTIONAL, and the gate that keeps `#/studio` exactly
+   * click that hit nothing. OPTIONAL, and the gate that keeps `/studio` exactly
    * as it was: R3F only raycasts objects that actually carry a handler, so
    * without this prop these meshes are not interactive at all.
    */

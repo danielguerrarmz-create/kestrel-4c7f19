@@ -24,7 +24,7 @@ mkdirSync(OUT, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--window-size=1440,900'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1.5 });
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(1000);
 // Shift cancels the autoplay without scrolling (End jumps to the document bottom).
 await page.keyboard.down('Shift');

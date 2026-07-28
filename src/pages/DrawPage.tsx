@@ -1,5 +1,5 @@
 /**
- * DrawPage.tsx — `#/draw`. You open on a lawn and start making.
+ * DrawPage.tsx — `/draw`. You open on a lawn and start making.
  *
  * WHY. The studio opens on four sliders. Four sliders is a Grasshopper
  * definition with better type: the design act collapses into number entry, the

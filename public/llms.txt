@@ -15,8 +15,10 @@
 
 ## Notes for agents
 
-- The human site lives at `/#/`, `/#/gallery`, `/#/questions` and `/#/about` (hash routes;
-  they all serve the same HTML shell and need JavaScript).
+- The human site lives at `/`, `/gallery`, `/questions` and `/about`. These are real paths
+  (they were `#/` hash routes until 2026-07-28, and an old hash link still redirects to the
+  new path), but each one serves the same HTML shell and needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
+- `/sitemap.xml` lists the four public URLs.
 - The gallery images are concept renderings (generated visualizations), not photographs of
   built work, and the site says so.

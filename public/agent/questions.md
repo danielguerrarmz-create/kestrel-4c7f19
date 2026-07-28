@@ -4,13 +4,13 @@
 
 # Bower — questions
 
-> Markdown mirror of the Bower questions page (`/#/questions`) for AI agents and other non-JavaScript readers, generated
+> Markdown mirror of the Bower questions page (`/questions`) for AI agents and other non-JavaScript readers, generated
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](#/)
+[Bower](/)
 
-[gallery](#/gallery) [questions](#/questions) [about](#/about)
+[gallery](/gallery) [questions](/questions) [about](/about)
 
 Questions
 
@@ -124,6 +124,6 @@ Stage 2, design and engineering, follows if you want it: typically £18,000 to �
 
 Bower 
 
-[gallery](#/gallery) [questions](#/questions) [about](#/about)
+[gallery](/gallery) [questions](/questions) [about](/about)
 
 © 2026 Bower

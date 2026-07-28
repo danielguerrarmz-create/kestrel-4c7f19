@@ -527,7 +527,7 @@ const AUTOPLAY_LEAD_IN_MS = 2500;
 /** Longer than the old 12000 because the descent is now LINEAR (constant velocity) rather than
  *  ease-in-out: an eased 12s peaked ~2x its average speed mid-descent, which read as "speeding up".
  *  A linear 24s holds the slow beginning pace the whole way, so it never accelerates and stays
- *  observable. Tune by watching #/about; must never feel like it accelerates. */
+ *  observable. Tune by watching /about; must never feel like it accelerates. */
 const AUTOPLAY_MS = 24000;
 const AUTOPLAY_FF_MS = 650;
 

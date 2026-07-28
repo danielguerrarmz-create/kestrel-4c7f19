@@ -1,5 +1,5 @@
 /**
- * questions/copy.ts — the hand-authored content of `#/questions`, kept out of the JSX so the
+ * questions/copy.ts — the hand-authored content of `/questions`, kept out of the JSX so the
  * house dash rule can be tested (no em/en dashes in on-screen copy) and so the mirror, the page
  * and the tests all read one source.
  *
@@ -8,7 +8,7 @@
  * beautiful renderings, and still not know the price, the country, whether it needs planning
  * permission, what it does to a lawn, how long it takes, or who to ring. Worse, two of those
  * answers were already written and TESTED in this repo and rendered nowhere public:
- * `COMMISSION_FROM` ('from £150k') only ever appeared on `#/studio` and `#/shape`, both dev-only
+ * `COMMISSION_FROM` ('from £150k') only ever appeared on `/studio` and `/shape`, both dev-only
  * since 2026-07-21, and `PD_FACT` was authored in splash/copy.ts and never mounted. The facts
  * existed; the page to put them on did not.
  *

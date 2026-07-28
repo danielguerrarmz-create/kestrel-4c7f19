@@ -40,7 +40,7 @@ const errs = [];
 page.on('pageerror', (e) => errs.push(String(e)));
 page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
 
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(MOTION ? 1200 : 6000);
 
 if (MOTION) {

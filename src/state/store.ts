@@ -72,12 +72,13 @@ export function queryFor(params: DesignParams): string {
 }
 
 /**
- * Compose the design URL. Pure, so the hash rule below is actually testable.
+ * Compose the design URL. Pure, so the rule below is actually testable.
  *
- * The HASH MUST SURVIVE: routing is hash-based (`#/studio`, `#/draw`), so
- * dropping it silently navigates the user to the splash the instant they touch
- * a param. That shipped once — clicking a year on the studio threw you back to
- * `/?a=15.0&…` with no route at all, and any link you copied went with it.
+ * THE ROUTE MUST SURVIVE A PARAM WRITE. It shipped broken once: clicking a year on the
+ * studio threw you back to `/?a=15.0&…` with no route at all, and any link you copied
+ * went with it. The route moved from the hash into the PATHNAME on 2026-07-28, so the
+ * thing that must survive is `pathname`, which `urlFor` passes straight through. `hash`
+ * is now only ever an in-page anchor, and it still has to land after the query.
  */
 export function composeDesignUrl(pathname: string, params: DesignParams, hash: string): string {
   return `${pathname}?${queryFor(params)}${hash}`;
@@ -114,7 +115,7 @@ interface DesignState {
 
   setParam: (key: SliderKey, value: number) => void;
   /**
-   * Set several params at once. The drawing flow (`#/draw`) derives a whole
+   * Set several params at once. The drawing flow (`/draw`) derives a whole
    * DesignParams from linework in one go, so patching key-by-key would run the
    * engine four times and briefly render states the user never drew.
    */

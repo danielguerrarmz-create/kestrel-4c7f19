@@ -1,6 +1,6 @@
 /**
  * BotanicalLab.tsx — ISOLATED preview for the procedural botanical generator
- * (#/lab/botanical). Phase-1 review artifact ONLY: nothing here is wired into the
+ * (/lab/botanical). Phase-1 review artifact ONLY: nothing here is wired into the
  * About timeline, splash, or engine. It renders a grid of generated plants —
  * named species presets and fully-random "wild" seeds — on the paperVellum
  * ground in INK_BLUE, so Daniel can judge the look before any substitution.

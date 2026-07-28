@@ -1,5 +1,5 @@
 /**
- * AboutPage.tsx — the dedicated projects page (#/about).
+ * AboutPage.tsx — the dedicated projects page (/about).
  *
  * Order: the header (title + the two questions) drawn AS the cross-paths timeline, then the
  * co-founders (Clay + Daniel), then the projects.
@@ -99,7 +99,7 @@ const TITLE_CLASS =
   'font-serifDisplay text-[clamp(1.6rem,4.4vw,3rem)] font-medium leading-[1.12] tracking-[-0.01em] text-inkBlack';
 
 /** The two questions the whole practice chases, presented apart and large.
- *  (Exported: the scroll About draft at #/about/scroll sets the same two questions,
+ *  (Exported: the scroll About draft at /about/scroll sets the same two questions,
  *  and sharing the const keeps the copy from drifting between the two pages.) */
 export const QUESTIONS = [
   { label: 'Question one', text: 'How can architecture be grown, not only built?' },

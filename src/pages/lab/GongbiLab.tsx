@@ -1,6 +1,6 @@
 /**
  * GongbiLab.tsx — the curation room for the painterly nonflowers engine, at
- * #/lab/gongbi. Not linked from the nav (like #/lab/botanical): a review surface,
+ * /lab/gongbi. Not linked from the nav (like /lab/botanical): a review surface,
  * not a destination.
  *
  * Purpose: commissions on the About page are PERMANENT seeds (see

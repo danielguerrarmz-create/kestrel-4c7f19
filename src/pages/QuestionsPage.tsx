@@ -1,5 +1,5 @@
 /**
- * QuestionsPage.tsx — `#/questions`, the page that answers what the other three don't.
+ * QuestionsPage.tsx — `/questions`, the page that answers what the other three don't.
  *
  * The live site could tell you what a bower is and show you seven renderings of one, and could
  * not tell you the price, the country, the planning position, what it does to a lawn, how long it
@@ -13,12 +13,17 @@
  * double the air the type needs. The one flourish is the question numerals, borrowed from the
  * home's ritual list (serif italic in the olive accent) so this reads as the same publication.
  *
- * NO IN-PAGE ANCHOR INDEX, AND THAT IS NOT AN OVERSIGHT. `routing.ts` normalizes the hash to a
- * route path, so an `href="#cost"` sets the hash to `#cost`, which resolves to the unknown path
- * `/cost` and falls through to the SPLASH: an index of anchor links would navigate the reader off
- * this page, one question at a time. (`#register` on the home only works because the fallback
- * there IS the home.) Seven headed sections in one column scan fine without one; if this page ever
- * grows enough to need an index, it wants scroll-into-view buttons, not anchors.
+ * NO IN-PAGE ANCHOR INDEX, AND THE REASON CHANGED ON 2026-07-28. It used to be a HARD constraint:
+ * the hash router read `#cost` as the unknown route `/cost` and fell through to the SPLASH, so an
+ * index of anchor links would have navigated the reader off this page one question at a time. The
+ * path router removed that: a fragment is now just a fragment, the `id`s below already exist, and
+ * `href="#cost"` would work. So it is a DESIGN choice now, not a technical one — seven headed
+ * sections in one column scan fine without an index. Add one if a reader ever gets lost; nothing
+ * in the routing stops you.
+ *
+ * The `id`s are load-bearing anyway: `seo.ts` builds the page's FAQPage structured data from the
+ * same `QUESTIONS` array, so each answer is addressable to an answer engine whether or not the
+ * page ever prints a link to it.
  *
  * Type sizes run a step larger than the rest of the site on purpose. The reader this page was
  * written for is not twenty-five, and the site's 11px mono captions are already at the edge.

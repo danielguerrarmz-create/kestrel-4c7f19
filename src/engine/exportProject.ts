@@ -20,7 +20,7 @@
  *
  * ---------------------------------------------------------------------------
  * NO CALLER TODAY, AND THAT IS DELIBERATE. The two chips that drove this
- * ("export drawing" / "export everything") were removed from `#/draw` on
+ * ("export drawing" / "export everything") were removed from `/draw` on
  * 2026-07-17 — Daniel: "we will have that later." Deferred, not cancelled.
  *
  * This module and its tests are kept rather than deleted because: it is pure,

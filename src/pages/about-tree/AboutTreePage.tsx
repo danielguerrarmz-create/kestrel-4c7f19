@@ -1,14 +1,14 @@
 /**
- * AboutTreePage.tsx — the TREE OF LIFE About draft (#/about/tree, dev-only).
+ * AboutTreePage.tsx — the TREE OF LIFE About draft (/about/tree, dev-only).
  *
- * A DUPLICATE of the #/about story, retold as one living drawing: the company history
- * as a tree that GROWS AS YOU SCROLL. #/about itself is untouched.
+ * A DUPLICATE of the /about story, retold as one living drawing: the company history
+ * as a tree that GROWS AS YOU SCROLL. /about itself is untouched.
  *
  * THE NARRATIVE RUNS UPWARD. The journey opens at the ROOTS (the two questions the
  * practice chases are literally the root labels), and scrolling down moves the camera
  * UP the tree while the trunk, branches, shoots and photographs draw in just ahead of
  * you — the scroll is the growing. The crown is Bower itself: "Bower is new." answers
- * the intro's "The obsession is old." (the page title of record on #/about).
+ * the intro's "The obsession is old." (the page title of record on /about).
  *
  * HOW THE MOTION IS BUILT (performance is the constraint everything else obeys):
  *   - One scroll value drives everything. `useScroll` on the tall track → a spring →

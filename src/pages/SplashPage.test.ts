@@ -63,13 +63,13 @@ describe('SplashPage', () => {
   });
 
   it('carries the global nav, which is now gallery + about and nothing else', () => {
-    // 2026-07-21: "how it works" (#/engine) and "studio" left the nav when the engine came
+    // 2026-07-21: "how it works" (/engine) and "studio" left the nav when the engine came
     // off the live site. 2026-07-23: "gallery" joined (Clay's client pass). The SplashHeader
     // renders NAV_LINKS twice (the inline pill and the mobile dropdown), so a leaked entry
     // would show up here twice over.
     expect(html).toContain('about');
-    expect(html).toContain('href="#/about"');
-    expect(html).toContain('href="#/gallery"');
+    expect(html).toContain('href="/about"');
+    expect(html).toContain('href="/gallery"');
     expect(html).not.toContain('>studio<');
     expect(html).not.toContain('>how it works<');
     expect(html).not.toContain('(the pavilion)');
@@ -84,7 +84,7 @@ describe('SplashPage', () => {
     const hrefs = [...html.matchAll(/<a\b[^>]*?\shref="([^"]*)"/g)].map((m) => m[1]);
     expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's three links, the close's doors
     for (const href of hrefs) {
-      expect(['#/', '#/about', '#/gallery', '#/questions', '#register']).toContain(href);
+      expect(['/', '/about', '/gallery', '/questions', '#register']).toContain(href);
     }
   });
 
@@ -94,9 +94,10 @@ describe('SplashPage', () => {
     // regression that removed them: a hero action whose href is not a live public route.
     expect(html).toContain('See what we');
     expect(html).toContain('What one costs');
-    const heroHrefs = [...html.matchAll(/<a\b[^>]*?\shref="(#\/[^"]*)"/g)].map((m) => m[1]);
+    const heroHrefs = [...html.matchAll(/<a\b[^>]*?\shref="(\/[^"]*)"/g)].map((m) => m[1]);
+    expect(heroHrefs.length).toBeGreaterThan(0); // or this sweep asserts nothing at all
     for (const href of heroHrefs) {
-      expect(['#/', '#/about', '#/gallery', '#/questions']).toContain(href);
+      expect(['/', '/about', '/gallery', '/questions']).toContain(href);
     }
   });
 
@@ -130,7 +131,7 @@ describe('SplashPage', () => {
     // practical door sits before it. Pinned as an ABSENCE so the old promise cannot drift back.
     expect(html).not.toContain('Who is behind this');
     expect(html).toContain('Our background');
-    expect(html).toContain('href="#/questions"');
+    expect(html).toContain('href="/questions"');
   });
 
   it('the register close no longer promises a reply nothing can send', () => {

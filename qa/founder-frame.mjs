@@ -34,7 +34,7 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new'
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: VIEWPORT_H, deviceScaleFactor: 1 });
 await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-await page.goto(`${BASE}/?species=spine-2#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about?species=spine-2`, { waitUntil: 'domcontentloaded' });
 // The ornament's cold paint is slow (~7s for the sub-branch garland alone); the vines must be on
 // the page before we can ask whether they cross anything.
 await sleep(26000);

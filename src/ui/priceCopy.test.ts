@@ -155,11 +155,11 @@ describe('the stated commission floor is stated, and says so', () => {
   });
 });
 
-describe('the demo figure the #/draw panel shows on camera', () => {
+describe('the demo figure the /draw panel shows on camera', () => {
   // DEMO ONLY (2026-07-17). Daniel narrowed the filmed panel to one general
   // figure: "assume a general £150,000 figure and do not get into specifics of
   // pricing. This is for a very short demo, does not have to be true." The
-  // honest cost-vs-floor panel is in git history and still renders on #/studio;
+  // honest cost-vs-floor panel is in git history and still renders on /studio;
   // these pins are for what a viewer actually reads in the demo.
   it('is the general £150,000 figure Daniel named', () => {
     expect(COMMISSION_DEMO_FIGURE).toBe('£150,000');

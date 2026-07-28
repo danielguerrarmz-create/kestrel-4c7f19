@@ -20,7 +20,7 @@
  * adds in an effect and removes on unmount, never an unconditional static rule — if the
  * JS never runs, the class is never added and the native cursor is simply the default.
  *
- * Scope: mounted on `#/` (SplashPage) ONLY. The sculpt / shape / studio routes drive
+ * Scope: mounted on `/` (SplashPage) ONLY. The sculpt / shape / studio routes drive
  * `document.body.style.cursor` for their own drag affordances, so the ring must not
  * mount there and fight them.
  */

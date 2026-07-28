@@ -52,7 +52,7 @@ function worstFrameFraction(
 }
 
 const V_FOV = (42 * Math.PI) / 180;
-const ASPECT = 1414 / 790; // the real #/draw canvas at 1440x900
+const ASPECT = 1414 / 790; // the real /draw canvas at 1440x900
 
 describe('boxOfPoints', () => {
   it('bounds every point it is given', () => {

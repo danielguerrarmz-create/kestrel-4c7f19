@@ -20,8 +20,8 @@ import { BotanicalLab } from './pages/lab/BotanicalLab';
 import { GongbiLab } from './pages/lab/GongbiLab';
 
 export function DevRoutes({ route }: { route: string }) {
-  /* `#/studio` IS the engine now: the draw tool, not the retired four-slider
-     configurator (2026-07-17). `#/draw` stays as an alias for the same page. */
+  /* `/studio` IS the engine now: the draw tool, not the retired four-slider
+     configurator (2026-07-17). `/draw` stays as an alias for the same page. */
   if (route === '/studio') return <DrawPage />;
   if (route === '/draw') return <DrawPage />;
   if (route === '/engine') return <EnginePage />;

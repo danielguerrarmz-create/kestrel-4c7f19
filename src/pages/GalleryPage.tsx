@@ -1,5 +1,5 @@
 /**
- * GalleryPage.tsx — `#/gallery`, the commission visions (2026-07-23, Clay's client pass:
+ * GalleryPage.tsx — `/gallery`, the commission visions (2026-07-23, Clay's client pass:
  * "make a new page dedicated to these images -- like a 'gallery' page").
  *
  * Seven CONCEPT RENDERINGS of Bower pavilions at home in their gardens, read as an exhibition
@@ -52,7 +52,7 @@ interface GalleryPlateData extends ProjectImage {
    *
    * They describe the DESIGN SHOWN, not a built record, because these are concept renderings and
    * the page says so twice. The scales are drawn from the commission range stated on
-   * `#/questions` (25 to 40 m², about three metres tall, a table of eight), so the gallery and
+   * `/questions` (25 to 40 m², about three metres tall, a table of eight), so the gallery and
    * the answers cannot quote different numbers at the same reader; the planting in each is read
    * off that plate's own `alt`. Everything is hedged with "about" because none of it has been
    * surveyed.

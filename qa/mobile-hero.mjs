@@ -45,7 +45,7 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new'
 const page = await browser.newPage();
 await page.setViewport({ width: VW, height: VH, isMobile: true, hasTouch: true });
 await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-await page.goto(`${BASE}/#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' });
 await sleep(6000);
 
 /*

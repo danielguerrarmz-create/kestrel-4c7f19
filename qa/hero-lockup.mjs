@@ -52,7 +52,7 @@ const PROUD_MAX = 30;
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--window-size=1440,900'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
-await page.goto(`${BASE}/?species=spine-2#/about`, { waitUntil: 'domcontentloaded' });
+await page.goto(`${BASE}/about?species=spine-2`, { waitUntil: 'domcontentloaded' });
 
 // CANCEL THE AUTOPLAY FIRST, or it wins: it owns window.scrollTo for a 24s descent, so a scroll set
 // underneath it is simply overwritten on the next frame (measured — the datum read wherever the

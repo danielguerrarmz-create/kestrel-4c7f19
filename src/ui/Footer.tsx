@@ -28,7 +28,7 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
       </span>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.
-          "how it works" (`#/engine`) and "studio" were removed on 2026-07-21 with the rest of the
+          "how it works" (`/engine`) and "studio" were removed on 2026-07-21 with the rest of the
           engine's public surface; only routes that ship to production may be linked here. */}
       {/* 13px, not 11 (2026-07-28). Uppercase mono at 0.14em tracking is the least legible
           register on the site and it was set two steps below the body; this page's readers are
