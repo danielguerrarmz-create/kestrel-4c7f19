@@ -86,6 +86,24 @@ export async function cancelAutoplay(page) {
 }
 
 /**
+ * Step 2's CAP on the shared budget, so step 3 always has time left to look.
+ *
+ * This exists because of a real bug, and the bug was not the number: step 2 used to be allowed
+ * `timeoutMs - elapsed`, i.e. ALL of it. On About, 47 lazy off-screen images never complete, so it
+ * burned the full 45s; step 3's loop was then guarded by `Date.now() - t0 < timeoutMs`, which was
+ * already false, so it **polled zero times** and threw "only 0/4 garland bitmaps painted" — a
+ * confident, specific number that was never measured (4-5 blobs were present, nothing 404'd).
+ * Pure and exported so the arithmetic is a TEST rather than a comment; see `qa/lib.test.mjs`.
+ */
+export const IMAGE_WAIT_CAP_MS = 8000;
+
+/** How long step 2 may wait. Never the whole budget, never zero or negative. */
+export function imageWaitMs(timeoutMs, elapsedMs, cap = IMAGE_WAIT_CAP_MS) {
+  const remaining = timeoutMs - elapsedMs;
+  return Math.max(1000, Math.min(cap, remaining));
+}
+
+/**
  * THE HONEST READY-GATE — poll for the thing the page is waiting on, never a wall-clock sleep.
  *
  * Three signals, in order, each a fact about arrival rather than a guess at a duration:
@@ -120,7 +138,7 @@ export async function waitForReady(page, { blobs = 0, settle = 400, timeoutMs = 
   await page
     .waitForFunction(
       () => [...document.images].every((i) => i.complete && i.naturalWidth > 0),
-      { timeout: Math.max(5000, timeoutMs - (Date.now() - t0)) },
+      { timeout: imageWaitMs(timeoutMs, Date.now() - t0) },
     )
     .catch(() => {
       /* An image can legitimately 404 in a baseline; do not fail the whole capture on it. The count
@@ -130,18 +148,28 @@ export async function waitForReady(page, { blobs = 0, settle = 400, timeoutMs = 
   // 3. Blob garlands (About). Poll, do not sleep.
   if (blobs > 0) {
     let seen = 0;
-    for (let i = 0; i < 120 && Date.now() - t0 < timeoutMs; i++) {
+    let polls = 0;
+    // The budget check happens AFTER measuring, never before, so `seen` is always a real reading.
+    // A loop that exits before its body runs reports its initialiser as a measurement.
+    for (let i = 0; i < 120; i++) {
       seen = await page.evaluate(
         () => document.querySelectorAll('img[src^="blob:"], image[href^="blob:"]').length,
       );
+      polls++;
       if (seen >= blobs) break;
+      if (Date.now() - t0 >= timeoutMs) break;
       await sleep(500);
     }
     if (seen < blobs) {
+      // Two different findings; do not let them share a sentence. Out of budget is a HARNESS fault
+      // and says nothing about the page. Polled to exhaustion is a claim ABOUT the page.
+      const secs = Math.round((Date.now() - t0) / 1000);
+      const why =
+        Date.now() - t0 >= timeoutMs
+          ? `ran out of the ${Math.round(timeoutMs / 1000)}s budget after ${polls} poll(s) — a HARNESS fault, not a statement about the page`
+          : `polled ${polls} time(s) and the ornament clock never finished — a claim about the PAGE`;
       throw new Error(
-        `qa/lib waitForReady: only ${seen}/${blobs} garland bitmaps painted in ${Math.round(
-          (Date.now() - t0) / 1000,
-        )}s — the ornament clock never finished. Not a pass; a harness/timeout fault.`,
+        `qa/lib waitForReady: saw ${seen}/${blobs} garland bitmaps in ${secs}s; ${why}. Not a pass.`,
       );
     }
   }

@@ -40,3 +40,10 @@ qa/tmp-*.mjs
 
 # QA screenshot review artifacts (large PNGs; regenerate with npm run qa:matrix)
 qa/shots/
+
+# Belt-and-braces for probe output that lands in the repo root. growth-frames.mjs defaulted its
+# OUT to `.` and wrote seven grow-NN.png here, untracked and unignored — one `git add -A` from
+# being committed to a PUBLIC repo. The default is qa/shots/growth now, so this catches only the
+# files already on disk and any run that passes `.` explicitly. Fixing the source is the real fix;
+# this is the net under it.
+/grow-*.png

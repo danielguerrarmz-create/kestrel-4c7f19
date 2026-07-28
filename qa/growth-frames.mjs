@@ -17,7 +17,10 @@ import { mkdirSync } from 'node:fs';
 import { BASE } from './base.mjs';
 
 const CHROME = process.env.CHROME ?? String.raw`C:\Program Files\Google\Chrome\Application\chrome.exe`;
-const OUT = process.argv[2] ?? '.';
+// Defaults to `qa/shots/`, where every other probe writes and which .gitignore already covers.
+// It used to default to `.`, so running this with no argument dumped seven `grow-NN.png` files
+// into the REPO ROOT, untracked and unignored, one `git add -A` away from a PUBLIC repo.
+const OUT = process.argv[2] ?? 'qa/shots/growth';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 mkdirSync(OUT, { recursive: true });
 
