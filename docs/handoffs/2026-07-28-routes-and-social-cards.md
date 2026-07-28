@@ -33,6 +33,11 @@ for each route, applied on navigation from `Root` via `useDocumentMeta`.
 from `robots.txt`. `Organization` static in index.html; `FAQPage` injected on `/questions` only,
 built from `QUESTIONS` itself.
 
+**5. Vercel Web Analytics** (`@vercel/analytics`), mounted from `main.tsx` as `<SiteAnalytics />`,
+production-only and route-aware. Daniel chose it over Plausible and Search Console: the site is
+already on Vercel, the free tier covers this traffic, and it sets no cookie, so there is no consent
+banner to design.
+
 Also: `useFragmentScroll` in Root, so a cold `/questions#cost` lands on the cost answer. See
 *Why* below — this is new surface, not a restoration.
 
@@ -97,6 +102,17 @@ pins that none of the demo constants (`COMMISSION_DEMO_FIGURE`, `COMMISSION_ANCH
 `COMMISSION_FLOOR_GBP`, all still anchored to the retracted figure, dev-only, knowingly
 flagged-not-fixed) can reach a shipping surface. Those constants were not touched.
 
+**On analytics, and why it is manual rather than auto-track.** The SDK has two modes. With no
+`route` prop, the remote script patches `history.pushState` and would in fact see our hand-rolled
+router (verified by reading `node_modules/@vercel/analytics/dist/react/index.mjs` rather than
+assuming). Passing both `route` and `path` sets `disableAutoTrack` and hands over each pageview
+explicitly. We pass both, because this site has a catch-all: **every unrecognised URL renders the
+home splash.** Under auto-track, `/typo`, `/wp-login.php` and every scanner probe would each open
+its own row in the dashboard while actually being the home page, fragmenting the one number anybody
+wants. So `route` is the canonical route production serves and `path` is the real URL, and the
+mapping is `metaForPath` — the same "what does production actually serve here" decision that
+already picks the canonical tag and the title, rather than a second list that can drift.
+
 **On `useFragmentScroll`.** Under the hash router `/questions#winter` could not exist — the hash
 *was* the route, so it parsed as the unknown path `/winter` and threw you to the splash. Real
 paths made per-answer deep links possible, and FAQ structured data keyed on the same `id`s makes
@@ -111,7 +127,7 @@ sleep would paper over, so it waits for the element rather than for a clock.
 ## Verify
 
 `npm run build`, `npx tsc --noEmit`, `npx tsc --noEmit -p tsconfig.tests.json`: all green.
-**vitest: 899 passed, 62 files, run three times** (the repo's own rule about quoting a suite
+**vitest: 909 passed, 63 files, run three times** (the repo's own rule about quoting a suite
 number after one run).
 
 New tests: `src/routing.test.ts` grew path normalization, the legacy-hash shim, the click
@@ -138,6 +154,11 @@ Beyond the suite, the **built** site was driven in headless Chrome against `npx 
 | `/sitemap.xml`, `/robots.txt`, `/agent/questions.md`, `/llms.txt` | 200, correct content types |
 | **no gated surface in the production bundle** (`node qa/bundle-leak.mjs`) | clean across 8 surfaces, 639 KB scanned; **and the probe was proven able to fail** by making `AboutTreePage` a static import again, which it caught (`data-tree-track`, `data-tree-canvas`, dist 639 KB -> 687 KB) |
 | **`og:image` resolves to a real file** | 200 `image/jpeg`, 251 KB, and the **served bytes decode to 1200x630** (JPEG SOF marker parsed directly, not asked of sharp) |
+| analytics under `npm run dev` | `window.va` undefined, no script tag, **zero network requests** |
+| analytics in the production build | injects `/_vercel/insights/script.js` (production path, `vam: production`), one pageview queued on load |
+| analytics across client-side navigation | nav clicks + back button reported `/` -> `/questions` -> `/gallery` -> `/questions` |
+| analytics on a junk URL | `/wp-login.php` reports `route: "/"` with `path: "/wp-login.php"`, so no row fragmentation |
+| **bundle cost** | **+3.9 KB total JS**: +417 bytes on the critical path, plus a 3.5 KB chunk fetched lazily after mount. `dist/index.html` does not preload it |
 
 ### The card, before and after
 
@@ -171,20 +192,31 @@ each path at its own file. It is roughly 40 lines and reuses `src/seo.ts` as-is.
 here**: it changes the deploy's routing shape, and a mistake there 404s the live site. It wants a
 Vercel preview deployment to verify, which is Daniel's call to make.
 
-**2. `qa/header-nav.mjs` was missing `/questions` in `PUBLIC_HREFS`** (added the same day the page
+**2. ANALYTICS NEEDS ONE CLICK IN THE VERCEL DASHBOARD, or it records nothing.** Web Analytics has
+to be enabled for the project (Project -> Analytics -> Enable). Until then `/_vercel/insights/script.js`
+404s, the SDK logs a console line saying exactly that, and the site is otherwise unaffected. Nothing
+in the repo can do this step.
+
+A related trap was found and fixed before it shipped: **the SPA catch-all rewrite in `vercel.json`
+matched `/_vercel/insights/script.js` and `/_vercel/insights/view`**, so the script would have
+loaded the HTML shell and every pageview would have posted into a 200 that meant nothing. Zero
+errors, zero visible symptoms, a dashboard reading zero forever. `_vercel/` is excluded now and
+`routing.test.ts` pins it.
+
+**3. `qa/header-nav.mjs` was missing `/questions` in `PUBLIC_HREFS`** (added the same day the page
 shipped, never added to the probe). Fixed while updating the probes to real paths, but it means
 that probe has not passed since 2026-07-28 and nobody noticed. Worth a run.
 
-**3. The QA probes were mechanically rewritten to real paths and NOT re-run** (they need a dev
+**4. The QA probes were mechanically rewritten to real paths and NOT re-run** (they need a dev
 server and a screenshot review loop). The URL rewrite is trivial; the risk is low but non-zero.
 `qa/base.mjs`'s `aboutUrl` note keeps the old hazard as a tombstone because the failure mode has
 not changed: a probe pointed at the wrong page still returns numbers.
 
-**4. Nothing is submitted to Google.** After deploy, `sitemap.xml` should be submitted in Search
+**5. Nothing is submitted to Google.** After deploy, `sitemap.xml` should be submitted in Search
 Console and the four URLs requested for indexing; the old `/#/...` URLs were never indexed as
 pages, so there is no redirect debt to clear, but there is also no existing ranking to inherit.
 
-**5. Two tests that could no longer fail were found and fixed while doing this**, and there may be
+**6. Two tests that could no longer fail were found and fixed while doing this**, and there may be
 more of the same class. `HeroReveal.test.ts` asserted `not.toContain('#/studio')`, which after the
 path migration is a string the page cannot produce under any bug; it is an href sweep against the
 live public routes now, and I verified it fails by pointing a hero CTA at `/studio`.
@@ -192,10 +224,10 @@ live public routes now, and I verified it fails by pointing a hero CTA at `/stud
 absence-based guards into no-ops** wherever they pinned the old URL shape, so it is worth grepping
 for other `not.toContain('#/` survivors if more routing work lands.
 
-**6. `og:locale en_GB` and `<html lang="en-GB">`** — I changed `lang` from `en`. The site sells to
+**7. `og:locale en_GB` and `<html lang="en-GB">`** — I changed `lang` from `en`. The site sells to
 UK gardens and the copy is British. Flagging it because it was not in the brief.
 
-**7. The contact in the Organization schema is Clay's personal mobile (a US number) and gmail**,
+**8. The contact in the Organization schema is Clay's personal mobile (a US number) and gmail**,
 because that is what `config.ts` publishes. Structured data makes it machine-readable in a way the
 rendered page did not. Already flagged in `config.ts` as the first thing to revisit; this raises
 the stakes slightly.
@@ -209,6 +241,8 @@ the stakes slightly.
 - `src/seo.test.ts`, `src/seo.generated.test.ts`
 - `scripts/gen-og-card.mjs` (+ `npm run gen:og`)
 - `qa/bundle-leak.mjs` — scans `dist/` for gated surfaces; self-checks its own markers
+- `src/analytics.tsx` — `SiteAnalytics`, production-gated, route-aware; `analyticsRouteFor`
+- `src/analytics.test.ts`
 - `vercel.json`
 - `public/sitemap.xml` (generated), `public/assets/social/og-card.jpg` (generated)
 

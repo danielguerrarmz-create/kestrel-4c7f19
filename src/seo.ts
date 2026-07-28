@@ -38,7 +38,7 @@
  * `questions/copy.test.ts` runs on the page's.
  */
 import { useEffect } from 'react';
-import { PUBLIC_ROUTES, resolveRoute, routes, type RouteTarget } from './routing';
+import { PUBLIC_ROUTES, normalizePath, resolveRoute, routes, type RouteTarget } from './routing';
 import { QUESTIONS, RING } from './pages/questions/copy';
 import { CONTACT, WORDMARK } from './data/config';
 
@@ -142,9 +142,14 @@ const META: Record<ProductionTarget, PageMeta> = {
  * under invented URLs.
  */
 export function metaForPath(path: string): PageMeta {
-  // `dev: false` is the load-bearing argument: it asks what PRODUCTION serves at this path, which
-  // is the only view a crawler or an unfurler ever gets.
-  return META[resolveRoute(path, false) as ProductionTarget] ?? META.splash;
+  // NORMALIZE FIRST. `useRoute` already does, so in the running app this is a no-op — but that
+  // makes it an invisible dependency on one caller, and the failure is silent in the worst way:
+  // `/gallery/` would miss `resolveRoute`'s exact match, fall through to the splash, and
+  // CANONICALIZE THE GALLERY TO THE HOME. Caught by analytics.test.ts asking whether a trailing
+  // slash reports as the same page, which is the same question one level out.
+  // `dev: false` is the other load-bearing argument: it asks what PRODUCTION serves at this path,
+  // which is the only view a crawler or an unfurler ever gets.
+  return META[resolveRoute(normalizePath(path), false) as ProductionTarget] ?? META.splash;
 }
 
 /* ------------------------------ structured data ---------------------------- */

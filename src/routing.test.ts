@@ -226,6 +226,22 @@ describe('the Vercel SPA rewrite', () => {
     }
   });
 
+  it('does NOT swallow /_vercel/*, or analytics silently records nothing', () => {
+    // FOUND BEFORE IT SHIPPED, 2026-07-28. The catch-all rewrite matched
+    // `/_vercel/insights/script.js` and `/_vercel/insights/view`, so Vercel Web Analytics would
+    // have loaded the SPA shell as its script and posted every pageview into an HTML 200. Nothing
+    // would throw, nothing would look broken, and the dashboard would read zero forever — the
+    // precise failure mode of a platform path caught by an application catch-all.
+    for (const path of [
+      '/_vercel/insights/script.js',
+      '/_vercel/insights/view',
+      '/_vercel/insights/event',
+      '/_vercel/speed-insights/script.js',
+    ]) {
+      expect(re.test(path), `${path} must reach Vercel, not index.html`).toBe(false);
+    }
+  });
+
   it('leaves the static files alone, including the ones agents read', () => {
     for (const path of [
       '/assets/index-abc123.js',

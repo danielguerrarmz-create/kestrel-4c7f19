@@ -114,6 +114,20 @@ describe('per-page metadata', () => {
     }
   });
 
+  it('canonicalizes a trailing slash to the page itself, NOT to the home', () => {
+    // The near-miss this caught (2026-07-28): `metaForPath` matched `resolveRoute` exactly, so
+    // `/gallery/` fell through to the splash and would have told a crawler that the gallery is a
+    // duplicate of the home. It was invisible because `useRoute` normalizes first, which made the
+    // whole meta layer depend on one caller's manners.
+    for (const path of PUBLIC_ROUTES) {
+      expect(metaForPath(path + '/').path).toBe(metaForPath(path).path);
+      expect(metaForPath(path + '/').title).toBe(metaForPath(path).title);
+    }
+    expect(metaForPath('/gallery/').path).toBe(routes.gallery);
+    // ...but a deeper unknown path under a real route is still the home, as before.
+    expect(metaForPath('/gallery/nope').path).toBe(routes.home);
+  });
+
   it('an unknown path inherits the HOME canonical, not one of its own', () => {
     // The router serves the splash for anything unrecognised, so `/typo` IS the home page.
     // Self-canonicalizing it would invite a crawler to index endless invented duplicates.

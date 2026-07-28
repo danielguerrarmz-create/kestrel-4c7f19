@@ -22,6 +22,7 @@
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.10",
     "@types/d3-shape": "^3.1.8",
+    "@vercel/analytics": "^2.0.1",
     "d3-shape": "^3.2.0",
     "framer-motion": "^12.42.2",
     "react": "^18.3.1",

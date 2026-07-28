@@ -39,6 +39,16 @@ Three consequences worth knowing:
   surface end up in `dist/`? **Unlinked is not gated** (see about/tree below). It self-checks its
   markers against `src/` first, because its own first draft shipped five markers that could never
   fire and one false positive.
+- **ANALYTICS IS PRODUCTION-ONLY AND ROUTE-AWARE** (`src/analytics.tsx`, Vercel Web Analytics,
+  Daniel's pick 2026-07-28). Gated by `import.meta.env.PROD ? lazy(...) : null`, the same shape as
+  the engine gate, so dev and vitest never load it (verified: `window.va` undefined, zero requests
+  under `npm run dev`). It passes BOTH `route` and `path`, which is what turns the SDK's auto-track
+  OFF: **every unknown URL renders the home splash here, so auto-track would give `/wp-login.php`
+  its own dashboard row.** `route` comes from `metaForPath`, so the analytics row, the canonical tag
+  and the title are one decision. **`vercel.json` MUST keep `_vercel/` out of the SPA rewrite** or
+  the script loads the HTML shell and every pageview posts into a meaningless 200, silently, forever
+  (caught before shipping; pinned in `routing.test.ts`). Enabling Analytics in the Vercel dashboard
+  is a manual step no code can do.
 
 **THE SHARING CARD EXISTS (2026-07-28) AND IT USED TO ADVERTISE A DEAD PRODUCT.** index.html had no
 `og:image` at all, so every pasted link unfurled blank, under an `og:title` still selling the

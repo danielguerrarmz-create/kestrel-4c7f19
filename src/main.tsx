@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Root } from './Root';
 import { ErrorBoundary } from './ui/ErrorBoundary';
 import { installRouter } from './routing';
+import { SiteAnalytics } from './analytics';
 
 // Self-hosted fonts for the documentation layer (the studio keeps its
 // Google-served Fraunces + Inter). Source Serif 4 = free Freight Big Pro
@@ -28,5 +29,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <Root />
     </ErrorBoundary>
+    {/* OUTSIDE the ErrorBoundary, and a sibling of Root rather than a child.
+        Outside: analytics must never be able to take the page down, and equally a page crash
+        should still be measurable rather than silently unreported.
+        Sibling: Root returns a different page per target, so putting this inside would mean
+        wrapping every one of those returns in a fragment. It reads the route itself. */}
+    <SiteAnalytics />
   </React.StrictMode>,
 );
