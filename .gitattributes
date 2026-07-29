@@ -7,3 +7,9 @@
 public/llms.txt text eol=lf
 public/agent/*.md text eol=lf
 src/pages/about/subBranches.generated.json text eol=lf
+# The sitemap is the third generated artifact and shipped on 2026-07-28 without a
+# pin here, so `seo.generated.test.ts` false-failed on every Windows clone — the
+# diff was every line changed and every line identical, which is what a line-ending
+# mismatch looks like and reads as a real drift. Adding a generated file to the
+# repo means adding it here too.
+public/sitemap.xml text eol=lf

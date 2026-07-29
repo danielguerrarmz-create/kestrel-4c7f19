@@ -24,6 +24,11 @@ export default defineConfig({
         // split is already correct the day the engine comes back.
         manualChunks: {
           vendor: ['three', '@react-three/fiber', '@react-three/drei'],
+          // posthog-js, dynamically imported from src/posthog.ts. Listed here ONLY to name it:
+          // rollup derives a chunk name from the entry FILE and posthog's is `module.js`, so the
+          // build printed a 230 kB chunk called `module` — exactly the kind of artifact the note
+          // above is about. Naming a chunk does not make it eager; it is still loaded at idle.
+          posthog: ['posthog-js'],
         },
       },
     },
