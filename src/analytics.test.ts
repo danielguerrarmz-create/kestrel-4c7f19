@@ -1,9 +1,13 @@
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { analyticsRouteFor } from './analytics';
+import { shouldStart } from './posthog';
 import { DEV_ONLY_ROUTES, ENGINE_ROUTES, PUBLIC_ROUTES, routes } from './routing';
 
 const source = readFileSync(new URL('./analytics.tsx', import.meta.url), 'utf8');
+const posthogSource = readFileSync(new URL('./posthog.ts', import.meta.url), 'utf8');
 const main = readFileSync(new URL('./main.tsx', import.meta.url), 'utf8');
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
@@ -61,7 +65,13 @@ describe('the analytics mount', () => {
     // Verified against node_modules/@vercel/analytics/dist/react/index.mjs: `disableAutoTrack` is
     // set only when `route !== undefined`, and the pageview only fires when BOTH are truthy.
     // Dropping either one silently reverts to auto-track and the collapsing above stops applying.
-    expect(source).toMatch(/route=\{analyticsRouteFor\(path\)\}/);
+    //
+    // The route moved into a local on 2026-07-29 (PostHog is handed the same pair), so this now
+    // checks the two halves separately: the prop is passed, AND the local it is passed is the
+    // COLLAPSED route rather than the raw path. Matching the old inline call would have passed
+    // for `route={path}`, which is the regression that actually matters.
+    expect(source).toMatch(/const route = analyticsRouteFor\(path\)/);
+    expect(source).toMatch(/route=\{route\}/);
     expect(source).toMatch(/path=\{path\}/);
   });
 
@@ -75,5 +85,106 @@ describe('the analytics mount', () => {
   it('is a runtime dependency, not a devDependency', () => {
     expect(pkg.dependencies).toHaveProperty('@vercel/analytics');
     expect(pkg.devDependencies ?? {}).not.toHaveProperty('@vercel/analytics');
+  });
+});
+
+/**
+ * POSTHOG, ADDED BESIDE VERCEL ON 2026-07-29 (Clay).
+ *
+ * The same limitation as above applies — no beacon is observable from here — so this pins the
+ * decisions that make the beacon right: the gate, the shared route, and the two properties that
+ * stop PostHog fragmenting its dashboard the way auto-track would.
+ *
+ * ONE PIECE OF HISTORY WORTH KEEPING, because it is the reason this file has a second half. The
+ * first PostHog integration was written against a 13-commit-stale branch, on the assumption the
+ * site was still a HASH router, and captured pageviews from `location.hash` on `hashchange`. On
+ * the path-routed site there is no hash: it would have reported `/` for all four pages, fired
+ * once per session, and looked entirely healthy doing it. It was never deployed. **The class of
+ * bug is "analytics written against a router that has since moved", and the guard against it is
+ * that PostHog is now handed its route by `SiteAnalytics` rather than reading the URL itself.**
+ */
+describe('the posthog gate', () => {
+  it('does not run in dev, key or no key', () => {
+    expect(shouldStart(false, 'phc_real_looking_key')).toBe(false);
+    expect(shouldStart(false, '')).toBe(false);
+  });
+
+  it('does not run in production without a key, rather than initialising a broken client', () => {
+    expect(shouldStart(true, '')).toBe(false);
+    expect(shouldStart(true, '   ')).toBe(false);
+  });
+
+  it('runs in production with a key', () => {
+    expect(shouldStart(true, 'phc_real_looking_key')).toBe(true);
+  });
+
+  it('is gated on import.meta.env.PROD and imports the SDK dynamically', () => {
+    expect(posthogSource).toMatch(/shouldStart\(import\.meta\.env\.PROD, KEY\)/);
+    expect(posthogSource).toMatch(/import\('posthog-js'\)/);
+    // A static import would run posthog's module scope in every environment, this one included.
+    expect(posthogSource).not.toMatch(/^import .* from 'posthog-js'/m);
+  });
+
+  it('is a runtime dependency, not a devDependency', () => {
+    expect(pkg.dependencies).toHaveProperty('posthog-js');
+    expect(pkg.devDependencies ?? {}).not.toHaveProperty('posthog-js');
+  });
+});
+
+describe('what posthog is told a pageview is', () => {
+  it('takes its route from SiteAnalytics rather than reading the URL itself', () => {
+    // THE POINT OF THE WHOLE INTEGRATION. Both tools get the same pair, so the junk-URL
+    // collapsing proven above applies to PostHog by construction rather than by a second
+    // implementation that has to agree. Reading `location` here is what the superseded draft did.
+    expect(source).toMatch(/capturePageview\(route, path\)/);
+    expect(posthogSource).toMatch(/export function capturePageview\(route: string, path: string\)/);
+    expect(posthogSource).not.toMatch(/location\.pathname|location\.hash|hashchange/);
+  });
+
+  it('overrides $pathname with the collapsed route, so scanners do not mint dashboard rows', () => {
+    // PostHog breaks its own dashboards down on `$pathname`, which it would otherwise read from
+    // `location`. Left alone, `/wp-login.php` opens a row while actually being the home page —
+    // the identical failure `route`/`path` exists to prevent on the Vercel side.
+    expect(posthogSource).toMatch(/\$pathname: route/);
+    // The real URL still has to survive somewhere, or a junk hit becomes uninvestigable.
+    expect(posthogSource).toMatch(/\$current_url: window\.location\.href/);
+  });
+
+  it('turns automatic pageview capture OFF, so navigations are not counted twice', () => {
+    expect(posthogSource).toMatch(/capture_pageview: false/);
+  });
+});
+
+describe('the posthog key', () => {
+  const env = readFileSync(new URL('../.env', import.meta.url), 'utf8');
+  /** Assignments only: the comments in that file NAME the key prefixes they warn about. */
+  const values = env
+    .split('\n')
+    .filter((l) => !l.trimStart().startsWith('#'))
+    .join('\n');
+
+  it('is present', () => {
+    expect(values).toMatch(/^VITE_POSTHOG_KEY=phc_\w+$/m);
+  });
+
+  it('is not a personal API key', () => {
+    // `phc_` is the public project token and ships in the bundle by design. `phx_` reads and
+    // writes the whole PostHog account over the REST API, and this repo is PUBLIC.
+    expect(values).not.toMatch(/phx_/);
+  });
+
+  it('is not git-ignored, so a production build cannot silently lose analytics', () => {
+    // Deliberately committable — see the header of .env. Adding `.env` to .gitignore is the
+    // reflex this pins: do it and the Vercel build loses its key, which shows up as a graph at
+    // zero that is indistinguishable from a quiet week. If the key should genuinely leave the
+    // repo, set VITE_POSTHOG_KEY in the Vercel dashboard and delete this test on purpose,
+    // having first checked the dashboard actually has it.
+    let ignored = true;
+    try {
+      execFileSync('git', ['check-ignore', '-q', '--', '.env'], { cwd: resolve(__dirname, '..') });
+    } catch {
+      ignored = false; // exit 1 == not ignored
+    }
+    expect(ignored).toBe(false);
   });
 });

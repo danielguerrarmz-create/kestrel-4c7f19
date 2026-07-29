@@ -49,6 +49,23 @@ Three consequences worth knowing:
   the script loads the HTML shell and every pageview posts into a meaningless 200, silently, forever
   (caught before shipping; pinned in `routing.test.ts`). Enabling Analytics in the Vercel dashboard
   is a manual step no code can do.
+- **AND THERE IS A SECOND TRACKER BESIDE IT: POSTHOG (`src/posthog.ts`, Clay 2026-07-29), FED THE
+  SAME ROUTE.** Vercel answers how many; PostHog answers funnels, retention and replay. Same PROD
+  gate, same dynamic-import shape, loaded at IDLE (230 kB raw / 76 kB gzipped, larger than what is
+  left of the three.js stack) with views QUEUED until it lands so the fast reader who goes straight
+  to `/questions` is not the one you lose. **It does not read the URL itself — `SiteAnalytics` hands
+  it `analyticsRouteFor(path)` and `path`, and `$pathname` is overridden with the collapsed route**,
+  or PostHog's own dashboards mint a row per scanner probe exactly as Vercel's auto-track would.
+  **The first draft of it was written against a 13-commit-stale branch that still believed in the
+  hash router: it captured `location.hash` on `hashchange`, which on a path-routed site reports `/`
+  for all four pages, once per session, looking perfectly healthy. It was never deployed.** Key is
+  a write-only `phc_` token in a **tracked `.env`** (an unset Vercel variable fails as a graph at
+  zero that reads as a quiet week); a **personal** `phx_` key must never come near this PUBLIC repo.
+  **Region is US** — verified against both hosts, EU 404s, and the wrong one drops every event
+  silently. **The cookie is a knowing exception to Daniel's no-banner reasoning**: PostHog sets one
+  and replay (ON by PostHog's remote config, not by this code) records the `/questions` contact
+  form, accepted by Clay 2026-07-29 with no consent banner built. Switches to reverse it are named
+  in `posthog.ts`. Guards: the second half of `src/analytics.test.ts`.
 
 **THE SHARING CARD EXISTS (2026-07-28) AND IT USED TO ADVERTISE A DEAD PRODUCT.** index.html had no
 `og:image` at all, so every pasted link unfurled blank, under an `og:title` still selling the

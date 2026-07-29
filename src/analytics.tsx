@@ -38,7 +38,8 @@
  * the script 200s as HTML and every pageview is silently lost. That exclusion is guarded in
  * `routing.test.ts`.
  */
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
+import { capturePageview } from './posthog';
 import { useRoute } from './routing';
 import { metaForPath } from './seo';
 
@@ -63,13 +64,24 @@ export function analyticsRouteFor(path: string): string {
  *
  * `useRoute()` is called unconditionally (hooks rule) even though the component short-circuits in
  * dev; the subscription is free and it keeps this a normal component rather than a conditional one.
+ *
+ * BOTH TRACKERS ARE FED FROM THE SAME TWO VALUES (2026-07-29). PostHog is not a second opinion
+ * about what page this is — it is handed `analyticsRouteFor(path)` and `path`, the identical pair
+ * Vercel gets, so the junk-URL collapsing is one decision rather than two implementations that
+ * have to be kept in step. PostHog goes through an effect rather than a rendered component
+ * because it has nothing to render; its own production gate lives in `posthog.ts`, so this hook
+ * is a no-op in dev and under vitest exactly as the ternary above is.
  */
 export function SiteAnalytics() {
   const path = useRoute();
+  const route = analyticsRouteFor(path);
+  useEffect(() => {
+    capturePageview(route, path);
+  }, [route, path]);
   if (!VercelAnalytics) return null;
   return (
     <Suspense fallback={null}>
-      <VercelAnalytics route={analyticsRouteFor(path)} path={path} />
+      <VercelAnalytics route={route} path={path} />
     </Suspense>
   );
 }
