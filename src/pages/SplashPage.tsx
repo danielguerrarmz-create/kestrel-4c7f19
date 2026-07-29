@@ -185,8 +185,26 @@ export function SplashPage() {
           divides: by a hairline rule and by air (`rule`). The field colours still belong to the
           documentation layer they were designed for (the engine walkthrough), which is where
           DESIGN-DIRECTION.md §5's "one field colour per section" now lives alone. */}
+      {/* THE IMAGE CENTRES AGAINST THE LIST (2026-07-28), it does not top-align with it.
+          `items-start` hung this photograph from the top of a column much taller than itself, so
+          all of the leftover height pooled in one place: measured, the image is 119px shorter
+          than the text column at 1440, 143px at 1280 and 156px at 1024 — a 24% to 32% L-shaped
+          void in the bottom right, worsening as the window narrows, which is what read as
+          "poorly proportioned".
+          THE OBVIOUS FIX IS A TRAP AND THE MEASUREMENT SAYS SO. Widening the image column to
+          make the picture taller steals width from the text, and a narrower text column WRAPS
+          MORE and grows taller — the same "a grid row is as tall as its tallest column" dynamic
+          the About work detail documents. Worked through at 1fr/1.12fr it moves the shortfall by
+          almost nothing, because both sides move together.
+          So the height difference is not a defect to close, it is a fact about a landscape
+          picture (natural ratio 1.341) beside a five-item list. Centring SPLITS it — ~60px above
+          and below at 1440 instead of 119px in one lump — and symmetric air reads as composition
+          where asymmetric air reads as a bug. It also drops the image's top edge below the
+          heading, so the picture aligns with the list it illustrates rather than with the title.
+          Nothing is cropped and the image keeps its own shape, which is the standing law here.
+          `md:` only — below that the grid is one column and the image is already full width. */}
       <EngineSection ground="vellum" reduced={reduced} wide rule>
-        <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
+        <div className="grid items-start gap-10 md:grid-cols-2 md:items-center md:gap-16">
           <div className="order-2 md:order-1">
             <h2 className={H2}>
               From <em className="italic">design</em> to garden.
