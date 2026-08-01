@@ -356,10 +356,18 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
  * A site with no contact route AND a form that claims one is worse than either alone.
  *
- * These are Clay's own details, given for the `/questions` close. Two things to know:
+ * `email` IS THE STUDIO INBOX AS OF 2026-08-01. It was Clay's personal Gmail from 2026-07-28,
+ * which was the right call when the domain had no mailbox behind it and the alternative was
+ * exposing nothing. Google Workspace is live on bowerbuild.org now, so the personal address was
+ * costing the page credibility on a from-£350,000 commission for no remaining benefit.
+ * Deliverability is a DNS fact, not a code one: mail from this domain only lands if SPF and
+ * DMARC exist alongside the DKIM key. Both were MISSING when this address shipped, and the
+ * records live in VERCEL's DNS (ns1/ns2.vercel-dns.com), not at the registrar.
+ *
+ * Two things still to know:
  *   - THIS REPO IS PUBLIC (see CLAUDE.md), so both values are already scrapeable here as
- *     well as on the rendered page. That is a decision, not an oversight; swap in a
- *     studio inbox and a UK number when they exist and nothing else has to change.
+ *     well as on the rendered page. That is a decision, not an oversight; swap in a UK
+ *     number when one exists and nothing else has to change.
  *   - The site sells to UK gardens and the number is a US mobile. Also deliberate for
  *     now (it is the number Clay answers), and the first thing to revisit.
  *
@@ -369,6 +377,6 @@ export const CONTACT = {
   name: 'Clay Seifert',
   phone: '+1 972-363-6298',
   phoneHref: '+19723636298',
-  email: 'clayhseifert@gmail.com',
+  email: 'contact@bowerbuild.org',
 } as const;
 

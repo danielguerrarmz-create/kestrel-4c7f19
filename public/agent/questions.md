@@ -114,7 +114,7 @@ Then in March it begins to disappear again.
 
 Clay Seifert
 
-[+1 972-363-6298](tel:+19723636298) [clayhseifert@gmail.com](mailto:clayhseifert@gmail.com)
+[+1 972-363-6298](tel:+19723636298) [contact@bowerbuild.org](mailto:contact@bowerbuild.org)
 
 The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
 

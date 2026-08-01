@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { homeMirror, aboutMirror, galleryMirror, questionsMirror, llmsTxt } from './mirror';
+import { CONTACT } from '../data/config';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -50,7 +51,13 @@ describe('the agent mirror is fresh', () => {
     expect(questions).toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
-    expect(questions).toContain('clayhseifert@gmail.com');
+    // The contact route is asserted through CONTACT, and the superseded personal address is
+    // pinned ABSENT — the same shape as the price pair above, and for the same reason. The site
+    // published a founder's personal Gmail from 2026-07-28 until the studio inbox existed
+    // (2026-08-01); an agent handing a buyer the old address would be routing them somewhere the
+    // domain's SPF and DMARC records say nothing about.
+    expect(questions).toContain(CONTACT.email);
+    expect(questions).not.toContain('clayhseifert@gmail.com');
     expect(llmsTxt()).toContain('/agent/questions.md');
   });
 
