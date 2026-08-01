@@ -23,11 +23,26 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
  *  to production any more. Restore both here when the engine is worth showing again.
  *  "gallery" joined 2026-07-23 (Clay's client pass) — a public page needs a door.
  *  "questions" joined 2026-07-28, and the ORDER is the reader's, not the studio's: see the
- *  work, find out what it costs and what it involves, then look up who we are. */
+ *  work, find out what it costs and what it involves, then look up who we are.
+ *  "houses" joined 2026-07-31 and leads, because it is the page the practice is writing
+ *  letters about: a commercial reader arriving cold should meet the page addressed to them
+ *  before the two addressed to a garden owner.
+ *
+ *  "about" LEFT the header the same day, and `/about` is still a public page — it moved to the
+ *  FOOTER's practice block (see `ui/Footer.tsx`), which carries both founders, both addresses and
+ *  the company details, on all five pages. Two reasons it is better there than here. The nav is the
+ *  reader's ORDER OF INTEREST and "who are you" is genuinely last, so it was paying a top-level slot
+ *  to sit at the end of the queue. And the person who most wants it is a buyer's solicitor checking
+ *  who carries the liability — they scan a footer for that, not a nav.
+ *
+ *  IT IS A MOVE, NOT A HIDING, and the distinction is load-bearing here: `/about/tree` was public
+ *  and linked from nothing between 2026-07-26 and 2026-07-28, and a public URL nobody can reach is
+ *  a page nobody has reviewed. `/about` stays in `PUBLIC_ROUTES`, the sitemap, llms.txt and the
+ *  agent mirror, and is linked from every page's footer. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
+  { href: routes.houses, label: 'houses' },
   { href: routes.gallery, label: 'gallery' },
   { href: routes.questions, label: 'questions' },
-  { href: routes.about, label: 'about' },
 ];
 
 /**

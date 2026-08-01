@@ -53,7 +53,7 @@ import { srcSetFor } from '../../ui/responsiveImg';
 import { useReducedMotion } from '../../ui/useReducedMotion';
 import { useMediaQuery, LG_QUERY } from '../../ui/useMediaQuery';
 import { routes } from '../../routing';
-import { QUESTIONS } from '../AboutPage';
+import { QUESTIONS } from '../PracticePage';
 import {
   buildTreeLayout,
   type BranchLayout,

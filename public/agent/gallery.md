@@ -10,7 +10,7 @@
 
 [Bower](/)
 
-[gallery](/gallery) [questions](/questions) [about](/about)
+[houses](/houses) [gallery](/gallery) [questions](/questions)
 
 Gallery
 
@@ -48,6 +48,6 @@ Concept renderings of Bower commissions, at home in their gardens.
 
 Bower 
 
-[gallery](/gallery) [questions](/questions) [about](/about)
+[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
 
 © 2026 Bower

@@ -47,7 +47,7 @@ import { INK_SEPIA, INK_SEPIA_TEXT } from './CrossPathsTimeline';
 // The gallery's Lightbox, reused (not reinvented) over the timeline's OWN image set. A hoisted
 // function export, so this render-time import resolves despite the AboutPage↔CrossPathsTimeline↔here
 // module cycle. `morph={false}` because timeline plates carry no shared-element layoutId.
-import { Lightbox } from '../AboutPage';
+import { Lightbox } from '../PracticePage';
 
 /** The page's own reveal ease (`AboutIntro`'s EASE_LINE, and the curve `AboutPage` fades `revealed`
  *  with). The mobile tree reuses it for its reveals rather than introducing a new vocabulary. */

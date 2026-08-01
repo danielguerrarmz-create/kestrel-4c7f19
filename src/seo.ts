@@ -122,12 +122,33 @@ const META: Record<ProductionTarget, PageMeta> = {
     ogDescription:
       'The price, the planning position, what building one does to a lawn, and how long it takes. The questions people actually ask, answered plainly.',
   },
+  houses: {
+    path: routes.houses,
+    // NO FIGURES AND NO CAPACITY IN THE HEAD. The same rule as the price: a link card is cached for
+    // months by iMessage, WhatsApp, Slack and LinkedIn, gets screenshotted, and cannot be un-cached
+    // by a green test. A capacity is exactly the claim this segment checks first.
+    title: 'Garden pavilions for houses that receive people | Bower',
+    description:
+      'A woven timber room for a house that receives people. Raised once on ground screws, it stands through the winter and is better in its tenth year than its first.',
+    ogTitle: 'Bower: for houses that receive people',
+    ogDescription:
+      'A room in the garden that is there in November. Raised once, planted, and left standing. Drawn for the house it belongs to.',
+  },
   about: {
     path: routes.about,
-    title: 'About Bower: the practice behind the pavilions',
+    title: 'About Bower: what we build, and why',
+    description:
+      'The most beautiful places are rarely buildings. A Bower is a woven timber lattice, deliberately incomplete: we make the structure, the garden makes the rest.',
+    ogTitle: 'About Bower',
+    ogDescription:
+      'We make the structure; the garden makes the rest. A woven timber lattice, deliberately incomplete, finished only once the planting has had its say.',
+  },
+  practice: {
+    path: routes.practice,
+    title: 'The practice behind Bower: the founders and the work',
     description:
       'The two cofounders behind Bower, the research the practice grew out of, and the architecture and robotics work that came before the first pavilion.',
-    ogTitle: 'About Bower',
+    ogTitle: 'The practice behind Bower',
     ogDescription:
       'The two cofounders, the research the practice grew out of, and the work that came before the first pavilion.',
   },

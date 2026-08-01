@@ -10,7 +10,7 @@
 
 [Bower](/)
 
-[gallery](/gallery) [questions](/questions) [about](/about)
+[houses](/houses) [gallery](/gallery) [questions](/questions)
 
 # Grow a living Bower in your garden.
 
@@ -60,6 +60,6 @@ bower
 
 Bower 
 
-[gallery](/gallery) [questions](/questions) [about](/about)
+[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
 
 © 2026 Bower

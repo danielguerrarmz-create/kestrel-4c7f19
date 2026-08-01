@@ -20,11 +20,14 @@ const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url),
  * wrong thing looks exactly like analytics that works.
  */
 describe('the route reported to analytics', () => {
-  it('is the page itself for each of the four public routes', () => {
+  it('is the page itself for each of the six public routes', () => {
     for (const path of PUBLIC_ROUTES) {
       expect(analyticsRouteFor(path)).toBe(path);
     }
-    expect(new Set(PUBLIC_ROUTES.map(analyticsRouteFor)).size).toBe(4);
+    // Distinct rows, one per page: the whole reason auto-track is off. `/houses` joined 2026-07-31
+    // and it is the page whose traffic the letters are meant to produce, so a row it shared with
+    // the home would hide exactly the number the segment is being judged on.
+    expect(new Set(PUBLIC_ROUTES.map(analyticsRouteFor)).size).toBe(6);
   });
 
   it('COLLAPSES every unknown URL onto the home, which is what production serves there', () => {

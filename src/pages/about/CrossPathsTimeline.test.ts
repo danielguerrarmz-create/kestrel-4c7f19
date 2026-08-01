@@ -853,7 +853,16 @@ describe('a plate is a box built to its image, never an image squeezed into a bo
         checked += 1;
       }
     }
-    expect(checked).toBeGreaterThan(8);
+    // Guards against an EMPTY overlap, which is the way this check dies silently: rename the assets
+    // on one side and every `authored.get` returns undefined, every comparison is skipped, and it
+    // passes green having compared nothing.
+    //
+    // Floor lowered from 8 on 2026-07-31. The overlap shrank because the venue rewrite cut four
+    // projects from `PROJECTS` (LLO, Resia, Hydraulic Commons, Origami) while `CLUSTERS` KEPT their
+    // photographs — the timeline tells the founders' history and those things genuinely happened.
+    // So this is the expected consequence of a deliberate asymmetry between the two files, not
+    // drift between them: the assets still named by both still agree exactly.
+    expect(checked).toBeGreaterThan(4);
   });
 });
 

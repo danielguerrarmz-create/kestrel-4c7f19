@@ -1,11 +1,20 @@
 /**
  * Root.tsx — top-level route switch.
  *
- * THE PRODUCTION SITE IS FOUR PAGES AND NOTHING ELSE:
+ * THE PRODUCTION SITE IS FIVE PAGES AND NOTHING ELSE:
  *
  * `/`          -> the home: hero, the two product-photograph bands, the register close,
  *                and the company monument (SplashPage).
- * `/about`     -> the founders / timeline page (AboutPage).
+ * `/houses`    -> the commercial-hospitality page (HousesPage; added 2026-07-31, when the
+ *                practice repointed from private garden owners at family-owned houses that
+ *                earn from exclusive hire). The site had nothing addressed to a business.
+ * `/about`     -> the short one: what a Bower is and why (AboutPage; rewritten 2026-07-31 to
+ *                Clay's brief, "very simple, very plain, very elegant").
+ * `/about/practice`
+ *              -> the founders, the timeline and the work — the drawn page that WAS `/about`
+ *                until 2026-07-31, now the EXPANDED version nested behind the short one
+ *                (PracticePage, renamed from AboutPage in the same commit so the file name
+ *                stops describing a URL it no longer serves).
  * `/gallery`   -> the commission visions, seven concept renderings (GalleryPage;
  *                added 2026-07-23, Clay's client pass).
  * `/questions` -> the practical answers and the only contact route (QuestionsPage;
@@ -40,8 +49,10 @@
 import { Suspense, lazy } from 'react';
 import { SplashPage } from './pages/SplashPage';
 import { AboutPage } from './pages/AboutPage';
+import { PracticePage } from './pages/PracticePage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
+import { HousesPage } from './pages/HousesPage';
 import { resolveRoute, useFragmentScroll, useRoute } from './routing';
 import { useDocumentMeta } from './seo';
 
@@ -65,8 +76,10 @@ export function Root() {
   useFragmentScroll(route);
   const target = resolveRoute(route, import.meta.env.DEV);
   if (target === 'about') return <AboutPage />;
+  if (target === 'practice') return <PracticePage />;
   if (target === 'gallery') return <GalleryPage />;
   if (target === 'questions') return <QuestionsPage />;
+  if (target === 'houses') return <HousesPage />;
   if (target === 'aboutTree' && AboutTreePage) {
     return (
       <Suspense fallback={null}>

@@ -199,12 +199,35 @@ describe('packWall — coverage, held to what was measured', () => {
    * baseline it exists to replace, so this is re-baselining after a deliberate asset swap, not loosening
    * to hide a regression — a real search regression drops the mean far below 0.89, which this still
    * catches. If Resia's asset is reverted, restore 0.90.
+   *
+   * AND IT MOVED AGAIN, 0.89 -> 0.88, ON 2026-07-31 — this time because the POPULATION changed, not
+   * the search and not an asset. The venue rewrite cut four projects from the ledger (LLO, Resia,
+   * Hydraulic Commons, Origami), and a mean over eight sets is simply not the same statistic as a
+   * mean over twelve. Two of the four removed happened to tile well, so the average fell to 0.8841
+   * without a single pack getting worse.
+   *
+   * THAT IS THE THIRD TIME A NUMBER IN THIS COMMENT HAS BEEN EDITED DOWNWARD, WHICH IS THE EXACT
+   * PATTERN THIS REPO WARNS ABOUT: a threshold relaxed once per incident, each time for a reason
+   * that was locally true, until it guards nothing. So the invariant it was always standing in for
+   * is now asserted DIRECTLY — the pack must beat the 0.873 hero/rail layout it replaced. That
+   * baseline is a property of the old design, so it does not move when the ledger changes, and it
+   * cannot be re-baselined away. The measured floor stays as a tight tripwire on top of it.
    */
+  /** What the hero/rail layout this pack replaced scored: min 73.8%, mean 87.3%. A FIXED fact about
+   *  the superseded design, so unlike the measured floors below it never needs re-baselining. */
+  const HERO_RAIL_BASELINE_MEAN = 0.873;
+
   it('coverage beats the layout it replaces, on every project and on the mean', () => {
     const cov = PROJECTS.map((p) => ({ title: p.title, c: packWall(order(p.images), REGION.w, REGION.h)!.coverage }));
+    expect(cov.length, 'no projects to pack').toBeGreaterThan(0);
     const mean = cov.reduce((s, x) => s + x.c, 0) / cov.length;
     for (const { title, c } of cov) expect(c, `${title} coverage ${(c * 100).toFixed(1)}%`).toBeGreaterThan(0.77);
-    expect(mean).toBeGreaterThan(0.89);
+    // The reason this test exists, stated as itself rather than as a number that drifts.
+    expect(mean, `mean ${(mean * 100).toFixed(1)}% no longer beats the hero/rail layout`).toBeGreaterThan(
+      HERO_RAIL_BASELINE_MEAN,
+    );
+    // The tripwire: measured 0.8841 over the current eight-project ledger.
+    expect(mean).toBeGreaterThan(0.88);
   });
 
   it('the short viewport, where the hero floor was actually decided, does not collapse', () => {

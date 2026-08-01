@@ -2,12 +2,16 @@
 # Non-JavaScript readers: the site is a JS app; use the markdown mirrors.
 #   /llms.txt            site guide
 #   /agent/home.md       home
+#   /agent/houses.md     houses: for houses that earn from exclusive hire and whole-house rental
 #   /agent/gallery.md    gallery
 #   /agent/questions.md  questions: size, price, planning, the lawn, timeline, contact
-#   /agent/about.md      about
+#   /agent/about.md      about: what a Bower is, in short
+#   /agent/practice.md   the practice: the founders, the timeline, the work
 #
-# The four public pages are real paths (/, /gallery, /questions, /about) as of 2026-07-28;
-# they were `#/` hash routes before that, so an old link still lands via a client-side redirect.
+# The six public pages are real paths (/, /houses, /gallery, /questions, /about,
+# /about/practice); the first four as of 2026-07-28, /houses and /about/practice as of
+# 2026-07-31. They were `#/` hash routes before 2026-07-28, so an old link still lands via a
+# client-side redirect.
 
 User-agent: *
 Allow: /

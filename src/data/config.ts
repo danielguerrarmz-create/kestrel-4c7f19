@@ -364,11 +364,85 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  *     now (it is the number Clay answers), and the first thing to revisit.
  *
  * `phoneHref` is the E.164 form for `tel:`; `phone` is the printed form.
+ *
+ * STILL NOT DONE AS OF 2026-07-31, AND IT IS NOW THE OLDEST UNPAID DEBT ON THE SITE. The venue
+ * rewrite ranks this third of nine, above building a whole new page, and describes it as one hour
+ * of work: "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first",
+ * and they sit on the page that names £350,000. The practice is about to send letters to
+ * family-owned listed houses; the reply-to on the site is a personal Gmail account.
+ *
+ * The note above already said the number was "the first thing to revisit" three days ago, which is
+ * exactly the problem with recording an intention in a comment: `config.test.ts` now asserts the
+ * SHAPE of what is wrong rather than describing it, so the day a UK number and a domain mailbox
+ * land, a test tells you the debt is cleared instead of a human noticing. See `pending.ts`,
+ * `contact-uk-phone` and `contact-domain-email`.
  */
 export const CONTACT = {
   name: 'Clay Seifert',
   phone: '+1 972-363-6298',
   phoneHref: '+19723636298',
-  email: 'clayhseifert@gmail.com',
+  /**
+   * THE PUBLISHED ADDRESS, and it is deliberately a PERSON rather than a department (2026-07-31).
+   *
+   * `info@bowerbuild.org` exists and is the form's destination (`FORM_INBOX` below). It is not what
+   * the page prints, because of where the page prints it: the `/questions` close sets the heading
+   * "Who do I ring?", then the name "Clay Seifert", then this address directly underneath. An
+   * `info@` in that position puts a front desk between the reader and the person they just read the
+   * name of — the peer-to-supplier slide the venue spec's sixth ground rule is about, arriving
+   * through the email address instead of through the vocabulary.
+   *
+   * It is also who these buyers are. A family-owned house is not procuring from a vendor; the
+   * reference customer is already asking technical questions unprompted, and the answer to "who do
+   * I ring" should be a human being with a name.
+   *
+   * One line to reverse if the volume ever justifies a shared inbox — every surface reads this
+   * constant.
+   */
+  email: 'clay@bowerbuild.org',
+} as const;
+
+/**
+ * WHERE THE SITE'S OWN FORM WRITES, as opposed to where a reader is invited to write.
+ *
+ * A department address is right here and wrong above, and the difference is who is typing. The
+ * register-interest form is a machine posting to a machine: nobody reads `info@` as a brush-off
+ * because nobody sees it. What it buys is durability — it survives one person being away, it can
+ * fan out to both founders later without the site changing, and it keeps automated mail out of the
+ * mailbox a client's reply lands in.
+ *
+ * Consumed by `api/contact.ts` (the serverless handler), NOT by any component: a form does not need
+ * to know its own destination, and printing it would undo the reasoning above.
+ */
+export const FORM_INBOX = 'info@bowerbuild.org';
+
+/**
+ * THE FOUNDERS, name and address paired, for the footer's practice block.
+ *
+ * NOT imported from `pages/about/projects.ts`, for the reason `seo.ts` already gives about
+ * `FOUNDER_NAMES`: that module is the entire About ledger (every project, every image path, every
+ * bio) and pulling it in here would drag it into EVERY page's bundle to print four strings, since
+ * the footer is on all of them. `config.test.ts` asserts these names equal `TEAM`'s exactly, so the
+ * coupling is paid at test time and costs the reader nothing.
+ *
+ * The order is the order they are printed in, and it matches `TEAM`.
+ */
+export const FOUNDERS = [
+  { id: 'clay', name: 'Clay Seifert', email: 'clay@bowerbuild.org' },
+  { id: 'daniel', name: 'Daniel Guerra', email: 'daniel@bowerbuild.org' },
+] as const;
+
+/**
+ * WHAT THE CONTACT DETAILS HAVE TO BECOME, as data rather than as prose.
+ *
+ * `config.test.ts` reads this and reports the gap on every run. It is deliberately expressed as the
+ * TARGET (a UK dialling code, a bowerbuild.org mailbox) rather than as "the current value is wrong",
+ * because a test pinned to the current wrong value is a test that goes green by accident the moment
+ * anyone edits it to a different wrong value.
+ */
+export const CONTACT_TARGET = {
+  /** The site sells to UK houses; the number must be reachable as a UK one. */
+  phoneCountryPrefix: '+44',
+  /** A domain mailbox, not a personal account on a free provider. */
+  emailDomain: 'bowerbuild.org',
 } as const;
 

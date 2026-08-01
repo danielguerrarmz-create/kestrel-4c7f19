@@ -117,6 +117,27 @@ export interface ProjectPaper {
  * So: match on `src`, or add a real `id` — do not invent one in a test and assume it is there. If you
  * add one, it must be authored, never derived from `n` or `title`, and it must never be renumbered.
  */
+/**
+ * WHICH QUESTION A PROJECT ANSWERS (2026-07-31, venue rewrite item 8).
+ *
+ * The ledger used to be one flat reverse-chronological list of twelve, and as a set it answered
+ * "are these people intellectually serious": a Kenyan wound-care device, saliency heatmaps, a desk
+ * lamp built to give a language model a body, an AI remodelling startup, a robot factory. That is a
+ * good answer to a question a commercial buyer is not asking. Theirs is **will these people still
+ * exist in three years, and who carries the liability** — and the three projects that speak to it
+ * were scattered at positions 8, 10 and 12, below nine things that did not.
+ *
+ *   - `lead`     shown in full, and first. Work that reads as architecture: a public arts centre, a
+ *                grown composite, and the ecodistrict that is Bower's closest ancestor.
+ *   - `research` real credentials (AAG at MIT, ACADIA, CAADRIA) shown as a LIST of one line each.
+ *                The papers earn their place; the body of the page is not where they earn it.
+ *
+ * This is a REORDERING AND A DEMOTION, NOT A DELETION — every research project keeps its entry, its
+ * images and its paper. Four projects were separately deleted outright; see the tombstone at the
+ * bottom of `PROJECTS`.
+ */
+export type ProjectTier = 'lead' | 'research';
+
 export interface Project {
   /** Two-digit index shown in the list. It encodes the DISPLAY order, which is reverse
    *  chronological: 01 is the most recent work, and the numbers climb as you go back in
@@ -124,6 +145,8 @@ export interface Project {
    *
    *  NOT AN IDENTITY. It renumbers on add/remove/merge — see the note above this interface. */
   n: string;
+  /** Full entry, or a one-line credential under the Research heading. See `ProjectTier`. */
+  tier: ProjectTier;
   title: string;
   by: Author;
   /** Primary discipline, for the grouped project menu (Architecture / Product Design / Software). */
@@ -224,7 +247,14 @@ export const TEAM: TeamMember[] = [
         value:
           'Two papers on reading a building’s construction logic back out of its ruins, at AAG 2025 and ACADIA 2025. A third is accepted at CAADRIA 2026.',
       },
-      { label: 'This round', value: 'The people, the narrative, the demand.' },
+      /* DELETED 2026-07-31 (venue rewrite, item 4):
+           { label: 'This round', value: 'The people, the narrative, the demand.' }
+         and its twin in Daniel's block. Both were lifted verbatim from an investor deck. They read
+         correctly to an investor and badly to a customer: a commercial buyer evaluating a
+         forty-year structure meets "this round" on the About page and concludes they are being
+         asked to be a case study for a fundraise. The About page is now read by people deciding
+         whether to spend six figures with a practice, not by people deciding whether to fund one,
+         and those two readers want opposite things from the same paragraph. */
     ],
   },
   {
@@ -434,7 +464,8 @@ export const TEAM: TeamMember[] = [
         value:
           'A paper on a load-bearing composite grown from bamboo and hemp, tested 30% stronger than hempcrete, at UT Austin. Archipedia’s precedent retrieval is accepted at CAADRIA 2026.',
       },
-      { label: 'This round', value: 'The engine, the demo, the numbers.' },
+      /* DELETED 2026-07-31 — see the note in Clay's block above.
+           { label: 'This round', value: 'The engine, the demo, the numbers.' } */
     ],
   },
 ];
@@ -454,8 +485,18 @@ export const TEAM: TeamMember[] = [
  * steps. The `line` was an inventory of the project set, and the project set is now right below it
  * in full — it was saying, worse, what the work says itself.
  */
+/**
+ * `payoffLabel` DELETED 2026-07-31 (venue rewrite, item 4). It read `Why bet on us`.
+ *
+ * A bet is what an investor makes. A customer is not betting on you, they are buying from you, and
+ * inviting them to think of a six-figure commission as a wager is the wrong frame in the one place
+ * on the site that is supposed to settle their nerves. The line it introduced survives untouched —
+ * "The obsession is real, and it is old." says the same thing to both audiences without asking
+ * anyone to gamble — so the fix was the heading, not the sentence under it.
+ *
+ * Recover: git show <this commit>^ -- src/pages/about/projects.ts
+ */
 export const TEAM_CODA = {
-  payoffLabel: 'Why bet on us',
   payoff: 'The obsession is real, and it is old.',
 };
 
@@ -472,8 +513,9 @@ const A = '/assets/projects';
  */
 export const PROJECTS: Project[] = [
   {
-    n: '01',
+    n: '04',
     title: 'Archipedia',
+    tier: 'research',
     by: 'clay+daniel',
     discipline: 'Software',
     year: '2026',
@@ -543,8 +585,9 @@ export const PROJECTS: Project[] = [
     // VIDEO (real, sped-up 9.5s loop) and Clay's real Texas Robotics device video; the KUKA stills are
     // ducked below. Attribution is SHARED: Clay owns the Texas Robotics half, Daniel owns the KUKA half,
     // so `by: 'clay+daniel'`.
-    n: '02',
+    n: '05',
     title: 'Robots as Instruments',
+    tier: 'research',
     by: 'clay+daniel',
     // TODO(Daniel): confirm discipline (robots-as-instruments = physical tooling/making → Product Design)
     discipline: 'Product Design',
@@ -610,8 +653,9 @@ export const PROJECTS: Project[] = [
   },
   {
     // Comment 6 (2026-07-15): re-attributed to Clay.
-    n: '03',
+    n: '06',
     title: 'Robotic Factory',
+    tier: 'research',
     by: 'clay',
     // TODO(Daniel): confirm discipline ("a factory drawn as architecture" → Architecture)
     discipline: 'Architecture',
@@ -656,8 +700,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    n: '04',
+    n: '07',
     title: 'Synthetic Vision',
+    tier: 'research',
     by: 'clay',
     discipline: 'Software',
     year: '2025',
@@ -705,8 +750,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    n: '05',
+    n: '08',
     title: 'Patterns Across Languages',
+    tier: 'research',
     by: 'clay',
     discipline: 'Software',
     year: '2025',
@@ -754,101 +800,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    // NEW (2026-07-13). Framing from Clay: an experiment, not a finished product. Lineage is MIT
-    // Design Intelligence Lab's Large Language Objects (physical bodies for language models). The lamp
-    // runs "Dream Machine", a tool to DJ a drawing. Comment 6 (2026-07-15): re-attributed to Clay.
-    // TODO(Daniel): confirm the year, and whether "Dream Machine" is the final name.
-    n: '06',
-    title: 'LLO: Dream Machine',
-    by: 'clay',
-    discipline: 'Product Design',
-    year: '2024',
-    description:
-      'An experiment, not a product: a desk lamp built to give a language model a body, after MIT’s Large Language Objects. It runs Dream Machine, a tool to DJ a drawing, you sketch, then project imagery back over the sketch to expand the idea. The armature is plywood, pulleys, and string, left deliberately unfinished.',
-    learned:
-      'It stays deliberately unfinished. The question was whether a model feels different once it has a posture and sits on the desk with you, not whether it ships.',
-    // TODO(Daniel): collaborators/professors (MIT Design Intelligence Lab lineage — any named?)
-    images: [
-      {
-        src: `${A}/14-large-language-object/large-language-object-lamp.webp`,
-        ratio: 1.3389,
-        alt: 'The Large Language Object, a plywood articulated desk lamp on a wooden base with pulleys, red string, and a separate control box',
-        caption: 'The Large Language Object, a lamp that gives a model a body',
-      },
-      {
-        src: `${A}/14-large-language-object/large-language-object-draft-1.webp`,
-        ratio: 0.7498,
-        alt: 'A working draft of the Large Language Object lamp',
-        caption: 'A working draft',
-      },
-      {
-        src: `${A}/14-large-language-object/large-language-object-draft-2.webp`,
-        ratio: 0.7498,
-        alt: 'A second working draft of the Large Language Object lamp',
-        caption: 'A second working draft',
-      },
-    ],
-  },
-  {
-    // NEW (2026-07-13). Resia is Clay's startup. TODO(Daniel): confirm the year and current status.
-    n: '07',
-    title: 'Resia',
-    by: 'clay',
-    discipline: 'Software',
-    year: '2024',
-    description:
-      'An AI remodeling platform that carries a homeowner from idea to finished job in one place: generate the design, estimate the cost, write the contract, and manage the build. It folds a chain of handoffs, where most of the renovation pain lives, into a single tool. Grown to ten people through two accelerators.',
-    learned:
-      'A renovation is a chain of handoffs, and most of the pain is in the seams; putting the whole chain in one tool is where the leverage is.',
-    // TODO(Daniel): collaborators/professors
-    images: [
-      {
-        src: `${A}/12-resia/resia-product-screenshot-1.webp`,
-        ratio: 1.8397,
-        alt: 'The Resia landing page, a one-stop remodeling solution to generate, estimate, contract, and manage a renovation',
-        caption: 'One stop, from generate to manage',
-      },
-      /*
-       * CLAY PITCHING IS THE SECONDARY, AND THE SCREENSHOT IT REPLACED IS GONE (round 10, Daniel:
-       * "the middle one is rather useless... bring the picture of Clay making the presentation to be
-       * the top right picture, the secondary in command"). The old `resia-product-screenshot-2.webp`
-       * said so itself — alt "A second Resia product screenshot", caption "Inside the product". Copy
-       * that admits it is a second one of something is the copy of an image with no job.
-       *
-       * THIS ASSET IS NOW LANDSCAPE (round 11). Daniel replaced the old 600x800 portrait title-slide
-       * shot with a 1600x841 stage photograph, ratio 1.9025. The portrait cost this note used to warn
-       * about — the only portrait in the rail, narrowing every Resia support cell via `railWidth` — is
-       * GONE; a landscape support image sits in the rail like the others. `MIN_CELL`=60 still stands: if
-       * a rail cell ever drops under it, raise the cell, do not widen MIN_CELL.
-       *
-       * It is the same file as the timeline's `resia-pitch.webp`, copied rather than cross-linked: the
-       * timeline and the ledger own their own assets, and a shared path couples two surfaces that are
-       * allowed to diverge.
-       */
-      {
-        src: `${A}/12-resia/resia-clay-pitching.webp`,
-        ratio: 1.9025,
-        alt: 'Clay Seifert on stage with a microphone presenting Resia, a child’s crayon drawing of a house with two stick figures and green grass on the screen behind him, "FFPC" balloon letters on the stage and an audience in front',
-        caption: 'Clay pitching Resia',
-      },
-      {
-        src: `${A}/12-resia/resia-brand-artboard.webp`,
-        ratio: 1.0,
-        alt: 'A Resia brand artboard, a kitchen shown before and after a renovation with the line "Kitchen Renovation Made Simple"',
-        caption: 'Before and after, the renovation made simple',
-      },
-      {
-        src: `${A}/12-resia/resia-logo.webp`,
-        ratio: 1.0778,
-        alt: 'The Resia logo',
-        caption: 'The mark',
-        fit: 'contain',
-      },
-    ],
-  },
-  {
-    n: '08',
+    n: '01',
     title: 'Dougherty Arts Center',
+    tier: 'lead',
     by: 'clay+daniel',
     discipline: 'Architecture',
     year: '2024',
@@ -894,52 +848,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    // NEW (2026-07-15, Comment 7). Daniel's water project, pulled from his portfolio. Fall 2024, so it
-    // sits in the 2024 band. The description is lightly tightened from Daniel's copy: the third sentence
-    // (the nomination + competition) is dropped here because it lives in `awards` below — kept it once.
-    // TODO(Daniel): confirm the "learned" pill wording.
-    n: '09',
-    title: 'Hydraulic Commons: Water Infrastructure',
-    by: 'daniel',
-    discipline: 'Architecture',
-    year: '2024',
-    description:
-      "A water-driven architecture on Austin's Colorado River that turns water treatment and food production into public space, not hidden utility. The building rises from the riverbank as a circular resource loop, treatment, aquaponics, and vertical farming each feeding the next, processing 500 gallons an hour, sized to real community need.",
-    learned: 'Infrastructure people are invited into gets cared for; the same flows behind a fence never do.',
-    awards: ['Fall 2024 Design Excellence Nominee', 'Lisbon Triennale Millennium Competition (entrant)'],
-    collaborators: 'Professor Rasa Navasaityte',
-    images: [
-      {
-        src: `${A}/17-hydraulic-commons/hydraulic-commons-landform-rendering-river-infrastructure.webp`,
-        ratio: 1.7778,
-        alt: 'The building rising from the Colorado River bank as landform infrastructure',
-        caption: 'Landform infrastructure rising from the river',
-        hero: true,
-      },
-      {
-        src: `${A}/17-hydraulic-commons/hydraulic-commons-circular-program-axonometric-diagram.webp`,
-        ratio: 1.0,
-        alt: 'Axonometric diagram of the circular water and food resource program',
-        caption: 'The circular resource loop, program as diagram',
-        fit: 'contain',
-      },
-      {
-        src: `${A}/17-hydraulic-commons/hydraulic-commons-generation-aerial-terraced-landscape.webp`,
-        ratio: 1.0,
-        alt: 'Aerial view of the terraced riverbank water landscape',
-        caption: 'The terraced water landscape from above',
-      },
-      {
-        src: `${A}/17-hydraulic-commons/hydraulic-commons-community-pool-ground-perspective-austin.webp`,
-        ratio: 1.7778,
-        alt: 'Ground-level view of the public pool and community water spaces',
-        caption: 'The public pool and community water spaces',
-      },
-    ],
-  },
-  {
-    n: '10',
+    n: '02',
     title: 'Plentify',
+    tier: 'lead',
     by: 'clay+daniel',
     // TODO(Daniel): confirm discipline (a grown building + composite material research → Architecture)
     discipline: 'Architecture',
@@ -1029,140 +940,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    // Year 2023 confirmed by Daniel (2026-07-13); the timeline places this moment at 2023 too.
-    n: '11',
-    title: 'Origami Medical Device',
-    by: 'daniel',
-    discipline: 'Product Design',
-    year: '2023',
-    description:
-      'A $0.25 origami-inspired device to prevent pressure wounds, prototyped for Moi Teaching Hospital in Kenya with AMPATH. Daniel directed a fourteen-student team, and the design was transferred for clinical deployment.',
-    learned:
-      'A constraint this hard, a device that has to cost cents and fold flat, is a design tool: it forces the idea down to the one move that matters.',
-    /*
-     * Daniel, 2026-07-17: "the President's Award for Global Learning, one of the highest awards UT
-     * Austin gives."
-     *
-     * THE SUPERLATIVE IS DELIBERATELY NOT ON THE PAGE, and this note is why, so it does not get
-     * "restored" as an oversight. "One of the highest awards UT Austin gives" is Daniel's
-     * characterization of his own award, said in conversation; nothing in this repo sources it. On a
-     * public About page a named award ranks itself — "President's Award" and the university's name
-     * are the distinction — whereas a founder telling the reader how important his own prize was is
-     * the one framing that can make it read SMALLER. The instruction was to let it read as the
-     * distinction it is WITHOUT inflating it beyond what he said; the award's own name does that and
-     * an adjective spends credibility to add nothing. If he wants the superlative, it is his page and
-     * his call: this is the line to change.
-     */
-    awards: ['President’s Award for Global Learning, The University of Texas at Austin'],
-    // TODO(Daniel): collaborators/professors (AMPATH partner + the fourteen-student team — unnamed)
-    /*
-     * THE CONSTRUCTION DOCUMENTATION (2026-07-16, round 8). Daniel: "Origami Medical Device is
-     * missing some image documentation, refer to my personal portfolio for the construction images."
-     *
-     * It was not missing — it was ORPHANED. All seven sheets were already sitting in
-     * public/assets/projects/11-wound-care-kenya/ and nothing in src/ referenced them; only the two
-     * .webp photographs were ever wired. Bower in fact carries MORE than the portfolio does (six
-     * assembly sheets, 01-02 through 11-12, against the portfolio's three) — the fuller set was
-     * always here, just never hooked up. Renamed on the way in: they were bare numbers and one
-     * `Cover Page.png` with a SPACE in the filename.
-     *
-     * All seven are 793x613 (ratio 1.2936), measured off the files.
-     *
-     * THE HERO IS THE BROCHURE COVER (2026-07-16, round 10). DANIEL REVERSED HIMSELF, and this note
-     * exists so the next agent does not dutifully "fix" it back — the previous ruling was written
-     * here, in this comment, with a good argument behind it, which is exactly what makes it dangerous.
-     *
-     * Round 8 said, and it is now RETIRED: "THE HERO IS THE DEVICE IN THE HOSPITAL, not the studio
-     * shot. Daniel: 'switch the Hero Image to that of the item being utilized in the hospital.' The
-     * project's claim is 'transferred for clinical deployment' — a real device under a real patient
-     * is the evidence for that; the staged prototype is illustration. Lead with the proof."
-     *
-     * Round 10, his words: the DRAWING becomes the main, the photo of the girl in the operating room
-     * becomes the secondary. "The drawing" was ambiguous across seven 793x613 sheets, so it was put
-     * back to him rather than guessed: it is the brochure cover, the titled sheet carrying the wedge
-     * drawing, the tool inventory and the patient diagrams. The hospital photograph is not dropped —
-     * it demotes to secondary, so the proof still reads, second.
-     *
-     * NOTE FOR WHOEVER TOUCHES THIS NEXT: swapping the hero does NOT fix Origami's clipping. Its
-     * natural ratio (1.2936) is still below the region's, and the clip was never about which asset
-     * was in the slot — see the `items-stretch` fix in AboutPage.tsx. Two separate problems that
-     * looked like one.
-     *
-     * CAPTIONS: 01-02, 05-06, 11-12 and the cover are the portfolio's own words, reused verbatim
-     * because they are already right. 03-04, 07-08 and 09-10 are written to match that voice —
-     * short, imperative, what the step does — after LOOKING at each sheet. They are not inferred
-     * from the filenames: 03-04 halves the blank and cuts a 20cm diagonal, 07-08 cuts the shirt into
-     * a cover and raises the panels, 09-10 trims the overhang and ties the form shut with a reef
-     * knot. You cannot get any of that from "7-8.png".
-     */
-    images: [
-      {
-        // THE HERO, round 10. `fit: 'contain'` stays: it is a paper sheet and wants a white ground.
-        src: `${A}/11-wound-care-kenya/wound-care-kenya-brochure-cover.png`,
-        ratio: 1.2936,
-        alt: 'The brochure cover: the finished wedge, the materials needed (a box, scissors, a ruler, a shirt), the two-hour turning interval, and the device in use under a patient',
-        caption: 'The single-sheet brochure, what to build, from what, and why',
-        fit: 'contain',
-        hero: true,
-      },
-      {
-        // Demoted from hero to secondary, round 10. It stays FIRST of the supporting rail, so the
-        // proof still reads immediately after the drawing rather than being buried in the stack.
-        src: `${A}/11-wound-care-kenya/wound-care-kenya-in-hospital-device-test.webp`,
-        ratio: 1.2125,
-        alt: 'The device in use under a patient at Moi Teaching Hospital, Kenya',
-        caption: 'In use at Moi Teaching Hospital, Kenya',
-      },
-      {
-        src: `${A}/11-wound-care-kenya/wound-care-kenya-staged-cardboard-wedge-prototype.webp`,
-        ratio: 1.2795,
-        alt: 'The origami-inspired cardboard wedge prototype, a low-cost wound-prevention device, staged for photography',
-        caption: 'The folded cardboard wedge, prototyped to cost cents',
-      },
-      {
-        src: `${A}/11-wound-care-kenya/wound-care-kenya-assembly-step-01-02.png`,
-        ratio: 1.2936,
-        alt: 'Assembly steps 1 and 2: opening the box flaps and squaring the box out flat',
-        caption: 'Open and square the box',
-        fit: 'contain',
-      },
-      /*
-       * FOUR ASSEMBLY SHEETS WERE CUT HERE (round 10). Steps 03-04, 05-06, 07-08 and 09-10.
-       * Recover with: git show d902d6b -- src/pages/about/projects.ts
-       *
-       * THEY ARE NOT CUT BECAUSE THEY DID NOT FIT, and that distinction is the only thing stopping
-       * the next agent restoring them the moment the rail gets wider. They are cut because a rail was
-       * the wrong place for them. The set is a TWELVE-STEP INSTRUCTION MANUAL — cut lines, 2.5cm and
-       * 5cm tab dimensions, A/B/C/D panel labels. A manual is not a portfolio image set, and it was
-       * never legible in a supporting rail at ANY width. It did not become wrong at 53px; it was
-       * always wrong and 53px is what made someone look.
-       *
-       * WHAT SURVIVES IS THE STORY THE RAIL IS FOR: flat sheet -> finished wedge (01-02 and 11-12),
-       * beside the object itself and the proof of it in use. The brochure hero already carries the
-       * whole method in one frame, which is what makes the middle of the manual redundant rather than
-       * merely small.
-       *
-       * HOW IT GOT HERE: the divider pin (item 7, Daniel's ruling) took Origami's band from 207.8 to
-       * 302.1, so its media row lost ~94px, and its rail — already the tightest on the page at 68.6px
-       * across 8 cells — fell through MIN_CELL. Raised to him as the invoice for that ruling rather
-       * than silenced by widening the guard, which would have been tuning the instrument to fit the
-       * result. He chose to cut. MIN_CELL stays 60.
-       *
-       * The four PNGs are now referenced NOWHERE. They are deletion candidates, not deletions: they
-       * are Daniel's files and CLAUDE.md already keeps an orphan list awaiting his call. See handoff.
-       */
-      {
-        src: `${A}/11-wound-care-kenya/wound-care-kenya-assembly-step-11-12.png`,
-        ratio: 1.2936,
-        alt: 'Assembly steps 11 and 12: tucking the last flap and the two finished wedges, A-B and C-D',
-        caption: 'Fold to the finished wedge',
-        fit: 'contain',
-      },
-    ],
-  },
-  {
-    n: '12',
+    n: '03',
     title: 'Flowerfield',
+    tier: 'lead',
     by: 'clay',
     // TODO(Daniel): confirm discipline — Flowerfield is an ecodistrict, reads as Architecture; placed in
     // Product Design per the coordinator's explicit assignment.
@@ -1202,4 +982,29 @@ export const PROJECTS: Project[] = [
       },
     ],
   },
+  /*
+   * FOUR PROJECTS DELETED 2026-07-31 (venue rewrite, item 8), and the ledger went from twelve to
+   * eight:
+   *
+   *   LLO: Dream Machine        a desk lamp built to give a language model a body
+   *   Resia                     an AI remodelling startup
+   *   Hydraulic Commons         water infrastructure as public space, on the Colorado River
+   *   Origami Medical Device    a foldable wound-care device for a Kenyan teaching hospital
+   *
+   * NOT because they are weak. Three of the four are the most technically interesting things that
+   * were on this page, and that was the problem: as a SET, the twelve answered "are these people
+   * intellectually serious", which is a question a commercial buyer never asks. Theirs is whether
+   * the practice will still exist in three years and who carries the liability, and against that
+   * question a Kenyan wound-care device is not evidence, it is a change of subject. A portfolio is
+   * not an archive, it is an argument, and every entry arguing something else costs the three that
+   * argue the right thing.
+   *
+   * THE TIMELINE STILL TELLS THIS HISTORY and is deliberately untouched: `clusters.ts` carries the
+   * LLO and Resia photographs with their own captions, because the About page's spine is the
+   * founders' story and these genuinely happened. Cutting a project from the PORTFOLIO is not
+   * erasing it from the PRACTICE, and conflating the two would have taken a scalpel to the wrong
+   * file.
+   *
+   * Recover any of them: git show <this commit>^ -- src/pages/about/projects.ts
+   */
 ];

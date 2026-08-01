@@ -160,7 +160,7 @@ describe('the engine routes are dev-only in production', () => {
     );
   });
 
-  it('the four public pages resolve the same either way', () => {
+  it('the five public pages resolve the same either way', () => {
     for (const dev of [true, false]) {
       expect(resolveRoute('/', dev)).toBe('splash');
       expect(resolveRoute('/about', dev)).toBe('about');
@@ -168,6 +168,8 @@ describe('the engine routes are dev-only in production', () => {
       expect(resolveRoute('/gallery', dev)).toBe('gallery');
       // The questions page joined 2026-07-28: the price, the planning position, the contact.
       expect(resolveRoute('/questions', dev)).toBe('questions');
+      // The houses page joined 2026-07-31, when the practice repointed at commercial hospitality.
+      expect(resolveRoute('/houses', dev)).toBe('houses');
       // An in-page anchor normalizes to an unknown path and must land on the home, not a blank.
       expect(resolveRoute('/register', dev)).toBe('splash');
       expect(resolveRoute('/how-it-works', dev)).toBe('splash');
@@ -178,6 +180,7 @@ describe('the engine routes are dev-only in production', () => {
     expect(resolveRoute(routes.about, true)).toBe('about');
     expect(resolveRoute(routes.gallery, true)).toBe('gallery');
     expect(resolveRoute(routes.questions, true)).toBe('questions');
+    expect(resolveRoute(routes.houses, true)).toBe('houses');
     expect(resolveRoute(routes.aboutTree, true)).toBe('aboutTree');
   });
 
@@ -190,10 +193,11 @@ describe('the engine routes are dev-only in production', () => {
     }
   });
 
-  it('PUBLIC_ROUTES is exactly the four that ship, in nav order', () => {
+  it('PUBLIC_ROUTES is exactly the six that ship, in nav order', () => {
     // The sitemap and the per-page metadata are both built from this list, so it is the one place
-    // a page becomes public. Pinned by name so adding a fifth is a deliberate act.
-    expect([...PUBLIC_ROUTES]).toEqual(['/', '/gallery', '/questions', '/about']);
+    // a page becomes public. Pinned by name so adding one is a deliberate act — which is what it
+    // was for: `/houses` joined 2026-07-31 and this assert is where that decision was recorded.
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/houses', '/gallery', '/questions', '/about', '/about/practice']);
     for (const path of PUBLIC_ROUTES) {
       expect(ENGINE_ROUTES).not.toContain(path);
       expect(DEV_ONLY_ROUTES).not.toContain(path);

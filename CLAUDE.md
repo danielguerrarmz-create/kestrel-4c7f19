@@ -4,8 +4,89 @@ Loaded automatically at the start of every session in this repo. Keep it short.
 
 ## Where the work is — read this first
 
-**THE LIVE SITE IS FOUR PAGES: `/`, `/gallery` (seven concept renderings, 2026-07-23 —
-`src/pages/GalleryPage.tsx`, assets in `public/assets/gallery/`), `/questions` and `/about`.**
+**THE LIVE SITE IS SIX PAGES: `/`, `/houses` (2026-07-31), `/gallery` (seven concept renderings,
+2026-07-23 — `src/pages/GalleryPage.tsx`, assets in `public/assets/gallery/`), `/questions` and
+`/about` (short) and `/about/practice` (the founders and the work).**
+
+**THE PRACTICE REPOINTED AT COMMERCIAL HOSPITALITY ON 2026-07-31, AND THAT IS THE FRAME FOR
+EVERY COPY DECISION NOW.** Three months of letters to private garden owners through the National
+Garden Scheme produced ~85 letters, ~21 warm replies, 15 visits and **zero commercial
+conversations**. The letters worked; the audience could not buy. The target is now family-owned
+listed houses that already earn from exclusive hire and whole-house rental (reference customer:
+Northcourt Manor, Isle of Wight). The whole site had been written to someone who would personally
+sit in the structure, and a venue owner is not buying somewhere to sit.
+- **WHAT THEY ARE BUYING IS NOT CAPACITY.** Bower cannot build at marquee scale and **must never
+  claim to**. They are buying the reason a couple picks them over the house twenty miles away, plus
+  three real uses: a drinks reception, a small ceremony, and dinner for a house party of ~30.
+- **THE MARQUEE-REPLACEMENT CLAIM IS WITHDRAWN SITE-WIDE and pinned ABSENT in
+  `src/houseRules.test.ts`.** It was the first draft's opening argument and every clause of it was
+  true — canvas arrives, is struck, comes back dearer — but at 25 to 40 m² it does not hold the
+  wedding the marquee was hired for, **a venue owner establishes that in ONE question**, and they
+  establish it on your opening claim. *A true sentence about the wrong quantity.* What replaces it:
+  a **different** room, at house-party size, **that exists in November**.
+- **`houseRules.test.ts` IS THE SPEC'S SIX GROUND RULES AS ABSENCES**, swept over the rendered
+  agent mirrors (i.e. every published page's real text, wherever the string was authored). Never
+  call either founder an **architect** (protected under the Architects Act 1997; neither is
+  ARB-registered — "designer", "trained in architecture" are fine). Never use **ROI, asset,
+  revenue, capex, investment, leverage** at these buyers. No **curved-lamination Accoya** claim, no
+  **outlasts oak** claim. It caught a live "leverage" in the Resia copy on its first run.
+- **`/about` IS NOW THE SHORT PAGE, AND THE FOUNDERS' PAGE IS NESTED BEHIND IT AT
+  `/about/practice` (2026-07-31, Clay).** The old `/about` — the drawn timeline, sixteen projects,
+  the scroll-grown spine — is the most elaborate thing in this repo and it answers "are these people
+  serious" at length, to someone who has already decided to look them up. It was never the answer a
+  first-time reader arrives wanting. Clay's brief for the new one was three words: **"very simple,
+  very plain, very elegant."** It is a manifesto in the founder's own voice
+  (`pages/about/manifesto.ts`), it opens on a place the READER has stood in rather than on the
+  company, and it ends with one link onward. **Nothing was deleted; the order was inverted.**
+  - `src/pages/AboutPage.tsx` is the SHORT one. The old file was renamed to **`PracticePage.tsx`**
+    in the same commit, because a file called `AboutPage` serving `/about/practice` is exactly the
+    kind of name-that-became-a-lie this repo gets burned by (see the `vendor` chunk note).
+    `PracticePage.tsx` still exports `Lightbox` and `QUESTIONS`, which Gallery/MobileTimeline/
+    AboutTree import.
+  - **THE MANIFESTO COPY IS CLAY'S AND MUST NOT BE SMOOTHED.** The only edit made to it was the
+    house dash rule (an em dash and a `--` became a colon and a comma). It is the one page written
+    in a founder's voice rather than the studio's; an agent "improving" it removes the only thing
+    it has that the rest of the site cannot fake.
+  - **`/about` is off the HEADER and in the FOOTER.** Nav is `houses / gallery / questions`. The
+    footer stays **one plain row** — an earlier pass grew a whole practice block there and Clay
+    corrected it: a footer that grows a section competes with the page above it, and this one
+    closes six pages. Founder names and addresses live on `/about/practice` instead.
+  - **The founders are NAMED, deliberately**, and Clay asked whether they need to be: with zero
+    built work their record is the only substitute for a portfolio of finished buildings, so going
+    anonymous the moment buyers ask "will these people exist in three years" makes the practice look
+    smaller, not more corporate.
+- **TWO ADDRESSES, AND THE SPLIT IS THE POINT.** `CONTACT.email` = **`clay@bowerbuild.org`** is what
+  the site PRINTS (the `/questions` close names "Clay Seifert" one line above it; an `info@` in that
+  position puts a front desk between the reader and the person they just read the name of).
+  `FORM_INBOX` = **`info@bowerbuild.org`** is where the FORM posts — a machine writing to a machine,
+  durable, fans out later. `config.test.ts` pins that they never converge.
+- **THE SITE HAS A BACKEND NOW: `api/contact.ts`** (Vercel function, Resend), and the
+  register-interest form posts to it. **It is INERT until `RESEND_API_KEY` is set in Vercel** — this
+  repo is PUBLIC so no key can live here — returning a real `503 not-configured`, which the form
+  reads. **The outcome is decided by the SERVER, never by the click**: "we will be in touch" renders
+  only on a 2xx, everything else prints the phone and the address. That shape exists because this
+  site already shipped the opposite once. **`vercel.json` MUST keep `api/` out of the SPA rewrite**
+  or the form POSTs to the HTML shell, gets a 200, and promises a reply forever while sending
+  nothing — same class as the `_vercel/` bug, pinned in `api/contact.test.ts`.
+- **`src/pending.ts` IS THE LIST OF FACTS THE SITE IS WAITING ON**, with the drafted sentence each
+  unblocks, deliberately unpublished. **`src/pending.test.ts` sweeps `src/` and `public/` so a
+  `[CLAY: ...]` marker can never reach a reader.** The rejected alternative was rendering markers in
+  dev only, which would split the page from the FAQ schema and the mirror that are generated from it.
+  **Two entries were deleted the day they were written** (a house-scale capacity tier, a marquee
+  hire figure) because the revised spec withdrew both: *some blanks should never be filled, they
+  should be deleted and the claim withdrawn.*
+- **`src/data/capacity.ts` OWNS EVERY SIZE AND CAPACITY FIGURE**, because `/questions` and
+  `/houses` both state them and a venue owner reads both. It DERIVES them from an area and a
+  published rate (1.5 m²/head dining, 0.8 ceremony, 0.7 standing) — the line it replaced, *"room
+  for a table of eight"*, was a capacity claim nobody had ever checked against the square-metre
+  figure **two clauses away in the same paragraph**. Note `PUBLISHED_HEADS.dining` (30) sits ~12%
+  ABOVE what 40 m² supports; that is Clay's product statement, published as written, with the gap
+  pinned as a number in `DINING_ROUNDING_PCT` rather than described in a comment.
+- **THE BUILDING-REGS ANSWER NOW WRITES A CHEQUE THE PRACTICE HAS NOT CASHED.** "The structural
+  engineering is specified for public loading from the outset" commits Bower to a named structural
+  engineer, and there is none — nor PII, nor public liability, nor a fabricator (`pending.ts`,
+  `practice-entity`). Honest about intent; **resolve in August or it becomes what a solicitor
+  quotes back.**
 
 **THESE ARE REAL PATHS AS OF 2026-07-28, NOT `#/` HASHES, AND THAT WAS AN SEO FIX, NOT A REFACTOR.**
 A fragment is never sent to a server, so all four pages were the single URL `bowerbuild.org/` to
@@ -24,6 +105,12 @@ Three consequences worth knowing:
 - **Per-page head lives in `src/seo.ts`** (title, description, canonical, og:title/description),
   keyed off `resolveRoute(path, false)` — the PRODUCTION target — so a gated route like `/studio`
   carries the home's head, because the home is what production serves there.
+- **ADDING A PUBLIC PAGE IS ONE LIST PLUS SIX DERIVED THINGS, and the compiler asks for most of
+  them.** `PUBLIC_ROUTES` in `src/routing.ts` is the switch; `routes.*`, `RouteTarget`,
+  `resolveRoute`, `seo.ts`'s `META` (exhaustive by construction — it will not compile without the
+  new page's title), `Root.tsx`, the nav in `SplashHeader`, `ui/Footer`, a `*Mirror()` in
+  `agent/mirror.ts` + its entry in `agentMirror.generated.test.ts`, `llms.txt`, `robots.txt`, then
+  `GEN=1` for the mirror and the sitemap. The `/houses` commit is the worked example.
 - **`public/sitemap.xml` is GENERATED** from `PUBLIC_ROUTES` and drift-guarded
   (`GEN=1 npx vitest run seo.generated`), the same pattern as the agent mirror. It was a 404 until
   2026-07-28. **Engine and dev-only routes must never appear in it**; that is a test, and it covers

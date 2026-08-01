@@ -91,11 +91,15 @@ describe('the social card', () => {
 });
 
 describe('per-page metadata', () => {
-  it('gives all four public routes a distinct title, description and canonical', () => {
+  it('gives every public route a distinct title, description and canonical', () => {
+    // DISTINCTNESS is the property, so it counts against the real list rather than a literal.
+    // Two pages sharing a title or a canonical is the bug this guards, and that stays true at
+    // four pages, at five, or at nine.
     const metas = PUBLIC_ROUTES.map(metaForPath);
-    expect(new Set(metas.map((m) => m.title)).size).toBe(4);
-    expect(new Set(metas.map((m) => m.description)).size).toBe(4);
-    expect(new Set(metas.map((m) => m.path)).size).toBe(4);
+    const n = PUBLIC_ROUTES.length;
+    expect(new Set(metas.map((m) => m.title)).size).toBe(n);
+    expect(new Set(metas.map((m) => m.description)).size).toBe(n);
+    expect(new Set(metas.map((m) => m.path)).size).toBe(n);
     for (const m of metas) {
       // The whole point of the path migration: `<title>` was the single word "Bower" for every
       // page, which spent the strongest relevance signal on the brand name four times over.

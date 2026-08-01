@@ -58,13 +58,17 @@ const TELLS: Record<string, string[]> = {
   'Robotic Factory': ['robotic factory'],
   'Synthetic Vision': ['synthetic vision'],
   'Patterns Across Languages': ['patterns across languages'],
-  'LLO: Dream Machine': ['desk lamp', 'dream machine', 'gives a language model a body'],
-  Resia: ['resia', 'remodeling platform', 'ai remodel'],
   'Dougherty Arts Center': ['dougherty', 'arts center'],
-  'Hydraulic Commons: Water Infrastructure': ['hydraulic commons', 'water infrastructure'],
   Plentify: ['plentify'],
-  'Origami Medical Device': ['origami', 'medical device', 'kenya', 'teaching hospital'],
   Flowerfield: ['flowerfield'],
+  /* Four entries removed 2026-07-31 with the projects themselves (venue rewrite, item 8):
+       'LLO: Dream Machine': ['desk lamp', 'dream machine', 'gives a language model a body']
+       Resia: ['resia', 'remodeling platform', 'ai remodel']
+       'Hydraulic Commons: Water Infrastructure': ['hydraulic commons', 'water infrastructure']
+       'Origami Medical Device': ['origami', 'medical device', 'kenya', 'teaching hospital']
+     The stale-entry test below is what named all four, which is the whole reason it exists: a
+     noun list that outlives its project silently stops guarding anything and starts looking like
+     coverage. Note the bios were ALREADY clean of these nouns — nothing had to be rewritten. */
 };
 
 const authorsOf = (by: string): FounderId[] =>
@@ -79,8 +83,11 @@ const bioText = (id: FounderId): string => {
 describe('no bio claims a project its owner does not own', () => {
   it('has both founders and the full ledger (guards the probe)', () => {
     // Without this, every assertion below iterates an empty list and reports success.
+    // The ledger went twelve -> eight on 2026-07-31 (four projects cut for the venue rewrite), so
+    // this floor moved down with it. It is a guard against an EMPTY sweep, not a pin on the count:
+    // `projects.test.ts` owns the ledger's shape.
     expect(TEAM.map((t) => t.id).sort()).toEqual(['clay', 'daniel']);
-    expect(PROJECTS.length).toBeGreaterThan(8);
+    expect(PROJECTS.length).toBeGreaterThanOrEqual(8);
   });
 
   it('THE RULE: a founder\'s bio never mentions a project attributed away from them', () => {
@@ -163,7 +170,9 @@ describe('the ACM DIS 2026 claim stays dead', () => {
   it('guards the probe: there is reader-facing copy to search', () => {
     // Without this the filters below iterate an empty list and report success — this file's own
     // original sin (`p.id`), and the harness that printed "PASS across all 0 projects".
-    expect(surfaces().length).toBeGreaterThan(20);
+    // Floor lowered from 20 on 2026-07-31: the ledger went twelve -> eight, so there are simply
+    // fewer surfaces to search. It guards against ZERO, not against a particular count.
+    expect(surfaces().length).toBeGreaterThan(12);
     expect(surfaces().some((s) => s.includes('CAADRIA 2026'))).toBe(true);
   });
 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { homeMirror, aboutMirror, galleryMirror, questionsMirror, llmsTxt } from './mirror';
+import { homeMirror, aboutMirror, galleryMirror, questionsMirror, housesMirror, practiceMirror, llmsTxt } from './mirror';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -25,6 +25,8 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   { rel: 'agent/about.md', fresh: aboutMirror },
   { rel: 'agent/gallery.md', fresh: galleryMirror },
   { rel: 'agent/questions.md', fresh: questionsMirror },
+  { rel: 'agent/houses.md', fresh: housesMirror },
+  { rel: 'agent/practice.md', fresh: practiceMirror },
 ];
 
 describe('the agent mirror is fresh', () => {
@@ -32,9 +34,22 @@ describe('the agent mirror is fresh', () => {
     const home = homeMirror();
     expect(home).toContain('Bower');
     expect(home.length).toBeGreaterThan(1500);
+    // `/about` BECAME THE SHORT PAGE on 2026-07-31 and these assertions moved with the content
+    // they were guarding, down to `practice` below. Left as a marker because a mirror test that
+    // simply lost two assertions in a refactor is how a page silently stops being checked.
     const about = aboutMirror();
-    expect(about).toContain('The obsession is old.');
-    expect(about).toContain('Clay Seifert');
+    expect(about).toContain('None of them finished. All of them alive.');
+    expect(about).toContain('A world full of Bowers.');
+    // The door onward must survive: without it the expanded page is unreachable from the short one,
+    // which is the entire structure Clay asked for.
+    expect(about).toContain('/about/practice');
+    expect(llmsTxt()).toContain('/agent/practice.md');
+
+    // The expanded about: the founders and the work.
+    const practice = practiceMirror();
+    expect(practice).toContain('The obsession is old.');
+    expect(practice).toContain('Clay Seifert');
+    expect(practice).toContain('Daniel Guerra');
     const gallery = galleryMirror();
     expect(gallery).toContain('Concept renderings');
     // All seven plates, as fetchable markdown images.
@@ -50,8 +65,24 @@ describe('the agent mirror is fresh', () => {
     expect(questions).toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
-    expect(questions).toContain('clayhseifert@gmail.com');
+    // The published address became clay@bowerbuild.org on 2026-07-31. Pinned as a PROPERTY rather
+    // than as the literal it replaced: what matters is that the mirror hands an agent a practice
+    // address on the practice's own domain, not that it happens to be this string.
+    expect(questions).toMatch(/\S+@bowerbuild\.org/);
+    expect(questions).not.toContain('gmail.com');
     expect(llmsTxt()).toContain('/agent/questions.md');
+
+    // The houses page (2026-07-31). Its load-bearing lines are the HONEST ones: the concession
+    // that canvas still goes up for a hundred and twenty, and the capacity it actually holds. A
+    // mirror that kept the argument and lost the concession would read as the overclaim this page
+    // was rewritten to remove, and an agent quoting it back to an owner is the same harm as the
+    // page doing it.
+    const houses = housesMirror();
+    expect(houses).toContain('is not a marquee');
+    expect(houses).toContain('hundred and twenty');
+    expect(houses).toContain('thirty');
+    expect(houses.length).toBeGreaterThan(1200);
+    expect(llmsTxt()).toContain('/agent/houses.md');
   });
 
   it('the committed mirrors are byte-identical to a fresh render of the live pages', () => {

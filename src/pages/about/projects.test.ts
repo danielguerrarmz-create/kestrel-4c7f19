@@ -172,18 +172,45 @@ describe('projects.ts — the fixed detail panel fits without an inner scroll', 
     }
   });
 
-  it('the `n` order is a clean reverse-chronological run with no gaps', () => {
+  it('the `n` order is a clean run with no gaps', () => {
     const ns = [...PROJECTS].map((p) => p.n).sort((a, b) => a.localeCompare(b));
     ns.forEach((n, i) => {
       expect(n, `n sequence broken at index ${i}`).toBe(String(i + 1).padStart(2, '0'));
     });
-    // Sorting by `n` must agree with descending year (reverse-chronological).
+  });
+
+  /**
+   * THE DATE RUN IS NOW PER TIER, AND THE CHANGE IS NOT A WEAKENING.
+   *
+   * This asserted that sorting by `n` agreed with descending year across the whole list, which was
+   * true while the list was one flat reverse-chronological run. The venue rewrite (2026-07-31) put
+   * the three lead projects first, and they are OLDER than the five research entries — so the
+   * global run had to break for the page to lead with the work that argues the practice builds
+   * things.
+   *
+   * The property worth keeping is that a reader never sees the clock jump BACKWARDS inside a group,
+   * which is what made the flat list legible in the first place. So it is asserted within each
+   * tier, and separately the tiers must not interleave — that second assert is the one that would
+   * catch the real regression, a research entry sorted up among the leads.
+   */
+  it('years descend within each tier, and the tiers do not interleave', () => {
     const byN = [...PROJECTS].sort((a, b) => a.n.localeCompare(b.n));
-    for (let i = 1; i < byN.length; i++) {
-      expect(
-        Number(byN[i].year),
-        `${byN[i].n} ${byN[i].title} (${byN[i].year}) is newer than the one before it`,
-      ).toBeLessThanOrEqual(Number(byN[i - 1].year));
+
+    const tiers = byN.map((p) => p.tier);
+    expect(tiers.indexOf('lead'), 'the leads must come first').toBe(0);
+    expect(tiers.lastIndexOf('lead'), 'a research entry is sorted among the leads').toBeLessThan(
+      tiers.indexOf('research'),
+    );
+
+    for (const tier of ['lead', 'research'] as const) {
+      const group = byN.filter((p) => p.tier === tier);
+      expect(group.length, `no ${tier} projects to check`).toBeGreaterThan(0);
+      for (let i = 1; i < group.length; i++) {
+        expect(
+          Number(group[i].year),
+          `${group[i].n} ${group[i].title} (${group[i].year}) is newer than the one before it in ${tier}`,
+        ).toBeLessThanOrEqual(Number(group[i - 1].year));
+      }
     }
   });
 });
