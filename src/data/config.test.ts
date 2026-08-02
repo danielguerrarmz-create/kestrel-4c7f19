@@ -65,8 +65,12 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
     expect(CONTACT.phoneHref.replace(/\D/g, '')).toBe(CONTACT.phone.replace(/\D/g, ''));
   });
 
-  it.skip('UNBLOCK ME: the studio telephone number is a UK one', () => {
+  /** CLEARED 2026-07-31. Was `it.skip('UNBLOCK ME: ...')`; the site sells to UK houses. */
+  it('the studio telephone number is a UK one', () => {
     expect(CONTACT.phoneHref.startsWith(CONTACT_TARGET.phoneCountryPrefix)).toBe(true);
+    // Pinned as an absence too: a `+1` on the page that names £350,000 is the specific thing that
+    // was fixed, and "some other non-UK number" would satisfy the rule above on its own.
+    expect(CONTACT.phoneHref).not.toMatch(/^\+1/);
   });
 
   /** CLEARED 2026-07-31. Was `it.skip('UNBLOCK ME: ...')` for three days. */

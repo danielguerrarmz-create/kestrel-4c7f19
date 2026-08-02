@@ -97,8 +97,8 @@ describe('the click delegate decides which links the router takes over', () => {
   it('NEVER claims mailto: or tel:, the questions page\'s only contact route', () => {
     // If the router swallowed these, the site's single conversion point would stop working and
     // nothing would throw: the click would just navigate to the splash.
-    expect(claimsLink({ href: 'mailto:clayhseifert@gmail.com' }, here)).toBe(false);
-    expect(claimsLink({ href: 'tel:+19723636298' }, here)).toBe(false);
+    expect(claimsLink({ href: 'mailto:clay@bowerbuild.org' }, here)).toBe(false);
+    expect(claimsLink({ href: 'tel:+442071395142' }, here)).toBe(false);
   });
 
   it('leaves other origins, new tabs, downloads and rel=external to the browser', () => {

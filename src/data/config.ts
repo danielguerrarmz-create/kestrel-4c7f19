@@ -356,31 +356,31 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
  * A site with no contact route AND a form that claims one is worse than either alone.
  *
- * These are Clay's own details, given for the `/questions` close. Two things to know:
- *   - THIS REPO IS PUBLIC (see CLAUDE.md), so both values are already scrapeable here as
- *     well as on the rendered page. That is a decision, not an oversight; swap in a
- *     studio inbox and a UK number when they exist and nothing else has to change.
- *   - The site sells to UK gardens and the number is a US mobile. Also deliberate for
- *     now (it is the number Clay answers), and the first thing to revisit.
+ * BOTH DEBTS ARE PAID AS OF 2026-07-31, AND THE WAY THEY WERE RECORDED IS THE LESSON.
+ *
+ * For three days this block carried a personal Gmail address and a US mobile on the page that
+ * names £350,000, with a comment saying the number was "the first thing to revisit". The venue
+ * rewrite ranked fixing them third of nine, above building an entire new page, because "a US mobile
+ * and a Gmail address are what a commercial buyer's solicitor notices first" — and a comment
+ * recording that intention changed nothing, because a comment cannot fail.
+ *
+ * What moved it was expressing the debt as `CONTACT_TARGET` plus two `it.skip('UNBLOCK ME: ...')`
+ * tests: a named skipped test is a line in the suite output on every single run, and it is now an
+ * ordinary passing test. **State a debt as an assertion, not as prose, and it stops being
+ * invisible.**
+ *
+ * THIS REPO IS PUBLIC (see CLAUDE.md), so both values are scrapeable here as well as on the
+ * rendered page. That is a decision rather than an oversight: they are published contact details.
  *
  * `phoneHref` is the E.164 form for `tel:`; `phone` is the printed form.
- *
- * STILL NOT DONE AS OF 2026-07-31, AND IT IS NOW THE OLDEST UNPAID DEBT ON THE SITE. The venue
- * rewrite ranks this third of nine, above building a whole new page, and describes it as one hour
- * of work: "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first",
- * and they sit on the page that names £350,000. The practice is about to send letters to
- * family-owned listed houses; the reply-to on the site is a personal Gmail account.
- *
- * The note above already said the number was "the first thing to revisit" three days ago, which is
- * exactly the problem with recording an intention in a comment: `config.test.ts` now asserts the
- * SHAPE of what is wrong rather than describing it, so the day a UK number and a domain mailbox
- * land, a test tells you the debt is cleared instead of a human noticing. See `pending.ts`,
- * `contact-uk-phone` and `contact-domain-email`.
  */
 export const CONTACT = {
   name: 'Clay Seifert',
-  phone: '+1 972-363-6298',
-  phoneHref: '+19723636298',
+  /** London landline, live 2026-07-31. Printed with spaces the way a UK reader groups it. */
+  phone: '+44 20 7139 5142',
+  /** The same number in E.164, for `tel:`. `config.test.ts` asserts the digits match `phone` —
+   *  a tel: link that dials something other than what the page prints fails silently on desktop. */
+  phoneHref: '+442071395142',
   /**
    * THE PUBLISHED ADDRESS, and it is deliberately a PERSON rather than a department (2026-07-31).
    *

@@ -90,14 +90,20 @@ export interface PendingFact {
  * Clay has.
  */
 export const PENDING: readonly PendingFact[] = [
-  {
-    id: 'contact-uk-phone',
-    item: 3,
-    awaiting: 'value',
-    needs: 'A UK telephone number for the studio, in printed form and in E.164 form for the tel: link.',
-    blocks:
-      'CONTACT.phone in data/config.ts, and with it the /questions close, the FAQPage schema, the Organization schema and the agent mirror. All four read the one constant, so the swap is a single line.',
-  },
+  /*
+   * `contact-uk-phone` RESOLVED 2026-07-31: +44 20 7139 5142, a London landline. Together with
+   * `contact-domain-email` (clay@bowerbuild.org) this clears spec item 3 entirely — the whole of
+   * "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first, and
+   * they sit on the page that names £350,000".
+   *
+   * THE MECHANISM IS WORTH KEEPING, because it is the only reason these moved. Both had been
+   * flagged in a comment for three days ("the first thing to revisit") and nothing happened, which
+   * is what a comment does. Restating them as `CONTACT_TARGET` plus two `it.skip('UNBLOCK ME: ...')`
+   * tests put a named line in the suite output on every single run. **A debt stated as an assertion
+   * is visible; a debt stated as prose is decoration.** Both are ordinary passing tests now, and
+   * each also pins the ABSENCE of what was wrong (`+1`, a free-provider domain), because "some
+   * other wrong value" would satisfy the positive rule on its own.
+   */
   {
     id: 'contact-form-provider',
     item: 3,
