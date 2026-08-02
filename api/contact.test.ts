@@ -88,7 +88,40 @@ describe('the message itself', () => {
 
   it('goes to the form inbox, from a domain address', () => {
     expect(msg.to).toEqual([FORM_INBOX]);
-    expect(FORM_SENDER).toContain('@bowerbuild.org');
+    // `bowerbuild.org`, NOT `@bowerbuild.org`. This asserted the latter and WENT RED on 2026-08-02
+    // when the sender moved to `send.bowerbuild.org`, because `@bowerbuild.org` is not a substring
+    // of `noreply@send.bowerbuild.org`. It read as "on the practice domain" and was really pinning
+    // the mail host to the APEX. The domain question is now owned by the test below, which asks it
+    // as a property; this line is left only as the cheap sanity check it was meant to be.
+    expect(FORM_SENDER).toContain('bowerbuild.org');
+  });
+
+  /**
+   * THE SENDER MUST BE A SUBDOMAIN, NEVER THE APEX.
+   *
+   * WHY (the long version is on `FORM_SENDER`): the apex carries Google's MX for the practice's
+   * real mail, Resend's verification wants its OWN MX for the bounce return path, and SPF is
+   * single-record by spec, so a second `v=spf1` on the apex would PERMERROR and invalidate BOTH.
+   * Moving the sender to the apex would break inbound mail to the address this site publishes.
+   * **That is a worse failure than the form not sending, and it would be silent** — the form would
+   * keep working while client replies stopped arriving.
+   *
+   * That risk had NO test. The assertion above looked like the guard and was not: it pinned the
+   * apex, so it failed the moment the ruling was implemented. A test that goes red on a correct
+   * change teaches the next person to edit it rather than believe it, which is precisely how this
+   * repo lost `config.test.ts`'s `startsWith('info@')` two days ago.
+   *
+   * SO THIS ASSERTS THE PROPERTY: a subdomain OF the organizational domain. Renaming `send.` to
+   * `mail.` is a free edit; a revert to the apex fails. The `.bowerbuild.org` half is what keeps
+   * DMARC aligned, since alignment is evaluated against the organizational domain.
+   */
+  it('sends from a SUBDOMAIN, never the apex, or Google MX and SPF collide', () => {
+    const host = FORM_SENDER.match(/<[^@]+@([^>]+)>/)?.[1];
+    expect(host, `FORM_SENDER is not an addr-spec in angle brackets: ${FORM_SENDER}`).toBeTruthy();
+    // DMARC alignment: same organizational domain, so the subdomain still passes.
+    expect(host!.endsWith('.bowerbuild.org')).toBe(true);
+    // The part the guard above misses.
+    expect(host, 'the sending domain must not be the apex').not.toBe('bowerbuild.org');
   });
 
   /**

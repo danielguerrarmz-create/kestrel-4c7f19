@@ -71,7 +71,24 @@ sit in the structure, and a venue owner is not buying somewhere to sit.
 - **THE SITE HAS A BACKEND NOW: `api/contact.ts`** (Vercel function, Resend), and the
   register-interest form posts to it. **It is INERT until `RESEND_API_KEY` is set in Vercel** — this
   repo is PUBLIC so no key can live here — returning a real `503 not-configured`, which the form
-  reads. **The outcome is decided by the SERVER, never by the click**: "we will be in touch" renders
+  reads.
+  - **MAIL IS SENT FROM THE SUBDOMAIN `send.bowerbuild.org` AND RECEIVED AT `contact@bowerbuild.org`.
+    That asymmetry is deliberate and the apex is FORBIDDEN as a sending domain** (Daniel,
+    2026-08-02): the apex carries Google's MX for the practice's real mail, Resend wants its own MX
+    for the return path, and SPF is single-record by spec so a second `v=spf1` there would PERMERROR
+    and invalidate BOTH. Breaking that breaks INBOUND mail to the published address, which is worse
+    than the form failing and is silent. Guarded in `api/contact.test.ts` as a property (a subdomain
+    of the organizational domain), not as a literal. DMARC still aligns.
+  - **`GET /api/contact` REPORTS THE KEY, NOT READINESS.** `configured` is
+    `Boolean(RESEND_API_KEY)`; the function cannot see domain verification, so it says
+    `configured: true` on a deployment where every submission returns 502. Useful because it costs
+    no fake enquiry in the client inbox; **not** evidence that mail sends.
+  - **Production needs `RESEND_API_KEY` and nothing else.** `RESEND_FROM` / `RESEND_TO` are the
+    sandbox escape hatch and stay UNSET in production: a sender living in a dashboard variable is a
+    fact with no test and no reviewer.
+  - **No durable store: a failed send loses the enquiry.** Accepted as reversible (Daniel,
+    2026-08-02). The reader is told plainly and given the phone and the address, so recovery is
+    theirs to act on, not ours. **The outcome is decided by the SERVER, never by the click**: "we will be in touch" renders
   only on a 2xx, everything else prints the phone and the address. That shape exists because this
   site already shipped the opposite once. **`vercel.json` MUST keep `api/` out of the SPA rewrite**
   or the form POSTs to the HTML shell, gets a 200, and promises a reply forever while sending
