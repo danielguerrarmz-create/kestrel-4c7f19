@@ -55,11 +55,19 @@ sit in the structure, and a venue owner is not buying somewhere to sit.
     built work their record is the only substitute for a portfolio of finished buildings, so going
     anonymous the moment buyers ask "will these people exist in three years" makes the practice look
     smaller, not more corporate.
-- **TWO ADDRESSES, AND THE SPLIT IS THE POINT.** `CONTACT.email` = **`clay@bowerbuild.org`** is what
-  the site PRINTS (the `/questions` close names "Clay Seifert" one line above it; an `info@` in that
-  position puts a front desk between the reader and the person they just read the name of).
-  `FORM_INBOX` = **`info@bowerbuild.org`** is where the FORM posts — a machine writing to a machine,
-  durable, fans out later. `config.test.ts` pins that they never converge.
+- **ONE ADDRESS: `contact@bowerbuild.org` (Daniel, 2026-08-02, "our new email").** `CONTACT.email`
+  (what the site PRINTS) and `FORM_INBOX` (where the FORM posts) are the SAME value, and
+  `config.test.ts` + `api/contact.test.ts` pin them EQUAL. **This block said the opposite until
+  2026-08-02 and it was two versions stale**: it described a deliberate `clay@` / `info@` split that
+  `345a8eb` had already retired, and the "never converge" rule it quoted had been inverted in that
+  same commit. Nothing failed, because a map cannot fail.
+  - **The constants stay two names even though the values match.** `api/` is built by Vercel
+    independently of the Vite app and cannot import from `src/`, so it carries its own copy pinned
+    against this one. Re-splitting later should be an edit, not a refactor.
+  - **The value has changed four times in five days; do not pin the local part in a test.**
+    `config.test.ts` asserted `FORM_INBOX.startsWith('info@')` for one day and it went red on a
+    correct change. The invariants that survive a rename are: on the practice domain, not a free
+    provider, not a founder's personal address, and the app and the endpoint agree.
 - **THE SITE HAS A BACKEND NOW: `api/contact.ts`** (Vercel function, Resend), and the
   register-interest form posts to it. **It is INERT until `RESEND_API_KEY` is set in Vercel** — this
   repo is PUBLIC so no key can live here — returning a real `503 not-configured`, which the form

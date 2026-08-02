@@ -396,44 +396,52 @@ export const CONTACT = {
    *  a tel: link that dials something other than what the page prints fails silently on desktop. */
   phoneHref: '+442071395142',
   /**
-   * THE PUBLISHED ADDRESS. `info@bowerbuild.org` — Clay's call, 2026-08-01, and the third value
-   * this field has held in four days.
+   * THE PUBLISHED ADDRESS. `contact@bowerbuild.org` — Daniel, 2026-08-02: "our new email is now
+   * contact@bowerbuild.org". The fourth value this field has held in five days, and the first one
+   * that closes a risk instead of opening one.
    *
    * The sequence, because it is a decision that kept being re-made rather than a value that kept
    * being wrong: a personal Gmail (2026-07-28, correct while the domain had no mailbox at all) ->
-   * `clay@` (this branch, on the argument below) -> `contact@` (Daniel, on main, because it had a
-   * verified Workspace mailbox) -> `info@`, which is what Clay leaned toward from the start.
+   * `clay@` (on the argument below) -> `contact@` (Daniel, on main, because it had a verified
+   * Workspace mailbox) -> `info@` (Clay, 2026-08-01) -> `contact@` again, now as the practice's
+   * stated address rather than as a fallback chosen for being the one known to work.
+   *
+   * **THE THING THAT WAS UNVERIFIED IS NOW THE THING THAT IS SETTLED.** The `info@` version of this
+   * comment carried an explicit warning that nothing in the repo could confirm `info@` had a
+   * mailbox behind it, and that an address which bounces is worse than any of the alternatives.
+   * `contact@` is the address this repo has always known to work — a verified Google Workspace
+   * mailbox is why main reached for it on 2026-08-01. So the open question is closed by the change
+   * rather than carried forward, and this comment no longer needs to hedge.
    *
    * THE ARGUMENT AGAINST A DEPARTMENT ADDRESS IS KEPT HERE, NOT BECAUSE IT WON, but because it is
    * the thing to weigh if this is ever revisited. The `/questions` close sets the heading "Who do
    * I ring?", then the name "Clay Seifert", then this address directly underneath, and a department
    * address in that position puts a front desk between the reader and the person they just read the
    * name of. These buyers are a family-owned house, not a procurement department. Against that:
-   * `info@` is durable, survives one person being away, and fans out to both founders without the
-   * site changing — and `/about/practice` publishes both founders' direct addresses anyway, so a
-   * reader who wants a person can still reach one.
-   *
-   * **UNVERIFIED FROM HERE: whether `info@` has a mailbox behind it.** Google Workspace is live on
-   * the domain and `contact@` is known to work; nothing in this repo can check the rest. An address
-   * that bounces is worse than any of the alternatives above, so confirm it receives before the
-   * first letters go out.
+   * a shared address is durable, survives one person being away, and fans out to both founders
+   * without the site changing — and `/about/practice` publishes both founders' direct addresses
+   * anyway, so a reader who wants a person can still reach one.
    */
-  email: 'info@bowerbuild.org',
+  email: 'contact@bowerbuild.org',
 } as const;
 
 /**
  * WHERE THE SITE'S OWN FORM WRITES.
  *
- * THIS NOW EQUALS `CONTACT.email`, AND IT USED NOT TO. The two were deliberately different while
- * the site published `clay@`: the form is a machine posting to a machine, and keeping automated
+ * THIS EQUALS `CONTACT.email`, AND IT USED NOT TO. The two were deliberately different while the
+ * site published `clay@`: the form is a machine posting to a machine, and keeping automated
  * notifications out of the mailbox a client's own reply lands in is worth something at volume.
  * `config.test.ts` asserted they never converge.
  *
  * That assertion is gone, because the reason for it was never a law — it was a preference about
- * inbox hygiene, and it stopped applying the moment the published address became `info@` on
- * 2026-08-01. **Splitting them now would mean a two-person practice watching two mailboxes to
- * avoid mixing form notifications with replies, which is the wrong trade at this size**: the
+ * inbox hygiene, and it stopped applying the moment the published address became the form's own
+ * inbox on 2026-08-01. **Splitting them now would mean a two-person practice watching two mailboxes
+ * to avoid mixing form notifications with replies, which is the wrong trade at this size**: the
  * failure that costs a commission is a message nobody reads, not a message in the wrong folder.
+ *
+ * THE CONVERGENCE SURVIVED THE ADDRESS CHANGING AGAIN. On 2026-08-02 both became `contact@`
+ * (Daniel: "our new email", singular — one mailbox). The pair moves together by ruling, so the
+ * equality below is the invariant and the VALUE is the thing that varies.
  *
  * THE CONSTANT STAYS SEPARATE EVEN THOUGH THE VALUES MATCH, and that is deliberate. `api/contact.ts`
  * is built by Vercel independently of the Vite app and cannot import from `src/`, so it carries its
@@ -444,7 +452,7 @@ export const CONTACT = {
  * Consumed by `api/contact.ts`, NOT by any component: a form does not need to print its own
  * destination.
  */
-export const FORM_INBOX = 'info@bowerbuild.org';
+export const FORM_INBOX = 'contact@bowerbuild.org';
 
 /**
  * THE FOUNDERS, name and address paired, for the footer's practice block.

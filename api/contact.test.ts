@@ -96,9 +96,9 @@ describe('the message itself', () => {
    * person wiring up the form is not always the person holding the DNS.
    *
    * The risk it introduces is precisely that it is forgotten: mail quietly going to a personal
-   * address from `onboarding@resend.dev` forever, while everyone believes `info@` is live. So the
-   * defaults are asserted as the REAL ones — an unset environment can only ever produce the
-   * production sender and the production inbox.
+   * address from `onboarding@resend.dev` forever, while everyone believes the practice inbox is
+   * live. So the defaults are asserted as the REAL ones — an unset environment can only ever
+   * produce the production sender and the production inbox.
    */
   it('defaults to the real sender and the real inbox when nothing is overridden', () => {
     const m = buildMessage({ email: 'a@b.com' }, NOW, {});
@@ -138,16 +138,22 @@ describe('the endpoint agrees with the app it serves', () => {
     expect(FORM_INBOX).toBe(APP_FORM_INBOX);
   });
 
-  it('mails the address the site publishes, which is now the same box', () => {
+  it('mails the address the site publishes, which is the same box', () => {
     /**
      * INVERTED 2026-08-01. This asserted the opposite — that form mail must NOT land in the mailbox
      * a client's own reply arrives in — which held while the site published `clay@` and the form
-     * posted to `info@`. Clay then published `info@`, so the two are one inbox.
+     * posted to `info@`. Clay then published the form's own inbox, so the two became one.
      *
      * The old rule was inbox hygiene, not safety, and at a two-person practice the failure that
      * costs a commission is a message nobody reads, not a message in the wrong folder. Kept as an
      * assertion rather than deleted so that a future split is a deliberate edit here, and so this
      * file records that they were once separate and why.
+     *
+     * NOTE WHAT THIS ASSERTION IS AND IS NOT. It pins the two constants EQUAL; it says nothing
+     * about their value, which is why the address moving to `contact@` on 2026-08-02 did not touch
+     * this line. A sibling assertion in `src/data/config.test.ts` did pin the local part as a
+     * literal (`startsWith('info@')`) and had to be deleted that day — it went red on a correct
+     * change, which is the signature of a test measuring the wrong thing.
      */
     expect(FORM_INBOX).toBe(CONTACT.email);
   });
