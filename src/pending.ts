@@ -92,7 +92,7 @@ export interface PendingFact {
 export const PENDING: readonly PendingFact[] = [
   /*
    * `contact-uk-phone` RESOLVED 2026-07-31: +44 20 7139 5142, a London landline. Together with
-   * `contact-domain-email` (info@bowerbuild.org) this clears spec item 3 entirely — the whole of
+   * `contact-domain-email` (contact@bowerbuild.org) this clears spec item 3 entirely — the whole of
    * "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first, and
    * they sit on the page that names £350,000".
    *
@@ -111,7 +111,7 @@ export const PENDING: readonly PendingFact[] = [
     needs:
       'A Resend account with bowerbuild.org verified (three DNS records: DKIM, SPF, return-path CNAME), then RESEND_API_KEY set as a Production environment variable in Vercel. NOT in .env, which is tracked in this public repo.',
     blocks:
-      'Nothing visible, and that is the point: `api/contact.ts` is deployed and answers 503 not-configured until the key exists, so the register-interest form keeps showing the direct contact route instead of promising a reply. The moment the key lands the form starts mailing info@bowerbuild.org and the confirmation becomes "we will be in touch". Verify with GET /api/contact, which reports readiness without sending anything into the inbox a real client writes to.',
+      'Nothing visible, and that is the point: `api/contact.ts` is deployed and answers 503 not-configured until the key exists, so the register-interest form keeps showing the direct contact route instead of promising a reply. The moment the key lands the form starts mailing contact@bowerbuild.org and the confirmation becomes "we will be in touch". Verify with GET /api/contact, which reports readiness without sending anything into the inbox a real client writes to.',
   },
   /*
    * `weather-glazed-crown` RESOLVED 2026-07-31 (Clay), and it is the entry worth reading twice.

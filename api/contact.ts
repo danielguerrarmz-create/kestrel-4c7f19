@@ -41,7 +41,7 @@
  *  graph into a serverless function. The constant is pinned against its twin in `api.test.ts`, which
  *  is the same trade this repo already makes for `FOUNDER_NAMES` in seo.ts: pay the coupling at test
  *  time, not at runtime. */
-export const FORM_INBOX = 'info@bowerbuild.org';
+export const FORM_INBOX = 'contact@bowerbuild.org';
 
 /**
  * The From: address, once `bowerbuild.org` is verified with the provider.
@@ -63,13 +63,13 @@ export const FORM_SENDER = 'Bower site <noreply@bowerbuild.org>';
  * Set `RESEND_FROM=onboarding@resend.dev` and a real send works immediately, with one restriction
  * the provider enforces: **it will only deliver to the email address the Resend account was opened
  * with.** So it proves the endpoint, the key, the payload, the reply-to and the form's success path
- * are all correct, and proves nothing about `info@bowerbuild.org` receiving mail. Unset the variable
- * once the domain is verified.
+ * are all correct, and proves nothing about `contact@bowerbuild.org` receiving mail. Unset the
+ * variable once the domain is verified.
  */
 export const SANDBOX_SENDER = 'onboarding@resend.dev';
 
 /** Where the mail is delivered. Overridable for the same reason as the sender: the sandbox sender
- *  can only reach the account holder's own address, so `info@` is unreachable until DNS lands. */
+ *  can only reach the account holder's own address, so `contact@` is unreachable until DNS lands. */
 export const resolveRecipient = (env: { RESEND_TO?: string }): string => env.RESEND_TO || FORM_INBOX;
 
 /** The From: header to use, given the environment. Falls back to the verified domain address. */
@@ -107,8 +107,8 @@ export function normalizeEmail(raw: unknown): string | null {
 /**
  * The message itself. Plain text, because this is a notification to two people and not a campaign.
  *
- * `replyTo` is the load-bearing field: it means hitting reply in the `info@` mailbox writes straight
- * back to the person who filled the form, with no copying and pasting an address out of a
+ * `replyTo` is the load-bearing field: it means hitting reply in the `contact@` mailbox writes
+ * straight back to the person who filled the form, with no copying and pasting an address out of a
  * notification, which is exactly where a lead gets dropped.
  */
 export function buildMessage(
