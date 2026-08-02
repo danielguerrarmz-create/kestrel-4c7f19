@@ -1,9 +1,13 @@
 /**
  * RegisterInterest.tsx — the splash's one email capture (spec §5). Top-of-funnel
  * and design-agnostic, so it deliberately does NOT reuse the store's
- * commission-coupled submitReserve() slice; it keeps its own local state and the
- * same honesty posture the rest of the MVP holds: real as a shape, logged to
- * console, not yet wired to a backend, and it says so.
+ * commission-coupled submitReserve() slice; it keeps its own local state.
+ *
+ * IT POSTS TO A REAL ENDPOINT AS OF 2026-07-31 (`api/contact.ts`, mailing `FORM_INBOX`), which is
+ * the first backend this site has had. The honesty posture did not relax with it — it moved from
+ * the copy into the control flow: the confirmation the reader sees is decided by what the SERVER
+ * returned, so the site can only promise a reply when a message was actually accepted. See the
+ * comment above the confirmation branches.
  *
  * Visuals stay in the hairline drafting register (1px border, no rounded pill,
  * thin-bordered submit) so this page keeps exactly one filled action, the hero
@@ -12,39 +16,73 @@
 import { useState, type FormEvent } from 'react';
 import { CONTACT } from '../../data/config';
 
+/** What happened to the submission, which is what decides the confirmation the reader is shown. */
+type Outcome = 'idle' | 'sending' | 'delivered' | 'undelivered';
+
 export function RegisterInterest() {
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [outcome, setOutcome] = useState<Outcome>('idle');
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  /**
+   * THE OUTCOME IS DECIDED BY THE SERVER, NOT BY THE CLICK — that is the whole design.
+   *
+   * A form that says "thank you" on submit is indistinguishable, to the person who sent it, from
+   * one that works. They walk away believing they have contacted you. So there is exactly ONE path
+   * to the short confirmation and it requires a 2xx from `/api/contact`, which itself requires the
+   * mail provider to have accepted the message. Every other outcome (endpoint absent in local dev,
+   * `RESEND_API_KEY` unset in production, provider down, network gone) lands on `undelivered`, which
+   * prints the phone number and the address.
+   *
+   * This is also why the truth is not read from a build-time flag. A flag would have to be right,
+   * and the failure it is guarding against is precisely the case where something we believed was
+   * configured is not.
+   */
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    // MVP: no backend. Capture the intent to console + local state only.
-    // eslint-disable-next-line no-console
-    console.log('[REGISTER] interest captured', { email: email.trim(), source: 'splash' });
-    setSubmitted(true);
+    const value = email.trim();
+    if (!value || outcome === 'sending') return;
+    setOutcome('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: value, source: 'splash' }),
+      });
+      setOutcome(res.ok ? 'delivered' : 'undelivered');
+    } catch {
+      setOutcome('undelivered');
+    }
   };
 
   /*
-   * THE CONFIRMATION NO LONGER CLAIMS SOMETHING THAT WILL NOT HAPPEN (2026-07-28).
+   * "WE WILL BE IN TOUCH" IS SAYABLE AGAIN (2026-07-31) — but only when it is true.
    *
-   * It said "Noted. We will be in touch." above a handler that does `console.log` and nothing
-   * else: there is no backend and, until today, no inbox anywhere on the site (config.ts's
-   * CONTACT block was deliberately empty). So the site's ONE conversion point told every visitor
-   * a falsehood and then dropped them, on a site whose whole codebase is careful not to present
-   * a cost as a price.
+   * The history, because it is the reason this component is shaped the way it is: the confirmation
+   * once read "Noted. We will be in touch." above a handler that did `console.log` and nothing else,
+   * with no backend and no inbox anywhere on the site. The site's ONE conversion point told every
+   * visitor a falsehood and dropped them. On 2026-07-28 the copy was made honest and the mechanism
+   * was left as "a provider choice, not a copy fix", with a note saying the apology could go when an
+   * endpoint landed.
    *
-   * The mechanism is unchanged here on purpose (wiring a real endpoint is a provider choice, not
-   * a copy fix). What changed is that the message is now true and hands over a route that works.
-   * WHEN AN ENDPOINT LANDS, this whole comment and the second sentence go, and "we will be in
-   * touch" becomes sayable again.
+   * The endpoint has landed (`api/contact.ts`), and the note's instruction is followed EXACTLY as
+   * far as it should be and no further: the promise returns on the path where the message was
+   * actually accepted, and the apology stays on the path where it was not. Deleting it outright
+   * would have recreated the original bug the first time an API key expired.
    */
-  if (submitted) {
+  if (outcome === 'delivered') {
+    return (
+      <div className="mt-8 font-serifDisplay text-[17px] leading-relaxed text-inkBlack/70">
+        <p className="italic">Noted, and thank you. We will be in touch.</p>
+      </div>
+    );
+  }
+
+  if (outcome === 'undelivered') {
     return (
       <div className="mt-8 flex flex-col gap-2 font-serifDisplay text-[17px] leading-relaxed text-inkBlack/70">
-        <p className="italic">Noted, and thank you.</p>
+        <p className="italic">That didn’t send, and we would rather tell you than lose it.</p>
         <p className="italic">
-          Our inbox is not set up yet, so the sure way to reach us is directly:{' '}
+          The sure way to reach us is directly:{' '}
           <a href={`tel:${CONTACT.phoneHref}`} className="not-italic text-inkBlack underline decoration-inkBlack/25 underline-offset-4 transition-colors hover:decoration-inkBlack">
             {CONTACT.phone}
           </a>{' '}
@@ -93,10 +131,12 @@ export function RegisterInterest() {
       </label>
       <button
         type="submit"
-        className="group inline-flex items-center gap-1.5 self-start pb-2 font-serifDisplay text-[18px] text-inkBlack sm:self-auto [@media(pointer:coarse)]:min-h-[44px]"
+        disabled={outcome === 'sending'}
+        aria-busy={outcome === 'sending'}
+        className="group inline-flex items-center gap-1.5 self-start pb-2 font-serifDisplay text-[18px] text-inkBlack transition-opacity disabled:opacity-50 sm:self-auto [@media(pointer:coarse)]:min-h-[44px]"
       >
         <span className="relative">
-          submit
+          {outcome === 'sending' ? 'sending' : 'submit'}
           <span
             aria-hidden
             className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-inkBlack transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"

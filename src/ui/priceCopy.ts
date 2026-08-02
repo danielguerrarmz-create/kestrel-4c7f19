@@ -101,6 +101,101 @@ export const COMMISSION_BREAKEVEN_GBP = 220_000;
  */
 export const COMMISSION_FROM = 'from £350k';
 
+/**
+ * THE PUBLISHED COMMISSION FLOOR IS NOW WORDS, NOT A NUMBER (Clay, 2026-08-01).
+ *
+ * The public pages said "Commissions begin at £350,000 including VAT". They now say complete
+ * project budgets are expected to begin in the **mid-six figures**, reaching £1 million or more for
+ * larger or structurally ambitious pavilions, with the site-specific range established by the paid
+ * feasibility study.
+ *
+ * WHY THIS IS AN IMPROVEMENT AND NOT A RETREAT. "£350,000" is a point value for an object nobody
+ * has built, quoted before a site has been seen — the same category of claim as a single Stage 2
+ * figure, which this file already refuses to publish for exactly that reason. A range in words
+ * cannot be mistaken for a quote, and it survives the first real commission coming in at £480,000.
+ * It also stops the number being screenshotted out of context, which is the failure the whole
+ * no-figures-in-the-meta-layer rule exists to prevent.
+ *
+ * **AND IT BREAKS THE BREAK-EVEN GUARD UNLESS THE WORDS CARRY A NUMBER.** `COMMISSION_BREAKEVEN_GBP`
+ * exists because £150,000 shipped below cost, and the test that catches that parses a numeral out
+ * of the published sentence. With no numeral there is nothing to parse, and the guard would go
+ * green having checked nothing — the exact shape of failure this repo keeps writing warnings about.
+ * So the phrase carries its own floor: the LOWEST figure a reader could reasonably understand by
+ * "mid-six figures", and `priceCopy.test.ts` asserts THAT clears break-even.
+ *
+ * £400,000 is deliberately the conservative reading. "Mid-six figures" is arguably £500,000, and
+ * taking the lower bound is what makes the guard meaningful rather than flattering.
+ */
+export const COMMISSION_FLOOR_WORDS = 'mid-six figures';
+
+/** The lowest a reader could reasonably read `COMMISSION_FLOOR_WORDS` as. Guarded against
+ *  `COMMISSION_BREAKEVEN_GBP`, so the published words can never fall below cost the way a
+ *  published number once did. */
+export const COMMISSION_FLOOR_WORDS_MIN_GBP = 400_000;
+
+/**
+ * The whole published cost statement, as one paragraph set, so `/questions` and `/houses` cannot
+ * drift. Clay's words; the only change was the house dash rule.
+ */
+export const COMMISSION_STATEMENT: readonly string[] = [
+  'Each Bower is commissioned for its site.',
+  `Complete project budgets are expected to begin in the ${COMMISSION_FLOOR_WORDS}, with larger or structurally ambitious pavilions reaching £1 million or more.`,
+  'A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.',
+];
+
+/**
+ * STAGE 1, THE PAID STUDY: £18,000 including VAT as of 2026-07-31 (Clay). It has been £1,500,
+ * £6,500 and £15,000, the last three of those inside a week — which is the whole argument for it
+ * being a constant rather than a literal typed into three pages.
+ *
+ * ONE OWNER, because three surfaces state it: the cost answer on `/questions`, that page's close
+ * ("Who do I ring?"), and the `/houses` cost section. It was written out by hand in all three, and
+ * a fee that moves twice in four days is exactly the fact that ends up right in two places and
+ * wrong in the third. `questions/copy.test.ts` binds the prose to this constant.
+ *
+ * IT IS A PROFESSIONAL FEE AND IS *SUPPOSED* TO SIT FAR BELOW `COMMISSION_BREAKEVEN_GBP`, so the
+ * break-even guard deliberately does not sweep it — that guard is scoped to the sentence stating
+ * the commission. Sweeping every pound sign on the page was the first version of that test and it
+ * failed on precisely this number, which is the difference between guarding a quantity and
+ * guarding everything shaped like one.
+ *
+ * The climb matters commercially rather than technically: at £6,500 the study read as a deposit a
+ * curious owner might risk, and at £18,000 it reads as a piece of work someone commissions. That is
+ * the intent. It also means the study has to be worth £18,000 on its own, which is what "yours to
+ * keep whatever you decide" is promising.
+ */
+export const STAGE_1_FEE_GBP = 18_000;
+
+/** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
+export const STAGE_1_FEE = '£18,000';
+
+/**
+ * STAGE 2, PLANNING / DESIGN / ENGINEERING: £60,000 to £90,000 including VAT (Clay, 2026-07-31).
+ *
+ * A RANGE, AND IT CAME BACK ON PURPOSE. The history is worth keeping because the number has now
+ * been published, withdrawn and republished in a single day, and each move was right at the time:
+ *   - It read "typically £18,000 to £25,000, confirmed at the end of Stage 1".
+ *   - It was withdrawn entirely, on the reasoning that the figure varies too much with heritage
+ *     statements and tree surveys to publish at all.
+ *   - It returns at £60,000 to £90,000, which is not the old range restated but a different
+ *     estimate of a differently-scoped stage.
+ *
+ * The rule that governed all three is unchanged and still holds: **do not collapse it to a single
+ * figure.** A point value here reads as a quote for work nobody has scoped, and the scoping is
+ * literally what Stage 1 is for.
+ *
+ * `NOT_CREDITED` is the sentence that stops both fees reading as a deposit. It is a commercial
+ * term, not decoration: a buyer who assumes £108,000 of professional fees comes off a £350,000
+ * commission has mis-budgeted by nearly a third, and would find out late.
+ */
+export const STAGE_2_FEE = '£60,000 to £90,000';
+export const STAGE_2_FEE_LOW_GBP = 60_000;
+export const STAGE_2_FEE_HIGH_GBP = 90_000;
+
+/** Both stages are fees for work, not money on account. */
+export const FEES_NOT_CREDITED =
+  'Stage 1 and Stage 2 are professional fees and are not credited against construction.';
+
 /** What the floor is a floor OF. Sits with it, never with a computed figure. */
 export const COMMISSION_LABEL = 'commission, installed and planted';
 

@@ -20,7 +20,13 @@ describe('splash precedent copy (hand-authored, house dash rule)', () => {
   it('the ritual is five steps, each one fact, none of them jargon', () => {
     const steps = ritualSteps();
     expect(steps).toHaveLength(5);
-    expect(steps[2].text).toContain('Flat timber components');
+    // STEP 3 NO LONGER STATES A FABRICATION METHOD (2026-08-01, Clay: "I don't think that is true
+    // and I would prefer to not list it as such"). It read "Flat timber components, CNC-cut",
+    // which described the DEV-ONLY ENGINE's model of how a Bower is made as though it were how a
+    // commission is actually built — and nothing has been built. Pinned absent here, and swept
+    // across every rendered page by `houseRules.test.ts`.
+    expect(steps[2].text).not.toMatch(/\bCNC\b/i);
+    expect(steps[2].text).not.toContain('Flat timber components');
     // CUT 2026-07-23 (subtraction pass): "from the live cut list" is engine vocabulary on a
     // page whose reader cannot see the engine, and "no wet trades" is trade jargon. Pinned as
     // absences so they cannot drift back in.
@@ -33,9 +39,14 @@ describe('splash precedent copy (hand-authored, house dash rule)', () => {
     }
   });
 
-  it('the compact recap inlines the count and stays clean', () => {
+  it('the compact recap carries no component count and stays clean', () => {
+    // It inlined "~217 components, CNC-cut" until 2026-08-01. The count went with the fabrication
+    // claim, because a component count IS a statement about how the thing is made — and the more
+    // checkable half of it, against an object nobody has built.
     const line = ritualCompact(217);
-    expect(line).toContain('~217 components');
+    expect(line).not.toContain('217');
+    expect(line).not.toContain('components');
+    expect(line).not.toMatch(/\bCNC\b/i);
     expect(line).not.toMatch(DASHES);
   });
 
@@ -55,8 +66,21 @@ describe('ritual figures come from the engine, not hardcoded', () => {
     expect(components.totalCount).toBeGreaterThan(0);
     expect(Number.isInteger(components.totalCount)).toBe(true);
     expect(buildPlan.leadTimeWeeks).toBeGreaterThan(0);
-    // The rendered ritual must reflect whatever the engine actually computed —
-    // the live count now rides the compact recap, not step 3.
-    expect(ritualCompact(components.totalCount)).toContain(`~${components.totalCount} components`);
+    /**
+     * THE COMPONENT COUNT IS NO LONGER PRINTED ANYWHERE PUBLIC (2026-08-01).
+     *
+     * It rode the compact recap ("~217 components, CNC-cut") after moving off step 3, and both
+     * came out with the fabrication claim: a component count is the same kind of statement about
+     * how the thing is made, and it is the more checkable half of it.
+     *
+     * The engine assertions above STAY, and that is the point of keeping this test. They check the
+     * engine still computes a real count and lead time, which is what the dev-only studio surfaces
+     * render. What is asserted now is that the public recap does NOT carry it — so if someone
+     * reinstates the number here, this fails rather than the change passing silently.
+     */
+    const recap = ritualCompact(components.totalCount);
+    expect(recap).not.toContain(`${components.totalCount}`);
+    expect(recap).not.toMatch(/\bCNC\b/i);
+    expect(recap).not.toContain('components');
   });
 });

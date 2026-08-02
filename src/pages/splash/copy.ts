@@ -40,7 +40,17 @@ export function ritualSteps(): RitualStep[] {
   return [
     { n: '1', text: 'We design it with you' },
     { n: '2', text: 'The price is fixed as we design' },
-    { n: '3', text: `Flat timber components, CNC-cut` },
+    // WAS "Flat timber components, CNC-cut", REMOVED 2026-08-01 (Clay: "I don't think that is
+    // true and I would prefer to not list it as such"). It described the dev-only engine's
+    // fabrication model — flat sheet stock, nested and profiled — as though it were how a
+    // commission is actually built, and nothing has been built. A manufacturing method is the
+    // easiest claim on a site like this for a technically literate buyer to test, and the one
+    // with the least to gain from being asserted early.
+    //
+    // What replaces it says what the reader can verify from the renderings: the structure is
+    // timber, and it is made rather than bought. See also `houseRules.test.ts`, which pins the
+    // curved-lamination-in-Accoya claim absent for the same reason.
+    { n: '3', text: 'Made for your garden, not off a shelf' },
     { n: '4', text: 'Days to raise, on ground screws, no slab' },
     { n: '5', text: 'Plant, and let it start becoming.' },
   ];
@@ -48,7 +58,12 @@ export function ritualSteps(): RitualStep[] {
 
 /** The same ritual condensed to one mono line for the close (process shown twice). */
 export function ritualCompact(componentCount: number): string {
-  return `designed with you · the price fixed as it is designed · ~${componentCount} components, CNC-cut · days to raise on ground screws · plant, and it begins to become`;
+  // `componentCount` is no longer printed: the CNC claim came out of step 3 above (2026-08-01) and
+  // this line restated it, so removing it there and leaving it here would have put the two copies
+  // of one fact into disagreement — the failure this file's own header is about. The parameter
+  // stays so the dev-only engine surfaces that call this keep compiling.
+  void componentCount;
+  return `designed with you · the price fixed as it is designed · made for your garden · days to raise on ground screws · plant, and it begins to become`;
 }
 
 /**

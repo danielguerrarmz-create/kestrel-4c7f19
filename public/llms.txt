@@ -1,24 +1,33 @@
 # Bower
 
 > Bower designs and builds living garden pavilions: organic timber gridshell structures,
-> designed for the climbing plants that grow into them, fabricated from flat CNC components.
-> This is the marketing site for a design practice; it is a JavaScript single-page app, so
-> non-JavaScript readers should use the markdown mirrors below.
+> designed for the climbing plants that grow into them and made for the garden they stand in.
+> This is the marketing site for a design and manufacturing company; it is a JavaScript
+> single-page app, so non-JavaScript readers should use the markdown mirrors below.
 
 ## Pages
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
+- [Houses](/agent/houses.md): the page for houses that earn from exclusive hire, weddings and
+  whole-house rental: what one holds, the winter half of the year, building around a booked
+  season, and what it costs
 - [Gallery](/agent/gallery.md): seven concept renderings of Bower commissions in their gardens
 - [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
   pruning, and how to contact the studio
-- [About](/agent/about.md): the founders, the timeline of the practice, the work so far
+- [About](/agent/about.md): what a Bower is and what the practice is for, in short
+- [The practice](/agent/practice.md): the two founders, the timeline of the practice, and the
+  work so far. The expanded version of the About page, nested at `/about/practice`
 
 ## Notes for agents
 
-- The human site lives at `/`, `/gallery`, `/questions` and `/about`. These are real paths
-  (they were `#/` hash routes until 2026-07-28, and an old hash link still redirects to the
-  new path), but each one serves the same HTML shell and needs JavaScript to render.
+- The human site lives at `/`, `/houses`, `/gallery`, `/questions`, `/about` and
+  `/about/practice`. These are real paths (they were `#/` hash routes until 2026-07-28, and an
+  old hash link still redirects to the new path), but each one serves the same HTML shell and
+  needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- `/sitemap.xml` lists the four public URLs.
+- `/sitemap.xml` lists the six public URLs.
 - The gallery images are concept renderings (generated visualizations), not photographs of
   built work, and the site says so.
+- Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.
+  A Bower is between 25 and 40 square metres: it is not a marquee, does not replace one, and
+  the site does not claim it does.

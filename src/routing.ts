@@ -263,6 +263,14 @@ export const routes = {
   /** The practical questions (2026-07-28): size, price, planning, the lawn, the
    *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
   questions: '/questions',
+  /** The commercial-hospitality page (2026-07-31): family-owned houses that earn from
+   *  exclusive hire and whole-house rental. `/houses`, NOT `/venues` — "venue" is trade
+   *  vocabulary and these owners do not use it about themselves; "houses" is how Landed
+   *  Houses, Wolsey Lodges and Historic Houses all speak. */
+  houses: '/houses',
+  /** The founders, the timeline and the work: the drawn page that WAS `/about` until
+   *  2026-07-31, now nested behind the short one as its expanded version. Public. */
+  practice: '/about/practice',
   /** The Tree of Life About (2026-07-26): the same history as /about retold as a
    *  scroll-grown tree. DEV-ONLY since 2026-07-28 — see `DEV_ONLY_ROUTES`. */
   aboutTree: '/about/tree',
@@ -282,14 +290,22 @@ export const routes = {
   gongbiLab: '/lab/gongbi',
 } as const;
 
-/** The four routes that ship to production, in nav order. The sitemap and the per-page
+/** The five routes that ship to production, in nav order. The sitemap and the per-page
  *  metadata are both built from this, so a page cannot be published without a URL, a
- *  title and a sitemap entry — or listed in the sitemap without being a real route. */
+ *  title and a sitemap entry — or listed in the sitemap without being a real route.
+ *
+ *  `/houses` sits SECOND, directly after the home and ahead of the gallery, because as of
+ *  2026-07-31 it is the page the practice is writing letters about: a commercial reader
+ *  arriving cold should meet the page addressed to them before the one addressed to a
+ *  garden owner. The rest keeps the reader's order set on 2026-07-28 — see the work, find
+ *  out what it costs, then look up who we are. */
 export const PUBLIC_ROUTES: readonly string[] = [
   routes.home,
+  routes.houses,
   routes.gallery,
   routes.questions,
   routes.about,
+  routes.practice,
 ];
 
 /**
@@ -324,7 +340,15 @@ export const ENGINE_ROUTES: readonly string[] = [
 export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree'];
 
 /** What a path resolves to. `engine` and `aboutTree` are only ever returned when `dev` is true. */
-export type RouteTarget = 'splash' | 'about' | 'aboutTree' | 'gallery' | 'questions' | 'engine';
+export type RouteTarget =
+  | 'splash'
+  | 'about'
+  | 'practice'
+  | 'aboutTree'
+  | 'gallery'
+  | 'questions'
+  | 'houses'
+  | 'engine';
 
 /**
  * The whole route decision as one pure function, so the production gate is testable
@@ -333,9 +357,13 @@ export type RouteTarget = 'splash' | 'about' | 'aboutTree' | 'gallery' | 'questi
  * engine chunk disappear from the bundle rather than merely go unlinked.
  */
 export function resolveRoute(path: string, dev: boolean): RouteTarget {
+  // `/about/practice` must be tested BEFORE `/about` would be, though these are exact matches so
+  // order is not load-bearing today. It would be the moment anyone reaches for a prefix match.
+  if (path === routes.practice) return 'practice';
   if (path === routes.about) return 'about';
   if (path === routes.gallery) return 'gallery';
   if (path === routes.questions) return 'questions';
+  if (path === routes.houses) return 'houses';
   // The two gated families. Both fall through to the home in production, so a stray bookmark or a
   // guessed URL lands somewhere real instead of on a blank or a page we are not ready to show.
   if (dev && path === routes.aboutTree) return 'aboutTree';

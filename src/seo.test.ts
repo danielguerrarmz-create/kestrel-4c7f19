@@ -18,6 +18,10 @@ import {
   COMMISSION_ANCHOR_GBP,
   COMMISSION_BREAKEVEN_GBP,
   COMMISSION_DEMO_FIGURE,
+  COMMISSION_FLOOR_WORDS,
+  COMMISSION_FLOOR_WORDS_MIN_GBP,
+  STAGE_1_FEE,
+  STAGE_2_FEE,
   COMMISSION_FLOOR_GBP,
 } from './ui/priceCopy';
 
@@ -91,11 +95,15 @@ describe('the social card', () => {
 });
 
 describe('per-page metadata', () => {
-  it('gives all four public routes a distinct title, description and canonical', () => {
+  it('gives every public route a distinct title, description and canonical', () => {
+    // DISTINCTNESS is the property, so it counts against the real list rather than a literal.
+    // Two pages sharing a title or a canonical is the bug this guards, and that stays true at
+    // four pages, at five, or at nine.
     const metas = PUBLIC_ROUTES.map(metaForPath);
-    expect(new Set(metas.map((m) => m.title)).size).toBe(4);
-    expect(new Set(metas.map((m) => m.description)).size).toBe(4);
-    expect(new Set(metas.map((m) => m.path)).size).toBe(4);
+    const n = PUBLIC_ROUTES.length;
+    expect(new Set(metas.map((m) => m.title)).size).toBe(n);
+    expect(new Set(metas.map((m) => m.description)).size).toBe(n);
+    expect(new Set(metas.map((m) => m.path)).size).toBe(n);
     for (const m of metas) {
       // The whole point of the path migration: `<title>` was the single word "Bower" for every
       // page, which spent the strongest relevance signal on the brand name four times over.
@@ -271,26 +279,45 @@ describe('structured data', () => {
       mainEntity: Array<{ name: string; acceptedAnswer: { text: string } }>;
     };
     const cost = faq.mainEntity.find((q) => q.name.includes('cost'))!;
-    // Scoped to the sentence that states the COMMISSION, exactly as copy.test.ts scopes it: the
-    // Stage 1 and Stage 2 professional fees (£6,500, £18,000 to £25,000) are supposed to sit far
-    // below break-even on the object, so sweeping every pound sign would guard the wrong quantity.
-    const line = cost.acceptedAnswer.text
-      .split('\n\n')
-      .find((p) => p.includes('Commissions begin at'))!;
-    const gbp = Number(line.match(/£([\d,]+)/)![1].replace(/,/g, ''));
-    expect(gbp, `£${gbp.toLocaleString('en-GB')} is at or below break-even`).toBeGreaterThan(
-      COMMISSION_BREAKEVEN_GBP,
-    );
-    // And it must still be the page's OWN form, VAT qualifier intact.
-    expect(line).toContain('£350,000 including VAT');
+    /**
+     * FOLLOWS THE CLAIM, NOT THE FORMAT, exactly as `questions/copy.test.ts` now does.
+     *
+     * This parsed a numeral out of the paragraph beginning "Commissions begin at £..." — a sentence
+     * that stopped existing on 2026-08-01 when the floor became words ("mid-six figures"). The
+     * schema is GENERATED from the page, so the moment the page's format changed this guard was
+     * reading a paragraph that was not there. Deleting it was the tempting repair and would have
+     * left an answer engine free to be handed a below-cost figure with nothing checking.
+     *
+     * The floor phrase must be in the schema, and the lowest reading of that phrase must clear
+     * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
+     */
+    expect(cost.acceptedAnswer.text).toContain(COMMISSION_FLOOR_WORDS);
+    expect(
+      COMMISSION_FLOOR_WORDS_MIN_GBP,
+      `"${COMMISSION_FLOOR_WORDS}" read at its lowest is at or below break-even`,
+    ).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
+    // The superseded point value, pinned absent in the schema too — an answer engine quoting a
+    // withdrawn price is the audience least able to notice it has been withdrawn.
+    expect(cost.acceptedAnswer.text).not.toContain('£350,000');
   });
 
   it('the FAQ answers carry the live price and not the retracted one', () => {
     const text = JSON.stringify(faqPageJsonLd());
     expect(text).not.toContain('£150,000');
-    // The Stage 2 range is deliberately a RANGE (it varies with heritage statements and tree
-    // surveys); an answer engine must not be handed a collapsed single figure.
-    expect(text).toContain('£18,000 to £25,000');
+    // BOTH STAGE FEES, as the page states them. The schema is generated from `QUESTIONS`, so an
+    // answer engine quoting a superseded price is the same anchoring harm as the page doing it —
+    // and it is the audience least able to notice.
+    expect(text).toContain(STAGE_1_FEE);
+    expect(text).toContain(STAGE_2_FEE);
+    // Stage 2 must never reach the schema as a single figure. Held through three revisions of that
+    // number (a range, then nothing, then a wider range) because the rule outlived all of them.
+    expect(text).toMatch(/£[\d,]+ to £[\d,]+/);
+    // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its
+    // floor and is now the STAGE 1 fee, which is exactly why this list is checked against the live
+    // constants above rather than written out as literals.
+    expect(text).not.toContain('£25,000');
+    expect(text).not.toContain('£6,500');
+    expect(text).not.toContain('£1,500');
     // The demo constants (COMMISSION_DEMO_FIGURE, COMMISSION_ANCHOR_GBP, COMMISSION_FLOOR_GBP) are
     // still anchored to £150k and are knowingly flagged-not-fixed, dev-only, Daniel's call. This
     // asserts none of them can leak into a surface that ships.

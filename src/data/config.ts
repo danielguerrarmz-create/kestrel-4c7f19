@@ -356,27 +356,109 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
  * A site with no contact route AND a form that claims one is worse than either alone.
  *
- * `email` IS THE STUDIO INBOX AS OF 2026-08-01. It was Clay's personal Gmail from 2026-07-28,
- * which was the right call when the domain had no mailbox behind it and the alternative was
- * exposing nothing. Google Workspace is live on bowerbuild.org now, so the personal address was
- * costing the page credibility on a from-£350,000 commission for no remaining benefit.
- * Deliverability is a DNS fact, not a code one: mail from this domain only lands if SPF and
- * DMARC exist alongside the DKIM key. Both were MISSING when this address shipped, and the
- * records live in VERCEL's DNS (ns1/ns2.vercel-dns.com), not at the registrar.
+ * BOTH DETAILS ARE REAL NOW, AND THEY LANDED FROM TWO DIRECTIONS OVER THE SAME WEEKEND. That is
+ * also why this block had a merge conflict: two people fixed the same embarrassment at once.
  *
- * Two things still to know:
- *   - THIS REPO IS PUBLIC (see CLAUDE.md), so both values are already scrapeable here as
- *     well as on the rendered page. That is a decision, not an oversight; swap in a UK
- *     number when one exists and nothing else has to change.
- *   - The site sells to UK gardens and the number is a US mobile. Also deliberate for
- *     now (it is the number Clay answers), and the first thing to revisit.
+ * `email` IS THE STUDIO INBOX AS OF 2026-08-01 (Daniel, on main). It was Clay's personal Gmail
+ * from 2026-07-28, which was the right call when the domain had no mailbox behind it and the
+ * alternative was exposing nothing. Google Workspace is live on bowerbuild.org now, so the
+ * personal address was costing the page credibility on a from-£350,000 commission for no
+ * remaining benefit.
+ *
+ * **DELIVERABILITY IS A DNS FACT, NOT A CODE ONE.** Mail from this domain only lands if SPF and
+ * DMARC exist alongside the DKIM key. Both were MISSING when this address shipped, and the records
+ * live in VERCEL's DNS (ns1/ns2.vercel-dns.com), not at the registrar. Same place, and the same
+ * three records, that `api/contact.ts` needs before the register-interest form can send anything —
+ * which is precisely why that endpoint refuses to report success until a provider accepts the
+ * message rather than trusting that it was configured.
+ *
+ * `phone` IS A UK LANDLINE AS OF 2026-07-31 (Clay), replacing a US mobile. Together these close
+ * the venue spec's item 3, ranked third of nine — above building an entire new page — because
+ * "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first", and
+ * they sat on the page that names £350,000.
+ *
+ * HOW THE PHONE MOVED IS THE TRANSFERABLE PART. It sat behind a comment calling it "the first
+ * thing to revisit" for three days and nothing happened, because a comment cannot fail. Restating
+ * the debt as `CONTACT_TARGET` plus two `it.skip('UNBLOCK ME: ...')` tests put a named line in the
+ * suite output on every single run. **State a debt as an assertion, not as prose.** Both are
+ * ordinary passing tests now.
+ *
+ * THIS REPO IS PUBLIC (see CLAUDE.md), so both values are scrapeable here as well as on the
+ * rendered page. That is a decision rather than an oversight: they are published contact details.
  *
  * `phoneHref` is the E.164 form for `tel:`; `phone` is the printed form.
  */
 export const CONTACT = {
   name: 'Clay Seifert',
-  phone: '+1 972-363-6298',
-  phoneHref: '+19723636298',
+  /** London landline, live 2026-07-31. Printed with spaces the way a UK reader groups it. */
+  phone: '+44 20 7139 5142',
+  /** The same number in E.164, for `tel:`. `config.test.ts` asserts the digits match `phone` —
+   *  a tel: link that dials something other than what the page prints fails silently on desktop. */
+  phoneHref: '+442071395142',
+  /**
+   * THE PUBLISHED ADDRESS. `contact@bowerbuild.org`, taken from main on 2026-08-01.
+   *
+   * THIS BRANCH HAD PUBLISHED `clay@bowerbuild.org` AND THE MERGE RESOLVED AGAINST IT, on one fact
+   * that beats the argument: **there is a verified Google Workspace mailbox behind `contact@`.**
+   * An address that reads a shade corporate is a nuance; an address that bounces is a lost
+   * commission, and this repo has no way to check which mailboxes exist.
+   *
+   * The argument it lost to is still worth keeping, because it is the reason to revisit this once
+   * the mailboxes are known. The `/questions` close sets the heading "Who do I ring?", then the
+   * name "Clay Seifert", then this address directly underneath — and a department address in that
+   * position puts a front desk between the reader and the person they just read the name of. That
+   * is the peer-to-supplier slide the venue spec's sixth ground rule is about, arriving through the
+   * email address rather than through the vocabulary. These buyers are a family-owned house, not a
+   * procurement department; the reference customer is already asking technical questions unprompted.
+   *
+   * So: `contact@` because it demonstrably works. If `clay@` also has a mailbox, this is one line,
+   * and `FOUNDERS` below already publishes both founders' addresses on `/about/practice`.
+   */
   email: 'contact@bowerbuild.org',
+} as const;
+
+/**
+ * WHERE THE SITE'S OWN FORM WRITES, as opposed to where a reader is invited to write.
+ *
+ * A department address is right here and wrong above, and the difference is who is typing. The
+ * register-interest form is a machine posting to a machine: nobody reads `info@` as a brush-off
+ * because nobody sees it. What it buys is durability — it survives one person being away, it can
+ * fan out to both founders later without the site changing, and it keeps automated mail out of the
+ * mailbox a client's reply lands in.
+ *
+ * Consumed by `api/contact.ts` (the serverless handler), NOT by any component: a form does not need
+ * to know its own destination, and printing it would undo the reasoning above.
+ */
+export const FORM_INBOX = 'info@bowerbuild.org';
+
+/**
+ * THE FOUNDERS, name and address paired, for the footer's practice block.
+ *
+ * NOT imported from `pages/about/projects.ts`, for the reason `seo.ts` already gives about
+ * `FOUNDER_NAMES`: that module is the entire About ledger (every project, every image path, every
+ * bio) and pulling it in here would drag it into EVERY page's bundle to print four strings, since
+ * the footer is on all of them. `config.test.ts` asserts these names equal `TEAM`'s exactly, so the
+ * coupling is paid at test time and costs the reader nothing.
+ *
+ * The order is the order they are printed in, and it matches `TEAM`.
+ */
+export const FOUNDERS = [
+  { id: 'clay', name: 'Clay Seifert', email: 'clay@bowerbuild.org' },
+  { id: 'daniel', name: 'Daniel Guerra', email: 'daniel@bowerbuild.org' },
+] as const;
+
+/**
+ * WHAT THE CONTACT DETAILS HAVE TO BECOME, as data rather than as prose.
+ *
+ * `config.test.ts` reads this and reports the gap on every run. It is deliberately expressed as the
+ * TARGET (a UK dialling code, a bowerbuild.org mailbox) rather than as "the current value is wrong",
+ * because a test pinned to the current wrong value is a test that goes green by accident the moment
+ * anyone edits it to a different wrong value.
+ */
+export const CONTACT_TARGET = {
+  /** The site sells to UK houses; the number must be reachable as a UK one. */
+  phoneCountryPrefix: '+44',
+  /** A domain mailbox, not a personal account on a free provider. */
+  emailDomain: 'bowerbuild.org',
 } as const;
 

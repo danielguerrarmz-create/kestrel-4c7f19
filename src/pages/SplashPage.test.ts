@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { describe, it, expect } from 'vitest';
 import { SplashPage } from './SplashPage';
+import { PUBLIC_ROUTES } from '../routing';
 
 /** Strip the <!-- --> markers React SSR injects between text and expressions. */
 const clean = (html: string) => html.replace(/<!-- -->/g, '');
@@ -81,10 +82,23 @@ describe('SplashPage', () => {
     // which is a link that silently lies. Sweep the rendered hrefs rather than naming the
     // ones we happened to remember removing. Anchors only: the nav pill's lens filter
     // carries an `feImage href="data:image/svg+xml…"`, which is a bump map, not a destination.
+    // DERIVED FROM `PUBLIC_ROUTES`, NOT HAND-COPIED. This list used to be five literals, and a
+    // hand-copied allowlist is the exact shape that went silently wrong once already: `qa/`'s own
+    // `PUBLIC_HREFS` had been stale since `/questions` shipped, and it stayed green because a
+    // stale allowlist only ever fails when a link points somewhere NEW. Reading the real list
+    // means adding a page can never quietly narrow what this guard permits.
     const hrefs = [...html.matchAll(/<a\b[^>]*?\shref="([^"]*)"/g)].map((m) => m[1]);
-    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's three links, the close's doors
+    expect(hrefs.length).toBeGreaterThan(2); // the logo, the nav's links, the close's doors
     for (const href of hrefs) {
-      expect(['/', '/about', '/gallery', '/questions', '#register']).toContain(href);
+      // `mailto:` joined the page on 2026-07-31 with the footer's practice block. It is not an
+      // in-app destination, so the route allowlist does not apply — but it gets its own rule rather
+      // than an exemption, because "any mailto is fine" would let a stray personal or third-party
+      // address onto the page that quotes six figures, which is the thing being fixed this week.
+      if (href.startsWith('mailto:')) {
+        expect(href, 'a mailto that is not a practice address').toMatch(/^mailto:[^@]+@bowerbuild\.org$/);
+        continue;
+      }
+      expect([...PUBLIC_ROUTES, '#register']).toContain(href);
     }
   });
 
@@ -97,7 +111,7 @@ describe('SplashPage', () => {
     const heroHrefs = [...html.matchAll(/<a\b[^>]*?\shref="(\/[^"]*)"/g)].map((m) => m[1]);
     expect(heroHrefs.length).toBeGreaterThan(0); // or this sweep asserts nothing at all
     for (const href of heroHrefs) {
-      expect(['/', '/about', '/gallery', '/questions']).toContain(href);
+      expect([...PUBLIC_ROUTES]).toContain(href);
     }
   });
 
@@ -152,10 +166,14 @@ describe('SplashPage', () => {
     // The prose lead was a summary of the list beneath it; the subtraction pass cut it.
     expect(html).not.toContain("that's genuinely the whole of it");
     expect(html).toContain('Plant, and let it start becoming');
-    // The component count + lead time are still LIVE engine output, but they stopped being a
-    // mono uppercase annotation strip ("~176 components · ~10 wks") in the 2026-07-23 elegance
-    // pass -- that read as a dimension note on a drawing. Same numbers, page's own voice.
-    expect(html).toMatch(/about \d+ components/);
+    // THE COMPONENT COUNT CAME OFF ON 2026-08-01 and the lead time stayed, which is the whole
+    // distinction. A count is part of a claim about HOW the thing is made — the checkable half of
+    // the CNC wording removed from ritual step 3 in the same pass — and nothing has been built.
+    // How long the work takes is a scheduling fact the practice owns either way.
+    //
+    // The surviving figure is still LIVE engine output, so `\d+` rather than a literal: pinning
+    // the number would make an engine change look like a copy change.
+    expect(html).not.toMatch(/\d+ components/);
     expect(html).toMatch(/about \d+ weeks/);
   });
 

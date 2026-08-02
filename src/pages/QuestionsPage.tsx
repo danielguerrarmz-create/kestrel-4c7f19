@@ -152,6 +152,7 @@ export function QuestionsPage() {
               <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.first}</p>
               <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.study}</p>
               <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.next}</p>
+              <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.notCredited}</p>
             </div>
           </section>
         </div>

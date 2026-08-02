@@ -13,7 +13,7 @@
  * "a generative design engine constrained by a fabrication grammar" — the studio/draw tool, which
  * came off the live site on 2026-07-21. There was no `og:image` at all, so a pasted link showed a
  * blank card with a browser icon and a sentence about a tool nobody can open. The copy below
- * describes the practice as it actually is: a design practice that builds living garden pavilions.
+ * describes the practice as it actually is: a design and manufacturing company that builds living garden pavilions.
  *
  * THERE ARE NO FIGURES IN THE META LAYER, AND THAT IS THE RULE, NOT AN OVERSIGHT.
  *
@@ -102,7 +102,7 @@ const META: Record<ProductionTarget, PageMeta> = {
       'Bower designs and builds living garden pavilions: woven timber gridshells planted with the climbers that grow into them, drawn for the garden they stand in.',
     ogTitle: 'Bower: living garden pavilions',
     ogDescription:
-      'A design practice building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden.',
+      'A design and manufacturing company building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden.',
   },
   gallery: {
     path: routes.gallery,
@@ -122,12 +122,33 @@ const META: Record<ProductionTarget, PageMeta> = {
     ogDescription:
       'The price, the planning position, what building one does to a lawn, and how long it takes. The questions people actually ask, answered plainly.',
   },
+  houses: {
+    path: routes.houses,
+    // NO FIGURES AND NO CAPACITY IN THE HEAD. The same rule as the price: a link card is cached for
+    // months by iMessage, WhatsApp, Slack and LinkedIn, gets screenshotted, and cannot be un-cached
+    // by a green test. A capacity is exactly the claim this segment checks first.
+    title: 'Garden pavilions for houses that receive people | Bower',
+    description:
+      'A woven timber room for a house that receives people. Raised once on ground screws, it stands through the winter and is better in its tenth year than its first.',
+    ogTitle: 'Bower: for houses that receive people',
+    ogDescription:
+      'A room in the garden that is there in November. Raised once, planted, and left standing. Drawn for the house it belongs to.',
+  },
   about: {
     path: routes.about,
-    title: 'About Bower: the practice behind the pavilions',
+    title: 'About Bower: what we build, and why',
+    description:
+      'The most beautiful places are rarely buildings. A Bower is a woven timber lattice, deliberately incomplete: we make the structure, the garden makes the rest.',
+    ogTitle: 'About Bower',
+    ogDescription:
+      'We make the structure; the garden makes the rest. A woven timber lattice, deliberately incomplete, finished only once the planting has had its say.',
+  },
+  practice: {
+    path: routes.practice,
+    title: 'The practice behind Bower: the founders and the work',
     description:
       'The two cofounders behind Bower, the research the practice grew out of, and the architecture and robotics work that came before the first pavilion.',
-    ogTitle: 'About Bower',
+    ogTitle: 'The practice behind Bower',
     ogDescription:
       'The two cofounders, the research the practice grew out of, and the work that came before the first pavilion.',
   },
@@ -179,7 +200,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     logo: absoluteUrl('/favicon.svg'),
     image: absoluteUrl(OG_CARD.path),
     description:
-      'Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them, fabricated from flat CNC components.',
+      'Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.',
     founder: FOUNDER_NAMES.map((name) => ({ '@type': 'Person', name })),
     email: CONTACT.email,
     telephone: CONTACT.phone,

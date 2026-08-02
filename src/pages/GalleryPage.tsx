@@ -24,7 +24,7 @@ import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
-import { Lightbox } from './AboutPage';
+import { Lightbox } from './PracticePage';
 import { INK_SEPIA } from './about/CrossPathsTimeline';
 import { srcSetFor } from '../ui/responsiveImg';
 import { useReducedMotion } from '../ui/useReducedMotion';
