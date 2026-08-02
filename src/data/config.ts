@@ -396,38 +396,53 @@ export const CONTACT = {
    *  a tel: link that dials something other than what the page prints fails silently on desktop. */
   phoneHref: '+442071395142',
   /**
-   * THE PUBLISHED ADDRESS. `contact@bowerbuild.org`, taken from main on 2026-08-01.
+   * THE PUBLISHED ADDRESS. `info@bowerbuild.org` — Clay's call, 2026-08-01, and the third value
+   * this field has held in four days.
    *
-   * THIS BRANCH HAD PUBLISHED `clay@bowerbuild.org` AND THE MERGE RESOLVED AGAINST IT, on one fact
-   * that beats the argument: **there is a verified Google Workspace mailbox behind `contact@`.**
-   * An address that reads a shade corporate is a nuance; an address that bounces is a lost
-   * commission, and this repo has no way to check which mailboxes exist.
+   * The sequence, because it is a decision that kept being re-made rather than a value that kept
+   * being wrong: a personal Gmail (2026-07-28, correct while the domain had no mailbox at all) ->
+   * `clay@` (this branch, on the argument below) -> `contact@` (Daniel, on main, because it had a
+   * verified Workspace mailbox) -> `info@`, which is what Clay leaned toward from the start.
    *
-   * The argument it lost to is still worth keeping, because it is the reason to revisit this once
-   * the mailboxes are known. The `/questions` close sets the heading "Who do I ring?", then the
-   * name "Clay Seifert", then this address directly underneath — and a department address in that
-   * position puts a front desk between the reader and the person they just read the name of. That
-   * is the peer-to-supplier slide the venue spec's sixth ground rule is about, arriving through the
-   * email address rather than through the vocabulary. These buyers are a family-owned house, not a
-   * procurement department; the reference customer is already asking technical questions unprompted.
+   * THE ARGUMENT AGAINST A DEPARTMENT ADDRESS IS KEPT HERE, NOT BECAUSE IT WON, but because it is
+   * the thing to weigh if this is ever revisited. The `/questions` close sets the heading "Who do
+   * I ring?", then the name "Clay Seifert", then this address directly underneath, and a department
+   * address in that position puts a front desk between the reader and the person they just read the
+   * name of. These buyers are a family-owned house, not a procurement department. Against that:
+   * `info@` is durable, survives one person being away, and fans out to both founders without the
+   * site changing — and `/about/practice` publishes both founders' direct addresses anyway, so a
+   * reader who wants a person can still reach one.
    *
-   * So: `contact@` because it demonstrably works. If `clay@` also has a mailbox, this is one line,
-   * and `FOUNDERS` below already publishes both founders' addresses on `/about/practice`.
+   * **UNVERIFIED FROM HERE: whether `info@` has a mailbox behind it.** Google Workspace is live on
+   * the domain and `contact@` is known to work; nothing in this repo can check the rest. An address
+   * that bounces is worse than any of the alternatives above, so confirm it receives before the
+   * first letters go out.
    */
-  email: 'contact@bowerbuild.org',
+  email: 'info@bowerbuild.org',
 } as const;
 
 /**
- * WHERE THE SITE'S OWN FORM WRITES, as opposed to where a reader is invited to write.
+ * WHERE THE SITE'S OWN FORM WRITES.
  *
- * A department address is right here and wrong above, and the difference is who is typing. The
- * register-interest form is a machine posting to a machine: nobody reads `info@` as a brush-off
- * because nobody sees it. What it buys is durability — it survives one person being away, it can
- * fan out to both founders later without the site changing, and it keeps automated mail out of the
- * mailbox a client's reply lands in.
+ * THIS NOW EQUALS `CONTACT.email`, AND IT USED NOT TO. The two were deliberately different while
+ * the site published `clay@`: the form is a machine posting to a machine, and keeping automated
+ * notifications out of the mailbox a client's own reply lands in is worth something at volume.
+ * `config.test.ts` asserted they never converge.
  *
- * Consumed by `api/contact.ts` (the serverless handler), NOT by any component: a form does not need
- * to know its own destination, and printing it would undo the reasoning above.
+ * That assertion is gone, because the reason for it was never a law — it was a preference about
+ * inbox hygiene, and it stopped applying the moment the published address became `info@` on
+ * 2026-08-01. **Splitting them now would mean a two-person practice watching two mailboxes to
+ * avoid mixing form notifications with replies, which is the wrong trade at this size**: the
+ * failure that costs a commission is a message nobody reads, not a message in the wrong folder.
+ *
+ * THE CONSTANT STAYS SEPARATE EVEN THOUGH THE VALUES MATCH, and that is deliberate. `api/contact.ts`
+ * is built by Vercel independently of the Vite app and cannot import from `src/`, so it carries its
+ * own copy pinned against this one. Collapsing the two names would make re-splitting them a
+ * refactor rather than an edit, and the volume that justifies splitting is exactly the volume at
+ * which nobody wants to be doing a refactor.
+ *
+ * Consumed by `api/contact.ts`, NOT by any component: a form does not need to print its own
+ * destination.
  */
 export const FORM_INBOX = 'info@bowerbuild.org';
 

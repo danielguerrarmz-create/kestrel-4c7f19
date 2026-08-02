@@ -92,7 +92,7 @@ export interface PendingFact {
 export const PENDING: readonly PendingFact[] = [
   /*
    * `contact-uk-phone` RESOLVED 2026-07-31: +44 20 7139 5142, a London landline. Together with
-   * `contact-domain-email` (contact@bowerbuild.org, from main) this clears spec item 3 entirely — the whole of
+   * `contact-domain-email` (info@bowerbuild.org) this clears spec item 3 entirely — the whole of
    * "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first, and
    * they sit on the page that names £350,000".
    *
