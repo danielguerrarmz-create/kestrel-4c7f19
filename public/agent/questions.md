@@ -28,33 +28,31 @@ Each one is drawn for the garden it stands in, so size is a conversation. Larger
 
 Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.
 
-Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid feasibility and siting study.
+Every Bower is site-specific, so that is where commissions begin and not a quote for yours. It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
 
-It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
+Stage 1, siting and feasibility, is £18,000 including VAT.
 
-The step before it is smaller. Stage 1, the feasibility and siting study, is £15,000.
+Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT. A fixed Stage 2 fee and updated build budget are confirmed at the end of Stage 1, once the site, surveys and consent route are understood.
 
-Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.
+Stage 1 and Stage 2 are professional fees and are not credited against construction.
 
 Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.
 
-## 3 Do I need planning permission?
+## 3 Will I need planning permission?
 
-Often, yes, and we handle it.
+Possibly. Planning requirements depend on the property, location, size and intended use.
 
-Some gardens don’t need it at all. That requires an unlisted house, no conservation area or National Landscape, a position behind the house, and a structure under three metres. If any of that isn’t true, it needs a householder application: eight weeks officially, ten to fourteen in practice.
+Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.
 
-One rule matters particularly here. In a National Landscape such as the Cotswolds, anything more than twenty metres from the house is capped at ten square metres, which is too small to be a Bower. Nearer the house, the ordinary rules apply.
+Stage 1 establishes the likely planning route before detailed design begins.
 
-A listed house also needs Listed Building Consent, and a registered garden brings the Gardens Trust in as a consultee. Four to six months. Slower, not harder.
+## 4 Is it waterproof?
 
-A house that trades, whether that is weddings, whole-house hire or guests, is a different route. Permitted development rules for dwellings don’t apply, so it is a full planning application rather than a householder one, though the timetable is much the same. A structure ancillary to how the place already operates rarely raises a change-of-use question, but it is one of the things the siting study settles before you have spent anything on design.
+No. A Bower is an open garden structure rather than a watertight room.
 
-We find out which of these you are during the siting study.
+It provides shade, and increasing shelter as the planting matures, but it should not be described as rainproof.
 
-In a private garden, building regulations almost certainly don’t apply as long as nobody sleeps in it. Where the public will use it, they do: occupancy and escape are part of the design, and the structural engineering is specified for public loading from the outset rather than retrofitted to it.
-
-## 4 Will it wreck my lawn?
+## 5 Will it wreck my lawn?
 
 No. The structure stands on steel piles wound into the ground like corkscrews, over a day or two. No concrete, no digging, no lorry down the drive, nothing to cart away. They can be wound out again, which is why conservation officers accept them.
 
@@ -62,45 +60,17 @@ Access is the honest part. There will be a few weeks of a working site: deliveri
 
 If the house is trading, the question is really about the diary. Foundations and raising take about three weeks on site, and it can be scheduled into a gap rather than closing anything: the compound sits away from the house, the route in is matted, and there is no concrete, no lorry down the drive and nothing to cart away. We would rather work around a booked season than through it, so we plan the build backwards from your calendar.
 
-## 5 How long from ringing us to sitting in it?
+## 6 When could mine be built?
 
-A year to eighteen months. Most of that is waiting for planning, not making.
+The first installations are planned for summer and autumn 2027.
 
-The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately. Autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring, but pot-grown plants will go in at almost any time of year given water, so it is rarely worth waiting.
+The programme includes feasibility, planning, technical design, fabrication and erection. A project-specific timeline is confirmed during Stage 1.
+
+The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
 
-For a house that sells by the season: commission in the autumn, planning over the winter, raise it the following summer, and it is photographing properly by the summer after that.
-
-Stage 1, the feasibility and siting study
-
-2 to 4 weeks
-
-Design
-
-6 to 10 weeks
-
-Engineering
-
-6 to 10 weeks
-
-Planning
-
-none, or up to 6 months
-
-Making it
-
-8 to 14 weeks
-
-Foundations and raising it
-
-about three weeks on site
-
-Planting
-
-a few days, once it’s standing
-
-## 6 Who prunes it?
+## 7 Who prunes it?
 
 For the first three years after planting, we do. If you have a gardener or grounds staff, we’d rather teach them and hand it across: they’re there every day and we aren’t.
 
@@ -112,7 +82,7 @@ After the third year, one visit annually.
 
 And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.
 
-## 7 What does it look like in February?
+## 8 What does it look like in February?
 
 Like a drawing held in the air.
 
@@ -124,7 +94,7 @@ For a house that sells weeks of the year, this is the half of it that matters mo
 
 Then in March it begins to disappear again.
 
-## 8 Who do I ring?
+## 9 Who do I ring?
 
 Clay Seifert
 
@@ -132,9 +102,11 @@ Clay Seifert
 
 The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
 
-After that, Stage 1: the feasibility and siting study, £15,000, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
+After that, Stage 1: siting and feasibility, £18,000 including VAT. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
 
-Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.
+Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT, confirmed at the end of Stage 1 along with an updated build budget.
+
+Stage 1 and Stage 2 are professional fees and are not credited against construction.
 
 Bower 
 

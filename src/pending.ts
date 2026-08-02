@@ -107,15 +107,32 @@ export const PENDING: readonly PendingFact[] = [
     blocks:
       'Nothing visible, and that is the point: `api/contact.ts` is deployed and answers 503 not-configured until the key exists, so the register-interest form keeps showing the direct contact route instead of promising a reply. The moment the key lands the form starts mailing info@bowerbuild.org and the confirmation becomes "we will be in touch". Verify with GET /api/contact, which reports readiness without sending anything into the inbox a real client writes to.',
   },
-  {
-    id: 'weather-glazed-crown',
-    item: 6,
-    awaiting: 'confirmation',
-    needs:
-      'Four answers about the glazed crown: does it shed water fully, what proportion of the crown is glazed, what happens to the rest, and what wind loading the structure is designed to.',
-    blocks:
-      'The "Weather" section of /houses, and any answer to rain anywhere on the site. The spec ranks this the hardest objection in the segment and the one every venue owner raises inside two minutes, because a marquee is waterproof and that is the entire reason it gets hired. The gallery already shows a glazed crown (item 03) and a stained glass walk (item 04) and treats both as aesthetic options; nothing connects either to shelter. The section is scaffolded on the page and renders nothing until this lands.',
-  },
+  /*
+   * `weather-glazed-crown` RESOLVED 2026-07-31 (Clay), and it is the entry worth reading twice.
+   *
+   * It was the longest-standing and highest-ranked blocker on this site: rain, "the hardest
+   * objection in the segment and the one every venue owner raises within the first two minutes",
+   * because a marquee is waterproof and that is the entire reason it gets hired. It sat here
+   * unanswerable while it was an open PRODUCT question — Clay's own earlier note was "we could make
+   * it waterproof / glaze the crown / make the glazing removable", each of which changes the study
+   * fee, the engineering and the structure.
+   *
+   * THE ANSWER IS NO. A Bower is an open garden structure, not a watertight room, and it must not
+   * be described as rainproof. It gives shade, and increasing shelter as the planting matures.
+   *
+   * TWO THINGS THAT MAKE THIS A PATTERN AND NOT JUST A TICK:
+   *   1. **A blocked entry is not always waiting for a yes.** This one was resolved by the least
+   *      commercially convenient answer available, and publishing it made the page stronger rather
+   *      than weaker — a reader told plainly that it will not keep the rain off has reason to
+   *      believe the winter claim, the ground-screw claim and the price. Silence was never neutral:
+   *      it let a buyer assume shelter and find out at the first booking.
+   *   2. **The instruction came with a copy rule attached** ("it should not be described as
+   *      rainproof"), and a copy rule in a comment is a rule the next pass does not read. It is a
+   *      sweep in `houseRules.test.ts` over every rendered page instead.
+   *
+   * Live at `/questions` ("Is it waterproof?") and as the `weather` section of `/houses`, which is
+   * placed SECOND on that page rather than buried below the winter — see the note there.
+   */
   {
     id: 'ceremony-registrar',
     item: 5,

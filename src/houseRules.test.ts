@@ -155,6 +155,115 @@ describe('the marquee-replacement claim is withdrawn from the whole site', () =>
   });
 });
 
+describe('a Bower is never described as waterproof', () => {
+  /**
+   * CLAY'S RULE, 2026-07-31: "it should not be described as rainproof."
+   *
+   * This is the highest-value guard in the file, because the pressure to soften it is permanent and
+   * commercial. Rain is the hardest objection in this segment; a marquee is waterproof and that is
+   * the entire reason it gets hired. Every future copy pass will be tempted to reach for "sheltered",
+   * "dry", "weatherproof" — and each of those would be a small, plausible, individually defensible
+   * edit that together rebuild exactly the claim the practice decided not to make.
+   *
+   * The site MAY say what is true: it is NOT waterproof, it gives shade, and it gives increasing
+   * shelter as the planting matures. So the pattern has to permit those sentences while catching an
+   * affirmative claim, which is why it looks for the words in a positive construction rather than
+   * simply banning them.
+   */
+  const CLAIMS = [
+    // "is waterproof", "fully weatherproof", "completely watertight" — but NOT "is not waterproof",
+    // which is the sentence the site actually publishes. The negation lookahead inside the gap is
+    // load-bearing and the first version of this pattern lacked it: it fired on `/houses`'s own
+    // honest answer, which is a guard that would have forced the true sentence off the page.
+    /\b(?:is|are|it's|fully|completely|entirely|totally)\s+(?:(?!not\b|never\b)\w+\s+){0,2}(?:waterproof|watertight|weatherproof|rainproof)\b/i,
+    /\bkeeps?\s+(?:the\s+)?rain\s+(?:off|out)\b/i,
+    /\bstays?\s+dry\s+(?:whatever|in\s+any|in\s+all)\b/i,
+    /\bshelter(?:s|ed)?\s+from\s+(?:the\s+)?rain\b/i,
+    /\bdry\s+in\s+(?:any|all)\s+weather\b/i,
+  ];
+
+  /**
+   * QUESTIONS ARE STRIPPED BEFORE SWEEPING, because an interrogative cannot assert.
+   *
+   * The guard's second false positive was the FAQ heading itself — "Is it waterproof?" parses as
+   * `is` + `it` + `waterproof` and is indistinguishable, to a regex, from "is it waterproof" as a
+   * claim. Exempting that one string would have been the quick fix and a bad one: it is the exact
+   * shape of the stale literal this repo keeps getting burned by. Dropping every sentence that ends
+   * in a question mark is the general rule, and it holds for questions nobody has written yet.
+   *
+   * An answer that begins "Yes, it is waterproof" survives the strip and still fails, which is the
+   * case that matters.
+   */
+  const claimsOnly = (text: string) => text.replace(/[^.!?\n]*\?/g, ' ');
+
+  it('no page claims it keeps the rain off', () => {
+    const pages = allProse();
+    expect(pages.length).toBeGreaterThan(0);
+    for (const { name, text } of pages) {
+      for (const re of CLAIMS) {
+        const hit = claimsOnly(text).match(re);
+        expect(hit?.[0], `${name} claims weather protection: "${hit?.[0]}"`).toBeUndefined();
+      }
+    }
+  });
+
+  it('the guard can still fail: a claim in an ANSWER is caught', () => {
+    // Proves the strip above did not disarm the check. This repo's standing lesson is that a guard
+    // which cannot fail is worse than no guard, and stripping text before a sweep is precisely how
+    // that happens by accident.
+    const sneaky = 'Is it waterproof? Yes, it is fully waterproof in any weather.';
+    expect(CLAIMS.some((re) => re.test(claimsOnly(sneaky)))).toBe(true);
+    // And the true sentence still passes.
+    const honest = 'Is it waterproof? No. A Bower is not waterproof and is not a watertight room.';
+    expect(CLAIMS.some((re) => re.test(claimsOnly(honest)))).toBe(false);
+  });
+
+  it('and the pages that raise the subject answer it plainly', () => {
+    // The other half, and the one that would catch the claim being DELETED rather than softened.
+    // An absence guard alone is satisfied by a site that simply never mentions rain, which is the
+    // silence this answer exists to replace.
+    for (const page of ['questions', 'houses']) {
+      const text = prose(PAGES.find((p) => p.name === page)!.text());
+      expect(text, `${page} no longer answers the rain question`).toMatch(
+        /not\s+waterproof|open garden structure rather than a watertight room/i,
+      );
+    }
+  });
+});
+
+describe('the practice describes itself as a design and manufacturing company', () => {
+  /**
+   * Clay, 2026-07-31: replace "design studio" and "architectural practice" with "design and
+   * manufacturing company".
+   *
+   * "Architectural practice" is the important half and it overlaps ground rule 5: the Architects
+   * Act 1997 protects the title, and a firm calling itself an architectural practice is making the
+   * claim at the level of the business rather than the person. "Design studio" is a positioning
+   * choice — a studio designs and hands over; a company that manufactures is answerable for the
+   * thing arriving, which is what a buyer of a forty-year structure is trying to establish.
+   */
+  it('never calls itself a studio or an architectural practice', () => {
+    const pages = allProse();
+    expect(pages.length).toBeGreaterThan(0);
+    for (const { name, text } of pages) {
+      for (const re of [/\barchitectural practice\b/i, /\bdesign studio\b/i, /\bdesign practice\b/i]) {
+        const hit = text.match(re);
+        expect(hit?.[0], `${name} uses "${hit?.[0]}"`).toBeUndefined();
+      }
+    }
+  });
+
+  it('nor in any page title, description or social card', () => {
+    for (const path of PUBLIC_ROUTES) {
+      const m = metaForPath(path);
+      const head = [m.title, m.description, m.ogTitle, m.ogDescription].join(' ');
+      for (const phrase of ['architectural practice', 'design studio', 'design practice']) {
+        expect(head, `${path} head uses "${phrase}"`).not.toMatch(new RegExp(phrase, 'i'));
+      }
+    }
+  });
+});
+
 describe('ground rules 3 and 4: unverified material claims', () => {
   /**
    * Two claims that are directionally likely and NOT established:

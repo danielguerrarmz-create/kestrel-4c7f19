@@ -36,17 +36,24 @@
  * credible. A later pass that reads it as a weakness and deletes it will have removed the reason
  * the page works.
  *
- * TWO SECTIONS ARE DELIBERATELY MISSING and are the two strongest things this page could say. See
- * `pending.ts`: `weather-glazed-crown` and `ceremony-registrar`. Weather is the hardest objection in
- * the segment and the site is silent on it; ceremonies are potentially the single strongest argument
- * available, made in law rather than in adjectives, and it varies by local authority. Neither is
- * guessable and neither is written here.
+ * WEATHER IS ANSWERED NOW, AND THE ANSWER IS NO (2026-07-31). It was the longest-standing blocker
+ * on the site — the hardest objection in the segment, because a marquee is waterproof and that is
+ * the entire reason it gets hired. Clay settled it: an open garden structure, not a watertight
+ * room, not to be described as rainproof. The section sits SECOND, not buried, for the reasoning in
+ * its own note. `houseRules.test.ts` sweeps every page for a waterproofing claim so it cannot be
+ * softened back by a later pass.
+ *
+ * ONE SECTION IS STILL MISSING and it is the strongest thing this page could say: see `pending.ts`,
+ * `ceremony-registrar`. Approved premises must be a permanently immovable structure comprising at
+ * least a room, so a marquee can never qualify and a Bower potentially can — the shoulder-season
+ * case made in law rather than in adjectives. It varies by local authority and is not guessable, so
+ * it is not written here. Draft enquiry: `docs/enquiries/2026-07-31-registrar-approved-premises.md`.
  *
  * FIGURES COME FROM `data/capacity.ts`. Both this page and `/questions` state the capacity and a
  * venue owner will have both open; the number has one owner and each page writes its own sentence.
  */
 import { HEADS_IN_WORDS } from '../../data/capacity';
-import { STAGE_1_FEE } from '../../ui/priceCopy';
+import { FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
 
 /** A titled section of the page. `body` is paragraphs, in order. */
 export interface HouseSection {
@@ -77,10 +84,37 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
       'Which is the size of a house party rather than a wedding breakfast, and for a house let whole, to a group sleeping under its own roof, that is the room that does not currently exist in the garden.',
     ],
   },
-  // PENDING(weather-glazed-crown): "Weather" belongs here, between what it holds and the winter.
-  // It is the hardest objection in the segment and there is no answer to rain anywhere on the site.
-  // Blocked on four facts about the glazed crown; see pending.ts. Do not write it from the gallery
-  // captions, which describe glazing as an aesthetic option and say nothing about shelter.
+  {
+    id: 'weather',
+    /**
+     * UNBLOCKED 2026-07-31, AND THE ANSWER IS NO.
+     *
+     * This section sat as a `PENDING(weather-glazed-crown)` comment because rain is the hardest
+     * objection in this segment — a marquee is waterproof and that is the entire reason it gets
+     * hired — and nobody could say what the glazed crown actually did. Clay settled it: a Bower is
+     * an open garden structure, not a watertight room, and it must not be described as rainproof.
+     *
+     * IT IS PLACED SECOND ON THE PAGE, DIRECTLY AFTER WHAT IT HOLDS, WHICH IS DELIBERATE. The
+     * commercially comfortable move is to bury it below the winter section, after the reader is
+     * warm. That would be a page that hopes not to be asked. This audience asks inside two minutes,
+     * and a "no" they find themselves is worth far less than a "no" you volunteered — the whole
+     * argument of the page is that this is a different KIND of room, and a different kind of room
+     * is allowed to be open to the weather. Hiding it would concede that it is a worse marquee.
+     *
+     * The last line is the load-bearing one: it reframes without retracting. Nothing here softens
+     * the "no", and `houseRules.test.ts` sweeps the rendered page to keep it that way.
+     */
+    heading: 'Weather',
+    body: [
+      'It is not waterproof. A Bower is an open garden structure rather than a watertight room, and it should not be described as rainproof.',
+      'It gives shade, and increasing shelter as the planting matures and closes over the frame.',
+      // "must stay dry whatever" was the first phrasing and `houseRules.test.ts` fired on it. The
+      // sentence was innocent — it sends the reader to canvas — but the guard cannot read intent,
+      // and the phrasing is one edit away from being a claim about a Bower. Reworded rather than
+      // exempted: a guard weakened to accommodate a sentence stops catching the sentence it was for.
+      'If your guests must be dry whatever the sky is doing, that is what canvas is for, and it is the honest answer. What this gives you is the other thing: somewhere worth walking out to in the rain rather than sheltering from it.',
+    ],
+  },
   {
     id: 'winter',
     heading: 'The winter half of the year',
@@ -119,7 +153,8 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
     heading: 'What it costs',
     body: [
       'Commissions begin at £350,000 including VAT.',
-      `The fixed price is established through a paid feasibility and siting study at ${STAGE_1_FEE}, which is two to four weeks and yours to keep whatever you decide.`,
+      `Stage 1, siting and feasibility, is ${STAGE_1_FEE} including VAT, and it is yours to keep whatever you decide. Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT, fixed at the end of Stage 1.`,
+      FEES_NOT_CREDITED,
     ],
   },
 ];

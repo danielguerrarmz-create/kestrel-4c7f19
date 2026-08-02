@@ -13,7 +13,7 @@
  * "a generative design engine constrained by a fabrication grammar" — the studio/draw tool, which
  * came off the live site on 2026-07-21. There was no `og:image` at all, so a pasted link showed a
  * blank card with a browser icon and a sentence about a tool nobody can open. The copy below
- * describes the practice as it actually is: a design practice that builds living garden pavilions.
+ * describes the practice as it actually is: a design and manufacturing company that builds living garden pavilions.
  *
  * THERE ARE NO FIGURES IN THE META LAYER, AND THAT IS THE RULE, NOT AN OVERSIGHT.
  *
@@ -102,7 +102,7 @@ const META: Record<ProductionTarget, PageMeta> = {
       'Bower designs and builds living garden pavilions: woven timber gridshells planted with the climbers that grow into them, drawn for the garden they stand in.',
     ogTitle: 'Bower: living garden pavilions',
     ogDescription:
-      'A design practice building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden.',
+      'A design and manufacturing company building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden.',
   },
   gallery: {
     path: routes.gallery,

@@ -2,7 +2,7 @@
 
 > Bower designs and builds living garden pavilions: organic timber gridshell structures,
 > designed for the climbing plants that grow into them, fabricated from flat CNC components.
-> This is the marketing site for a design practice; it is a JavaScript single-page app, so
+> This is the marketing site for a design and manufacturing company; it is a JavaScript single-page app, so
 > non-JavaScript readers should use the markdown mirrors below.
 
 ## Pages

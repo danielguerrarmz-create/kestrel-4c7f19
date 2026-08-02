@@ -19,6 +19,7 @@ import {
   COMMISSION_BREAKEVEN_GBP,
   COMMISSION_DEMO_FIGURE,
   STAGE_1_FEE,
+  STAGE_2_FEE,
   COMMISSION_FLOOR_GBP,
 } from './ui/priceCopy';
 
@@ -277,7 +278,7 @@ describe('structured data', () => {
     };
     const cost = faq.mainEntity.find((q) => q.name.includes('cost'))!;
     // Scoped to the sentence that states the COMMISSION, exactly as copy.test.ts scopes it. The
-    // Stage 1 professional fee (£15,000) is supposed to sit far below break-even on the object, so
+    // Stage 1 professional fee (£18,000) is supposed to sit far below break-even on the object, so
     // sweeping every pound sign on the page would be guarding the wrong quantity.
     const line = cost.acceptedAnswer.text
       .split('\n\n')
@@ -293,15 +294,18 @@ describe('structured data', () => {
   it('the FAQ answers carry the live price and not the retracted one', () => {
     const text = JSON.stringify(faqPageJsonLd());
     expect(text).not.toContain('£150,000');
-    // STAGE 2 IS UNPRICED as of 2026-07-31 (Clay), and the schema must carry that faithfully.
-    // This used to assert the range "£18,000 to £25,000" was PRESENT, on the reasoning that an
-    // answer engine must not be handed a collapsed single figure. Same reasoning, further: there
-    // is no figure to hand it at all now, and a schema that still carried one would be quoting a
-    // withdrawn price to exactly the audience least able to check it.
-    expect(text).not.toContain('£18,000');
-    expect(text).not.toContain('£25,000');
-    // The live Stage 1 fee, and the two superseded ones pinned absent.
+    // BOTH STAGE FEES, as the page states them. The schema is generated from `QUESTIONS`, so an
+    // answer engine quoting a superseded price is the same anchoring harm as the page doing it —
+    // and it is the audience least able to notice.
     expect(text).toContain(STAGE_1_FEE);
+    expect(text).toContain(STAGE_2_FEE);
+    // Stage 2 must never reach the schema as a single figure. Held through three revisions of that
+    // number (a range, then nothing, then a wider range) because the rule outlived all of them.
+    expect(text).toMatch(/£[\d,]+ to £[\d,]+/);
+    // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its
+    // floor and is now the STAGE 1 fee, which is exactly why this list is checked against the live
+    // constants above rather than written out as literals.
+    expect(text).not.toContain('£25,000');
     expect(text).not.toContain('£6,500');
     expect(text).not.toContain('£1,500');
     // The demo constants (COMMISSION_DEMO_FIGURE, COMMISSION_ANCHOR_GBP, COMMISSION_FLOOR_GBP) are

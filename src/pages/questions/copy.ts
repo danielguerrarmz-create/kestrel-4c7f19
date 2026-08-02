@@ -23,16 +23,17 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - Stage 1, the feasibility and siting study: £15,000, owned by `STAGE_1_FEE` in
- *     ui/priceCopy.ts because three surfaces state it. Was £6,500 (2026-07-28) and £1,500 before
- *     that; it has moved twice in four days, which is exactly why it stopped being a literal.
- *   - Stage 2 IS NO LONGER PRICED (2026-07-31, Clay). It published "typically £18,000 to £25,000,
- *     confirmed at the end of Stage 1" — a range rather than a point, deliberately, because the
- *     figure varies with heritage statements and tree surveys. The range is now gone entirely and
- *     the copy describes the WORK instead, with the price fixed after the study establishes scope.
- *     This note used to read "do not collapse it to a single figure"; that rule stands and is not
- *     what happened. Collapsing a range to a point claims a precision nobody has. Removing it
- *     declines to guess.
+ *   - Stage 1, siting and feasibility: £18,000 including VAT, owned by `STAGE_1_FEE` in
+ *     ui/priceCopy.ts because three surfaces state it. It has been £1,500, £6,500 and £15,000, the
+ *     last three inside a week, which is exactly why it stopped being a literal.
+ *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
+ *     A RANGE, deliberately, and the rule that has governed it through three revisions is
+ *     unchanged: **do not collapse it to a single figure**, because a point value reads as a quote
+ *     for work nobody has scoped and the scoping is what Stage 1 is for. (It briefly published no
+ *     figure at all on 2026-07-31 before this one landed.)
+ *   - Both stages are professional fees and are NOT credited against construction (`FEES_NOT_CREDITED`).
+ *     A buyer who assumes £108,000 of fees comes off a £350,000 commission has mis-budgeted by
+ *     nearly a third, and would find that out late.
  *   - 6 to 10% of the commission a year for the first three years' training. Matches
  *     `STEWARDSHIP_NOTE` in ui/priceCopy.ts.
  *
@@ -62,16 +63,23 @@
  *     figure.**
  *   - THE BUILDING REGULATIONS LINE SAID they "almost certainly don't apply, as long as nobody
  *     sleeps in it". Defensible in a private garden. NOT defensible for a structure the paying
- *     public assembles under, where occupancy loading, means of escape and level access all engage.
- *     That one sentence, read by a house that trades, was a credibility landmine with a live
- *     prospect. It is now split explicitly by who uses the structure.
+ *     public assembles under, where occupancy loading and means of escape engage. That one
+ *     sentence, read by a house that trades, was a credibility landmine with a live prospect.
  *
- * **AND THE NEW SENTENCE WRITES A CHEQUE THE PRACTICE HAS NOT YET CASHED.** "The structural
- * engineering is specified for public loading from the outset" commits Bower to a named structural
- * engineer. There isn't one, nor professional indemnity, nor public liability (see `pending.ts`,
- * `practice-entity`). The copy is honest about intent and the substance has to exist before a venue
- * can transact: resolve it in August or this line stops being a strength and becomes the thing a
- * solicitor quotes back.
+ * IT WAS FIXED, AND THEN THE WHOLE PARAGRAPH WAS DELETED LATER THE SAME DAY, which is the more
+ * interesting outcome. The fix ("the structural engineering is specified for public loading from
+ * the outset") replaced an understatement of the obligation with an OVERSTATEMENT of the practice:
+ * it commits Bower to a named structural engineer, and there isn't one, nor professional indemnity,
+ * nor public liability (`pending.ts`, `practice-entity`). Clay's rewrite of the planning answer
+ * removed both sentences. **Saying nothing was the only honest option while neither claim was
+ * true**, and the substance still has to exist before a venue can transact — it is simply no longer
+ * promised on a public page in the meantime.
+ *
+ * AND RAIN IS ANSWERED NOW, WHICH IS THE BIGGEST SINGLE CHANGE ON THE PAGE. "Is it waterproof?
+ * No." closed `weather-glazed-crown`, the spec's hardest objection in the segment, in the least
+ * convenient direction available. See the note on that entry: the "no" is what makes the rest of
+ * the page credible, and `houseRules.test.ts` now sweeps every page for a waterproofing claim so
+ * that a later pass cannot soften it back.
  *
  * WHAT THIS PAGE DELIBERATELY DOES NOT SAY, both withdrawn from the spec's own earlier draft:
  * a house-scale tier with capacities (Bower cannot engineer or price at marquee scale and has built
@@ -88,7 +96,7 @@
  */
 
 import { FOOTPRINT_M2, HEADS_IN_WORDS } from '../../data/capacity';
-import { STAGE_1_FEE } from '../../ui/priceCopy';
+import { FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -116,38 +124,64 @@ export const QUESTIONS: readonly QA[] = [
     q: 'What does it cost?',
     a: [
       'Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.',
-      // "a paid feasibility and siting study", matching the name the fee line and /houses now use.
-      // It said "a paid siting study" and the two sat four paragraphs apart in the same answer,
-      // which reads as two different pieces of work rather than one renamed on 2026-07-31.
-      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid feasibility and siting study.',
-      'It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
-      `The step before it is smaller. Stage 1, the feasibility and siting study, is ${STAGE_1_FEE}.`,
-      'Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.',
+      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
+      `Stage 1, siting and feasibility, is ${STAGE_1_FEE} including VAT.`,
+      `Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT. A fixed Stage 2 fee and updated build budget are confirmed at the end of Stage 1, once the site, surveys and consent route are understood.`,
+      FEES_NOT_CREDITED,
       'Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.',
     ],
   },
   {
     id: 'planning',
-    q: 'Do I need planning permission?',
+    /**
+     * REWRITTEN DOWN TO THREE SENTENCES, 2026-07-31 (Clay), and what came OUT matters more than
+     * what went in. The answer ran seven paragraphs: the permitted-development test, the
+     * ten-square-metre cap in a National Landscape, Listed Building Consent and the Gardens Trust,
+     * the separate consent route for a house that trades, and a closing paragraph on building
+     * regulations. All of it accurate, and all of it a specific commitment about a specific site,
+     * published before anyone has looked at the site.
+     *
+     * THE BUILDING-REGULATIONS PARAGRAPH IS GONE, WHICH RETIRES A LIABILITY THIS REPO HAD FLAGGED
+     * TWICE. It read "the structural engineering is specified for public loading from the outset" —
+     * a promise with no named structural engineer behind it (`pending.ts`, `practice-entity`). It
+     * had been introduced days earlier to fix a WORSE sentence ("building regulations almost
+     * certainly don't apply, as long as nobody sleeps in it"), which is indefensible for a
+     * structure the paying public assembles under. One understated the obligation and the other
+     * overstated the practice; saying nothing is the honest position while neither is true yet.
+     * **If a venue asks, that is a conversation, not a published claim.**
+     */
+    q: 'Will I need planning permission?',
     a: [
-      'Often, yes, and we handle it.',
-      'Some gardens don’t need it at all. That requires an unlisted house, no conservation area or National Landscape, a position behind the house, and a structure under three metres. If any of that isn’t true, it needs a householder application: eight weeks officially, ten to fourteen in practice.',
-      'One rule matters particularly here. In a National Landscape such as the Cotswolds, anything more than twenty metres from the house is capped at ten square metres, which is too small to be a Bower. Nearer the house, the ordinary rules apply.',
-      'A listed house also needs Listed Building Consent, and a registered garden brings the Gardens Trust in as a consultee. Four to six months. Slower, not harder.',
-      'A house that trades, whether that is weddings, whole-house hire or guests, is a different route. Permitted development rules for dwellings don’t apply, so it is a full planning application rather than a householder one, though the timetable is much the same. A structure ancillary to how the place already operates rarely raises a change-of-use question, but it is one of the things the siting study settles before you have spent anything on design.',
-      // Trimmed 2026-07-31. This read "...during the siting study, before you've spent anything on
-      // design", and the commercial paragraph inserted above it now ends on that same clause. Two
-      // adjacent paragraphs closing with the identical promise reads as a page repeating itself to
-      // fill space, which is the opposite of what this register is for. The clause stays where it
-      // does the most work: on the answer a trading house actually needs.
-      'We find out which of these you are during the siting study.',
-      // "and level access" was cut from this list on 2026-07-31 (Clay). It was in the spec's own
-      // draft, and it is a claim about a design commitment nobody has verified: on ground screws
-      // over a lawn that is not itself level, step-free access is something you engineer, not
-      // something you get. Occupancy and escape are properties of the CONSENT ROUTE, which is what
-      // this answer is about, and they are true whatever the finished levels turn out to be.
-      // Naming the two that hold and dropping the one that might not is the conservative direction.
-      'In a private garden, building regulations almost certainly don’t apply as long as nobody sleeps in it. Where the public will use it, they do: occupancy and escape are part of the design, and the structural engineering is specified for public loading from the outset rather than retrofitted to it.',
+      'Possibly. Planning requirements depend on the property, location, size and intended use.',
+      'Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.',
+      'Stage 1 establishes the likely planning route before detailed design begins.',
+    ],
+  },
+  {
+    id: 'waterproof',
+    /**
+     * THE ANSWER IS NO, AND IT CLOSES THE LONGEST-STANDING BLOCKER ON THIS SITE.
+     *
+     * The venue spec called rain "the hardest objection in the segment and the one every venue
+     * owner raises within the first two minutes", because a marquee is waterproof and that is the
+     * entire reason it gets hired. It sat unanswerable in `pending.ts` as `weather-glazed-crown`
+     * while it was an open product question. Clay closed it on 2026-07-31: a Bower is an open
+     * garden structure, not a watertight room.
+     *
+     * PUBLISHING THE "NO" IS THE POINT. It is the least commercially convenient sentence on the
+     * site and it is the one that makes everything around it worth believing — a reader told
+     * plainly that it will not keep the rain off has reason to believe the winter claim, the
+     * ground-screw claim and the price. Silence here would not have been neutral: it lets a buyer
+     * assume shelter, and they find out at the first booking, in front of guests.
+     *
+     * "It should not be described as rainproof" is Clay's instruction, and it is now a TEST rather
+     * than a note: `houseRules.test.ts` sweeps every rendered page for a waterproofing claim. A
+     * rule that lives only in a comment is a rule the next copy pass will not read.
+     */
+    q: 'Is it waterproof?',
+    a: [
+      'No. A Bower is an open garden structure rather than a watertight room.',
+      'It provides shade, and increasing shelter as the planting matures, but it should not be described as rainproof.',
     ],
   },
   {
@@ -161,21 +195,30 @@ export const QUESTIONS: readonly QA[] = [
   },
   {
     id: 'how-long',
-    q: 'How long from ringing us to sitting in it?',
+    /**
+     * NAMES A DATE FOR THE FIRST TIME (Clay, 2026-07-31): summer and autumn 2027.
+     *
+     * The question changed with the answer. It was "How long from ringing us to sitting in it?",
+     * which is a DURATION question, and it was answered with a duration ("a year to eighteen
+     * months") plus a seven-row schedule of typical spans. That framing quietly assumed the clock
+     * starts when the reader rings, and for a practice with nothing built yet it does not: the
+     * first installations are a fixed point in the calendar, and everything before them is queue.
+     *
+     * THE SCHEDULE TABLE IS GONE, and this is the deletion to argue with if any is. Against
+     * keeping it: its first row ("Stage 1: 2 to 4 weeks") was measured against a £6,500 study and
+     * the study is now £18,000 with surveys and a consent route in it, so the row was already
+     * stale, and the rest of the table implies a precision that "a project-specific timeline is
+     * confirmed during Stage 1" explicitly withdraws. A published schedule and a promise to
+     * schedule per project are two answers to one question. For keeping it: it was concrete, and
+     * concrete is rare on this page. **Restoring it means re-timing every row against the new
+     * scope, not pasting the old numbers back.**
+     */
+    q: 'When could mine be built?',
     a: [
-      'A year to eighteen months. Most of that is waiting for planning, not making.',
-      'The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately. Autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring, but pot-grown plants will go in at almost any time of year given water, so it is rarely worth waiting.',
+      'The first installations are planned for summer and autumn 2027.',
+      'The programme includes feasibility, planning, technical design, fabrication and erection. A project-specific timeline is confirmed during Stage 1.',
+      'The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.',
       'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.',
-      'For a house that sells by the season: commission in the autumn, planning over the winter, raise it the following summer, and it is photographing properly by the summer after that.',
-    ],
-    rows: [
-      { stage: 'Stage 1, the feasibility and siting study', span: '2 to 4 weeks' },
-      { stage: 'Design', span: '6 to 10 weeks' },
-      { stage: 'Engineering', span: '6 to 10 weeks' },
-      { stage: 'Planning', span: 'none, or up to 6 months' },
-      { stage: 'Making it', span: '8 to 14 weeks' },
-      { stage: 'Foundations and raising it', span: 'about three weeks on site' },
-      { stage: 'Planting', span: 'a few days, once it’s standing' },
     ],
   },
   {
@@ -214,23 +257,29 @@ export const RING = {
   /** What the first conversation actually is, so nobody fears a sales call. */
   first:
     'The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.',
-  /** What the paid step buys, stated as deliverables. */
-  study: `After that, Stage 1: the feasibility and siting study, ${STAGE_1_FEE}, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.`,
   /**
-   * The step after it, named and deliberately UNPRICED.
+   * What the paid step buys, stated as deliverables.
    *
-   * It used to publish "typically £18,000 to £25,000, confirmed at the end of Stage 1". The range
-   * was itself a deliberate refusal to give one number, on the reasoning that the figure varies
-   * with heritage statements and tree surveys. Clay withdrew the figures entirely on 2026-07-31.
-   *
-   * That is a move in the SAME direction, not a reversal, and worth being clear about because the
-   * old header note said "do not collapse it to a single figure": collapsing a range to a point is
-   * a claim to precision nobody has, whereas removing it is a refusal to guess. What replaces it
-   * says what the work IS (structural engineering, planning coordination, fabrication detailing)
-   * and that the price is fixed once the study has established the scope. **The cost is that a
-   * reader no longer learns what Stage 2 runs to before engaging.** That is the trade Clay made.
+   * "ready within two to four weeks" IS GONE (2026-07-31). It was the turnaround for a £6,500
+   * study; Stage 1 is now £18,000 and carries surveys and a consent route, and no one has re-timed
+   * it. The same stale span was the first row of the schedule table this page used to publish, and
+   * that table was deleted for the same reason. **A duration inherited from a cheaper, smaller
+   * version of a product is not a duration you may keep publishing** — it is the timing equivalent
+   * of the £150,000 incident. Put a real one back when it is known.
    */
-  next: 'Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.',
+  study: `After that, Stage 1: siting and feasibility, ${STAGE_1_FEE} including VAT. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.`,
+  /**
+   * The step after it, priced as a RANGE and explicitly fixed later.
+   *
+   * The figure has been published, withdrawn and republished in one day (£18,000 to £25,000, then
+   * nothing, then £60,000 to £90,000). What survived all three revisions is the rule: never a
+   * single figure, because a point value reads as a quote for work nobody has scoped, and the
+   * scoping is what Stage 1 is for.
+   */
+  next: `Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT, confirmed at the end of Stage 1 along with an updated build budget.`,
+  /** Both stages are fees for work, not money on account. Stated in the close as well as the cost
+   *  answer, because the close is where someone decides to commit to Stage 1. */
+  notCredited: FEES_NOT_CREDITED,
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product. */
