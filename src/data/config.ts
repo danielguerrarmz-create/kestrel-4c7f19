@@ -356,18 +356,32 @@ export const CTA_PRIMARY_BUYER = 'Shape your Bower';
  * "Noted. We will be in touch." over a handler that does `console.log` and nothing else.
  * A site with no contact route AND a form that claims one is worse than either alone.
  *
- * BOTH DEBTS ARE PAID AS OF 2026-07-31, AND THE WAY THEY WERE RECORDED IS THE LESSON.
+ * BOTH DETAILS ARE REAL NOW, AND THEY LANDED FROM TWO DIRECTIONS OVER THE SAME WEEKEND. That is
+ * also why this block had a merge conflict: two people fixed the same embarrassment at once.
  *
- * For three days this block carried a personal Gmail address and a US mobile on the page that
- * names £350,000, with a comment saying the number was "the first thing to revisit". The venue
- * rewrite ranked fixing them third of nine, above building an entire new page, because "a US mobile
- * and a Gmail address are what a commercial buyer's solicitor notices first" — and a comment
- * recording that intention changed nothing, because a comment cannot fail.
+ * `email` IS THE STUDIO INBOX AS OF 2026-08-01 (Daniel, on main). It was Clay's personal Gmail
+ * from 2026-07-28, which was the right call when the domain had no mailbox behind it and the
+ * alternative was exposing nothing. Google Workspace is live on bowerbuild.org now, so the
+ * personal address was costing the page credibility on a from-£350,000 commission for no
+ * remaining benefit.
  *
- * What moved it was expressing the debt as `CONTACT_TARGET` plus two `it.skip('UNBLOCK ME: ...')`
- * tests: a named skipped test is a line in the suite output on every single run, and it is now an
- * ordinary passing test. **State a debt as an assertion, not as prose, and it stops being
- * invisible.**
+ * **DELIVERABILITY IS A DNS FACT, NOT A CODE ONE.** Mail from this domain only lands if SPF and
+ * DMARC exist alongside the DKIM key. Both were MISSING when this address shipped, and the records
+ * live in VERCEL's DNS (ns1/ns2.vercel-dns.com), not at the registrar. Same place, and the same
+ * three records, that `api/contact.ts` needs before the register-interest form can send anything —
+ * which is precisely why that endpoint refuses to report success until a provider accepts the
+ * message rather than trusting that it was configured.
+ *
+ * `phone` IS A UK LANDLINE AS OF 2026-07-31 (Clay), replacing a US mobile. Together these close
+ * the venue spec's item 3, ranked third of nine — above building an entire new page — because
+ * "a US mobile and a Gmail address are what a commercial buyer's solicitor notices first", and
+ * they sat on the page that names £350,000.
+ *
+ * HOW THE PHONE MOVED IS THE TRANSFERABLE PART. It sat behind a comment calling it "the first
+ * thing to revisit" for three days and nothing happened, because a comment cannot fail. Restating
+ * the debt as `CONTACT_TARGET` plus two `it.skip('UNBLOCK ME: ...')` tests put a named line in the
+ * suite output on every single run. **State a debt as an assertion, not as prose.** Both are
+ * ordinary passing tests now.
  *
  * THIS REPO IS PUBLIC (see CLAUDE.md), so both values are scrapeable here as well as on the
  * rendered page. That is a decision rather than an oversight: they are published contact details.
@@ -382,23 +396,25 @@ export const CONTACT = {
    *  a tel: link that dials something other than what the page prints fails silently on desktop. */
   phoneHref: '+442071395142',
   /**
-   * THE PUBLISHED ADDRESS, and it is deliberately a PERSON rather than a department (2026-07-31).
+   * THE PUBLISHED ADDRESS. `contact@bowerbuild.org`, taken from main on 2026-08-01.
    *
-   * `info@bowerbuild.org` exists and is the form's destination (`FORM_INBOX` below). It is not what
-   * the page prints, because of where the page prints it: the `/questions` close sets the heading
-   * "Who do I ring?", then the name "Clay Seifert", then this address directly underneath. An
-   * `info@` in that position puts a front desk between the reader and the person they just read the
-   * name of — the peer-to-supplier slide the venue spec's sixth ground rule is about, arriving
-   * through the email address instead of through the vocabulary.
+   * THIS BRANCH HAD PUBLISHED `clay@bowerbuild.org` AND THE MERGE RESOLVED AGAINST IT, on one fact
+   * that beats the argument: **there is a verified Google Workspace mailbox behind `contact@`.**
+   * An address that reads a shade corporate is a nuance; an address that bounces is a lost
+   * commission, and this repo has no way to check which mailboxes exist.
    *
-   * It is also who these buyers are. A family-owned house is not procuring from a vendor; the
-   * reference customer is already asking technical questions unprompted, and the answer to "who do
-   * I ring" should be a human being with a name.
+   * The argument it lost to is still worth keeping, because it is the reason to revisit this once
+   * the mailboxes are known. The `/questions` close sets the heading "Who do I ring?", then the
+   * name "Clay Seifert", then this address directly underneath — and a department address in that
+   * position puts a front desk between the reader and the person they just read the name of. That
+   * is the peer-to-supplier slide the venue spec's sixth ground rule is about, arriving through the
+   * email address rather than through the vocabulary. These buyers are a family-owned house, not a
+   * procurement department; the reference customer is already asking technical questions unprompted.
    *
-   * One line to reverse if the volume ever justifies a shared inbox — every surface reads this
-   * constant.
+   * So: `contact@` because it demonstrably works. If `clay@` also has a mailbox, this is one line,
+   * and `FOUNDERS` below already publishes both founders' addresses on `/about/practice`.
    */
-  email: 'clay@bowerbuild.org',
+  email: 'contact@bowerbuild.org',
 } as const;
 
 /**

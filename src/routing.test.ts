@@ -10,6 +10,7 @@ import {
   resolveRoute,
   routes,
 } from './routing';
+import { CONTACT } from './data/config';
 
 /**
  * THE PATH MIGRATION (2026-07-28). The site was hash-routed until this change, which meant every
@@ -97,8 +98,12 @@ describe('the click delegate decides which links the router takes over', () => {
   it('NEVER claims mailto: or tel:, the questions page\'s only contact route', () => {
     // If the router swallowed these, the site's single conversion point would stop working and
     // nothing would throw: the click would just navigate to the splash.
-    expect(claimsLink({ href: 'mailto:clay@bowerbuild.org' }, here)).toBe(false);
-    expect(claimsLink({ href: 'tel:+442071395142' }, here)).toBe(false);
+    // Bound to CONTACT, not a literal: the address and the number have now BOTH moved (the Gmail
+    // to the studio inbox, the US mobile to a UK landline) and a hardcoded copy here would have
+    // gone on passing while testing details the site no longer serves. This branch had updated the
+    // literals by hand, which fixes the instance and not the class; main's version fixes the class.
+    expect(claimsLink({ href: `mailto:${CONTACT.email}` }, here)).toBe(false);
+    expect(claimsLink({ href: `tel:${CONTACT.phoneHref}` }, here)).toBe(false);
   });
 
   it('leaves other origins, new tabs, downloads and rel=external to the browser', () => {

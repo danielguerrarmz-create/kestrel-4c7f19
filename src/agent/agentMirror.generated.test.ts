@@ -1,7 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { homeMirror, aboutMirror, galleryMirror, questionsMirror, housesMirror, practiceMirror, llmsTxt } from './mirror';
+import {
+  homeMirror,
+  aboutMirror,
+  galleryMirror,
+  questionsMirror,
+  housesMirror,
+  practiceMirror,
+  llmsTxt,
+} from './mirror';
+import { CONTACT } from '../data/config';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -65,9 +74,14 @@ describe('the agent mirror is fresh', () => {
     expect(questions).toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
-    // The published address became clay@bowerbuild.org on 2026-07-31. Pinned as a PROPERTY rather
-    // than as the literal it replaced: what matters is that the mirror hands an agent a practice
-    // address on the practice's own domain, not that it happens to be this string.
+    // BOTH HALVES OF THIS SURVIVED THE MERGE, because they guard different failures. Reading
+    // through `CONTACT` (main) catches the mirror going stale against the constant; asserting the
+    // DOMAIN as a property (this branch) catches the constant itself being changed to something
+    // off-domain, which the first check would happily accept. And the superseded personal address
+    // is pinned absent by name: the site published a founder's Gmail from 2026-07-28 until the
+    // studio inbox existed on 2026-08-01, and an agent handing a buyer that address would be
+    // routing them somewhere the domain's SPF and DMARC records say nothing about.
+    expect(questions).toContain(CONTACT.email);
     expect(questions).toMatch(/\S+@bowerbuild\.org/);
     expect(questions).not.toContain('gmail.com');
     expect(llmsTxt()).toContain('/agent/questions.md');

@@ -106,17 +106,25 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
   });
 
   /**
-   * THE PUBLISHED ADDRESS IS A PERSON, THE FORM'S DESTINATION IS A DEPARTMENT, AND THEY MUST NOT
-   * CONVERGE.
+   * THE ADDRESS A READER WRITES TO AND THE ADDRESS THE FORM POSTS TO MUST NOT CONVERGE.
    *
-   * Both are `@bowerbuild.org`, so the domain rules above would be perfectly happy if someone
-   * "simplified" this by pointing the published address at `info@`. That is the change this asserts
-   * against: the reader who has just read the name "Clay Seifert" is then shown an address, and a
-   * department address in that position is a front desk appearing between them and the person.
+   * NARROWED BY THE MERGE ON 2026-08-01, and the part that was dropped is worth recording. This
+   * also asserted `CONTACT.email === FOUNDERS[0].email` — that the published address is a PERSON,
+   * on the reasoning that the `/questions` close prints "Clay Seifert" and then the address
+   * underneath, and a department address in that position puts a front desk between the reader and
+   * the person they just read the name of.
+   *
+   * Main published `contact@bowerbuild.org` instead, and it wins on a fact rather than an argument:
+   * there is a verified Google Workspace mailbox behind it, and this repo cannot check which other
+   * mailboxes exist. **An address that reads corporate is a nuance; an address that bounces is a
+   * lost commission.** So the person-not-department rule is no longer asserted, and the surviving
+   * invariant is the one that is still unambiguously true: automated mail from the site's own form
+   * must not land in the mailbox a client's reply arrives in.
    */
   it('the address the site PRINTS is not the one the form posts to', () => {
     expect(CONTACT.email).not.toBe(FORM_INBOX);
-    expect(CONTACT.email).toBe(FOUNDERS[0].email);
+    // Both on the practice domain is checked above; this pins that they are genuinely two boxes.
+    expect(FORM_INBOX).not.toBe(FOUNDERS[0].email);
     expect(FORM_INBOX.startsWith('info@')).toBe(true);
   });
 });
