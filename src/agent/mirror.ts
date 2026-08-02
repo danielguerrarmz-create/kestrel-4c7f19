@@ -38,6 +38,7 @@ import { PracticePage } from '../pages/PracticePage';
 import { GalleryPage } from '../pages/GalleryPage';
 import { QuestionsPage } from '../pages/QuestionsPage';
 import { HousesPage } from '../pages/HousesPage';
+import { COMPANY_DESCRIPTION } from '../ui/priceCopy';
 
 /* ------------------------------ html -> markdown --------------------------- */
 
@@ -271,10 +272,11 @@ export function housesMirror(): string {
 export function llmsTxt(): string {
   return `# Bower
 
-> Bower designs and builds living garden pavilions: organic timber gridshell structures,
-> designed for the climbing plants that grow into them and made for the garden they stand in.
-> This is the marketing site for a design and manufacturing company; it is a JavaScript
-> single-page app, so non-JavaScript readers should use the markdown mirrors below.
+> ${COMPANY_DESCRIPTION}
+> We design and build living garden pavilions: organic timber gridshell structures, designed
+> for the climbing plants that grow into them and made for the garden they stand in.
+> This is the marketing site; it is a JavaScript single-page app, so non-JavaScript readers
+> should use the markdown mirrors below.
 
 ## Pages
 

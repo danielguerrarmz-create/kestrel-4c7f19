@@ -72,7 +72,7 @@ export function RegisterInterest() {
   if (outcome === 'delivered') {
     return (
       <div className="mt-8 font-serifDisplay text-[17px] leading-relaxed text-inkBlack/70">
-        <p className="italic">Noted, and thank you. We will be in touch.</p>
+        <p className="italic">Your application is in, and thank you. We will be in touch.</p>
       </div>
     );
   }
@@ -80,7 +80,7 @@ export function RegisterInterest() {
   if (outcome === 'undelivered') {
     return (
       <div className="mt-8 flex flex-col gap-2 font-serifDisplay text-[17px] leading-relaxed text-inkBlack/70">
-        <p className="italic">That didn’t send, and we would rather tell you than lose it.</p>
+        <p className="italic">That didn’t send, and we would rather tell you than lose your application.</p>
         <p className="italic">
           The sure way to reach us is directly:{' '}
           <a href={`tel:${CONTACT.phoneHref}`} className="not-italic text-inkBlack underline decoration-inkBlack/25 underline-offset-4 transition-colors hover:decoration-inkBlack">
@@ -111,11 +111,15 @@ export function RegisterInterest() {
   return (
     <form onSubmit={onSubmit} className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-8">
       <label className="flex flex-col gap-3">
+        {/* "register interest" until 2026-08-01 (Clay: too passive). The hero now asks the reader
+            to APPLY for a named, limited thing, and a form labelled "register interest" underneath
+            that button would quietly demote the act back to joining a list. The label has to match
+            what the button promised, or the button was overselling. */}
         <span
           className="font-serifDisplay text-[13px] italic opacity-60"
           style={{ fontVariant: 'small-caps', letterSpacing: '0.16em' }}
         >
-          register interest
+          apply for a founding study
         </span>
         <input
           id="register-email"
@@ -136,7 +140,7 @@ export function RegisterInterest() {
         className="group inline-flex items-center gap-1.5 self-start pb-2 font-serifDisplay text-[18px] text-inkBlack transition-opacity disabled:opacity-50 sm:self-auto [@media(pointer:coarse)]:min-h-[44px]"
       >
         <span className="relative">
-          {outcome === 'sending' ? 'sending' : 'submit'}
+          {outcome === 'sending' ? 'sending' : 'apply'}
           <span
             aria-hidden
             className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-inkBlack transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"

@@ -41,6 +41,7 @@ import { useEffect } from 'react';
 import { PUBLIC_ROUTES, normalizePath, resolveRoute, routes, type RouteTarget } from './routing';
 import { QUESTIONS, RING } from './pages/questions/copy';
 import { CONTACT, WORDMARK } from './data/config';
+import { COMPANY_DESCRIPTION } from './ui/priceCopy';
 
 /**
  * The canonical origin, WITH the `www`.
@@ -199,8 +200,11 @@ export function organizationJsonLd(): Record<string, unknown> {
     url: SITE_ORIGIN + routes.home,
     logo: absoluteUrl('/favicon.svg'),
     image: absoluteUrl(OG_CARD.path),
-    description:
-      'Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.',
+    // `COMPANY_DESCRIPTION` is how the practice describes itself to a crawler, an agent or a
+    // journalist (Clay, 2026-08-01), followed by what the thing actually is. The order matters:
+    // the positioning sentence answers "what kind of company", the second answers "what do they
+    // make", and a reader of structured data wants both in that order.
+    description: `${COMPANY_DESCRIPTION} We design and build living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.`,
     founder: FOUNDER_NAMES.map((name) => ({ '@type': 'Person', name })),
     email: CONTACT.email,
     telephone: CONTACT.phone,

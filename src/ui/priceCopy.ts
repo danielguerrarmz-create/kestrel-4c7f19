@@ -128,6 +128,24 @@ export const COMMISSION_FROM = 'from £350k';
  */
 export const COMMISSION_FLOOR_WORDS = 'mid-six figures';
 
+/**
+ * HOW THE COMPANY DESCRIBES ITSELF (Clay, 2026-08-01), replacing "design studio" and "design
+ * practice" wherever the site says what Bower IS.
+ *
+ * It lives here rather than in `data/config.ts` because it is a positioning statement that sits
+ * beside the commercial facts, and every surface that prints it also prints one of those.
+ *
+ * WHERE IT GOES AND WHERE IT DOES NOT. This is the description a CRAWLER, an AGENT or a journalist
+ * reads: the Organization schema, `llms.txt`, the `<noscript>` block. It is deliberately NOT the
+ * home page's own "What Bower is" band, which stays "Designed for your garden, and for the plant
+ * that grows through it." A buyer standing in front of a photograph of a garden pavilion is not
+ * asking about a scalable system, and the venue spec's own instinct — the one that cut "This round:
+ * the people, the narrative, the demand" from About — is that a sentence written for one audience
+ * reads as a pitch to the other. Same sentence, right reader, different surface.
+ */
+export const COMPANY_DESCRIPTION =
+  'Bower is a design and manufacturing company developing a scalable system for living, geometrically unique buildings.';
+
 /** The lowest a reader could reasonably read `COMMISSION_FLOOR_WORDS` as. Guarded against
  *  `COMMISSION_BREAKEVEN_GBP`, so the published words can never fall below cost the way a
  *  published number once did. */

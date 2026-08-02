@@ -279,6 +279,11 @@ export function SplashPage() {
             beneath it, already labelled "register interest", beside a door already labelled "Who
             is behind this". Copy that describes the widget next to it is the easiest kind of
             sentence to cut. */}
+        {/* KEPT, and deliberately NOT the scarcity line (2026-08-01). The hero states the cohort in
+            numbers directly under the button; repeating "four studies, two commissions" here would
+            be the page saying one fact twice, which this file's own header forbids. This sentence
+            says the same thing in the register the close is written in, and it is the reason the
+            reader scrolled this far rather than the terms of the offer. */}
         <p className={BODY}>These are the first Bowers. Yours could be among them.</p>
 
         <RegisterInterest />
