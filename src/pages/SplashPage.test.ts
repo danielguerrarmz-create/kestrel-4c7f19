@@ -166,10 +166,14 @@ describe('SplashPage', () => {
     // The prose lead was a summary of the list beneath it; the subtraction pass cut it.
     expect(html).not.toContain("that's genuinely the whole of it");
     expect(html).toContain('Plant, and let it start becoming');
-    // The component count + lead time are still LIVE engine output, but they stopped being a
-    // mono uppercase annotation strip ("~176 components · ~10 wks") in the 2026-07-23 elegance
-    // pass -- that read as a dimension note on a drawing. Same numbers, page's own voice.
-    expect(html).toMatch(/about \d+ components/);
+    // THE COMPONENT COUNT CAME OFF ON 2026-08-01 and the lead time stayed, which is the whole
+    // distinction. A count is part of a claim about HOW the thing is made — the checkable half of
+    // the CNC wording removed from ritual step 3 in the same pass — and nothing has been built.
+    // How long the work takes is a scheduling fact the practice owns either way.
+    //
+    // The surviving figure is still LIVE engine output, so `\d+` rather than a literal: pinning
+    // the number would make an engine change look like a copy change.
+    expect(html).not.toMatch(/\d+ components/);
     expect(html).toMatch(/about \d+ weeks/);
   });
 

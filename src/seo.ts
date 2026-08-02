@@ -200,7 +200,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     logo: absoluteUrl('/favicon.svg'),
     image: absoluteUrl(OG_CARD.path),
     description:
-      'Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them, fabricated from flat CNC components.',
+      'Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.',
     founder: FOUNDER_NAMES.map((name) => ({ '@type': 'Person', name })),
     email: CONTACT.email,
     telephone: CONTACT.phone,

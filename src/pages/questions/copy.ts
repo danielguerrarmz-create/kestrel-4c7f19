@@ -96,7 +96,7 @@
  */
 
 import { FOOTPRINT_M2, HEADS_IN_WORDS } from '../../data/capacity';
-import { FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
+import { COMMISSION_STATEMENT, FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -123,8 +123,8 @@ export const QUESTIONS: readonly QA[] = [
     id: 'cost',
     q: 'What does it cost?',
     a: [
-      'Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.',
-      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
+      ...COMMISSION_STATEMENT,
+      'A commission covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
       `Stage 1, siting and feasibility, is ${STAGE_1_FEE} including VAT.`,
       `Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT. A fixed Stage 2 fee and updated build budget are confirmed at the end of Stage 1, once the site, surveys and consent route are understood.`,
       FEES_NOT_CREDITED,

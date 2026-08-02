@@ -36,13 +36,13 @@ One of a kind. Never chosen from a catalogue.
 
 - 2 The price is fixed as we design
 
-- 3 Flat timber components, CNC-cut
+- 3 Made for your garden, not off a shelf
 
 - 4 Days to raise, on ground screws, no slab
 
 - 5 Plant, and let it start becoming.
 
-This one: about 176 components, about 10 weeks.
+This one: about 10 weeks to make.
 
 ![Looking up inside a woven timber gridshell at its open oculus, the lattice converging on the ring with wisteria hanging through it](/assets/product/pavilion-oculus-interior.webp)
 

@@ -55,7 +55,9 @@ import { H2, BODY } from './typeScale';
 export function SplashPage() {
   const reduced = useReducedMotion();
   const outputs = useDesign((s) => s.outputs);
-  const { components, buildPlan } = outputs;
+  // `components` was destructured here for the annotation strip's live count, which came off on
+  // 2026-08-01 with the fabrication claim. `buildPlan` still feeds the lead time.
+  const { buildPlan } = outputs;
 
   return (
     <div className="min-h-screen w-full">
@@ -235,12 +237,20 @@ export function SplashPage() {
               ))}
             </ol>
 
-            {/* The one live engine figure on the front door, and it stays LIVE — but it no longer
-                reads as an instrument readout. It was `AnnotationStrip`: 10px mono, uppercase,
-                0.12em tracking, i.e. a dimension annotation on a drawing. As an italic serif
-                footnote it is the same true numbers in the page's own voice. */}
+            {/* THE COMPONENT COUNT CAME OFF ON 2026-08-01, with the CNC claim in ritual step 3
+                (Clay: "I don't think that is true and I would prefer to not list it as such").
+                It read "This one: about {n} components, about {w} weeks."
+
+                The count is the more checkable half of a fabrication claim, and it was the LIVE
+                engine figure — computed from the dev-only engine's model of an object nobody has
+                built. Removing the process claim and leaving the number would have kept exactly
+                the sentence a technically literate buyer asks about first.
+
+                THE LEAD TIME STAYS, because it is a different kind of statement: how long the work
+                takes is a scheduling fact the practice owns, not an assertion about how the thing
+                is made. It is still live from `buildPlan`, so it cannot drift from the engine. */}
             <p className="mt-8 font-serifDisplay text-[15px] italic leading-relaxed text-inkBlack/50">
-              This one: about {components.totalCount} components, about {buildPlan.leadTimeWeeks} weeks.
+              This one: about {buildPlan.leadTimeWeeks} weeks to make.
             </p>
           </div>
 

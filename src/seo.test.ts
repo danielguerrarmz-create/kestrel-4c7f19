@@ -18,6 +18,8 @@ import {
   COMMISSION_ANCHOR_GBP,
   COMMISSION_BREAKEVEN_GBP,
   COMMISSION_DEMO_FIGURE,
+  COMMISSION_FLOOR_WORDS,
+  COMMISSION_FLOOR_WORDS_MIN_GBP,
   STAGE_1_FEE,
   STAGE_2_FEE,
   COMMISSION_FLOOR_GBP,
@@ -277,18 +279,26 @@ describe('structured data', () => {
       mainEntity: Array<{ name: string; acceptedAnswer: { text: string } }>;
     };
     const cost = faq.mainEntity.find((q) => q.name.includes('cost'))!;
-    // Scoped to the sentence that states the COMMISSION, exactly as copy.test.ts scopes it. The
-    // Stage 1 professional fee (£18,000) is supposed to sit far below break-even on the object, so
-    // sweeping every pound sign on the page would be guarding the wrong quantity.
-    const line = cost.acceptedAnswer.text
-      .split('\n\n')
-      .find((p) => p.includes('Commissions begin at'))!;
-    const gbp = Number(line.match(/£([\d,]+)/)![1].replace(/,/g, ''));
-    expect(gbp, `£${gbp.toLocaleString('en-GB')} is at or below break-even`).toBeGreaterThan(
-      COMMISSION_BREAKEVEN_GBP,
-    );
-    // And it must still be the page's OWN form, VAT qualifier intact.
-    expect(line).toContain('£350,000 including VAT');
+    /**
+     * FOLLOWS THE CLAIM, NOT THE FORMAT, exactly as `questions/copy.test.ts` now does.
+     *
+     * This parsed a numeral out of the paragraph beginning "Commissions begin at £..." — a sentence
+     * that stopped existing on 2026-08-01 when the floor became words ("mid-six figures"). The
+     * schema is GENERATED from the page, so the moment the page's format changed this guard was
+     * reading a paragraph that was not there. Deleting it was the tempting repair and would have
+     * left an answer engine free to be handed a below-cost figure with nothing checking.
+     *
+     * The floor phrase must be in the schema, and the lowest reading of that phrase must clear
+     * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
+     */
+    expect(cost.acceptedAnswer.text).toContain(COMMISSION_FLOOR_WORDS);
+    expect(
+      COMMISSION_FLOOR_WORDS_MIN_GBP,
+      `"${COMMISSION_FLOOR_WORDS}" read at its lowest is at or below break-even`,
+    ).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
+    // The superseded point value, pinned absent in the schema too — an answer engine quoting a
+    // withdrawn price is the audience least able to notice it has been withdrawn.
+    expect(cost.acceptedAnswer.text).not.toContain('£350,000');
   });
 
   it('the FAQ answers carry the live price and not the retracted one', () => {

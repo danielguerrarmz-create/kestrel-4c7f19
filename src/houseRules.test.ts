@@ -9,7 +9,7 @@ import {
   housesMirror,
   practiceMirror,
 } from './agent/mirror';
-import { metaForPath } from './seo';
+import { metaForPath, organizationJsonLd } from './seo';
 import { PUBLIC_ROUTES } from './routing';
 
 /**
@@ -261,6 +261,51 @@ describe('the practice describes itself as a design and manufacturing company', 
         expect(head, `${path} head uses "${phrase}"`).not.toMatch(new RegExp(phrase, 'i'));
       }
     }
+  });
+});
+
+describe('the site makes no claim about HOW a Bower is manufactured', () => {
+  /**
+   * WITHDRAWN 2026-08-01 (Clay: "I don't think that is true and I would prefer to not list it as
+   * such"). The home's ritual step 3 read "Flat timber components, CNC-cut", and the same claim was
+   * in the Organization schema, the `<noscript>` block and llms.txt.
+   *
+   * It described the DEV-ONLY ENGINE'S fabrication model — flat sheet stock, nested and profiled —
+   * as though it were how a commission gets built, and nothing has been built. This belongs with
+   * ground rules 3 and 4 below: a manufacturing method is the easiest claim on this site for a
+   * technically literate buyer to test, and it is worth the least before there is a fabricator
+   * (`pending.ts`, `practice-entity`).
+   *
+   * `src/config.ts`, `engine/` and `ui/costAttribution.ts` still model sheet CNC and must keep
+   * doing so — that is the engine's internal cost model, not a published claim. The sweep runs over
+   * the RENDERED pages only, which is exactly the distinction that matters.
+   */
+  it('no page states a fabrication process', () => {
+    const pages = allProse();
+    expect(pages.length).toBeGreaterThan(0);
+    for (const { name, text } of pages) {
+      for (const re of [/\bCNC\b/i, /\bflat[- ]pack/i, /\bcut from sheet/i, /\bnested\s+on\s+a\s+sheet/i]) {
+        const hit = text.match(re);
+        expect(hit?.[0], `${name} claims a manufacturing process: "${hit?.[0]}"`).toBeUndefined();
+      }
+      // THE COMPONENT COUNT IS PART OF THE SAME CLAIM and the sweep missed it on the first pass —
+      // the home printed "about 176 components" in an annotation strip, live from the engine,
+      // while the CNC wording had already come out of the ritual step above it. A count is the
+      // more checkable half of "here is how it is made", against an object nobody has built.
+      const count = text.match(/\b\d+\s+components\b/i);
+      expect(count?.[0], `${name} publishes a component count: "${count?.[0]}"`).toBeUndefined();
+    }
+  });
+
+  it('nor the Organization schema, which a non-JavaScript crawler reads instead of the page', () => {
+    // The schema is duplicated by design (static in index.html, plus the function so tests share
+    // one definition) and pinned byte-identical. Both copies are checked here because a claim
+    // removed from the page and left in the schema is a claim that is still published.
+    expect(JSON.stringify(organizationJsonLd())).not.toMatch(/\bCNC\b/i);
+    const html = readFileSync(fileURLToPath(new URL('../index.html', import.meta.url)), 'utf8');
+    expect(html).not.toMatch(/\bCNC\b/i);
+    const llms = readFileSync(fileURLToPath(new URL('../public/llms.txt', import.meta.url)), 'utf8');
+    expect(llms).not.toMatch(/\bCNC\b/i);
   });
 });
 

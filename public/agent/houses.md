@@ -58,7 +58,11 @@ If you have grounds staff we would rather teach them and hand it across; they ar
 
 ## 6 What it costs
 
-Commissions begin at £350,000 including VAT.
+Each Bower is commissioned for its site.
+
+Complete project budgets are expected to begin in the mid-six figures, with larger or structurally ambitious pavilions reaching £1 million or more.
+
+A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.
 
 Stage 1, siting and feasibility, is £18,000 including VAT, and it is yours to keep whatever you decide. Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT, fixed at the end of Stage 1.
 

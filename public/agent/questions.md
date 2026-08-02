@@ -26,9 +26,13 @@ Each one is drawn for the garden it stands in, so size is a conversation. Larger
 
 ## 2 What does it cost?
 
-Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.
+Each Bower is commissioned for its site.
 
-Every Bower is site-specific, so that is where commissions begin and not a quote for yours. It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
+Complete project budgets are expected to begin in the mid-six figures, with larger or structurally ambitious pavilions reaching £1 million or more.
+
+A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.
+
+A commission covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
 
 Stage 1, siting and feasibility, is £18,000 including VAT.
 

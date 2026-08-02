@@ -11,6 +11,7 @@ import {
   llmsTxt,
 } from './mirror';
 import { CONTACT } from '../data/config';
+import { COMMISSION_FLOOR_WORDS } from '../ui/priceCopy';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -68,10 +69,13 @@ describe('the agent mirror is fresh', () => {
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and
     // a way to reach a person. A mirror that lost these would still look like a page.
     const questions = questionsMirror();
-    // £350,000 as of 2026-07-28: the £150,000 this line used to assert was below break-even.
-    // Both are pinned — the live figure present, the superseded one absent — because an agent
-    // quoting a stale price back to a buyer is the same anchoring harm as the page doing it.
-    expect(questions).toContain('£350,000');
+    // THE COMMISSION FLOOR IS WORDS NOW (2026-08-01): "mid-six figures", replacing "£350,000
+    // including VAT", which had itself replaced a below-cost £150,000. All three are pinned —
+    // the live phrase present, both superseded figures absent — because an agent quoting a stale
+    // price back to a buyer is the same anchoring harm as the page doing it, and the agent's
+    // reader has no way to tell the figure was withdrawn.
+    expect(questions).toContain(COMMISSION_FLOOR_WORDS);
+    expect(questions).not.toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
     // BOTH HALVES OF THIS SURVIVED THE MERGE, because they guard different failures. Reading

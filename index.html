@@ -25,12 +25,12 @@
     <meta name="theme-color" content="#FBF9F3" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- FOR AI AGENTS AND OTHER NON-JAVASCRIPT READERS (2026-07-23): the four public pages are
-         real paths as of 2026-07-28 (/, /gallery, /questions, /about), but fetching any of them
-         still yields this shell with no page content, because the site is client-rendered. The
-         whole public site is mirrored as markdown, generated from the same components the human
-         pages render and drift-guarded by the test suite: start at /llms.txt, or go straight to
-         /agent/home.md, /agent/gallery.md, /agent/questions.md and /agent/about.md. -->
+    <!-- FOR AI AGENTS AND OTHER NON-JAVASCRIPT READERS (2026-07-23): the six public pages are
+         real paths (/, /houses, /gallery, /questions, /about, /about/practice), but fetching any
+         of them still yields this shell with no page content, because the site is client-rendered.
+         The whole public site is mirrored as markdown, generated from the same components the
+         human pages render and drift-guarded by the test suite: start at /llms.txt, or go
+         straight to the per-page mirrors listed in the <noscript> block below. -->
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site guide" />
 
     <!-- SOCIAL CARDS. Rewritten 2026-07-28: the previous pair sold "a generative design engine
@@ -80,7 +80,7 @@
         "url": "https://www.bowerbuild.org/",
         "logo": "https://www.bowerbuild.org/favicon.svg",
         "image": "https://www.bowerbuild.org/assets/social/og-card.jpg",
-        "description": "Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them, fabricated from flat CNC components.",
+        "description": "Bower designs and builds living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.",
         "founder": [
           { "@type": "Person", "name": "Clay Seifert" },
           { "@type": "Person", "name": "Daniel Guerra" }
@@ -120,8 +120,8 @@
         <h1>Bower</h1>
         <p>
           Bower designs and builds living garden pavilions: organic timber gridshell structures,
-          designed for the climbing plants that grow into them, fabricated from flat CNC
-          components.
+          designed for the climbing plants that grow into them and made for the garden they
+          stand in.
         </p>
         <p>
           This site needs JavaScript to render. A full markdown mirror of every page is published

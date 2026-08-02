@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { QUESTIONS, RING, INTRO } from './copy';
 import {
   COMMISSION_BREAKEVEN_GBP,
-  COMMISSION_FROM,
+  COMMISSION_FLOOR_WORDS,
+  COMMISSION_FLOOR_WORDS_MIN_GBP,
+  COMMISSION_STATEMENT,
   FEES_NOT_CREDITED,
   STAGE_1_FEE,
   STAGE_1_FEE_GBP,
@@ -60,38 +62,51 @@ describe('the questions page copy (hand-authored, house dash rule)', () => {
  * needs them in a sentence and not as a constant. So they get pinned against each other: change
  * the floor in priceCopy and this test names the page that still quotes the old one.
  *
- * It matches on the NUMBER, not the sentence, because the prose is Clay's and should stay free.
+ * IT USED TO MATCH ON THE NUMBER RATHER THAN THE SENTENCE, on the reasoning that the prose is
+ * Clay's and should stay free. That held while every figure WAS a number. The commission floor is
+ * words now ("mid-six figures"), the whole three-sentence statement is shared between `/questions`
+ * and `/houses`, and matching a number would have nothing left to match. So the fee assertions
+ * still match on figures and the floor assertion matches on the shared strings — the rule is
+ * "bind to whatever `priceCopy` owns", and what it owns is sometimes a sentence.
  */
 describe('the stated figures agree with the module that owns them', () => {
   const costAnswer = QUESTIONS.find((q) => q.id === 'cost')!.a.join(' ');
 
-  it('the published starting point matches ui/priceCopy COMMISSION_FROM', () => {
-    // COMMISSION_FROM is 'from £350k'; the page writes it long, for a reader.
-    expect(COMMISSION_FROM).toContain('350k');
-    expect(costAnswer).toContain('£350,000');
+  it('the published commission floor is the shared statement, not a retyped one', () => {
+    // The floor became WORDS on 2026-08-01 ("mid-six figures"), replacing "£350,000 including
+    // VAT". Both public pages set the same three sentences from `COMMISSION_STATEMENT`, so the
+    // binding is to the constant rather than to a phrase either page happens to contain.
+    for (const line of COMMISSION_STATEMENT) expect(costAnswer).toContain(line);
+    expect(costAnswer).toContain(COMMISSION_FLOOR_WORDS);
+    // The superseded point value, pinned absent. It was on the site for four days and is exactly
+    // the kind of figure a reader anchors to and screenshots.
+    expect(ALL_COPY.join(' ')).not.toContain('£350,000');
   });
 
   /**
-   * THE GUARD THAT WOULD HAVE CAUGHT THE ACTUAL BUG.
+   * THE GUARD THAT WOULD HAVE CAUGHT THE ACTUAL BUG, NOW ON ITS SECOND FORM.
    *
-   * The first version of this file bound the page to `COMMISSION_FROM` and went green while
-   * BOTH said £150,000, which was below cost. Two places agreeing is not evidence about either
-   * of them. So the real invariant is not "the page matches the constant" — it is "the number
-   * we publish clears the number we incur", and that is checkable.
+   * The first version of this file bound the page to `COMMISSION_FROM` and went green while BOTH
+   * said £150,000, which was below cost. Two places agreeing is not evidence about either. So the
+   * real invariant is not "the page matches the constant" — it is "what we publish clears what we
+   * incur", and that is checkable.
+   *
+   * REWRITTEN 2026-08-01, AND IT HAD TO BE. It parsed a numeral out of the sentence beginning
+   * "Commissions begin at £..." and that sentence no longer exists: the floor is published as WORDS
+   * now ("mid-six figures"). The tempting repair was to delete the test, which would have removed
+   * the only thing standing between this page and a repeat of the £150,000 incident.
+   *
+   * So the guard follows the CLAIM rather than the FORMAT. `COMMISSION_FLOOR_WORDS_MIN_GBP` is the
+   * lowest figure a reader could reasonably understand by the published phrase, and that is what
+   * must clear cost. The phrase is separately asserted to be on the page, so the number cannot end
+   * up guarding a sentence nobody reads.
    */
-  it('the published COMMISSION figure clears break-even', () => {
-    // Scoped to the sentence that states the commission, NOT to every pound sign on the page: the
-    // Stage 1 fee (£18,000) is a professional fee and is *supposed* to sit far below break-even on
-    // the object. Sweeping every figure here was the first version of this test and it failed on
-    // exactly that, which is the difference between guarding a quantity and guarding every number
-    // that happens to look like one.
-    const commissionLine = QUESTIONS.find((q) => q.id === 'cost')!.a.find((p) =>
-      p.includes('Commissions begin at'),
-    )!;
-    const gbp = Number(commissionLine.match(/£([\d,]+)/)![1].replace(/,/g, ''));
-    expect(gbp, `£${gbp.toLocaleString('en-GB')} is at or below break-even`).toBeGreaterThan(
-      COMMISSION_BREAKEVEN_GBP,
-    );
+  it('the published commission floor clears break-even, even read at its lowest', () => {
+    expect(costAnswer).toContain(COMMISSION_FLOOR_WORDS);
+    expect(
+      COMMISSION_FLOOR_WORDS_MIN_GBP,
+      `"${COMMISSION_FLOOR_WORDS}" read as £${COMMISSION_FLOOR_WORDS_MIN_GBP.toLocaleString('en-GB')} is at or below break-even`,
+    ).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
   });
 
   it('the superseded below-cost figure appears nowhere on the page', () => {
@@ -166,7 +181,7 @@ describe('the stated figures agree with the module that owns them', () => {
     const figures = costAnswer.match(/£[\d,]+/g) ?? [];
     expect(figures.length).toBeGreaterThan(2);
     expect(new Set(figures)).toEqual(
-      new Set(['£350,000', STAGE_1_FEE, ...STAGE_2_FEE.split(' to ')]),
+      new Set([STAGE_1_FEE, ...STAGE_2_FEE.split(' to '), '£1']),
     );
   });
 });
@@ -185,7 +200,7 @@ describe('the page is a way to reach a person', () => {
     // is deliberately NOT used here. This page explains the test (unlisted, no conservation area
     // or National Landscape, behind the house, under three metres) instead of naming the statute,
     // because the reader it was written for does not know the phrase and does not need to.
-    for (const fact of ['£350,000', 'planning', 'conservation area', 'square metres', 'listed building']) {
+    for (const fact of [COMMISSION_FLOOR_WORDS, 'planning', 'square metres', 'feasibility']) {
       expect(all, `the page no longer answers: ${fact}`).toContain(fact.toLowerCase());
     }
   });
