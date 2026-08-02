@@ -52,7 +52,7 @@ If you have grounds staff we would rather teach them and hand it across; they ar
 
 Commissions begin at £350,000 including VAT.
 
-The fixed price is established through a paid siting study at £6,500, which is two to four weeks and yours to keep whatever you decide.
+The fixed price is established through a paid feasibility and siting study at £15,000, which is two to four weeks and yours to keep whatever you decide.
 
 [Full detail on the questions page](/questions)
 

@@ -46,6 +46,7 @@
  * venue owner will have both open; the number has one owner and each page writes its own sentence.
  */
 import { HEADS_IN_WORDS } from '../../data/capacity';
+import { STAGE_1_FEE } from '../../ui/priceCopy';
 
 /** A titled section of the page. `body` is paragraphs, in order. */
 export interface HouseSection {
@@ -118,7 +119,7 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
     heading: 'What it costs',
     body: [
       'Commissions begin at £350,000 including VAT.',
-      'The fixed price is established through a paid siting study at £6,500, which is two to four weeks and yours to keep whatever you decide.',
+      `The fixed price is established through a paid feasibility and siting study at ${STAGE_1_FEE}, which is two to four weeks and yours to keep whatever you decide.`,
     ],
   },
 ];

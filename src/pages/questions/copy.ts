@@ -23,10 +23,16 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - Stage 1, the siting study: £6,500.
- *   - Stage 2, design and engineering: £18,000 to £25,000, deliberately a RANGE and deliberately
- *     "confirmed at the end of Stage 1", because it varies with heritage statements and tree
- *     surveys. Do not collapse it to a single figure.
+ *   - Stage 1, the feasibility and siting study: £15,000, owned by `STAGE_1_FEE` in
+ *     ui/priceCopy.ts because three surfaces state it. Was £6,500 (2026-07-28) and £1,500 before
+ *     that; it has moved twice in four days, which is exactly why it stopped being a literal.
+ *   - Stage 2 IS NO LONGER PRICED (2026-07-31, Clay). It published "typically £18,000 to £25,000,
+ *     confirmed at the end of Stage 1" — a range rather than a point, deliberately, because the
+ *     figure varies with heritage statements and tree surveys. The range is now gone entirely and
+ *     the copy describes the WORK instead, with the price fixed after the study establishes scope.
+ *     This note used to read "do not collapse it to a single figure"; that rule stands and is not
+ *     what happened. Collapsing a range to a point claims a precision nobody has. Removing it
+ *     declines to guess.
  *   - 6 to 10% of the commission a year for the first three years' training. Matches
  *     `STEWARDSHIP_NOTE` in ui/priceCopy.ts.
  *
@@ -82,6 +88,7 @@
  */
 
 import { FOOTPRINT_M2, HEADS_IN_WORDS } from '../../data/capacity';
+import { STAGE_1_FEE } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -109,9 +116,13 @@ export const QUESTIONS: readonly QA[] = [
     q: 'What does it cost?',
     a: [
       'Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.',
-      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid siting study.',
+      // "a paid feasibility and siting study", matching the name the fee line and /houses now use.
+      // It said "a paid siting study" and the two sat four paragraphs apart in the same answer,
+      // which reads as two different pieces of work rather than one renamed on 2026-07-31.
+      'Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid feasibility and siting study.',
       'It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
-      'The steps before it are smaller. Stage 1, the siting study, is £6,500. Stage 2, design and engineering, is typically £18,000 to £25,000, confirmed at the end of Stage 1, because it varies with heritage statements and tree surveys.',
+      `The step before it is smaller. Stage 1, the feasibility and siting study, is ${STAGE_1_FEE}.`,
+      'Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.',
       'Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.',
     ],
   },
@@ -158,7 +169,7 @@ export const QUESTIONS: readonly QA[] = [
       'For a house that sells by the season: commission in the autumn, planning over the winter, raise it the following summer, and it is photographing properly by the summer after that.',
     ],
     rows: [
-      { stage: 'Stage 1, the siting study', span: '2 to 4 weeks' },
+      { stage: 'Stage 1, the feasibility and siting study', span: '2 to 4 weeks' },
       { stage: 'Design', span: '6 to 10 weeks' },
       { stage: 'Engineering', span: '6 to 10 weeks' },
       { stage: 'Planning', span: 'none, or up to 6 months' },
@@ -204,11 +215,22 @@ export const RING = {
   first:
     'The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.',
   /** What the paid step buys, stated as deliverables. */
-  study:
-    'After that, Stage 1: the siting study, £6,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.',
-  /** The step after it, named but deliberately not fixed. */
-  next:
-    'Stage 2, design and engineering, follows if you want it: typically £18,000 to £25,000, confirmed at the end of Stage 1.',
+  study: `After that, Stage 1: the feasibility and siting study, ${STAGE_1_FEE}, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.`,
+  /**
+   * The step after it, named and deliberately UNPRICED.
+   *
+   * It used to publish "typically £18,000 to £25,000, confirmed at the end of Stage 1". The range
+   * was itself a deliberate refusal to give one number, on the reasoning that the figure varies
+   * with heritage statements and tree surveys. Clay withdrew the figures entirely on 2026-07-31.
+   *
+   * That is a move in the SAME direction, not a reversal, and worth being clear about because the
+   * old header note said "do not collapse it to a single figure": collapsing a range to a point is
+   * a claim to precision nobody has, whereas removing it is a refusal to guess. What replaces it
+   * says what the work IS (structural engineering, planning coordination, fabrication detailing)
+   * and that the price is fixed once the study has established the scope. **The cost is that a
+   * reader no longer learns what Stage 2 runs to before engaging.** That is the trade Clay made.
+   */
+  next: 'Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.',
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product. */

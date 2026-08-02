@@ -28,11 +28,13 @@ Each one is drawn for the garden it stands in, so size is a conversation. Larger
 
 Commissions begin at £350,000 including VAT, and run into seven figures for landmark pieces.
 
-Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid siting study.
+Every Bower is site-specific, so that is where commissions begin and not a quote for yours. The fixed price is established through a paid feasibility and siting study.
 
 It covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
 
-The steps before it are smaller. Stage 1, the siting study, is £6,500. Stage 2, design and engineering, is typically £18,000 to £25,000, confirmed at the end of Stage 1, because it varies with heritage statements and tree surveys.
+The step before it is smaller. Stage 1, the feasibility and siting study, is £15,000.
+
+Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.
 
 Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.
 
@@ -70,7 +72,7 @@ You can sit in it the week it goes up. That first year it is a timber structure,
 
 For a house that sells by the season: commission in the autumn, planning over the winter, raise it the following summer, and it is photographing properly by the summer after that.
 
-Stage 1, the siting study
+Stage 1, the feasibility and siting study
 
 2 to 4 weeks
 
@@ -130,9 +132,9 @@ Clay Seifert
 
 The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
 
-After that, Stage 1: the siting study, £6,500, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
+After that, Stage 1: the feasibility and siting study, £15,000, ready within two to four weeks. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
 
-Stage 2, design and engineering, follows if you want it: typically £18,000 to £25,000, confirmed at the end of Stage 1.
+Following the feasibility study, we prepare a fixed proposal for planning, engineering and technical design. Most projects involve structural engineering, planning coordination and fabrication detailing, with the final scope depending on the site and local authority requirements.
 
 Bower 
 

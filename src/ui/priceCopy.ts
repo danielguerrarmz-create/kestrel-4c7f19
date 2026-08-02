@@ -101,6 +101,30 @@ export const COMMISSION_BREAKEVEN_GBP = 220_000;
  */
 export const COMMISSION_FROM = 'from £350k';
 
+/**
+ * STAGE 1, THE PAID STUDY: £15,000 as of 2026-07-31 (Clay). Was £6,500, and before that £1,500.
+ *
+ * ONE OWNER, because three surfaces state it: the cost answer on `/questions`, that page's close
+ * ("Who do I ring?"), and the `/houses` cost section. It was written out by hand in all three, and
+ * a fee that moves twice in four days is exactly the fact that ends up right in two places and
+ * wrong in the third. `questions/copy.test.ts` binds the prose to this constant.
+ *
+ * IT IS A PROFESSIONAL FEE AND IS *SUPPOSED* TO SIT FAR BELOW `COMMISSION_BREAKEVEN_GBP`, so the
+ * break-even guard deliberately does not sweep it — that guard is scoped to the sentence stating
+ * the commission. Sweeping every pound sign on the page was the first version of that test and it
+ * failed on precisely this number, which is the difference between guarding a quantity and
+ * guarding everything shaped like one.
+ *
+ * The doubling matters commercially rather than technically: at £6,500 the study read as a deposit
+ * a curious owner might risk, and at £15,000 it reads as a piece of work someone commissions. That
+ * is the intent. It also means the study now has to be worth £15,000 on its own, which is what
+ * "yours to keep whatever you decide" is promising.
+ */
+export const STAGE_1_FEE_GBP = 15_000;
+
+/** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
+export const STAGE_1_FEE = '£15,000';
+
 /** What the floor is a floor OF. Sits with it, never with a computed figure. */
 export const COMMISSION_LABEL = 'commission, installed and planted';
 
