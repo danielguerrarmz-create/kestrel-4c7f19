@@ -20,14 +20,27 @@
  * exactly one success path, it requires a 2xx from the mail provider, and everything else falls
  * back to printing the phone number and the address.
  *
- * TO TURN IT ON (Clay, ~10 minutes):
- *   1. Create a Resend account and verify the `bowerbuild.org` domain (it will give you three DNS
- *      records: DKIM, SPF, and a return-path CNAME). Verification is what stops the mail landing in
- *      spam, so do not skip it.
+ * TO TURN IT ON (~10 minutes):
+ *   1. Create a Resend account and verify **`send.bowerbuild.org`** — the SUBDOMAIN, never the apex
+ *      (Daniel's ruling, 2026-08-02; the reason is on `FORM_SENDER` below and it is not a
+ *      preference, the apex would collide with Google's MX and SPF). It will give you three DNS
+ *      records: DKIM, SPF, and a return-path CNAME, all on `send.`. Verification is what stops the
+ *      mail landing in spam, so do not skip it.
  *   2. Vercel project -> Settings -> Environment Variables, add `RESEND_API_KEY` for Production.
- *      Do NOT put it in `.env` — that file is TRACKED in this repo (see the PostHog note in
+ *      That is the ONLY variable production needs. Leave `RESEND_FROM` and `RESEND_TO` UNSET: they
+ *      are the sandbox escape hatch below, and a sender that lives in a dashboard variable is a
+ *      fact with no test and no reviewer.
+ *      Do NOT put the key in `.env` — that file is TRACKED in this repo (see the PostHog note in
  *      CLAUDE.md; the key there is a write-only public token, which this is not).
- *   3. Redeploy. `GET /api/contact` reports readiness without sending anything.
+ *   3. Redeploy.
+ *
+ * `GET /api/contact` REPORTS THE KEY, NOT READINESS, and the difference matters. This line used to
+ * say "reports readiness", which overstates it: `configured` is `Boolean(RESEND_API_KEY)` and
+ * nothing more. **It will report `configured: true` while every submission still fails**, because
+ * domain verification lives at Resend and this function cannot see it. So it answers "did the
+ * variable land" — genuinely useful, and it costs no fake enquiry in the client inbox — but a green
+ * probe is NOT evidence that mail sends. Steps 1 and 2 have to be confirmed separately: the domain
+ * in Resend's own dashboard, and the end-to-end path via the sandbox hatch below.
  *
  * Resend rather than SendGrid or Postmark: it is the one with a first-class Vercel integration and
  * a free tier that covers this volume, and the whole provider surface used here is one POST to one
@@ -44,12 +57,38 @@
 export const FORM_INBOX = 'contact@bowerbuild.org';
 
 /**
- * The From: address, once `bowerbuild.org` is verified with the provider.
+ * The From: address. **A SUBDOMAIN, `send.bowerbuild.org`, AND THAT IS NOT A PLACEHOLDER.**
  *
- * A provider will not send from a domain you have not proved you control, so until the DNS records
- * are in place this address is REJECTED and every submission returns `send-failed`.
+ * Daniel's ruling, 2026-08-02: verify `send.bowerbuild.org` with Resend, never the apex. This
+ * comment used to read "once `bowerbuild.org` is verified with the provider", which is exactly the
+ * shape of an unfinished TODO and would invite the next person to "finish" it by moving the sender
+ * to the apex. Doing that breaks the practice's real mail. The reason, so it does not get reopened:
+ *
+ *   - **MX COLLISION.** The apex already carries Google's MX records, because Workspace delivers
+ *     the practice's actual mail there. Resend's verification wants its OWN MX for the bounce
+ *     return path. Two sets of MX on one name is not a merge, it is a fight, and the side that
+ *     loses is inbound mail to the address this site publishes.
+ *   - **SPF IS SINGLE-RECORD BY SPEC.** The apex has exactly one `v=spf1 include:_spf.google.com
+ *     ~all`. A second `v=spf1` TXT record on the same name does not add to it: a checker that finds
+ *     two returns PERMERROR, which invalidates BOTH. So there is no additive way to put a second
+ *     sender on the apex without editing Google's own record.
+ *   - **A SUBDOMAIN COSTS NOTHING AND ALIGNS ANYWAY.** Records on `send.bowerbuild.org` touch
+ *     nothing Google depends on, and DMARC still passes, because alignment is evaluated against the
+ *     ORGANIZATIONAL domain and `send.bowerbuild.org` and `bowerbuild.org` share one.
+ *
+ * Full write-up: `bower-docs/ops/2026-08-01-email-authentication.md` (private repo; this one is
+ * PUBLIC).
+ *
+ * NOTE THE ASYMMETRY, because it looks like an inconsistency and is not: mail is SENT from
+ * `send.bowerbuild.org` and RECEIVED at `contact@bowerbuild.org` (`FORM_INBOX` above). Sending is a
+ * provider concern with its own DNS; receiving is Google's. They are different jobs on different
+ * names, and the reader only ever sees the apex.
+ *
+ * A provider will not send from a domain you have not proved you control, so until those DNS
+ * records are in place this address is REJECTED and every submission returns `send-failed` — which
+ * the form shows honestly as "that didn't send", with the phone number and the address.
  */
-export const FORM_SENDER = 'Bower site <noreply@bowerbuild.org>';
+export const FORM_SENDER = 'Bower site <noreply@send.bowerbuild.org>';
 
 /**
  * Resend's shared sandbox sender, which needs no DNS at all.
@@ -174,8 +213,11 @@ interface Res {
 }
 
 export default async function handler(req: Req, res: Res): Promise<void> {
-  // A readiness probe, so "is the form live?" is answerable without submitting a fake enquiry into
-  // the inbox a real client writes to.
+  // A KEY probe, not a readiness probe, and the name matters. It answers "did `RESEND_API_KEY`
+  // land in this deployment", which is worth a lot because it costs no fake enquiry in the inbox a
+  // real client writes to. It does NOT answer "will a message send": domain verification lives at
+  // Resend and nothing here can see it, so this reports `configured: true` on a deployment where
+  // every submission still returns 502 send-failed. Do not quote it as proof the form works.
   if (req.method === 'GET') {
     res.status(200).json({ configured: Boolean(process.env.RESEND_API_KEY), inbox: FORM_INBOX });
     return;
