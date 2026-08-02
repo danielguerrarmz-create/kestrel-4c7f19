@@ -16,7 +16,9 @@
 
 We design and build living garden pavilions.
 
-[See what we’re building](/gallery) [What one costs](/questions)
+[Apply for a Founding Feasibility Study](#register) [What one costs](/questions)
+
+Four founding studies are available for autumn 2026. Up to two construction commissions will be accepted for 2027.
 
 ![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
 
@@ -36,7 +38,7 @@ One of a kind. Never chosen from a catalogue.
 
 - 2 The price is fixed as we design
 
-- 3 Made for your garden, not off a shelf
+- 3 We manufacture off-site
 
 - 4 Days to raise, on ground screws, no slab
 
@@ -50,9 +52,9 @@ This one: about 10 weeks to make.
 
 These are the first Bowers. Yours could be among them.
 
-register interest
+apply for a founding study
 
-submit
+apply
 
 [Questions→ What one costs, planning, and how long it takes.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
 

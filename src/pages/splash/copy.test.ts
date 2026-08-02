@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { ritualSteps, ritualCompact, STAYS_THE_SAME, PD_FACT } from './copy';
+import {
+  ritualSteps,
+  ritualCompact,
+  STAYS_THE_SAME,
+  PD_FACT,
+  APPLY_CTA,
+  FOUNDING_COHORT,
+  FOUNDING_COHORT_LINE,
+} from './copy';
 import { runEngine } from '../../engine';
 import type { DesignParams } from '../../engine/types';
 import { ENVELOPE } from '../../data/config';
@@ -37,6 +45,51 @@ describe('splash precedent copy (hand-authored, house dash rule)', () => {
       expect(step.text.split(/\s+/).length, `step ${step.n} is a sentence, not a step`).toBeLessThanOrEqual(8);
       expect(step.text).not.toMatch(DASHES);
     }
+  });
+
+  /**
+   * THE SCARCITY LINE IS THE ONLY COPY ON THIS SITE THAT EXPIRES BY ITSELF.
+   *
+   * Everything else stays true until someone changes it. "Four founding studies are available for
+   * autumn 2026" stops being a forward-looking offer when autumn 2026 ends, whether or not anyone
+   * edits this repo — and a stale scarcity claim is worse than none, because it is the one sentence
+   * a returning reader remembers and checks.
+   *
+   * So this test is a DELIBERATE TRIPWIRE rather than a flake: it will start failing on its own,
+   * and that is the feature. When it does, the fix is to update `FOUNDING_COHORT` or remove the
+   * line, not to widen the assertion.
+   *
+   * WHAT IT CANNOT GUARD: the COUNT. "Four are available" goes false the moment a fourth is
+   * accepted, and nothing in this repo can know that. Only Clay can, and that is written into the
+   * constant's own comment because there is no test that will ever say it.
+   */
+  it('the founding cohort has not silently expired', () => {
+    const thisYear = new Date().getFullYear();
+    expect(
+      FOUNDING_COHORT.studyYear,
+      `the home offers studies for ${FOUNDING_COHORT.studySeason} ${FOUNDING_COHORT.studyYear}, which is in the past — update FOUNDING_COHORT or remove the line`,
+    ).toBeGreaterThanOrEqual(thisYear);
+    // The build year must follow the study year, or the offer describes a sequence that runs
+    // backwards.
+    expect(FOUNDING_COHORT.commissionYear).toBeGreaterThanOrEqual(FOUNDING_COHORT.studyYear);
+  });
+
+  it('the scarcity line spells its numbers, and they match the constants', () => {
+    // Both figures are interpolated from `FOUNDING_COHORT` through a word map, so a bare digit in
+    // the rendered line means the map lost an entry and fell through to `undefined`.
+    expect(FOUNDING_COHORT_LINE).not.toMatch(/undefined/);
+    expect(FOUNDING_COHORT_LINE).not.toMatch(/\b\d\b/); // no bare single digit; years are fine
+    expect(FOUNDING_COHORT_LINE).toContain(String(FOUNDING_COHORT.studyYear));
+    expect(FOUNDING_COHORT_LINE).toContain(String(FOUNDING_COHORT.commissionYear));
+    expect(FOUNDING_COHORT_LINE).not.toMatch(DASHES);
+  });
+
+  it('the primary action names what is applied FOR, not the act of registering', () => {
+    // Clay, 2026-08-01: "Register interest" is too passive. Pinned as an absence so a later pass
+    // cannot quietly demote the ask back to joining a mailing list.
+    expect(APPLY_CTA).toMatch(/^Apply for/);
+    expect(APPLY_CTA.toLowerCase()).not.toContain('register interest');
+    expect(APPLY_CTA).not.toMatch(DASHES);
   });
 
   it('the compact recap carries no component count and stays clean', () => {

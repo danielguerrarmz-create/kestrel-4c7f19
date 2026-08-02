@@ -27,6 +27,7 @@ import { srcSetFor } from '../../ui/responsiveImg';
 import { routes } from '../../routing';
 import { SESSION_KEY, INTRO_DONE_EVENT } from './BowerIntro';
 import { HERO_STILL } from './heroStill';
+import { APPLY_CTA, FOUNDING_COHORT_LINE } from './copy';
 
 export type HeroMode = 'poster' | 'static' | 'reveal';
 
@@ -128,45 +129,54 @@ function HeroCopy({
           shaped for your garden, grown through by climbing plants" — every clause of it survives
           below, said once, where it earns its place. */}
 
-      {/* THE CTA PAIR IS BACK (2026-07-28), REPOINTED AT PAGES THAT EXIST.
-          It was removed on 2026-07-21 with the engine: the old pair was a filled "Shape your
-          Eden" into `#/studio` and a quiet "See how it works" into `#/engine`, and when both
-          destinations went dev-only the honest move was to remove them rather than repoint them
-          at nothing. That left the hero with no action at all and the whole front door with one
-          conversion point, a register form four screens down.
-          There are now two real destinations, so the same two SHAPES return against the same
-          rule (exactly one filled action per page):
-            filled  -> the gallery, because the work is what earns the second minute;
-            quiet   -> the questions, phrased as the question it answers. "What one costs" beats
-                       "Questions" here: the label should name the reader's worry, and the page
-                       it opens leads with the price.
-          Both grow in with the rest of the copy (same stagger child), so nothing new appears
-          after the reveal has settled. */}
-      <motion.div variants={growLine} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 origin-bottom will-change-transform">
-        <a
-          href={routes.gallery}
-          data-cursor-solid
-          className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
-        >
-          See what we’re building
-          <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
-            →
-          </span>
-        </a>
-        <a
-          href={routes.questions}
-          data-cursor-solid
-          className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
-        >
-          <span className="relative">
-            What one costs
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
-            />
-          </span>
-          <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-        </a>
+      {/* THE FRONT DOOR ASKS FOR AN APPLICATION NOW (2026-08-01, Clay: "Register interest is too
+          passive"). The filled action was "See what we're building" into the gallery, on the
+          reasoning that the work earns the second minute. That is still true and the gallery is
+          still one tap away in the nav — but it made the home a brochure whose only conversion
+          point was an email field four screens down, labelled "register interest".
+
+          An APPLICATION to a named, limited thing is a different act from registering an interest:
+          it has a subject, it can be accepted or declined, and it implies the reader is choosing to
+          be considered rather than choosing to be marketed to. That is the whole change.
+
+          THE SCARCITY LINE SITS UNDER THE BUTTON RATHER THAN INSIDE IT, because a CTA has to stay
+          one action and a two-sentence label is not one action. It is also the sentence most likely
+          to go stale on this site — see `FOUNDING_COHORT` in copy.ts, and the test that fails once
+          the stated year is in the past.
+
+          The rule that survives untouched: exactly one filled action per page. The quiet link stays
+          the questions, phrased as the reader's own worry — and it matters more now than it did,
+          because someone about to apply for an £18,000 study wants the price ladder first. */}
+      <motion.div variants={growLine} className="mt-8 origin-bottom will-change-transform">
+        <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+          <a
+            href="#register"
+            data-cursor-solid
+            className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
+          >
+            {APPLY_CTA}
+            <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+          <a
+            href={routes.questions}
+            data-cursor-solid
+            className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
+          >
+            <span className="relative">
+              What one costs
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+              />
+            </span>
+            <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+        <p className="mt-4 max-w-[42ch] font-serifDisplay text-[15px] leading-snug text-paperVellum/85">
+          {FOUNDING_COHORT_LINE}
+        </p>
       </motion.div>
     </motion.div>
   );

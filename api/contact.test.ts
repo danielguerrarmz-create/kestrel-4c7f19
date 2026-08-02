@@ -138,9 +138,18 @@ describe('the endpoint agrees with the app it serves', () => {
     expect(FORM_INBOX).toBe(APP_FORM_INBOX);
   });
 
-  it('does not mail the address the site publishes for humans', () => {
-    // Automated notifications must not land in the mailbox a client's own reply arrives in.
-    expect(FORM_INBOX).not.toBe(CONTACT.email);
+  it('mails the address the site publishes, which is now the same box', () => {
+    /**
+     * INVERTED 2026-08-01. This asserted the opposite — that form mail must NOT land in the mailbox
+     * a client's own reply arrives in — which held while the site published `clay@` and the form
+     * posted to `info@`. Clay then published `info@`, so the two are one inbox.
+     *
+     * The old rule was inbox hygiene, not safety, and at a two-person practice the failure that
+     * costs a commission is a message nobody reads, not a message in the wrong folder. Kept as an
+     * assertion rather than deleted so that a future split is a deliberate edit here, and so this
+     * file records that they were once separate and why.
+     */
+    expect(FORM_INBOX).toBe(CONTACT.email);
   });
 
   it('is reachable: vercel.json does not rewrite /api into the SPA shell', () => {

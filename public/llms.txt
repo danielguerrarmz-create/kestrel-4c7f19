@@ -1,9 +1,10 @@
 # Bower
 
-> Bower designs and builds living garden pavilions: organic timber gridshell structures,
-> designed for the climbing plants that grow into them and made for the garden they stand in.
-> This is the marketing site for a design and manufacturing company; it is a JavaScript
-> single-page app, so non-JavaScript readers should use the markdown mirrors below.
+> Bower is a design and manufacturing company developing a scalable system for living, geometrically unique buildings.
+> We design and build living garden pavilions: organic timber gridshell structures, designed
+> for the climbing plants that grow into them and made for the garden they stand in.
+> This is the marketing site; it is a JavaScript single-page app, so non-JavaScript readers
+> should use the markdown mirrors below.
 
 ## Pages
 

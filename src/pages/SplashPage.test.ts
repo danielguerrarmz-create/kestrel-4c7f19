@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { describe, it, expect } from 'vitest';
 import { SplashPage } from './SplashPage';
 import { PUBLIC_ROUTES } from '../routing';
+import { APPLY_CTA, FOUNDING_COHORT_LINE } from './splash/copy';
 
 /** Strip the <!-- --> markers React SSR injects between text and expressions. */
 const clean = (html: string) => html.replace(/<!-- -->/g, '');
@@ -15,8 +16,11 @@ describe('SplashPage', () => {
     // communication pass: the subline names the noun, "living garden pavilions").
     expect(html).toContain('Grow a living');
     expect(html).toContain('living garden pavilions');
-    // the register section's form label is still present lower on the page
-    expect(html).toContain('register interest');
+    // The form's label lower down. It read "register interest" until 2026-08-01, when Clay called
+    // that too passive: the hero asks the reader to APPLY for a named, limited thing, and a form
+    // labelled "register interest" underneath that button demotes the act back to joining a list.
+    expect(html).toContain('apply for a founding study');
+    expect(html).not.toContain('register interest');
     // the hero's old CTAs / stats strip are gone
     expect(html).not.toContain('See how the engine works');
     expect(html).not.toContain('this shape, priced live');
@@ -102,12 +106,21 @@ describe('SplashPage', () => {
     }
   });
 
-  it('the hero has a call to action again, pointing only at pages that exist', () => {
-    // It had none from 2026-07-21 (both old CTAs pointed into the dev-only engine) to
-    // 2026-07-28. The pair is back against two real destinations. This pins the SHAPE of the
-    // regression that removed them: a hero action whose href is not a live public route.
-    expect(html).toContain('See what we');
+  it('the hero asks for an application, and points only at things that exist', () => {
+    // The hero had NO action at all from 2026-07-21 (both old CTAs pointed into the dev-only
+    // engine) to 2026-07-28, when a filled gallery link and a quiet questions link returned.
+    // On 2026-08-01 the filled one became the application — "Register interest is too passive"
+    // — so the front door now asks for a decision rather than for an email address.
+    expect(html).toContain(APPLY_CTA);
     expect(html).toContain('What one costs');
+    // The scarcity line sits under the button, not inside it: a CTA stays one action.
+    expect(html).toContain(FOUNDING_COHORT_LINE);
+
+    // STILL EXACTLY ONE FILLED ACTION on the page. That rule outlived the copy change and is the
+    // reason the gallery link came out of the hero rather than sitting beside the application.
+    const filled = html.match(/rounded-full bg-paperVellum px-6 py-3/g) ?? [];
+    expect(filled).toHaveLength(1);
+
     const heroHrefs = [...html.matchAll(/<a\b[^>]*?\shref="(\/[^"]*)"/g)].map((m) => m[1]);
     expect(heroHrefs.length).toBeGreaterThan(0); // or this sweep asserts nothing at all
     for (const href of heroHrefs) {

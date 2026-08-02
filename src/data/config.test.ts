@@ -106,25 +106,30 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
   });
 
   /**
-   * THE ADDRESS A READER WRITES TO AND THE ADDRESS THE FORM POSTS TO MUST NOT CONVERGE.
+   * THIS TEST HAS NOW ASSERTED THREE DIFFERENT THINGS IN FOUR DAYS, AND THAT IS THE POINT OF
+   * WRITING IT DOWN.
    *
-   * NARROWED BY THE MERGE ON 2026-08-01, and the part that was dropped is worth recording. This
-   * also asserted `CONTACT.email === FOUNDERS[0].email` — that the published address is a PERSON,
-   * on the reasoning that the `/questions` close prints "Clay Seifert" and then the address
-   * underneath, and a department address in that position puts a front desk between the reader and
-   * the person they just read the name of.
+   *   1. The published address IS a founder's (`clay@`), because the `/questions` close prints a
+   *      name and then the address underneath, and a department address there puts a front desk
+   *      between the reader and the person.
+   *   2. Dropped when main published `contact@`: a verified mailbox beats an argument about tone.
+   *   3. The published address and the form's destination never CONVERGE, so automated mail stays
+   *      out of the mailbox a client's reply arrives in.
    *
-   * Main published `contact@bowerbuild.org` instead, and it wins on a fact rather than an argument:
-   * there is a verified Google Workspace mailbox behind it, and this repo cannot check which other
-   * mailboxes exist. **An address that reads corporate is a nuance; an address that bounces is a
-   * lost commission.** So the person-not-department rule is no longer asserted, and the surviving
-   * invariant is the one that is still unambiguously true: automated mail from the site's own form
-   * must not land in the mailbox a client's reply arrives in.
+   * All three are now gone, because Clay published `info@` — the form's own inbox. Each rule was
+   * defensible and none was a law; they were preferences about tone and inbox hygiene, and a
+   * preference asserted as an invariant just makes the next decision look like a regression.
+   *
+   * WHAT SURVIVES IS THE PART THAT IS ACTUALLY UNSAFE TO GET WRONG: every address the site touches
+   * is on the practice domain and reaches someone. That is checked above. Here, all that is left is
+   * that the app and the serverless handler agree about where form mail goes — which is a real
+   * failure, because `api/` is built separately and carries its own copy of the constant.
    */
-  it('the address the site PRINTS is not the one the form posts to', () => {
-    expect(CONTACT.email).not.toBe(FORM_INBOX);
-    // Both on the practice domain is checked above; this pins that they are genuinely two boxes.
-    expect(FORM_INBOX).not.toBe(FOUNDERS[0].email);
+  it('the app and the form endpoint agree on one inbox', () => {
+    expect(FORM_INBOX).toBe(CONTACT.email);
     expect(FORM_INBOX.startsWith('info@')).toBe(true);
+    // The founders' direct addresses stay distinct from the shared one, so `/about/practice` can
+    // still offer a named person. If these ever collapse, that page stops meaning anything.
+    for (const f of FOUNDERS) expect(f.email).not.toBe(FORM_INBOX);
   });
 });
