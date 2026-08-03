@@ -49,7 +49,7 @@ import { SplashHeader } from './splash/SplashHeader';
 import { AdaptiveCursor } from './splash/AdaptiveCursor';
 import { BowerIntro } from './splash/BowerIntro';
 import { RegisterInterest } from './splash/RegisterInterest';
-import { ritualSteps } from './splash/copy';
+import { ritualSteps, FOUNDING_COHORT_LINE } from './splash/copy';
 import { H2, BODY } from './typeScale';
 
 export function SplashPage() {
@@ -279,12 +279,21 @@ export function SplashPage() {
             beneath it, already labelled "register interest", beside a door already labelled "Who
             is behind this". Copy that describes the widget next to it is the easiest kind of
             sentence to cut. */}
-        {/* KEPT, and deliberately NOT the scarcity line (2026-08-01). The hero states the cohort in
-            numbers directly under the button; repeating "four studies, two commissions" here would
-            be the page saying one fact twice, which this file's own header forbids. This sentence
-            says the same thing in the register the close is written in, and it is the reason the
-            reader scrolled this far rather than the terms of the offer. */}
         <p className={BODY}>These are the first Bowers. Yours could be among them.</p>
+
+        {/* THE COHORT TERMS, moved here from the hero on 2026-08-01 within an hour of landing there.
+            In the hero they were three extra lines on a block anchored to the BOTTOM of the
+            viewport, so they grew upward and pushed the h1 under the fixed header at 630px tall —
+            and they made a four-element hero into a five-element one, which is the clutter Clay
+            called out.
+
+            This is the better home for them on the merits, not just the layout. Terms of an offer
+            are read at the point of DECIDING, not at the point of being invited: the hero's job is
+            to make someone want to apply, and this paragraph's job is to tell them what they are
+            applying to, one line above the field where they do it. */}
+        <p className="mt-4 max-w-[52ch] font-serifDisplay text-[16px] leading-relaxed text-inkBlack/60">
+          {FOUNDING_COHORT_LINE}
+        </p>
 
         <RegisterInterest />
 
@@ -299,10 +308,14 @@ export function SplashPage() {
             questions first (the practical door, and the only route to a person), about second,
             renamed to what it honestly holds. */}
         <div className="mt-12 grid gap-x-10 gap-y-6 border-t border-inkBlack/15 pt-8 sm:grid-cols-2">
+          {/* The note led with price ("What one costs, planning, and how long it takes") until
+              2026-08-03: the founding outreach goes to estates and institutions, and Clay's ruling
+              is that clientele at this range care less about what one costs. The page behind the
+              door still answers cost; the door just stops making it the headline. */}
           <Door
             label="Questions"
             href={routes.questions}
-            note="What one costs, planning, and how long it takes."
+            note="Planning, the timeline, and how a commission works."
           />
           <Door
             label="Our background"

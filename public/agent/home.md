@@ -16,9 +16,7 @@
 
 We design and build living garden pavilions.
 
-[Apply for a Founding Feasibility Study](#register) [What one costs](/questions)
-
-Four founding studies are available for autumn 2026. Up to two construction commissions will be accepted for 2027.
+[Apply for a Founding Feasibility Study](#register)
 
 ![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
 
@@ -52,11 +50,13 @@ This one: about 10 weeks to make.
 
 These are the first Bowers. Yours could be among them.
 
+Four founding studies are available for autumn 2026. Up to two construction commissions will be accepted for 2027.
+
 apply for a founding study
 
 apply
 
-[Questions→ What one costs, planning, and how long it takes.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
+[Questions→ Planning, the timeline, and how a commission works.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
 
 bower
 

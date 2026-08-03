@@ -282,10 +282,17 @@ export const RING = {
   notCredited: FEES_NOT_CREDITED,
 } as const;
 
-/** The page's frontispiece. The subline names the audience's own worry, not the product. */
+/** The page's frontispiece. The subline names the audience's own worry, not the product.
+ *
+ *  IT NO LONGER OPENS ON PRICE (2026-08-03, Clay). "What one costs" led the standfirst from the
+ *  day the page shipped, written for a buyer whose first worry was the number. The founding
+ *  outreach goes to estates, foundations and institutions, and Clay's ruling is that clientele at
+ *  this range care less about what one costs — so cost moved from the first clause to the last,
+ *  folded into "what a commission involves". The cost ANSWER below is untouched: demoting the
+ *  question's billing is not withdrawing the answer. */
 export const INTRO = {
   eyebrow: 'Questions',
   title: 'Questions we’re asked',
   standfirst:
-    'What one costs, what it does to a lawn, whether you need permission, and how long before you are sitting in it.',
+    'Whether you need permission, what it does to a lawn, how long before you are sitting in it, and what a commission involves.',
 } as const;

@@ -16,7 +16,7 @@ Questions
 
 # Questions we’re asked
 
-What one costs, what it does to a lawn, whether you need permission, and how long before you are sitting in it.
+Whether you need permission, what it does to a lawn, how long before you are sitting in it, and what a commission involves.
 
 ## 1 How big is it?
 

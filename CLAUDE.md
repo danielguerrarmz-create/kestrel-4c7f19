@@ -220,9 +220,13 @@ are worth remembering as a CLASS of bug:
   now says so and hands over the real route. **When an endpoint lands, restore the short message
   and delete the apology.**
 
-**THE HERO HAS A CTA AGAIN (2026-07-28), and `/about`'s door was renamed.** The pair removed on
-2026-07-21 is back against real destinations: filled -> `/gallery`, quiet -> `/questions`
-("What one costs"). The home's close now leads with a Questions door, and the About door reads
+**THE HERO HAS EXACTLY ONE ACTION NOW (2026-08-03, Clay), and `/about`'s door was renamed.** The
+pair restored on 2026-07-28 (filled -> `/gallery`, quiet -> `/questions` "What one costs") became
+an application CTA on 2026-08-01, and the quiet price link came OFF on 2026-08-03: the founding
+outreach targets estates, foundations and institutions, and Clay's ruling is that clientele at this
+range care less about what one costs. "What one costs" is pinned ABSENT from the home in
+`SplashPage.test.ts`, and the `/questions` standfirst no longer opens on price (the cost ANSWER is
+untouched). The home's close leads with a Questions door, and the About door reads
 "Our background", because "Who is behind this / The people building Bower" promised people and
 opened onto a research timeline (Vision Transformers, saliency heatmaps, two papers) containing
 no garden pavilion. **About is right for investors and press and wrong for a buyer; the fix was

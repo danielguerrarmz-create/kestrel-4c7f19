@@ -112,7 +112,11 @@ describe('SplashPage', () => {
     // On 2026-08-01 the filled one became the application — "Register interest is too passive"
     // — so the front door now asks for a decision rather than for an email address.
     expect(html).toContain(APPLY_CTA);
-    expect(html).toContain('What one costs');
+    // THE PRICE-LED LINE IS PINNED ABSENT (2026-08-03, Clay). The hero's quiet "What one costs"
+    // link and the close door's price-first note both went in the founding-outreach pass: the
+    // audience is estates, foundations and institutions, and at that range the front door does not
+    // lead with cost. The questions page still answers it; the home no longer asks it for them.
+    expect(html).not.toContain('What one costs');
     // The scarcity line sits under the button, not inside it: a CTA stays one action.
     expect(html).toContain(FOUNDING_COHORT_LINE);
 
