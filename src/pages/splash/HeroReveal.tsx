@@ -27,7 +27,7 @@ import { srcSetFor } from '../../ui/responsiveImg';
 import { routes } from '../../routing';
 import { SESSION_KEY, INTRO_DONE_EVENT } from './BowerIntro';
 import { HERO_STILL } from './heroStill';
-import { APPLY_CTA, FOUNDING_COHORT_LINE } from './copy';
+import { APPLY_CTA } from './copy';
 
 export type HeroMode = 'poster' | 'static' | 'reveal';
 
@@ -102,7 +102,15 @@ function HeroCopy({
       animate={show ? 'show' : 'hidden'}
       className="text-paperVellum [text-shadow:0_1px_18px_rgba(0,0,0,0.45)]"
     >
-      <h1 className="max-w-[14ch] font-heroScript text-[clamp(2.25rem,4.8vw,4rem)] font-normal leading-[1.08]">
+      {/* THE TYPE STEPS DOWN ON A SHORT WINDOW, and the clamp alone could not do this.
+          `clamp(...,4.8vw,...)` scales with WIDTH, and the collision here is a function of HEIGHT:
+          this block is bottom-anchored, the section is `min-h-screen`, so on a short window the
+          copy grows up into the fixed header while every width-based rule reports everything fine.
+          Measured at 1280x560 before this: the headline's first line sat 26px BEHIND the nav pill.
+          Pre-existing, and invisible at the 720px+ heights anything gets tested at.
+          640px is the breakpoint because that is where the untouched sizes stop fitting; the step
+          is small enough that nobody meets a different hero, only a slightly quieter one. */}
+      <h1 className="max-w-[14ch] font-heroScript text-[clamp(2.25rem,4.8vw,4rem)] font-normal leading-[1.08] [@media(max-height:640px)]:text-[clamp(1.9rem,3.6vw,2.9rem)]">
         <motion.span variants={growLine} className="block origin-bottom will-change-transform">
           Grow a living
         </motion.span>
@@ -111,7 +119,7 @@ function HeroCopy({
         {/* The script product word carries its ink high in its line box (empty descender space
             below), so equal margins read as sitting closer to the line above. Asymmetric
             margins (more above, tighter below) drop it to the optical centre of the gap. */}
-        <ProductWord className="mt-3 -mb-2 block text-[clamp(4.5rem,12vw,8.5rem)]" />
+        <ProductWord className="mt-3 -mb-2 block text-[clamp(4.5rem,12vw,8.5rem)] [@media(max-height:640px)]:mt-1 [@media(max-height:640px)]:text-[clamp(3.25rem,8vw,5.5rem)]" />
         <motion.span variants={growLine} className="block origin-bottom will-change-transform">
           in your garden.
         </motion.span>
@@ -139,44 +147,48 @@ function HeroCopy({
           it has a subject, it can be accepted or declined, and it implies the reader is choosing to
           be considered rather than choosing to be marketed to. That is the whole change.
 
-          THE SCARCITY LINE SITS UNDER THE BUTTON RATHER THAN INSIDE IT, because a CTA has to stay
-          one action and a two-sentence label is not one action. It is also the sentence most likely
-          to go stale on this site — see `FOUNDING_COHORT` in copy.ts, and the test that fails once
-          the stated year is in the past.
+          THE SCARCITY LINE IS NOT HERE, AND IT WAS, FOR ABOUT AN HOUR ON 2026-08-01. It sat under
+          the button as a two-sentence note and it broke the hero — not subtly. **This block is
+          anchored to the BOTTOM of the viewport** (`absolute inset-x-0 bottom-0`), so anything
+          added to it grows UPWARD. Three extra lines pushed the h1 into the fixed header: measured
+          at 1336x630, the headline's top went to 44px, underneath the nav pill.
+
+          Two lessons, both worth more than the line was. **Adding copy to a bottom-anchored block
+          is a layout change, not a copy change** — and it is invisible at the height you happen to
+          be testing at (720px was fine; 630px was not). And a hero is a place where each element
+          costs the others: five stacked blocks read as clutter however good each one is.
+
+          The line now lives beside the FORM, which is where the terms of an offer belong anyway:
+          you read them at the point of deciding, not at the point of being invited.
 
           The rule that survives untouched: exactly one filled action per page. The quiet link stays
           the questions, phrased as the reader's own worry — and it matters more now than it did,
           because someone about to apply for an £18,000 study wants the price ladder first. */}
-      <motion.div variants={growLine} className="mt-8 origin-bottom will-change-transform">
-        <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
-          <a
-            href="#register"
-            data-cursor-solid
-            className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
-          >
-            {APPLY_CTA}
-            <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-          <a
-            href={routes.questions}
-            data-cursor-solid
-            className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
-          >
-            <span className="relative">
-              What one costs
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
-              />
-            </span>
-            <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-          </a>
-        </div>
-        <p className="mt-4 max-w-[42ch] font-serifDisplay text-[15px] leading-snug text-paperVellum/85">
-          {FOUNDING_COHORT_LINE}
-        </p>
+      <motion.div variants={growLine} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 origin-bottom will-change-transform">
+        <a
+          href="#register"
+          data-cursor-solid
+          className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
+        >
+          {APPLY_CTA}
+          <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
+            →
+          </span>
+        </a>
+        <a
+          href={routes.questions}
+          data-cursor-solid
+          className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
+        >
+          <span className="relative">
+            What one costs
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+            />
+          </span>
+          <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+        </a>
       </motion.div>
     </motion.div>
   );
