@@ -53,6 +53,9 @@ import { PracticePage } from './pages/PracticePage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
 import { HousesPage } from './pages/HousesPage';
+import { CommissionsPage } from './pages/CommissionsPage';
+import { ProcessPage } from './pages/ProcessPage';
+import { ContactPage } from './pages/ContactPage';
 import { resolveRoute, useFragmentScroll, useRoute } from './routing';
 import { useDocumentMeta } from './seo';
 
@@ -78,6 +81,9 @@ export function Root() {
   if (target === 'about') return <AboutPage />;
   if (target === 'practice') return <PracticePage />;
   if (target === 'gallery') return <GalleryPage />;
+  if (target === 'commissions') return <CommissionsPage />;
+  if (target === 'process') return <ProcessPage />;
+  if (target === 'contact') return <ContactPage />;
   if (target === 'questions') return <QuestionsPage />;
   if (target === 'houses') return <HousesPage />;
   if (target === 'aboutTree' && AboutTreePage) {

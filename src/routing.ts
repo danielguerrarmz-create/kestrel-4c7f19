@@ -260,6 +260,12 @@ export const routes = {
   /** The commission visions: seven concept renderings of Bower pavilions in their
    *  gardens (2026-07-23, Clay). A public page, NOT an engine route. */
   gallery: '/gallery',
+  /** The three ways a Bower can serve a landscape. */
+  commissions: '/commissions',
+  /** The five-stage route from first conversation to long-term stewardship. */
+  process: '/process',
+  /** Direct founding-commission enquiry. */
+  contact: '/contact',
   /** The practical questions (2026-07-28): size, price, planning, the lawn, the
    *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
   questions: '/questions',
@@ -301,11 +307,14 @@ export const routes = {
  *  out what it costs, then look up who we are. */
 export const PUBLIC_ROUTES: readonly string[] = [
   routes.home,
-  routes.houses,
+  routes.commissions,
   routes.gallery,
-  routes.questions,
+  routes.process,
   routes.about,
   routes.practice,
+  routes.contact,
+  routes.questions,
+  routes.houses,
 ];
 
 /**
@@ -346,6 +355,9 @@ export type RouteTarget =
   | 'practice'
   | 'aboutTree'
   | 'gallery'
+  | 'commissions'
+  | 'process'
+  | 'contact'
   | 'questions'
   | 'houses'
   | 'engine';
@@ -362,6 +374,9 @@ export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.practice) return 'practice';
   if (path === routes.about) return 'about';
   if (path === routes.gallery) return 'gallery';
+  if (path === routes.commissions) return 'commissions';
+  if (path === routes.process) return 'process';
+  if (path === routes.contact) return 'contact';
   if (path === routes.questions) return 'questions';
   if (path === routes.houses) return 'houses';
   // The two gated families. Both fall through to the home in production, so a stray bookmark or a

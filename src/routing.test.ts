@@ -198,11 +198,11 @@ describe('the engine routes are dev-only in production', () => {
     }
   });
 
-  it('PUBLIC_ROUTES is exactly the six that ship, in nav order', () => {
+  it('PUBLIC_ROUTES is exactly the nine that ship, in nav order', () => {
     // The sitemap and the per-page metadata are both built from this list, so it is the one place
     // a page becomes public. Pinned by name so adding one is a deliberate act — which is what it
     // was for: `/houses` joined 2026-07-31 and this assert is where that decision was recorded.
-    expect([...PUBLIC_ROUTES]).toEqual(['/', '/houses', '/gallery', '/questions', '/about', '/about/practice']);
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/commissions', '/gallery', '/process', '/about', '/about/practice', '/contact', '/questions', '/houses']);
     for (const path of PUBLIC_ROUTES) {
       expect(ENGINE_ROUTES).not.toContain(path);
       expect(DEV_ONLY_ROUTES).not.toContain(path);

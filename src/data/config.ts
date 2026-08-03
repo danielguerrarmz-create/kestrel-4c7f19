@@ -418,7 +418,7 @@ export const CONTACT = {
    * that bounces is worse than any of the alternatives above, so confirm it receives before the
    * first letters go out.
    */
-  email: 'info@bowerbuild.org',
+  email: 'clay@bowerbuild.org',
 } as const;
 
 /**

@@ -125,9 +125,10 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
    * that the app and the serverless handler agree about where form mail goes — which is a real
    * failure, because `api/` is built separately and carries its own copy of the constant.
    */
-  it('the app and the form endpoint agree on one inbox', () => {
-    expect(FORM_INBOX).toBe(CONTACT.email);
+  it('keeps form mail in the shared inbox and publishes Clay\'s address', () => {
+    expect(FORM_INBOX).not.toBe(CONTACT.email);
     expect(FORM_INBOX.startsWith('info@')).toBe(true);
+    expect(CONTACT.email).toBe('clay@bowerbuild.org');
     // The founders' direct addresses stay distinct from the shared one, so `/about/practice` can
     // still offer a named person. If these ever collapse, that page stops meaning anything.
     for (const f of FOUNDERS) expect(f.email).not.toBe(FORM_INBOX);

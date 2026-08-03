@@ -55,14 +55,16 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
 
   it('renders the outcome copy with the product word "Bower", over the beauty still', () => {
     expect(html).toContain('Grow a living');
+    expect(html).toContain('font-handwrite');
+    expect(html).toContain('aria-label="Bower"');
+    expect(html).toContain('>in your garden.</span>');
     // ONE NAME (2026-07-23): the hand-lettered display word was "Eden" until Clay retired the
     // two-noun split. The headline and the wordmark now say the same thing.
-    expect(html).toContain('Bower');
+    expect(html).toContain('A site-specific timber pavilion, planted so that the garden continues its making.');
     expect(html).not.toContain('>Eden<');
-    expect(html).toContain('in your garden');
     // The subline says the plain thing (2026-07-23): the noun is "pavilions", not
     // "a living structure, computed".
-    expect(html).toContain('living garden pavilions');
+    expect(html).toContain('Discuss a founding commission');
     // THE HERO'S CTAs MUST NOT POINT AT A GATED ROUTE. It had two, "Shape your Eden" into the
     // studio and "See how it works" into the engine walkthrough; both destinations went dev-only
     // on 2026-07-21 and the pair was removed rather than repointed. A different pair returned on
@@ -78,7 +80,7 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
     expect(hrefs.length, 'the hero has CTAs again, so this sweep must have something to sweep')
       .toBeGreaterThan(0);
     for (const href of hrefs) {
-      expect(['/', '/about', '/gallery', '/questions', '#register']).toContain(href);
+      expect(['/', '/about', '/gallery', '/questions', '/commissions', '/contact', '#register']).toContain(href);
     }
     // The 3D reveal is tabled: no three.js canvas is referenced by the hero.
     expect(html).not.toContain('<canvas');
@@ -89,7 +91,7 @@ describe('HeroReveal SSR (finished still + copy visible)', () => {
     expect(html).not.toContain('See how the engine works');
     expect(html).not.toContain('priced live');
     // The beauty still is present as the hero background.
-    expect(html).toContain('/hero/');
+    expect(html).toContain('/hero/v4/manor-garden.webp');
     // No em/en dashes in the hero copy (house rule).
     expect(html).not.toMatch(/[—–]/);
   });

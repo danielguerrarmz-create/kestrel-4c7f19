@@ -2,21 +2,25 @@
      components, and agentMirror.generated.test.ts fails the suite if it drifts.
      Regenerate: GEN=1 npx vitest run agentMirror.generated -->
 
-# Bower — the practice
+# Bower — the company
 
-> Markdown mirror of the Bower practice page (`/about/practice`) for AI agents and other non-JavaScript readers, generated
+> Markdown mirror of the Bower company page (`/about/practice`) for AI agents and other non-JavaScript readers, generated
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 # The obsession is old.
 
 Question one
 
 How can architecture be grown, not only built?
+
+Question 2
+
+How does designing alongside AI change what we can make?
 
 ![The two cofounders at a shared architecture-studio desk late at night, one at the monitor mid-render, the other standing behind it, the desk buried in drawings and drink cups](/assets/about/timeline/studio-desks.webp)
 
@@ -312,14 +316,16 @@ ACADIA 2025 · Computing for Resilience · Clay Seifert
 
 What we learned Turn an archive into evidence you can measure, not a catalogue you can only browse, and scale stops meaning sameness.
 
-## The practice
+## The company
+
+Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three sites for the system’s founding commissions.
 
 - Clay Seifert [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
 - Daniel Guerra [daniel@bowerbuild.org](mailto:daniel@bowerbuild.org)
 
-Bower 
+Bower
 
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
 
 © 2026 Bower

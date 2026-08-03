@@ -40,9 +40,9 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
  *  a page nobody has reviewed. `/about` stays in `PUBLIC_ROUTES`, the sitemap, llms.txt and the
  *  agent mirror, and is linked from every page's footer. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: routes.houses, label: 'houses' },
   { href: routes.gallery, label: 'gallery' },
-  { href: routes.questions, label: 'questions' },
+  { href: routes.process, label: 'process' },
+  { href: routes.contact, label: 'contact' },
 ];
 
 /**

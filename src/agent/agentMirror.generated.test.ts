@@ -9,9 +9,12 @@ import {
   housesMirror,
   practiceMirror,
   llmsTxt,
+  commissionsMirror,
+  processMirror,
+  contactMirror,
 } from './mirror';
 import { CONTACT } from '../data/config';
-import { COMMISSION_FLOOR_WORDS } from '../ui/priceCopy';
+import { COMMISSION_BUDGET_POSITION } from '../ui/priceCopy';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -37,13 +40,16 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   { rel: 'agent/questions.md', fresh: questionsMirror },
   { rel: 'agent/houses.md', fresh: housesMirror },
   { rel: 'agent/practice.md', fresh: practiceMirror },
+  { rel: 'agent/commissions.md', fresh: commissionsMirror },
+  { rel: 'agent/process.md', fresh: processMirror },
+  { rel: 'agent/contact.md', fresh: contactMirror },
 ];
 
 describe('the agent mirror is fresh', () => {
   it('sanity: the fresh render carries each page\'s load-bearing lines', () => {
     const home = homeMirror();
     expect(home).toContain('Bower');
-    expect(home.length).toBeGreaterThan(1500);
+    expect(home.length).toBeGreaterThan(900);
     // `/about` BECAME THE SHORT PAGE on 2026-07-31 and these assertions moved with the content
     // they were guarding, down to `practice` below. Left as a marker because a mirror test that
     // simply lost two assertions in a refactor is how a page silently stops being checked.
@@ -61,9 +67,9 @@ describe('the agent mirror is fresh', () => {
     expect(practice).toContain('Clay Seifert');
     expect(practice).toContain('Daniel Guerra');
     const gallery = galleryMirror();
-    expect(gallery).toContain('Concept renderings');
-    // All seven plates, as fetchable markdown images.
-    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(7);
+    expect(gallery.toLowerCase()).toContain('concept studies');
+    // All thirteen plates, including the supplied favourites, as fetchable markdown images.
+    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(13);
     expect(llmsTxt()).toContain('/agent/gallery.md');
     // The questions page is the one an agent asked "what does a Bower cost" most needs, so its
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and
@@ -74,7 +80,8 @@ describe('the agent mirror is fresh', () => {
     // the live phrase present, both superseded figures absent — because an agent quoting a stale
     // price back to a buyer is the same anchoring harm as the page doing it, and the agent's
     // reader has no way to tell the figure was withdrawn.
-    expect(questions).toContain(COMMISSION_FLOOR_WORDS);
+    expect(questions).toContain(COMMISSION_BUDGET_POSITION);
+    expect(questions).not.toMatch(/£\s?\d/);
     expect(questions).not.toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
@@ -101,6 +108,9 @@ describe('the agent mirror is fresh', () => {
     expect(houses).toContain('thirty');
     expect(houses.length).toBeGreaterThan(1200);
     expect(llmsTxt()).toContain('/agent/houses.md');
+    expect(commissionsMirror()).toContain('What a Bower makes possible');
+    expect(processMirror()).toContain('From landscape to Bower');
+    expect(contactMirror()).toContain('Discuss a founding commission');
   });
 
   it('the committed mirrors are byte-identical to a fresh render of the live pages', () => {

@@ -97,8 +97,8 @@ describe('the commissioning surfaces do not claim a price nobody has quoted', ()
     // published figure is £350k. These panels are dev-only, so they were never a public
     // exposure — but they read COMMISSION_FROM, so they track the corrected number for free.
     for (const html of [panel, sheet]) {
-      expect(html).toContain('from £350k');
-      expect(html).not.toContain('from £150k');
+      expect(html).toContain('established after engineering');
+      expect(html).not.toMatch(/from £\d/i);
       expect(html.toLowerCase()).toContain('indicative');
       expect(html.toLowerCase()).toContain('pre-quote');
     }

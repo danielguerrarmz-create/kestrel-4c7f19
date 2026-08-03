@@ -38,6 +38,9 @@ import { PracticePage } from '../pages/PracticePage';
 import { GalleryPage } from '../pages/GalleryPage';
 import { QuestionsPage } from '../pages/QuestionsPage';
 import { HousesPage } from '../pages/HousesPage';
+import { CommissionsPage } from '../pages/CommissionsPage';
+import { ProcessPage } from '../pages/ProcessPage';
+import { ContactPage } from '../pages/ContactPage';
 import { COMPANY_DESCRIPTION } from '../ui/priceCopy';
 
 /* ------------------------------ html -> markdown --------------------------- */
@@ -200,7 +203,7 @@ export function htmlToMarkdown(html: string): string {
     .join('')
     .replace(/\[\]\([^)]*\)/g, '')
     .replace(/ +\]/g, ']')
-    .replace(/ ?\n ?/g, '\n')
+    .replace(/[ \t]*\n[ \t]*/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .replace(/ +([.,;:!?])/g, '$1')
     .replace(/ {2,}/g, ' ')
@@ -237,7 +240,7 @@ export function aboutMirror(): string {
  *  actually needs — `/agent/about.md` is now the short page and answers a different question. */
 export function practiceMirror(): string {
   return (
-    PREAMBLE('the Bower practice page (`/about/practice`)', 'Bower — the practice') +
+    PREAMBLE('the Bower company page (`/about/practice`)', 'Bower — the company') +
     render(PracticePage) +
     '\n'
   );
@@ -266,6 +269,18 @@ export function housesMirror(): string {
   );
 }
 
+export function commissionsMirror(): string {
+  return PREAMBLE('the Bower commissions page (`/commissions`)', 'Bower — commissions') + render(CommissionsPage) + '\n';
+}
+
+export function processMirror(): string {
+  return PREAMBLE('the Bower process page (`/process`)', 'Bower — process') + render(ProcessPage) + '\n';
+}
+
+export function contactMirror(): string {
+  return PREAMBLE('the Bower contact page (`/contact`)', 'Bower — contact') + render(ContactPage) + '\n';
+}
+
 /** The llms.txt site guide (llmstxt.org convention): a short orientation plus links to the full
  *  mirrors. The one-line description is index.html's own meta description, so the two cannot
  *  disagree about what Bower is without this file going red in the drift test. */
@@ -281,28 +296,30 @@ export function llmsTxt(): string {
 ## Pages
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
-- [Houses](/agent/houses.md): the page for houses that earn from exclusive hire, weddings and
+- [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
+- [Gallery](/agent/gallery.md): thirteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
+- [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
+- [Houses](/agent/houses.md): the secondary page for houses that earn from exclusive hire, weddings and
   whole-house rental: what one holds, the winter half of the year, building around a booked
   season, and what it costs
-- [Gallery](/agent/gallery.md): seven concept renderings of Bower commissions in their gardens
 - [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
   pruning, and how to contact the studio
 - [About](/agent/about.md): what a Bower is and what the practice is for, in short
-- [The practice](/agent/practice.md): the two founders, the timeline of the practice, and the
+- [The company](/agent/practice.md): the two founders, the timeline of the company, and the
   work so far. The expanded version of the About page, nested at \`/about/practice\`
 
 ## Notes for agents
 
-- The human site lives at \`/\`, \`/houses\`, \`/gallery\`, \`/questions\`, \`/about\` and
-  \`/about/practice\`. These are real paths (they were \`#/\` hash routes until 2026-07-28, and an
+- The human site lives at \`/\`, \`/commissions\`, \`/gallery\`, \`/process\`, \`/about\`,
+  \`/about/practice\`, \`/contact\`, \`/questions\` and \`/houses\`. These are real paths, and an
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- \`/sitemap.xml\` lists the six public URLs.
-- The gallery images are concept renderings (generated visualizations), not photographs of
+- \`/sitemap.xml\` lists the nine public URLs.
+- The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
 - Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.
-  A Bower is between 25 and 40 square metres: it is not a marquee, does not replace one, and
-  the site does not claim it does.
+  A Bower is not a marquee and the site does not claim that it replaces one.
 `;
 }

@@ -7,7 +7,7 @@ import {
   PUBLISHED_HEADS,
   headsFor,
 } from './capacity';
-import { housesMirror, questionsMirror } from '../agent/mirror';
+import { housesMirror } from '../agent/mirror';
 
 /**
  * THE GUARD THE SIZE ANSWER NEVER HAD.
@@ -72,10 +72,7 @@ describe('every published capacity is derived from an area and a rate', () => {
    * shared constant would only have proved they imported the same variable.
    */
   it('every page that states a capacity states the same one', () => {
-    const pages = [
-      { name: 'questions', text: questionsMirror() },
-      { name: 'houses', text: housesMirror() },
-    ];
+    const pages = [{ name: 'houses', text: housesMirror() }];
     for (const { name, text } of pages) {
       expect(text, `${name} does not state the dining figure`).toContain(HEADS_IN_WORDS.dining);
       expect(text, `${name} does not state the standing figure`).toContain(HEADS_IN_WORDS.standing);

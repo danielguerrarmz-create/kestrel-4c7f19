@@ -138,7 +138,7 @@ describe('the endpoint agrees with the app it serves', () => {
     expect(FORM_INBOX).toBe(APP_FORM_INBOX);
   });
 
-  it('mails the address the site publishes, which is now the same box', () => {
+  it('keeps form notifications in the shared inbox while publishing Clay\'s direct address', () => {
     /**
      * INVERTED 2026-08-01. This asserted the opposite — that form mail must NOT land in the mailbox
      * a client's own reply arrives in — which held while the site published `clay@` and the form
@@ -149,7 +149,8 @@ describe('the endpoint agrees with the app it serves', () => {
      * assertion rather than deleted so that a future split is a deliberate edit here, and so this
      * file records that they were once separate and why.
      */
-    expect(FORM_INBOX).toBe(CONTACT.email);
+    expect(FORM_INBOX).toBe('info@bowerbuild.org');
+    expect(CONTACT.email).toBe('clay@bowerbuild.org');
   });
 
   it('is reachable: vercel.json does not rewrite /api into the SPA shell', () => {

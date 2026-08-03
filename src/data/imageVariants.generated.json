@@ -71,6 +71,60 @@
       1280
     ]
   },
+  "/assets/gallery/favorites/curator-in-landscape.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/favorites/english-garden-path.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/favorites/garden-performance.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/favorites/garden-table.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/favorites/living-bower-interior.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/favorites/timber-joinery-detail.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
   "/assets/product/pavilion-exterior-garden.webp": {
     "w": 2000,
     "variants": [

@@ -10,58 +10,28 @@
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 # Grow a living Bower in your garden.
 
-We design and build living garden pavilions.
+A site-specific timber pavilion, planted so that the garden continues its making.
 
-[Apply for a Founding Feasibility Study](#register)
+[Discuss a founding commission](/contact)
 
-![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
+![Inside a living timber Bower, with branching lattice arches, climbing plants and places to sit among the garden](/assets/gallery/favorites/living-bower-interior.webp)
 
-bower, noun A shaded resting place in a garden, made of woven branches and climbing plants.
+## A building you tend.
 
-![A woven timber gridshell pavilion in a garden, its open oculus at the crown, wisteria and green planting grown through the lattice, a bed of wildflowers in front](/assets/product/pavilion-exterior-garden.webp)
+Timber establishes the form. Planting, weather and the life gathered beneath it continue the architecture.
 
-What Bower is
+One repeatable timber system. A different Bower for every landscape.
 
-## Designed for your garden, and for the plant that grows through it.
+We are selecting three exceptional sites for the system’s founding commissions.
 
-One of a kind. Never chosen from a catalogue.
+[Discuss a founding commission](/contact)
 
-## From design to garden.
+Bower
 
-- 1 We design it with you
-
-- 2 The price is fixed as we design
-
-- 3 We manufacture off-site
-
-- 4 Days to raise, on ground screws, no slab
-
-- 5 Plant, and let it start becoming.
-
-This one: about 10 weeks to make.
-
-![Looking up inside a woven timber gridshell at its open oculus, the lattice converging on the ring with wisteria hanging through it](/assets/product/pavilion-oculus-interior.webp)
-
-## Begin.
-
-These are the first Bowers. Yours could be among them.
-
-Four founding studies are available for autumn 2026. Up to two construction commissions will be accepted for 2027.
-
-apply for a founding study
-
-apply
-
-[Questions→ Planning, the timeline, and how a commission works.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
-
-bower
-
-Bower 
-
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
 
 © 2026 Bower

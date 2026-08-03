@@ -10,7 +10,7 @@
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 Houses that receive people
 
@@ -58,11 +58,11 @@ If you have grounds staff we would rather teach them and hand it across; they ar
 
 ## 6 What it costs
 
-Each Bower is commissioned for its site.
+Each Bower is a substantial, site-specific capital project.
 
-Complete project budgets are expected to begin in the mid-six figures, with larger or structurally ambitious pavilions reaching £1 million or more.
+We do not publish an indicative budget before the site, structure and engineering route have been tested.
 
-A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.
+A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.
 
 Stage 1, siting and feasibility, is £18,000 including VAT, and it is yours to keep whatever you decide. Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT, fixed at the end of Stage 1.
 
@@ -70,8 +70,8 @@ Stage 1 and Stage 2 are professional fees and are not credited against construct
 
 [Full detail on the questions page](/questions)
 
-Bower 
+Bower
 
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
 
 © 2026 Bower

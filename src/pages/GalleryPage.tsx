@@ -62,6 +62,10 @@ interface GalleryPlateData extends ProjectImage {
    * commission, its line must become the real figures.
    */
   fact: string;
+  story: 'living-work' | 'gathering' | 'landscape';
+  happening: string;
+  stage: string;
+  landscape: string;
 }
 
 /** The seven visions, in Clay's order, numbered and titled like catalogue plates. Ratios
@@ -69,56 +73,117 @@ interface GalleryPlateData extends ProjectImage {
 export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '01',
+    title: 'A Bower in an English garden',
+    fact: 'A living structure becoming part of the garden route, framed by old walls, paths and seasonal planting.',
+    story: 'landscape', happening: 'A garden walk', stage: 'Mature planting', landscape: 'English garden',
+    src: `${G}/favorites/english-garden-path.webp`,
+    ratio: 1.4905,
+    alt: 'A planted timber Bower spanning a path in an abundant English garden of roses, wisteria, clipped box and mature trees',
+  },
+  {
+    n: '02',
+    title: 'Inside a living Bower',
+    fact: 'Timber, planting and inhabitation forming a sequence of rooms within the garden.',
+    story: 'landscape', happening: 'Daily encounter', stage: 'Mature planting', landscape: 'Garden interior',
+    src: `${G}/favorites/living-bower-interior.webp`,
+    ratio: 1.8338,
+    alt: 'Inside a living timber Bower, branching lattice arches creating planted rooms and places to sit',
+  },
+  {
+    n: '03',
+    title: 'The curator’s room',
+    fact: 'A place from which a landscape and its art can be encountered together.',
+    story: 'living-work', happening: 'A curator’s talk', stage: 'Mature planting', landscape: 'Sculpture landscape',
+    src: `${G}/favorites/curator-in-landscape.webp`,
+    ratio: 1.8338,
+    alt: 'A curator speaking to visitors gathered within a planted timber Bower, with sculpture and parkland beyond',
+  },
+  {
+    n: '04',
+    title: 'Lunch from the garden',
+    fact: 'A long table set beneath the lattice, with food, craft and the life of the garden brought together.',
+    story: 'gathering', happening: 'A garden lunch', stage: 'Mature planting', landscape: 'Estate garden',
+    src: `${G}/favorites/garden-table.webp`,
+    ratio: 1.8338,
+    alt: 'Guests sharing a long garden lunch beneath a planted timber Bower, with a gardener and garden produce at the table',
+  },
+  {
+    n: '05',
+    title: 'Music in the garden',
+    fact: 'A chamber performance becoming part of the experience of an exceptional landscape.',
+    story: 'living-work', happening: 'An intimate performance', stage: 'Mature planting', landscape: 'Cultural landscape',
+    src: `${G}/favorites/garden-performance.webp`,
+    ratio: 1.8338,
+    alt: 'A string trio performing inside a flower-covered timber Bower for an audience seated in the surrounding garden',
+  },
+  {
+    n: '06',
+    title: 'The timber joint',
+    fact: 'The building system expressed through the grain, fit and meeting of its timber pieces.',
+    story: 'living-work', happening: 'Craft at close range', stage: 'Timber detail', landscape: 'Garden craft',
+    src: `${G}/favorites/timber-joinery-detail.webp`,
+    ratio: 1.8351,
+    alt: 'Close view of curved timber members meeting at a precisely fitted pegged joint, with flowers beyond',
+  },
+  {
+    n: '07',
     title: 'The wisteria walk',
     fact: 'A covered walk rather than a room. Wisteria through the crown, seating along one side.',
+    story: 'living-work', happening: 'A curator’s walk', stage: 'Mature planting', landscape: 'Cultural landscape',
     src: `${G}/01-wisteria-walk.webp`,
     ratio: 1.8356,
     alt: 'A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond',
   },
   {
-    n: '02',
+    n: '08',
     title: 'A pavilion in a walled garden',
-    fact: 'About 30 square metres, open on every side. Climbing rose over a lattice crown.',
+    fact: 'Open on every side, with climbing rose establishing over the lattice crown.',
+    story: 'gathering', happening: 'An estate lunch', stage: 'Establishing planting', landscape: 'Historic estate',
     src: `${G}/02-garden-pavilion.webp`,
     ratio: 1.8338,
     alt: 'A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside',
   },
   {
-    n: '03',
+    n: '09',
     title: 'The glass crown',
-    fact: 'About 30 square metres, with glazing set into the crown. Roses and wisteria over the rim.',
+    fact: 'A more sheltered study, with glazing imagined in the crown and planting over the rim.',
+    story: 'living-work', happening: 'Quiet daily encounter', stage: 'Mature planting', landscape: 'Productive garden',
     src: `${G}/03-glass-crown.webp`,
     ratio: 1.8338,
     alt: 'A pavilion whose lattice crown carries glazing, roses and wisteria growing over the rim, carved benches inside and a pond at its feet',
   },
   {
-    n: '04',
+    n: '10',
     title: 'The stained glass walk',
     fact: 'A walk again, following an existing path. Coloured glass set between the timbers.',
+    story: 'landscape', happening: 'Garden interpretation', stage: 'Establishing planting', landscape: 'Walled garden',
     src: `${G}/04-stained-glass-walk.webp`,
     ratio: 1.8338,
     alt: 'A garden walk under a sweeping lattice roof, stained glass set between the timbers, a curved bench following the path',
   },
   {
-    n: '05',
+    n: '11',
     title: 'Inside the bower',
     fact: 'The same structure from within, in its third or fourth summer, once the climbers have closed the crown.',
+    story: 'landscape', happening: 'Horticultural study', stage: 'Mature planting', landscape: 'Historic garden',
     src: `${G}/05-stained-glass-interior.webp`,
     ratio: 1.8356,
     alt: 'Inside the bower, stained glass glowing between woven branches, wisteria hanging through the crown, cushioned benches along the walls',
   },
   {
-    n: '06',
+    n: '12',
     title: 'The garden party',
-    fact: 'About 40 square metres, the top of the usual range. Roses and clematis over a broad canopy.',
+    fact: 'A broad canopy imagined for an intimate estate gathering, with roses and clematis overhead.',
+    story: 'gathering', happening: 'A seasonal gathering', stage: 'Mature planting', landscape: 'Historic estate',
     src: `${G}/06-party-canopy.webp`,
     ratio: 1.8338,
     alt: 'A garden party under a broad lattice canopy, roses and clematis growing over the crown, the structure rising from rooted trunks',
   },
   {
-    n: '07',
+    n: '13',
     title: 'The fountain room',
-    fact: 'A landmark piece, larger than a garden commission: a planted dome built around a fountain.',
+    fact: 'A more ambitious planted dome imagined around an existing fountain.',
+    story: 'living-work', happening: 'An inhabitable artwork', stage: 'Mature planting', landscape: 'Cultural landscape',
     src: `${G}/07-fountain-room.webp`,
     ratio: 1.8356,
     alt: 'The heart of a large bower, a lattice dome carried on rooted columns, benches and a small fountain among the planting',
@@ -183,6 +248,9 @@ function GalleryPlate({
         <span className="mt-2 block max-w-[60ch] font-serifDisplay text-[16px] leading-[1.5] text-inkBlack/55">
           {image.fact}
         </span>
+        <span className="mt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.13em] text-inkBlack/40">
+          <span>{image.happening}</span><span>{image.stage}</span><span>{image.landscape}</span><span>Concept visualisation</span>
+        </span>
       </figcaption>
     </figure>
   );
@@ -212,27 +280,22 @@ export function GalleryPage() {
     <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
 
-      <main className="mx-auto w-full max-w-canvas px-gutter pb-20 pt-[calc(var(--header-h)+3rem)]">
+      <main className="mx-auto w-full max-w-canvas px-gutter pb-20 pt-[calc(var(--header-h)+1.25rem)]">
         {/* THE FRONTISPIECE — centred, like an exhibition's title wall, with the honest line as a
             quiet serif sentence rather than a shouting mono caption. The page's images are
             generated visualizations shown to commission clients; naming them renderings before
             the first one is the floor, whatever wording Daniel lands on. */}
-        <header className="mx-auto mb-14 flex max-w-[52ch] flex-col items-center gap-5 text-center sm:mb-20">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Gallery</p>
-          <h1 className="font-serifDisplay text-[clamp(1.7rem,4.2vw,3rem)] font-medium leading-[1.12] tracking-[-0.01em] [text-wrap:balance]">
-            What we are here to build.
-          </h1>
-          <p className="font-serifDisplay text-[clamp(1rem,1.4vw,1.2rem)] italic leading-[1.5] text-inkBlack/60">
-            Concept renderings of Bower commissions, at home in their gardens.
-          </p>
+        <header className="mb-6 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+          <h1 className="font-serifDisplay text-[clamp(2rem,4.2vw,3.4rem)] font-medium leading-none tracking-[-0.02em]">Gallery</h1>
+          <p className="font-serifDisplay text-[15px] italic text-inkBlack/55">Concept studies for the first Bowers.</p>
         </header>
 
         {/* THE CATALOGUE COLUMN — deliberately narrower than the canvas (1020px against ~1272),
             so every plate sits in air instead of running gutter to gutter, and the page reads as
             a curated sequence rather than an image feed. */}
-        <div className="mx-auto flex w-full max-w-[1020px] flex-col gap-14 sm:gap-20">
-          {GALLERY_IMAGES.map((image, i) => (
-            <GalleryPlate key={image.src} image={image} index={i} reduced={reduced} onOpen={openShot} />
+        <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-14 sm:gap-20">
+          {GALLERY_IMAGES.map((image, index) => (
+            <GalleryPlate key={image.src} image={image} index={index} reduced={reduced} onOpen={openShot} />
           ))}
         </div>
       </main>

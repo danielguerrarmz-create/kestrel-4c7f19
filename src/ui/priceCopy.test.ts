@@ -4,7 +4,6 @@ import {
   COMMISSION_ANCHOR_GBP,
   COMMISSION_ANCHOR_NODES,
   COMMISSION_ANCHOR_PIECES,
-  COMMISSION_BREAKEVEN_GBP,
   COMMISSION_DEMO_FIGURE,
   COMMISSION_DEMO_LABEL,
   COMMISSION_FLOOR_GBP,
@@ -49,7 +48,7 @@ describe('the price label does not claim more than the price knows', () => {
     expect(PRICE_QUALIFIER.toLowerCase()).not.toContain('fixed');
   });
 
-  it('says both that it is a guide and that no quote exists yet', () => {
+  it('publishes no unverified commission figure and says when the budget is established', () => {
     // Two different admissions, and the panel needs both: "indicative" is about
     // the magnitude, "pre-quote" is about why.
     expect(PRICE_QUALIFIER.toLowerCase()).toContain('indicative');
@@ -94,10 +93,9 @@ describe('the stated commission floor is stated, and says so', () => {
     // CHANGED AGAIN 2026-07-28: `from £150k` was BELOW COST. Clay set break-even at £220k on
     // the smallest object worth building and put the published figure at £350k (a 30 m2 Bower
     // at 35% margin). Again the assertion moved because the fact moved.
-    expect(COMMISSION_FROM).toContain('350k');
-    expect(COMMISSION_FROM).not.toContain('75k'); // the superseded ceiling
-    expect(COMMISSION_FROM).not.toContain('150k'); // the superseded, below-cost floor
-    expect(COMMISSION_FROM).not.toContain('15,'); // never the cost build-up
+    expect(COMMISSION_FROM.toLowerCase()).toContain('engineering');
+    expect(COMMISSION_FROM).not.toMatch(/£|\b\d+[km]?\b/i);
+    expect(COMMISSION_NOTE).not.toMatch(/£|\b\d+[km]?\b/i);
   });
 
   /**
@@ -107,19 +105,6 @@ describe('the stated commission floor is stated, and says so', () => {
    * number below cost — and for eleven days they did. This one pins the RELATIONSHIP, and it is
    * the only test here that could have caught the actual mistake.
    */
-  it('the published figure clears break-even', () => {
-    const k = Number(COMMISSION_FROM.match(/£(\d+)k/)![1]) * 1000;
-    expect(k).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
-  });
-
-  it('is open-ended, and never a single definite figure', () => {
-    // The property that survived the ladder change. A floor cannot be mistaken
-    // for a quote, the same way the old range could not: both say "at least
-    // this", neither says "this". The moment it reads as one exact number it is
-    // a price, and there is no price.
-    expect(COMMISSION_FROM.toLowerCase()).toContain('from');
-  });
-
   it('admits no quote stands behind it', () => {
     expect(COMMISSION_QUALIFIER.toLowerCase()).toContain('pre-quote');
     expect(COMMISSION_QUALIFIER.toLowerCase()).toContain('indicative');

@@ -60,13 +60,16 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
           register on the site and it was set two steps below the body; this page's readers are
           not all twenty-five. Same for the gallery's plate captions. */}
       <nav aria-label="Footer" className="flex flex-wrap items-center gap-5 font-mono text-[13px] uppercase tracking-[0.14em] text-inkBlack/55">
-        <a href={routes.houses} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">houses</a>
+        <a href={routes.commissions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">commissions</a>
         <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">gallery</a>
-        <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">questions</a>
+        <a href={routes.process} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">process</a>
         {/* "about" is here and NOT in the header (2026-07-31). It points at the short page, which
             carries the door to the founders' page in turn. The header is the reader's order of
             interest and "who are you" is last; the footer is where it is looked for. */}
         <a href={routes.about} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">about</a>
+        <a href={routes.practice} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">company</a>
+        <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">contact</a>
+        <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">questions</a>
       </nav>
       {/* THE COMPANY LINE. Stubbed 2026-07-31 and rendering the copyright alone until
           incorporation completes — see `pending.ts`, `practice-entity`.

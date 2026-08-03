@@ -27,6 +27,7 @@ import { srcSetFor } from '../../ui/responsiveImg';
 import { SESSION_KEY, INTRO_DONE_EVENT } from './BowerIntro';
 import { HERO_STILL } from './heroStill';
 import { APPLY_CTA } from './copy';
+import { routes } from '../../routing';
 
 export type HeroMode = 'poster' | 'static' | 'reveal';
 
@@ -113,11 +114,6 @@ function HeroCopy({
         <motion.span variants={growLine} className="block origin-bottom will-change-transform">
           Grow a living
         </motion.span>
-        {/* The product name is the hero's one display moment: a hand-lettered word on
-            its own line, drastically larger than the sentence. */}
-        {/* The script product word carries its ink high in its line box (empty descender space
-            below), so equal margins read as sitting closer to the line above. Asymmetric
-            margins (more above, tighter below) drop it to the optical centre of the gap. */}
         <ProductWord className="mt-3 -mb-2 block text-[clamp(4.5rem,12vw,8.5rem)] [@media(max-height:640px)]:mt-1 [@media(max-height:640px)]:text-[clamp(3.25rem,8vw,5.5rem)]" />
         <motion.span variants={growLine} className="block origin-bottom will-change-transform">
           in your garden.
@@ -127,7 +123,7 @@ function HeroCopy({
         variants={growLine}
         className="mt-4 max-w-[38ch] origin-bottom font-serifDisplay text-[17px] leading-snug text-paperVellum/90 will-change-transform"
       >
-        We design and build living garden pavilions.
+        A site-specific timber pavilion, planted so that the garden continues its making.
       </motion.p>
       {/* THE SUBLINE IS THE WHOLE SENTENCE (2026-07-23). Two passes landed here: first the plain
           noun (Clay: a reader "didn't understand what it is that we actually do"), then the cut
@@ -172,7 +168,7 @@ function HeroCopy({
           offer. */}
       <motion.div variants={growLine} className="mt-8 origin-bottom will-change-transform">
         <a
-          href="#register"
+          href={routes.contact}
           data-cursor-solid
           className="group inline-flex items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack shadow-sm transition-colors duration-200 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paperVellum [text-shadow:none] [@media(pointer:coarse)]:min-h-[44px]"
         >
@@ -218,7 +214,7 @@ function HeroStill() {
       sizes="100vw"
       alt=""
       decoding="async"
-      fetchPriority="high"
+      {...{ fetchpriority: "high" }}
       className="absolute inset-0 h-full w-full object-cover object-center"
     />
   );

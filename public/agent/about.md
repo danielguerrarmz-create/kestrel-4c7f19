@@ -10,9 +10,17 @@
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 # Bower
+
+Modern life has separated many of the things that once met beneath a tree: shelter, gathering, learning, ceremony and the living world.
+
+Bower makes small buildings that bring them together again. Each is a woven timber structure, drawn for one landscape and planted so that growth, weather and repeated use continue its making.
+
+We believe architecture need not stand apart from nature. It can become a framework through which people gather more attentively, seasons become visible and a place acquires memory.
+
+A Bower is not finished when it is installed. It is finished slowly, by the garden, and by the life that gathers there.
 
 Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel. None of them finished. All of them alive.
 
@@ -36,10 +44,10 @@ We are building the means to make them again and again, without ever making the 
 
 A world full of Bowers.
 
-[About the practice](/about/practice)
+[About the company](/about/practice)
 
-Bower 
+Bower
 
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
 
 © 2026 Bower
