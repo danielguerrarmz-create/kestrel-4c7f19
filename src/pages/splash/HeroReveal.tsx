@@ -24,7 +24,6 @@ import { Frame } from '../../ui/Frame';
 import { motion, type Variants } from 'framer-motion';
 import type { EngineOutputs } from '../../engine/types';
 import { srcSetFor } from '../../ui/responsiveImg';
-import { routes } from '../../routing';
 import { SESSION_KEY, INTRO_DONE_EVENT } from './BowerIntro';
 import { HERO_STILL } from './heroStill';
 import { APPLY_CTA } from './copy';
@@ -161,10 +160,17 @@ function HeroCopy({
           The line now lives beside the FORM, which is where the terms of an offer belong anyway:
           you read them at the point of deciding, not at the point of being invited.
 
-          The rule that survives untouched: exactly one filled action per page. The quiet link stays
-          the questions, phrased as the reader's own worry — and it matters more now than it did,
-          because someone about to apply for an £18,000 study wants the price ladder first. */}
-      <motion.div variants={growLine} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 origin-bottom will-change-transform">
+          The rule that survives untouched: exactly one filled action per page.
+
+          THE QUIET "What one costs" LINK IS GONE (2026-08-03, Clay). Two reasons, and either alone
+          would have carried it. The hero was still reading as cluttered after the cohort terms
+          moved out, and the one removable element was the second action. And the audience changed
+          underneath the link: the founding outreach goes to estates, foundations and institutions,
+          and Clay's ruling is that clientele at this range care less about what one costs — so the
+          hero's second line should not be a price question. The questions page keeps the ladder,
+          one tap away in the nav and behind the close's own door; the hero now makes exactly one
+          offer. */}
+      <motion.div variants={growLine} className="mt-8 origin-bottom will-change-transform">
         <a
           href="#register"
           data-cursor-solid
@@ -174,20 +180,6 @@ function HeroCopy({
           <span aria-hidden className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1">
             →
           </span>
-        </a>
-        <a
-          href={routes.questions}
-          data-cursor-solid
-          className="group inline-flex items-center gap-1.5 font-serifDisplay text-[17px] text-paperVellum [@media(pointer:coarse)]:min-h-[44px]"
-        >
-          <span className="relative">
-            What one costs
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-paperVellum transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
-            />
-          </span>
-          <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
         </a>
       </motion.div>
     </motion.div>

@@ -16,7 +16,7 @@
 
 We design and build living garden pavilions.
 
-[Apply for a Founding Feasibility Study](#register) [What one costs](/questions)
+[Apply for a Founding Feasibility Study](#register)
 
 ![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
 
@@ -56,7 +56,7 @@ apply for a founding study
 
 apply
 
-[Questions→ What one costs, planning, and how long it takes.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
+[Questions→ Planning, the timeline, and how a commission works.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
 
 bower
 

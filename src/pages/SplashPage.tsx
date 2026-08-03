@@ -308,10 +308,14 @@ export function SplashPage() {
             questions first (the practical door, and the only route to a person), about second,
             renamed to what it honestly holds. */}
         <div className="mt-12 grid gap-x-10 gap-y-6 border-t border-inkBlack/15 pt-8 sm:grid-cols-2">
+          {/* The note led with price ("What one costs, planning, and how long it takes") until
+              2026-08-03: the founding outreach goes to estates and institutions, and Clay's ruling
+              is that clientele at this range care less about what one costs. The page behind the
+              door still answers cost; the door just stops making it the headline. */}
           <Door
             label="Questions"
             href={routes.questions}
-            note="What one costs, planning, and how long it takes."
+            note="Planning, the timeline, and how a commission works."
           />
           <Door
             label="Our background"
