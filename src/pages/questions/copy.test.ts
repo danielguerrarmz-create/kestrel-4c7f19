@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { INTRO, QUESTIONS, RING } from './copy';
-import { COMMISSION_BUDGET_POSITION } from '../../ui/priceCopy';
+import { COMMISSION_BUDGET_POSITION, STAGE_1_CREDIT, STAGE_1_FEE } from '../../ui/priceCopy';
 import { CONTACT } from '../../data/config';
 
 const allCopy = [
@@ -19,10 +19,18 @@ describe('questions copy', () => {
     expect(allCopy).not.toMatch(/[—–]/);
   });
 
-  it('withholds an indicative budget until engineering establishes a project range', () => {
+  it('withholds an indicative budget, and the only figure it states is the Stage 1 fee', () => {
+    // AMENDED 2026-08-04 (Clay): the Stage 1 fee is published again (£20,000, credited against
+    // the design and engineering commission). The commission itself still carries no figure, so
+    // the guard moved from "no £ at all" to the PROPERTY that survives fee changes: every
+    // £-figure in this answer IS the Stage 1 fee, and the credit term travels with it.
     const cost = QUESTIONS.find((item) => item.id === 'cost')!.a.join(' ');
     expect(cost).toContain(COMMISSION_BUDGET_POSITION);
-    expect(cost).not.toMatch(/£\s?\d/);
+    expect(cost).toContain(STAGE_1_FEE);
+    expect(cost).toContain(STAGE_1_CREDIT);
+    const figures = cost.match(/£[\d,]+/g) ?? [];
+    expect(figures.length).toBeGreaterThan(0);
+    expect(new Set(figures)).toEqual(new Set([STAGE_1_FEE]));
     expect(cost).not.toContain('£350,000');
     expect(cost).not.toContain('£18,000');
     expect(cost).toContain('paid feasibility study');

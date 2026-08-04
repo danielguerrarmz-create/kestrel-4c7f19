@@ -42,11 +42,59 @@ For sculpture parks, galleries, estates and gardens where a Bower can become an 
 
 Concept visualisation
 
+Hospitality and gathering
+
+## A place to gather
+
+For properties where the structure can host seasonal dining, private conversations, member experiences, quiet daily use and intimate celebrations.
+
+- Seasonal table
+
+- Shared meals
+
+- Member experiences
+
+- Quiet daily use
+
+![Guests sharing a long garden lunch beneath a planted timber Bower, with a gardener and garden produce at the table](/assets/gallery/favorites/garden-table.webp)
+
+Concept visualisation
+
+Ecology and learning
+
+## A place to attend to the landscape
+
+For landscapes where it can become a field room, outdoor classroom, observation point or framework gradually inhabited by planting and habitat.
+
+- Field room
+
+- Outdoor classroom
+
+- Observation
+
+- Horticultural workshop
+
+![A guide speaking to visitors beside a timber Bower in a winter garden, its bare lattice and surrounding landscape held by frost](/assets/commissions/winter-landscape-talk.webp)
+
+Concept visualisation
+
 The founding commissions
 
 ## A new kind of building, and the three landscapes that will be first.
 
 Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.
+
+What the founding three receive
+
+- The whole practice: two founders, three landscapes, and nothing else on the bench.
+
+- A first work, not a repetition. The founding designs set the grammar every later Bower inherits.
+
+- The first installations, in 2027, ahead of any wider programme.
+
+- Documentation from first drawing to third summer, and the press moment of the first built work, told with its landscape.
+
+- The £20,000 feasibility fee, credited in full against the design and engineering commission.
 
 [Discuss a founding commission](/contact)
 

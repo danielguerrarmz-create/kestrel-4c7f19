@@ -367,10 +367,19 @@ export const TEAM: TeamMember[] = [
         value:
           'Architecture, product design, and engineering at UT Austin. A year of design and detailing work at Forsite Studio, then seven months on civic and institutional work at Rogers Partners in New York.',
       },
+      /*
+       * REFRAMED 2026-08-04 (Clay's pass on the founding-commission critique): "Now a product
+       * engineer at Forsite Studio" opened the strongest delivery credential on the site with a
+       * job title — and told a diligent reader, in the site's own words, that a cofounder has a
+       * day job. The sentence now leads with the thing a patron's board is actually vetting:
+       * someone here has carried projects from concept through contractors to construction and
+       * permitting. Same facts, same present tense, no title. NEEDS DANIEL'S SIGN-OFF, same as
+       * every wording change to his own bio (see the round-5 note below for why).
+       */
       {
         label: 'Built',
         value:
-          'Now a product engineer at Forsite Studio, a design-build firm of eight, where one project runs from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.',
+          'Runs projects at Forsite Studio, a design-build firm of eight, from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.',
       },
       /*
        * ROUND 5 (2026-07-16) — THE DESK LAMP IS CLAY'S AND IS REMOVED. Daniel: "the desk lamp is

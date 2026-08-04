@@ -43,6 +43,9 @@ export default {
         fieldYellow: '#F0CE1B',
         inkNavy: '#232C5E',
         inkBlack: '#17160F',
+        // The /about poem's ink (Clay, 2026-08-04: "a deep deep green, instead of the black").
+        // Reading-weight forest green: ~11:1 on paperVellum, so it clears AAA at body size.
+        inkForest: '#163A28',
         accentOlive: '#ACC13A',
         paperVellum: '#FBF9F3',
       },

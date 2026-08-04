@@ -88,7 +88,7 @@ Architecture, product design, and engineering at UT Austin. A year of design and
 
 Built
 
-Now a product engineer at Forsite Studio, a design-build firm of eight, where one project runs from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.
+Runs projects at Forsite Studio, a design-build firm of eight, from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.
 
 Published
 
@@ -318,7 +318,7 @@ What we learned Turn an archive into evidence you can measure, not a catalogue y
 
 ## The company
 
-Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three landscapes for the system’s founding commissions.
+Bower makes living timber pavilions, each drawn for one landscape and completed over years by its planting. We are a practice of two, and we are selecting three landscapes for the founding commissions.
 
 - Clay Seifert [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 

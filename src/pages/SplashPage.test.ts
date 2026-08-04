@@ -21,6 +21,10 @@ describe('SplashPage', () => {
     // the investor register and stays off the buyer surface; "sites" is procurement vocabulary.
     expect(html).toContain('Three founding commissions across England');
     expect(html).toContain('selecting the landscapes now');
+    // The unbuilt admission stays on the front page (2026-08-04): the home is the page a board
+    // gets forwarded, and honesty buried on /questions does not survive a reader discovering the
+    // renders on their own. /questions Q6 owns the full answer; the home owns the premise.
+    expect(html).toContain('No Bower has been built yet');
     expect(html).not.toContain('repeatable timber system');
     expect(html).not.toContain('exceptional sites');
   });

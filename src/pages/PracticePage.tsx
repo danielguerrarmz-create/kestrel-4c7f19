@@ -2182,8 +2182,15 @@ function ThePractice() {
       <h2 className="font-mono text-[12px] uppercase tracking-[0.18em] text-inkBlack/40">
         The company
       </h2>
+      {/* PATRON-FACING, NOT INVESTOR-FACING (2026-08-04). This paragraph was COMPANY_DESCRIPTION's
+          "building technology company developing a repeatable system" — the right sentence for a
+          crawler or a journalist (where it still lives: Organization schema, llms.txt, noscript),
+          and the wrong LAST thing for a patron to read on the founders' page: a patron wants a
+          builder devoted to their garden, and "repeatable system" tells them they are a test case.
+          Same split as priceCopy.ts's own COMPANY_DESCRIPTION header: same fact, right reader,
+          different surface. */}
       <p className="mt-4 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/75">
-        Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three landscapes for the system’s founding commissions.
+        Bower makes living timber pavilions, each drawn for one landscape and completed over years by its planting. We are a practice of two, and we are selecting three landscapes for the founding commissions.
       </p>
       {/* THE FOUNDERS' OWN ADDRESSES, which is the part that renders today.
           They sat in the footer for part of 2026-07-31 and moved here on Clay's correction: the

@@ -27,6 +27,16 @@ export function ContactPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Contact</p>
           <h1 className="mt-4 max-w-[13ch] font-serifDisplay text-[clamp(2.35rem,4.7vw,4.5rem)] leading-[0.98] tracking-[-0.025em]">Discuss a founding commission.</h1>
           <p className="mt-4 max-w-[40ch] font-serifDisplay text-[17px] leading-[1.5] text-inkBlack/65">We are selecting three exceptional landscapes for the first Bowers. If you think yours may be a fit, please contact us.</p>
+          {/* WHAT "A FIT" MEANS (2026-08-04). "Exceptional" was the only criterion the page
+              offered, and it is a compliment, not a criterion — an owner had no way to
+              self-assess before writing. Four concrete marks, so the note that arrives is from
+              someone who has already recognised their own ground in the list. */}
+          <ul className="mt-4 max-w-[44ch] border-t border-inkBlack/15 pt-4 font-serifDisplay text-[15px] leading-[1.5] text-inkBlack/65">
+            <li className="py-1">A landscape with established character: walls, mature planting, a setting a structure can grow into.</li>
+            <li className="py-1">A programme: people who already gather there, or a reason for them to.</li>
+            <li className="py-1">Someone to garden it: grounds staff or a gardener we can teach.</li>
+            <li className="py-1">An owner ready to carry a first work.</li>
+          </ul>
           <div className="mt-4 border-t border-inkBlack/15 pt-4 font-serifDisplay text-[16px] leading-relaxed">
             <p className="text-[19px]">Clay Seifert</p>
             <a href={`mailto:${CONTACT.email}`} className="mt-1 inline-flex min-h-[36px] items-center underline decoration-inkBlack/25 underline-offset-4">clay@bowerbuild.org</a>

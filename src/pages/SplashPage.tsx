@@ -152,7 +152,13 @@ export function SplashPage() {
         <div className="mx-auto w-full max-w-[920px]">
           <p className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England. A different Bower for every landscape.</p>
           <div className="mt-9 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-[42ch] font-serifDisplay text-[18px] leading-[1.55] text-inkBlack/60">We are selecting the landscapes now, with first installations targeted for 2027.</p>
+            {/* THE UNBUILT ADMISSION BELONGS ON THE FRONT PAGE (2026-08-04). It lived only in
+                /questions Q6 and the gallery captions, so the page most likely to be forwarded to
+                a board read as photographs of existing things — and a reader who discovers the
+                render on their own re-reads every honest sentence skeptically. For a founding
+                pitch the unbuilt status IS the premise of the ask, so it is stated where the ask
+                is made. Q6 still owns the full answer. */}
+            <p className="max-w-[42ch] font-serifDisplay text-[18px] leading-[1.55] text-inkBlack/60">No Bower has been built yet; the founding three will be the first. We are selecting the landscapes now, with first installations targeted for 2027.</p>
             <a href={routes.contact} className="group inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
           </div>
         </div>

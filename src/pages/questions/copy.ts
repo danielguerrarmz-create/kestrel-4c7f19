@@ -23,9 +23,10 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - Stage 1, siting and feasibility: £18,000 including VAT, owned by `STAGE_1_FEE` in
- *     ui/priceCopy.ts because three surfaces state it. It has been £1,500, £6,500 and £15,000, the
- *     last three inside a week, which is exactly why it stopped being a literal.
+ *   - Stage 1, siting and feasibility: £20,000 as of 2026-08-04, owned by `STAGE_1_FEE` in
+ *     ui/priceCopy.ts because several surfaces state it. It has been £1,500, £6,500, £15,000 and
+ *     £18,000, which is exactly why it stopped being a literal. It is credited in full against
+ *     the design and engineering commission (`STAGE_1_CREDIT`, Clay's term of 2026-08-04).
  *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
  *     A RANGE, deliberately, and the rule that has governed it through three revisions is
  *     unchanged: **do not collapse it to a single figure**, because a point value reads as a quote
@@ -86,16 +87,18 @@
  * nothing), and a marquee hire cost to compare against. The comparison invites the capacity
  * question and loses it. `houseRules.test.ts` pins the marquee-replacement claim absent site-wide.
  *
- * WHAT THIS PAGE NO LONGER CLAIMS: that the study "comes off the price". That was true of the
- * £1,500 version and was NOT restated when the fee became £6,500 and a defined product, so it is
- * gone rather than carried forward on momentum. Restore it only if Clay says it is credited.
+ * THE CREDIT CLAIM IS BACK (2026-08-04). "The study comes off the price" was true of the £1,500
+ * version, was deliberately NOT carried forward through £6,500/£15,000/£18,000, and this header
+ * said to restore it only if Clay ruled it credited. He has: the £20,000 fee is credited in full
+ * against the design and engineering commission (not against construction). The sentence is
+ * `STAGE_1_CREDIT` in priceCopy.ts, one owner.
  * The three-metre height is the same threshold `GRAMMAR.pdHeightCapM` enforces (2.5 m) rounded UP
  * in prose to the permitted-development ceiling for a garden structure, which is why this file
  * says "about three metres" and never quotes the engine's cap as a promise. Do not wire these to
  * the engine: it models the smallest thing the studio makes, and this page is about commissions.
  */
 
-import { COMMISSION_STATEMENT } from '../../ui/priceCopy';
+import { COMMISSION_STATEMENT, STAGE_1_CREDIT, STAGE_1_FEE } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -120,9 +123,18 @@ export const QUESTIONS: readonly QA[] = [
   },
   {
     id: 'cost',
+    /**
+     * THE STAGE 1 FEE IS PUBLISHED AGAIN AS OF 2026-08-04 (Clay: "Stage 1 cost = 20k GBP...
+     * That 20k gets credited against DD"), which reverses the figure-free position this answer
+     * held from 2026-08-03. The commission itself still carries no figure — the only number a
+     * reader may meet here is the fee for the next step they can actually take, and the credit
+     * term is what stops it reading as a toll. `copy.test.ts` pins that property: the ONLY
+     * £-figure in this answer is `STAGE_1_FEE`.
+     */
     q: 'What does it cost?',
     a: [
       ...COMMISSION_STATEMENT,
+      `The study is ${STAGE_1_FEE}. ${STAGE_1_CREDIT}`,
     ],
   },
   {

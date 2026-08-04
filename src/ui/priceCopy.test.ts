@@ -16,7 +16,10 @@ import {
   COST_SUMMARY_LABEL,
   COST_TO_COMMISSION_BRIDGE,
   DEMO_SCOPE_NOTE,
+  FEES_NOT_CREDITED,
   PRICE_QUALIFIER,
+  STAGE_1_CREDIT,
+  STAGE_1_FEE,
   STEWARDSHIP_LABEL,
   STEWARDSHIP_NOTE,
   commissionDemoFigureGBP,
@@ -38,6 +41,9 @@ const ALL_COPY = [
   COST_SUMMARY_LABEL,
   COST_BUILDUP_LABEL,
   COST_BUILDUP_NOTE,
+  FEES_NOT_CREDITED,
+  STAGE_1_CREDIT,
+  STAGE_1_FEE,
 ];
 
 describe('the price label does not claim more than the price knows', () => {
