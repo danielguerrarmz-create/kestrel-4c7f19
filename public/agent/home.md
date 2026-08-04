@@ -10,58 +10,64 @@
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 # Grow a living Bower in your garden.
 
-We design and build living garden pavilions.
+A site-specific timber pavilion, planted so that the garden continues its making.
 
-[Apply for a Founding Feasibility Study](#register)
+[Discuss a founding commission](/contact)
 
-![A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it](/assets/gallery/01-wisteria-walk.webp)
+![Inside a living timber Bower, with branching lattice arches, climbing plants and places to sit among the garden](/assets/gallery/favorites/living-bower-interior.webp)
 
-bower, noun A shaded resting place in a garden, made of woven branches and climbing plants.
-
-![A woven timber gridshell pavilion in a garden, its open oculus at the crown, wisteria and green planting grown through the lattice, a bed of wildflowers in front](/assets/product/pavilion-exterior-garden.webp)
-
-What Bower is
+bower, noun. A shaded resting place in a garden, made of woven branches and climbing plants.
 
 ## Designed for your garden, and for the plant that grows through it.
 
-One of a kind. Never chosen from a catalogue.
+A place to inhabit
 
-## From design to garden.
+## Made for the life of a landscape.
 
-- 1 We design it with you
+[
 
-- 2 The price is fixed as we design
+![Guests gathered for a meal beneath a planted timber Bower](/assets/gallery/favorites/garden-table.webp)
 
-- 3 We manufacture off-site
+01
 
-- 4 Days to raise, on ground screws, no slab
+### Gather
 
-- 5 Plant, and let it start becoming.
+Meals, conversations, performances and the quiet daily use of a garden.
 
-This one: about 10 weeks to make.
+](/commissions) [
 
-![Looking up inside a woven timber gridshell at its open oculus, the lattice converging on the ring with wisteria hanging through it](/assets/product/pavilion-oculus-interior.webp)
+![An audience attending a chamber performance inside a flower-covered timber Bower](/assets/gallery/favorites/garden-performance.webp)
 
-## Begin.
+02
 
-These are the first Bowers. Yours could be among them.
+### Observe
 
-Four founding studies are available for autumn 2026. Up to two construction commissions will be accepted for 2027.
+A sheltered vantage from which planting, weather and the changing seasons become more present.
 
-apply for a founding study
+](/gallery) [
 
-apply
+![A mature Bower integrated with roses, wisteria and surrounding planting](/assets/process/evolution/mature.webp)
 
-[Questions→ Planning, the timeline, and how a commission works.](/questions) [Our background→ The practice, the research, and the work so far.](/about)
+03
 
-bower
+### Tend
 
-Bower 
+A timber framework cared for as the garden grows into it and changes its character.
 
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
+](/process)
 
-© 2026 Bower
+Three founding commissions across England. A different Bower for every landscape.
+
+We are selecting the landscapes now, with first installations targeted for 2027.
+
+[Discuss a founding commission](/contact)
+
+[Bower](/)
+
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+
+[© 2026 Bower](/)

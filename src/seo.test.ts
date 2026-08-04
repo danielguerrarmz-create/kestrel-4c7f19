@@ -16,12 +16,8 @@ import { TEAM } from './pages/about/projects';
 import { CONTACT } from './data/config';
 import {
   COMMISSION_ANCHOR_GBP,
-  COMMISSION_BREAKEVEN_GBP,
+  COMMISSION_BUDGET_POSITION,
   COMMISSION_DEMO_FIGURE,
-  COMMISSION_FLOOR_WORDS,
-  COMMISSION_FLOOR_WORDS_MIN_GBP,
-  STAGE_1_FEE,
-  STAGE_2_FEE,
   COMMISSION_FLOOR_GBP,
 } from './ui/priceCopy';
 
@@ -319,27 +315,21 @@ describe('structured data', () => {
      * The floor phrase must be in the schema, and the lowest reading of that phrase must clear
      * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
      */
-    expect(cost.acceptedAnswer.text).toContain(COMMISSION_FLOOR_WORDS);
-    expect(
-      COMMISSION_FLOOR_WORDS_MIN_GBP,
-      `"${COMMISSION_FLOOR_WORDS}" read at its lowest is at or below break-even`,
-    ).toBeGreaterThan(COMMISSION_BREAKEVEN_GBP);
+    expect(cost.acceptedAnswer.text).toContain(COMMISSION_BUDGET_POSITION);
+    expect(cost.acceptedAnswer.text).not.toMatch(/£\s?\d/);
     // The superseded point value, pinned absent in the schema too — an answer engine quoting a
     // withdrawn price is the audience least able to notice it has been withdrawn.
     expect(cost.acceptedAnswer.text).not.toContain('£350,000');
   });
 
-  it('the FAQ answers carry the live price and not the retracted one', () => {
+  it('the FAQ answers carry the public budget range and not the cold-visitor fee ladder', () => {
     const text = JSON.stringify(faqPageJsonLd());
     expect(text).not.toContain('£150,000');
     // BOTH STAGE FEES, as the page states them. The schema is generated from `QUESTIONS`, so an
     // answer engine quoting a superseded price is the same anchoring harm as the page doing it —
     // and it is the audience least able to notice.
-    expect(text).toContain(STAGE_1_FEE);
-    expect(text).toContain(STAGE_2_FEE);
-    // Stage 2 must never reach the schema as a single figure. Held through three revisions of that
-    // number (a range, then nothing, then a wider range) because the rule outlived all of them.
-    expect(text).toMatch(/£[\d,]+ to £[\d,]+/);
+    expect(text).toContain(COMMISSION_BUDGET_POSITION);
+    expect(text).not.toContain('£18,000');
     // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its
     // floor and is now the STAGE 1 fee, which is exactly why this list is checked against the live
     // constants above rather than written out as literals.

@@ -133,8 +133,16 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
    * handler agree about where form mail goes. That is a real failure mode, because `api/` is built
    * separately by Vercel and carries its own copy of the constant.
    */
-  it('the app and the form endpoint agree on one inbox', () => {
-    expect(FORM_INBOX).toBe(CONTACT.email);
+  it('keeps form mail in the verified shared inbox while publishing Clay\'s address', () => {
+    // ROUND FIVE (2026-08-04, the merge of the founding-commission branch): the split is BACK,
+    // deliberately. The outreach is signed by Clay and /contact prints his name above the
+    // address, so the published address is his; the form keeps posting to the practice box that
+    // is known to receive. Pinned as the published VALUE (the whole point is who it names) plus
+    // the domain PROPERTY for the form box — not its local part, which is the literal-for-a-
+    // property mistake item 4 above records.
+    expect(CONTACT.email).toBe('clay@bowerbuild.org');
+    expect(FORM_INBOX).not.toBe(CONTACT.email);
+    expect(FORM_INBOX.endsWith('@bowerbuild.org')).toBe(true);
     // The founders' direct addresses stay distinct from the shared one, so `/about/practice` can
     // still offer a named person. If these ever collapse, that page stops meaning anything.
     // The emptiness assert is the repo's standing law: a for-loop over zero founders would pass

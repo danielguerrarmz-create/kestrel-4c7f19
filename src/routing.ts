@@ -260,13 +260,24 @@ export const routes = {
   /** The commission visions: seven concept renderings of Bower pavilions in their
    *  gardens (2026-07-23, Clay). A public page, NOT an engine route. */
   gallery: '/gallery',
+  /** The three ways a Bower can serve a landscape. */
+  commissions: '/commissions',
+  /** The five-stage route from first conversation to long-term stewardship. */
+  process: '/process',
+  /** Direct founding-commission enquiry. */
+  contact: '/contact',
+  /** A quiet, footer-only route for journalists and editors. */
+  press: '/press',
   /** The practical questions (2026-07-28): size, price, planning, the lawn, the
    *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
   questions: '/questions',
   /** The commercial-hospitality page (2026-07-31): family-owned houses that earn from
    *  exclusive hire and whole-house rental. `/houses`, NOT `/venues` — "venue" is trade
    *  vocabulary and these owners do not use it about themselves; "houses" is how Landed
-   *  Houses, Wolsey Lodges and Historic Houses all speak. */
+   *  Houses, Wolsey Lodges and Historic Houses all speak.
+   *  DEV-ONLY since 2026-08-04 (Clay, founding-commission launch): its fee figures
+   *  contradicted the withdrawn-budget posture, and a third of the outreach list is
+   *  hospitality, so the material is gated for a later aimed relaunch, not deleted. */
   houses: '/houses',
   /** The founders, the timeline and the work: the drawn page that WAS `/about` until
    *  2026-07-31, now nested behind the short one as its expanded version. Public. */
@@ -294,18 +305,19 @@ export const routes = {
  *  metadata are both built from this, so a page cannot be published without a URL, a
  *  title and a sitemap entry — or listed in the sitemap without being a real route.
  *
- *  `/houses` sits SECOND, directly after the home and ahead of the gallery, because as of
- *  2026-07-31 it is the page the practice is writing letters about: a commercial reader
- *  arriving cold should meet the page addressed to them before the one addressed to a
- *  garden owner. The rest keeps the reader's order set on 2026-07-28 — see the work, find
- *  out what it costs, then look up who we are. */
+ *  The order keeps the reader's path set on 2026-07-28 — see the work, find out what it
+ *  involves, then look up who we are. `/houses` left this list on 2026-08-04 (gated, see
+ *  `DEV_ONLY_ROUTES`). */
 export const PUBLIC_ROUTES: readonly string[] = [
   routes.home,
-  routes.houses,
+  routes.commissions,
   routes.gallery,
-  routes.questions,
+  routes.process,
   routes.about,
   routes.practice,
+  routes.contact,
+  routes.press,
+  routes.questions,
 ];
 
 /**
@@ -336,16 +348,27 @@ export const ENGINE_ROUTES: readonly string[] = [
  * into ENGINE_ROUTES would have been the quick move and it would have been a lie in two
  * directions: it would claim the tree page is engine-facing, and it would route it to DevRoutes,
  * which knows nothing about it.
+ *
+ * `/houses` joined 2026-08-04 (Clay, founding-commission launch). It had been public since
+ * 2026-07-31 but was unlinked from every nav on this branch, and it still published the Stage 1
+ * and Stage 2 fees the founding-commission posture withdraws ("we do not publish an indicative
+ * budget"). An indexed page contradicting the proposal terms the outreach emails carry is worse
+ * than no page; the hospitality material stays reviewable in dev for a later aimed relaunch.
  */
-export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree'];
+export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree', '/houses'];
 
-/** What a path resolves to. `engine` and `aboutTree` are only ever returned when `dev` is true. */
+/** What a path resolves to. `engine`, `aboutTree` and `houses` are only ever returned when
+ *  `dev` is true. */
 export type RouteTarget =
   | 'splash'
   | 'about'
   | 'practice'
   | 'aboutTree'
   | 'gallery'
+  | 'commissions'
+  | 'process'
+  | 'contact'
+  | 'press'
   | 'questions'
   | 'houses'
   | 'engine';
@@ -362,10 +385,14 @@ export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.practice) return 'practice';
   if (path === routes.about) return 'about';
   if (path === routes.gallery) return 'gallery';
+  if (path === routes.commissions) return 'commissions';
+  if (path === routes.process) return 'process';
+  if (path === routes.contact) return 'contact';
+  if (path === routes.press) return 'press';
   if (path === routes.questions) return 'questions';
-  if (path === routes.houses) return 'houses';
   // The two gated families. Both fall through to the home in production, so a stray bookmark or a
   // guessed URL lands somewhere real instead of on a blank or a page we are not ready to show.
+  if (dev && path === routes.houses) return 'houses';
   if (dev && path === routes.aboutTree) return 'aboutTree';
   if (dev && ENGINE_ROUTES.includes(path)) return 'engine';
   return 'splash';

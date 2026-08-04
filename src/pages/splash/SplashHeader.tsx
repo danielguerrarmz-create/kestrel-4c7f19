@@ -40,9 +40,9 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
  *  a page nobody has reviewed. `/about` stays in `PUBLIC_ROUTES`, the sitemap, llms.txt and the
  *  agent mirror, and is linked from every page's footer. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: routes.houses, label: 'houses' },
   { href: routes.gallery, label: 'gallery' },
-  { href: routes.questions, label: 'questions' },
+  { href: routes.process, label: 'process' },
+  { href: routes.contact, label: 'contact' },
 ];
 
 /**
@@ -98,8 +98,9 @@ function LensFilter() {
  *
  * Tap-driven, not hover: a real `<button>` with `aria-expanded`/`aria-controls`, and it closes on
  * Escape, on an outside pointer, and on selecting a link. Focus moves into the panel on open and back
- * to the button on Escape. Warm vellum panel, the header's own mono type — it reads as the page, not a
- * generic white sheet — with a short reduced-motion-aware fade/slide, no bounce.
+ * to the button on Escape. The panel wears the pill's own liquid glass (`.glass-menu`, 2026-08-04,
+ * Clay — it was a warm vellum sheet before): same material as the capsule that opened it, so the
+ * open menu and the bower pill read as one family. Short reduced-motion-aware fade/slide, no bounce.
  */
 function MobileNav({ pill }: { pill: string }) {
   const [open, setOpen] = useState(false);
@@ -168,7 +169,7 @@ function MobileNav({ pill }: { pill: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: reduced ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute right-0 top-full z-50 mt-2 min-w-[13rem] overflow-hidden rounded-2xl border border-inkBlack/10 bg-paperVellum/95 shadow-lg backdrop-blur-sm"
+            className="glass-menu absolute right-0 top-full z-50 mt-2 min-w-[13rem] overflow-hidden"
           >
             <ul className="flex flex-col p-1.5">
               {NAV_LINKS.map((l, i) => (

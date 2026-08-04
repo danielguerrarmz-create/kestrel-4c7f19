@@ -95,8 +95,7 @@
  * the engine: it models the smallest thing the studio makes, and this page is about commissions.
  */
 
-import { FOOTPRINT_M2, HEADS_IN_WORDS } from '../../data/capacity';
-import { COMMISSION_STATEMENT, FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
+import { COMMISSION_STATEMENT } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -113,10 +112,10 @@ export interface QA {
 export const QUESTIONS: readonly QA[] = [
   {
     id: 'size',
-    q: 'How big is it?',
+    q: 'How large is a Bower?',
     a: [
-      `Most are between ${FOOTPRINT_M2.min} and ${FOOTPRINT_M2.max} square metres. At the top of that range: about ${HEADS_IN_WORDS.dining} to dinner, or ${HEADS_IN_WORDS.standing} standing. About three metres tall, which is the height that looks right on a lawn and also the height above which planning permission stops being optional.`,
-      'Each one is drawn for the garden it stands in, so size is a conversation. Larger pieces exist. Smaller than twenty-five square metres doesn’t really justify the work.',
+      'Each Bower is sized around its programme and landscape. A more intimate pavilion might hold a small table or gathering, while a larger commission may support talks, performances, learning or hospitality.',
+      'Scale, span and occupancy are tested together because they directly affect structure, planning and cost.',
     ],
   },
   {
@@ -124,11 +123,6 @@ export const QUESTIONS: readonly QA[] = [
     q: 'What does it cost?',
     a: [
       ...COMMISSION_STATEMENT,
-      'A commission covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.',
-      `Stage 1, siting and feasibility, is ${STAGE_1_FEE} including VAT.`,
-      `Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT. A fixed Stage 2 fee and updated build budget are confirmed at the end of Stage 1, once the site, surveys and consent route are understood.`,
-      FEES_NOT_CREDITED,
-      'Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.',
     ],
   },
   {
@@ -178,19 +172,34 @@ export const QUESTIONS: readonly QA[] = [
      * than a note: `houseRules.test.ts` sweeps every rendered page for a waterproofing claim. A
      * rule that lives only in a comment is a rule the next copy pass will not read.
      */
-    q: 'Is it waterproof?',
+    q: 'Is a Bower waterproof?',
     a: [
-      'No. A Bower is an open garden structure rather than a watertight room.',
-      'It provides shade, and increasing shelter as the planting matures, but it should not be described as rainproof.',
+      'A Bower is an open garden building rather than a sealed interior or marquee. Its degree of weather protection depends on its form, planting and the requirements of the commission.',
+      'Where greater shelter is required, any additional weather layer must be developed as part of the engineering and planning strategy.',
+    ],
+  },
+  {
+    id: 'public-programmes',
+    q: 'Can it host public programmes?',
+    a: [
+      'Yes, subject to the size, intended occupancy and site. Public use may introduce requirements concerning accessibility, fire safety, escape, structural loading, building control and event operations.',
+      'These are established during feasibility rather than assumed in advance.',
+    ],
+  },
+  {
+    id: 'built-status',
+    q: 'Has one been built?',
+    a: [
+      'Not yet. Bower is currently developing its first commissions for construction from 2027.',
+      'The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.',
     ],
   },
   {
     id: 'lawn',
     q: 'Will it wreck my lawn?',
     a: [
-      'No. The structure stands on steel piles wound into the ground like corkscrews, over a day or two. No concrete, no digging, no lorry down the drive, nothing to cart away. They can be wound out again, which is why conservation officers accept them.',
-      'Access is the honest part. There will be a few weeks of a working site: deliveries, a small compound, a route across the grass. We lay protective matting over anything we drive on and put back what we disturb. A track may show until the following spring. The ground the structure stands on is never dug up.',
-      'If the house is trading, the question is really about the diary. Foundations and raising take about three weeks on site, and it can be scheduled into a gap rather than closing anything: the compound sits away from the house, the route in is matted, and there is no concrete, no lorry down the drive and nothing to cart away. We would rather work around a booked season than through it, so we plan the build backwards from your calendar.',
+      'The foundation and access strategy is developed for the particular site during feasibility. It is not responsible to promise one method before ground conditions, roots, heritage constraints and delivery access are understood.',
+      'Construction will require a temporary working area and a managed route for deliveries. Protection, reinstatement and the sequence around the landscape calendar form part of the project plan.',
     ],
   },
   {
@@ -267,7 +276,7 @@ export const RING = {
    * version of a product is not a duration you may keep publishing** — it is the timing equivalent
    * of the £150,000 incident. Put a real one back when it is known.
    */
-  study: `After that, Stage 1: siting and feasibility, ${STAGE_1_FEE} including VAT. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.`,
+  study: 'After that, a paid feasibility study establishes where it sits, how large it should be, the likely planning route, engineering and fabrication strategy, access, delivery sequence and a project-specific cost range.',
   /**
    * The step after it, priced as a RANGE and explicitly fixed later.
    *
@@ -276,10 +285,9 @@ export const RING = {
    * single figure, because a point value reads as a quote for work nobody has scoped, and the
    * scoping is what Stage 1 is for.
    */
-  next: `Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT, confirmed at the end of Stage 1 along with an updated build budget.`,
+  next: 'Only when that work is complete is a design and engineering commission proposed.',
   /** Both stages are fees for work, not money on account. Stated in the close as well as the cost
    *  answer, because the close is where someone decides to commit to Stage 1. */
-  notCredited: FEES_NOT_CREDITED,
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product.

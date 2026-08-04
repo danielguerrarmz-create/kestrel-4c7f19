@@ -126,6 +126,10 @@ export interface ContactPayload {
   email: string;
   /** Which surface it came from, so a reply can be written knowing what they had just read. */
   source?: string;
+  name?: string;
+  organisation?: string;
+  location?: string;
+  programme?: string;
 }
 
 /** What the handler decided, separated from the HTTP plumbing so it is testable without a server. */
@@ -159,9 +163,14 @@ export function buildMessage(
     from: resolveSender(env),
     to: [resolveRecipient(env)],
     reply_to: p.email,
-    subject: `Interest registered: ${p.email}`,
+    subject: `Founding commission enquiry: ${p.name?.trim() || p.email}`,
     text: [
-      `${p.email} registered interest on bowerbuild.org.`,
+      `${p.name?.trim() || 'A visitor'} sent a founding commission enquiry on bowerbuild.org.`,
+      ``,
+      `Email: ${p.email}`,
+      `Organisation: ${p.organisation?.trim() || 'Not provided'}`,
+      `Site or location: ${p.location?.trim() || 'Not provided'}`,
+      `What might happen in the Bower: ${p.programme?.trim() || 'Not provided'}`,
       ``,
       `Source: ${p.source ?? 'unknown'}`,
       `Received: ${now}`,

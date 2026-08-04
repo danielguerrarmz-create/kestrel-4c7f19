@@ -5,9 +5,6 @@
  *
  * `/`          -> the home: hero, the two product-photograph bands, the register close,
  *                and the company monument (SplashPage).
- * `/houses`    -> the commercial-hospitality page (HousesPage; added 2026-07-31, when the
- *                practice repointed from private garden owners at family-owned houses that
- *                earn from exclusive hire). The site had nothing addressed to a business.
  * `/about`     -> the short one: what a Bower is and why (AboutPage; rewritten 2026-07-31 to
  *                Clay's brief, "very simple, very plain, very elegant").
  * `/about/practice`
@@ -33,6 +30,11 @@
  * whole tree page (geometry, milestones, growth windows) into the production bundle for
  * a route nobody could reach. Unlinked is not gated.
  *
+ * `/houses` IS DEV-ONLY TOO (2026-08-04, Clay, founding-commission launch): the
+ * commercial-hospitality page (added 2026-07-31) still published Stage 1 and Stage 2 fees
+ * the withdrawn-budget posture contradicts, and it was already unlinked from every nav.
+ * Same lazy gate as the tree page; the material stays for a later aimed relaunch.
+ *
  * EVERYTHING ENGINE-FACING IS DEV-ONLY (2026-07-21). Daniel's ruling: the studio/engine
  * "is not something to be proud of at this time", so it comes off the live site entirely
  * and stays hidden while it is rebuilt. `/studio`, `/draw`, `/engine`, `/shape`,
@@ -52,7 +54,10 @@ import { AboutPage } from './pages/AboutPage';
 import { PracticePage } from './pages/PracticePage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
-import { HousesPage } from './pages/HousesPage';
+import { CommissionsPage } from './pages/CommissionsPage';
+import { ProcessPage } from './pages/ProcessPage';
+import { ContactPage } from './pages/ContactPage';
+import { PressPage } from './pages/PressPage';
 import { resolveRoute, useFragmentScroll, useRoute } from './routing';
 import { useDocumentMeta } from './seo';
 
@@ -64,6 +69,13 @@ const DevRoutes = import.meta.env.DEV
 /** Null in production, for the same reason and by the same mechanism (2026-07-28). */
 const AboutTreePage = import.meta.env.DEV
   ? lazy(() => import('./pages/about-tree/AboutTreePage').then((m) => ({ default: m.AboutTreePage })))
+  : null;
+
+/** Null in production (2026-08-04): `/houses` is dev-only during the founding-commission launch.
+ *  Lazy behind the ternary, NOT a static import — unlinked is not gated, and a static import here
+ *  would ship the whole page (fee copy included) to a route production never serves. */
+const HousesPage = import.meta.env.DEV
+  ? lazy(() => import('./pages/HousesPage').then((m) => ({ default: m.HousesPage })))
   : null;
 
 export function Root() {
@@ -78,8 +90,18 @@ export function Root() {
   if (target === 'about') return <AboutPage />;
   if (target === 'practice') return <PracticePage />;
   if (target === 'gallery') return <GalleryPage />;
+  if (target === 'commissions') return <CommissionsPage />;
+  if (target === 'process') return <ProcessPage />;
+  if (target === 'contact') return <ContactPage />;
+  if (target === 'press') return <PressPage />;
   if (target === 'questions') return <QuestionsPage />;
-  if (target === 'houses') return <HousesPage />;
+  if (target === 'houses' && HousesPage) {
+    return (
+      <Suspense fallback={null}>
+        <HousesPage />
+      </Suspense>
+    );
+  }
   if (target === 'aboutTree' && AboutTreePage) {
     return (
       <Suspense fallback={null}>

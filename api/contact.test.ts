@@ -171,24 +171,29 @@ describe('the endpoint agrees with the app it serves', () => {
     expect(FORM_INBOX).toBe(APP_FORM_INBOX);
   });
 
-  it('mails the address the site publishes, which is the same box', () => {
+  it('keeps form notifications in the verified inbox while publishing Clay\'s direct address', () => {
     /**
-     * INVERTED 2026-08-01. This asserted the opposite — that form mail must NOT land in the mailbox
-     * a client's own reply arrives in — which held while the site published `clay@` and the form
-     * posted to `info@`. Clay then published the form's own inbox, so the two became one.
+     * THIS ASSERTION HAS NOW HELD BOTH SHAPES, so the history is the content. It began as a split
+     * (form to `info@`, site prints `clay@` — inbox hygiene), was INVERTED 2026-08-01 when Clay
+     * published the form's own inbox ("the failure that costs a commission is a message nobody
+     * reads, not a message in the wrong folder"), and the equal-constants version closed with:
+     * "a future split is a deliberate edit here."
      *
-     * The old rule was inbox hygiene, not safety, and at a two-person practice the failure that
-     * costs a commission is a message nobody reads, not a message in the wrong folder. Kept as an
-     * assertion rather than deleted so that a future split is a deliberate edit here, and so this
-     * file records that they were once separate and why.
+     * THIS IS THAT DELIBERATE EDIT (2026-08-04, the founding-commission merge). The outreach is
+     * signed by Clay personally and `/contact` prints his name directly above the address, so the
+     * site publishes `clay@`; the form keeps posting to `contact@`, the box this repo has always
+     * known to receive, wired to the `send.bowerbuild.org` sending domain. The split's cost —
+     * two mailboxes to watch — is accepted because the verified box still sees every enquiry the
+     * site itself generates while `clay@` is being confirmed.
      *
-     * NOTE WHAT THIS ASSERTION IS AND IS NOT. It pins the two constants EQUAL; it says nothing
-     * about their value, which is why the address moving to `contact@` on 2026-08-02 did not touch
-     * this line. A sibling assertion in `src/data/config.test.ts` did pin the local part as a
-     * literal (`startsWith('info@')`) and had to be deleted that day — it went red on a correct
-     * change, which is the signature of a test measuring the wrong thing.
+     * The form box is pinned as a domain PROPERTY, not a local part: the `startsWith('info@')`
+     * literal in `config.test.ts` went red on a correct change on 2026-08-02, which is the
+     * signature of a test measuring the wrong thing. The published address IS pinned by value,
+     * because naming Clay is the entire decision.
      */
-    expect(FORM_INBOX).toBe(CONTACT.email);
+    expect(FORM_INBOX).not.toBe(CONTACT.email);
+    expect(FORM_INBOX.endsWith('@bowerbuild.org')).toBe(true);
+    expect(CONTACT.email).toBe('clay@bowerbuild.org');
   });
 
   it('is reachable: vercel.json does not rewrite /api into the SPA shell', () => {

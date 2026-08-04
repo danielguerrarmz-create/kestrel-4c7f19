@@ -38,8 +38,8 @@ export function ritualSteps(): RitualStep[] {
    * itself as you do", which promised a dev-only tool. That correction stands; this only cuts.
    */
   return [
-    { n: '1', text: 'We design it with you' },
-    { n: '2', text: 'The price is fixed as we design' },
+    { n: '1', text: 'Conversation: begin with the landscape and its life' },
+    { n: '2', text: 'Feasibility: test siting, planning, access and project range' },
     // WAS "Flat timber components, CNC-cut", REMOVED 2026-08-01 (Clay: "I don't think that is
     // true and I would prefer to not list it as such"). It described the dev-only engine's
     // fabrication model — flat sheet stock, nested and profiled — as though it were how a
@@ -51,9 +51,9 @@ export function ritualSteps(): RitualStep[] {
     // manufacture is a fact about the process the practice controls, and it carries the thing the
     // reader actually cares about at this point in the list — that the garden is not a building
     // site for months. It makes no claim about tooling, stock or method.
-    { n: '3', text: 'We manufacture off-site' },
-    { n: '4', text: 'Days to raise, on ground screws, no slab' },
-    { n: '5', text: 'Plant, and let it start becoming.' },
+    { n: '3', text: 'Design and engineering: develop the form with the specialist team' },
+    { n: '4', text: 'Making: fabricate, trial where required and assemble on site' },
+    { n: '5', text: 'Growth and stewardship: train the planting as the architecture matures' },
   ];
 }
 
@@ -117,7 +117,7 @@ export const FOUNDING_COHORT = {
 /** The primary action on the home page. Names the thing being applied FOR, not the act of
  *  registering: an application to something limited is a decision, a registration is a mailing
  *  list. */
-export const APPLY_CTA = 'Apply for a Founding Feasibility Study';
+export const APPLY_CTA = 'Discuss a founding commission';
 
 /**
  * Small counts spelled out, because the site's register spells them out everywhere else ("about
@@ -128,15 +128,6 @@ export const APPLY_CTA = 'Apply for a Founding Feasibility Study';
  * the test check they agree. Interpolating a bare digit would have printed "4 founding studies",
  * which is the only numeral in a page of spelled-out ones.
  */
-const COUNT_IN_WORDS: Record<number, string> = {
-  1: 'One',
-  2: 'Two',
-  3: 'Three',
-  4: 'Four',
-  5: 'Five',
-  6: 'Six',
-};
-
 /** The scarcity line, set immediately beneath the CTA. Built from `FOUNDING_COHORT` so the
  *  numbers cannot drift from the constants the test guards. */
-export const FOUNDING_COHORT_LINE = `${COUNT_IN_WORDS[FOUNDING_COHORT.studies]} founding studies are available for ${FOUNDING_COHORT.studySeason} ${FOUNDING_COHORT.studyYear}. Up to ${COUNT_IN_WORDS[FOUNDING_COHORT.commissions].toLowerCase()} construction commissions will be accepted for ${FOUNDING_COHORT.commissionYear}.`;
+export const FOUNDING_COHORT_LINE = `Bower is selecting the first landscapes for paid feasibility studies, with initial installations targeted for ${FOUNDING_COHORT.commissionYear}.`;

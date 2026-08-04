@@ -33,6 +33,10 @@
 
 /** The opening, before the creed. Paragraphs in order. */
 export const MANIFESTO_OPENING: readonly string[] = [
+  'Modern life has separated many of the things that once met beneath a tree: shelter, gathering, learning, ceremony and the living world.',
+  'Bower makes small buildings that bring them together again. Each is a woven timber structure, drawn for one landscape and planted so that growth, weather and repeated use continue its making.',
+  'We believe architecture need not stand apart from nature. It can become a framework through which people gather more attentively, seasons become visible and a place acquires memory.',
+  'A Bower is not finished when it is installed. It is finished slowly, by the garden, and by the life that gathers there.',
   'Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel. None of them finished. All of them alive.',
   'We build for that. A Bower is a curved timber lattice: woven, load-bearing, and deliberately incomplete. We make the structure; the garden makes the rest. It takes about three years for wisteria or rose or vine to find its way through the weave, and only then is the thing what it was drawn to be. The architecture is only finished once the garden has had its say.',
   'We are building the means to make them again and again, without ever making the same one twice.',
@@ -60,6 +64,6 @@ export const MANIFESTO_CLOSE = 'A world full of Bowers.';
 
 /** The one door onward, to the founders and the work. */
 export const MANIFESTO_LINK = {
-  label: 'About the practice',
+  label: 'About the company',
   href: '/about/practice',
 } as const;

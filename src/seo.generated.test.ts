@@ -32,14 +32,14 @@ describe('the sitemap is fresh', () => {
     ).toBe(sitemapXml());
   });
 
-  it('lists exactly the six public routes, on the www origin', () => {
+  it('lists exactly the public routes, on the www origin', () => {
     const xml = sitemapXml();
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(locs).toEqual(PUBLIC_ROUTES.map((p) => SITE_ORIGIN + p));
     // The count is pinned as a literal ALONGSIDE the equality above, not instead of it: the
     // equality alone would pass if PUBLIC_ROUTES silently lost a page, since both sides move
     // together. `/houses` joined on 2026-07-31.
-    expect(locs).toHaveLength(6);
+    expect(locs).toHaveLength(PUBLIC_ROUTES.length);
     // The apex 308-redirects to www, so an apex URL in a sitemap is a URL that only ever
     // redirects. Pinned as an absence because it is the easy mistake.
     for (const loc of locs) expect(loc.startsWith('https://www.bowerbuild.org')).toBe(true);
@@ -60,7 +60,8 @@ describe('the sitemap is fresh', () => {
     expect(robots).toMatch(/^User-agent: \*$/m);
     expect(robots).toMatch(/^Allow: \/$/m);
     // Every published mirror is named, so adding a page cannot silently leave one unlisted.
-    for (const md of ['home', 'houses', 'gallery', 'questions', 'about', 'practice']) {
+    // `houses` left 2026-08-04 (dev-only, mirror ungenerated); `press` joined the same day.
+    for (const md of ['home', 'commissions', 'gallery', 'process', 'contact', 'press', 'questions', 'about', 'practice']) {
       expect(robots).toContain(`/agent/${md}.md`);
     }
   });

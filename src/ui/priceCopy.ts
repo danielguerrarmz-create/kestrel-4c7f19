@@ -99,7 +99,7 @@ export const COMMISSION_BREAKEVEN_GBP = 220_000;
  * open-ended and cannot be mistaken for a quote, which is the reason it never says "your price".
  * This is the one place the number lives.
  */
-export const COMMISSION_FROM = 'from £350k';
+export const COMMISSION_FROM = 'established after engineering';
 
 /**
  * THE PUBLISHED COMMISSION FLOOR IS NOW WORDS, NOT A NUMBER (Clay, 2026-08-01).
@@ -126,7 +126,8 @@ export const COMMISSION_FROM = 'from £350k';
  * £400,000 is deliberately the conservative reading. "Mid-six figures" is arguably £500,000, and
  * taking the lower bound is what makes the guard meaningful rather than flattering.
  */
-export const COMMISSION_FLOOR_WORDS = 'mid-six figures';
+export const COMMISSION_BUDGET_POSITION =
+  'We do not publish an indicative budget before the site, structure and engineering route have been tested.';
 
 /**
  * HOW THE COMPANY DESCRIBES ITSELF (Clay, 2026-08-01), replacing "design studio" and "design
@@ -144,21 +145,19 @@ export const COMMISSION_FLOOR_WORDS = 'mid-six figures';
  * reads as a pitch to the other. Same sentence, right reader, different surface.
  */
 export const COMPANY_DESCRIPTION =
-  'Bower is a design and manufacturing company developing a scalable system for living, geometrically unique buildings.';
+  'Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes.';
 
 /** The lowest a reader could reasonably read `COMMISSION_FLOOR_WORDS` as. Guarded against
  *  `COMMISSION_BREAKEVEN_GBP`, so the published words can never fall below cost the way a
  *  published number once did. */
-export const COMMISSION_FLOOR_WORDS_MIN_GBP = 400_000;
-
 /**
  * The whole published cost statement, as one paragraph set, so `/questions` and `/houses` cannot
  * drift. Clay's words; the only change was the house dash rule.
  */
 export const COMMISSION_STATEMENT: readonly string[] = [
-  'Each Bower is commissioned for its site.',
-  `Complete project budgets are expected to begin in the ${COMMISSION_FLOOR_WORDS}, with larger or structurally ambitious pavilions reaching £1 million or more.`,
-  'A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.',
+  'Each Bower is a substantial, site-specific capital project.',
+  COMMISSION_BUDGET_POSITION,
+  'A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.',
 ];
 
 /**
@@ -224,7 +223,7 @@ export const COMMISSION_QUALIFIER = 'indicative · pre-quote';
  *  2026-07-28 (Clay), not "mid six": the published floor moved to £350k and the old ceiling
  *  language would now read as barely above it. */
 export const COMMISSION_NOTE =
-  'What a Bower of this kind commissions from, installed and planted. Landmark pieces run into seven figures. Your own figure is set after a paid siting study, not before.';
+  'The budget for a complete Bower, installed and planted, is established after the site, structure and engineering route have been tested. It is not set before that work.';
 
 /**
  * ⚠ STALE AND BELOW COST AS OF 2026-07-28. EVERY CONSTANT FROM HERE TO THE END OF

@@ -1,6 +1,6 @@
 # Bower
 
-> Bower is a design and manufacturing company developing a scalable system for living, geometrically unique buildings.
+> Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes.
 > We design and build living garden pavilions: organic timber gridshell structures, designed
 > for the climbing plants that grow into them and made for the garden they stand in.
 > This is the marketing site; it is a JavaScript single-page app, so non-JavaScript readers
@@ -9,26 +9,26 @@
 ## Pages
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
-- [Houses](/agent/houses.md): the page for houses that earn from exclusive hire, weddings and
-  whole-house rental: what one holds, the winter half of the year, building around a booked
-  season, and what it costs
-- [Gallery](/agent/gallery.md): seven concept renderings of Bower commissions in their gardens
+- [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
+- [Gallery](/agent/gallery.md): fourteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
+- [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
+- [Press](/agent/press.md): press and editorial enquiries
 - [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
   pruning, and how to contact the studio
 - [About](/agent/about.md): what a Bower is and what the practice is for, in short
-- [The practice](/agent/practice.md): the two founders, the timeline of the practice, and the
+- [The company](/agent/practice.md): the two founders, the timeline of the company, and the
   work so far. The expanded version of the About page, nested at `/about/practice`
 
 ## Notes for agents
 
-- The human site lives at `/`, `/houses`, `/gallery`, `/questions`, `/about` and
-  `/about/practice`. These are real paths (they were `#/` hash routes until 2026-07-28, and an
+- The human site lives at `/`, `/commissions`, `/gallery`, `/process`, `/about`,
+  `/about/practice`, `/contact`, `/press` and `/questions`. These are real paths, and an
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- `/sitemap.xml` lists the six public URLs.
-- The gallery images are concept renderings (generated visualizations), not photographs of
+- `/sitemap.xml` lists the nine public URLs.
+- The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
 - Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.
-  A Bower is between 25 and 40 square metres: it is not a marquee, does not replace one, and
-  the site does not claim it does.
+  A Bower is not a marquee and the site does not claim that it replaces one.

@@ -87,7 +87,7 @@ export interface PageMeta {
 /** The only targets `resolveRoute(path, false)` can return: the four pages production serves.
  *  Narrowing it here is what makes `META` exhaustive by construction — add a public page and the
  *  compiler asks for its title rather than letting it ship with the home's. */
-type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree'>;
+type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree' | 'houses'>;
 
 /**
  * Keyed by the PRODUCTION route target, not by path, on purpose: a crawler asking for `/studio`
@@ -98,21 +98,49 @@ type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree'>;
 const META: Record<ProductionTarget, PageMeta> = {
   splash: {
     path: routes.home,
-    title: 'Living garden pavilions, designed and built | Bower',
+    title: 'Grow a living Bower in your garden',
     description:
-      'Bower designs and builds living garden pavilions: woven timber gridshells planted with the climbers that grow into them, drawn for the garden they stand in.',
-    ogTitle: 'Bower: living garden pavilions',
+      'A site-specific living timber pavilion, planted so that the garden continues its making. Bower is selecting the landscapes for its three founding commissions.',
+    ogTitle: 'Grow a living Bower in your garden',
     ogDescription:
-      'A design and manufacturing company building woven timber pavilions for gardens, planted with the climbers that grow into them. Each one drawn for its own garden.',
+      'Three founding commissions across England. A different living Bower for every landscape.',
   },
   gallery: {
     path: routes.gallery,
-    title: 'Garden pavilion designs: seven commission visions | Bower',
+    title: 'Living Bower gallery: fourteen commission visions',
     description:
-      'Seven concept renderings of Bower garden pavilions in their gardens: woven timber gridshells with wisteria, roses and climbers grown through the lattice.',
-    ogTitle: 'Bower: seven commission visions',
+      'Fourteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
+    ogTitle: 'Bower: fourteen commission visions',
     ogDescription:
       'Concept renderings of Bower garden pavilions in their gardens, from a wisteria walk to a glass crown.',
+  },
+  commissions: {
+    path: routes.commissions,
+    title: 'Commissions for gardens and cultural landscapes | Bower',
+    description: 'Living timber pavilions for cultural landscapes, gathering, ecology and learning. Bower is selecting its founding commissions across England.',
+    ogTitle: 'Bower: founding commissions',
+    ogDescription: 'Living architecture drawn for one landscape and completed over time by planting, weather and use.',
+  },
+  process: {
+    path: routes.process,
+    title: 'From landscape to Bower: the commissioning process',
+    description: 'Conversation, feasibility, design and engineering, making, growth and stewardship: the route from a landscape to a built Bower.',
+    ogTitle: 'From landscape to Bower',
+    ogDescription: 'A clear five-stage route from first conversation to a living pavilion maturing in its landscape.',
+  },
+  contact: {
+    path: routes.contact,
+    title: 'Discuss a founding commission | Bower',
+    description: 'Speak with Bower about a founding commission for a garden, estate or cultural landscape in England, from first feasibility to a built work.',
+    ogTitle: 'Discuss a founding Bower commission',
+    ogDescription: 'Bower is speaking with gardens, estates and cultural landscapes about its first built works in England.',
+  },
+  press: {
+    path: routes.press,
+    title: 'Press enquiries | Bower',
+    description: 'Press enquiries for Bower, a building technology company developing living timber pavilions for exceptional landscapes.',
+    ogTitle: 'Press enquiries | Bower',
+    ogDescription: 'Contact Bower about editorial, media and press enquiries.',
   },
   questions: {
     path: routes.questions,
@@ -123,18 +151,8 @@ const META: Record<ProductionTarget, PageMeta> = {
     ogDescription:
       'The price, the planning position, what building one does to a lawn, and how long it takes. The questions people actually ask, answered plainly.',
   },
-  houses: {
-    path: routes.houses,
-    // NO FIGURES AND NO CAPACITY IN THE HEAD. The same rule as the price: a link card is cached for
-    // months by iMessage, WhatsApp, Slack and LinkedIn, gets screenshotted, and cannot be un-cached
-    // by a green test. A capacity is exactly the claim this segment checks first.
-    title: 'Garden pavilions for houses that receive people | Bower',
-    description:
-      'A woven timber room for a house that receives people. Raised once on ground screws, it stands through the winter and is better in its tenth year than its first.',
-    ogTitle: 'Bower: for houses that receive people',
-    ogDescription:
-      'A room in the garden that is there in November. Raised once, planted, and left standing. Drawn for the house it belongs to.',
-  },
+  // `/houses` was gated to dev-only on 2026-08-04, so production serves the home splash there and
+  // its META entry left with it — `ProductionTarget` excludes it, the same shape as `aboutTree`.
   about: {
     path: routes.about,
     title: 'About Bower: what we build, and why',
@@ -146,12 +164,12 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   practice: {
     path: routes.practice,
-    title: 'The practice behind Bower: the founders and the work',
+    title: 'The company behind Bower: the founders and the work',
     description:
-      'The two cofounders behind Bower, the research the practice grew out of, and the architecture and robotics work that came before the first pavilion.',
-    ogTitle: 'The practice behind Bower',
+      'The two cofounders behind Bower, the research the company grew out of, and the architecture and robotics work that came before the first pavilion.',
+    ogTitle: 'The company behind Bower',
     ogDescription:
-      'The two cofounders, the research the practice grew out of, and the work that came before the first pavilion.',
+      'The two cofounders, the research the company grew out of, and the work that came before the first pavilion.',
   },
 };
 
@@ -204,7 +222,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     // journalist (Clay, 2026-08-01), followed by what the thing actually is. The order matters:
     // the positioning sentence answers "what kind of company", the second answers "what do they
     // make", and a reader of structured data wants both in that order.
-    description: `${COMPANY_DESCRIPTION} We design and build living garden pavilions: organic timber gridshell structures, designed for the climbing plants that grow into them and made for the garden they stand in.`,
+    description: `${COMPANY_DESCRIPTION} Each woven timber pavilion is drawn for one place and gradually completed by planting, weather and use.`,
     founder: FOUNDER_NAMES.map((name) => ({ '@type': 'Person', name })),
     email: CONTACT.email,
     telephone: CONTACT.phone,

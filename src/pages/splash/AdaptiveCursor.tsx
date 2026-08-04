@@ -37,7 +37,7 @@ const INTERACTIVE = 'a,button,[role="button"],[data-cursor-hover]';
 const BASE = 60;
 const REST = 14 / BASE; // resting disc ~14px
 const GLASS = 30 / BASE; // over the glass nav ~30px
-const HOVER = 56 / BASE; // over interactive targets (logo, links) ~56px — the big state
+const HOVER = 28 / BASE; // a restrained emphasis over links; close to the text line-height
 // Rendered at BASE, the solid ring's border is scaled by GLASS on screen, so 3px reads ~1.5px.
 const SOLID_BORDER = '3px solid #ACC13A';
 

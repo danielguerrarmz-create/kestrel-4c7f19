@@ -10,7 +10,7 @@
 
 [Bower](/)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 Questions
 
@@ -18,29 +18,19 @@ Questions
 
 Whether you need permission, what it does to a lawn, how long before you are sitting in it, and what a commission involves.
 
-## 1 How big is it?
+## 1 How large is a Bower?
 
-Most are between 25 and 40 square metres. At the top of that range: about thirty to dinner, or fifty standing. About three metres tall, which is the height that looks right on a lawn and also the height above which planning permission stops being optional.
+Each Bower is sized around its programme and landscape. A more intimate pavilion might hold a small table or gathering, while a larger commission may support talks, performances, learning or hospitality.
 
-Each one is drawn for the garden it stands in, so size is a conversation. Larger pieces exist. Smaller than twenty-five square metres doesn’t really justify the work.
+Scale, span and occupancy are tested together because they directly affect structure, planning and cost.
 
 ## 2 What does it cost?
 
-Each Bower is commissioned for its site.
+Each Bower is a substantial, site-specific capital project.
 
-Complete project budgets are expected to begin in the mid-six figures, with larger or structurally ambitious pavilions reaching £1 million or more.
+We do not publish an indicative budget before the site, structure and engineering route have been tested.
 
-A paid feasibility study establishes the brief, engineering route and site-specific cost range before a commission is accepted.
-
-A commission covers everything: design, engineering, planning drawings, making, foundations, putting it up, and the planting.
-
-Stage 1, siting and feasibility, is £18,000 including VAT.
-
-Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT. A fixed Stage 2 fee and updated build budget are confirmed at the end of Stage 1, once the site, surveys and consent route are understood.
-
-Stage 1 and Stage 2 are professional fees and are not credited against construction.
-
-Afterwards, looking after the planting through the first three years runs at 6 to 10% of the commission a year.
+A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.
 
 ## 3 Will I need planning permission?
 
@@ -50,21 +40,31 @@ Listed buildings, registered gardens, conservation areas and protected landscape
 
 Stage 1 establishes the likely planning route before detailed design begins.
 
-## 4 Is it waterproof?
+## 4 Is a Bower waterproof?
 
-No. A Bower is an open garden structure rather than a watertight room.
+A Bower is an open garden building rather than a sealed interior or marquee. Its degree of weather protection depends on its form, planting and the requirements of the commission.
 
-It provides shade, and increasing shelter as the planting matures, but it should not be described as rainproof.
+Where greater shelter is required, any additional weather layer must be developed as part of the engineering and planning strategy.
 
-## 5 Will it wreck my lawn?
+## 5 Can it host public programmes?
 
-No. The structure stands on steel piles wound into the ground like corkscrews, over a day or two. No concrete, no digging, no lorry down the drive, nothing to cart away. They can be wound out again, which is why conservation officers accept them.
+Yes, subject to the size, intended occupancy and site. Public use may introduce requirements concerning accessibility, fire safety, escape, structural loading, building control and event operations.
 
-Access is the honest part. There will be a few weeks of a working site: deliveries, a small compound, a route across the grass. We lay protective matting over anything we drive on and put back what we disturb. A track may show until the following spring. The ground the structure stands on is never dug up.
+These are established during feasibility rather than assumed in advance.
 
-If the house is trading, the question is really about the diary. Foundations and raising take about three weeks on site, and it can be scheduled into a gap rather than closing anything: the compound sits away from the house, the route in is matted, and there is no concrete, no lorry down the drive and nothing to cart away. We would rather work around a booked season than through it, so we plan the build backwards from your calendar.
+## 6 Has one been built?
 
-## 6 When could mine be built?
+Not yet. Bower is currently developing its first commissions for construction from 2027.
+
+The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.
+
+## 7 Will it wreck my lawn?
+
+The foundation and access strategy is developed for the particular site during feasibility. It is not responsible to promise one method before ground conditions, roots, heritage constraints and delivery access are understood.
+
+Construction will require a temporary working area and a managed route for deliveries. Protection, reinstatement and the sequence around the landscape calendar form part of the project plan.
+
+## 8 When could mine be built?
 
 The first installations are planned for summer and autumn 2027.
 
@@ -74,7 +74,7 @@ The structure goes up in summer, when the ground is dry enough to bring a crew a
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
 
-## 7 Who prunes it?
+## 9 Who prunes it?
 
 For the first three years after planting, we do. If you have a gardener or grounds staff, we’d rather teach them and hand it across: they’re there every day and we aren’t.
 
@@ -86,7 +86,7 @@ After the third year, one visit annually.
 
 And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.
 
-## 8 What does it look like in February?
+## 10 What does it look like in February?
 
 Like a drawing held in the air.
 
@@ -98,22 +98,20 @@ For a house that sells weeks of the year, this is the half of it that matters mo
 
 Then in March it begins to disappear again.
 
-## 9 Who do I ring?
+## 11 Who do I ring?
 
 Clay Seifert
 
-[+44 20 7139 5142](tel:+442071395142) [contact@bowerbuild.org](mailto:contact@bowerbuild.org)
+[+44 20 7139 5142](tel:+442071395142) [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
 The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
 
-After that, Stage 1: siting and feasibility, £18,000 including VAT. Where it sits, how big, which way it faces, a straight answer on planning for your particular site, and a drawing of the structure in your garden. Yours to keep whatever you decide.
+After that, a paid feasibility study establishes where it sits, how large it should be, the likely planning route, engineering and fabrication strategy, access, delivery sequence and a project-specific cost range.
 
-Stage 2, planning, design and engineering, is typically £60,000 to £90,000 including VAT, confirmed at the end of Stage 1 along with an updated build budget.
+Only when that work is complete is a design and engineering commission proposed.
 
-Stage 1 and Stage 2 are professional fees and are not credited against construction.
+[Bower](/)
 
-Bower 
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
-[houses](/houses) [gallery](/gallery) [questions](/questions) [about](/about)
-
-© 2026 Bower
+[© 2026 Bower](/)

@@ -4,18 +4,27 @@
     <loc>https://www.bowerbuild.org/</loc>
   </url>
   <url>
-    <loc>https://www.bowerbuild.org/houses</loc>
+    <loc>https://www.bowerbuild.org/commissions</loc>
   </url>
   <url>
     <loc>https://www.bowerbuild.org/gallery</loc>
   </url>
   <url>
-    <loc>https://www.bowerbuild.org/questions</loc>
+    <loc>https://www.bowerbuild.org/process</loc>
   </url>
   <url>
     <loc>https://www.bowerbuild.org/about</loc>
   </url>
   <url>
     <loc>https://www.bowerbuild.org/about/practice</loc>
+  </url>
+  <url>
+    <loc>https://www.bowerbuild.org/contact</loc>
+  </url>
+  <url>
+    <loc>https://www.bowerbuild.org/press</loc>
+  </url>
+  <url>
+    <loc>https://www.bowerbuild.org/questions</loc>
   </url>
 </urlset>
