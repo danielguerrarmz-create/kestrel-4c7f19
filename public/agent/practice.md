@@ -326,6 +326,6 @@ Bower is a building technology company developing a repeatable system for geomet
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)

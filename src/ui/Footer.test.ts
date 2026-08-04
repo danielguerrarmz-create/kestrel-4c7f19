@@ -12,4 +12,9 @@ describe('Footer', () => {
     expect(html).toContain(`aria-label="© ${year} Bower, home"`);
     expect(html.match(/href="\/"/g)).toHaveLength(2);
   });
+
+  it('keeps the press door quiet and footer-only', () => {
+    expect(html).toContain('href="/press"');
+    expect(html).toContain('>press</a>');
+  });
 });

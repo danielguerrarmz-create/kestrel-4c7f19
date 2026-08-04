@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { PUBLIC_ROUTES } from '../routing';
+import { PUBLIC_ROUTES, routes } from '../routing';
 import { SplashPage } from './SplashPage';
 import { APPLY_CTA } from './splash/copy';
 
@@ -13,7 +13,10 @@ describe('SplashPage', () => {
     expect(html).toContain('font-handwrite');
     expect(html).toContain('aria-label="Bower"');
     expect(html).toContain('>in your garden.</span>');
-    expect(html).toContain('A building you tend.');
+    expect(html).toContain('bower,');
+    expect(html).toContain('A shaded resting place in a garden');
+    expect(html).toContain('Designed for your garden');
+    expect(html).toContain('plant</em> that grows through it.');
     expect(html).toContain('selecting three exceptional sites');
   });
 
@@ -32,9 +35,21 @@ describe('SplashPage', () => {
     expect(primary).not.toContain('practice');
   });
 
-  it('contains only the hero, one full-spread image, and one close before the footer', () => {
-    expect(html.match(/<section\b/g)).toHaveLength(3);
+  it('tells a deliberate four-part story before the footer', () => {
+    expect(html.match(/<section\b/g)).toHaveLength(4);
     expect(html).toContain('/assets/gallery/favorites/living-bower-interior.webp');
+    expect(html).toContain('Made for the life of a landscape.');
+    expect(html).toContain('>Gather</h3>');
+    expect(html).toContain('>Observe</h3>');
+    expect(html).toContain('>Tend</h3>');
+    expect(html).toContain('/assets/gallery/favorites/garden-table.webp');
+    expect(html).toContain('/assets/gallery/favorites/garden-performance.webp');
+    expect(html).toContain('/assets/process/evolution/mature.webp');
+    expect(html).toContain('group-hover:opacity-100');
+    expect(html).toContain('duration-[1400ms]');
+    expect(html).toContain(`href="${routes.commissions}"`);
+    expect(html).toContain(`href="${routes.gallery}"`);
+    expect(html).toContain(`href="${routes.process}"`);
     expect(html).not.toContain('Three forms of life');
     expect(html).not.toContain('A credible path to building');
     expect(html).not.toContain('Why Bower');

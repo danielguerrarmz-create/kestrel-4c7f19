@@ -266,6 +266,8 @@ export const routes = {
   process: '/process',
   /** Direct founding-commission enquiry. */
   contact: '/contact',
+  /** A quiet, footer-only route for journalists and editors. */
+  press: '/press',
   /** The practical questions (2026-07-28): size, price, planning, the lawn, the
    *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
   questions: '/questions',
@@ -313,6 +315,7 @@ export const PUBLIC_ROUTES: readonly string[] = [
   routes.about,
   routes.practice,
   routes.contact,
+  routes.press,
   routes.questions,
   routes.houses,
 ];
@@ -358,6 +361,7 @@ export type RouteTarget =
   | 'commissions'
   | 'process'
   | 'contact'
+  | 'press'
   | 'questions'
   | 'houses'
   | 'engine';
@@ -377,6 +381,7 @@ export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.commissions) return 'commissions';
   if (path === routes.process) return 'process';
   if (path === routes.contact) return 'contact';
+  if (path === routes.press) return 'press';
   if (path === routes.questions) return 'questions';
   if (path === routes.houses) return 'houses';
   // The two gated families. Both fall through to the home in production, so a stray bookmark or a

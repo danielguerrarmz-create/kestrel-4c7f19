@@ -52,6 +52,6 @@ Bower is currently developing its first built works for gardens and cultural lan
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)

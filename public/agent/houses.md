@@ -72,6 +72,6 @@ Stage 1 and Stage 2 are professional fees and are not credited against construct
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)

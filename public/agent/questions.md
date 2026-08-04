@@ -112,6 +112,6 @@ Only when that work is complete is a design and engineering commission proposed.
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)

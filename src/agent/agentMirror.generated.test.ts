@@ -12,6 +12,7 @@ import {
   commissionsMirror,
   processMirror,
   contactMirror,
+  pressMirror,
 } from './mirror';
 import { CONTACT } from '../data/config';
 import { COMMISSION_BUDGET_POSITION } from '../ui/priceCopy';
@@ -43,6 +44,7 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   { rel: 'agent/commissions.md', fresh: commissionsMirror },
   { rel: 'agent/process.md', fresh: processMirror },
   { rel: 'agent/contact.md', fresh: contactMirror },
+  { rel: 'agent/press.md', fresh: pressMirror },
 ];
 
 describe('the agent mirror is fresh', () => {
@@ -68,8 +70,8 @@ describe('the agent mirror is fresh', () => {
     expect(practice).toContain('Daniel Guerra');
     const gallery = galleryMirror();
     expect(gallery.toLowerCase()).toContain('concept studies');
-    // All fifteen exclusive plates, including the supplied favourites, as fetchable markdown images.
-    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(15);
+    // All fourteen exclusive plates, excluding imagery already used on the home page.
+    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(14);
     expect(llmsTxt()).toContain('/agent/gallery.md');
     // The questions page is the one an agent asked "what does a Bower cost" most needs, so its
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and

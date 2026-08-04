@@ -68,7 +68,7 @@ interface GalleryPlateData extends ProjectImage {
   landscape: string;
 }
 
-/** Fifteen visions, sequenced as a gallery rather than a recap of the rest of the site. Images
+/** Fourteen visions, sequenced as a gallery rather than a recap of the rest of the site. Images
  *  already used on the home and commissions pages are intentionally excluded. Ratios measured
  *  from the files. */
 export const GALLERY_IMAGES: GalleryPlateData[] = [
@@ -83,15 +83,6 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   },
   {
     n: '02',
-    title: 'Music in the garden',
-    fact: 'A chamber performance becoming part of the experience of an exceptional landscape.',
-    story: 'living-work', happening: 'An intimate performance', stage: 'Mature planting', landscape: 'Cultural landscape',
-    src: `${G}/favorites/garden-performance.webp`,
-    ratio: 1.8338,
-    alt: 'A string trio performing inside a flower-covered timber Bower for an audience seated in the surrounding garden',
-  },
-  {
-    n: '03',
     title: 'A pavilion in a walled garden',
     fact: 'Open on every side, with climbing rose establishing over the lattice crown.',
     story: 'gathering', happening: 'An estate lunch', stage: 'Establishing planting', landscape: 'Historic estate',
@@ -100,7 +91,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside',
   },
   {
-    n: '04',
+    n: '03',
     title: 'The winter canopy',
     fact: 'The lattice remains a gathering place after the garden has entered its quietest season.',
     story: 'living-work', happening: 'A winter programme', stage: 'Dormant planting', landscape: 'Sculpture landscape',
@@ -109,7 +100,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'An open timber canopy hosting visitors in a snow-covered sculpture garden',
   },
   {
-    n: '05',
+    n: '04',
     title: 'The wisteria walk',
     fact: 'A covered walk rather than a room. Wisteria through the crown, seating along one side.',
     story: 'living-work', happening: 'A curator’s walk', stage: 'Mature planting', landscape: 'Cultural landscape',
@@ -118,7 +109,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond',
   },
   {
-    n: '06',
+    n: '05',
     title: 'The garden concert',
     fact: 'A Bower becoming both stage and backdrop, with the garden forming the auditorium.',
     story: 'gathering', happening: 'A summer concert', stage: 'Mature planting', landscape: 'Estate garden',
@@ -127,7 +118,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'Aerial view of musicians performing in a planted timber Bower before an audience in an estate garden',
   },
   {
-    n: '07',
+    n: '06',
     title: 'The curator’s room',
     fact: 'A place from which a landscape and its art can be encountered together.',
     story: 'living-work', happening: 'A curator’s talk', stage: 'Mature planting', landscape: 'Sculpture landscape',
@@ -136,7 +127,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A curator speaking to visitors gathered within a planted timber Bower, with sculpture and parkland beyond',
   },
   {
-    n: '08',
+    n: '07',
     title: 'The estate gathering',
     fact: 'A generous open canopy giving a reception its own place within the garden.',
     story: 'gathering', happening: 'An estate reception', stage: 'Establishing planting', landscape: 'Cultural landscape',
@@ -145,7 +136,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'Guests gathered beneath a broad timber canopy amid planting in a sculpture garden',
   },
   {
-    n: '09',
+    n: '08',
     title: 'Dinner beneath the lattice',
     fact: 'A long table held within the timber canopy, surrounded by the colour and scent of the garden.',
     story: 'gathering', happening: 'A garden dinner', stage: 'Mature planting', landscape: 'Hospitality garden',
@@ -154,7 +145,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'Guests dining at a long table beneath a flower-covered woven timber canopy',
   },
   {
-    n: '10',
+    n: '09',
     title: 'The garden party',
     fact: 'A broad canopy imagined for an intimate estate gathering, with roses and clematis overhead.',
     story: 'gathering', happening: 'A seasonal gathering', stage: 'Mature planting', landscape: 'Historic estate',
@@ -163,7 +154,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A garden party under a broad lattice canopy, roses and clematis growing over the crown, the structure rising from rooted trunks',
   },
   {
-    n: '11',
+    n: '10',
     title: 'The fountain room',
     fact: 'A more ambitious planted dome imagined around an existing fountain.',
     story: 'living-work', happening: 'An inhabitable artwork', stage: 'Mature planting', landscape: 'Cultural landscape',
@@ -172,7 +163,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'The heart of a large bower, a lattice dome carried on rooted columns, benches and a small fountain among the planting',
   },
   {
-    n: '12',
+    n: '11',
     title: 'The glass crown',
     fact: 'A more sheltered study, with glazing imagined in the crown and planting over the rim.',
     story: 'living-work', happening: 'Quiet daily encounter', stage: 'Mature planting', landscape: 'Productive garden',
@@ -181,7 +172,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A pavilion whose lattice crown carries glazing, roses and wisteria growing over the rim, carved benches inside and a pond at its feet',
   },
   {
-    n: '13',
+    n: '12',
     title: 'The timber joint',
     fact: 'The building system expressed through the grain, fit and meeting of its timber pieces.',
     story: 'living-work', happening: 'Craft at close range', stage: 'Timber detail', landscape: 'Garden craft',
@@ -190,7 +181,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'Close view of curved timber members meeting at a precisely fitted pegged joint, with flowers beyond',
   },
   {
-    n: '14',
+    n: '13',
     title: 'The stained glass walk',
     fact: 'A walk again, following an existing path. Coloured glass set between the timbers.',
     story: 'landscape', happening: 'Garden interpretation', stage: 'Establishing planting', landscape: 'Walled garden',
@@ -199,7 +190,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     alt: 'A garden walk under a sweeping lattice roof, stained glass set between the timbers, a curved bench following the path',
   },
   {
-    n: '15',
+    n: '14',
     title: 'Inside the bower',
     fact: 'The same structure from within, in its third or fourth summer, once the climbers have closed the crown.',
     story: 'landscape', happening: 'Horticultural study', stage: 'Mature planting', landscape: 'Historic garden',

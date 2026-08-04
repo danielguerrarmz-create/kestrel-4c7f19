@@ -107,10 +107,10 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   gallery: {
     path: routes.gallery,
-    title: 'Living Bower gallery: fifteen commission visions',
+    title: 'Living Bower gallery: fourteen commission visions',
     description:
-      'Fifteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
-    ogTitle: 'Bower: fifteen commission visions',
+      'Fourteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
+    ogTitle: 'Bower: fourteen commission visions',
     ogDescription:
       'Concept renderings of Bower garden pavilions in their gardens, from a wisteria walk to a glass crown.',
   },
@@ -134,6 +134,13 @@ const META: Record<ProductionTarget, PageMeta> = {
     description: 'Speak with Bower about a founding commission for a garden, estate or cultural landscape in Britain, from first feasibility to a built work.',
     ogTitle: 'Discuss a founding Bower commission',
     ogDescription: 'Bower is speaking with gardens, estates and cultural landscapes about its first built works in Britain.',
+  },
+  press: {
+    path: routes.press,
+    title: 'Press enquiries | Bower',
+    description: 'Press enquiries for Bower, a building technology company developing living timber pavilions for exceptional landscapes.',
+    ogTitle: 'Press enquiries | Bower',
+    ogDescription: 'Contact Bower about editorial, media and press enquiries.',
   },
   questions: {
     path: routes.questions,

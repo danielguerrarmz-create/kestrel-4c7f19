@@ -56,6 +56,7 @@ import { HousesPage } from './pages/HousesPage';
 import { CommissionsPage } from './pages/CommissionsPage';
 import { ProcessPage } from './pages/ProcessPage';
 import { ContactPage } from './pages/ContactPage';
+import { PressPage } from './pages/PressPage';
 import { resolveRoute, useFragmentScroll, useRoute } from './routing';
 import { useDocumentMeta } from './seo';
 
@@ -84,6 +85,7 @@ export function Root() {
   if (target === 'commissions') return <CommissionsPage />;
   if (target === 'process') return <ProcessPage />;
   if (target === 'contact') return <ContactPage />;
+  if (target === 'press') return <PressPage />;
   if (target === 'questions') return <QuestionsPage />;
   if (target === 'houses') return <HousesPage />;
   if (target === 'aboutTree' && AboutTreePage) {

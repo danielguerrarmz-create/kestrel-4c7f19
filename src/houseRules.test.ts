@@ -11,6 +11,7 @@ import {
   commissionsMirror,
   processMirror,
   contactMirror,
+  pressMirror,
 } from './agent/mirror';
 import { metaForPath, organizationJsonLd } from './seo';
 import { PUBLIC_ROUTES } from './routing';
@@ -46,6 +47,7 @@ const PAGES: ReadonlyArray<{ name: string; text: () => string }> = [
   { name: 'commissions', text: commissionsMirror },
   { name: 'process', text: processMirror },
   { name: 'contact', text: contactMirror },
+  { name: 'press', text: pressMirror },
 ];
 
 /**

@@ -41,6 +41,7 @@ import { HousesPage } from '../pages/HousesPage';
 import { CommissionsPage } from '../pages/CommissionsPage';
 import { ProcessPage } from '../pages/ProcessPage';
 import { ContactPage } from '../pages/ContactPage';
+import { PressPage } from '../pages/PressPage';
 import { COMPANY_DESCRIPTION } from '../ui/priceCopy';
 
 /* ------------------------------ html -> markdown --------------------------- */
@@ -281,6 +282,10 @@ export function contactMirror(): string {
   return PREAMBLE('the Bower contact page (`/contact`)', 'Bower — contact') + render(ContactPage) + '\n';
 }
 
+export function pressMirror(): string {
+  return PREAMBLE('the Bower press page (`/press`)', 'Bower — press') + render(PressPage) + '\n';
+}
+
 /** The llms.txt site guide (llmstxt.org convention): a short orientation plus links to the full
  *  mirrors. The one-line description is index.html's own meta description, so the two cannot
  *  disagree about what Bower is without this file going red in the drift test. */
@@ -297,9 +302,10 @@ export function llmsTxt(): string {
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
 - [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
-- [Gallery](/agent/gallery.md): fifteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Gallery](/agent/gallery.md): fourteen concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
+- [Press](/agent/press.md): press and editorial enquiries
 - [Houses](/agent/houses.md): the secondary page for houses that earn from exclusive hire, weddings and
   whole-house rental: what one holds, the winter half of the year, building around a booked
   season, and what it costs
@@ -312,11 +318,11 @@ export function llmsTxt(): string {
 ## Notes for agents
 
 - The human site lives at \`/\`, \`/commissions\`, \`/gallery\`, \`/process\`, \`/about\`,
-  \`/about/practice\`, \`/contact\`, \`/questions\` and \`/houses\`. These are real paths, and an
+  \`/about/practice\`, \`/contact\`, \`/press\`, \`/questions\` and \`/houses\`. These are real paths, and an
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- \`/sitemap.xml\` lists the nine public URLs.
+- \`/sitemap.xml\` lists the ten public URLs.
 - The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
 - Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.

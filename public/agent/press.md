@@ -2,9 +2,9 @@
      components, and agentMirror.generated.test.ts fails the suite if it drifts.
      Regenerate: GEN=1 npx vitest run agentMirror.generated -->
 
-# Bower — contact
+# Bower — press
 
-> Markdown mirror of the Bower contact page (`/contact`) for AI agents and other non-JavaScript readers, generated
+> Markdown mirror of the Bower press page (`/press`) for AI agents and other non-JavaScript readers, generated
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
@@ -12,19 +12,13 @@
 
 [gallery](/gallery) [process](/process) [contact](/contact)
 
-Contact
+Press
 
-# Discuss a founding commission.
+# Press enquiries.
 
-We are selecting three exceptional gardens for the first Bowers. If you think yours may be a fit, please contact us.
+For press enquiries, please contact us.
 
-Clay Seifert
-
-[clay@bowerbuild.org](mailto:clay@bowerbuild.org)
-
-NameOrganisationSite or locationEmailWhat might happen in the Bower?
-
-Send your note
+[clay@bowerbuild.org](mailto:clay@bowerbuild.org?subject=Press%20enquiry)
 
 [Bower](/)
 

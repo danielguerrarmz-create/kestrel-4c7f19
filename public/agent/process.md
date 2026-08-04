@@ -18,6 +18,22 @@ Process
 
 A clear sequence turns a first image into a responsible commission. The first Bowers are being developed for installation from 2027.
 
+![A newly installed bare timber Bower in a mature walled garden](/assets/process/evolution/installation.webp)
+
+![The same timber Bower as climbing roses and wisteria begin to establish across its lattice](/assets/process/evolution/establishing.webp)
+
+![The same Bower with mature roses, wisteria and greenery integrated into its timber lattice](/assets/process/evolution/mature.webp)
+
+Year zero to year three
+
+## The garden continues the architecture.
+
+The same Bower is shown at installation, with establishing planting and with mature planting.
+
+Commissioning sequence
+
+## Five steps from conversation to stewardship.
+
 -
 
 1 Conversation
@@ -40,32 +56,8 @@ We begin with the landscape, the people who use it and the kind of life the pavi
 
 5 Growth and stewardship
 
-![A newly installed bare timber Bower in a mature walled garden](/assets/process/evolution/installation.webp)
-
-![The same timber Bower as climbing roses and wisteria begin to establish across its lattice](/assets/process/evolution/establishing.webp)
-
-![The same Bower with mature roses, wisteria and greenery integrated into its timber lattice](/assets/process/evolution/mature.webp)
-
-Year zero · Installation
-
-Installation
-
-Establishing
-
-Mature
-
-The architecture continues to be made by growth, weather and repeated use.
-
-Complete project budgets
-
-## Established through feasibility and engineering.
-
-We do not publish an indicative budget before the site, structure and engineering route have been tested. A paid feasibility study establishes the project-specific budget range before a commission is accepted.
-
-[Read the practical questions](/questions)
-
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)

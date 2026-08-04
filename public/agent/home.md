@@ -20,9 +20,45 @@ A site-specific timber pavilion, planted so that the garden continues its making
 
 ![Inside a living timber Bower, with branching lattice arches, climbing plants and places to sit among the garden](/assets/gallery/favorites/living-bower-interior.webp)
 
-## A building you tend.
+bower, noun. A shaded resting place in a garden, made of woven branches and climbing plants.
 
-Timber establishes the form. Planting, weather and the life gathered beneath it continue the architecture.
+## Designed for your garden, and for the plant that grows through it.
+
+A place to inhabit
+
+## Made for the life of a landscape.
+
+[
+
+![Guests gathered for a meal beneath a planted timber Bower](/assets/gallery/favorites/garden-table.webp)
+
+01
+
+### Gather
+
+Meals, conversations, performances and the quiet daily use of a garden.
+
+](/commissions) [
+
+![An audience attending a chamber performance inside a flower-covered timber Bower](/assets/gallery/favorites/garden-performance.webp)
+
+02
+
+### Observe
+
+A sheltered vantage from which planting, weather and the changing seasons become more present.
+
+](/gallery) [
+
+![A mature Bower integrated with roses, wisteria and surrounding planting](/assets/process/evolution/mature.webp)
+
+03
+
+### Tend
+
+A timber framework cared for as the garden grows into it and changes its character.
+
+](/process)
 
 One repeatable timber system. A different Bower for every landscape.
 
@@ -32,6 +68,6 @@ We are selecting three exceptional sites for the system’s founding commissions
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
 
 [© 2026 Bower](/)
