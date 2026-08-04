@@ -1,5 +1,6 @@
 /** The front door: one image, one proposition, one action. */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useInView } from 'framer-motion';
 import { useDesign } from '../state/store';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { Footer } from '../ui/Footer';
@@ -37,7 +38,41 @@ const LANDSCAPE_LIFE = [
 export function SplashPage() {
   const reduced = useReducedMotion();
   const outputs = useDesign((state) => state.outputs);
-  const [activeChapter, setActiveChapter] = useState<number | null>(null);
+  const [focusedChapter, setFocusedChapter] = useState<number | null>(null);
+  const [hoveredChapter, setHoveredChapter] = useState<number | null>(null);
+  const [hintChapter, setHintChapter] = useState<number | null>(null);
+  const lifeRef = useRef<HTMLDivElement>(null);
+  const interactingRef = useRef(false);
+  const lifeInView = useInView(lifeRef, { amount: 0.35 });
+
+  useEffect(() => {
+    interactingRef.current = focusedChapter !== null || hoveredChapter !== null;
+    if (interactingRef.current) setHintChapter(null);
+  }, [focusedChapter, hoveredChapter]);
+
+  useEffect(() => {
+    if (!lifeInView || reduced) {
+      setHintChapter(null);
+      return;
+    }
+
+    let next = 0;
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+    let nextTimer: ReturnType<typeof setTimeout> | undefined;
+    const showHint = () => {
+      if (!interactingRef.current) setHintChapter(next);
+      next = (next + 1) % LANDSCAPE_LIFE.length;
+      hideTimer = setTimeout(() => setHintChapter(null), 1050);
+      nextTimer = setTimeout(showHint, 2600);
+    };
+    const startTimer = setTimeout(showHint, 650);
+
+    return () => {
+      clearTimeout(startTimer);
+      if (hideTimer) clearTimeout(hideTimer);
+      if (nextTimer) clearTimeout(nextTimer);
+    };
+  }, [lifeInView, reduced]);
 
   return (
     <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
@@ -75,15 +110,15 @@ export function SplashPage() {
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">A place to inhabit</p>
           <h2 className="mt-5 max-w-[13ch] font-serifDisplay text-[clamp(2.6rem,5.5vw,5.25rem)] leading-[0.98] tracking-[-0.025em] [text-wrap:balance]">Made for the life of a landscape.</h2>
-          <div className="mt-[clamp(4rem,8vw,7rem)] grid border-t border-inkBlack/15 md:grid-cols-3">
+          <div ref={lifeRef} className="mt-[clamp(4rem,8vw,7rem)] grid border-t border-inkBlack/15 md:grid-cols-3">
             {LANDSCAPE_LIFE.map((chapter, index) => (
               <a
                 key={chapter.title}
                 href={chapter.href}
-                onPointerMove={() => setActiveChapter(index)}
-                onPointerLeave={() => setActiveChapter(null)}
-                onFocus={() => setActiveChapter(index)}
-                onBlur={() => setActiveChapter(null)}
+                onPointerEnter={() => setHoveredChapter(index)}
+                onPointerLeave={() => setHoveredChapter(null)}
+                onFocus={() => setFocusedChapter(index)}
+                onBlur={() => setFocusedChapter(null)}
                 className="group relative isolate min-h-[360px] overflow-hidden border-b border-inkBlack/15 px-6 py-7 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mossDeep md:border-b-0 md:border-r md:last:border-r-0 lg:min-h-[430px] lg:px-8 lg:py-8"
               >
                 <img
@@ -93,20 +128,20 @@ export function SplashPage() {
                   alt={chapter.alt}
                   loading="lazy"
                   decoding="async"
-                  className={`absolute inset-0 -z-20 h-full w-full object-cover transition-[opacity,transform] group-hover:scale-100 group-hover:opacity-100 motion-reduce:transition-none [@media(hover:none)]:scale-100 [@media(hover:none)]:opacity-100 ${activeChapter === index ? 'scale-100 opacity-100 duration-700 ease-out' : 'scale-[1.035] opacity-0 duration-[1400ms] ease-in-out'}`}
+                  className={`absolute inset-0 -z-20 h-full w-full object-cover transition-[opacity,transform] group-hover:scale-100 group-hover:opacity-100 group-hover:duration-700 motion-reduce:transition-none ${focusedChapter === index ? 'scale-100 opacity-100 duration-700 ease-out' : hintChapter === index ? 'scale-[1.02] opacity-[0.22] duration-[1200ms] ease-in-out' : 'scale-[1.035] opacity-0 duration-[1400ms] ease-in-out'}`}
                 />
-                <div aria-hidden className={`absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/25 to-black/15 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100 ${activeChapter === index ? 'opacity-100 duration-500' : 'opacity-0 duration-[1200ms]'}`} />
+                <div aria-hidden className={`absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/25 to-black/15 transition-opacity group-hover:opacity-100 ${focusedChapter === index ? 'opacity-100 duration-500' : 'opacity-0 duration-[1200ms]'}`} />
                 <div className="flex h-full min-h-[304px] flex-col justify-between lg:min-h-[366px]">
-                  <div className={`flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-500 group-hover:text-paperVellum/70 [@media(hover:none)]:text-paperVellum/70 ${activeChapter === index ? 'text-paperVellum/70' : 'text-inkBlack/35'}`}>
+                  <div className={`flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-500 group-hover:text-paperVellum/70 ${focusedChapter === index ? 'text-paperVellum/70' : 'text-inkBlack/35'}`}>
                     <span>0{index + 1}</span>
                     <span aria-hidden className="text-base font-normal transition-transform duration-500 group-hover:rotate-45">+</span>
                   </div>
-                  <div className={`transition-transform ease-out group-hover:-translate-y-1 motion-reduce:transition-none ${activeChapter === index ? '-translate-y-1 duration-500' : 'translate-y-0 duration-[900ms]'}`}>
-                    <h3 className={`font-serifDisplay text-[clamp(1.75rem,2.8vw,2.4rem)] italic transition-colors duration-500 group-hover:text-paperVellum [@media(hover:none)]:text-paperVellum ${activeChapter === index ? 'text-paperVellum' : 'text-inkBlack'}`}>{chapter.title}</h3>
-                    <p className={`mt-4 max-w-[32ch] font-serifDisplay text-[17px] leading-[1.6] transition-colors duration-500 group-hover:text-paperVellum/80 [@media(hover:none)]:text-paperVellum/80 ${activeChapter === index ? 'text-paperVellum/80' : 'text-inkBlack/60'}`}>{chapter.body}</p>
+                  <div className={`transition-transform ease-out group-hover:-translate-y-1 motion-reduce:transition-none ${focusedChapter === index ? '-translate-y-1 duration-500' : 'translate-y-0 duration-[900ms]'}`}>
+                    <h3 className={`font-serifDisplay text-[clamp(1.75rem,2.8vw,2.4rem)] italic transition-colors duration-500 group-hover:text-paperVellum ${focusedChapter === index ? 'text-paperVellum' : 'text-inkBlack'}`}>{chapter.title}</h3>
+                    <p className={`mt-4 max-w-[32ch] font-serifDisplay text-[17px] leading-[1.6] transition-colors duration-500 group-hover:text-paperVellum/80 ${focusedChapter === index ? 'text-paperVellum/80' : 'text-inkBlack/60'}`}>{chapter.body}</p>
                   </div>
                 </div>
-                <span aria-hidden className={`absolute inset-x-0 top-0 h-px origin-left bg-mossDeep transition-transform ease-out group-hover:scale-x-100 ${activeChapter === index ? 'scale-x-100 duration-700' : 'scale-x-0 duration-[1100ms]'}`} />
+                <span aria-hidden className={`absolute inset-x-0 top-0 h-px origin-left bg-mossDeep transition-transform ease-out group-hover:scale-x-100 ${focusedChapter === index ? 'scale-x-100 duration-700' : 'scale-x-0 duration-[1100ms]'}`} />
               </a>
             ))}
           </div>
