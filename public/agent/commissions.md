@@ -86,15 +86,15 @@ Bower is currently developing its first built works for gardens and cultural lan
 
 What the founding three receive
 
-- The whole practice: two founders, three landscapes, and nothing else on the bench.
+- Two founders, three landscapes, nothing else.
 
-- A first work, not a repetition. The founding designs set the grammar every later Bower inherits.
+- A first work, and the grammar every later Bower inherits.
 
-- The first installations, in 2027, ahead of any wider programme.
+- The first installations, in 2027.
 
-- Documentation from first drawing to third summer, and the press moment of the first built work, told with its landscape.
+- The first built work, documented and told.
 
-- The £20,000 feasibility fee, credited in full against the design and engineering commission.
+- The £20,000 fee, credited against the design and engineering commission.
 
 [Discuss a founding commission](/contact)
 

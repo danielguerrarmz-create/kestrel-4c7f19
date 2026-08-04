@@ -17,12 +17,15 @@ import { STAGE_1_FEE } from '../ui/priceCopy';
  * is deliberately the same term `STAGE_1_CREDIT` publishes on /questions. Register: no banned
  * commercial vocabulary (houseRules.test.ts) — these are patrons, not investors.
  */
+/** TIGHTENED 2026-08-05 (Clay: "really wordy"). One fact per line, same register as the home's
+ *  ritual steps. The credit keeps its full commercial name — "the design and engineering
+ *  commission" is the term, and shortening a term makes it a different term. */
 const FOUNDING_TERMS = [
-  'The whole practice: two founders, three landscapes, and nothing else on the bench.',
-  'A first work, not a repetition. The founding designs set the grammar every later Bower inherits.',
-  'The first installations, in 2027, ahead of any wider programme.',
-  'Documentation from first drawing to third summer, and the press moment of the first built work, told with its landscape.',
-  `The ${STAGE_1_FEE} feasibility fee, credited in full against the design and engineering commission.`,
+  'Two founders, three landscapes, nothing else.',
+  'A first work, and the grammar every later Bower inherits.',
+  'The first installations, in 2027.',
+  'The first built work, documented and told.',
+  `The ${STAGE_1_FEE} fee, credited against the design and engineering commission.`,
 ] as const;
 
 const COMMISSION_TYPES = [
