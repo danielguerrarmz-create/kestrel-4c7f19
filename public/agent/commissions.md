@@ -82,19 +82,17 @@ Concept visualisation
 
 The founding commissions
 
-## A new kind of building, and the three landscapes that will be first.
-
-What the founding three receive
+## Three landscapes will be first.
 
 - Two founders, three landscapes, nothing else.
 
-- A first work, and the grammar every later Bower inherits.
+- The first Bower ever built, drawn for your landscape.
 
-- The first installations, in 2027.
+- Standing by 2027.
 
-- The first built work, documented and told.
+- Its making filmed, photographed and published.
 
-- The £20,000 fee, credited against the design and engineering commission.
+- The £20,000 study, credited against the design stage.
 
 [Discuss a founding commission](/contact)
 

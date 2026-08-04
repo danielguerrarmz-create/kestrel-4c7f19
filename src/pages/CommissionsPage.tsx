@@ -17,15 +17,17 @@ import { STAGE_1_FEE } from '../ui/priceCopy';
  * is deliberately the same term `STAGE_1_CREDIT` publishes on /questions. Register: no banned
  * commercial vocabulary (houseRules.test.ts) — these are patrons, not investors.
  */
-/** TIGHTENED 2026-08-05 (Clay: "really wordy"). One fact per line, same register as the home's
- *  ritual steps. The credit keeps its full commercial name — "the design and engineering
- *  commission" is the term, and shortening a term makes it a different term. */
+/** REWRITTEN FOR A READER WHO KNOWS NOTHING (2026-08-05, Clay: "pretend that you are someone
+ *  that has no idea what we do!! ... Wth does 'the grammar every later Bower inherits' even
+ *  mean???"). Every line is now a plain claim an outsider can parse on first read. The grammar
+ *  term died because it described the SYSTEM to a reader who is buying a BUILDING: the
+ *  outsider-meaningful fact is simply that theirs is the first one ever built. */
 const FOUNDING_TERMS = [
   'Two founders, three landscapes, nothing else.',
-  'A first work, and the grammar every later Bower inherits.',
-  'The first installations, in 2027.',
-  'The first built work, documented and told.',
-  `The ${STAGE_1_FEE} fee, credited against the design and engineering commission.`,
+  'The first Bower ever built, drawn for your landscape.',
+  'Standing by 2027.',
+  'Its making filmed, photographed and published.',
+  `The ${STAGE_1_FEE} study, credited against the design stage.`,
 ] as const;
 
 const COMMISSION_TYPES = [
@@ -145,15 +147,14 @@ export function CommissionsPage() {
 
         </div>
 
-        {/* THE FOUNDING BAND IS FULL-BLEED OVER THE PRODUCT (2026-08-05, Clay: "I don't like the
-            text-heavy CTAs that don't remind the user of what they are actually being called to
-            action on"). Same treatment as the home's dictionary band: image, bottom gradient,
-            text-shadow, content held at the foot. The button inverts to vellum because the ground
-            is dark. The old prose paragraph ("Bower is currently developing its first built
-            works... across England... 2027") came OUT: the home owns the England fact, term three
-            owns 2027, and over an image every surviving word has to earn its place. The render
-            keeps the concept-visualisation label, as every render on this site must. */}
-        <section className="relative mt-24 min-h-[92svh] overflow-hidden bg-inkBlack text-paperVellum">
+        {/* THE FOUNDING BAND: FULL-BLEED OVER THE PRODUCT, EXACTLY ONE VIEWPORT (2026-08-05,
+            Clay, two rounds). Round one put the ask on the image; round two cut it to the bone:
+            "clear, punchy, simple, and also elegant... it should fit all on one page." So the
+            band is h-svh, not min-h — the reader never scrolls THROUGH the image — the heading
+            is five words, the list label is gone, and the scrim is a flat darkening plus a
+            bottom gradient because legibility was ruled before atmosphere. The render keeps its
+            concept-visualisation label, as every render on this site must. */}
+        <section className="relative mt-24 h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
           <img
             src="/assets/gallery/exclusive/garden-concert-aerial.webp"
             srcSet={srcSetFor('/assets/gallery/exclusive/garden-concert-aerial.webp')}
@@ -163,18 +164,18 @@ export function CommissionsPage() {
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10" />
-          <div className="relative z-10 mx-auto flex min-h-[92svh] w-full max-w-canvas items-end px-gutter pb-[clamp(3rem,6vw,5rem)] pt-32">
-            <div className="max-w-[40rem] [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/65">The founding commissions</p>
-              <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A new kind of building, and the three landscapes that will be first.</h2>
-              <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/65">What the founding three receive</p>
-              <ul className="mt-3 border-t border-paperVellum/25">
+          <div aria-hidden className="absolute inset-0 bg-black/30" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+          <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,5vw,4rem)]">
+            <div className="max-w-[38rem] [text-shadow:0_1px_16px_rgba(0,0,0,0.65)]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/75">The founding commissions</p>
+              <h2 className="mt-3 font-serifDisplay text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.04]">Three landscapes will be first.</h2>
+              <ul className="mt-6 border-t border-paperVellum/30">
                 {FOUNDING_TERMS.map((term) => (
-                  <li key={term} className="border-b border-paperVellum/25 py-3 font-serifDisplay text-[17px] leading-[1.5] text-paperVellum/90">{term}</li>
+                  <li key={term} className="border-b border-paperVellum/30 py-2.5 font-serifDisplay text-[16px] leading-[1.45]">{term}</li>
                 ))}
               </ul>
-              <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
+              <a href={routes.contact} className="group mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
             </div>
           </div>
           <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
