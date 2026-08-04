@@ -12,19 +12,11 @@
 
 [gallery](/gallery) [process](/process) [contact](/contact)
 
+![A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside](/assets/gallery/02-garden-pavilion.webp)
+
 Contact
 
-# Discuss a founding commission.
-
-We are selecting three exceptional landscapes for the first Bowers. If you think yours may be a fit, please contact us.
-
-- A landscape with established character: walls, mature planting, a setting a structure can grow into.
-
-- A programme: people who already gather there, or a reason for them to.
-
-- Someone to garden it: grounds staff or a gardener we can teach.
-
-- An owner ready to carry a first work.
+# Tell us about your landscape.
 
 Clay Seifert
 

@@ -20,11 +20,10 @@ describe('SplashPage', () => {
     // The close band (2026-08-04, Clay): the commission count and the buyer's noun. "System" is
     // the investor register and stays off the buyer surface; "sites" is procurement vocabulary.
     expect(html).toContain('Three founding commissions across England');
-    expect(html).toContain('selecting the landscapes now');
-    // The unbuilt admission stays on the front page (2026-08-04): the home is the page a board
-    // gets forwarded, and honesty buried on /questions does not survive a reader discovering the
-    // renders on their own. /questions Q6 owns the full answer; the home owns the premise.
-    expect(html).toContain('No Bower has been built yet');
+    // Clay's sentence of 2026-08-05, verbatim ("All you should say for primary CTA"). The
+    // explicit unbuilt admission lived here for one day and he cut it: "the first landscapes"
+    // carries the novelty, and /questions Q6 keeps the explicit record.
+    expect(html).toContain('We are selecting the first landscapes now, with first installations targeted for 2027.');
     expect(html).not.toContain('repeatable timber system');
     expect(html).not.toContain('exceptional sites');
   });
