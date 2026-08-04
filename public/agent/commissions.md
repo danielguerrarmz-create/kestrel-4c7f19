@@ -78,11 +78,11 @@ For landscapes where it can become a field room, outdoor classroom, observation 
 
 Concept visualisation
 
+![Aerial view of musicians performing in a planted timber Bower before an audience in an estate garden](/assets/gallery/exclusive/garden-concert-aerial.webp)
+
 The founding commissions
 
 ## A new kind of building, and the three landscapes that will be first.
-
-Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.
 
 What the founding three receive
 
@@ -97,6 +97,8 @@ What the founding three receive
 - The £20,000 fee, credited against the design and engineering commission.
 
 [Discuss a founding commission](/contact)
+
+Concept visualisation
 
 [Bower](/)
 

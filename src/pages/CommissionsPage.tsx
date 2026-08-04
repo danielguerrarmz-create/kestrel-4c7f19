@@ -63,7 +63,10 @@ export function CommissionsPage() {
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
-      <main className="mx-auto w-full max-w-canvas px-gutter pb-24 pt-[calc(var(--header-h)+4rem)]">
+      {/* The container moved off <main> and onto an inner wrapper (2026-08-05) so the founding
+          band below can run full-bleed. */}
+      <main className="pt-[calc(var(--header-h)+4rem)]">
+        <div className="mx-auto w-full max-w-canvas px-gutter">
         <header className="max-w-[58rem]">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Commissions</p>
           <h1 className="mt-5 max-w-[16ch] font-serifDisplay text-[clamp(2.4rem,6vw,5.3rem)] font-medium leading-[0.98] tracking-[-0.025em]">
@@ -140,19 +143,41 @@ export function CommissionsPage() {
           })}
         </section>
 
-        <section className="mt-24 grid gap-8 border-t border-inkBlack/15 pt-12 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">The founding commissions</p>
-            <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A new kind of building, and the three landscapes that will be first.</h2>
-            <p className="mt-6 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.</p>
-            <p className="mt-10 font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">What the founding three receive</p>
-            <ul className="mt-4 max-w-[68ch] border-t border-inkBlack/10">
-              {FOUNDING_TERMS.map((term) => (
-                <li key={term} className="border-b border-inkBlack/10 py-3.5 font-serifDisplay text-[17px] leading-[1.55] text-inkBlack/75">{term}</li>
-              ))}
-            </ul>
+        </div>
+
+        {/* THE FOUNDING BAND IS FULL-BLEED OVER THE PRODUCT (2026-08-05, Clay: "I don't like the
+            text-heavy CTAs that don't remind the user of what they are actually being called to
+            action on"). Same treatment as the home's dictionary band: image, bottom gradient,
+            text-shadow, content held at the foot. The button inverts to vellum because the ground
+            is dark. The old prose paragraph ("Bower is currently developing its first built
+            works... across England... 2027") came OUT: the home owns the England fact, term three
+            owns 2027, and over an image every surviving word has to earn its place. The render
+            keeps the concept-visualisation label, as every render on this site must. */}
+        <section className="relative mt-24 min-h-[92svh] overflow-hidden bg-inkBlack text-paperVellum">
+          <img
+            src="/assets/gallery/exclusive/garden-concert-aerial.webp"
+            srcSet={srcSetFor('/assets/gallery/exclusive/garden-concert-aerial.webp')}
+            sizes="100vw"
+            alt="Aerial view of musicians performing in a planted timber Bower before an audience in an estate garden"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10" />
+          <div className="relative z-10 mx-auto flex min-h-[92svh] w-full max-w-canvas items-end px-gutter pb-[clamp(3rem,6vw,5rem)] pt-32">
+            <div className="max-w-[40rem] [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/65">The founding commissions</p>
+              <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A new kind of building, and the three landscapes that will be first.</h2>
+              <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/65">What the founding three receive</p>
+              <ul className="mt-3 border-t border-paperVellum/25">
+                {FOUNDING_TERMS.map((term) => (
+                  <li key={term} className="border-b border-paperVellum/25 py-3 font-serifDisplay text-[17px] leading-[1.5] text-paperVellum/90">{term}</li>
+                ))}
+              </ul>
+              <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
+            </div>
           </div>
-          <a href={routes.contact} className="group inline-flex min-h-[44px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
+          <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
         </section>
       </main>
       <Footer />
