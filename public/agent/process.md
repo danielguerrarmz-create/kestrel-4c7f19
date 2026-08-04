@@ -16,7 +16,7 @@ Process
 
 # From landscape to Bower.
 
-A clear sequence turns a first image into a responsible commission. The first Bowers are being developed for installation from 2027.
+Five steps take a Bower from a first conversation in your garden to a structure the garden finishes. The first installations are planned for 2027.
 
 ![A newly installed bare timber Bower in a mature walled garden](/assets/process/evolution/installation.webp)
 
@@ -46,17 +46,25 @@ We begin with the landscape, the people who use it and the kind of life the pavi
 
 2 Feasibility
 
+A paid study tests siting, programme, access, planning constraints, structural and fabrication routes, project range and delivery sequence.
+
 -
 
 3 Design and engineering
+
+The form is developed with the appointed structural, fabrication, landscape and specialist teams.
 
 -
 
 4 Making
 
+Components are fabricated, trialled where required and assembled on site.
+
 -
 
 5 Growth and stewardship
+
+Planting is trained through the structure and cared for as the architecture matures.
 
 [Bower](/)
 

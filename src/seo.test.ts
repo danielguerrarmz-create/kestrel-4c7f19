@@ -19,6 +19,8 @@ import {
   COMMISSION_BUDGET_POSITION,
   COMMISSION_DEMO_FIGURE,
   COMMISSION_FLOOR_GBP,
+  STAGE_1_CREDIT,
+  STAGE_1_FEE,
 } from './ui/priceCopy';
 
 const at = (rel: string) => fileURLToPath(new URL('../' + rel, import.meta.url));
@@ -316,7 +318,12 @@ describe('structured data', () => {
      * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
      */
     expect(cost.acceptedAnswer.text).toContain(COMMISSION_BUDGET_POSITION);
-    expect(cost.acceptedAnswer.text).not.toMatch(/£\s?\d/);
+    // AMENDED 2026-08-04: the Stage 1 fee is published again (Clay), so "no £ at all" became the
+    // property that survives fee changes: the ONLY £-figure an answer engine can quote from this
+    // answer is the live Stage 1 fee, and the credit term travels with it.
+    const schemaFigures = cost.acceptedAnswer.text.match(/£[\d,]+/g) ?? [];
+    expect(new Set(schemaFigures)).toEqual(new Set([STAGE_1_FEE]));
+    expect(cost.acceptedAnswer.text).toContain(STAGE_1_CREDIT);
     // The superseded point value, pinned absent in the schema too — an answer engine quoting a
     // withdrawn price is the audience least able to notice it has been withdrawn.
     expect(cost.acceptedAnswer.text).not.toContain('£350,000');
@@ -331,8 +338,9 @@ describe('structured data', () => {
     expect(text).toContain(COMMISSION_BUDGET_POSITION);
     expect(text).not.toContain('£18,000');
     // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its
-    // floor and is now the STAGE 1 fee, which is exactly why this list is checked against the live
-    // constants above rather than written out as literals.
+    // floor and then the Stage 1 fee until 2026-08-04, when the fee moved to £20,000 — which is
+    // exactly why this list is checked against the live constants above rather than written out
+    // as literals.
     expect(text).not.toContain('£25,000');
     expect(text).not.toContain('£6,500');
     expect(text).not.toContain('£1,500');

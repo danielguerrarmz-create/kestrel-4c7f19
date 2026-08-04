@@ -202,7 +202,21 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
 
 /** The plates render inside the catalogue column (max 1020px); the 1920w base plus the
  *  1280/800/400 variants cover every DPR without pulling more than the column needs. */
-const PLATE_SIZES = 'min(90vw, 1020px)';
+const PLATE_LAYOUTS = [
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-12',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-12',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-6',
+  'md:col-span-12',
+] as const;
 
 /**
  * One catalogue plate: the mounted image (the About gallery's hairline sepia rule + vellum mat,
@@ -216,14 +230,18 @@ function GalleryPlate({
   index,
   reduced,
   onOpen,
+  className,
+  sizes,
 }: {
   image: GalleryPlateData;
   index: number;
   reduced: boolean;
   onOpen: (index: number) => void;
+  className: string;
+  sizes: string;
 }) {
   const fig = (
-    <figure>
+    <figure className="group/plate">
       <button
         type="button"
         onClick={() => onOpen(index)}
@@ -234,14 +252,14 @@ function GalleryPlate({
         <img
           src={image.src}
           srcSet={srcSetFor(image.src)}
-          sizes={PLATE_SIZES}
+          sizes={sizes}
           alt={image.alt}
           width={1920}
           height={Math.round(1920 / image.ratio)}
-          loading={index === 0 ? 'eager' : 'lazy'}
+          loading="lazy"
           decoding="async"
           style={{ aspectRatio: String(image.ratio) }}
-          className="block w-full bg-paperDeep/40"
+          className="block w-full bg-paperDeep/40 transition-transform duration-[1400ms] ease-out group-hover/plate:scale-[1.012] motion-reduce:transition-none"
         />
       </button>
       {/* THE CAPTION CARRIES A FACT NOW (2026-07-28), and the label register went up two steps.
@@ -264,9 +282,10 @@ function GalleryPlate({
       </figcaption>
     </figure>
   );
-  if (reduced) return fig;
+  if (reduced) return <div className={className}>{fig}</div>;
   return (
     <motion.div
+      className={className}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '0px 0px -10% 0px' }}
@@ -286,27 +305,66 @@ export function GalleryPage() {
     (delta: number) => setShot((i) => (i === null ? i : (i + delta + GALLERY_IMAGES.length) % GALLERY_IMAGES.length)),
     [],
   );
+  const hero = GALLERY_IMAGES[0];
   return (
     <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
 
-      <main className="mx-auto w-full max-w-canvas px-gutter pb-20 pt-[calc(var(--header-h)+1.25rem)]">
+      <main className="pb-20">
+        <section className="relative min-h-[76svh] overflow-hidden bg-inkBlack">
+          <button
+            type="button"
+            onClick={() => openShot(0)}
+            aria-label={`Open plate ${hero.n}: ${hero.title}`}
+            className="absolute inset-0 block h-full w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-paperVellum"
+          >
+            <img
+              src={hero.src}
+              srcSet={srcSetFor(hero.src)}
+              sizes="100vw"
+              alt={hero.alt}
+              width={1920}
+              height={Math.round(1920 / hero.ratio)}
+              loading="eager"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-[1800ms] ease-out hover:scale-[1.012] motion-reduce:transition-none"
+            />
+          </button>
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/15" />
+          <header className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto w-full max-w-canvas px-gutter pb-[clamp(2.5rem,7vw,6rem)] text-paperVellum">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paperVellum/65">Concept visualisations</p>
+            <h1 className="mt-3 font-serifDisplay text-[clamp(3rem,7vw,6.5rem)] font-medium leading-[0.9] tracking-[-0.03em]">Gallery</h1>
+            <p className="mt-5 font-serifDisplay text-[clamp(1rem,1.8vw,1.35rem)] italic text-paperVellum/80">Concept studies for the first Bowers.</p>
+          </header>
+        </section>
+        <div className="mx-auto w-full max-w-canvas px-gutter pt-[clamp(5rem,10vw,9rem)]">
         {/* THE FRONTISPIECE — centred, like an exhibition's title wall, with the honest line as a
             quiet serif sentence rather than a shouting mono caption. The page's images are
             generated visualizations shown to commission clients; naming them renderings before
             the first one is the floor, whatever wording Daniel lands on. */}
-        <header className="mb-6 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
-          <h1 className="font-serifDisplay text-[clamp(2rem,4.2vw,3.4rem)] font-medium leading-none tracking-[-0.02em]">Gallery</h1>
-          <p className="font-serifDisplay text-[15px] italic text-inkBlack/55">Concept studies for the first Bowers.</p>
-        </header>
-
         {/* THE CATALOGUE COLUMN — deliberately narrower than the canvas (1020px against ~1272),
             so every plate sits in air instead of running gutter to gutter, and the page reads as
             a curated sequence rather than an image feed. */}
-        <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-14 sm:gap-20">
-          {GALLERY_IMAGES.map((image, index) => (
-            <GalleryPlate key={image.src} image={image} index={index} reduced={reduced} onOpen={openShot} />
-          ))}
+        <section aria-label="Gallery catalogue" className="grid grid-cols-12 gap-x-[clamp(1.5rem,4vw,4rem)] gap-y-[clamp(4rem,9vw,8rem)]">
+          {GALLERY_IMAGES.slice(1).map((image, offset) => {
+            const index = offset + 1;
+            const layout = PLATE_LAYOUTS[offset % PLATE_LAYOUTS.length];
+            const sizes = layout.includes('md:col-span-12')
+              ? '(min-width: 1280px) 1200px, (min-width: 768px) 94vw, 92vw'
+              : '(min-width: 1280px) 576px, (min-width: 768px) 46vw, 92vw';
+            return (
+              <GalleryPlate
+                key={image.src}
+                image={image}
+                index={index}
+                reduced={reduced}
+                onOpen={openShot}
+                className={`col-span-12 ${layout}`}
+                sizes={sizes}
+              />
+            );
+          })}
+        </section>
         </div>
       </main>
 

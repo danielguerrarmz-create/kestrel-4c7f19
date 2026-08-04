@@ -4,6 +4,26 @@ import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
+import { STAGE_1_FEE } from '../ui/priceCopy';
+
+/**
+ * THE FOUNDING EXCHANGE (2026-08-04). "Founding commission" had been doing the entire job as a
+ * label: the site asked someone to be first without ever stating what carrying that buys, and the
+ * rational reader's answer to an unstated exchange is to wait and be commission four. These are
+ * the terms of being first, stated as a list rather than argued, because a patron at this range
+ * is deciding between going first and waiting — not between Bower and something else.
+ *
+ * The fee figure comes from `STAGE_1_FEE` (one owner, ui/priceCopy.ts); the credit wording here
+ * is deliberately the same term `STAGE_1_CREDIT` publishes on /questions. Register: no banned
+ * commercial vocabulary (houseRules.test.ts) — these are patrons, not investors.
+ */
+const FOUNDING_TERMS = [
+  'The whole practice: two founders, three landscapes, and nothing else on the bench.',
+  'A first work, not a repetition. The founding designs set the grammar every later Bower inherits.',
+  'The first installations, in 2027, ahead of any wider programme.',
+  'Documentation from first drawing to third summer, and the press moment of the first built work, told with its landscape.',
+  `The ${STAGE_1_FEE} feasibility fee, credited in full against the design and engineering commission.`,
+] as const;
 
 const COMMISSION_TYPES = [
   {
@@ -37,7 +57,6 @@ const COMMISSION_TYPES = [
 
 export function CommissionsPage() {
   const [active, setActive] = useState<(typeof COMMISSION_TYPES)[number]['id']>('culture');
-  const item = COMMISSION_TYPES.find((entry) => entry.id === active) ?? COMMISSION_TYPES[0];
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
@@ -68,38 +87,54 @@ export function CommissionsPage() {
             ))}
           </div>
 
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-            className="mt-10 grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16"
-          >
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accentOlive">{item.label}</p>
-              <h2 className="mt-4 font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.04]">{item.title}</h2>
-              <p className="mt-6 font-serifDisplay text-[19px] leading-[1.6] text-inkBlack/70">{item.body}</p>
-              <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-3 border-t border-inkBlack/10 pt-6">
-                {item.uses.map((use) => <li key={use} className="font-serifDisplay text-[16px] italic text-inkBlack/55">{use}</li>)}
-              </ul>
-            </div>
-            <figure className="relative aspect-[16/10] overflow-hidden bg-paperDeep">
-              <img
-                src={item.src}
-                srcSet={srcSetFor(item.src)}
-                sizes="(max-width: 1024px) calc(100vw - 2.5rem), min(54vw, 720px)"
-                alt={item.alt}
-                width={1920}
-                height={1047}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-              <figcaption className="absolute bottom-3 right-3 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">
-                Concept visualisation
-              </figcaption>
-            </figure>
-          </motion.div>
+          {/* EVERY PANEL RENDERS; the inactive ones are `hidden`, not absent (2026-08-04).
+              Only the active tab existed in the DOM, so renderToString — and therefore the agent
+              mirror at /agent/commissions.md — showed one category of three, and an AI assistant
+              pre-reading the site for its owner never saw hospitality or ecology. `hidden` keeps
+              the content in the render (htmlToMarkdown drops aria-hidden, not hidden) while
+              display:none keeps lazy images unfetched. The keyed remount that played the entrance
+              animation is preserved: the active panel alone wears the motion wrapper. */}
+          {COMMISSION_TYPES.map((entry) => {
+            const panel = (
+              <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+                <div>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accentOlive">{entry.label}</p>
+                  <h2 className="mt-4 font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.04]">{entry.title}</h2>
+                  <p className="mt-6 font-serifDisplay text-[19px] leading-[1.6] text-inkBlack/70">{entry.body}</p>
+                  <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-3 border-t border-inkBlack/10 pt-6">
+                    {entry.uses.map((use) => <li key={use} className="font-serifDisplay text-[16px] italic text-inkBlack/55">{use}</li>)}
+                  </ul>
+                </div>
+                <figure className="relative aspect-[16/10] overflow-hidden bg-paperDeep">
+                  <img
+                    src={entry.src}
+                    srcSet={srcSetFor(entry.src)}
+                    sizes="(max-width: 1024px) calc(100vw - 2.5rem), min(54vw, 720px)"
+                    alt={entry.alt}
+                    width={1920}
+                    height={1047}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                  <figcaption className="absolute bottom-3 right-3 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">
+                    Concept visualisation
+                  </figcaption>
+                </figure>
+              </div>
+            );
+            return (
+              <div key={entry.id} role="tabpanel" hidden={entry.id !== active} className="mt-10">
+                {entry.id === active ? (
+                  <motion.div key={entry.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+                    {panel}
+                  </motion.div>
+                ) : (
+                  panel
+                )}
+              </div>
+            );
+          })}
         </section>
 
         <section className="mt-24 grid gap-8 border-t border-inkBlack/15 pt-12 md:grid-cols-[1fr_auto] md:items-end">
@@ -107,6 +142,12 @@ export function CommissionsPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">The founding commissions</p>
             <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A new kind of building, and the three landscapes that will be first.</h2>
             <p className="mt-6 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.</p>
+            <p className="mt-10 font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">What the founding three receive</p>
+            <ul className="mt-4 max-w-[68ch] border-t border-inkBlack/10">
+              {FOUNDING_TERMS.map((term) => (
+                <li key={term} className="border-b border-inkBlack/10 py-3.5 font-serifDisplay text-[17px] leading-[1.55] text-inkBlack/75">{term}</li>
+              ))}
+            </ul>
           </div>
           <a href={routes.contact} className="group inline-flex min-h-[44px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
         </section>

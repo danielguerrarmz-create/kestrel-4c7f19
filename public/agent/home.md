@@ -62,7 +62,7 @@ A timber framework cared for as the garden grows into it and changes its charact
 
 Three founding commissions across England. A different Bower for every landscape.
 
-We are selecting the landscapes now, with first installations targeted for 2027.
+No Bower has been built yet; the founding three will be the first. We are selecting the landscapes now, with first installations targeted for 2027.
 
 [Discuss a founding commission](/contact)
 

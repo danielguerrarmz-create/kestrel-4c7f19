@@ -12,13 +12,13 @@
 
 [gallery](/gallery) [process](/process) [contact](/contact)
 
+![A sequence of sculptural timber arches rising among flowers along a winding garden path](/assets/gallery/exclusive/garden-archways.webp)
+
+Concept visualisations
+
 # Gallery
 
 Concept studies for the first Bowers.
-
-![A sequence of sculptural timber arches rising among flowers along a winding garden path](/assets/gallery/exclusive/garden-archways.webp)
-
-01 The garden archways A family of planted timber arches turning a garden path into a place of discovery. A garden walk Establishing planting Walled garden Concept visualisation
 
 ![A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside](/assets/gallery/02-garden-pavilion.webp)
 

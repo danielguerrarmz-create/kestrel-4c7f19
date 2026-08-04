@@ -32,6 +32,8 @@ We do not publish an indicative budget before the site, structure and engineerin
 
 A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.
 
+The study is £20,000. The fee is credited in full against the design and engineering commission that follows.
+
 ## 3 Will I need planning permission?
 
 Possibly. Planning requirements depend on the property, location, size and intended use.

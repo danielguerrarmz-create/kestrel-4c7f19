@@ -121,7 +121,11 @@ export function ProcessPage() {
           <div className="max-w-[62rem]">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Process</p>
           <h1 className="mt-5 font-serifDisplay text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.025em]">From landscape to Bower.</h1>
-          <p className="mt-8 max-w-[62ch] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.4rem)] leading-[1.55] text-inkBlack/70">A clear sequence turns a first image into a responsible commission. The first Bowers are being developed for installation from 2027.</p>
+          {/* REWRITTEN 2026-08-04 (Clay: "wth does this line even mean"). It read "A clear
+              sequence turns a first image into a responsible commission" — the site describing
+              its own process page instead of telling the reader what happens. The standfirst now
+              states the sequence's actual promise: what the steps are FOR, in the reader's terms. */}
+          <p className="mt-8 max-w-[62ch] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.4rem)] leading-[1.55] text-inkBlack/70">Five steps take a Bower from a first conversation in your garden to a structure the garden finishes. The first installations are planned for 2027.</p>
           </div>
         </header>
 
@@ -141,7 +145,11 @@ export function ProcessPage() {
                   <span className="flex-1 font-serifDisplay text-[clamp(1.25rem,2.4vw,1.75rem)]">{step.title}</span>
                   <span aria-hidden className="font-serifDisplay text-xl text-inkBlack/40">{active === index ? '−' : '+'}</span>
                 </button>
-                {active === index && <p className="pb-6 pl-9 font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">{step.body}</p>}
+                {/* `hidden`, not conditional render (2026-08-04): only the open step's body
+                    existed in the DOM, so the agent mirror showed a five-step sequence with four
+                    empty steps — the page that exists to prove responsible sequencing described
+                    only step 1 to any non-clicking reader. */}
+                <p hidden={active !== index} className="pb-6 pl-9 font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">{step.body}</p>
               </li>
             ))}
           </ol>

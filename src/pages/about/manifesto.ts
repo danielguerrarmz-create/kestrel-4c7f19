@@ -1,5 +1,12 @@
 /**
- * about/manifesto.ts — the content of `/about`, which is the SHORT one.
+ * about/manifesto.ts — the PROSE manifesto that was `/about` from 2026-07-31 to 2026-08-04.
+ *
+ * SUPERSEDED 2026-08-04, BY CLAY HIMSELF, TWICE: first by the pitch-deck poem (`about/poem.ts`,
+ * "wayyyyy too long... maybe in favor of a poem here"), then the same day by his final version
+ * (`about/aboutCopy.ts`), which restored this file's core paragraphs with the poem's year couplet
+ * folded in. This file is deliberately KEPT, unrendered and unimported, as the record — the same
+ * nothing-was-deleted rule that preserved the founders' page when this page replaced it. The
+ * "must not be smoothed" law below protected this copy from agents, not from its author.
  *
  * WHAT CHANGED ON 2026-07-31 AND WHY. `/about` used to be the founders' page: a drawn timeline of
  * two careers, sixteen projects, a scroll-grown spine, a research ledger. It is the most elaborate

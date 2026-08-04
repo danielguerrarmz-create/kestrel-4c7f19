@@ -161,30 +161,40 @@ export const COMMISSION_STATEMENT: readonly string[] = [
 ];
 
 /**
- * STAGE 1, THE PAID STUDY: £18,000 including VAT as of 2026-07-31 (Clay). It has been £1,500,
- * £6,500 and £15,000, the last three of those inside a week — which is the whole argument for it
- * being a constant rather than a literal typed into three pages.
+ * STAGE 1, THE PAID STUDY: £20,000 as of 2026-08-04 (Clay), AND IT IS NOW CREDITED — in full,
+ * against the design and engineering commission that follows (`STAGE_1_CREDIT`), NOT against
+ * construction. The figure has been £1,500, £6,500, £15,000 and £18,000 — which is the whole
+ * argument for it being a constant rather than a literal typed into three pages.
  *
- * ONE OWNER, because three surfaces state it: the cost answer on `/questions`, that page's close
- * ("Who do I ring?"), and the `/houses` cost section. It was written out by hand in all three, and
- * a fee that moves twice in four days is exactly the fact that ends up right in two places and
- * wrong in the third. `questions/copy.test.ts` binds the prose to this constant.
+ * ONE OWNER, because several surfaces state it: the cost answer on `/questions`, the founding
+ * terms on `/commissions`, and the `/houses` cost section (dev-only). A fee that has moved four
+ * times is exactly the fact that ends up right in two places and wrong in the third.
+ * `questions/copy.test.ts` binds the prose to this constant.
+ *
+ * VAT STATUS UNCONFIRMED for the £20,000: every prior figure was stated "including VAT" and
+ * Clay's 2026-08-04 instruction named only the number, so the published copy prints the bare
+ * figure. Confirm with Clay before adding "including VAT" back.
  *
  * IT IS A PROFESSIONAL FEE AND IS *SUPPOSED* TO SIT FAR BELOW `COMMISSION_BREAKEVEN_GBP`, so the
  * break-even guard deliberately does not sweep it — that guard is scoped to the sentence stating
  * the commission. Sweeping every pound sign on the page was the first version of that test and it
  * failed on precisely this number, which is the difference between guarding a quantity and
  * guarding everything shaped like one.
- *
- * The climb matters commercially rather than technically: at £6,500 the study read as a deposit a
- * curious owner might risk, and at £18,000 it reads as a piece of work someone commissions. That is
- * the intent. It also means the study has to be worth £18,000 on its own, which is what "yours to
- * keep whatever you decide" is promising.
  */
-export const STAGE_1_FEE_GBP = 18_000;
+export const STAGE_1_FEE_GBP = 20_000;
 
 /** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
-export const STAGE_1_FEE = '£18,000';
+export const STAGE_1_FEE = '£20,000';
+
+/**
+ * THE CREDIT TERM (Clay, 2026-08-04: "That 20k gets credited against DD"). One sentence, one
+ * owner, because it is a commercial term and a term that exists in two wordings is two terms.
+ * It is credited against the DESIGN AND ENGINEERING commission (Stage 2 / detailed design),
+ * deliberately NOT "against construction" — see `FEES_NOT_CREDITED`, which still governs that
+ * boundary.
+ */
+export const STAGE_1_CREDIT =
+  'The fee is credited in full against the design and engineering commission that follows.';
 
 /**
  * STAGE 2, PLANNING / DESIGN / ENGINEERING: £60,000 to £90,000 including VAT (Clay, 2026-07-31).
@@ -209,9 +219,15 @@ export const STAGE_2_FEE = '£60,000 to £90,000';
 export const STAGE_2_FEE_LOW_GBP = 60_000;
 export const STAGE_2_FEE_HIGH_GBP = 90_000;
 
-/** Both stages are fees for work, not money on account. */
+/**
+ * The construction boundary. AMENDED 2026-08-04: Stage 1 is now credited against the design and
+ * engineering commission (`STAGE_1_CREDIT`), so this sentence no longer claims both stages sit
+ * outside everything — but the line it holds is unchanged and still matters: neither fee is money
+ * on account against CONSTRUCTION, and a buyer who nets the fees off the build budget has
+ * mis-budgeted.
+ */
 export const FEES_NOT_CREDITED =
-  'Stage 1 and Stage 2 are professional fees and are not credited against construction.';
+  'The Stage 1 fee is credited against the design and engineering commission. Neither fee is credited against construction.';
 
 /** What the floor is a floor OF. Sits with it, never with a computed figure. */
 export const COMMISSION_LABEL = 'commission, installed and planted';

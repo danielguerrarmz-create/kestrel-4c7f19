@@ -15,7 +15,7 @@ import {
   pressMirror,
 } from './mirror';
 import { CONTACT } from '../data/config';
-import { COMMISSION_BUDGET_POSITION } from '../ui/priceCopy';
+import { COMMISSION_BUDGET_POSITION, STAGE_1_FEE } from '../ui/priceCopy';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -57,8 +57,13 @@ describe('the agent mirror is fresh', () => {
     // they were guarding, down to `practice` below. Left as a marker because a mirror test that
     // simply lost two assertions in a refactor is how a page silently stops being checked.
     const about = aboutMirror();
+    // `/about` WENT THROUGH THREE VERSIONS ON 2026-08-04, all Clay's: prose manifesto -> pitch
+    // poem -> the FINAL version these pins hold (aboutCopy.ts), which restored the manifesto's
+    // hinge line, folded in the poem's year couplet, and kept the founders' coda. The assertions
+    // moved each time because the fact moved.
     expect(about).toContain('None of them finished. All of them alive.');
-    expect(about).toContain('A world full of Bowers.');
+    expect(about).toContain('Year three, it’s a room made of blossom and eaves.');
+    expect(about).toContain('Clay Seifert and Daniel Guerra. Founding commissions from 2027.');
     // The door onward must survive: without it the expanded page is unreachable from the short one,
     // which is the entire structure Clay asked for.
     expect(about).toContain('/about/practice');
@@ -84,7 +89,12 @@ describe('the agent mirror is fresh', () => {
     // price back to a buyer is the same anchoring harm as the page doing it, and the agent's
     // reader has no way to tell the figure was withdrawn.
     expect(questions).toContain(COMMISSION_BUDGET_POSITION);
-    expect(questions).not.toMatch(/£\s?\d/);
+    // AMENDED 2026-08-04: the Stage 1 fee (£20,000, credited against the design and engineering
+    // commission) is published again on Clay's ruling, so "no £ at all" became the property that
+    // survives fee changes: every £-figure an agent can quote from this mirror IS the live
+    // Stage 1 fee. Both superseded commission figures stay pinned absent by name.
+    const questionFigures = questions.match(/£[\d,]+/g) ?? [];
+    expect(new Set(questionFigures)).toEqual(new Set([STAGE_1_FEE]));
     expect(questions).not.toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');
