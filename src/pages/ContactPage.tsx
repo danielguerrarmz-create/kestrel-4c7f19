@@ -25,8 +25,13 @@ export function ContactPage() {
       <main className="mx-auto grid min-h-[100svh] w-full max-w-canvas gap-6 px-gutter pb-6 pt-[calc(var(--header-h)+1.5rem)] lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-14 lg:pb-8 lg:pt-[calc(var(--header-h)+1rem)]">
         <header>
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Contact</p>
-          <h1 className="mt-4 max-w-[13ch] font-serifDisplay text-[clamp(2.35rem,4.7vw,4.5rem)] leading-[0.98] tracking-[-0.025em]">Discuss a founding commission.</h1>
-          <p className="mt-4 max-w-[40ch] font-serifDisplay text-[17px] leading-[1.5] text-inkBlack/65">We are selecting three exceptional landscapes for the first Bowers. If you think yours may be a fit, please contact us.</p>
+          {/* NOT "Discuss a founding commission." (changed 2026-08-05, Clay's redundancy pass):
+              that was the label of the button the reader just clicked, restated as a heading —
+              the third repetition of the same claim on the home -> commissions -> contact walk.
+              This page's job is to start the conversation, so the heading is the actual next
+              step, in the words the form itself asks. The "selecting three exceptional
+              landscapes" standfirst came out with it: the home owns the count. */}
+          <h1 className="mt-4 max-w-[13ch] font-serifDisplay text-[clamp(2.35rem,4.7vw,4.5rem)] leading-[0.98] tracking-[-0.025em]">Tell us about your landscape.</h1>
           {/* The fit-criteria list that stood here for one day was REMOVED 2026-08-05 on Clay's
               ruling ("Wayyyy too much text... nothing more you could possibly take away") — the
               form's own "What might happen in the Bower?" question does the qualifying. */}

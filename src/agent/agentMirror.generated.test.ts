@@ -121,7 +121,9 @@ describe('the agent mirror is fresh', () => {
     expect(llmsTxt()).not.toContain('houses.md');
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(processMirror()).toContain('From landscape to Bower');
-    expect(contactMirror()).toContain('Discuss a founding commission');
+    // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in
+    // the reader's own terms, not a restatement of the button that brought them here.
+    expect(contactMirror()).toContain('Tell us about your landscape.');
   });
 
   it('the committed mirrors are byte-identical to a fresh render of the live pages', () => {

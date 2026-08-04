@@ -152,7 +152,10 @@ export function CommissionsPage() {
           <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,5vw,4rem)]">
             <div className="max-w-[38rem] [text-shadow:0_1px_16px_rgba(0,0,0,0.65)]">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/75">The founding commissions</p>
-              <h2 className="mt-3 font-serifDisplay text-[clamp(2.1rem,4.2vw,3.6rem)] leading-[1.04]">Three landscapes will be first.</h2>
+              {/* THE FUNNEL ADVANCES, IT DOES NOT REPEAT (2026-08-05, Clay): the home announces
+                  "three founding commissions"; this band's job is the personal turn, not the
+                  same announcement again. Home owns the count; this owns "yours". */}
+              <h2 className="mt-3 font-serifDisplay text-[clamp(2.1rem,4.2vw,3.6rem)] leading-[1.04]">Yours could be the first.</h2>
               <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
             </div>
           </div>

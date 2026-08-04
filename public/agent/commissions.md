@@ -82,7 +82,7 @@ Concept visualisation
 
 The founding commissions
 
-## Three landscapes will be first.
+## Yours could be the first.
 
 [Discuss a founding commission](/contact)
 
