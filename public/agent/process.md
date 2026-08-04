@@ -40,11 +40,19 @@ We begin with the landscape, the people who use it and the kind of life the pavi
 
 5 Growth and stewardship
 
-Image placeholder
+![A newly installed bare timber Bower in a mature walled garden](/assets/process/evolution/installation.webp)
 
-Year zero to year three
+![The same timber Bower as climbing roses and wisteria begin to establish across its lattice](/assets/process/evolution/establishing.webp)
 
-The exact same camera and Bower shown at installation, with young planting, and with mature planting integrated into the lattice.
+![The same Bower with mature roses, wisteria and greenery integrated into its timber lattice](/assets/process/evolution/mature.webp)
+
+Year zero · Installation
+
+Installation
+
+Establishing
+
+Mature
 
 The architecture continues to be made by growth, weather and repeated use.
 
@@ -56,8 +64,8 @@ We do not publish an indicative budget before the site, structure and engineerin
 
 [Read the practical questions](/questions)
 
-Bower
+[Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
 
-© 2026 Bower
+[© 2026 Bower](/)

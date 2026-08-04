@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
-import { VisualPlaceholder } from '../ui/VisualPlaceholder';
 import { routes } from '../routing';
 import { COMMISSION_BUDGET_POSITION } from '../ui/priceCopy';
+import { srcSetFor } from '../ui/responsiveImg';
 
 export const PROCESS_STEPS = [
   { title: 'Conversation', body: 'We begin with the landscape, the people who use it and the kind of life the pavilion should gather.' },
@@ -13,8 +13,30 @@ export const PROCESS_STEPS = [
   { title: 'Growth and stewardship', body: 'Planting is trained through the structure and cared for as the architecture matures.' },
 ] as const;
 
+const GROWTH_STAGES = [
+  {
+    label: 'Installation',
+    year: 'Year zero',
+    src: '/assets/process/evolution/installation.webp',
+    alt: 'A newly installed bare timber Bower in a mature walled garden',
+  },
+  {
+    label: 'Establishing',
+    year: 'Year one',
+    src: '/assets/process/evolution/establishing.webp',
+    alt: 'The same timber Bower as climbing roses and wisteria begin to establish across its lattice',
+  },
+  {
+    label: 'Mature',
+    year: 'Year three',
+    src: '/assets/process/evolution/mature.webp',
+    alt: 'The same Bower with mature roses, wisteria and greenery integrated into its timber lattice',
+  },
+] as const;
+
 export function ProcessPage() {
   const [active, setActive] = useState(0);
+  const [growthStage, setGrowthStage] = useState(0);
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
@@ -39,7 +61,39 @@ export function ProcessPage() {
             ))}
           </ol>
           <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
-            <VisualPlaceholder label="Year zero to year three" brief="The exact same camera and Bower shown at installation, with young planting, and with mature planting integrated into the lattice." aspect="4 / 3" />
+            <div className="overflow-hidden border border-inkBlack/15 bg-inkBlack">
+              <div className="relative aspect-[11/6] overflow-hidden" aria-live="polite">
+                {GROWTH_STAGES.map((stage, index) => (
+                  <img
+                    key={stage.src}
+                    src={stage.src}
+                    srcSet={srcSetFor(stage.src)}
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    alt={stage.alt}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${growthStage === index ? 'opacity-100' : 'opacity-0'}`}
+                  />
+                ))}
+                <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
+                <p className="absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-[0.18em] text-white/90">
+                  {GROWTH_STAGES[growthStage].year} · {GROWTH_STAGES[growthStage].label}
+                </p>
+              </div>
+              <div className="grid grid-cols-3 border-t border-white/20" aria-label="Bower growth stage">
+                {GROWTH_STAGES.map((stage, index) => (
+                  <button
+                    key={stage.label}
+                    type="button"
+                    onClick={() => setGrowthStage(index)}
+                    aria-pressed={growthStage === index}
+                    className={`min-h-[46px] border-l border-white/20 px-2 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors first:border-l-0 ${growthStage === index ? 'bg-paperVellum text-inkBlack' : 'bg-inkBlack text-white/65 hover:text-white'}`}
+                  >
+                    {stage.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <p className="mt-4 font-serifDisplay text-[15px] italic leading-relaxed text-inkBlack/50">The architecture continues to be made by growth, weather and repeated use.</p>
           </div>
         </section>

@@ -38,11 +38,9 @@ For sculpture parks, galleries, estates and gardens where a Bower can become an 
 
 - Daily encounter
 
-Image placeholder
+![A curator addressing visitors gathered in and around a planted timber Bower, with a sculpture garden and lake beyond](/assets/commissions/cultural-landscape-tour.webp)
 
-A living work
-
-A curator addressing 20 to 30 visitors inside and around a Bower, with sculpture or a significant garden view beyond.
+Concept visualisation
 
 The founding commissions
 
@@ -52,8 +50,8 @@ Bower is currently developing its first built works for gardens and cultural lan
 
 [Discuss a founding commission](/contact)
 
-Bower
+[Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
 
-© 2026 Bower
+[© 2026 Bower](/)

@@ -42,8 +42,9 @@ describe('SplashPage', () => {
   });
 
   it('keeps secondary routes available in the footer', () => {
-    for (const route of ['/commissions', '/about', '/about/practice', '/questions']) {
+    for (const route of ['/commissions', '/about', '/questions']) {
       expect(html).toContain(`href="${route}"`);
     }
+    expect(html).not.toContain('href="/about/practice"');
   });
 });

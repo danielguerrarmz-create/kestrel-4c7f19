@@ -68,8 +68,8 @@ describe('the agent mirror is fresh', () => {
     expect(practice).toContain('Daniel Guerra');
     const gallery = galleryMirror();
     expect(gallery.toLowerCase()).toContain('concept studies');
-    // All thirteen plates, including the supplied favourites, as fetchable markdown images.
-    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(13);
+    // All fifteen exclusive plates, including the supplied favourites, as fetchable markdown images.
+    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(15);
     expect(llmsTxt()).toContain('/agent/gallery.md');
     // The questions page is the one an agent asked "what does a Bower cost" most needs, so its
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and

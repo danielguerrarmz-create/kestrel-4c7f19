@@ -15,6 +15,24 @@
       1280
     ]
   },
+  "/assets/commissions/cultural-landscape-tour.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/commissions/winter-landscape-talk.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
   "/assets/gallery/01-wisteria-walk.webp": {
     "w": 1920,
     "variants": [
@@ -71,6 +89,51 @@
       1280
     ]
   },
+  "/assets/gallery/exclusive/estate-gathering.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/exclusive/garden-archways.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/exclusive/garden-concert-aerial.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/exclusive/garden-dinner.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/exclusive/winter-canopy.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
   "/assets/gallery/favorites/curator-in-landscape.webp": {
     "w": 2560,
     "variants": [
@@ -117,6 +180,33 @@
     ]
   },
   "/assets/gallery/favorites/timber-joinery-detail.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/process/evolution/establishing.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/process/evolution/installation.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/process/evolution/mature.webp": {
     "w": 2560,
     "variants": [
       400,

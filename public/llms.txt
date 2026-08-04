@@ -10,7 +10,7 @@
 
 - [Home](/agent/home.md): what Bower is, the product story, register interest
 - [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
-- [Gallery](/agent/gallery.md): thirteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Gallery](/agent/gallery.md): fifteen concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Houses](/agent/houses.md): the secondary page for houses that earn from exclusive hire, weddings and

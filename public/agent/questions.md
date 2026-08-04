@@ -110,8 +110,8 @@ After that, a paid feasibility study establishes where it sits, how large it sho
 
 Only when that work is complete is a design and engineering commission proposed.
 
-Bower
+[Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [company](/about/practice) [contact](/contact) [questions](/questions)
+[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [questions](/questions)
 
-© 2026 Bower
+[© 2026 Bower](/)

@@ -48,10 +48,14 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
           with the page above it, and this one closes six different pages. The names and addresses
           live on `/about/practice`, which is where someone asking "who are you" has already
           arrived. */}
-      <span className="inline-flex items-center gap-1.5">
+      <a
+        href={routes.home}
+        aria-label="Bower, home"
+        className="inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
+      >
         <OculusMark size={18} />
         <span className="font-mono text-[14px] lowercase tracking-[0.1em]">{WORDMARK}</span>
-      </span>
+      </a>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.
           "how it works" (`/engine`) and "studio" were removed on 2026-07-21 with the rest of the
@@ -67,7 +71,6 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
             carries the door to the founders' page in turn. The header is the reader's order of
             interest and "who are you" is last; the footer is where it is looked for. */}
         <a href={routes.about} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">about</a>
-        <a href={routes.practice} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">company</a>
         <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">contact</a>
         <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">questions</a>
       </nav>
@@ -80,7 +83,13 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
           set of empty strings, because an empty string renders as a stray separator and reads as a
           bug, whereas an absent block reads as a footer. */}
       <span className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/40">
-        <span>© {year} Bower</span>
+        <a
+          href={routes.home}
+          aria-label={`© ${year} Bower, home`}
+          className="transition-colors duration-150 hover:text-inkBlack focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
+        >
+          © {year} Bower
+        </a>
         {COMPANY && (
           <>
             <span>{COMPANY.name}</span>

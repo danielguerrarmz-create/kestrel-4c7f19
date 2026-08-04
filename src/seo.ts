@@ -107,10 +107,10 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   gallery: {
     path: routes.gallery,
-    title: 'Living Bower gallery: thirteen commission visions',
+    title: 'Living Bower gallery: fifteen commission visions',
     description:
-      'Thirteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
-    ogTitle: 'Bower: thirteen commission visions',
+      'Fifteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
+    ogTitle: 'Bower: fifteen commission visions',
     ogDescription:
       'Concept renderings of Bower garden pavilions in their gardens, from a wisteria walk to a glass crown.',
   },

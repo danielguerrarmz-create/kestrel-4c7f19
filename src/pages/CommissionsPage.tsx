@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
-import { VisualPlaceholder } from '../ui/VisualPlaceholder';
 import { routes } from '../routing';
+import { srcSetFor } from '../ui/responsiveImg';
 
 const COMMISSION_TYPES = [
   {
@@ -12,7 +12,8 @@ const COMMISSION_TYPES = [
     title: 'A living work',
     body: 'For sculpture parks, galleries, estates and gardens where a Bower can become an inhabitable work, a place for interpretation and a setting for changing programmes.',
     uses: ['Curator walks', 'Intimate performance', 'Interpretation', 'Daily encounter'],
-    image: 'A curator addressing 20 to 30 visitors inside and around a Bower, with sculpture or a significant garden view beyond.',
+    src: '/assets/commissions/cultural-landscape-tour.webp',
+    alt: 'A curator addressing visitors gathered in and around a planted timber Bower, with a sculpture garden and lake beyond',
   },
   {
     id: 'gathering',
@@ -20,7 +21,8 @@ const COMMISSION_TYPES = [
     title: 'A place to gather',
     body: 'For properties where the structure can host seasonal dining, private conversations, member experiences, quiet daily use and intimate celebrations.',
     uses: ['Seasonal table', 'Shared meals', 'Member experiences', 'Quiet daily use'],
-    image: 'A long estate table for about 18 people, produce and ceramics on the table, with a gardener, chef or host speaking.',
+    src: '/assets/gallery/favorites/garden-table.webp',
+    alt: 'Guests sharing a long garden lunch beneath a planted timber Bower, with a gardener and garden produce at the table',
   },
   {
     id: 'ecology',
@@ -28,7 +30,8 @@ const COMMISSION_TYPES = [
     title: 'A place to attend to the landscape',
     body: 'For landscapes where it can become a field room, outdoor classroom, observation point or framework gradually inhabited by planting and habitat.',
     uses: ['Field room', 'Outdoor classroom', 'Observation', 'Horticultural workshop'],
-    image: 'A guide and visitors using field notes, binoculars, plant samples and a landscape map, with the wider ecology remaining primary.',
+    src: '/assets/commissions/winter-landscape-talk.webp',
+    alt: 'A guide speaking to visitors beside a timber Bower in a winter garden, its bare lattice and surrounding landscape held by frost',
   },
 ] as const;
 
@@ -80,7 +83,22 @@ export function CommissionsPage() {
                 {item.uses.map((use) => <li key={use} className="font-serifDisplay text-[16px] italic text-inkBlack/55">{use}</li>)}
               </ul>
             </div>
-            <VisualPlaceholder label={item.title} brief={item.image} />
+            <figure className="relative aspect-[16/10] overflow-hidden bg-paperDeep">
+              <img
+                src={item.src}
+                srcSet={srcSetFor(item.src)}
+                sizes="(max-width: 1024px) calc(100vw - 2.5rem), min(54vw, 720px)"
+                alt={item.alt}
+                width={1920}
+                height={1047}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+              <figcaption className="absolute bottom-3 right-3 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">
+                Concept visualisation
+              </figcaption>
+            </figure>
           </motion.div>
         </section>
 
