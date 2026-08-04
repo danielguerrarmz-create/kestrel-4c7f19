@@ -30,5 +30,5 @@
 - `/sitemap.xml` lists the nine public URLs.
 - The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
-- Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.
+- Bower has built nothing yet. Every image on the site is a rendering.
   A Bower is not a marquee and the site does not claim that it replaces one.

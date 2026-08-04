@@ -76,34 +76,35 @@ export function CommissionsPage() {
   const bandRef = useRef<HTMLElement>(null);
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
-      <SplashHeader transparent logoPill />
-      {/* The container moved off <main> and onto an inner wrapper (2026-08-05) so the founding
-          band below can run full-bleed. */}
-      <main className="pt-[calc(var(--header-h)+4rem)]">
-        <div className="mx-auto w-full max-w-canvas px-gutter">
-        <header className="max-w-[58rem]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Commissions</p>
-          <h1 className="mt-5 max-w-[16ch] font-serifDisplay text-[clamp(2.4rem,6vw,5.3rem)] font-medium leading-[0.98] tracking-[-0.025em]">
-            What a Bower makes possible.
-          </h1>
-          <p className="mt-8 max-w-[60ch] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.4rem)] leading-[1.55] text-inkBlack/70">
-            Each Bower begins with a landscape and the life already gathering there. It is drawn for one place, not selected from a catalogue.
-          </p>
-        </header>
-        </div>
-
-        {/* THE WISTERIA INTERLUDE (2026-08-05, Clay: "rather plain for something that is so
-            beautiful"). A full-spread image moment with ZERO copy — under the take-everything-
-            away law, the richest thing this page can gain is a picture that says nothing. It
-            drifts on scroll (ParallaxImg) so the page has depth, and it carries the
-            concept-visualisation label like every render on this site. */}
-        <section ref={interludeRef} className="relative mt-16 h-[72svh] min-h-[420px] overflow-hidden bg-inkBlack sm:mt-24">
+      {/* Default header (frosted pills), the home's proven treatment over imagery — the page
+          now LANDS on a render. */}
+      <SplashHeader />
+      <main>
+        {/* THE PAGE OPENS ON THE PRODUCT (2026-08-05, Clay: "When you land on the commissions
+            page, you land on the full bleed render, with the text on top of it. Condense it
+            into one clean section, like the homepage."). One hero: the wisteria walk at full
+            viewport, drifting on scroll, with the page's own heading held at its foot — the
+            home's dictionary-band composition. The separate padded header and the standalone
+            interlude this replaced are gone. NO concept-visualisation tag ("they are aware");
+            the unbuilt record lives on /questions Q6, the gallery, and llms.txt. */}
+        <section ref={interludeRef} className="relative h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={interludeRef}
             src="/assets/gallery/01-wisteria-walk.webp"
             alt="A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond"
           />
-          <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
+          <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,6vw,5rem)]">
+            <header className="max-w-[58rem] [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-paperVellum/70">Commissions</p>
+              <h1 className="mt-4 max-w-[16ch] font-serifDisplay text-[clamp(2.4rem,6vw,5.3rem)] font-medium leading-[0.98] tracking-[-0.025em]">
+                What a Bower makes possible.
+              </h1>
+              <p className="mt-6 max-w-[60ch] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.4rem)] leading-[1.55] text-paperVellum/85">
+                Each Bower begins with a landscape and the life already gathering there. It is drawn for one place, not selected from a catalogue.
+              </p>
+            </header>
+          </div>
         </section>
 
         <div className="mx-auto w-full max-w-canvas px-gutter">
@@ -153,9 +154,6 @@ export function CommissionsPage() {
                     decoding="async"
                     className="h-full w-full object-cover"
                   />
-                  <figcaption className="absolute bottom-3 right-3 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">
-                    Concept visualisation
-                  </figcaption>
                 </figure>
               </div>
             );
@@ -200,7 +198,6 @@ export function CommissionsPage() {
               <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
             </div>
           </div>
-          <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
         </section>
       </main>
       <Footer />

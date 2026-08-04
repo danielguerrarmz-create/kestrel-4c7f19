@@ -12,6 +12,8 @@
 
 [gallery](/gallery) [process](/process) [contact](/contact)
 
+![A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside](/assets/gallery/02-garden-pavilion.webp)
+
 Contact
 
 # Tell us about your landscape.
