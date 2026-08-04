@@ -84,16 +84,6 @@ The founding commissions
 
 ## Three landscapes will be first.
 
-- Two founders, three landscapes, nothing else.
-
-- The first Bower ever built, drawn for your landscape.
-
-- Standing by 2027.
-
-- Its making filmed, photographed and published.
-
-- The £20,000 study, credited against the design stage.
-
 [Discuss a founding commission](/contact)
 
 Concept visualisation

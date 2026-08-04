@@ -4,31 +4,14 @@ import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
-import { STAGE_1_FEE } from '../ui/priceCopy';
 
-/**
- * THE FOUNDING EXCHANGE (2026-08-04). "Founding commission" had been doing the entire job as a
- * label: the site asked someone to be first without ever stating what carrying that buys, and the
- * rational reader's answer to an unstated exchange is to wait and be commission four. These are
- * the terms of being first, stated as a list rather than argued, because a patron at this range
- * is deciding between going first and waiting — not between Bower and something else.
- *
- * The fee figure comes from `STAGE_1_FEE` (one owner, ui/priceCopy.ts); the credit wording here
- * is deliberately the same term `STAGE_1_CREDIT` publishes on /questions. Register: no banned
- * commercial vocabulary (houseRules.test.ts) — these are patrons, not investors.
+/*
+ * THE FOUNDING-TERMS LIST IS GONE (2026-08-05, Clay: "Just remove all of this shit... extra
+ * language that doesn't need to exist"). It lived one day, in three shrinking versions. The
+ * commercial facts it carried still exist where they belong — the £20,000 study and its credit
+ * are the cost answer on /questions — so nothing was lost from the site, only from this band,
+ * which now says the one thing an image cannot: three landscapes will be first.
  */
-/** REWRITTEN FOR A READER WHO KNOWS NOTHING (2026-08-05, Clay: "pretend that you are someone
- *  that has no idea what we do!! ... Wth does 'the grammar every later Bower inherits' even
- *  mean???"). Every line is now a plain claim an outsider can parse on first read. The grammar
- *  term died because it described the SYSTEM to a reader who is buying a BUILDING: the
- *  outsider-meaningful fact is simply that theirs is the first one ever built. */
-const FOUNDING_TERMS = [
-  'Two founders, three landscapes, nothing else.',
-  'The first Bower ever built, drawn for your landscape.',
-  'Standing by 2027.',
-  'Its making filmed, photographed and published.',
-  `The ${STAGE_1_FEE} study, credited against the design stage.`,
-] as const;
 
 const COMMISSION_TYPES = [
   {
@@ -169,13 +152,8 @@ export function CommissionsPage() {
           <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,5vw,4rem)]">
             <div className="max-w-[38rem] [text-shadow:0_1px_16px_rgba(0,0,0,0.65)]">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/75">The founding commissions</p>
-              <h2 className="mt-3 font-serifDisplay text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.04]">Three landscapes will be first.</h2>
-              <ul className="mt-6 border-t border-paperVellum/30">
-                {FOUNDING_TERMS.map((term) => (
-                  <li key={term} className="border-b border-paperVellum/30 py-2.5 font-serifDisplay text-[16px] leading-[1.45]">{term}</li>
-                ))}
-              </ul>
-              <a href={routes.contact} className="group mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
+              <h2 className="mt-3 font-serifDisplay text-[clamp(2.1rem,4.2vw,3.6rem)] leading-[1.04]">Three landscapes will be first.</h2>
+              <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
             </div>
           </div>
           <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
