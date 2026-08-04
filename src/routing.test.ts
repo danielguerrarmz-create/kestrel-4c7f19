@@ -173,8 +173,6 @@ describe('the engine routes are dev-only in production', () => {
       expect(resolveRoute('/gallery', dev)).toBe('gallery');
       // The questions page joined 2026-07-28: the price, the planning position, the contact.
       expect(resolveRoute('/questions', dev)).toBe('questions');
-      // The houses page joined 2026-07-31, when the practice repointed at commercial hospitality.
-      expect(resolveRoute('/houses', dev)).toBe('houses');
       expect(resolveRoute('/press', dev)).toBe('press');
       // An in-page anchor normalizes to an unknown path and must land on the home, not a blank.
       expect(resolveRoute('/register', dev)).toBe('splash');
@@ -186,8 +184,10 @@ describe('the engine routes are dev-only in production', () => {
     expect(resolveRoute(routes.about, true)).toBe('about');
     expect(resolveRoute(routes.gallery, true)).toBe('gallery');
     expect(resolveRoute(routes.questions, true)).toBe('questions');
-    expect(resolveRoute(routes.houses, true)).toBe('houses');
     expect(resolveRoute(routes.press, true)).toBe('press');
+    // Both dev-only pages: real targets under dev, the home splash in production.
+    expect(resolveRoute(routes.houses, true)).toBe('houses');
+    expect(resolveRoute(routes.houses, false)).toBe('splash');
     expect(resolveRoute(routes.aboutTree, true)).toBe('aboutTree');
   });
 
@@ -200,11 +200,12 @@ describe('the engine routes are dev-only in production', () => {
     }
   });
 
-  it('PUBLIC_ROUTES is exactly the ten that ship, in nav order', () => {
+  it('PUBLIC_ROUTES is exactly the nine that ship, in nav order', () => {
     // The sitemap and the per-page metadata are both built from this list, so it is the one place
-    // a page becomes public. Pinned by name so adding one is a deliberate act — which is what it
-    // was for: `/houses` joined 2026-07-31 and this assert is where that decision was recorded.
-    expect([...PUBLIC_ROUTES]).toEqual(['/', '/commissions', '/gallery', '/process', '/about', '/about/practice', '/contact', '/press', '/questions', '/houses']);
+    // a page becomes public. Pinned by name so adding or removing one is a deliberate act — which
+    // is what it was for: `/houses` joined 2026-07-31 and was gated 2026-08-04 (its fee figures
+    // contradicted the withdrawn-budget posture of the founding-commission launch).
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/commissions', '/gallery', '/process', '/about', '/about/practice', '/contact', '/press', '/questions']);
     for (const path of PUBLIC_ROUTES) {
       expect(ENGINE_ROUTES).not.toContain(path);
       expect(DEV_ONLY_ROUTES).not.toContain(path);
@@ -318,12 +319,16 @@ describe('the about/tree page is dev-only', () => {
   });
 
   it('DEV_ONLY_ROUTES is pinned by name, so removing an entry (which would ship it) fails here', () => {
-    expect([...DEV_ONLY_ROUTES]).toEqual(['/about/tree']);
+    // `/houses` joined 2026-08-04 (Clay, founding-commission launch): unlinked from every nav,
+    // and its fee copy contradicted the withdrawn-budget posture. Gated, not deleted.
+    expect([...DEV_ONLY_ROUTES]).toEqual(['/about/tree', '/houses']);
   });
 
   it('is lazy behind the DEV ternary in Root, so the build folds the tree bundle away', () => {
     const root = readFileSync(new URL('./Root.tsx', import.meta.url), 'utf8');
     expect(root).toContain("import('./pages/about-tree/AboutTreePage')");
+    // Same gate, same reason, for the houses page (2026-08-04).
+    expect(root).toContain("import('./pages/HousesPage')");
     // The bug this pins: a static import ships the page even when the route is unreachable.
     expect(root).not.toMatch(/^import\s+\{[^}]*AboutTreePage[^}]*\}\s+from/m);
   });

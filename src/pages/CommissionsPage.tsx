@@ -105,8 +105,8 @@ export function CommissionsPage() {
         <section className="mt-24 grid gap-8 border-t border-inkBlack/15 pt-12 md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">The founding commissions</p>
-            <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">The first landscapes will establish a new architectural tradition.</h2>
-            <p className="mt-6 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">Bower is currently developing its first built works for gardens and cultural landscapes in Britain, with initial installations targeted for 2027.</p>
+            <h2 className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A new kind of building, and the three landscapes that will be first.</h2>
+            <p className="mt-6 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/65">Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.</p>
           </div>
           <a href={routes.contact} className="group inline-flex min-h-[44px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
         </section>

@@ -63,6 +63,14 @@ const DIST = process.env.DIST ?? 'dist';
  */
 const GATED = {
   'about/tree (DEV_ONLY_ROUTES)': { app: ['data-tree-track', 'data-tree-canvas', 'AboutTreePage'] },
+  /* Gated 2026-08-04 (Clay, founding-commission launch). The page still publishes the Stage 1 and
+     Stage 2 fees the withdrawn-budget posture contradicts, so its copy shipping is a MESSAGE leak,
+     not just a bundle-size one. The fee marker doubles as a guard on the fee reappearing anywhere:
+     while the site says "we do not publish an indicative budget", no production surface may carry
+     the study fee — reintroducing it must be a deliberate act that comes here to remove the line. */
+  'houses (DEV_ONLY_ROUTES)': {
+    app: ['nothing else like it in England', 'hundred and twenty', '£18,000', 'HousesPage'],
+  },
   'sculpt (ENGINE_ROUTES)': { app: ['reset shell', 'the param prototype'] },
   'shape (ENGINE_ROUTES)': { app: ['drag the handles to shape the pavilion'] },
   'studio / draw (ENGINE_ROUTES)': { app: ['cut list', 'how the engine works'] },

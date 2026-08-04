@@ -3,16 +3,16 @@
 #   /llms.txt            site guide
 #   /agent/home.md       home
 #   /agent/commissions.md commissions
-#   /agent/houses.md     houses: for houses that earn from exclusive hire and whole-house rental
 #   /agent/gallery.md    gallery
 #   /agent/process.md    commissioning process
 #   /agent/contact.md    founding commission contact
-#   /agent/questions.md  questions: size, price, planning, the lawn, timeline, contact
+#   /agent/press.md      press and editorial enquiries
+#   /agent/questions.md  questions: size, planning, the lawn, timeline, contact
 #   /agent/about.md      about: what a Bower is, in short
 #   /agent/practice.md   the practice: the founders, the timeline, the work
 #
 # The nine public pages are real paths: /, /commissions, /gallery, /process, /about,
-# /about/practice, /contact, /questions and the secondary /houses page.
+# /about/practice, /contact, /press and /questions.
 
 User-agent: *
 Allow: /

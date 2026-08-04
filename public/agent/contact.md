@@ -16,7 +16,7 @@ Contact
 
 # Discuss a founding commission.
 
-We are selecting three exceptional gardens for the first Bowers. If you think yours may be a fit, please contact us.
+We are selecting three exceptional landscapes for the first Bowers. If you think yours may be a fit, please contact us.
 
 Clay Seifert
 

@@ -39,7 +39,8 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   { rel: 'agent/about.md', fresh: aboutMirror },
   { rel: 'agent/gallery.md', fresh: galleryMirror },
   { rel: 'agent/questions.md', fresh: questionsMirror },
-  { rel: 'agent/houses.md', fresh: housesMirror },
+  // `/houses` was gated to dev-only on 2026-08-04, so its mirror is no longer generated or
+  // published; `public/agent/houses.md` was deleted in the same change.
   { rel: 'agent/practice.md', fresh: practiceMirror },
   { rel: 'agent/commissions.md', fresh: commissionsMirror },
   { rel: 'agent/process.md', fresh: processMirror },
@@ -99,17 +100,15 @@ describe('the agent mirror is fresh', () => {
     expect(questions).not.toContain('gmail.com');
     expect(llmsTxt()).toContain('/agent/questions.md');
 
-    // The houses page (2026-07-31). Its load-bearing lines are the HONEST ones: the concession
-    // that canvas still goes up for a hundred and twenty, and the capacity it actually holds. A
-    // mirror that kept the argument and lost the concession would read as the overclaim this page
-    // was rewritten to remove, and an agent quoting it back to an owner is the same harm as the
-    // page doing it.
+    // The houses page (2026-07-31) is DEV-ONLY as of 2026-08-04. Its honest-concession lines are
+    // still asserted on the fresh render (the content survives for a later aimed relaunch), but
+    // it must be ABSENT from llms.txt: an llms entry for an ungenerated mirror is a dead link
+    // handed to every agent, and the page's fee copy contradicts the published budget posture.
     const houses = housesMirror();
     expect(houses).toContain('is not a marquee');
     expect(houses).toContain('hundred and twenty');
-    expect(houses).toContain('thirty');
     expect(houses.length).toBeGreaterThan(1200);
-    expect(llmsTxt()).toContain('/agent/houses.md');
+    expect(llmsTxt()).not.toContain('houses.md');
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(processMirror()).toContain('From landscape to Bower');
     expect(contactMirror()).toContain('Discuss a founding commission');

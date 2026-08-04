@@ -2183,7 +2183,7 @@ function ThePractice() {
         The company
       </h2>
       <p className="mt-4 max-w-[62ch] font-serifDisplay text-[18px] leading-[1.6] text-inkBlack/75">
-        Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three sites for the system’s founding commissions.
+        Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three landscapes for the system’s founding commissions.
       </p>
       {/* THE FOUNDERS' OWN ADDRESSES, which is the part that renders today.
           They sat in the footer for part of 2026-07-31 and moved here on Clay's correction: the

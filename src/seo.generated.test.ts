@@ -60,7 +60,8 @@ describe('the sitemap is fresh', () => {
     expect(robots).toMatch(/^User-agent: \*$/m);
     expect(robots).toMatch(/^Allow: \/$/m);
     // Every published mirror is named, so adding a page cannot silently leave one unlisted.
-    for (const md of ['home', 'commissions', 'gallery', 'process', 'contact', 'houses', 'questions', 'about', 'practice']) {
+    // `houses` left 2026-08-04 (dev-only, mirror ungenerated); `press` joined the same day.
+    for (const md of ['home', 'commissions', 'gallery', 'process', 'contact', 'press', 'questions', 'about', 'practice']) {
       expect(robots).toContain(`/agent/${md}.md`);
     }
   });

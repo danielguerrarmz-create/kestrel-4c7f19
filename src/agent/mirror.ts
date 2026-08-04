@@ -261,9 +261,9 @@ export function questionsMirror(): string {
   );
 }
 
-/** The commercial-hospitality page (2026-07-31). The mirror an agent researching a venue purchase
- *  on an owner's behalf is most likely to be handed, so it carries the honest concession about
- *  marquees rather than only the argument for the structure. */
+/** The commercial-hospitality page (2026-07-31). DEV-ONLY since 2026-08-04: no longer generated
+ *  into `public/agent/` or listed in llms.txt, but kept exported so the page's own guards
+ *  (capacity, house rules on its copy) stay armed while the material waits for an aimed relaunch. */
 export function housesMirror(): string {
   return (
     PREAMBLE('the Bower houses page (`/houses`)', 'Bower — houses') + render(HousesPage) + '\n'
@@ -306,9 +306,6 @@ export function llmsTxt(): string {
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries
-- [Houses](/agent/houses.md): the secondary page for houses that earn from exclusive hire, weddings and
-  whole-house rental: what one holds, the winter half of the year, building around a booked
-  season, and what it costs
 - [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
   pruning, and how to contact the studio
 - [About](/agent/about.md): what a Bower is and what the practice is for, in short
@@ -318,11 +315,11 @@ export function llmsTxt(): string {
 ## Notes for agents
 
 - The human site lives at \`/\`, \`/commissions\`, \`/gallery\`, \`/process\`, \`/about\`,
-  \`/about/practice\`, \`/contact\`, \`/press\`, \`/questions\` and \`/houses\`. These are real paths, and an
+  \`/about/practice\`, \`/contact\`, \`/press\` and \`/questions\`. These are real paths, and an
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- \`/sitemap.xml\` lists the ten public URLs.
+- \`/sitemap.xml\` lists the nine public URLs.
 - The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
 - Bower has built nothing yet. Every image on the site is a rendering and is labelled as one.

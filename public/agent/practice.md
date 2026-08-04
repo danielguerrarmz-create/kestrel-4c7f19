@@ -318,7 +318,7 @@ What we learned Turn an archive into evidence you can measure, not a catalogue y
 
 ## The company
 
-Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three sites for the system’s founding commissions.
+Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes. Our first application is the Bower: a site-specific living pavilion for exceptional gardens. We are selecting three landscapes for the system’s founding commissions.
 
 - Clay Seifert [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 

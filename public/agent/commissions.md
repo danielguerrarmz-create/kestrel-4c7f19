@@ -44,9 +44,9 @@ Concept visualisation
 
 The founding commissions
 
-## The first landscapes will establish a new architectural tradition.
+## A new kind of building, and the three landscapes that will be first.
 
-Bower is currently developing its first built works for gardens and cultural landscapes in Britain, with initial installations targeted for 2027.
+Bower is currently developing its first built works for gardens and cultural landscapes across England, with initial installations targeted for 2027.
 
 [Discuss a founding commission](/contact)
 

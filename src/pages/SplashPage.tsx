@@ -62,7 +62,11 @@ export function SplashPage() {
             <p className="max-w-[52ch] font-serifDisplay text-[clamp(1rem,1.5vw,1.2rem)] italic leading-[1.5] text-paperVellum/80">
               bower, <span className="not-italic font-mono text-[11px] uppercase tracking-[0.14em]">noun</span>. A shaded resting place in a garden, made of woven branches and climbing plants.
             </p>
-            <h2 className="mt-6 max-w-[16ch] font-serifDisplay text-[clamp(2.5rem,5.8vw,5.25rem)] leading-[0.98] tracking-[-0.025em]">Designed for your garden, and for the <em className="italic">plant</em> that grows through it.</h2>
+            {/* The size is capped by HEIGHT as well as width (min(5.8vw, 7.5svh)): on a short
+                laptop window the 88svh band shrinks with the viewport while a vw-only clamp kept
+                growing with its width, so four lines of display type buried the photograph. On a
+                tall monitor 7.5svh clears the old 5.8vw value and nothing changes. */}
+            <h2 className="mt-6 max-w-[16ch] font-serifDisplay text-[clamp(2.25rem,min(5.8vw,7.5svh),5.25rem)] leading-[0.98] tracking-[-0.025em]">Designed for your garden, and for the <em className="italic">plant</em> that grows through it.</h2>
           </div>
         </div>
       </section>
@@ -111,9 +115,9 @@ export function SplashPage() {
 
       <section className="px-gutter py-[clamp(4.5rem,10vw,9rem)]">
         <div className="mx-auto w-full max-w-[920px]">
-          <p className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">One repeatable timber system. A different Bower for every landscape.</p>
+          <p className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England. A different Bower for every landscape.</p>
           <div className="mt-9 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-[42ch] font-serifDisplay text-[18px] leading-[1.55] text-inkBlack/60">We are selecting three exceptional sites for the system’s founding commissions.</p>
+            <p className="max-w-[42ch] font-serifDisplay text-[18px] leading-[1.55] text-inkBlack/60">We are selecting the landscapes now, with first installations targeted for 2027.</p>
             <a href={routes.contact} className="group inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
           </div>
         </div>

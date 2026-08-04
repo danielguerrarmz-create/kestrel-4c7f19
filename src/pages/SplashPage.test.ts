@@ -17,7 +17,12 @@ describe('SplashPage', () => {
     expect(html).toContain('A shaded resting place in a garden');
     expect(html).toContain('Designed for your garden');
     expect(html).toContain('plant</em> that grows through it.');
-    expect(html).toContain('selecting three exceptional sites');
+    // The close band (2026-08-04, Clay): the commission count and the buyer's noun. "System" is
+    // the investor register and stays off the buyer surface; "sites" is procurement vocabulary.
+    expect(html).toContain('Three founding commissions across England');
+    expect(html).toContain('selecting the landscapes now');
+    expect(html).not.toContain('repeatable timber system');
+    expect(html).not.toContain('exceptional sites');
   });
 
   it('has one primary action and it reaches a public route', () => {

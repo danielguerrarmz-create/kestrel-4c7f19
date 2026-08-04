@@ -24,9 +24,8 @@ describe('the route reported to analytics', () => {
     for (const path of PUBLIC_ROUTES) {
       expect(analyticsRouteFor(path)).toBe(path);
     }
-    // Distinct rows, one per page: the whole reason auto-track is off. `/houses` joined 2026-07-31
-    // and it is the page whose traffic the letters are meant to produce, so a row it shared with
-    // the home would hide exactly the number the segment is being judged on.
+    // Distinct rows, one per page: the whole reason auto-track is off. A row shared with the
+    // home would hide exactly the per-page number the outreach is being judged on.
     expect(new Set(PUBLIC_ROUTES.map(analyticsRouteFor)).size).toBe(PUBLIC_ROUTES.length);
   });
 

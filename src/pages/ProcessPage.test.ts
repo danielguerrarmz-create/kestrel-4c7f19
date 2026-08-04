@@ -19,4 +19,9 @@ describe('ProcessPage growth sequence', () => {
     expect(html).not.toContain('Complete project budgets');
     expect(html).not.toContain('Established through feasibility and engineering');
   });
+
+  it('the steps section opens a door to the commissions page (2026-08-04, Clay)', () => {
+    expect(html).toContain('Five steps from conversation to stewardship.');
+    expect(html).toMatch(/href="\/commissions"[^>]*>What a Bower makes possible/);
+  });
 });

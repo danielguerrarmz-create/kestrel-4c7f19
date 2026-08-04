@@ -34,6 +34,8 @@ Commissioning sequence
 
 ## Five steps from conversation to stewardship.
 
+[What a Bower makes possible](/commissions)
+
 -
 
 1 Conversation

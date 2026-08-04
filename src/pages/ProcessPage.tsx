@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
+import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
@@ -130,6 +131,7 @@ export function ProcessPage() {
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">Commissioning sequence</p>
             <h2 className="mt-4 max-w-[12ch] font-serifDisplay text-[clamp(1.8rem,3.5vw,3.4rem)] leading-[1.02]">Five steps from conversation to stewardship.</h2>
+            <a href={routes.commissions} className="group mt-8 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">What a Bower makes possible <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
           </div>
           <ol className="border-b border-inkBlack/10">
             {PROCESS_STEPS.map((step, index) => (

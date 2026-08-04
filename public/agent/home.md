@@ -60,9 +60,9 @@ A timber framework cared for as the garden grows into it and changes its charact
 
 ](/process)
 
-One repeatable timber system. A different Bower for every landscape.
+Three founding commissions across England. A different Bower for every landscape.
 
-We are selecting three exceptional sites for the system’s founding commissions.
+We are selecting the landscapes now, with first installations targeted for 2027.
 
 [Discuss a founding commission](/contact)
 

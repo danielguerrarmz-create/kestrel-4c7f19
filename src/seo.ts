@@ -87,7 +87,7 @@ export interface PageMeta {
 /** The only targets `resolveRoute(path, false)` can return: the four pages production serves.
  *  Narrowing it here is what makes `META` exhaustive by construction — add a public page and the
  *  compiler asks for its title rather than letting it ship with the home's. */
-type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree'>;
+type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree' | 'houses'>;
 
 /**
  * Keyed by the PRODUCTION route target, not by path, on purpose: a crawler asking for `/studio`
@@ -100,10 +100,10 @@ const META: Record<ProductionTarget, PageMeta> = {
     path: routes.home,
     title: 'Grow a living Bower in your garden',
     description:
-      'A site-specific living timber pavilion, planted so that the garden continues its making. Bower is selecting three founding commission sites.',
+      'A site-specific living timber pavilion, planted so that the garden continues its making. Bower is selecting the landscapes for its three founding commissions.',
     ogTitle: 'Grow a living Bower in your garden',
     ogDescription:
-      'A repeatable timber building system. A different living Bower for every exceptional landscape.',
+      'Three founding commissions across England. A different living Bower for every landscape.',
   },
   gallery: {
     path: routes.gallery,
@@ -117,7 +117,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   commissions: {
     path: routes.commissions,
     title: 'Commissions for gardens and cultural landscapes | Bower',
-    description: 'Living timber pavilions for cultural landscapes, gathering, ecology and learning. Bower is selecting its founding commissions in Britain.',
+    description: 'Living timber pavilions for cultural landscapes, gathering, ecology and learning. Bower is selecting its founding commissions across England.',
     ogTitle: 'Bower: founding commissions',
     ogDescription: 'Living architecture drawn for one landscape and completed over time by planting, weather and use.',
   },
@@ -131,9 +131,9 @@ const META: Record<ProductionTarget, PageMeta> = {
   contact: {
     path: routes.contact,
     title: 'Discuss a founding commission | Bower',
-    description: 'Speak with Bower about a founding commission for a garden, estate or cultural landscape in Britain, from first feasibility to a built work.',
+    description: 'Speak with Bower about a founding commission for a garden, estate or cultural landscape in England, from first feasibility to a built work.',
     ogTitle: 'Discuss a founding Bower commission',
-    ogDescription: 'Bower is speaking with gardens, estates and cultural landscapes about its first built works in Britain.',
+    ogDescription: 'Bower is speaking with gardens, estates and cultural landscapes about its first built works in England.',
   },
   press: {
     path: routes.press,
@@ -151,18 +151,8 @@ const META: Record<ProductionTarget, PageMeta> = {
     ogDescription:
       'The price, the planning position, what building one does to a lawn, and how long it takes. The questions people actually ask, answered plainly.',
   },
-  houses: {
-    path: routes.houses,
-    // NO FIGURES AND NO CAPACITY IN THE HEAD. The same rule as the price: a link card is cached for
-    // months by iMessage, WhatsApp, Slack and LinkedIn, gets screenshotted, and cannot be un-cached
-    // by a green test. A capacity is exactly the claim this segment checks first.
-    title: 'Garden pavilions for houses that receive people | Bower',
-    description:
-      'A woven timber room for a house that receives people. Raised once on ground screws, it stands through the winter and is better in its tenth year than its first.',
-    ogTitle: 'Bower: for houses that receive people',
-    ogDescription:
-      'A room in the garden that is there in November. Raised once, planted, and left standing. Drawn for the house it belongs to.',
-  },
+  // `/houses` was gated to dev-only on 2026-08-04, so production serves the home splash there and
+  // its META entry left with it — `ProductionTarget` excludes it, the same shape as `aboutTree`.
   about: {
     path: routes.about,
     title: 'About Bower: what we build, and why',
