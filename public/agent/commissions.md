@@ -18,6 +18,10 @@ Commissions
 
 Each Bower begins with a landscape and the life already gathering there. It is drawn for one place, not selected from a catalogue.
 
+![A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond](/assets/gallery/01-wisteria-walk.webp)
+
+Concept visualisation
+
 Cultural landscapes
 
 Hospitality and gathering

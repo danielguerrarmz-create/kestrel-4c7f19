@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useRef, useState, type RefObject } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
+import { useReducedMotion } from '../ui/useReducedMotion';
 
 /*
  * THE FOUNDING-TERMS LIST IS GONE (2026-08-05, Clay: "Just remove all of this shit... extra
@@ -12,6 +13,32 @@ import { srcSetFor } from '../ui/responsiveImg';
  * are the cost answer on /questions — so nothing was lost from the site, only from this band,
  * which now says the one thing an image cannot: three landscapes will be first.
  */
+
+/**
+ * A full-bleed image with scroll-linked drift (2026-08-05, Clay: the page read "rather plain
+ * for something that is so beautiful"). The img is oversized (124% of its band) and translates
+ * vertically as the band crosses the viewport, so the picture moves slower than the page and
+ * reads as depth behind it — the same useScroll-on-a-ref pattern the about-tree page uses.
+ * ±9% of the image's own height stays inside the 12% bleed at both extremes, so the drift can
+ * never expose an edge. Under reduced motion it is a plain cover image, no oversize, no drift.
+ */
+function ParallaxImg({ containerRef, src, alt }: { containerRef: RefObject<HTMLElement | null>; src: string; alt: string }) {
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], ['-9%', '9%']);
+  return (
+    <motion.img
+      src={src}
+      srcSet={srcSetFor(src)}
+      sizes="100vw"
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      style={reduced ? undefined : { y }}
+      className={reduced ? 'absolute inset-0 h-full w-full object-cover' : 'absolute left-0 top-[-12%] h-[124%] w-full object-cover'}
+    />
+  );
+}
 
 const COMMISSION_TYPES = [
   {
@@ -45,6 +72,8 @@ const COMMISSION_TYPES = [
 
 export function CommissionsPage() {
   const [active, setActive] = useState<(typeof COMMISSION_TYPES)[number]['id']>('culture');
+  const interludeRef = useRef<HTMLElement>(null);
+  const bandRef = useRef<HTMLElement>(null);
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
       <SplashHeader transparent logoPill />
@@ -61,7 +90,23 @@ export function CommissionsPage() {
             Each Bower begins with a landscape and the life already gathering there. It is drawn for one place, not selected from a catalogue.
           </p>
         </header>
+        </div>
 
+        {/* THE WISTERIA INTERLUDE (2026-08-05, Clay: "rather plain for something that is so
+            beautiful"). A full-spread image moment with ZERO copy — under the take-everything-
+            away law, the richest thing this page can gain is a picture that says nothing. It
+            drifts on scroll (ParallaxImg) so the page has depth, and it carries the
+            concept-visualisation label like every render on this site. */}
+        <section ref={interludeRef} className="relative mt-16 h-[72svh] min-h-[420px] overflow-hidden bg-inkBlack sm:mt-24">
+          <ParallaxImg
+            containerRef={interludeRef}
+            src="/assets/gallery/01-wisteria-walk.webp"
+            alt="A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond"
+          />
+          <p className="absolute bottom-3 right-3 z-10 rounded-full bg-paperVellum/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/60 backdrop-blur-sm">Concept visualisation</p>
+        </section>
+
+        <div className="mx-auto w-full max-w-canvas px-gutter">
         <section className="mt-16 border-t border-inkBlack/15 pt-8 sm:mt-24">
           <div role="tablist" aria-label="Commission settings" className="flex flex-wrap gap-2">
             {COMMISSION_TYPES.map((entry) => (
@@ -137,15 +182,11 @@ export function CommissionsPage() {
             is five words, the list label is gone, and the scrim is a flat darkening plus a
             bottom gradient because legibility was ruled before atmosphere. The render keeps its
             concept-visualisation label, as every render on this site must. */}
-        <section className="relative mt-24 h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
-          <img
+        <section ref={bandRef} className="relative mt-24 h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
+          <ParallaxImg
+            containerRef={bandRef}
             src="/assets/gallery/exclusive/garden-concert-aerial.webp"
-            srcSet={srcSetFor('/assets/gallery/exclusive/garden-concert-aerial.webp')}
-            sizes="100vw"
             alt="Aerial view of musicians performing in a planted timber Bower before an audience in an estate garden"
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover"
           />
           <div aria-hidden className="absolute inset-0 bg-black/30" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
