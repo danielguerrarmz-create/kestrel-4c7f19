@@ -106,7 +106,7 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
   });
 
   /**
-   * THIS TEST HAS NOW ASSERTED THREE DIFFERENT THINGS IN FOUR DAYS, AND THAT IS THE POINT OF
+   * THIS TEST HAS NOW ASSERTED FOUR DIFFERENT THINGS IN FIVE DAYS, AND THAT IS THE POINT OF
    * WRITING IT DOWN.
    *
    *   1. The published address IS a founder's (`clay@`), because the `/questions` close prints a
@@ -115,22 +115,39 @@ describe('contact details (see pending.ts: contact-uk-phone, contact-domain-emai
    *   2. Dropped when main published `contact@`: a verified mailbox beats an argument about tone.
    *   3. The published address and the form's destination never CONVERGE, so automated mail stays
    *      out of the mailbox a client's reply arrives in.
+   *   4. The converged address begins `info@` — a literal, asserted the day Clay published it.
    *
-   * All three are now gone, because Clay published `info@` — the form's own inbox. Each rule was
-   * defensible and none was a law; they were preferences about tone and inbox hygiene, and a
-   * preference asserted as an invariant just makes the next decision look like a regression.
+   * All four are gone. The first three were preferences about tone and inbox hygiene dressed as
+   * invariants, and a preference asserted as an invariant just makes the next decision look like a
+   * regression. THE FOURTH IS THE MORE INSTRUCTIVE ONE, because it was not a preference at all —
+   * it was a LITERAL standing in for a property, and it went red on 2026-08-02 when Daniel moved
+   * the address to `contact@`. It had to be edited to let a correct change through, which is the
+   * definition of a test that is measuring the wrong thing.
    *
-   * WHAT SURVIVES IS THE PART THAT IS ACTUALLY UNSAFE TO GET WRONG: every address the site touches
-   * is on the practice domain and reaches someone. That is checked above. Here, all that is left is
-   * that the app and the serverless handler agree about where form mail goes — which is a real
-   * failure, because `api/` is built separately and carries its own copy of the constant.
+   * So it is deleted rather than updated to `contact@`, and nothing is lost: whatever real property
+   * it might have been defending is already asserted elsewhere and survives a rename.
+   *   - on the practice domain, not a free provider -> the two tests above;
+   *   - a shared address, not a person's -> the founders sweep below.
+   *
+   * WHAT SURVIVES IS THE PART THAT IS ACTUALLY UNSAFE TO GET WRONG: the app and the serverless
+   * handler agree about where form mail goes. That is a real failure mode, because `api/` is built
+   * separately by Vercel and carries its own copy of the constant.
    */
-  it('keeps form mail in the shared inbox and publishes Clay\'s address', () => {
-    expect(FORM_INBOX).not.toBe(CONTACT.email);
-    expect(FORM_INBOX.startsWith('info@')).toBe(true);
+  it('keeps form mail in the verified shared inbox while publishing Clay\'s address', () => {
+    // ROUND FIVE (2026-08-04, the merge of the founding-commission branch): the split is BACK,
+    // deliberately. The outreach is signed by Clay and /contact prints his name above the
+    // address, so the published address is his; the form keeps posting to the practice box that
+    // is known to receive. Pinned as the published VALUE (the whole point is who it names) plus
+    // the domain PROPERTY for the form box — not its local part, which is the literal-for-a-
+    // property mistake item 4 above records.
     expect(CONTACT.email).toBe('clay@bowerbuild.org');
+    expect(FORM_INBOX).not.toBe(CONTACT.email);
+    expect(FORM_INBOX.endsWith('@bowerbuild.org')).toBe(true);
     // The founders' direct addresses stay distinct from the shared one, so `/about/practice` can
     // still offer a named person. If these ever collapse, that page stops meaning anything.
+    // The emptiness assert is the repo's standing law: a for-loop over zero founders would pass
+    // while checking nothing, in the file written to catch exactly that class of bug.
+    expect(FOUNDERS.length).toBeGreaterThan(0);
     for (const f of FOUNDERS) expect(f.email).not.toBe(FORM_INBOX);
   });
 });

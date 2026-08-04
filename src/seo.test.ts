@@ -217,6 +217,34 @@ describe('structured data', () => {
     expect(JSON.parse(block![1])).toEqual(organizationJsonLd());
   });
 
+  /**
+   * AND THE `<noscript>` PROSE IS THE SAME FACT A THIRD TIME, IN HAND-WRITTEN HTML.
+   *
+   * The JSON-LD above is pinned; this paragraph was not, and it is the more likely of the two to
+   * drift, because it is prose in a file nobody opens rather than a structured block a test already
+   * names. `COMPANY_DESCRIPTION` moved on 2026-08-01 and this block happened to be updated in the
+   * same commit — by hand, which is the whole problem. Nothing would have failed if it had not been.
+   *
+   * It is asserted against `organizationJsonLd().description` rather than against
+   * `COMPANY_DESCRIPTION` alone because the paragraph is the FULL description (the positioning
+   * sentence plus what the thing is), which is exactly what the schema publishes. One source, three
+   * surfaces, two of them now pinned to the first.
+   *
+   * Whitespace is collapsed before comparing: the HTML is wrapped to the file's line width, so a
+   * byte-identical assertion would fail on a reflow and teach the next person to delete the test.
+   * Collapsing is not a loophole here — an editor cannot change a WORD without failing.
+   */
+  it('the <noscript> paragraph is the Organization description, not a hand-copy that can drift', () => {
+    const noscript = indexHtml.match(/<noscript>([\s\S]*?)<\/noscript>/);
+    expect(noscript, 'index.html must carry a <noscript> block').toBeTruthy();
+    const paragraphs = [...noscript![1].matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) =>
+      m[1].replace(/\s+/g, ' ').trim(),
+    );
+    // The sweep must have found something, or this asserts nothing at all.
+    expect(paragraphs.length).toBeGreaterThan(0);
+    expect(paragraphs[0]).toBe(organizationJsonLd().description);
+  });
+
   it('the founders match the About page ledger exactly', () => {
     // FOUNDER_NAMES is duplicated out of `TEAM` to keep the About ledger out of the home bundle.
     // The duplication is only safe because this asserts it.

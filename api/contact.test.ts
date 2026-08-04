@@ -88,7 +88,40 @@ describe('the message itself', () => {
 
   it('goes to the form inbox, from a domain address', () => {
     expect(msg.to).toEqual([FORM_INBOX]);
-    expect(FORM_SENDER).toContain('@bowerbuild.org');
+    // `bowerbuild.org`, NOT `@bowerbuild.org`. This asserted the latter and WENT RED on 2026-08-02
+    // when the sender moved to `send.bowerbuild.org`, because `@bowerbuild.org` is not a substring
+    // of `noreply@send.bowerbuild.org`. It read as "on the practice domain" and was really pinning
+    // the mail host to the APEX. The domain question is now owned by the test below, which asks it
+    // as a property; this line is left only as the cheap sanity check it was meant to be.
+    expect(FORM_SENDER).toContain('bowerbuild.org');
+  });
+
+  /**
+   * THE SENDER MUST BE A SUBDOMAIN, NEVER THE APEX.
+   *
+   * WHY (the long version is on `FORM_SENDER`): the apex carries Google's MX for the practice's
+   * real mail, Resend's verification wants its OWN MX for the bounce return path, and SPF is
+   * single-record by spec, so a second `v=spf1` on the apex would PERMERROR and invalidate BOTH.
+   * Moving the sender to the apex would break inbound mail to the address this site publishes.
+   * **That is a worse failure than the form not sending, and it would be silent** — the form would
+   * keep working while client replies stopped arriving.
+   *
+   * That risk had NO test. The assertion above looked like the guard and was not: it pinned the
+   * apex, so it failed the moment the ruling was implemented. A test that goes red on a correct
+   * change teaches the next person to edit it rather than believe it, which is precisely how this
+   * repo lost `config.test.ts`'s `startsWith('info@')` two days ago.
+   *
+   * SO THIS ASSERTS THE PROPERTY: a subdomain OF the organizational domain. Renaming `send.` to
+   * `mail.` is a free edit; a revert to the apex fails. The `.bowerbuild.org` half is what keeps
+   * DMARC aligned, since alignment is evaluated against the organizational domain.
+   */
+  it('sends from a SUBDOMAIN, never the apex, or Google MX and SPF collide', () => {
+    const host = FORM_SENDER.match(/<[^@]+@([^>]+)>/)?.[1];
+    expect(host, `FORM_SENDER is not an addr-spec in angle brackets: ${FORM_SENDER}`).toBeTruthy();
+    // DMARC alignment: same organizational domain, so the subdomain still passes.
+    expect(host!.endsWith('.bowerbuild.org')).toBe(true);
+    // The part the guard above misses.
+    expect(host, 'the sending domain must not be the apex').not.toBe('bowerbuild.org');
   });
 
   /**
@@ -96,9 +129,9 @@ describe('the message itself', () => {
    * person wiring up the form is not always the person holding the DNS.
    *
    * The risk it introduces is precisely that it is forgotten: mail quietly going to a personal
-   * address from `onboarding@resend.dev` forever, while everyone believes `info@` is live. So the
-   * defaults are asserted as the REAL ones — an unset environment can only ever produce the
-   * production sender and the production inbox.
+   * address from `onboarding@resend.dev` forever, while everyone believes the practice inbox is
+   * live. So the defaults are asserted as the REAL ones — an unset environment can only ever
+   * produce the production sender and the production inbox.
    */
   it('defaults to the real sender and the real inbox when nothing is overridden', () => {
     const m = buildMessage({ email: 'a@b.com' }, NOW, {});
@@ -138,18 +171,28 @@ describe('the endpoint agrees with the app it serves', () => {
     expect(FORM_INBOX).toBe(APP_FORM_INBOX);
   });
 
-  it('keeps form notifications in the shared inbox while publishing Clay\'s direct address', () => {
+  it('keeps form notifications in the verified inbox while publishing Clay\'s direct address', () => {
     /**
-     * INVERTED 2026-08-01. This asserted the opposite — that form mail must NOT land in the mailbox
-     * a client's own reply arrives in — which held while the site published `clay@` and the form
-     * posted to `info@`. Clay then published `info@`, so the two are one inbox.
+     * THIS ASSERTION HAS NOW HELD BOTH SHAPES, so the history is the content. It began as a split
+     * (form to `info@`, site prints `clay@` — inbox hygiene), was INVERTED 2026-08-01 when Clay
+     * published the form's own inbox ("the failure that costs a commission is a message nobody
+     * reads, not a message in the wrong folder"), and the equal-constants version closed with:
+     * "a future split is a deliberate edit here."
      *
-     * The old rule was inbox hygiene, not safety, and at a two-person practice the failure that
-     * costs a commission is a message nobody reads, not a message in the wrong folder. Kept as an
-     * assertion rather than deleted so that a future split is a deliberate edit here, and so this
-     * file records that they were once separate and why.
+     * THIS IS THAT DELIBERATE EDIT (2026-08-04, the founding-commission merge). The outreach is
+     * signed by Clay personally and `/contact` prints his name directly above the address, so the
+     * site publishes `clay@`; the form keeps posting to `contact@`, the box this repo has always
+     * known to receive, wired to the `send.bowerbuild.org` sending domain. The split's cost —
+     * two mailboxes to watch — is accepted because the verified box still sees every enquiry the
+     * site itself generates while `clay@` is being confirmed.
+     *
+     * The form box is pinned as a domain PROPERTY, not a local part: the `startsWith('info@')`
+     * literal in `config.test.ts` went red on a correct change on 2026-08-02, which is the
+     * signature of a test measuring the wrong thing. The published address IS pinned by value,
+     * because naming Clay is the entire decision.
      */
-    expect(FORM_INBOX).toBe('info@bowerbuild.org');
+    expect(FORM_INBOX).not.toBe(CONTACT.email);
+    expect(FORM_INBOX.endsWith('@bowerbuild.org')).toBe(true);
     expect(CONTACT.email).toBe('clay@bowerbuild.org');
   });
 

@@ -55,15 +55,40 @@ sit in the structure, and a venue owner is not buying somewhere to sit.
     built work their record is the only substitute for a portfolio of finished buildings, so going
     anonymous the moment buyers ask "will these people exist in three years" makes the practice look
     smaller, not more corporate.
-- **TWO ADDRESSES, AND THE SPLIT IS THE POINT.** `CONTACT.email` = **`clay@bowerbuild.org`** is what
-  the site PRINTS (the `/questions` close names "Clay Seifert" one line above it; an `info@` in that
-  position puts a front desk between the reader and the person they just read the name of).
-  `FORM_INBOX` = **`info@bowerbuild.org`** is where the FORM posts — a machine writing to a machine,
-  durable, fans out later. `config.test.ts` pins that they never converge.
+- **ONE ADDRESS: `contact@bowerbuild.org` (Daniel, 2026-08-02, "our new email").** `CONTACT.email`
+  (what the site PRINTS) and `FORM_INBOX` (where the FORM posts) are the SAME value, and
+  `config.test.ts` + `api/contact.test.ts` pin them EQUAL. **This block said the opposite until
+  2026-08-02 and it was two versions stale**: it described a deliberate `clay@` / `info@` split that
+  `345a8eb` had already retired, and the "never converge" rule it quoted had been inverted in that
+  same commit. Nothing failed, because a map cannot fail.
+  - **The constants stay two names even though the values match.** `api/` is built by Vercel
+    independently of the Vite app and cannot import from `src/`, so it carries its own copy pinned
+    against this one. Re-splitting later should be an edit, not a refactor.
+  - **The value has changed four times in five days; do not pin the local part in a test.**
+    `config.test.ts` asserted `FORM_INBOX.startsWith('info@')` for one day and it went red on a
+    correct change. The invariants that survive a rename are: on the practice domain, not a free
+    provider, not a founder's personal address, and the app and the endpoint agree.
 - **THE SITE HAS A BACKEND NOW: `api/contact.ts`** (Vercel function, Resend), and the
   register-interest form posts to it. **It is INERT until `RESEND_API_KEY` is set in Vercel** — this
   repo is PUBLIC so no key can live here — returning a real `503 not-configured`, which the form
-  reads. **The outcome is decided by the SERVER, never by the click**: "we will be in touch" renders
+  reads.
+  - **MAIL IS SENT FROM THE SUBDOMAIN `send.bowerbuild.org` AND RECEIVED AT `contact@bowerbuild.org`.
+    That asymmetry is deliberate and the apex is FORBIDDEN as a sending domain** (Daniel,
+    2026-08-02): the apex carries Google's MX for the practice's real mail, Resend wants its own MX
+    for the return path, and SPF is single-record by spec so a second `v=spf1` there would PERMERROR
+    and invalidate BOTH. Breaking that breaks INBOUND mail to the published address, which is worse
+    than the form failing and is silent. Guarded in `api/contact.test.ts` as a property (a subdomain
+    of the organizational domain), not as a literal. DMARC still aligns.
+  - **`GET /api/contact` REPORTS THE KEY, NOT READINESS.** `configured` is
+    `Boolean(RESEND_API_KEY)`; the function cannot see domain verification, so it says
+    `configured: true` on a deployment where every submission returns 502. Useful because it costs
+    no fake enquiry in the client inbox; **not** evidence that mail sends.
+  - **Production needs `RESEND_API_KEY` and nothing else.** `RESEND_FROM` / `RESEND_TO` are the
+    sandbox escape hatch and stay UNSET in production: a sender living in a dashboard variable is a
+    fact with no test and no reviewer.
+  - **No durable store: a failed send loses the enquiry.** Accepted as reversible (Daniel,
+    2026-08-02). The reader is told plainly and given the phone and the address, so recovery is
+    theirs to act on, not ours. **The outcome is decided by the SERVER, never by the click**: "we will be in touch" renders
   only on a 2xx, everything else prints the phone and the address. That shape exists because this
   site already shipped the opposite once. **`vercel.json` MUST keep `api/` out of the SPA rewrite**
   or the form POSTs to the HTML shell, gets a 200, and promises a reply forever while sending
