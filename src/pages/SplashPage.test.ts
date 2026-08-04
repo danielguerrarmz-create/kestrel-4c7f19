@@ -52,6 +52,7 @@ describe('SplashPage', () => {
     expect(html).toContain('/assets/process/evolution/mature.webp');
     expect(html).toContain('group-hover:opacity-100');
     expect(html).toContain('duration-[1400ms]');
+    expect(html).not.toContain('[@media(hover:none)]:opacity-100');
     expect(html).toContain(`href="${routes.commissions}"`);
     expect(html).toContain(`href="${routes.gallery}"`);
     expect(html).toContain(`href="${routes.process}"`);
