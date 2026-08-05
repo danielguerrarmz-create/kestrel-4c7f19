@@ -267,9 +267,80 @@ describe('the Vercel SPA rewrite', () => {
       '/favicon.svg',
       '/hero/v3/pavilion.jpg',
       '/fonts/x.woff2',
+      '/bimi/bower.svg',
     ]) {
       expect(re.test(path), `${path} must be served from disk, not rewritten to HTML`).toBe(false);
     }
+  });
+});
+
+/**
+ * The BIMI logo is referenced from DNS, by a fetcher that is not a browser and will not tell
+ * anyone it failed. `default._bimi.bowerbuild.org` publishes `l=https://www.bowerbuild.org/bimi/
+ * bower.svg`, and a mailbox provider that pulls HTML, or an SVG outside the Tiny Portable/Secure
+ * profile, simply declines to show a logo. There is no error surface anywhere: no bounce, no
+ * report, no console. Same shape as the DMARC record that was published at `dmarc` instead of
+ * `_dmarc` and resolved perfectly at a name no receiver ever queries.
+ *
+ * So the two things that can silently break it are pinned here: the rewrite must not swallow the
+ * path (above), and the file must stay inside the profile (below).
+ */
+describe('the BIMI logo stays inside SVG Tiny P/S', () => {
+  const svg = readFileSync(new URL('../public/bimi/bower.svg', import.meta.url), 'utf8');
+
+  it('declares the profile the specification requires', () => {
+    expect(svg).toMatch(/\bversion="1\.2"/);
+    expect(svg).toMatch(/\bbaseProfile="tiny-ps"/);
+    expect(svg).toMatch(/<title>[^<]+<\/title>/);
+  });
+
+  it('is square, and sized only by its viewBox', () => {
+    const viewBox = svg.match(/viewBox="0 0 (\d+) (\d+)"/);
+    expect(viewBox, 'a viewBox is mandatory').not.toBeNull();
+    expect(viewBox![1]).toBe(viewBox![2]);
+    // x/y are forbidden on the root, and width/height on the root defeat the crop the profile
+    // assumes. The mark scales from the viewBox alone.
+    expect(svg).not.toMatch(/<svg[^>]*\s(x|y|width|height)=/);
+  });
+
+  it('carries nothing the profile forbids', () => {
+    // No script, no animation, no external reference, no raster, no CSS. Each of these is a
+    // reason a provider drops the logo without saying so.
+    for (const banned of [
+      '<script',
+      '<style',
+      '<image',
+      '<foreignObject',
+      '<a ',
+      '<use',
+      'xlink',
+      'animate',
+      'href=',
+      'class=',
+      'data:',
+    ]) {
+      expect(svg.includes(banned), `${banned} is not allowed in an SVG P/S logo`).toBe(false);
+    }
+  });
+
+  it('is opaque, because the logo is composited onto an unknown surface', () => {
+    // The avatar exports learned this the expensive way: a transparent, heavily padded mark
+    // composites onto whatever colour the client uses and disappears in dark mode. A BIMI logo
+    // is cropped to a circle by the client, so it needs its own ground.
+    expect(svg).toMatch(/<rect[^>]*fill="#FBF9F3"/);
+  });
+
+  it('fits inside the circle every mail client crops it to', () => {
+    // The mark's own extent is 5..95 in its unscaled coordinates, i.e. 45 units from centre.
+    // `bower-avatar-tight` established scale(0.84) as the framing that survives a 32px render:
+    // 0.84 * 45 = 37.8 of the 50-unit radius, so nothing clips.
+    const scale = svg.match(/scale\(([\d.]+)\)/);
+    expect(scale).not.toBeNull();
+    expect(45 * Number(scale![1])).toBeLessThan(50);
+  });
+
+  it('is small enough for the 32 kB ceiling', () => {
+    expect(Buffer.byteLength(svg, 'utf8')).toBeLessThan(32 * 1024);
   });
 });
 
