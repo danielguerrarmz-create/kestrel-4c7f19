@@ -34,22 +34,33 @@ describe('questions copy', () => {
     expect(cost).not.toContain('£350,000');
     expect(cost).not.toContain('£18,000');
     expect(cost).toContain('paid feasibility study');
-    expect(cost).toContain('engineering route');
+    // 'engineering route' left with the old COMMISSION_STATEMENT (2026-08-05, Clay's rewording);
+    // the position it pinned — no figure before the testing — is COMMISSION_BUDGET_POSITION,
+    // asserted above by the constant itself.
   });
 
   it('answers built status, public use, weather, planning and scale plainly', () => {
+    // LITERALS UPDATED 2026-08-05 with the plain-register rewrite (Clay: beautiful and deliberate,
+    // no committee vocabulary). Each pin is the presence half of a fact the answer must keep
+    // carrying, whatever its phrasing does next; the waterproof answer's full shape (default
+    // first, engineered option with its cost) is pinned in houseRules.test.ts.
     for (const id of ['built-status', 'public-programmes', 'waterproof', 'planning', 'size']) {
       expect(QUESTIONS.some((item) => item.id === id), `missing ${id}`).toBe(true);
     }
     expect(allCopy).toContain('Not yet.');
     expect(allCopy).toContain('open garden building');
-    expect(allCopy).toContain('accessibility, fire safety, escape');
-    expect(allCopy).toContain('Scale, span and occupancy');
+    // Public use: the duties are named in plain words and none of them is promised.
+    expect(allCopy).toContain('level ways in, safe ways out');
+    // Size: still no capacity figure invented here — the range is stated as rooms, not heads.
+    expect(allCopy).toContain('decide the structure, the planning route and the cost');
   });
 
   it('does not assume permitted development or a settled foundation route', () => {
     expect(allCopy.toLowerCase()).not.toContain('permitted development');
-    expect(allCopy).toContain('foundation and access strategy is developed for the particular site');
+    // The lawn answer may not name a method (ground screws belong to the arguing pages); what it
+    // must say instead is that the ground decides and Stage 1 is where it is decided.
+    expect(allCopy).toContain('we will not promise a method before we have walked the ground');
+    expect(allCopy.toLowerCase()).not.toContain('ground screw');
   });
 
   it('provides the named domain contact and a paid-feasibility next step', () => {

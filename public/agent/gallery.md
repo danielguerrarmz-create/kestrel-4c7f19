@@ -38,7 +38,7 @@ Concept studies for the first Bowers.
 
 ![A curator speaking to visitors gathered within a planted timber Bower, with sculpture and parkland beyond](/assets/gallery/favorites/curator-in-landscape.webp)
 
-06 The curator’s room A place from which a landscape and its art can be encountered together. A curator’s talk Mature planting Sculpture landscape Concept visualisation
+06 The curator’s room Where a landscape and its art are seen together. A curator’s talk Mature planting Sculpture landscape Concept visualisation
 
 ![Guests gathered beneath a broad timber canopy amid planting in a sculpture garden](/assets/gallery/exclusive/estate-gathering.webp)
 
@@ -54,7 +54,7 @@ Concept studies for the first Bowers.
 
 ![The heart of a large bower, a lattice dome carried on rooted columns, benches and a small fountain among the planting](/assets/gallery/07-fountain-room.webp)
 
-10 The fountain room A more ambitious planted dome imagined around an existing fountain. An inhabitable artwork Mature planting Cultural landscape Concept visualisation
+10 The fountain room A planted dome imagined around an existing fountain. An inhabitable artwork Mature planting Cultural landscape Concept visualisation
 
 ![A pavilion whose lattice crown carries glazing, roses and wisteria growing over the rim, carved benches inside and a pond at its feet](/assets/gallery/03-glass-crown.webp)
 
@@ -66,7 +66,7 @@ Concept studies for the first Bowers.
 
 ![A garden walk under a sweeping lattice roof, stained glass set between the timbers, a curved bench following the path](/assets/gallery/04-stained-glass-walk.webp)
 
-13 The stained glass walk A walk again, following an existing path. Coloured glass set between the timbers. Garden interpretation Establishing planting Walled garden Concept visualisation
+13 The stained glass walk A walk again, following an existing path. Coloured glass set between the timbers. An afternoon walk Establishing planting Walled garden Concept visualisation
 
 ![Inside the bower, stained glass glowing between woven branches, wisteria hanging through the crown, cushioned benches along the walls](/assets/gallery/05-stained-glass-interior.webp)
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { APPLY_CTA, FOUNDING_COHORT_LINE, ritualSteps } from './copy';
+import { APPLY_CTA, ritualSteps } from './copy';
 
 describe('home commissioning copy', () => {
   it('uses five honest commissioning stages', () => {
@@ -11,10 +11,9 @@ describe('home commissioning copy', () => {
     expect(steps.map((step) => step.text).join(' ')).not.toMatch(/[—–]/);
   });
 
-  it('uses the requested founding-commission action without artificial scarcity', () => {
+  it('uses the requested founding-commission action', () => {
+    // FOUNDING_COHORT_LINE's assertions left with the constant (2026-08-05): the sentence it fed
+    // was cut from the close, and the constant itself had been an orphan rendering nowhere.
     expect(APPLY_CTA).toBe('Discuss a founding commission');
-    expect(FOUNDING_COHORT_LINE).toContain('paid feasibility studies');
-    expect(FOUNDING_COHORT_LINE).toContain('2027');
-    expect(FOUNDING_COHORT_LINE).not.toMatch(/available|only|limited/i);
   });
 });

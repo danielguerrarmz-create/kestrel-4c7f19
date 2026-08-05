@@ -17,13 +17,15 @@ describe('SplashPage', () => {
     expect(html).toContain('A shaded resting place in a garden');
     expect(html).toContain('Designed for your garden');
     expect(html).toContain('plant</em> that grows through it.');
-    // The close band (2026-08-04, Clay): the commission count and the buyer's noun. "System" is
-    // the investor register and stays off the buyer surface; "sites" is procurement vocabulary.
-    expect(html).toContain('Three founding commissions across England');
-    // Clay's sentence of 2026-08-05, verbatim ("All you should say for primary CTA"). The
-    // explicit unbuilt admission lived here for one day and he cut it: "the first landscapes"
-    // carries the novelty, and /questions Q6 keeps the explicit record.
-    expect(html).toContain('We are selecting the first landscapes now, with first installations targeted for 2027.');
+    // The close band (2026-08-05, Clay, second ruling that day): heading, sub-heading in the
+    // same face, CTA — nothing else. "System" is the investor register and stays off the buyer
+    // surface; "sites" is procurement vocabulary; and the supporting sentence ("We are selecting
+    // the first landscapes now, with first installations targeted for 2027") was nixed with it,
+    // so its absence is pinned the same way the earlier cuts are.
+    expect(html).toContain('Three founding commissions across England.');
+    expect(html).toContain('A different Bower for every landscape.');
+    expect(html).not.toContain('We are selecting the first landscapes');
+    expect(html).not.toContain('targeted for');
     expect(html).not.toContain('repeatable timber system');
     expect(html).not.toContain('exceptional sites');
   });

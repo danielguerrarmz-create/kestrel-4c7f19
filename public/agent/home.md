@@ -36,7 +36,7 @@ A place to inhabit
 
 ### Gather
 
-Meals, conversations, performances and the quiet daily use of a garden.
+A long table, music, talk, and the ordinary days of a garden.
 
 ](/commissions) [
 
@@ -46,7 +46,7 @@ Meals, conversations, performances and the quiet daily use of a garden.
 
 ### Observe
 
-A sheltered vantage from which planting, weather and the changing seasons become more present.
+A place to sit and watch the year move through the garden.
 
 ](/gallery) [
 
@@ -56,13 +56,13 @@ A sheltered vantage from which planting, weather and the changing seasons become
 
 ### Tend
 
-A timber framework cared for as the garden grows into it and changes its character.
+A frame the garden grows into: climbers tied in and trained, until the building is finished in leaves.
 
 ](/process)
 
-Three founding commissions across England. A different Bower for every landscape.
+## Three founding commissions across England.
 
-We are selecting the first landscapes now, with first installations targeted for 2027.
+A different Bower for every landscape.
 
 [Discuss a founding commission](/contact)
 

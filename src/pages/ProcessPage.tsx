@@ -6,10 +6,16 @@ import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
+/*
+ * STEPS 2 AND 3 REWRITTEN 2026-08-05 (Clay's plain-register pass; the review named step 2 the
+ * worst sentence then live). "Siting, programme, access, planning constraints, structural and
+ * fabrication routes, project range and delivery sequence" was eight abstract nouns; the same
+ * scope now reads as the four questions a reader actually has. Steps 1, 4 and 5 stand.
+ */
 export const PROCESS_STEPS = [
   { title: 'Conversation', body: 'We begin with the landscape, the people who use it and the kind of life the pavilion should gather.' },
-  { title: 'Feasibility', body: 'A paid study tests siting, programme, access, planning constraints, structural and fabrication routes, project range and delivery sequence.' },
-  { title: 'Design and engineering', body: 'The form is developed with the appointed structural, fabrication, landscape and specialist teams.' },
+  { title: 'Feasibility', body: 'A paid study answers the hard questions first: where it sits, how it is approved, how it is built and brought in, and what it should cost.' },
+  { title: 'Design and engineering', body: 'The design is developed with the engineers, makers and gardeners who will build it.' },
   { title: 'Making', body: 'Components are fabricated, trialled where required and assembled on site.' },
   { title: 'Growth and stewardship', body: 'Planting is trained through the structure and cared for as the architecture matures.' },
 ] as const;
@@ -102,7 +108,7 @@ function GrowthEvolution() {
                 {stage.year} · {stage.label}
               </motion.p>
             ))}
-            <span className="sr-only">The same Bower is shown at installation, with establishing planting and with mature planting.</span>
+            <span className="sr-only">The same Bower: raised, in first leaf, and grown.</span>
           </div>
         </div>
         <motion.div data-growth-progress aria-hidden className="absolute inset-x-0 bottom-0 h-px origin-left bg-mossDeep/70" style={{ scaleX: smoothProgress }} />

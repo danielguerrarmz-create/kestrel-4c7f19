@@ -36,12 +36,12 @@
  * credible. A later pass that reads it as a weakness and deletes it will have removed the reason
  * the page works.
  *
- * WEATHER IS ANSWERED NOW, AND THE ANSWER IS NO (2026-07-31). It was the longest-standing blocker
- * on the site — the hardest objection in the segment, because a marquee is waterproof and that is
- * the entire reason it gets hired. Clay settled it: an open garden structure, not a watertight
- * room, not to be described as rainproof. The section sits SECOND, not buried, for the reasoning in
- * its own note. `houseRules.test.ts` sweeps every page for a waterproofing claim so it cannot be
- * softened back by a later pass.
+ * WEATHER IS ANSWERED, AND THE ANSWER CHANGED ONCE (2026-07-31 "no"; AMENDED 2026-08-05, Clay: a
+ * Bower CAN be made waterproof — it adds to the engineering effort, and that is true). The default
+ * stays an open garden structure, said first; the engineered option is stated with its cost. The
+ * section sits SECOND, not buried, for the reasoning in its own note. `houseRules.test.ts` still
+ * sweeps every page: the unconditional claim ("is waterproof") stays banned, the conditional one
+ * ("can be made waterproof") is permitted.
  *
  * ONE SECTION IS STILL MISSING and it is the strongest thing this page could say: see `pending.ts`,
  * `ceremony-registrar`. Approved premises must be a permanently immovable structure comprising at
@@ -87,32 +87,25 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
   {
     id: 'weather',
     /**
-     * UNBLOCKED 2026-07-31, AND THE ANSWER IS NO.
+     * THE RULING CHANGED, 2026-08-05 (Clay): a Bower CAN be made waterproof — it adds to the
+     * engineering effort, and that is true. This supersedes the 2026-07-31 "the answer is no",
+     * which held while waterproofing was an open product question. The DEFAULT is unchanged and
+     * still said first: an open garden structure. What changed is that "must be dry" now has an
+     * answer other than canvas, and it is priced in engineering rather than promised in adjectives.
      *
-     * This section sat as a `PENDING(weather-glazed-crown)` comment because rain is the hardest
-     * objection in this segment — a marquee is waterproof and that is the entire reason it gets
-     * hired — and nobody could say what the glazed crown actually did. Clay settled it: a Bower is
-     * an open garden structure, not a watertight room, and it must not be described as rainproof.
+     * STILL PLACED SECOND ON THE PAGE, DIRECTLY AFTER WHAT IT HOLDS. This audience asks about rain
+     * inside two minutes, and an answer they find themselves is worth far less than one you
+     * volunteered. `houseRules.test.ts` still sweeps every page: the UNCONDITIONAL claim ("it is
+     * waterproof") stays banned; the conditional one ("can be made waterproof") is now permitted.
      *
-     * IT IS PLACED SECOND ON THE PAGE, DIRECTLY AFTER WHAT IT HOLDS, WHICH IS DELIBERATE. The
-     * commercially comfortable move is to bury it below the winter section, after the reader is
-     * warm. That would be a page that hopes not to be asked. This audience asks inside two minutes,
-     * and a "no" they find themselves is worth far less than a "no" you volunteered — the whole
-     * argument of the page is that this is a different KIND of room, and a different kind of room
-     * is allowed to be open to the weather. Hiding it would concede that it is a worse marquee.
-     *
-     * The last line is the load-bearing one: it reframes without retracting. Nothing here softens
-     * the "no", and `houseRules.test.ts` sweeps the rendered page to keep it that way.
+     * The last line is still the load-bearing one: the open Bower is not the fallback, it is the
+     * point.
      */
     heading: 'Weather',
     body: [
-      'It is not waterproof. A Bower is an open garden structure rather than a watertight room, and it should not be described as rainproof.',
-      'It gives shade, and increasing shelter as the planting matures and closes over the frame.',
-      // "must stay dry whatever" was the first phrasing and `houseRules.test.ts` fired on it. The
-      // sentence was innocent — it sends the reader to canvas — but the guard cannot read intent,
-      // and the phrasing is one edit away from being a claim about a Bower. Reworded rather than
-      // exempted: a guard weakened to accommodate a sentence stops catching the sentence it was for.
-      'If your guests must be dry whatever the sky is doing, that is what canvas is for, and it is the honest answer. What this gives you is the other thing: somewhere worth walking out to in the rain rather than sheltering from it.',
+      'A Bower is an open garden structure first: shade in summer, and a canopy that thickens as the planting matures.',
+      'Where the room must be dry, it can be made waterproof. That adds engineering, so it is decided at the start and designed in from the first drawing.',
+      'And an open Bower is not the lesser room. It is somewhere worth walking out to in the rain rather than sheltering from it.',
     ],
   },
   {
