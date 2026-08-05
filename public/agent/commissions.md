@@ -30,13 +30,13 @@ Cultural landscapes
 
 ## A living work
 
-For sculpture parks, galleries, estates and gardens where a Bower can become an inhabitable work, a place for interpretation and a setting for changing programmes.
+For sculpture parks, galleries, estates and gardens: a work to stand inside, changing with the garden that holds it.
 
 - Curator walks
 
 - Intimate performance
 
-- Interpretation
+- Readings and talks
 
 - Daily encounter
 
@@ -46,13 +46,13 @@ Hospitality and gathering
 
 ## A place to gather
 
-For properties where the structure can host seasonal dining, private conversations, member experiences, quiet daily use and intimate celebrations.
+For houses and gardens that receive guests: a table under the lattice, a small ceremony, an evening that ends in the garden.
 
 - Seasonal table
 
 - Shared meals
 
-- Member experiences
+- Private gatherings
 
 - Quiet daily use
 
@@ -62,7 +62,7 @@ Ecology and learning
 
 ## A place to attend to the landscape
 
-For landscapes where it can become a field room, outdoor classroom, observation point or framework gradually inhabited by planting and habitat.
+For land that is studied and taught: a field room, a classroom under leaves, a hide the habitat slowly claims.
 
 - Field room
 

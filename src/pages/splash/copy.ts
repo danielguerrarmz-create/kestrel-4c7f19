@@ -128,6 +128,9 @@ export const APPLY_CTA = 'Discuss a founding commission';
  * the test check they agree. Interpolating a bare digit would have printed "4 founding studies",
  * which is the only numeral in a page of spelled-out ones.
  */
-/** The scarcity line, set immediately beneath the CTA. Built from `FOUNDING_COHORT` so the
- *  numbers cannot drift from the constants the test guards. */
-export const FOUNDING_COHORT_LINE = `Bower is selecting the first landscapes for paid feasibility studies, with initial installations targeted for ${FOUNDING_COHORT.commissionYear}.`;
+/* `FOUNDING_COHORT_LINE` STOOD HERE AND WAS DELETED 2026-08-05 (Clay nixed the supporting
+ * sentence under the home's close: heading, sub-heading, CTA, nothing else). By then it was
+ * already an orphan — the page had been rendering its own literal, not this constant — which is
+ * the exact class of bug the /questions header documents (a fact authored and mounted nowhere).
+ * The 2027 date lives on /questions Q8 and /process; `FOUNDING_COHORT` above stays as the
+ * founding-cohort facts' one home for whoever renders them next. */

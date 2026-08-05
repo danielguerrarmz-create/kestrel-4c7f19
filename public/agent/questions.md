@@ -20,19 +20,17 @@ Whether you need permission, what it does to a lawn, how long before you are sit
 
 ## 1 How large is a Bower?
 
-Each Bower is sized around its programme and landscape. A more intimate pavilion might hold a small table or gathering, while a larger commission may support talks, performances, learning or hospitality.
+The smallest is a room for one table. The largest can hold an audience: a reading, a concert, dinner for a house party.
 
-Scale, span and occupancy are tested together because they directly affect structure, planning and cost.
+Size is settled early, with the landscape, because the span of the frame and the number of people beneath it decide the structure, the planning route and the cost.
 
 ## 2 What does it cost?
 
-Each Bower is a substantial, site-specific capital project.
+A Bower is a serious building, priced like one.
 
-We do not publish an indicative budget before the site, structure and engineering route have been tested.
+We don’t name a figure before we have tested the site and the structure, because a number before that is a guess wearing a suit.
 
-A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.
-
-The study is £20,000. The fee is credited in full against the design and engineering commission that follows.
+Stage 1, the paid feasibility study, is £20,000. The fee is credited in full against the design and engineering commission that follows.
 
 ## 3 Will I need planning permission?
 
@@ -44,15 +42,15 @@ Stage 1 establishes the likely planning route before detailed design begins.
 
 ## 4 Is a Bower waterproof?
 
-A Bower is an open garden building rather than a sealed interior or marquee. Its degree of weather protection depends on its form, planting and the requirements of the commission.
+Not by default. A Bower is an open garden building: it gives shade, and more shelter each year as the planting closes over the frame.
 
-Where greater shelter is required, any additional weather layer must be developed as part of the engineering and planning strategy.
+It can be made waterproof. That adds engineering, so it is decided at the start, and the design carries it from the first drawing.
 
 ## 5 Can it host public programmes?
 
-Yes, subject to the size, intended occupancy and site. Public use may introduce requirements concerning accessibility, fire safety, escape, structural loading, building control and event operations.
+Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.
 
-These are established during feasibility rather than assumed in advance.
+A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. Stage 1 establishes which apply before the design begins.
 
 ## 6 Has one been built?
 
@@ -62,9 +60,9 @@ The images on this site are concept visualisations, and the engineering and fabr
 
 ## 7 Will it wreck my lawn?
 
-The foundation and access strategy is developed for the particular site during feasibility. It is not responsible to promise one method before ground conditions, roots, heritage constraints and delivery access are understood.
+Not if we can help it. But soil, roots, buried services and the way in decide the foundations, so we will not promise a method before we have walked the ground. Stage 1 settles it.
 
-Construction will require a temporary working area and a managed route for deliveries. Protection, reinstatement and the sequence around the landscape calendar form part of the project plan.
+The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.
 
 ## 8 When could mine be built?
 

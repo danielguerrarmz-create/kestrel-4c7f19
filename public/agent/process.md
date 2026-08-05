@@ -28,7 +28,7 @@ Year zero to year three
 
 ## The garden continues the architecture.
 
-The same Bower is shown at installation, with establishing planting and with mature planting.
+The same Bower: raised, in first leaf, and grown.
 
 Commissioning sequence
 
@@ -46,13 +46,13 @@ We begin with the landscape, the people who use it and the kind of life the pavi
 
 2 Feasibility
 
-A paid study tests siting, programme, access, planning constraints, structural and fabrication routes, project range and delivery sequence.
+A paid study answers the hard questions first: where it sits, how it is approved, how it is built and brought in, and what it should cost.
 
 -
 
 3 Design and engineering
 
-The form is developed with the appointed structural, fabrication, landscape and specialist teams.
+The design is developed with the engineers, makers and gardeners who will build it.
 
 -
 

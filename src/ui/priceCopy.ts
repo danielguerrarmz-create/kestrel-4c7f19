@@ -126,8 +126,15 @@ export const COMMISSION_FROM = 'established after engineering';
  * £400,000 is deliberately the conservative reading. "Mid-six figures" is arguably £500,000, and
  * taking the lower bound is what makes the guard meaningful rather than flattering.
  */
+/**
+ * REWORDED 2026-08-05, CLAY'S APPROVAL VERBATIM. It read "We do not publish an indicative budget
+ * before the site, structure and engineering route have been tested" — "indicative budget" being
+ * exactly the buyer's-accountant vocabulary the house rules ban in spirit. The position is
+ * unchanged (no figure before the testing); only the voice moved, and Clay approved this
+ * sentence word for word in review.
+ */
 export const COMMISSION_BUDGET_POSITION =
-  'We do not publish an indicative budget before the site, structure and engineering route have been tested.';
+  'We don’t name a figure before we have tested the site and the structure, because a number before that is a guess wearing a suit.';
 
 /**
  * HOW THE COMPANY DESCRIBES ITSELF (Clay, 2026-08-01), replacing "design studio" and "design
@@ -152,12 +159,19 @@ export const COMPANY_DESCRIPTION =
  *  published number once did. */
 /**
  * The whole published cost statement, as one paragraph set, so `/questions` and `/houses` cannot
- * drift. Clay's words; the only change was the house dash rule.
+ * drift.
+ *
+ * REWRITTEN 2026-08-05 (Clay approved the wording verbatim in review). The old three sentences —
+ * "substantial, site-specific capital project", the "indicative budget" position, and a
+ * feasibility sentence listing "brief, site conditions, engineering route and project-specific
+ * budget range" — were the last committee voice on /questions. "Capital project" in particular
+ * sat one step from the banned buyer-finance vocabulary. Two sentences now do the same three
+ * jobs: serious building, no early figure, and the reason. The study sentence moved to the
+ * callers, which each name Stage 1 in their own register beside the fee.
  */
 export const COMMISSION_STATEMENT: readonly string[] = [
-  'Each Bower is a substantial, site-specific capital project.',
+  'A Bower is a serious building, priced like one.',
   COMMISSION_BUDGET_POSITION,
-  'A paid feasibility study establishes the brief, site conditions, engineering route and project-specific budget range before a commission is accepted.',
 ];
 
 /**

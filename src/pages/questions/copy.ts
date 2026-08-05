@@ -76,11 +76,13 @@
  * true**, and the substance still has to exist before a venue can transact — it is simply no longer
  * promised on a public page in the meantime.
  *
- * AND RAIN IS ANSWERED NOW, WHICH IS THE BIGGEST SINGLE CHANGE ON THE PAGE. "Is it waterproof?
- * No." closed `weather-glazed-crown`, the spec's hardest objection in the segment, in the least
- * convenient direction available. See the note on that entry: the "no" is what makes the rest of
- * the page credible, and `houseRules.test.ts` now sweeps every page for a waterproofing claim so
- * that a later pass cannot soften it back.
+ * AND RAIN IS ANSWERED, IN TWO RULINGS. "Is it waterproof? No." (2026-07-31) closed
+ * `weather-glazed-crown`, the spec's hardest objection in the segment, in the least convenient
+ * direction available. AMENDED 2026-08-05 (Clay): a Bower CAN be made waterproof — it adds to the
+ * engineering effort, and that is true. The default stays open and is said first; the engineered
+ * option carries its cost in the same breath. `houseRules.test.ts` still sweeps every page: the
+ * unconditional claim stays banned, the conditional one is permitted, and both halves of the
+ * answer are pinned present.
  *
  * WHAT THIS PAGE DELIBERATELY DOES NOT SAY, both withdrawn from the spec's own earlier draft:
  * a house-scale tier with capacities (Bower cannot engineer or price at marquee scale and has built
@@ -115,10 +117,17 @@ export interface QA {
 export const QUESTIONS: readonly QA[] = [
   {
     id: 'size',
+    /**
+     * REWRITTEN OUT OF COMMITTEE VOICE, 2026-08-05 (Clay: the site's small language should be
+     * beautiful and deliberate, Tolkien as the touchstone — concrete nouns, no professional
+     * vocabulary). "Programme", "occupancy" and "hospitality" went; the facts stayed: sized per
+     * commission, no published capacity tier (see data/capacity.ts on why), and size is settled
+     * early because it drives structure, planning and cost.
+     */
     q: 'How large is a Bower?',
     a: [
-      'Each Bower is sized around its programme and landscape. A more intimate pavilion might hold a small table or gathering, while a larger commission may support talks, performances, learning or hospitality.',
-      'Scale, span and occupancy are tested together because they directly affect structure, planning and cost.',
+      'The smallest is a room for one table. The largest can hold an audience: a reading, a concert, dinner for a house party.',
+      'Size is settled early, with the landscape, because the span of the frame and the number of people beneath it decide the structure, the planning route and the cost.',
     ],
   },
   {
@@ -134,7 +143,9 @@ export const QUESTIONS: readonly QA[] = [
     q: 'What does it cost?',
     a: [
       ...COMMISSION_STATEMENT,
-      `The study is ${STAGE_1_FEE}. ${STAGE_1_CREDIT}`,
+      // "The study" lost its antecedent when the feasibility sentence left COMMISSION_STATEMENT
+      // (2026-08-05), so the fee line names the thing it prices.
+      `Stage 1, the paid feasibility study, is ${STAGE_1_FEE}. ${STAGE_1_CREDIT}`,
     ],
   },
   {
@@ -184,18 +195,33 @@ export const QUESTIONS: readonly QA[] = [
      * than a note: `houseRules.test.ts` sweeps every rendered page for a waterproofing claim. A
      * rule that lives only in a comment is a rule the next copy pass will not read.
      */
+    /**
+     * THE RULING CHANGED, 2026-08-05 (Clay): a Bower CAN be made waterproof; it adds to the
+     * engineering effort, and that is true. This supersedes the 2026-07-31 "the answer is no"
+     * position recorded above and in `houseRules.test.ts` — the guard there now permits the
+     * CONDITIONAL claim ("can be made waterproof") while still banning the unconditional one
+     * ("is waterproof"). The default remains an open garden building, said first and plainly.
+     */
     q: 'Is a Bower waterproof?',
     a: [
-      'A Bower is an open garden building rather than a sealed interior or marquee. Its degree of weather protection depends on its form, planting and the requirements of the commission.',
-      'Where greater shelter is required, any additional weather layer must be developed as part of the engineering and planning strategy.',
+      'Not by default. A Bower is an open garden building: it gives shade, and more shelter each year as the planting closes over the frame.',
+      'It can be made waterproof. That adds engineering, so it is decided at the start, and the design carries it from the first drawing.',
     ],
   },
   {
     id: 'public-programmes',
+    /**
+     * REWRITTEN 2026-08-05 (same pass as the size answer). The six-abstract-nouns-in-a-row list
+     * ("requirements concerning accessibility, fire safety, escape, structural loading, building
+     * control and event operations") became plain words for the same three duties: ways in, ways
+     * out, and the weight of a crowd. The property it must keep is unchanged: name the duties,
+     * PROMISE none of them — there is still no named engineer, no PII, no public liability
+     * (`pending.ts`, `practice-entity`), so what applies is established in Stage 1, not asserted.
+     */
     q: 'Can it host public programmes?',
     a: [
-      'Yes, subject to the size, intended occupancy and site. Public use may introduce requirements concerning accessibility, fire safety, escape, structural loading, building control and event operations.',
-      'These are established during feasibility rather than assumed in advance.',
+      'Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.',
+      'A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. Stage 1 establishes which apply before the design begins.',
     ],
   },
   {
@@ -208,10 +234,17 @@ export const QUESTIONS: readonly QA[] = [
   },
   {
     id: 'lawn',
+    /**
+     * REWRITTEN 2026-08-05 (same pass). The old answer spent its first breath explaining why it
+     * would not answer ("It is not responsible to promise one method before..."), which is a
+     * sentence about liability, not about grass. The property it keeps is the one the test pins:
+     * NO promised foundation method — the houses page may say ground screws because that page
+     * argues; this page answers, and the honest answer is that the ground decides.
+     */
     q: 'Will it wreck my lawn?',
     a: [
-      'The foundation and access strategy is developed for the particular site during feasibility. It is not responsible to promise one method before ground conditions, roots, heritage constraints and delivery access are understood.',
-      'Construction will require a temporary working area and a managed route for deliveries. Protection, reinstatement and the sequence around the landscape calendar form part of the project plan.',
+      'Not if we can help it. But soil, roots, buried services and the way in decide the foundations, so we will not promise a method before we have walked the ground. Stage 1 settles it.',
+      'The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.',
     ],
   },
   {

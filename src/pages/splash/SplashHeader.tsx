@@ -247,7 +247,12 @@ export function SplashHeader({
   }, []);
 
   return (
-    <header ref={ref} className="fixed inset-x-0 top-0 z-50 pb-4 pt-5">
+    /* `pointer-events-none` ON THE BAR, `pointer-events-auto` ON THE PILLS (2026-08-05, Clay).
+       The fixed header spans the full top strip, so its EMPTY regions — between the logo and the
+       nav, and either side of them — were swallowing clicks on anything scrolled beneath: on
+       /commissions the tab row rides under the header at the top of the page and the tabs' edges
+       were unclickable. The bar is now transparent to the pointer; only the capsules catch it. */
+    <header ref={ref} className="pointer-events-none fixed inset-x-0 top-0 z-50 pb-4 pt-5">
       {(!transparent || logoPill) && <LensFilter />}
       {/* The header sits in the SAME frame as the page content, so the wordmark's left edge
           IS the content's left edge at every width. Before this it gutter'd off the raw
@@ -264,7 +269,7 @@ export function SplashHeader({
           href={routes.home}
           aria-label="Bower, home"
           data-cursor-solid
-          className={`${logoCapsule}flex items-center gap-2.5 px-4 py-2 text-inkBlack`}
+          className={`${logoCapsule}pointer-events-auto flex items-center gap-2.5 px-4 py-2 text-inkBlack`}
         >
           <BowerMark
             markSize={30}
@@ -274,15 +279,17 @@ export function SplashHeader({
         <div className="flex items-center gap-3">
           {/* Inline pill at `md` and up — identical to before. Below `md` it is replaced by the
               hamburger dropdown so the header never wraps to two rows on a phone. */}
-          <nav data-cursor-solid className={`${pill}hidden items-center gap-1 px-2 py-1 md:flex`}>
+          <nav data-cursor-solid className={`${pill}pointer-events-auto hidden items-center gap-1 px-2 py-1 md:flex`}>
             {NAV_LINKS.map((l) => (
               <NavLink key={l.href} href={l.href}>
                 {l.label}
               </NavLink>
             ))}
           </nav>
-          <MobileNav pill={pill} />
-          {actions}
+          <div className="pointer-events-auto contents">
+            <MobileNav pill={pill} />
+            {actions}
+          </div>
         </div>
       </Frame>
     </header>

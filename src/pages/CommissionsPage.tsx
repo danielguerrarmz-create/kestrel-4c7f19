@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
@@ -40,13 +40,20 @@ function ParallaxImg({ containerRef, src, alt }: { containerRef: RefObject<HTMLE
   );
 }
 
+/*
+ * BODIES REWRITTEN 2026-08-05 (Clay: same pass as the splash cards — beautiful and deliberate,
+ * concrete over categorical). Each body keeps its audience list (named places are the good kind
+ * of list) and trades the trailing abstractions ("interpretation", "changing programmes",
+ * "member experiences") for things a reader can picture. "Member experiences" also left the
+ * uses column: nobody has ever stood in one.
+ */
 const COMMISSION_TYPES = [
   {
     id: 'culture',
     label: 'Cultural landscapes',
     title: 'A living work',
-    body: 'For sculpture parks, galleries, estates and gardens where a Bower can become an inhabitable work, a place for interpretation and a setting for changing programmes.',
-    uses: ['Curator walks', 'Intimate performance', 'Interpretation', 'Daily encounter'],
+    body: 'For sculpture parks, galleries, estates and gardens: a work to stand inside, changing with the garden that holds it.',
+    uses: ['Curator walks', 'Intimate performance', 'Readings and talks', 'Daily encounter'],
     src: '/assets/commissions/cultural-landscape-tour.webp',
     alt: 'A curator addressing visitors gathered in and around a planted timber Bower, with a sculpture garden and lake beyond',
   },
@@ -54,8 +61,8 @@ const COMMISSION_TYPES = [
     id: 'gathering',
     label: 'Hospitality and gathering',
     title: 'A place to gather',
-    body: 'For properties where the structure can host seasonal dining, private conversations, member experiences, quiet daily use and intimate celebrations.',
-    uses: ['Seasonal table', 'Shared meals', 'Member experiences', 'Quiet daily use'],
+    body: 'For houses and gardens that receive guests: a table under the lattice, a small ceremony, an evening that ends in the garden.',
+    uses: ['Seasonal table', 'Shared meals', 'Private gatherings', 'Quiet daily use'],
     src: '/assets/gallery/favorites/garden-table.webp',
     alt: 'Guests sharing a long garden lunch beneath a planted timber Bower, with a gardener and garden produce at the table',
   },
@@ -63,7 +70,7 @@ const COMMISSION_TYPES = [
     id: 'ecology',
     label: 'Ecology and learning',
     title: 'A place to attend to the landscape',
-    body: 'For landscapes where it can become a field room, outdoor classroom, observation point or framework gradually inhabited by planting and habitat.',
+    body: 'For land that is studied and taught: a field room, a classroom under leaves, a hide the habitat slowly claims.',
     uses: ['Field room', 'Outdoor classroom', 'Observation', 'Horticultural workshop'],
     src: '/assets/commissions/winter-landscape-talk.webp',
     alt: 'A guide speaking to visitors beside a timber Bower in a winter garden, its bare lattice and surrounding landscape held by frost',
@@ -74,6 +81,21 @@ export function CommissionsPage() {
   const [active, setActive] = useState<(typeof COMMISSION_TYPES)[number]['id']>('culture');
   const interludeRef = useRef<HTMLElement>(null);
   const bandRef = useRef<HTMLElement>(null);
+
+  /* A SLIGHT snap on the page's sections (2026-08-05, Clay). `proximity`, not `mandatory`:
+     the two full-viewport image bands and the tab section settle to their tops when a scroll
+     ends NEAR them, and free scrolling in between is untouched — mandatory would fight the
+     reader through the long middle section. The snap container for normal page scroll is the
+     document, so the type goes on <html> for this page's lifetime only. */
+  useEffect(() => {
+    const el = document.documentElement;
+    const prev = el.style.scrollSnapType;
+    el.style.scrollSnapType = 'y proximity';
+    return () => {
+      el.style.scrollSnapType = prev;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
       {/* Default header (frosted pills), the home's proven treatment over imagery — the page
@@ -87,7 +109,7 @@ export function CommissionsPage() {
             home's dictionary-band composition. The separate padded header and the standalone
             interlude this replaced are gone. NO concept-visualisation tag ("they are aware");
             the unbuilt record lives on /questions Q6, the gallery, and llms.txt. */}
-        <section ref={interludeRef} className="relative h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
+        <section ref={interludeRef} className="relative h-svh min-h-[560px] snap-start overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={interludeRef}
             src="/assets/gallery/01-wisteria-walk.webp"
@@ -108,7 +130,8 @@ export function CommissionsPage() {
         </section>
 
         <div className="mx-auto w-full max-w-canvas px-gutter">
-        <section className="mt-16 border-t border-inkBlack/15 pt-8 sm:mt-24">
+        {/* `scroll-mt` keeps the snapped tab row clear of the fixed header. */}
+        <section className="mt-16 snap-start scroll-mt-[calc(var(--header-h)+1rem)] border-t border-inkBlack/15 pt-8 sm:mt-24">
           <div role="tablist" aria-label="Commission settings" className="flex flex-wrap gap-2">
             {COMMISSION_TYPES.map((entry) => (
               <button
@@ -180,7 +203,7 @@ export function CommissionsPage() {
             is five words, the list label is gone, and the scrim is a flat darkening plus a
             bottom gradient because legibility was ruled before atmosphere. The render keeps its
             concept-visualisation label, as every render on this site must. */}
-        <section ref={bandRef} className="relative mt-24 h-svh min-h-[560px] overflow-hidden bg-inkBlack text-paperVellum">
+        <section ref={bandRef} className="relative mt-24 h-svh min-h-[560px] snap-start overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={bandRef}
             src="/assets/gallery/exclusive/garden-concert-aerial.webp"

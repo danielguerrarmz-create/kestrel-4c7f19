@@ -120,7 +120,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '06',
     title: 'The curator’s room',
-    fact: 'A place from which a landscape and its art can be encountered together.',
+    fact: 'Where a landscape and its art are seen together.',
     story: 'living-work', happening: 'A curator’s talk', stage: 'Mature planting', landscape: 'Sculpture landscape',
     src: `${G}/favorites/curator-in-landscape.webp`,
     ratio: 1.8338,
@@ -156,7 +156,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
   {
     n: '10',
     title: 'The fountain room',
-    fact: 'A more ambitious planted dome imagined around an existing fountain.',
+    fact: 'A planted dome imagined around an existing fountain.',
     story: 'living-work', happening: 'An inhabitable artwork', stage: 'Mature planting', landscape: 'Cultural landscape',
     src: `${G}/07-fountain-room.webp`,
     ratio: 1.8356,
@@ -184,7 +184,7 @@ export const GALLERY_IMAGES: GalleryPlateData[] = [
     n: '13',
     title: 'The stained glass walk',
     fact: 'A walk again, following an existing path. Coloured glass set between the timbers.',
-    story: 'landscape', happening: 'Garden interpretation', stage: 'Establishing planting', landscape: 'Walled garden',
+    story: 'landscape', happening: 'An afternoon walk', stage: 'Establishing planting', landscape: 'Walled garden',
     src: `${G}/04-stained-glass-walk.webp`,
     ratio: 1.8338,
     alt: 'A garden walk under a sweeping lattice roof, stained glass set between the timbers, a curved bench following the path',
@@ -311,7 +311,11 @@ export function GalleryPage() {
       <SplashHeader transparent logoPill />
 
       <main className="pb-20">
-        <section className="relative min-h-[76svh] overflow-hidden bg-inkBlack">
+        {/* FULL VIEWPORT, NOT 76svh (2026-08-05, Clay: the part-height hero left an awkward band
+            of vellum under the fold). The cost of a full-bleed opening is that the page can read
+            as a single image, so the title block carries a live plate count and a slow-bobbing
+            arrow as the promise of the catalogue below. */}
+        <section className="relative h-svh min-h-[560px] overflow-hidden bg-inkBlack">
           <button
             type="button"
             onClick={() => openShot(0)}
@@ -331,10 +335,19 @@ export function GalleryPage() {
             />
           </button>
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/15" />
-          <header className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto w-full max-w-canvas px-gutter pb-[clamp(2.5rem,7vw,6rem)] text-paperVellum">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paperVellum/65">Concept visualisations</p>
-            <h1 className="mt-3 font-serifDisplay text-[clamp(3rem,7vw,6.5rem)] font-medium leading-[0.9] tracking-[-0.03em]">Gallery</h1>
-            <p className="mt-5 font-serifDisplay text-[clamp(1rem,1.8vw,1.35rem)] italic text-paperVellum/80">Concept studies for the first Bowers.</p>
+          <header className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-canvas items-end justify-between gap-6 px-gutter pb-[clamp(2.5rem,6vw,4.5rem)] text-paperVellum">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paperVellum/65">Concept visualisations</p>
+              <h1 className="mt-3 font-serifDisplay text-[clamp(3rem,7vw,6.5rem)] font-medium leading-[0.9] tracking-[-0.03em]">Gallery</h1>
+              <p className="mt-5 font-serifDisplay text-[clamp(1rem,1.8vw,1.35rem)] italic text-paperVellum/80">Concept studies for the first Bowers.</p>
+            </div>
+            {/* The scroll cue: the plate count computed off the catalogue itself so it can never
+                lie, and the arrow's bounce slowed to a breath. Hidden from AT — the catalogue's
+                own headings carry the structure. */}
+            <p aria-hidden className="hidden shrink-0 items-baseline gap-2 pb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-paperVellum/65 sm:flex">
+              {GALLERY_IMAGES.length - 1} plates
+              <span className="inline-block animate-bounce [animation-duration:2.4s] motion-reduce:animate-none">↓</span>
+            </p>
           </header>
         </section>
         <div className="mx-auto w-full max-w-canvas px-gutter pt-[clamp(5rem,10vw,9rem)]">

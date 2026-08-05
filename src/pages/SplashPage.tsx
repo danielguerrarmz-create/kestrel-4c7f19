@@ -11,24 +11,31 @@ import { SplashHeader } from './splash/SplashHeader';
 import { AdaptiveCursor } from './splash/AdaptiveCursor';
 import { BowerIntro } from './splash/BowerIntro';
 
+/*
+ * REWRITTEN 2026-08-05 (Clay: even the small phrases should be beautiful and deliberate,
+ * Tolkien as the touchstone). The rule applied: concrete nouns over category lists, and the
+ * shortest true sentence. "A sheltered vantage from which planting, weather and the changing
+ * seasons become more present" said less in sixteen words than "watch the year move through
+ * the garden" says in seven.
+ */
 const LANDSCAPE_LIFE = [
   {
     title: 'Gather',
-    body: 'Meals, conversations, performances and the quiet daily use of a garden.',
+    body: 'A long table, music, talk, and the ordinary days of a garden.',
     image: '/assets/gallery/favorites/garden-table.webp',
     alt: 'Guests gathered for a meal beneath a planted timber Bower',
     href: routes.commissions,
   },
   {
     title: 'Observe',
-    body: 'A sheltered vantage from which planting, weather and the changing seasons become more present.',
+    body: 'A place to sit and watch the year move through the garden.',
     image: '/assets/gallery/favorites/garden-performance.webp',
     alt: 'An audience attending a chamber performance inside a flower-covered timber Bower',
     href: routes.gallery,
   },
   {
     title: 'Tend',
-    body: 'A timber framework cared for as the garden grows into it and changes its character.',
+    body: 'A frame the garden grows into: climbers tied in and trained, until the building is finished in leaves.',
     image: '/assets/process/evolution/mature.webp',
     alt: 'A mature Bower integrated with roses, wisteria and surrounding planting',
     href: routes.process,
@@ -148,17 +155,16 @@ export function SplashPage() {
         </div>
       </section>
 
+      {/* THE CLOSE IS THREE LINES AND NOTHING ELSE (2026-08-05, Clay): the count as the
+          heading, "A different Bower for every landscape." as a sub-heading in the same face,
+          then the CTA. The supporting sentence ("We are selecting the first landscapes now,
+          with first installations targeted for 2027") came out on his instruction — "targeted
+          for" was project-manager vocabulary, and /questions Q8 owns the 2027 date. */}
       <section className="px-gutter py-[clamp(4.5rem,10vw,9rem)]">
         <div className="mx-auto w-full max-w-[920px]">
-          <p className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England. A different Bower for every landscape.</p>
-          <div className="mt-9 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-            {/* CLAY'S SENTENCE, VERBATIM (2026-08-05: "All you should say for primary CTA").
-                The unbuilt admission that stood here for one day came out with it — "the first
-                landscapes" and "first installations" carry the novelty; /questions Q6 and the
-                gallery captions keep the explicit record. */}
-            <p className="max-w-[42ch] font-serifDisplay text-[18px] leading-[1.55] text-inkBlack/60">We are selecting the first landscapes now, with first installations targeted for 2027.</p>
-            <a href={routes.contact} className="group inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
-          </div>
+          <h2 className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England.</h2>
+          <p className="mt-3 font-serifDisplay text-[clamp(1.4rem,2.6vw,2.3rem)] leading-[1.15] tracking-[-0.01em] text-inkBlack/60 [text-wrap:balance]">A different Bower for every landscape.</p>
+          <a href={routes.contact} className="group mt-10 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
         </div>
       </section>
 

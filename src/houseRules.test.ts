@@ -165,20 +165,21 @@ describe('the marquee-replacement claim is withdrawn from the whole site', () =>
   });
 });
 
-describe('a Bower is never described as waterproof', () => {
+describe('a Bower is never described as waterproof by default', () => {
   /**
-   * CLAY'S RULE, 2026-07-31: "it should not be described as rainproof."
+   * CLAY'S RULE, 2026-07-31, AMENDED BY CLAY 2026-08-05. The original ruling was "it should not be
+   * described as rainproof", full stop. The amendment: a Bower CAN be made waterproof — it adds to
+   * the engineering effort, and that is true. So the line the guard holds moved:
    *
-   * This is the highest-value guard in the file, because the pressure to soften it is permanent and
-   * commercial. Rain is the hardest objection in this segment; a marquee is waterproof and that is
-   * the entire reason it gets hired. Every future copy pass will be tempted to reach for "sheltered",
-   * "dry", "weatherproof" — and each of those would be a small, plausible, individually defensible
-   * edit that together rebuild exactly the claim the practice decided not to make.
+   *   - The UNCONDITIONAL claim stays banned: "it is waterproof", "fully weatherproof", "keeps the
+   *     rain off". A reader who takes that away plans a wet dinner under an open frame.
+   *   - The CONDITIONAL claim is permitted: "can be made waterproof", stated with its cost — it is
+   *     an engineering decision taken at the start, not a property of the default object.
    *
-   * The site MAY say what is true: it is NOT waterproof, it gives shade, and it gives increasing
-   * shelter as the planting matures. So the pattern has to permit those sentences while catching an
-   * affirmative claim, which is why it looks for the words in a positive construction rather than
-   * simply banning them.
+   * The commercial pressure this guard exists for is unchanged and permanent: rain is the hardest
+   * objection in the segment, and every future copy pass will be tempted to promote "can be made
+   * waterproof" to "is waterproof". The patterns below catch exactly that promotion, because they
+   * match the affirmative construction and not the conditional one.
    */
   const CLAIMS = [
     // "is waterproof", "fully weatherproof", "completely watertight" — but NOT "is not waterproof",
@@ -223,19 +224,30 @@ describe('a Bower is never described as waterproof', () => {
     // that happens by accident.
     const sneaky = 'Is it waterproof? Yes, it is fully waterproof in any weather.';
     expect(CLAIMS.some((re) => re.test(claimsOnly(sneaky)))).toBe(true);
-    // And the true sentence still passes.
-    const honest = 'Is it waterproof? No. A Bower is not waterproof and is not a watertight room.';
+    // The plain default still passes...
+    const honest = 'Is it waterproof? Not by default. A Bower is an open garden building.';
     expect(CLAIMS.some((re) => re.test(claimsOnly(honest)))).toBe(false);
+    // ...and so does the conditional claim the 2026-08-05 amendment permits. If a pattern change
+    // ever catches this sentence, the guard has started forcing the true copy off the page, which
+    // is the failure the negation lookahead above was added to prevent.
+    const conditional = 'It can be made waterproof. That adds engineering, so it is decided at the start.';
+    expect(CLAIMS.some((re) => re.test(claimsOnly(conditional)))).toBe(false);
   });
 
-  it('and the pages that raise the subject answer it plainly', () => {
-    // The other half, and the one that would catch the claim being DELETED rather than softened.
+  it('and the pages that raise the subject answer it plainly, default first', () => {
+    // The other half, and the one that would catch the answer being DELETED rather than softened.
     // An absence guard alone is satisfied by a site that simply never mentions rain, which is the
     // silence this answer exists to replace. `/houses` left the loop 2026-08-04 (dev-only).
+    // Since 2026-08-05 the plain answer has two halves and both must be present: the open default,
+    // and the engineered option WITH its cost attached — "can be made waterproof" published without
+    // "adds engineering" nearby is the promotion this guard exists to catch.
     for (const page of ['questions']) {
       const text = prose(PAGES.find((p) => p.name === page)!.text());
-      expect(text, `${page} no longer answers the rain question`).toMatch(
-        /not\s+waterproof|open garden (?:structure|building) rather than (?:a watertight room|a sealed interior)/i,
+      expect(text, `${page} no longer states the open-by-default answer`).toMatch(
+        /not by default[^.]*\.\s*a bower is an open garden (?:structure|building)/i,
+      );
+      expect(text, `${page} no longer states the engineered option with its cost`).toMatch(
+        /can be made waterproof[^.?]*\.[^.?]*adds engineering/i,
       );
     }
   });

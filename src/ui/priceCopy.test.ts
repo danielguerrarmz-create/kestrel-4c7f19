@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   COMMISSION_ANCHOR_AREA_M2,
+  COMMISSION_BUDGET_POSITION,
+  COMMISSION_STATEMENT,
   COMMISSION_ANCHOR_GBP,
   COMMISSION_ANCHOR_NODES,
   COMMISSION_ANCHOR_PIECES,
@@ -44,6 +46,10 @@ const ALL_COPY = [
   FEES_NOT_CREDITED,
   STAGE_1_CREDIT,
   STAGE_1_FEE,
+  // Added to the sweep 2026-08-05: both had been missing since they were authored, so the dash
+  // rule never covered the sentences most likely to be rewritten.
+  COMMISSION_BUDGET_POSITION,
+  ...COMMISSION_STATEMENT,
 ];
 
 describe('the price label does not claim more than the price knows', () => {
