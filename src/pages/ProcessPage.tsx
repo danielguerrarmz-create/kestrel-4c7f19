@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
@@ -133,6 +134,8 @@ export function ProcessPage() {
           <p className="absolute bottom-6 left-gutter font-mono text-[8px] uppercase tracking-[0.16em] text-white/72 [text-shadow:0_1px_12px_rgba(0,0,0,0.72)] md:bottom-8 md:text-[9px]">A living room in the landscape · Concept visualisation</p>
         </section>
 
+        <GrowthEvolution />
+
         <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
           <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
             <div>
@@ -151,7 +154,26 @@ export function ProcessPage() {
           </div>
         </section>
 
-        <GrowthEvolution />
+        <section data-snap-section className="min-h-[100svh] snap-start bg-white pt-[clamp(3.5rem,8svh,6rem)]">
+          <div className="relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
+            <img
+              src="/assets/gallery/week-3/landscape-room-at-dawn.webp"
+              srcSet={srcSetFor('/assets/gallery/week-3/landscape-room-at-dawn.webp')}
+              sizes="100vw"
+              alt="Concept visualisation of a flowering timber Bower overlooking a misted rural valley at dawn"
+              loading="eager"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-[54%_center]"
+            />
+            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.16)_0%,rgba(8,8,6,0.03)_40%,rgba(8,8,6,0.78)_100%)]" />
+            <p className="absolute right-gutter top-6 font-mono text-[8px] uppercase tracking-[0.16em] text-white/62 [text-shadow:0_1px_10px_rgba(0,0,0,0.65)] md:top-8 md:text-[9px]">Unbuilt concept visualisation</p>
+            <div className="relative mx-auto w-full max-w-canvas">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/58">Founding commissions</p>
+              <h2 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.3rem,7vw,7.5rem)] leading-[0.89] tracking-[-0.045em]">Every landscape asks for a different answer.</h2>
+              <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)] transition-colors hover:border-white hover:text-white/70">Introduce yours →</a>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
