@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
+import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
 /*
@@ -82,19 +83,11 @@ export function CommissionsPage() {
   const interludeRef = useRef<HTMLElement>(null);
   const bandRef = useRef<HTMLElement>(null);
 
-  /* A SLIGHT snap on the page's sections (2026-08-05, Clay). `proximity`, not `mandatory`:
-     the two full-viewport image bands and the tab section settle to their tops when a scroll
-     ends NEAR them, and free scrolling in between is untouched — mandatory would fight the
-     reader through the long middle section. The snap container for normal page scroll is the
-     document, so the type goes on <html> for this page's lifetime only. */
-  useEffect(() => {
-    const el = document.documentElement;
-    const prev = el.style.scrollSnapType;
-    el.style.scrollSnapType = 'y proximity';
-    return () => {
-      el.style.scrollSnapType = prev;
-    };
-  }, []);
+  /* A SLIGHT snap on the page's sections (2026-08-05, Clay): the two full-viewport image
+     bands and the tab section settle to their tops when a scroll ends NEAR them. The ruling
+     and the mechanics (proximity, <html>, scroll-padding) live in usePageSnap — this page's
+     inline effect became the site-wide pattern on 2026-08-06. */
+  usePageSnap();
 
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">

@@ -4,6 +4,7 @@ import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
+import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
 /*
@@ -63,7 +64,7 @@ function GrowthEvolution() {
 
   if (reduced) {
     return (
-      <section className="mt-16 bg-inkBlack px-gutter py-16 text-paperVellum" aria-labelledby="growth-evolution-title">
+      <section className="mt-16 snap-start bg-inkBlack px-gutter py-16 text-paperVellum" aria-labelledby="growth-evolution-title">
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/55">Year zero to year three</p>
           <h2 id="growth-evolution-title" className="mt-4 max-w-[18ch] font-serifDisplay text-[clamp(2rem,4vw,4rem)] leading-[1.02]">The garden continues the architecture.</h2>
@@ -81,7 +82,10 @@ function GrowthEvolution() {
   }
 
   return (
-    <section ref={sectionRef} className="relative mt-16 h-[340svh] bg-inkBlack" aria-labelledby="growth-evolution-title">
+    /* `snap-start` settles the sticky band flush to the viewport as the reader arrives; the
+       340svh interior is far from any snap position, so the scrubbed dissolve itself is
+       untouched — proximity only acts near a section's start. */
+    <section ref={sectionRef} className="relative mt-16 h-[340svh] snap-start bg-inkBlack" aria-labelledby="growth-evolution-title">
       <div className="sticky top-0 h-svh overflow-hidden bg-inkBlack text-paperVellum">
         {GROWTH_STAGES.map((stage, index) => (
           <motion.img
@@ -118,6 +122,9 @@ function GrowthEvolution() {
 }
 
 export function ProcessPage() {
+  /* The site's slight section snap (proximity, see usePageSnap): the growth band and the
+     commissioning sequence settle to their tops when a scroll ends near them. */
+  usePageSnap();
   const [active, setActive] = useState(0);
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
@@ -137,7 +144,9 @@ export function ProcessPage() {
 
         <GrowthEvolution />
 
-        <section className="mx-auto mt-24 grid w-full max-w-canvas gap-12 px-gutter lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
+        {/* `scroll-mt` because this section's content starts at its border-box top: a flush
+            rest would tuck the sequence heading under the fixed header. */}
+        <section className="mx-auto mt-24 grid w-full max-w-canvas snap-start scroll-mt-[calc(var(--header-h)+1rem)] gap-12 px-gutter lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">Commissioning sequence</p>
             <h2 className="mt-4 max-w-[12ch] font-serifDisplay text-[clamp(1.8rem,3.5vw,3.4rem)] leading-[1.02]">Five steps from conversation to stewardship.</h2>
