@@ -27,6 +27,7 @@ import { Footer } from '../ui/Footer';
 import { Lightbox } from './PracticePage';
 import { INK_SEPIA } from './about/CrossPathsTimeline';
 import { srcSetFor } from '../ui/responsiveImg';
+import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import type { ProjectImage } from './about/projects';
 
@@ -297,6 +298,11 @@ function GalleryPlate({
 }
 
 export function GalleryPage() {
+  /* The site's slight section snap (proximity, see usePageSnap): the full-viewport hero and
+     the catalogue's top settle when a scroll ends near them. The plates themselves carry no
+     snap on purpose — fourteen snap points down a browsing grid would read as a feed, not an
+     exhibition, and proximity pulls mid-grid would fight the reader. */
+  usePageSnap();
   const reduced = useReducedMotion();
   const [shot, setShot] = useState<number | null>(null);
   const openShot = useCallback((i: number) => setShot(i), []);
@@ -315,7 +321,7 @@ export function GalleryPage() {
             of vellum under the fold). The cost of a full-bleed opening is that the page can read
             as a single image, so the title block carries a live plate count and a slow-bobbing
             arrow as the promise of the catalogue below. */}
-        <section className="relative h-svh min-h-[560px] overflow-hidden bg-inkBlack">
+        <section className="relative h-svh min-h-[560px] snap-start overflow-hidden bg-inkBlack">
           <button
             type="button"
             onClick={() => openShot(0)}
@@ -350,7 +356,10 @@ export function GalleryPage() {
             </p>
           </header>
         </section>
-        <div className="mx-auto w-full max-w-canvas px-gutter pt-[clamp(5rem,10vw,9rem)]">
+        {/* Flush snap rest: the wrapper's own top padding is the catalogue's air under the
+            fixed header, so no scroll-mt — resting it lower would leave a stray band of the
+            hero image above. */}
+        <div className="mx-auto w-full max-w-canvas snap-start px-gutter pt-[clamp(5rem,10vw,9rem)]">
         {/* THE FRONTISPIECE — centred, like an exhibition's title wall, with the honest line as a
             quiet serif sentence rather than a shouting mono caption. The page's images are
             generated visualizations shown to commission clients; naming them renderings before

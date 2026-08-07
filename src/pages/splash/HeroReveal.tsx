@@ -267,7 +267,7 @@ function StillHero({ animate }: { animate: boolean }) {
   }, [animate]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-paperVellum text-inkBlack">
+    <section className="relative min-h-screen w-full snap-start overflow-hidden bg-paperVellum text-inkBlack">
       <HeroStill />
       {/* THE LEGIBILITY SCRIM, IN TWO SOFT LAYERS.
           Both are full-bleed (not a clipped bottom column), so there is never a hard horizontal

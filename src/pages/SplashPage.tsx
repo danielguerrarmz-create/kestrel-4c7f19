@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import { useDesign } from '../state/store';
 import { useReducedMotion } from '../ui/useReducedMotion';
+import { usePageSnap } from '../ui/usePageSnap';
 import { Footer } from '../ui/Footer';
 import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
@@ -43,6 +44,10 @@ const LANDSCAPE_LIFE = [
 ] as const;
 
 export function SplashPage() {
+  /* The commissions page's slight snap (proximity on <html>, see usePageSnap), extended to
+     the home 2026-08-06: the hero, the dictionary band, the landscape-life section and the
+     close each settle to the top when a scroll ends near them. */
+  usePageSnap();
   const reduced = useReducedMotion();
   const outputs = useDesign((state) => state.outputs);
   const [focusedChapter, setFocusedChapter] = useState<number | null>(null);
@@ -88,7 +93,7 @@ export function SplashPage() {
       <SplashHeader />
       <HeroReveal outputs={outputs} reduced={reduced} />
 
-      <section className="relative min-h-[88svh] overflow-hidden bg-inkBlack text-paperVellum">
+      <section className="relative min-h-[88svh] snap-start overflow-hidden bg-inkBlack text-paperVellum">
         <img
           src="/assets/gallery/favorites/living-bower-interior.webp"
           srcSet={srcSetFor('/assets/gallery/favorites/living-bower-interior.webp')}
@@ -113,7 +118,9 @@ export function SplashPage() {
         </div>
       </section>
 
-      <section className="border-b border-inkBlack/10 px-gutter py-[clamp(5.5rem,12vw,10rem)]">
+      {/* The section's own top padding (≥5.5rem) clears the fixed header at a flush rest, so
+          no scroll-mt here. */}
+      <section className="snap-start border-b border-inkBlack/10 px-gutter py-[clamp(5.5rem,12vw,10rem)]">
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">A place to inhabit</p>
           <h2 className="mt-5 max-w-[13ch] font-serifDisplay text-[clamp(2.6rem,5.5vw,5.25rem)] leading-[0.98] tracking-[-0.025em] [text-wrap:balance]">Made for the life of a landscape.</h2>
@@ -160,7 +167,7 @@ export function SplashPage() {
           then the CTA. The supporting sentence ("We are selecting the first landscapes now,
           with first installations targeted for 2027") came out on his instruction — "targeted
           for" was project-manager vocabulary, and /questions Q8 owns the 2027 date. */}
-      <section className="px-gutter py-[clamp(4.5rem,10vw,9rem)]">
+      <section className="snap-start px-gutter py-[clamp(4.5rem,10vw,9rem)]">
         <div className="mx-auto w-full max-w-[920px]">
           <h2 className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England.</h2>
           <p className="mt-3 font-serifDisplay text-[clamp(1.4rem,2.6vw,2.3rem)] leading-[1.15] tracking-[-0.01em] text-inkBlack/60 [text-wrap:balance]">A different Bower for every landscape.</p>
