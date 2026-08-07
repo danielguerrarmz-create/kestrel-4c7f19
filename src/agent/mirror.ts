@@ -293,16 +293,16 @@ export function llmsTxt(): string {
   return `# Bower
 
 > ${COMPANY_DESCRIPTION}
-> We design and build living garden pavilions: organic timber gridshell structures, designed
-> for the climbing plants that grow into them and made for the garden they stand in.
+> We make living timber structures, drawn for one landscape and gradually completed by planting,
+> weather and use.
 > This is the marketing site; it is a JavaScript single-page app, so non-JavaScript readers
 > should use the markdown mirrors below.
 
 ## Pages
 
-- [Home](/agent/home.md): what Bower is, the product story, register interest
+- [Home](/agent/home.md): the work in time, one concept study, evidence of making and the invitation
 - [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
-- [Gallery](/agent/gallery.md): fourteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Gallery](/agent/gallery.md): eight concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries

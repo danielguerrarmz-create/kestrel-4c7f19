@@ -188,6 +188,24 @@
       1920
     ]
   },
+  "/assets/gallery/week-3/garden-room-gathering.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
+  "/assets/gallery/week-3/valley-bower-at-dawn.webp": {
+    "w": 2560,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920
+    ]
+  },
   "/assets/process/evolution/establishing.webp": {
     "w": 2560,
     "variants": [

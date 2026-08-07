@@ -8,66 +8,62 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](/)
+[BOWER](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
-Process
+Making
 
 # From landscape to Bower.
 
-Five steps take a Bower from a first conversation in your garden to a structure the garden finishes. The first installations are planned for 2027.
+The structure is finished once. The garden never is.
 
-![A newly installed bare timber Bower in a mature walled garden](/assets/process/evolution/installation.webp)
+Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
 
-![The same timber Bower as climbing roses and wisteria begin to establish across its lattice](/assets/process/evolution/establishing.webp)
+## None of them finished. All of them alive.
 
-![The same Bower with mature roses, wisteria and greenery integrated into its timber lattice](/assets/process/evolution/mature.webp)
+We build for that
 
-Year zero to year three
+## Built to be unfinished.
 
-## The garden continues the architecture.
+A Bower begins as a woven, load-bearing timber lattice. Over three years, wisteria, rose or vine grows through it until structure and garden become one.
 
-The same Bower: raised, in first leaf, and grown.
+![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
 
-Commissioning sequence
+00 A lattice
 
-## Five steps from conversation to stewardship.
+![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
 
-[What a Bower makes possible](/commissions)
+01 Leaves in the weave
 
--
+![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
 
-1 Conversation
+03 A room of blossom and eaves
 
-We begin with the landscape, the people who use it and the kind of life the pavilion should gather.
+A disciplined route
 
--
+## Five acts of making.
 
-2 Feasibility
+- 01 Conversation Landscape, people, purpose.
 
-A paid study answers the hard questions first: where it sits, how it is approved, how it is built and brought in, and what it should cost.
+- 02 Feasibility Site, consent, route, cost.
 
--
+- 03 Design Geometry, structure, planting.
 
-3 Design and engineering
+- 04 Making Fabrication and assembly.
 
-The design is developed with the engineers, makers and gardeners who will build it.
+- 05 Stewardship Training, growth, care.
 
--
+![Concept visualisation of a planted Bower within an English garden](/assets/gallery/favorites/english-garden-path.webp)
 
-4 Making
+Founding commissions · 2027
 
-Components are fabricated, trialled where required and assembled on site.
+## Every landscape asks for a different answer.
 
--
-
-5 Growth and stewardship
-
-Planting is trained through the structure and cared for as the architecture matures.
+[Introduce yours →](/contact)
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)

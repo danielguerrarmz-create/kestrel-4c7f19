@@ -39,7 +39,7 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
   const year = new Date().getFullYear();
   const width = measure === 'page' ? 'max-w-page' : measure === 'read' ? 'max-w-read' : 'max-w-canvas';
   return (
-    <footer className={`mx-auto flex w-full ${width} flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-inkBlack/15 px-gutter py-8 text-inkBlack`}>
+    <footer className={`mx-auto flex w-full ${width} snap-end flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-inkBlack/15 px-gutter py-8 text-inkBlack`}>
       {/* ONE PLAIN ROW, and it stays that way. An earlier pass on 2026-07-31 grew a whole practice
           block here — both founders, both addresses, a labelled door — on the reasoning that a
           solicitor scans a footer for who carries the liability. Clay's correction was that the
@@ -54,7 +54,7 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
         className="inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
       >
         <OculusMark size={18} />
-        <span className="font-mono text-[14px] lowercase tracking-[0.1em]">{WORDMARK}</span>
+        <span className="font-sans text-[13px] font-medium uppercase tracking-[0.18em]">{WORDMARK}</span>
       </a>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.
@@ -63,17 +63,11 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
       {/* 13px, not 11 (2026-07-28). Uppercase mono at 0.14em tracking is the least legible
           register on the site and it was set two steps below the body; this page's readers are
           not all twenty-five. Same for the gallery's plate captions. */}
-      <nav aria-label="Footer" className="flex flex-wrap items-center gap-5 font-mono text-[13px] uppercase tracking-[0.14em] text-inkBlack/55">
-        <a href={routes.commissions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">commissions</a>
-        <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">gallery</a>
-        <a href={routes.process} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">process</a>
-        {/* "about" is here and NOT in the header (2026-07-31). It points at the short page, which
-            carries the door to the founders' page in turn. The header is the reader's order of
-            interest and "who are you" is last; the footer is where it is looked for. */}
-        <a href={routes.about} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">about</a>
-        <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">contact</a>
-        <a href={routes.press} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">press</a>
-        <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">questions</a>
+      <nav aria-label="Footer" className="flex flex-wrap items-center gap-6 font-sans text-[11px] uppercase tracking-[0.16em] text-inkBlack/48">
+        <a href={routes.press} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Press</a>
+        <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Questions</a>
+        <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Gallery</a>
+        <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Contact</a>
       </nav>
       {/* THE COMPANY LINE. Stubbed 2026-07-31 and rendering the copyright alone until
           incorporation completes — see `pending.ts`, `practice-entity`.

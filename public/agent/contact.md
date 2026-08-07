@@ -8,26 +8,32 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](/)
+[BOWER](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
-![A bower pavilion in a walled garden, its woven lattice crown sweeping up over rooted timber columns, visitors gathered inside](/assets/gallery/02-garden-pavilion.webp)
+![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 
-Contact
+Enquire
 
 # Tell us about your landscape.
+
+One conversation begins below ↓
+
+Introduce a landscape
+
+## Begin with the place.
 
 Clay Seifert
 
 [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
-NameOrganisationSite or locationEmailWhat might happen in the Bower?
+Name (optional) Organisation (optional) Site or location (optional) EmailWhat might happen in the Bower? (optional)
 
-Send your note
+Send your note →
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)

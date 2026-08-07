@@ -8,9 +8,9 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](/)
+[BOWER](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
 Questions
 
@@ -18,13 +18,17 @@ Questions
 
 Whether you need permission, what it does to a lawn, how long before you are sitting in it, and what a commission involves.
 
-## 1 How large is a Bower?
+01
+
+## How large is a Bower?
 
 The smallest is a room for one table. The largest can hold an audience: a reading, a concert, dinner for a house party.
 
 Size is settled early, with the landscape, because the span of the frame and the number of people beneath it decide the structure, the planning route and the cost.
 
-## 2 What does it cost?
+02
+
+## What does it cost?
 
 A Bower is a serious building, priced like one.
 
@@ -32,7 +36,9 @@ We don’t name a figure before we have tested the site and the structure, becau
 
 Stage 1, the paid feasibility study, is £20,000. The fee is credited in full against the design and engineering commission that follows.
 
-## 3 Will I need planning permission?
+03
+
+## Will I need planning permission?
 
 Possibly. Planning requirements depend on the property, location, size and intended use.
 
@@ -40,31 +46,41 @@ Listed buildings, registered gardens, conservation areas and protected landscape
 
 Stage 1 establishes the likely planning route before detailed design begins.
 
-## 4 Is a Bower waterproof?
+04
+
+## Is a Bower waterproof?
 
 Not by default. A Bower is an open garden building: it gives shade, and more shelter each year as the planting closes over the frame.
 
 It can be made waterproof. That adds engineering, so it is decided at the start, and the design carries it from the first drawing.
 
-## 5 Can it host public programmes?
+05
+
+## Can it host public programmes?
 
 Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.
 
 A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. Stage 1 establishes which apply before the design begins.
 
-## 6 Has one been built?
+06
+
+## Has one been built?
 
 Not yet. Bower is currently developing its first commissions for construction from 2027.
 
 The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.
 
-## 7 Will it wreck my lawn?
+07
+
+## Will it wreck my lawn?
 
 Not if we can help it. But soil, roots, buried services and the way in decide the foundations, so we will not promise a method before we have walked the ground. Stage 1 settles it.
 
 The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.
 
-## 8 When could mine be built?
+08
+
+## When could mine be built?
 
 The first installations are planned for summer and autumn 2027.
 
@@ -74,7 +90,9 @@ The structure goes up in summer, when the ground is dry enough to bring a crew a
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
 
-## 9 Who prunes it?
+09
+
+## Who prunes it?
 
 For the first three years after planting, we do. If you have a gardener or grounds staff, we’d rather teach them and hand it across: they’re there every day and we aren’t.
 
@@ -86,7 +104,9 @@ After the third year, one visit annually.
 
 And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.
 
-## 10 What does it look like in February?
+10
+
+## What does it look like in February?
 
 Like a drawing held in the air.
 
@@ -98,7 +118,9 @@ For a house that sells weeks of the year, this is the half of it that matters mo
 
 Then in March it begins to disappear again.
 
-## 11 Who do I ring?
+11
+
+## Who do I ring?
 
 Clay Seifert
 
@@ -112,6 +134,6 @@ Only when that work is complete is a design and engineering commission proposed.
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)

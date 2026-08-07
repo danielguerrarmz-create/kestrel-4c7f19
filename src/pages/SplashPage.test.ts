@@ -3,74 +3,70 @@ import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { PUBLIC_ROUTES, routes } from '../routing';
 import { SplashPage } from './SplashPage';
-import { APPLY_CTA } from './splash/copy';
 
 const html = renderToString(createElement(SplashPage)).replace(/<!-- -->/g, '');
 
 describe('SplashPage', () => {
-  it('makes the living Bower the proposition', () => {
-    expect(html).toContain('Grow a living');
-    expect(html).toContain('font-handwrite');
-    expect(html).toContain('aria-label="Bower"');
-    expect(html).toContain('>in your garden.</span>');
-    expect(html).toContain('bower,');
-    expect(html).toContain('A shaded resting place in a garden');
-    expect(html).toContain('Designed for your garden');
-    expect(html).toContain('plant</em> that grows through it.');
-    // The close band (2026-08-05, Clay, second ruling that day): heading, sub-heading in the
-    // same face, CTA — nothing else. "System" is the investor register and stays off the buyer
-    // surface; "sites" is procurement vocabulary; and the supporting sentence ("We are selecting
-    // the first landscapes now, with first installations targeted for 2027") was nixed with it,
-    // so its absence is pinned the same way the earlier cuts are.
-    expect(html).toContain('Three founding commissions across England.');
-    expect(html).toContain('A different Bower for every landscape.');
-    expect(html).not.toContain('We are selecting the first landscapes');
-    expect(html).not.toContain('targeted for');
-    expect(html).not.toContain('repeatable timber system');
-    expect(html).not.toContain('exceptional sites');
+  it('opens as living architecture, not a residential garden product', () => {
+    expect(html).toContain('Architecture the garden finishes.');
+    expect(html).toContain('Living architecture');
+    expect(html).toContain('Founding commissions');
+    expect(html).toContain('England · 2027');
+    expect(html).not.toContain('Grow a living');
+    expect(html).not.toContain('font-handwrite');
+    expect(html).not.toContain('in your garden.');
+    expect(html.match(/snap-start/g)).toHaveLength(7);
   });
 
-  it('has one primary action and it reaches a public route', () => {
-    expect(html).toContain(APPLY_CTA);
-    const filled = html.match(/rounded-full bg-paperVellum px-6 py-3/g) ?? [];
-    expect(filled).toHaveLength(1);
-    expect([...PUBLIC_ROUTES]).toContain('/contact');
+  it('withholds the commissioning action until the invitation', () => {
+    expect(html).toContain('Introduce a landscape →');
+    expect(html).toContain(`href="${routes.contact}"`);
+    expect([...PUBLIC_ROUTES]).toContain(routes.contact);
+    expect(html).not.toContain('Discuss a founding commission');
+    expect(html).not.toContain('rounded-full bg-paperVellum');
   });
 
-  it('keeps exactly three links in the primary header', () => {
+  it('uses the brief\'s small editorial navigation', () => {
     const primary = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/)?.[1] ?? '';
     const links = [...primary.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
-    expect(links).toEqual(['/gallery', '/process', '/contact']);
-    expect(primary).not.toContain('about');
-    expect(primary).not.toContain('practice');
+    const labels = [...primary.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
+    expect(links).toEqual([routes.gallery, routes.process, routes.practice, routes.contact]);
+    expect(labels).toEqual(['Works', 'Making', 'Practice', 'Enquire']);
   });
 
-  it('tells a deliberate four-part story before the footer', () => {
-    expect(html.match(/<section\b/g)).toHaveLength(4);
-    expect(html).toContain('/assets/gallery/favorites/living-bower-interior.webp');
-    expect(html).toContain('Made for the life of a landscape.');
-    expect(html).toContain('>Gather</h3>');
-    expect(html).toContain('>Observe</h3>');
-    expect(html).toContain('>Tend</h3>');
-    expect(html).toContain('/assets/gallery/favorites/garden-table.webp');
-    expect(html).toContain('/assets/gallery/favorites/garden-performance.webp');
-    expect(html).toContain('/assets/process/evolution/mature.webp');
-    expect(html).toContain('group-hover:opacity-100');
-    expect(html).toContain('duration-[1400ms]');
-    expect(html).not.toContain('[@media(hover:none)]:opacity-100');
-    expect(html).toContain(`href="${routes.commissions}"`);
-    expect(html).toContain(`href="${routes.gallery}"`);
-    expect(html).toContain(`href="${routes.process}"`);
-    expect(html).not.toContain('Three forms of life');
-    expect(html).not.toContain('A credible path to building');
-    expect(html).not.toContain('Why Bower');
-    expect(html).not.toContain('register interest');
-  });
-
-  it('keeps secondary routes available in the footer', () => {
-    for (const route of ['/commissions', '/about', '/questions']) {
-      expect(html).toContain(`href="${route}"`);
+  it('tells the seven-movement exhibition story', () => {
+    expect(html.match(/<section\b/g)).toHaveLength(7);
+    for (const line of [
+      'The object in time',
+      'Study No. 01',
+      'A life of its own',
+      'Evidence of making',
+      'Founding commissions',
+    ]) {
+      expect(html).toContain(line);
     }
-    expect(html).not.toContain('href="/about/practice"');
+    expect(html).toContain('/assets/process/evolution/installation.webp');
+    expect(html).toContain('/assets/process/evolution/establishing.webp');
+    expect(html).toContain('/assets/process/evolution/mature.webp');
+    expect(html).toContain('/assets/gallery/week-3/valley-bower-at-dawn.webp');
+    expect(html).toContain('/assets/gallery/week-3/garden-room-gathering.webp');
+    expect(html).toContain('/assets/gallery/favorites/timber-joinery-detail.webp');
+    expect(html).toContain('Every Bower is different.');
+    expect(html).toContain('We are building the means to make them again and again, without ever making the same one twice.');
+    expect(html).not.toContain('The system behind it is not.');
+    expect(html).toContain('A lattice');
+    expect(html).toContain('Leaves in the weave');
+    expect(html).toContain('A room of blossom and eaves');
+    expect(html).toContain('We create buildings that cannot simply be purchased and placed.');
+    expect(html).toContain('They belong to one landscape, develop with it, and become more extraordinary with every passing year.');
+  });
+
+  it('labels imagined work honestly and keeps secondary routes in the footer', () => {
+    expect(html).toContain('Unbuilt concept visualisation');
+    expect(html).toContain('Concept study of a timber lattice joint');
+    expect(html).toContain('href="/press"');
+    expect(html).toContain('href="/questions"');
+    expect(html).not.toContain('href="/commissions"');
+    expect(html).toContain('href="/about/practice"');
   });
 });

@@ -5,23 +5,29 @@ import { ProcessPage } from './ProcessPage';
 
 const html = renderToString(createElement(ProcessPage));
 
-describe('ProcessPage growth sequence', () => {
-  it('shows the same Bower as a full-spread scroll progression', () => {
+describe('ProcessPage', () => {
+  it('shows one work through time in the redesigned making sequence', () => {
     expect(html).toContain('/assets/process/evolution/installation.webp');
     expect(html).toContain('/assets/process/evolution/establishing.webp');
     expect(html).toContain('/assets/process/evolution/mature.webp');
-    expect(html).toContain('Installation');
-    expect(html).toContain('Establishing');
-    expect(html).toContain('Mature');
-    expect(html).toContain('h-[340svh]');
-    expect(html).toContain('The garden continues the architecture.');
-    expect(html).not.toContain('aria-label="Bower growth stage"');
-    expect(html).not.toContain('Complete project budgets');
-    expect(html).not.toContain('Established through feasibility and engineering');
+    expect(html).toContain('Ask anyone for the most beautiful place they have ever stood in');
+    expect(html).toContain('None of them finished. All of them alive.');
+    expect(html).toContain('Built to be unfinished.');
+    expect(html).toContain('A Bower begins as a woven, load-bearing timber lattice.');
+    expect(html).toContain('until structure and garden become one.');
+    expect(html).toContain('A lattice');
+    expect(html).toContain('Leaves in the weave');
+    expect(html).toContain('A room of blossom and eaves');
+    expect(html).toContain('Five acts of making.');
+    expect(html.match(/data-snap-section/g)).toHaveLength(5);
+    expect(html).toContain('md:h-[clamp(10rem,33svh,20rem)]');
   });
 
-  it('the steps section opens a door to the commissions page (2026-08-04, Clay)', () => {
-    expect(html).toContain('Five steps from conversation to stewardship.');
-    expect(html).toMatch(/href="\/commissions"[^>]*>What a Bower makes possible/);
+  it('uses the shared editorial navigation and ends in an enquiry', () => {
+    expect(html).toContain('href="/gallery"');
+    expect(html).toContain('href="/about/practice"');
+    expect(html).toContain('href="/contact"');
+    expect(html).toContain('Introduce yours →');
+    expect(html).not.toContain('nav-pill');
   });
 });

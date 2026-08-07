@@ -8,20 +8,14 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](/)
+[BOWER](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
-Press
-
-# Press enquiries.
-
-For press enquiries, please contact us.
-
-[clay@bowerbuild.org](mailto:clay@bowerbuild.org?subject=Press%20enquiry)
+# [contact@bowerbuild.org](mailto:contact@bowerbuild.org)
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)
