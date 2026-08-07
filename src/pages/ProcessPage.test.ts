@@ -12,15 +12,21 @@ describe('ProcessPage', () => {
     expect(html).toContain('/assets/process/evolution/mature.webp');
     expect(html).toContain('Ask anyone for the most beautiful place they have ever stood in');
     expect(html).toContain('None of them finished. All of them alive.');
-    expect(html).toContain('Built to be unfinished.');
-    expect(html).toContain('A Bower begins as a woven, load-bearing timber lattice.');
-    expect(html).toContain('until structure and garden become one.');
+    expect(html).toContain('/assets/gallery/week-3/flowering-bower-morning-mist.webp');
+    expect(html).toContain('A living room in the landscape · Concept visualisation');
+    expect(html).not.toContain('Built to be unfinished.');
+    expect(html).toContain('The garden continues the architecture.');
+    expect(html).not.toContain('The garden takes it from here.');
+    expect(html).toContain('aria-label="The same Bower from year zero to year three"');
     expect(html).toContain('A lattice');
     expect(html).toContain('Leaves in the weave');
     expect(html).toContain('A room of blossom and eaves');
+    expect(html).toContain('h-[320svh]');
+    expect(html).toContain('data-growth-progress');
+    expect(html).not.toContain('/assets/gallery/favorites/living-bower-interior.webp');
+    expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
     expect(html).toContain('Five acts of making.');
-    expect(html.match(/data-snap-section/g)).toHaveLength(5);
-    expect(html).toContain('md:h-[clamp(10rem,33svh,20rem)]');
+    expect(html.match(/data-snap-section/g)).toHaveLength(6);
   });
 
   it('uses the shared editorial navigation and ends in an enquiry', () => {

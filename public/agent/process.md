@@ -22,23 +22,21 @@ Ask anyone for the most beautiful place they have ever stood in and they rarely 
 
 ## None of them finished. All of them alive.
 
-We build for that
+![Concept visualisation of a flowering timber Bower among stone walls in morning mist](/assets/gallery/week-3/flowering-bower-morning-mist.webp)
 
-## Built to be unfinished.
-
-A Bower begins as a woven, load-bearing timber lattice. Over three years, wisteria, rose or vine grows through it until structure and garden become one.
+A living room in the landscape · Concept visualisation
 
 ![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
 
-00 A lattice
-
 ![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
-
-01 Leaves in the weave
 
 ![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
 
-03 A room of blossom and eaves
+Year zero to year three
+
+## The garden continues the architecture.
+
+The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 
 A disciplined route
 
