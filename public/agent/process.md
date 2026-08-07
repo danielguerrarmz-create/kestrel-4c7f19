@@ -26,18 +26,6 @@ Ask anyone for the most beautiful place they have ever stood in and they rarely 
 
 A living room in the landscape · Concept visualisation
 
-![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
-
-![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
-
-![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
-
-Year zero to year three
-
-## The garden continues the architecture.
-
-The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
-
 A disciplined route
 
 ## Five acts of making.
@@ -52,13 +40,17 @@ A disciplined route
 
 - 05 Stewardship Training, growth, care.
 
-![Concept visualisation of a planted Bower within an English garden](/assets/gallery/favorites/english-garden-path.webp)
+![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
 
-Founding commissions · 2027
+![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
 
-## Every landscape asks for a different answer.
+![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
 
-[Introduce yours →](/contact)
+Year zero to year three
+
+## The garden continues the architecture.
+
+The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 
 [Bower](/)
 

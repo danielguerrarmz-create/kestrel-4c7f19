@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
@@ -134,8 +133,6 @@ export function ProcessPage() {
           <p className="absolute bottom-6 left-gutter font-mono text-[8px] uppercase tracking-[0.16em] text-white/72 [text-shadow:0_1px_12px_rgba(0,0,0,0.72)] md:bottom-8 md:text-[9px]">A living room in the landscape · Concept visualisation</p>
         </section>
 
-        <GrowthEvolution />
-
         <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
           <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
             <div>
@@ -154,15 +151,7 @@ export function ProcessPage() {
           </div>
         </section>
 
-        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
-          <img src="/assets/gallery/favorites/english-garden-path.webp" srcSet={srcSetFor('/assets/gallery/favorites/english-garden-path.webp')} sizes="100vw" alt="Concept visualisation of a planted Bower within an English garden" loading="eager" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/8 to-black/18" />
-          <div className="relative mx-auto w-full max-w-canvas">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/55">Founding commissions · 2027</p>
-            <h2 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.3rem,7vw,7.5rem)] leading-[0.89] tracking-[-0.045em]">Every landscape asks for a different answer.</h2>
-            <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)]">Introduce yours →</a>
-          </div>
-        </section>
+        <GrowthEvolution />
       </main>
       <Footer />
     </div>

@@ -24,16 +24,19 @@ describe('ProcessPage', () => {
     expect(html).toContain('h-[320svh]');
     expect(html).toContain('data-growth-progress');
     expect(html).not.toContain('/assets/gallery/favorites/living-bower-interior.webp');
+    expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
     expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
     expect(html).toContain('Five acts of making.');
-    expect(html.match(/data-snap-section/g)).toHaveLength(6);
+    expect(html.indexOf('Five acts of making.')).toBeLessThan(html.indexOf('The garden continues the architecture.'));
+    expect(html.lastIndexOf('/assets/process/evolution/mature.webp')).toBeGreaterThan(html.indexOf('Five acts of making.'));
+    expect(html.match(/data-snap-section/g)).toHaveLength(5);
   });
 
-  it('uses the shared editorial navigation and ends in an enquiry', () => {
+  it('uses the shared editorial navigation and ends with the quiet footer', () => {
     expect(html).toContain('href="/gallery"');
     expect(html).toContain('href="/about/practice"');
     expect(html).toContain('href="/contact"');
-    expect(html).toContain('Introduce yours →');
+    expect(html).not.toContain('Introduce yours →');
     expect(html).not.toContain('nav-pill');
   });
 });
