@@ -16,6 +16,9 @@ describe('SplashPage', () => {
     expect(html).not.toContain('font-handwrite');
     expect(html).not.toContain('in your garden.');
     expect(html.match(/snap-start/g)).toHaveLength(7);
+    expect(html).toContain('href="#meaning"');
+    expect(html).toContain('Scroll to discover more');
+    expect(html).toContain('id="meaning"');
   });
 
   it('withholds the commissioning action until the invitation', () => {

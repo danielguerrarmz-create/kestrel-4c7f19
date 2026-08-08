@@ -16,7 +16,7 @@ export function EditorialHeader({ tone = 'ink' }: { tone?: 'ink' | 'white' }) {
   return (
     <header className={`absolute inset-x-0 top-0 z-30 px-gutter py-6 ${colour} md:py-8`}>
       <div className="mx-auto flex w-full max-w-canvas flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-        <a href={routes.home} aria-label="Bower, home" className="w-fit font-sans text-[17px] font-medium tracking-[0.22em] focus-visible:outline-current">
+        <a data-intro-logo href={routes.home} aria-label="Bower, home" className="w-fit font-sans text-[17px] font-medium tracking-[0.22em] focus-visible:outline-current">
           BOWER
         </a>
         <nav aria-label="Primary" className={`grid w-full grid-cols-4 gap-3 font-sans text-[9px] uppercase tracking-[0.16em] ${muted} sm:flex sm:w-auto sm:gap-8 sm:text-[10px]`}>
