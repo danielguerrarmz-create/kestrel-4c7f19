@@ -8,66 +8,87 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
+[BOWER](/)
+
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+
+![Concept visualisation from within a planted timber Bower](/assets/gallery/favorites/living-bower-interior.webp)
+
+Living architecture
+
+Founding commissions
+England · 2027
+
+Bower · England
+
+# Architecture the garden finishes.
+
+We make the structure. The garden makes the rest.
+
+The object in time
+
+## A Bower begins when building ends.
+
+![Concept visualisation of a newly installed timber Bower before the planting has established](/assets/process/evolution/installation.webp)
+
+00 A lattice
+
+![Concept visualisation of the same Bower after its first season of growth](/assets/process/evolution/establishing.webp)
+
+01 Leaves in the weave
+
+![Concept visualisation of the same Bower after the planting has matured through its lattice](/assets/process/evolution/mature.webp)
+
+03 A room of blossom and eaves
+
+Study No. 01 · Concept study
+
+## We create buildings that cannot simply be purchased and placed.
+
+They belong to one landscape, develop with it, and become more extraordinary with every passing year.
+
+![Concept visualisation of a planted timber Bower occupying a misted English valley at dawn](/assets/gallery/week-3/valley-bower-at-dawn.webp)
+
+English valley · Morning mist Unbuilt concept visualisation
+
+A life of its own
+
+## The garden becomes a place to gather.
+
+![Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden](/assets/gallery/week-3/garden-room-gathering.webp)
+
+A garden room in use · Concept visualisation
+
+![Concept study of a timber lattice joint and carved connection](/assets/gallery/favorites/timber-joinery-detail.webp)
+
+Evidence of making · Joint study 01
+
+## Every Bower is different.
+
+We are building the means to make them again and again, without ever making the same one twice.
+
+- 01 Site
+
+- 02 Geometry
+
+- 03 Structure
+
+- 04 Planting
+
+- 05 Stewardship
+
+[See how it is made →](/process)
+
+Founding commissions
+
+## The first Bowers will be made for three English landscapes.
+
+We are now speaking with their patrons.
+
+[Introduce a landscape →](/contact)
+
 [Bower](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
-
-# Grow a living Bower in your garden.
-
-A site-specific timber pavilion, planted so that the garden continues its making.
-
-[Discuss a founding commission](/contact)
-
-![Inside a living timber Bower, with branching lattice arches, climbing plants and places to sit among the garden](/assets/gallery/favorites/living-bower-interior.webp)
-
-bower, noun. A shaded resting place in a garden, made of woven branches and climbing plants.
-
-## Designed for your garden, and for the plant that grows through it.
-
-A place to inhabit
-
-## Made for the life of a landscape.
-
-[
-
-![Guests gathered for a meal beneath a planted timber Bower](/assets/gallery/favorites/garden-table.webp)
-
-01
-
-### Gather
-
-A long table, music, talk, and the ordinary days of a garden.
-
-](/commissions) [
-
-![An audience attending a chamber performance inside a flower-covered timber Bower](/assets/gallery/favorites/garden-performance.webp)
-
-02
-
-### Observe
-
-A place to sit and watch the year move through the garden.
-
-](/gallery) [
-
-![A mature Bower integrated with roses, wisteria and surrounding planting](/assets/process/evolution/mature.webp)
-
-03
-
-### Tend
-
-A frame the garden grows into: climbers tied in and trained, until the building is finished in leaves.
-
-](/process)
-
-## Three founding commissions across England.
-
-A different Bower for every landscape.
-
-[Discuss a founding commission](/contact)
-
-[Bower](/)
-
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)

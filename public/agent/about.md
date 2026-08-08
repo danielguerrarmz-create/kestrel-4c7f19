@@ -30,6 +30,6 @@ Clay Seifert and Daniel Guerra. Founding commissions from 2027.
 
 [Bower](/)
 
-[commissions](/commissions) [gallery](/gallery) [process](/process) [about](/about) [contact](/contact) [press](/press) [questions](/questions)
+[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
 [© 2026 Bower](/)

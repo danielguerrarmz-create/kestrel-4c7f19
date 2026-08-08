@@ -1,162 +1,102 @@
-/**
- * QuestionsPage.tsx — `/questions`, the page that answers what the other three don't.
- *
- * The live site could tell you what a bower is and show you seven renderings of one, and could
- * not tell you the price, the country, the planning position, what it does to a lawn, how long it
- * takes, or who to ring. This is that page. Content and the reasoning behind its register live in
- * `questions/copy.ts`; this file is only the setting.
- *
- * THE SETTING IS DELIBERATELY THE QUIETEST ON THE SITE. No scrim, no full-bleed photograph, no
- * scroll choreography, one column. The home and the gallery do the seducing; by the time someone
- * is here they have a specific worry and want it answered, and every gesture between them and the
- * answer is a cost. So: the page's own serif, a hairline rule between questions, and roughly
- * double the air the type needs. The one flourish is the question numerals, borrowed from the
- * home's ritual list (serif italic in the olive accent) so this reads as the same publication.
- *
- * NO IN-PAGE ANCHOR INDEX, AND THE REASON CHANGED ON 2026-07-28. It used to be a HARD constraint:
- * the hash router read `#cost` as the unknown route `/cost` and fell through to the SPLASH, so an
- * index of anchor links would have navigated the reader off this page one question at a time. The
- * path router removed that: a fragment is now just a fragment, the `id`s below already exist, and
- * `href="#cost"` would work. So it is a DESIGN choice now, not a technical one — seven headed
- * sections in one column scan fine without an index. Add one if a reader ever gets lost; nothing
- * in the routing stops you.
- *
- * The `id`s are load-bearing anyway: `seo.ts` builds the page's FAQPage structured data from the
- * same `QUESTIONS` array, so each answer is addressable to an answer engine whether or not the
- * page ever prints a link to it.
- *
- * Type sizes run a step larger than the rest of the site on purpose. The reader this page was
- * written for is not twenty-five, and the site's 11px mono captions are already at the edge.
- */
-import { SplashHeader } from './splash/SplashHeader';
-import { Footer } from '../ui/Footer';
-import { QUESTIONS, RING, INTRO } from './questions/copy';
 import { CONTACT } from '../data/config';
+import { EditorialHeader } from '../ui/EditorialHeader';
+import { Footer } from '../ui/Footer';
+import { usePageSnap } from '../ui/usePageSnap';
+import { INTRO, QUESTIONS, RING } from './questions/copy';
 
-/** The shared reading column. Narrower than the canvas so the measure stays readable. */
-const COLUMN = 'mx-auto w-full max-w-[64ch]';
-
-/** One answered question: a serif heading, its paragraphs, and an optional ruled schedule. */
 function Question({ n, item }: { n: number; item: (typeof QUESTIONS)[number] }) {
   return (
-    <section className="border-t border-inkBlack/[0.10] pt-10 first:border-t-0 first:pt-0 sm:pt-14">
-      <h2
-        id={item.id}
-        className="flex items-baseline gap-4 font-serifDisplay text-[clamp(1.4rem,2.6vw,1.9rem)] font-semibold leading-[1.2] tracking-[-0.01em]"
-      >
-        <span className="font-serifDisplay text-[15px] font-normal italic text-accentOlive">
-          {n}
-        </span>
-        <span>{item.q}</span>
-      </h2>
-
-      <div className="mt-5 flex flex-col gap-5">
-        {item.a.map((para) => (
-          <p key={para.slice(0, 40)} className="font-serifDisplay text-[19px] leading-[1.6]">
-            {para}
+    <section
+      id={item.id}
+      data-snap-section
+      className="flex min-h-[76svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(6rem,12vw,11rem)]"
+    >
+      <div className="mx-auto grid w-full max-w-canvas gap-10 md:grid-cols-12 md:gap-8">
+        <div className="md:col-span-5">
+          <p className="font-sans text-[10px] uppercase tracking-[0.18em] text-black/38">
+            {String(n).padStart(2, '0')}
           </p>
-        ))}
-      </div>
+          <h2 className="mt-5 max-w-[11ch] font-serifDisplay text-[clamp(2.5rem,5.2vw,5.4rem)] leading-[0.98] tracking-[-0.04em]">
+            {item.q}
+          </h2>
+        </div>
 
-      {/* THE SCHEDULE AS A DESCRIPTION LIST, not a <table>. Two reasons: stage-to-duration IS a
-          description list semantically, and the mirror's converter treats dl/dt/dd as blocks
-          while td/th are not in its BLOCK set, so a table would collapse every row into one
-          run-on line for non-JavaScript readers. */}
-      {/* Each row stacks on a phone and sits side by side from `sm`. NOT `flex-wrap`: with
-          wrapping, the two longest rows ("Foundations and raising it", "Planting") broke to a
-          second line while the five short ones stayed inline, so the schedule read as five tidy
-          rows and two broken ones rather than as one consistent list. */}
-      {item.rows && (
-        <dl className="mt-8 border-t border-inkBlack/[0.10]">
-          {item.rows.map((r) => (
-            <div
-              key={r.stage}
-              className="flex flex-col gap-y-0.5 border-b border-inkBlack/[0.10] py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-8"
-            >
-              <dt className="font-serifDisplay text-[17px]">{r.stage}</dt>
-              <dd className="font-serifDisplay text-[17px] italic text-inkBlack/55">{r.span}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
+        <div className="md:col-span-6 md:col-start-7 md:pt-9">
+          <div className="flex max-w-[42rem] flex-col gap-5">
+            {item.a.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62] text-black/72">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          {item.rows && (
+            <dl className="mt-10 border-t border-black/10">
+              {item.rows.map((row) => (
+                <div key={row.stage} className="flex flex-col gap-1 border-b border-black/10 py-4 sm:flex-row sm:justify-between sm:gap-8">
+                  <dt className="font-serifDisplay text-[17px]">{row.stage}</dt>
+                  <dd className="font-serifDisplay text-[17px] italic text-black/50">{row.span}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
 
 export function QuestionsPage() {
+  usePageSnap();
+
   return (
-    <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
-      <SplashHeader transparent logoPill />
-
-      <main className={`px-gutter pb-20 pt-[calc(var(--header-h)+3rem)]`}>
-        <header className={`${COLUMN} mb-14 sm:mb-20`}>
-          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-inkBlack/40">
-            {INTRO.eyebrow}
-          </p>
-          <h1 className="mt-5 font-serifDisplay text-[clamp(2rem,5vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.01em] [text-wrap:balance]">
-            {INTRO.title}
-          </h1>
-          <p className="mt-5 font-serifDisplay text-[clamp(1.05rem,1.6vw,1.3rem)] italic leading-[1.5] text-inkBlack/60">
-            {INTRO.standfirst}
-          </p>
-        </header>
-
-        <div className={`${COLUMN} flex flex-col gap-10 sm:gap-14`}>
-          {QUESTIONS.map((item, i) => (
-            <Question key={item.id} n={i + 1} item={item} />
-          ))}
-
-          {/* THE CLOSE. Same rule and rhythm as a question, because it IS one: the reader has
-              been asking things for a page and this is the last of them. The details are real
-              links (tel:, mailto:) so a phone dials and a desktop opens a compose window. */}
-          <section className="border-t border-inkBlack/[0.10] pt-10 sm:pt-14">
-            <h2
-              id="ring"
-              className="flex items-baseline gap-4 font-serifDisplay text-[clamp(1.4rem,2.6vw,1.9rem)] font-semibold leading-[1.2] tracking-[-0.01em]"
-            >
-              <span className="font-serifDisplay text-[15px] font-normal italic text-accentOlive">
-                {QUESTIONS.length + 1}
-              </span>
-              <span>{RING.q}</span>
-            </h2>
-
-            <p className="mt-6 font-serifDisplay text-[21px] leading-[1.5]">{CONTACT.name}</p>
-            <p className="mt-2 flex flex-col gap-1 font-serifDisplay text-[19px] leading-[1.5] sm:flex-row sm:gap-6">
-              <a
-                href={`tel:${CONTACT.phoneHref}`}
-                className="group inline-flex w-fit items-center text-inkBlack [@media(pointer:coarse)]:min-h-[44px]"
-              >
-                <span className="relative">
-                  {CONTACT.phone}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-100 bg-inkBlack/25 transition-colors duration-200 group-hover:bg-inkBlack"
-                  />
-                </span>
-              </a>
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="group inline-flex w-fit items-center text-inkBlack [@media(pointer:coarse)]:min-h-[44px]"
-              >
-                <span className="relative">
-                  {CONTACT.email}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-100 bg-inkBlack/25 transition-colors duration-200 group-hover:bg-inkBlack"
-                  />
-                </span>
-              </a>
-            </p>
-
-            <div className="mt-8 flex flex-col gap-5">
-              <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.first}</p>
-              <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.study}</p>
-              <p className="font-serifDisplay text-[19px] leading-[1.6]">{RING.next}</p>
+    <div className="min-h-screen bg-white text-[#11110e]">
+      <main>
+        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end px-gutter py-[clamp(5rem,10vw,10rem)]">
+          <EditorialHeader />
+          <div className="mx-auto grid w-full max-w-canvas gap-12 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-8">
+              <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-black/45">{INTRO.eyebrow}</p>
+              <h1 className="mt-6 max-w-[9ch] font-serifDisplay text-[clamp(4rem,10vw,10rem)] leading-[0.84] tracking-[-0.06em]">
+                {INTRO.title}
+              </h1>
             </div>
-          </section>
-        </div>
-      </main>
+            <p className="max-w-[32rem] font-serifDisplay text-[clamp(1.15rem,1.8vw,1.55rem)] leading-[1.5] text-black/58 md:col-span-4">
+              {INTRO.standfirst}
+            </p>
+          </div>
+        </section>
 
+        {QUESTIONS.map((item, index) => (
+          <Question key={item.id} n={index + 1} item={item} />
+        ))}
+
+        <section id="ring" data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(6rem,12vw,11rem)]">
+          <div className="mx-auto grid w-full max-w-canvas gap-12 md:grid-cols-12">
+            <div className="md:col-span-5">
+              <p className="font-sans text-[10px] uppercase tracking-[0.18em] text-black/38">
+                {String(QUESTIONS.length + 1).padStart(2, '0')}
+              </p>
+              <h2 className="mt-5 max-w-[9ch] font-serifDisplay text-[clamp(3.5rem,7vw,7.5rem)] leading-[0.9] tracking-[-0.05em]">
+                {RING.q}
+              </h2>
+            </div>
+
+            <div className="md:col-span-6 md:col-start-7 md:pt-9">
+              <p className="font-serifDisplay text-[clamp(1.6rem,2.8vw,2.75rem)] leading-[1.08]">{CONTACT.name}</p>
+              <div className="mt-5 flex flex-col items-start gap-2 font-sans text-[11px] uppercase tracking-[0.14em]">
+                <a href={`tel:${CONTACT.phoneHref}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.phone}</a>
+                <a href={`mailto:${CONTACT.email}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.email}</a>
+              </div>
+              <div className="mt-12 flex max-w-[42rem] flex-col gap-5 text-black/68">
+                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.first}</p>
+                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.study}</p>
+                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.next}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
       <Footer />
     </div>
   );

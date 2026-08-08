@@ -1,22 +1,25 @@
-import { CONTACT } from '../data/config';
+import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
-import { SplashHeader } from './splash/SplashHeader';
+import { usePageSnap } from '../ui/usePageSnap';
+
+export const PRESS_EMAIL = 'contact@bowerbuild.org';
 
 export function PressPage() {
+  usePageSnap();
+
   return (
-    <div className="flex min-h-screen flex-col bg-paperVellum text-inkBlack">
-      <SplashHeader transparent logoPill />
-      <main className="mx-auto flex w-full max-w-canvas flex-1 items-center px-gutter pb-20 pt-[calc(var(--header-h)+4rem)]">
-        <div className="max-w-[48rem]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-inkBlack/40">Press</p>
-          <h1 className="mt-5 max-w-[12ch] font-serifDisplay text-[clamp(2.8rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.025em]">Press enquiries.</h1>
-          <p className="mt-8 max-w-[38ch] font-serifDisplay text-[clamp(1.15rem,2vw,1.45rem)] leading-[1.55] text-inkBlack/65">
-            For press enquiries, please contact us.
-          </p>
-          <a href={`mailto:${CONTACT.email}?subject=Press%20enquiry`} className="mt-8 inline-flex border-b border-inkBlack/30 pb-1 font-serifDisplay text-[18px] transition-colors hover:border-mossDeep hover:text-mossDeep">
-            {CONTACT.email}
-          </a>
-        </div>
+    <div className="min-h-screen bg-white text-[#11110e]">
+      <main>
+        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
+          <EditorialHeader />
+          <div className="mx-auto w-full max-w-canvas">
+            <h1 className="font-serifDisplay text-[clamp(2rem,7vw,7.5rem)] font-normal leading-[0.95] tracking-[-0.045em]">
+              <a href={`mailto:${PRESS_EMAIL}`} className="border-b border-black/20 pb-2 transition-colors hover:border-black">
+                {PRESS_EMAIL}
+              </a>
+            </h1>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

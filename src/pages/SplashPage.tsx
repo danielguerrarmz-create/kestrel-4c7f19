@@ -1,181 +1,180 @@
-/** The front door: one image, one proposition, one action. */
-import { useEffect, useRef, useState } from 'react';
-import { useInView } from 'framer-motion';
-import { useDesign } from '../state/store';
-import { useReducedMotion } from '../ui/useReducedMotion';
-import { usePageSnap } from '../ui/usePageSnap';
-import { Footer } from '../ui/Footer';
+/** The home page as a seven-movement exhibition. */
 import { routes } from '../routing';
+import { Footer } from '../ui/Footer';
+import { EditorialHeader } from '../ui/EditorialHeader';
 import { srcSetFor } from '../ui/responsiveImg';
-import { HeroReveal } from './splash/HeroReveal';
-import { SplashHeader } from './splash/SplashHeader';
-import { AdaptiveCursor } from './splash/AdaptiveCursor';
-import { BowerIntro } from './splash/BowerIntro';
+import { usePageSnap } from '../ui/usePageSnap';
 
-/*
- * REWRITTEN 2026-08-05 (Clay: even the small phrases should be beautiful and deliberate,
- * Tolkien as the touchstone). The rule applied: concrete nouns over category lists, and the
- * shortest true sentence. "A sheltered vantage from which planting, weather and the changing
- * seasons become more present" said less in sixteen words than "watch the year move through
- * the garden" says in seven.
- */
-const LANDSCAPE_LIFE = [
+const TIME_STUDY = [
   {
-    title: 'Gather',
-    body: 'A long table, music, talk, and the ordinary days of a garden.',
-    image: '/assets/gallery/favorites/garden-table.webp',
-    alt: 'Guests gathered for a meal beneath a planted timber Bower',
-    href: routes.commissions,
+    year: '00',
+    title: 'A lattice',
+    image: '/assets/process/evolution/installation.webp',
+    alt: 'Concept visualisation of a newly installed timber Bower before the planting has established',
   },
   {
-    title: 'Observe',
-    body: 'A place to sit and watch the year move through the garden.',
-    image: '/assets/gallery/favorites/garden-performance.webp',
-    alt: 'An audience attending a chamber performance inside a flower-covered timber Bower',
-    href: routes.gallery,
+    year: '01',
+    title: 'Leaves in the weave',
+    image: '/assets/process/evolution/establishing.webp',
+    alt: 'Concept visualisation of the same Bower after its first season of growth',
   },
   {
-    title: 'Tend',
-    body: 'A frame the garden grows into: climbers tied in and trained, until the building is finished in leaves.',
+    year: '03',
+    title: 'A room of blossom and eaves',
     image: '/assets/process/evolution/mature.webp',
-    alt: 'A mature Bower integrated with roses, wisteria and surrounding planting',
-    href: routes.process,
+    alt: 'Concept visualisation of the same Bower after the planting has matured through its lattice',
   },
 ] as const;
 
+function Image({ src, alt, sizes, className = '' }: { src: string; alt: string; sizes: string; className?: string }) {
+  return (
+    <img
+      src={src}
+      srcSet={srcSetFor(src)}
+      sizes={sizes}
+      alt={alt}
+      loading="eager"
+      decoding="async"
+      className={`h-full w-full object-cover ${className}`}
+    />
+  );
+}
+
 export function SplashPage() {
-  /* The commissions page's slight snap (proximity on <html>, see usePageSnap), extended to
-     the home 2026-08-06: the hero, the dictionary band, the landscape-life section and the
-     close each settle to the top when a scroll ends near them. */
-  usePageSnap();
-  const reduced = useReducedMotion();
-  const outputs = useDesign((state) => state.outputs);
-  const [focusedChapter, setFocusedChapter] = useState<number | null>(null);
-  const [hoveredChapter, setHoveredChapter] = useState<number | null>(null);
-  const [hintChapter, setHintChapter] = useState<number | null>(null);
-  const lifeRef = useRef<HTMLDivElement>(null);
-  const interactingRef = useRef(false);
-  const lifeInView = useInView(lifeRef, { amount: 0.35 });
-
-  useEffect(() => {
-    interactingRef.current = focusedChapter !== null || hoveredChapter !== null;
-    if (interactingRef.current) setHintChapter(null);
-  }, [focusedChapter, hoveredChapter]);
-
-  useEffect(() => {
-    if (!lifeInView || reduced) {
-      setHintChapter(null);
-      return;
-    }
-
-    let next = 0;
-    let hideTimer: ReturnType<typeof setTimeout> | undefined;
-    let nextTimer: ReturnType<typeof setTimeout> | undefined;
-    const showHint = () => {
-      if (!interactingRef.current) setHintChapter(next);
-      next = (next + 1) % LANDSCAPE_LIFE.length;
-      hideTimer = setTimeout(() => setHintChapter(null), 1050);
-      nextTimer = setTimeout(showHint, 2600);
-    };
-    const startTimer = setTimeout(showHint, 650);
-
-    return () => {
-      clearTimeout(startTimer);
-      if (hideTimer) clearTimeout(hideTimer);
-      if (nextTimer) clearTimeout(nextTimer);
-    };
-  }, [lifeInView, reduced]);
+  usePageSnap({ wheel: true });
 
   return (
-    <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
-      <AdaptiveCursor />
-      <BowerIntro />
-      <SplashHeader />
-      <HeroReveal outputs={outputs} reduced={reduced} />
-
-      <section className="relative min-h-[88svh] snap-start overflow-hidden bg-inkBlack text-paperVellum">
-        <img
-          src="/assets/gallery/favorites/living-bower-interior.webp"
-          srcSet={srcSetFor('/assets/gallery/favorites/living-bower-interior.webp')}
-          sizes="100vw"
-          alt="Inside a living timber Bower, with branching lattice arches, climbing plants and places to sit among the garden"
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-        <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-canvas items-end px-gutter pb-[clamp(3rem,7vw,6rem)] pt-40">
-          <div className="max-w-[58rem] [text-shadow:0_1px_18px_rgba(0,0,0,0.5)]">
-            <p className="max-w-[52ch] font-serifDisplay text-[clamp(1rem,1.5vw,1.2rem)] italic leading-[1.5] text-paperVellum/80">
-              bower, <span className="not-italic font-mono text-[11px] uppercase tracking-[0.14em]">noun</span>. A shaded resting place in a garden, made of woven branches and climbing plants.
-            </p>
-            {/* The size is capped by HEIGHT as well as width (min(5.8vw, 7.5svh)): on a short
-                laptop window the 88svh band shrinks with the viewport while a vw-only clamp kept
-                growing with its width, so four lines of display type buried the photograph. On a
-                tall monitor 7.5svh clears the old 5.8vw value and nothing changes. */}
-            <h2 className="mt-6 max-w-[16ch] font-serifDisplay text-[clamp(2.25rem,min(5.8vw,7.5svh),5.25rem)] leading-[0.98] tracking-[-0.025em]">Designed for your garden, and for the <em className="italic">plant</em> that grows through it.</h2>
-          </div>
+    <main className="min-h-screen w-full overflow-hidden bg-white text-[#11110e]">
+      {/* 01 · Desire: encounter the work before it is explained. */}
+      <section data-snap-section className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
+        <EditorialHeader tone="white" />
+        <picture>
+          <source media="(max-width: 640px)" srcSet={srcSetFor('/hero/v4/eden-oculus-up-tall.webp')} sizes="100vw" />
+          <img
+            src="/assets/gallery/favorites/living-bower-interior.webp"
+            srcSet={srcSetFor('/assets/gallery/favorites/living-bower-interior.webp')}
+            sizes="100vw"
+            alt="Concept visualisation from within a planted timber Bower"
+            decoding="async"
+            {...{ fetchpriority: 'high' }}
+            className="absolute inset-0 h-full w-full scale-[1.015] object-cover object-center motion-safe:animate-[hero-drift_24s_ease-out_both]"
+          />
+        </picture>
+        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
+        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
+          <p className="font-serifDisplay text-[clamp(1.25rem,2vw,1.75rem)] tracking-[-0.01em]">Living architecture</p>
+          <p className="text-right font-mono text-[8px] uppercase tracking-[0.18em] text-white/58 sm:text-[9px]">Founding commissions<br />England · 2027</p>
         </div>
       </section>
 
-      {/* The section's own top padding (≥5.5rem) clears the fixed header at a flush rest, so
-          no scroll-mt here. */}
-      <section className="snap-start border-b border-inkBlack/10 px-gutter py-[clamp(5.5rem,12vw,10rem)]">
+      {/* 02 · Meaning: name the category in one thought. */}
+      <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-[clamp(8rem,18vw,18rem)]">
         <div className="mx-auto w-full max-w-canvas">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-inkBlack/40">A place to inhabit</p>
-          <h2 className="mt-5 max-w-[13ch] font-serifDisplay text-[clamp(2.6rem,5.5vw,5.25rem)] leading-[0.98] tracking-[-0.025em] [text-wrap:balance]">Made for the life of a landscape.</h2>
-          <div ref={lifeRef} className="mt-[clamp(4rem,8vw,7rem)] grid border-t border-inkBlack/15 md:grid-cols-3">
-            {LANDSCAPE_LIFE.map((chapter, index) => (
-              <a
-                key={chapter.title}
-                href={chapter.href}
-                onPointerEnter={() => setHoveredChapter(index)}
-                onPointerLeave={() => setHoveredChapter(null)}
-                onFocus={() => setFocusedChapter(index)}
-                onBlur={() => setFocusedChapter(null)}
-                className="group relative isolate min-h-[360px] overflow-hidden border-b border-inkBlack/15 px-6 py-7 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mossDeep md:border-b-0 md:border-r md:last:border-r-0 lg:min-h-[430px] lg:px-8 lg:py-8"
-              >
-                <img
-                  src={chapter.image}
-                  srcSet={srcSetFor(chapter.image)}
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  alt={chapter.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className={`absolute inset-0 -z-20 h-full w-full object-cover transition-[opacity,transform] group-hover:scale-100 group-hover:opacity-100 group-hover:duration-700 motion-reduce:transition-none ${focusedChapter === index ? 'scale-100 opacity-100 duration-700 ease-out' : hintChapter === index ? 'scale-[1.02] opacity-[0.22] duration-[1200ms] ease-in-out' : 'scale-[1.035] opacity-0 duration-[1400ms] ease-in-out'}`}
-                />
-                <div aria-hidden className={`absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/25 to-black/15 transition-opacity group-hover:opacity-100 ${focusedChapter === index ? 'opacity-100 duration-500' : 'opacity-0 duration-[1200ms]'}`} />
-                <div className="flex h-full min-h-[304px] flex-col justify-between lg:min-h-[366px]">
-                  <div className={`flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-500 group-hover:text-paperVellum/70 ${focusedChapter === index ? 'text-paperVellum/70' : 'text-inkBlack/35'}`}>
-                    <span>0{index + 1}</span>
-                    <span aria-hidden className="text-base font-normal transition-transform duration-500 group-hover:rotate-45">+</span>
-                  </div>
-                  <div className={`transition-transform ease-out group-hover:-translate-y-1 motion-reduce:transition-none ${focusedChapter === index ? '-translate-y-1 duration-500' : 'translate-y-0 duration-[900ms]'}`}>
-                    <h3 className={`font-serifDisplay text-[clamp(1.75rem,2.8vw,2.4rem)] italic transition-colors duration-500 group-hover:text-paperVellum ${focusedChapter === index ? 'text-paperVellum' : 'text-inkBlack'}`}>{chapter.title}</h3>
-                    <p className={`mt-4 max-w-[32ch] font-serifDisplay text-[17px] leading-[1.6] transition-colors duration-500 group-hover:text-paperVellum/80 ${focusedChapter === index ? 'text-paperVellum/80' : 'text-inkBlack/60'}`}>{chapter.body}</p>
-                  </div>
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · England</p>
+          <h1 className="mt-[clamp(3rem,7vw,7rem)] max-w-[11ch] font-quote text-[clamp(3.6rem,9.2vw,9.8rem)] leading-[0.87] tracking-[-0.05em]">
+            Architecture the garden finishes.
+          </h1>
+          <p className="ml-auto mt-[clamp(5rem,11vw,10rem)] max-w-[25rem] font-serifDisplay text-[clamp(1.2rem,2vw,1.65rem)] leading-[1.5] text-black/52">
+            We make the structure. The garden makes the rest.
+          </p>
+        </div>
+      </section>
+
+      {/* 03 · Meaning in time: the work is never static. */}
+      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-16 md:py-[clamp(7rem,12vw,12rem)]">
+        <div className="mx-auto w-full max-w-canvas">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">The object in time</p>
+            <h2 className="max-w-[9ch] font-quote text-[clamp(3rem,6.4vw,6.8rem)] leading-[0.91] tracking-[-0.04em]">A Bower begins when building ends.</h2>
+          </div>
+          <div className="mt-10 grid grid-cols-3 gap-2 md:mt-[clamp(4rem,8vw,8rem)] md:gap-4">
+            {TIME_STUDY.map((study) => (
+              <figure key={study.year}>
+                <div className="aspect-[3/2] overflow-hidden bg-[#f1f1ef]">
+                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, 100vw" />
                 </div>
-                <span aria-hidden className={`absolute inset-x-0 top-0 h-px origin-left bg-mossDeep transition-transform ease-out group-hover:scale-x-100 ${focusedChapter === index ? 'scale-x-100 duration-700' : 'scale-x-0 duration-[1100ms]'}`} />
-              </a>
+                <figcaption className="mt-3 flex flex-col gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-black/45 md:grid md:grid-cols-[3rem_1fr] md:gap-3 md:text-[9px] md:tracking-[0.14em]">
+                  <span>{study.year}</span>
+                  <span>{study.title}</span>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>
       </section>
 
-      {/* THE CLOSE IS THREE LINES AND NOTHING ELSE (2026-08-05, Clay): the count as the
-          heading, "A different Bower for every landscape." as a sub-heading in the same face,
-          then the CTA. The supporting sentence ("We are selecting the first landscapes now,
-          with first installations targeted for 2027") came out on his instruction — "targeted
-          for" was project-manager vocabulary, and /questions Q8 owns the 2027 date. */}
-      <section className="snap-start px-gutter py-[clamp(4.5rem,10vw,9rem)]">
-        <div className="mx-auto w-full max-w-[920px]">
-          <h2 className="font-serifDisplay text-[clamp(2rem,4.4vw,4rem)] leading-[1.08] tracking-[-0.02em] [text-wrap:balance]">Three founding commissions across England.</h2>
-          <p className="mt-3 font-serifDisplay text-[clamp(1.4rem,2.6vw,2.3rem)] leading-[1.15] tracking-[-0.01em] text-inkBlack/60 [text-wrap:balance]">A different Bower for every landscape.</p>
-          <a href={routes.contact} className="group mt-10 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-inkBlack px-6 py-3 font-serifDisplay text-[17px] text-paperVellum">Discuss a founding commission <span aria-hidden className="text-accentOlive transition-transform group-hover:translate-x-1">→</span></a>
+      {/* 04 · Possession: let one landscape feel inevitable. */}
+      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
+        <div className="mx-auto w-full max-w-canvas">
+          <div className="grid gap-8 md:grid-cols-[.7fr_1.3fr] md:items-end">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Study No. 01 · Concept study</p>
+            <div>
+              <h2 className="max-w-[13ch] font-quote text-[clamp(3rem,6.4vw,6.8rem)] leading-[0.91] tracking-[-0.045em]">We create buildings that cannot simply be purchased and placed.</h2>
+              <p className="mt-8 max-w-[35rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/52">They belong to one landscape, develop with it, and become more extraordinary with every passing year.</p>
+            </div>
+          </div>
+          <figure className="mt-10 md:mt-[clamp(4rem,9vw,9rem)]">
+            <div className="aspect-[16/10] overflow-hidden bg-[#f1f1ef]">
+              <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted English valley at dawn" sizes="100vw" className="object-[78%_center] md:object-[68%_center]" />
+            </div>
+            <figcaption className="mt-4 flex flex-wrap justify-between gap-3 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">
+              <span>English valley · Morning mist</span>
+              <span>Unbuilt concept visualisation</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* 05 · Life: show the social possibility without explaining it away. */}
+      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
+        <div className="mx-auto w-full max-w-canvas">
+          <div className="grid gap-8 md:grid-cols-2 md:items-end">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">A life of its own</p>
+            <h2 className="max-w-[10ch] font-quote text-[clamp(3.2rem,6.8vw,7rem)] leading-[0.9] tracking-[-0.04em]">The garden becomes a place to gather.</h2>
+          </div>
+          <figure className="mt-10 md:mt-[clamp(4rem,9vw,9rem)]">
+            <div className="aspect-[16/10] overflow-hidden bg-[#11110e]">
+              <Image src="/assets/gallery/week-3/garden-room-gathering.webp" alt="Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden" sizes="100vw" />
+            </div>
+            <figcaption className="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">A garden room in use · Concept visualisation</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* 06 · Credibility: show discipline and material intelligence. */}
+      <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-[clamp(6rem,10vw,10rem)]">
+        <Image src="/assets/gallery/favorites/timber-joinery-detail.webp" alt="Concept study of a timber lattice joint and carved connection" sizes="100vw" className="absolute inset-0 object-center opacity-72" />
+        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,7,0.06)_0%,rgba(9,9,7,0.48)_42%,rgba(9,9,7,0.96)_100%)]" />
+        <div className="relative mx-auto grid w-full max-w-canvas gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
+          <div>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/48">Evidence of making · Joint study 01</p>
+            <h2 className="mt-7 max-w-[9ch] font-quote text-[clamp(3.3rem,6.8vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">Every Bower is different.</h2>
+            <p className="mt-5 max-w-[34rem] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.55rem)] leading-[1.45] text-white/62">We are building the means to make them again and again, without ever making the same one twice.</p>
+          </div>
+          <div>
+            <ol className="grid grid-cols-2 gap-x-6 border-t border-white/25 sm:grid-cols-5 lg:grid-cols-2">
+              {['Site', 'Geometry', 'Structure', 'Planting', 'Stewardship'].map((step, index) => (
+                <li key={step} className="border-b border-white/20 py-3 font-sans text-[8px] uppercase tracking-[0.14em] text-white/72 md:py-4 md:text-[9px]">
+                  <span className="mr-3 font-mono text-white/38">0{index + 1}</span>{step}
+                </li>
+              ))}
+            </ol>
+            <a href={routes.process} className="mt-6 inline-block border-b border-white/55 pb-1 font-serifDisplay text-[16px] transition-colors hover:border-white hover:text-white/70 md:mt-9 md:text-[17px]">See how it is made →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* 07 · Scarcity: an invitation, not a sales funnel. */}
+      <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-16 md:py-[clamp(8rem,17vw,17rem)]">
+        <div className="mx-auto w-full max-w-[1080px]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Founding commissions</p>
+          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first Bowers will be made for three English landscapes.</h2>
+          <p className="mt-7 max-w-[31rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/48 md:mt-10">We are now speaking with their patrons.</p>
+          <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Introduce a landscape →</a>
         </div>
       </section>
 
       <Footer />
-    </div>
+    </main>
   );
 }

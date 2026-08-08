@@ -72,6 +72,7 @@ import {
   revealSpanPx,
 } from './about/reveal';
 import { usePageCardLine, useTimelineFrameScale } from './about/usePageCardLine';
+import { PracticeEditorial } from './PracticeEditorial';
 
 /** ONE colour, page-wide. There is no longer a Clay-blue / Daniel-green split: the authorship
  *  is already stated in words by the meta line, so saying it a second time in colour only
@@ -2229,134 +2230,27 @@ function ThePractice() {
   );
 }
 
+// Retained legacy instruments remain exported/reused by the timeline and its tests while the
+// public route wears the new editorial composition. Keep their references live until that
+// extraction is completed separately.
+void [
+  SplashHeader,
+  Footer,
+  useReducedMotion,
+  TEAM,
+  AboutIntro,
+  CrossPathsTimeline,
+  TITLE,
+  TITLE_CLASS,
+  decideAboutIntro,
+  ListView,
+  TeamCoda,
+  FounderParenthesis,
+  FOUNDERS_BLOCK_W,
+  FounderNode,
+  ThePractice,
+];
+
 export function PracticePage() {
-  const reduced = useReducedMotion();
-  // The one-time narration intro plays over the page; while it does, the content is held at
-  // opacity 0 (still in layout, so the intro can measure the header title to fly onto).
-  const [intro, setIntro] = useState(decideAboutIntro);
-  const [revealed, setRevealed] = useState(() => !intro);
-  const onReveal = useCallback(() => setRevealed(true), []);
-  const onDone = useCallback(() => setIntro(false), []);
-
-  // The hash router doesn't reset scroll between routes; start at the top so the header
-  // reads first AND the intro measures the title's on-screen rect correctly.
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <div className="min-h-screen w-full bg-paperVellum text-inkBlack">
-      <SplashHeader transparent logoPill />
-
-      {/* THE HEADER IS FULLY TRANSPARENT AGAIN (2026-07-23, Clay: "make the header on that page
-          actually fully transparent... It used to be that way"). Round 11 stood an opaque-to-clear
-          vellum band here ("NOTHING TOUCHES THE HEADER") so scrolling content dissolved before it
-          reached the nav; the cost was a header that read as a solid bar the moment anything
-          scrolled under it. Clay chose the float: the nav's ink now rides directly over whatever
-          passes beneath, as it did before round 11. If content-under-chrome ever bothers Daniel
-          again, the band is one commit back in this file's git history. */}
-
-      <motion.main
-        className="mx-auto w-full max-w-canvas px-gutter pb-24 pt-[calc(var(--header-h)+2rem)]"
-        initial={false}
-        animate={{ opacity: revealed ? 1 : 0 }}
-        transition={{ duration: revealed ? 0.6 : 0, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {/* PORTION ONE — the title AND the sequence, together. The drawing starts immediately, in the
-            same frame as the sentence it is the proof of, and the two questions surface in that same
-            column as the camera reaches the years that earned them. */}
-        <section aria-label="How we crossed paths">
-          <CrossPathsTimeline
-            title={
-              // Centred + full-width below lg (the mobile landed state Sai's spec calls for); the
-              // desktop left-slot is restored at lg. AboutIntro reads this element's own textAlign and
-              // flies onto it, so the narration lands convincingly centred on mobile without a
-              // mid-flight alignment snap.
-              <h1 data-about-title className={`${TITLE_CLASS} mx-auto max-w-[16ch] text-center lg:mx-0 lg:text-left`}>
-                {TITLE}
-              </h1>
-            }
-            questions={QUESTIONS}
-            revealed={revealed}
-          />
-        </section>
-
-        {/* THE ARRIVAL (task F). The seam and the founders are ONE positioning context, because the
-            line that crosses the seam and the parenthesis that opens around the founders are one
-            gesture and must be measured in one coordinate system. The parenthesis is painted over
-            the whole of it; the seam spacer inside is still just the paper gap.
-
-            WHY THIS WRAPPER'S TOP IS THE RIGHT PLACE TO ARRIVE, in both modes. Reduced: the timeline
-            is a static full-height SVG and its bottom edge is this wrapper's top edge. Motion: the
-            timeline is a sticky viewport-height frame inside a 1080vh track, and a sticky box BOTTOMS
-            OUT at its track's bottom — so from p=1 onward the frame's bottom edge sits exactly at the
-            track's bottom, in PAGE coordinates, and stays there however far you scroll. The descent
-            exits at that edge on the page's content centre. So there is one fixed point where the
-            line hands over, and it is (content centre, this wrapper's top) either way. */}
-        <div className="relative">
-          <FounderParenthesis reduced={reduced} />
-
-          {/* The seam: the paper gap between the timeline and the founders. Real layout. */}
-          <div aria-hidden className={reduced ? 'h-20' : 'min-h-[22svh]'} />
-
-          {/* The founders. AFTER the sequence: by the time you meet them, you already know where they
-              came from. The composition is the retired ascent draft's, ported wholesale — see
-              FounderNode. `max-w-page` is that draft's own measure (Frame measure="page"), which the
-              5/7/5 band needs; the old block was clamped to 1000px for roots that no longer exist.
-
-              NOTE on the header: the draft's <main> had NO pt-header — only its Summit() added one
-              locally — so its founders slid under the fixed SplashHeader (position:fixed, top-0,
-              z-50). Ported here the bug cannot recur: this page's <main> carries
-              pt-[calc(var(--header-h)+2rem)] globally, and the founders sit mid-page besides. */}
-          <section aria-label="The founders" className="relative mx-auto w-full max-w-page px-gutter">
-            <div className="relative z-10">
-              {/* CENTRED (round 10 continued, item 4c) — see the note on FOUNDERS_BLOCK_W for why
-                  this is `text-center` on the FULL section width and not a copy of the rows' own
-                  narrower flush-left block. */}
-              <p className={`${MONO_SMALL} text-center text-inkBlack/60`}>The founders.</p>
-
-              <div className={`mt-4 flex flex-col gap-6 ${FOUNDERS_BLOCK_W}`}>
-                {TEAM.map((person) => (
-                  <FounderNode key={person.id} person={person} />
-                ))}
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* THE CODA — moved OUT of the founders section on 2026-07-16 (round 3). Two of Daniel's notes
-            meet here and pull the same way:
-              G: "I want the entire founder page to appear on one frame within the screen."
-              H: "the cross paths and 'the obsession is real and it is old' — I really like some of the
-                  flowers that Clay had in the background in his version and the big spacing in
-                  between... I want you to bring back the flowers and the beautiful ornamentation as
-                  the ending of the timeline, and at the bottom to have all the projects."
-            So the coda is not the founders' tail; it is the timeline's ENDING, and it wants its own
-            air. Lifting it out is also 291px of the 585 the founders had to lose. */}
-        <TeamCoda reduced={reduced} />
-
-        {/* PORTION TWO — the work, most recent first. The founders → work line arrives at the page
-            centre right here. The section owns a viewport's height, the header takes what it needs, and
-            the master-detail fills the rest; the detail panel scrolls if a project runs long. */}
-        <section
-          aria-label="Projects"
-          className="flex h-[calc(100svh-var(--header-h)-1.5rem)] min-h-[640px] flex-col border-t border-inkBlack/12 pt-6"
-        >
-          <div className="mb-4 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-            <h2 className="font-mono text-[12px] uppercase tracking-[0.18em] text-inkBlack/40">The Work</h2>
-            <span className="font-serifDisplay text-[15px] italic text-inkBlack/50">most recent first</span>
-          </div>
-          <ListView reduced={reduced} />
-        </section>
-
-        <ThePractice />
-      </motion.main>
-
-      <Footer />
-
-      {intro && (
-        <AboutIntro title={TITLE} titleClassName={TITLE_CLASS} onReveal={onReveal} onDone={onDone} />
-      )}
-    </div>
-  );
+  return <PracticeEditorial />;
 }

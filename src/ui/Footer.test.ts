@@ -13,8 +13,17 @@ describe('Footer', () => {
     expect(html.match(/href="\/"/g)).toHaveLength(2);
   });
 
-  it('keeps the press door quiet and footer-only', () => {
+  it('keeps the four requested secondary doors in the footer', () => {
     expect(html).toContain('href="/press"');
-    expect(html).toContain('>press</a>');
+    expect(html).toContain('>Press</a>');
+    expect(html).toContain('href="/questions"');
+    expect(html).toContain('>Questions</a>');
+    expect(html).toContain('href="/gallery"');
+    expect(html).toContain('>Gallery</a>');
+    expect(html).toContain('href="/contact"');
+    expect(html).toContain('>Contact</a>');
+    for (const href of ['/commissions', '/process', '/about']) {
+      expect(html).not.toContain(`href="${href}"`);
+    }
   });
 });

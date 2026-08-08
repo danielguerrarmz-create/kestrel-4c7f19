@@ -58,19 +58,14 @@ export const SITE_ORIGIN = 'https://www.bowerbuild.org';
 export const absoluteUrl = (path: string): string => `${SITE_ORIGIN}${path}`;
 
 /**
- * THE SHARING CARD. A real 1200x630 JPEG, generated from the gallery's wisteria walk by
- * `scripts/gen-og-card.mjs` so it is reproducible rather than a mystery binary in git.
- *
- * JPEG, NOT WEBP, and that is the whole reason a separate asset exists when the site already
- * ships this picture. The gallery serves `.webp`; iMessage, WhatsApp and LinkedIn are unreliable
- * with WebP in a link preview and will fall back to no image at all, which is the exact bug this
- * is fixing. 1200x630 is the 1.91:1 size every unfurler crops to.
+ * The sharing card: a real 1200x630 JPEG made for the exhibition-style home page.
+ * JPEG remains deliberate because common messaging unfurlers are unreliable with WebP.
  */
 export const OG_CARD = {
-  path: '/assets/social/og-card.jpg',
+  path: '/assets/social/og-card-v2.jpg',
   width: 1200,
   height: 630,
-  alt: 'A walk beneath woven timber arches, wisteria hanging through the lattice, cafe tables in the shade beside it',
+  alt: 'A planted timber Bower in an English garden with the words Architecture the garden finishes',
 } as const;
 
 /** One page's head. `ogTitle`/`ogDescription` are separate because a link card is read in a
@@ -98,19 +93,19 @@ type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree' | 'houses'>;
 const META: Record<ProductionTarget, PageMeta> = {
   splash: {
     path: routes.home,
-    title: 'Grow a living Bower in your garden',
+    title: 'Bower: living architecture for significant landscapes',
     description:
-      'A site-specific living timber pavilion, planted so that the garden continues its making. Bower is selecting the landscapes for its three founding commissions.',
-    ogTitle: 'Grow a living Bower in your garden',
+      'A living timber structure, drawn for one landscape and transformed over years by planting, weather and use. Founding commissions in England from 2027.',
+    ogTitle: 'Architecture the garden finishes',
     ogDescription:
-      'Three founding commissions across England. A different living Bower for every landscape.',
+      'A living work of architecture commissioned for one landscape and completed over time by its garden.',
   },
   gallery: {
     path: routes.gallery,
-    title: 'Living Bower gallery: fourteen commission visions',
+    title: 'Living Bower gallery: eight commission visions',
     description:
-      'Fourteen concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
-    ogTitle: 'Bower: fourteen commission visions',
+      'Eight concept visualisations of living Bowers across English gardens, cultural landscapes, gathering, performance and craft.',
+    ogTitle: 'Bower: eight commission visions',
     ogDescription:
       'Concept renderings of Bower garden pavilions in their gardens, from a wisteria walk to a glass crown.',
   },
@@ -138,7 +133,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   press: {
     path: routes.press,
     title: 'Press enquiries | Bower',
-    description: 'Press enquiries for Bower, a building technology company developing living timber pavilions for exceptional landscapes.',
+    description: 'Press enquiries for Bower, a design practice making living timber structures for significant landscapes and founding commissions across England.',
     ogTitle: 'Press enquiries | Bower',
     ogDescription: 'Contact Bower about editorial, media and press enquiries.',
   },
