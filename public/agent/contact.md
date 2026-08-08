@@ -28,7 +28,7 @@ Clay Seifert
 
 [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
-Name (optional) Organisation (optional) Site or location (optional) EmailWhat might happen in the Bower? (optional)
+NameOrganisationSite or locationEmailWhat might happen in the Bower?
 
 Send your note →
 

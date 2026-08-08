@@ -10,6 +10,6 @@ describe('ContactPage', () => {
     expect(html.match(/required=""/g)).toHaveLength(1);
     expect(html).toContain('name="email"');
     expect(html).toContain('name="email" type="email" required=""');
-    expect(html.match(/\(optional\)/g)).toHaveLength(4);
+    expect(html).not.toContain('(optional)');
   });
 });

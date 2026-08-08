@@ -66,11 +66,11 @@ export function ContactPage() {
               <p className="max-w-[28rem] font-quote text-[clamp(2.6rem,5vw,5rem)] leading-[0.95]">Thank you. Your note has reached us.</p>
             ) : (
               <form onSubmit={onSubmit} className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
-                <label className={label}>Name <span className="text-black/28">(optional)</span><input className={field} name="name" autoComplete="name" /></label>
-                <label className={label}>Organisation <span className="text-black/28">(optional)</span><input className={field} name="organisation" autoComplete="organization" /></label>
-                <label className={label}>Site or location <span className="text-black/28">(optional)</span><input className={field} name="location" /></label>
+                <label className={label}>Name<input className={field} name="name" autoComplete="name" /></label>
+                <label className={label}>Organisation<input className={field} name="organisation" autoComplete="organization" /></label>
+                <label className={label}>Site or location<input className={field} name="location" /></label>
                 <label className={label}>Email<input className={field} name="email" type="email" required autoComplete="email" /></label>
-                <label className={`sm:col-span-2 ${label}`}>What might happen in the Bower? <span className="text-black/28">(optional)</span><textarea className={`${field} min-h-[5rem] resize-y`} name="programme" /></label>
+                <label className={`sm:col-span-2 ${label}`}>What might happen in the Bower?<textarea className={`${field} min-h-[5rem] resize-y`} name="programme" /></label>
                 <div className="sm:col-span-2">
                   <button type="submit" disabled={outcome === 'sending'} className="border-b border-black/45 pb-1 font-serifDisplay text-[19px] transition-opacity hover:opacity-55 disabled:opacity-35">
                     {outcome === 'sending' ? 'Sending' : 'Send your note →'}
