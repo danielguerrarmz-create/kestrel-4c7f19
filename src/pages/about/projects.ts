@@ -29,6 +29,8 @@ export const DISCIPLINE_ORDER: Discipline[] = ['Architecture', 'Product Design',
 export interface ProjectVideo {
   mp4: string;
   webm?: string;
+  /** Optional original animated image for surfaces where autoplay cannot be assumed. */
+  gif?: string;
   rate?: number;
 }
 
@@ -924,6 +926,7 @@ export const PROJECTS: Project[] = [
         video: {
           mp4: `${A}/01-synergy/synergy-cosmos-growth-loop.mp4`,
           webm: `${A}/01-synergy/synergy-cosmos-growth-loop.webm`,
+          gif: `${A}/01-synergy/synergy-cosmos-growth-loop.gif`,
           // Slower than the source render: the growth should read as growth, not as playback.
           rate: 0.72,
         },

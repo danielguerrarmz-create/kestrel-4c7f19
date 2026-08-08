@@ -3,6 +3,7 @@ import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
+import { useReducedMotion } from '../ui/useReducedMotion';
 import { PROJECTS, TEAM } from './about/projects';
 
 const LEAD_WORK = PROJECTS.filter((project) => project.tier === 'lead').map((project) => ({
@@ -12,6 +13,7 @@ const LEAD_WORK = PROJECTS.filter((project) => project.tier === 'lead').map((pro
 
 export function PracticeEditorial() {
   usePageSnap({ wheel: true });
+  const reduced = useReducedMotion();
 
   return (
     <div className="min-h-screen bg-white text-[#11110e]">
@@ -56,7 +58,33 @@ export function PracticeEditorial() {
               {LEAD_WORK.map((project) => (
                 <figure key={project.title}>
                   <div className="aspect-[4/5] overflow-hidden bg-white/5 md:aspect-[3/2]">
-                    <img src={project.image.src} srcSet={srcSetFor(project.image.src)} sizes="(min-width: 768px) 33vw, 34vw" alt={project.image.alt} loading="eager" decoding="async" className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`} />
+                    {project.image.video?.gif && !reduced ? (
+                      <img
+                        src={project.image.video.gif}
+                        alt={project.image.alt}
+                        loading="eager"
+                        decoding="async"
+                        className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+                      />
+                    ) : project.image.video && !reduced ? (
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        poster={project.image.src}
+                        aria-label={project.image.alt}
+                        className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+                        onLoadedMetadata={(event) => {
+                          event.currentTarget.playbackRate = project.image.video?.rate ?? 1;
+                        }}
+                      >
+                        {project.image.video.webm && <source src={project.image.video.webm} type="video/webm" />}
+                        <source src={project.image.video.mp4} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img src={project.image.src} srcSet={srcSetFor(project.image.src)} sizes="(min-width: 768px) 33vw, 34vw" alt={project.image.alt} loading="eager" decoding="async" className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`} />
+                    )}
                   </div>
                   <figcaption className="mt-3 font-mono text-[8px] uppercase tracking-[0.12em] text-white/45 md:text-[9px]">{project.title} · {project.year}</figcaption>
                 </figure>

@@ -4,6 +4,7 @@ import { Footer } from '../ui/Footer';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
+import { BowerIntro } from './splash/BowerIntro';
 
 const TIME_STUDY = [
   {
@@ -45,6 +46,7 @@ export function SplashPage() {
 
   return (
     <main className="min-h-screen w-full overflow-hidden bg-white text-[#11110e]">
+      <BowerIntro />
       {/* 01 · Desire: encounter the work before it is explained. */}
       <section data-snap-section className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
         <EditorialHeader tone="white" />
@@ -61,6 +63,16 @@ export function SplashPage() {
           />
         </picture>
         <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
+        <a
+          href="#meaning"
+          aria-label="Scroll to discover more"
+          className="absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 font-mono text-[8px] uppercase tracking-[0.2em] text-white/65 transition-colors hover:text-white focus-visible:outline-white sm:bottom-8"
+        >
+          <span>Discover</span>
+          <span aria-hidden className="relative block h-8 w-px overflow-hidden bg-white/20">
+            <span className="absolute inset-x-0 top-0 h-1/2 bg-white/80 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
+          </span>
+        </a>
         <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
           <p className="font-serifDisplay text-[clamp(1.25rem,2vw,1.75rem)] tracking-[-0.01em]">Living architecture</p>
           <p className="text-right font-mono text-[8px] uppercase tracking-[0.18em] text-white/58 sm:text-[9px]">Founding commissions<br />England · 2027</p>
@@ -68,7 +80,7 @@ export function SplashPage() {
       </section>
 
       {/* 02 · Meaning: name the category in one thought. */}
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-[clamp(8rem,18vw,18rem)]">
+      <section id="meaning" data-snap-section style={{ scrollMarginTop: 0 }} className="flex min-h-[100svh] snap-start items-center px-gutter py-[clamp(8rem,18vw,18rem)]">
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · England</p>
           <h1 className="mt-[clamp(3rem,7vw,7rem)] max-w-[11ch] font-quote text-[clamp(3.6rem,9.2vw,9.8rem)] leading-[0.87] tracking-[-0.05em]">
