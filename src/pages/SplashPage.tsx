@@ -14,6 +14,7 @@ const HERO_IMAGES = [
   },
   { src: '/hero/v4/manor-garden.webp' },
   { src: '/assets/gallery/favorites/garden-performance.webp' },
+  { src: '/assets/gallery/week-3/stained-glass-cliff-interior.webp' },
 ] as const;
 
 export const HERO_ROTATION_MS = 5000;
