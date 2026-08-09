@@ -21,7 +21,7 @@ England · 2027
 
 Bower · England
 
-# Architecture the garden finishes.
+# Buildings that nature designs.
 
 We make the structure. The garden makes the rest.
 

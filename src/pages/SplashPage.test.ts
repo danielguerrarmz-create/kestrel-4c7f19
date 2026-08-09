@@ -2,13 +2,13 @@ import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { PUBLIC_ROUTES, routes } from '../routing';
-import { SplashPage } from './SplashPage';
+import { HERO_ROTATION_MS, nextHeroIndex, SplashPage } from './SplashPage';
 
 const html = renderToString(createElement(SplashPage)).replace(/<!-- -->/g, '');
 
 describe('SplashPage', () => {
   it('opens as living architecture, not a residential garden product', () => {
-    expect(html).toContain('Architecture the garden finishes.');
+    expect(html).toContain('Buildings that nature designs.');
     expect(html).toContain('Living architecture');
     expect(html).toContain('Founding commissions');
     expect(html).toContain('England · 2027');
@@ -71,5 +71,18 @@ describe('SplashPage', () => {
     expect(html).toContain('href="/questions"');
     expect(html).not.toContain('href="/commissions"');
     expect(html).toContain('href="/about/practice"');
+  });
+});
+
+describe('homepage hero rotation', () => {
+  it('advances through the hero images and wraps to the first', () => {
+    expect(nextHeroIndex(0)).toBe(1);
+    expect(nextHeroIndex(1)).toBe(2);
+    expect(nextHeroIndex(2)).toBe(0);
+  });
+
+  it('changes the image every few seconds', () => {
+    expect(HERO_ROTATION_MS).toBeGreaterThanOrEqual(3000);
+    expect(HERO_ROTATION_MS).toBeLessThanOrEqual(7000);
   });
 });

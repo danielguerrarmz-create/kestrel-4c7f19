@@ -1,10 +1,61 @@
 /** The home page as a seven-movement exhibition. */
+import { useEffect, useState } from 'react';
 import { routes } from '../routing';
 import { Footer } from '../ui/Footer';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { BowerIntro } from './splash/BowerIntro';
+
+const HERO_IMAGES = [
+  {
+    src: '/assets/gallery/favorites/living-bower-interior.webp',
+    mobileSrc: '/hero/v4/eden-oculus-up-tall.webp',
+  },
+  { src: '/assets/gallery/favorites/english-garden-path.webp' },
+  { src: '/assets/gallery/favorites/garden-performance.webp' },
+] as const;
+
+export const HERO_ROTATION_MS = 5000;
+
+export function nextHeroIndex(current: number): number {
+  return (current + 1) % HERO_IMAGES.length;
+}
+
+function RotatingHeroImages() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActive(nextHeroIndex), HERO_ROTATION_MS);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <div aria-label="Concept visualisations of planted timber Bowers" role="img" className="absolute inset-0">
+      {HERO_IMAGES.map((image, index) => (
+        <picture
+          key={image.src}
+          aria-hidden={index !== active}
+          className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}
+        >
+          {'mobileSrc' in image && (
+            <source media="(max-width: 640px)" srcSet={srcSetFor(image.mobileSrc)} sizes="100vw" />
+          )}
+          <img
+            src={image.src}
+            srcSet={srcSetFor(image.src)}
+            sizes="100vw"
+            alt={index === 0 ? 'Concept visualisation from within a planted timber Bower' : ''}
+            decoding="async"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            {...(index === 0 ? { fetchpriority: 'high' } : {})}
+            className="h-full w-full scale-[1.015] object-cover object-center motion-safe:animate-[hero-drift_24s_ease-out_both]"
+          />
+        </picture>
+      ))}
+    </div>
+  );
+}
 
 const TIME_STUDY = [
   {
@@ -50,18 +101,7 @@ export function SplashPage() {
       {/* 01 · Desire: encounter the work before it is explained. */}
       <section data-snap-section className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
         <EditorialHeader tone="white" />
-        <picture>
-          <source media="(max-width: 640px)" srcSet={srcSetFor('/hero/v4/eden-oculus-up-tall.webp')} sizes="100vw" />
-          <img
-            src="/assets/gallery/favorites/living-bower-interior.webp"
-            srcSet={srcSetFor('/assets/gallery/favorites/living-bower-interior.webp')}
-            sizes="100vw"
-            alt="Concept visualisation from within a planted timber Bower"
-            decoding="async"
-            {...{ fetchpriority: 'high' }}
-            className="absolute inset-0 h-full w-full scale-[1.015] object-cover object-center motion-safe:animate-[hero-drift_24s_ease-out_both]"
-          />
-        </picture>
+        <RotatingHeroImages />
         <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
         <a
           href="#meaning"
@@ -84,7 +124,7 @@ export function SplashPage() {
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · England</p>
           <h1 className="mt-[clamp(3rem,7vw,7rem)] max-w-[11ch] font-quote text-[clamp(3.6rem,9.2vw,9.8rem)] leading-[0.87] tracking-[-0.05em]">
-            Architecture the garden finishes.
+            Buildings that nature designs.
           </h1>
           <p className="ml-auto mt-[clamp(5rem,11vw,10rem)] max-w-[25rem] font-serifDisplay text-[clamp(1.2rem,2vw,1.65rem)] leading-[1.5] text-black/52">
             We make the structure. The garden makes the rest.
