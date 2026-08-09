@@ -12,7 +12,7 @@ export const INTRO_DONE_EVENT = 'bower:intro-done';
 
 const EASE_SETTLE = [0.16, 1, 0.3, 1] as const;
 const EASE_TRAVEL = [0.76, 0, 0.24, 1] as const;
-const TIMING = { travel: 1250, arrive: 2150, done: 2650 } as const;
+const TIMING = { travel: 1250, arrive: 2400, done: 3100 } as const;
 
 export function shouldPlayIntro(prefersReduced: boolean, alreadyPlayed: boolean): boolean {
   return !prefersReduced && !alreadyPlayed;
@@ -100,15 +100,15 @@ export function BowerIntro() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[100] overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-[#11110e]"
+        className="absolute inset-0 bg-white"
         initial={{ opacity: 1 }}
         animate={{ opacity: revealing ? 0 : 1 }}
-        transition={{ duration: 0.55, ease: EASE_SETTLE }}
+        transition={{ duration: 0.58, ease: EASE_SETTLE }}
       />
 
       {target && (
         <motion.div
-          className="absolute left-0 top-0 inline-flex font-sans text-[17px] font-medium tracking-[0.22em] text-white"
+          className="absolute left-0 top-0 inline-flex font-sans text-[17px] font-medium tracking-[0.22em] text-[#11110e]"
           style={{ transformOrigin: 'top left' }}
           initial={{ x: openingX, y: openingY, scale: openingScale, opacity: 1 }}
           animate={{
@@ -120,10 +120,10 @@ export function BowerIntro() {
           transition={
             hasDestination
               ? {
-                  x: { duration: 0.9, ease: EASE_TRAVEL },
-                  y: { duration: 0.9, ease: EASE_TRAVEL },
-                  scale: { duration: 0.9, ease: EASE_TRAVEL },
-                  opacity: { duration: 0.3, ease: EASE_SETTLE },
+                  x: { duration: 1.05, ease: EASE_TRAVEL },
+                  y: { duration: 1.05, ease: EASE_TRAVEL },
+                  scale: { duration: 1.05, ease: EASE_TRAVEL },
+                  opacity: { duration: 0.35, ease: EASE_SETTLE },
                 }
               : { duration: 0 }
           }
@@ -134,7 +134,7 @@ export function BowerIntro() {
               className="inline-block"
               initial={{ opacity: 0, y: LETTER_Y[index], filter: 'blur(3px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.75, delay: 0.12 + index * 0.055, ease: EASE_SETTLE }}
+              transition={{ duration: 0.8, delay: 0.12 + index * 0.055, ease: EASE_SETTLE }}
             >
               {letter}
             </motion.span>
