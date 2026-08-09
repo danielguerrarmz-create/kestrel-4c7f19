@@ -215,6 +215,16 @@
       1920
     ]
   },
+  "/assets/gallery/week-3/stained-glass-cliff-interior.webp": {
+    "w": 5520,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
   "/assets/gallery/week-3/valley-bower-at-dawn.webp": {
     "w": 2560,
     "variants": [

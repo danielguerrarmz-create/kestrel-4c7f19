@@ -75,10 +75,20 @@ describe('SplashPage', () => {
 });
 
 describe('homepage hero rotation', () => {
+  it('includes the former manor-garden homepage hero', () => {
+    expect(html).toContain('/hero/v4/manor-garden.webp');
+    expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
+  });
+
+  it('includes the stained-glass cliff interior', () => {
+    expect(html).toContain('/assets/gallery/week-3/stained-glass-cliff-interior.webp');
+  });
+
   it('advances through the hero images and wraps to the first', () => {
     expect(nextHeroIndex(0)).toBe(1);
     expect(nextHeroIndex(1)).toBe(2);
-    expect(nextHeroIndex(2)).toBe(0);
+    expect(nextHeroIndex(2)).toBe(3);
+    expect(nextHeroIndex(3)).toBe(0);
   });
 
   it('changes the image every few seconds', () => {
