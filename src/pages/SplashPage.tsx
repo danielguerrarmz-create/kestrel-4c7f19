@@ -12,7 +12,7 @@ const HERO_IMAGES = [
     src: '/assets/gallery/favorites/living-bower-interior.webp',
     mobileSrc: '/hero/v4/eden-oculus-up-tall.webp',
   },
-  { src: '/assets/gallery/favorites/english-garden-path.webp' },
+  { src: '/hero/v4/manor-garden.webp' },
   { src: '/assets/gallery/favorites/garden-performance.webp' },
 ] as const;
 
