@@ -44,7 +44,7 @@ A disciplined route
 
 - 01 Conversation Landscape, people, purpose.
 
-- 02 Feasibility Site, consent, route, cost.
+- 02 Founding Site Study Place, possibility, route, cost.
 
 - 03 Design Geometry, structure, planting.
 

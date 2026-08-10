@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { INTRO, QUESTIONS, RING } from './copy';
-import { COMMISSION_BUDGET_POSITION, STAGE_1_CREDIT, STAGE_1_FEE } from '../../ui/priceCopy';
+import { FOUNDING_SITE_STUDY_FEE } from '../../ui/priceCopy';
 import { CONTACT } from '../../data/config';
 
 const allCopy = [
@@ -9,9 +9,12 @@ const allCopy = [
   INTRO.standfirst,
   ...QUESTIONS.flatMap((item) => [item.q, ...item.a]),
   RING.q,
+  RING.opening,
   RING.first,
-  RING.study,
-  RING.next,
+  RING.appointment,
+  RING.leadIn,
+  ...RING.deliverables,
+  RING.conclusion,
 ].join(' ');
 
 describe('questions copy', () => {
@@ -19,24 +22,18 @@ describe('questions copy', () => {
     expect(allCopy).not.toMatch(/[—–]/);
   });
 
-  it('withholds an indicative budget, and the only figure it states is the Stage 1 fee', () => {
-    // AMENDED 2026-08-04 (Clay): the Stage 1 fee is published again (£20,000, credited against
-    // the design and engineering commission). The commission itself still carries no figure, so
-    // the guard moved from "no £ at all" to the PROPERTY that survives fee changes: every
-    // £-figure in this answer IS the Stage 1 fee, and the credit term travels with it.
+  it('publishes the standalone Founding Site Study fee and no construction figure', () => {
     const cost = QUESTIONS.find((item) => item.id === 'cost')!.a.join(' ');
-    expect(cost).toContain(COMMISSION_BUDGET_POSITION);
-    expect(cost).toContain(STAGE_1_FEE);
-    expect(cost).toContain(STAGE_1_CREDIT);
+    expect(cost).toContain(FOUNDING_SITE_STUDY_FEE);
+    expect(cost).toContain('six-week Founding Site Study');
+    expect(cost).toContain('plus approved expenses');
+    expect(cost).toContain('half payable on appointment');
     const figures = cost.match(/£[\d,]+/g) ?? [];
     expect(figures.length).toBeGreaterThan(0);
-    expect(new Set(figures)).toEqual(new Set([STAGE_1_FEE]));
+    expect(new Set(figures)).toEqual(new Set([FOUNDING_SITE_STUDY_FEE]));
     expect(cost).not.toContain('£350,000');
-    expect(cost).not.toContain('£18,000');
-    expect(cost).toContain('paid feasibility study');
-    // 'engineering route' left with the old COMMISSION_STATEMENT (2026-08-05, Clay's rewording);
-    // the position it pinned — no figure before the testing — is COMMISSION_BUDGET_POSITION,
-    // asserted above by the constant itself.
+    expect(cost.toLowerCase()).not.toContain('credited');
+    expect(cost).toContain('appointed separately');
   });
 
   it('answers built status, public use, weather, planning and scale plainly', () => {
@@ -59,13 +56,19 @@ describe('questions copy', () => {
     expect(allCopy.toLowerCase()).not.toContain('permitted development');
     // The lawn answer may not name a method (ground screws belong to the arguing pages); what it
     // must say instead is that the ground decides and Stage 1 is where it is decided.
-    expect(allCopy).toContain('we will not promise a method before we have walked the ground');
+    expect(allCopy).toContain('we will not promise a method before walking the ground');
     expect(allCopy.toLowerCase()).not.toContain('ground screw');
   });
 
-  it('provides the named domain contact and a paid-feasibility next step', () => {
+  it('provides the named domain contact and a Founding Site Study next step', () => {
     expect(CONTACT.email).toBe('clay@bowerbuild.org');
-    expect(allCopy).toContain('paid feasibility study');
+    expect(allCopy).toContain('six-week Founding Site Study');
+    expect(RING.deliverables).toHaveLength(6);
     expect(allCopy).not.toContain('gmail.com');
+  });
+
+  it('does not publish the withdrawn stewardship percentage', () => {
+    expect(allCopy).not.toContain('6 to 10%');
+    expect(allCopy).toContain('separately priced three-year stewardship plan');
   });
 });

@@ -19,9 +19,8 @@ import {
   COST_TO_COMMISSION_BRIDGE,
   DEMO_SCOPE_NOTE,
   FEES_NOT_CREDITED,
+  FOUNDING_SITE_STUDY_FEE,
   PRICE_QUALIFIER,
-  STAGE_1_CREDIT,
-  STAGE_1_FEE,
   STEWARDSHIP_LABEL,
   STEWARDSHIP_NOTE,
   commissionDemoFigureGBP,
@@ -44,8 +43,7 @@ const ALL_COPY = [
   COST_BUILDUP_LABEL,
   COST_BUILDUP_NOTE,
   FEES_NOT_CREDITED,
-  STAGE_1_CREDIT,
-  STAGE_1_FEE,
+  FOUNDING_SITE_STUDY_FEE,
   // Added to the sweep 2026-08-05: both had been missing since they were authored, so the dash
   // rule never covered the sentences most likely to be rewritten.
   COMMISSION_BUDGET_POSITION,

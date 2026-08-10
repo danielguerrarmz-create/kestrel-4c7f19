@@ -32,7 +32,11 @@ function RotatingHeroImages() {
   }, []);
 
   return (
-    <div aria-label="Concept visualisations of planted timber Bowers" role="img" className="absolute inset-0">
+    <a
+      href={routes.gallery}
+      aria-label="View the full Bower gallery"
+      className="absolute inset-0 cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+    >
       {HERO_IMAGES.map((image, index) => (
         <picture
           key={image.src}
@@ -54,7 +58,7 @@ function RotatingHeroImages() {
           />
         </picture>
       ))}
-    </div>
+    </a>
   );
 }
 
@@ -103,7 +107,7 @@ export function SplashPage() {
       <section data-snap-section className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
         <EditorialHeader tone="white" />
         <RotatingHeroImages />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
         <a
           href="#meaning"
           aria-label="Scroll to discover more"
@@ -114,7 +118,7 @@ export function SplashPage() {
             <span className="absolute inset-x-0 top-0 h-1/2 bg-white/80 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
           </span>
         </a>
-        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
+        <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
           <p className="font-serifDisplay text-[clamp(1.25rem,2vw,1.75rem)] tracking-[-0.01em]">Living architecture</p>
           <p className="text-right font-mono text-[8px] uppercase tracking-[0.18em] text-white/58 sm:text-[9px]">Founding commissions<br />England · 2027</p>
         </div>

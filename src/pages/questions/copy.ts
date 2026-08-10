@@ -23,10 +23,9 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - Stage 1, siting and feasibility: £20,000 as of 2026-08-04, owned by `STAGE_1_FEE` in
- *     ui/priceCopy.ts because several surfaces state it. It has been £1,500, £6,500, £15,000 and
- *     £18,000, which is exactly why it stopped being a literal. It is credited in full against
- *     the design and engineering commission (`STAGE_1_CREDIT`, Clay's term of 2026-08-04).
+ *   - The six-week Founding Site Study: £45,000 plus approved expenses as of 2026-08-10, owned by
+ *     `FOUNDING_SITE_STUDY_FEE` in ui/priceCopy.ts because several surfaces state it. It is a
+ *     standalone appointment and is not credited against later work.
  *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
  *     A RANGE, deliberately, and the rule that has governed it through three revisions is
  *     unchanged: **do not collapse it to a single figure**, because a point value reads as a quote
@@ -89,18 +88,15 @@
  * nothing), and a marquee hire cost to compare against. The comparison invites the capacity
  * question and loses it. `houseRules.test.ts` pins the marquee-replacement claim absent site-wide.
  *
- * THE CREDIT CLAIM IS BACK (2026-08-04). "The study comes off the price" was true of the £1,500
- * version, was deliberately NOT carried forward through £6,500/£15,000/£18,000, and this header
- * said to restore it only if Clay ruled it credited. He has: the £20,000 fee is credited in full
- * against the design and engineering commission (not against construction). The sentence is
- * `STAGE_1_CREDIT` in priceCopy.ts, one owner.
+ * THE STUDY IS STANDALONE (2026-08-10). Its fee is not credited against later work, because the
+ * study has a valid conclusion even when that conclusion is not to build.
  * The three-metre height is the same threshold `GRAMMAR.pdHeightCapM` enforces (2.5 m) rounded UP
  * in prose to the permitted-development ceiling for a garden structure, which is why this file
  * says "about three metres" and never quotes the engine's cap as a promise. Do not wire these to
  * the engine: it models the smallest thing the studio makes, and this page is about commissions.
  */
 
-import { COMMISSION_STATEMENT, STAGE_1_CREDIT, STAGE_1_FEE } from '../../ui/priceCopy';
+import { FOUNDING_SITE_STUDY_FEE } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -133,19 +129,17 @@ export const QUESTIONS: readonly QA[] = [
   {
     id: 'cost',
     /**
-     * THE STAGE 1 FEE IS PUBLISHED AGAIN AS OF 2026-08-04 (Clay: "Stage 1 cost = 20k GBP...
-     * That 20k gets credited against DD"), which reverses the figure-free position this answer
-     * held from 2026-08-03. The commission itself still carries no figure — the only number a
-     * reader may meet here is the fee for the next step they can actually take, and the credit
-     * term is what stops it reading as a toll. `copy.test.ts` pins that property: the ONLY
-     * £-figure in this answer is `STAGE_1_FEE`.
+     * The Founding Site Study fee is published plainly as of 2026-08-10. The commission itself
+     * still carries no construction figure; the only £-figure in this answer is the fixed fee for
+     * the six-week standalone study.
      */
     q: 'What does it cost?',
     a: [
-      ...COMMISSION_STATEMENT,
-      // "The study" lost its antecedent when the feasibility sentence left COMMISSION_STATEMENT
-      // (2026-08-05), so the fee line names the thing it prices.
-      `Stage 1, the paid feasibility study, is ${STAGE_1_FEE}. ${STAGE_1_CREDIT}`,
+      'A Bower is a serious, site-specific building, priced like one.',
+      'The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a six-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.',
+      `The fixed fee is ${FOUNDING_SITE_STUDY_FEE} plus approved expenses, with half payable on appointment.`,
+      'The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.',
+      'Concept design, detailed design, specialist consultants, fabrication, construction and planting are appointed separately if the patron decides to proceed.',
     ],
   },
   {
@@ -171,7 +165,7 @@ export const QUESTIONS: readonly QA[] = [
     a: [
       'Possibly. Planning requirements depend on the property, location, size and intended use.',
       'Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.',
-      'Stage 1 establishes the likely planning route before detailed design begins.',
+      'The Founding Site Study identifies the likely planning route and any obvious consent risks. Detailed planning advice and applications form part of a later appointment.',
     ],
   },
   {
@@ -221,7 +215,7 @@ export const QUESTIONS: readonly QA[] = [
     q: 'Can it host public programmes?',
     a: [
       'Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.',
-      'A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. Stage 1 establishes which apply before the design begins.',
+      'A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. The Founding Site Study identifies the principal requirements. Access, fire safety, crowd loading and other public-use obligations are developed with the relevant specialists during design.',
     ],
   },
   {
@@ -243,7 +237,8 @@ export const QUESTIONS: readonly QA[] = [
      */
     q: 'Will it wreck my lawn?',
     a: [
-      'Not if we can help it. But soil, roots, buried services and the way in decide the foundations, so we will not promise a method before we have walked the ground. Stage 1 settles it.',
+      'Not if we can help it. But soil, roots, buried services and the route to the site all influence the foundations and installation strategy, so we will not promise a method before walking the ground.',
+      'The Founding Site Study assesses the likely approach. Surveys and detailed foundation design follow later if the project proceeds.',
       'The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.',
     ],
   },
@@ -269,8 +264,8 @@ export const QUESTIONS: readonly QA[] = [
      */
     q: 'When could mine be built?',
     a: [
-      'The first installations are planned for summer and autumn 2027.',
-      'The programme includes feasibility, planning, technical design, fabrication and erection. A project-specific timeline is confirmed during Stage 1.',
+      'The earliest founding installations are being planned for 2027, subject to site, consent and fabrication requirements.',
+      'The programme includes the Founding Site Study, planning, technical design, fabrication and erection. The Founding Site Study provides a preliminary programme. The construction date is confirmed only after the planning, engineering and fabrication route is sufficiently resolved.',
       'The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.',
       'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.',
     ],
@@ -279,9 +274,9 @@ export const QUESTIONS: readonly QA[] = [
     id: 'pruning',
     q: 'Who prunes it?',
     a: [
-      'For the first three years after planting, we do. If you have a gardener or grounds staff, we’d rather teach them and hand it across: they’re there every day and we aren’t.',
+      'For the first three years after planting, its growth is actively guided. Where a property has its own gardener or grounds team, we work with them and gradually hand over the routine care.',
       'That isn’t maintenance, it’s the second half of the building work. The climbers are tied in, trained along the lattice and pruned to hold the shape. Left alone, you get a green mound. The training is what keeps the drawing.',
-      'It runs at 6 to 10% of the commission a year and is arranged at the same time. Either way you get a pruning calendar, notes on every plant, and an inspection once a year.',
+      'Every commission includes a separately priced three-year stewardship plan. Its cost depends on the planting, scale, location and whether care is undertaken by Bower’s landscape partner or the property’s own grounds team.',
       'After the third year, one visit annually.',
       'And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.',
     ],
@@ -302,37 +297,28 @@ export const QUESTIONS: readonly QA[] = [
 /**
  * THE CLOSE, and the only place on the public site with a way to reach a person.
  *
- * It is a QUESTION like the others ("Who do I ring?") rather than a CONTACT banner, because that
+ * It is a QUESTION like the others ("How does a commission begin?") rather than a CONTACT banner, because that
  * is how the reader has been thinking for the whole page and switching register at the end would
  * make it feel like the sales bit. The contact details themselves live in `data/config.ts`.
  */
 export const RING = {
-  q: 'Who do I ring?',
-  /** What the first conversation actually is, so nobody fears a sales call. */
+  q: 'How does a commission begin?',
+  opening: 'Begin by introducing the landscape.',
   first:
-    'The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.',
-  /**
-   * What the paid step buys, stated as deliverables.
-   *
-   * "ready within two to four weeks" IS GONE (2026-07-31). It was the turnaround for a £6,500
-   * study; Stage 1 is now £18,000 and carries surveys and a consent route, and no one has re-timed
-   * it. The same stale span was the first row of the schedule table this page used to publish, and
-   * that table was deleted for the same reason. **A duration inherited from a cheaper, smaller
-   * version of a product is not a duration you may keep publishing** — it is the timing equivalent
-   * of the £150,000 incident. Put a real one back when it is known.
-   */
-  study: 'After that, a paid feasibility study establishes where it sits, how large it should be, the likely planning route, engineering and fabrication strategy, access, delivery sequence and a project-specific cost range.',
-  /**
-   * The step after it, priced as a RANGE and explicitly fixed later.
-   *
-   * The figure has been published, withdrawn and republished in one day (£18,000 to £25,000, then
-   * nothing, then £60,000 to £90,000). What survived all three revisions is the rule: never a
-   * single figure, because a point value reads as a quote for work nobody has scoped, and the
-   * scoping is what Stage 1 is for.
-   */
-  next: 'Only when that work is complete is a design and engineering commission proposed.',
-  /** Both stages are fees for work, not money on account. Stated in the close as well as the cost
-   *  answer, because the close is where someone decides to commit to Stage 1. */
+    'The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.',
+  appointment:
+    'If there is, we propose a six-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.',
+  leadIn: 'It establishes:',
+  deliverables: [
+    'The strongest location',
+    'One preliminary site-specific proposition',
+    'Likely planning and access constraints',
+    'Early structural and fabrication thinking',
+    'An indicative project range and programme',
+    'The recommended route into design',
+  ],
+  conclusion:
+    'The study concludes with a decision: proceed into Concept Design, pause, or conclude that a Bower does not belong there.',
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product.

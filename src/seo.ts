@@ -233,7 +233,7 @@ export function organizationJsonLd(): Record<string, unknown> {
  * answer long after the page said £350,000. Paragraphs join with a blank line so an answer engine
  * lifting the raw text gets the same sentences, in the same order, that a reader sees.
  *
- * The close ("Who do I ring?") is included as the last entry because it IS one of the questions on
+ * The close ("How does a commission begin?") is included as the last entry because it IS one of the questions on
  * the page, rendered with the same heading and rule as the other seven.
  */
 export function faqPageJsonLd(): Record<string, unknown> {
@@ -242,7 +242,18 @@ export function faqPageJsonLd(): Record<string, unknown> {
       q: item.q,
       a: [...item.a, ...(item.rows ?? []).map((r) => `${r.stage}: ${r.span}`)],
     })),
-    { q: RING.q, a: [`${CONTACT.name}, ${CONTACT.phone}, ${CONTACT.email}`, RING.first, RING.study, RING.next] },
+    {
+      q: RING.q,
+      a: [
+        RING.opening,
+        RING.first,
+        RING.appointment,
+        RING.leadIn,
+        ...RING.deliverables,
+        RING.conclusion,
+        `${CONTACT.name}, ${CONTACT.phone}, ${CONTACT.email}`,
+      ],
+    },
   ];
   return {
     '@context': 'https://schema.org',

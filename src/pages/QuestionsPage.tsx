@@ -83,15 +83,28 @@ export function QuestionsPage() {
             </div>
 
             <div className="md:col-span-6 md:col-start-7 md:pt-9">
-              <p className="font-serifDisplay text-[clamp(1.6rem,2.8vw,2.75rem)] leading-[1.08]">{CONTACT.name}</p>
-              <div className="mt-5 flex flex-col items-start gap-2 font-sans text-[11px] uppercase tracking-[0.14em]">
-                <a href={`tel:${CONTACT.phoneHref}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.phone}</a>
-                <a href={`mailto:${CONTACT.email}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.email}</a>
-              </div>
-              <div className="mt-12 flex max-w-[42rem] flex-col gap-5 text-black/68">
+              <div className="flex max-w-[42rem] flex-col gap-5 text-black/68">
+                <p className="font-serifDisplay text-[clamp(1.35rem,2vw,1.8rem)] leading-[1.35] text-black/88">{RING.opening}</p>
                 <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.first}</p>
-                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.study}</p>
-                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.next}</p>
+                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.appointment}</p>
+                <div className="pt-2">
+                  <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.leadIn}</p>
+                  <ul className="mt-4 border-t border-black/10">
+                    {RING.deliverables.map((deliverable) => (
+                      <li key={deliverable} className="border-b border-black/10 py-3 font-sans text-[10px] uppercase tracking-[0.12em] text-black/58">
+                        {deliverable}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.conclusion}</p>
+              </div>
+              <div className="mt-12 border-t border-black/10 pt-8">
+                <p className="font-serifDisplay text-[clamp(1.6rem,2.8vw,2.75rem)] leading-[1.08]">{CONTACT.name}</p>
+                <div className="mt-5 flex flex-col items-start gap-2 font-sans text-[11px] uppercase tracking-[0.14em]">
+                  <a href={`tel:${CONTACT.phoneHref}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.phone}</a>
+                  <a href={`mailto:${CONTACT.email}`} className="border-b border-black/25 pb-1 transition-colors hover:border-black">{CONTACT.email}</a>
+                </div>
               </div>
             </div>
           </div>

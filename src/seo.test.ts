@@ -16,11 +16,9 @@ import { TEAM } from './pages/about/projects';
 import { CONTACT } from './data/config';
 import {
   COMMISSION_ANCHOR_GBP,
-  COMMISSION_BUDGET_POSITION,
   COMMISSION_DEMO_FIGURE,
   COMMISSION_FLOOR_GBP,
-  STAGE_1_CREDIT,
-  STAGE_1_FEE,
+  FOUNDING_SITE_STUDY_FEE,
 } from './ui/priceCopy';
 
 const at = (rel: string) => fileURLToPath(new URL('../' + rel, import.meta.url));
@@ -284,7 +282,8 @@ describe('structured data', () => {
     const last = faq.mainEntity[faq.mainEntity.length - 1];
     expect(last.name).toBe(RING.q);
     expect(last.acceptedAnswer.text).toContain(CONTACT.email);
-    expect(last.acceptedAnswer.text).toContain(RING.study);
+    expect(last.acceptedAnswer.text).toContain(RING.appointment);
+    expect(last.acceptedAnswer.text).toContain(RING.conclusion);
   });
 
   /**
@@ -317,13 +316,10 @@ describe('structured data', () => {
      * The floor phrase must be in the schema, and the lowest reading of that phrase must clear
      * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
      */
-    expect(cost.acceptedAnswer.text).toContain(COMMISSION_BUDGET_POSITION);
-    // AMENDED 2026-08-04: the Stage 1 fee is published again (Clay), so "no £ at all" became the
-    // property that survives fee changes: the ONLY £-figure an answer engine can quote from this
-    // answer is the live Stage 1 fee, and the credit term travels with it.
+    expect(cost.acceptedAnswer.text).toContain('six-week Founding Site Study');
     const schemaFigures = cost.acceptedAnswer.text.match(/£[\d,]+/g) ?? [];
-    expect(new Set(schemaFigures)).toEqual(new Set([STAGE_1_FEE]));
-    expect(cost.acceptedAnswer.text).toContain(STAGE_1_CREDIT);
+    expect(new Set(schemaFigures)).toEqual(new Set([FOUNDING_SITE_STUDY_FEE]));
+    expect(cost.acceptedAnswer.text.toLowerCase()).not.toContain('credited');
     // The superseded point value, pinned absent in the schema too — an answer engine quoting a
     // withdrawn price is the audience least able to notice it has been withdrawn.
     expect(cost.acceptedAnswer.text).not.toContain('£350,000');
@@ -335,7 +331,8 @@ describe('structured data', () => {
     // BOTH STAGE FEES, as the page states them. The schema is generated from `QUESTIONS`, so an
     // answer engine quoting a superseded price is the same anchoring harm as the page doing it —
     // and it is the audience least able to notice.
-    expect(text).toContain(COMMISSION_BUDGET_POSITION);
+    expect(text).toContain('six-week Founding Site Study');
+    expect(text).toContain(FOUNDING_SITE_STUDY_FEE);
     expect(text).not.toContain('£18,000');
     // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its
     // floor and then the Stage 1 fee until 2026-08-04, when the fee moved to £20,000 — which is
@@ -343,6 +340,7 @@ describe('structured data', () => {
     // as literals.
     expect(text).not.toContain('£25,000');
     expect(text).not.toContain('£6,500');
+    expect(text).not.toContain('£20,000');
     expect(text).not.toContain('£1,500');
     // The demo constants (COMMISSION_DEMO_FIGURE, COMMISSION_ANCHOR_GBP, COMMISSION_FLOOR_GBP) are
     // still anchored to £150k and are knowingly flagged-not-fixed, dev-only, Daniel's call. This
