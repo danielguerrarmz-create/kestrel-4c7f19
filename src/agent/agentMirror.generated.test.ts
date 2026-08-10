@@ -15,7 +15,7 @@ import {
   pressMirror,
 } from './mirror';
 import { CONTACT } from '../data/config';
-import { COMMISSION_BUDGET_POSITION, STAGE_1_FEE } from '../ui/priceCopy';
+import { FOUNDING_SITE_STUDY_FEE } from '../ui/priceCopy';
 
 /**
  * The agent-readable mirror (public/llms.txt + public/agent/*.md) is BOTH generated and
@@ -88,13 +88,14 @@ describe('the agent mirror is fresh', () => {
     // the live phrase present, both superseded figures absent — because an agent quoting a stale
     // price back to a buyer is the same anchoring harm as the page doing it, and the agent's
     // reader has no way to tell the figure was withdrawn.
-    expect(questions).toContain(COMMISSION_BUDGET_POSITION);
+    expect(questions).toContain('six-week Founding Site Study');
     // AMENDED 2026-08-04: the Stage 1 fee (£20,000, credited against the design and engineering
     // commission) is published again on Clay's ruling, so "no £ at all" became the property that
     // survives fee changes: every £-figure an agent can quote from this mirror IS the live
     // Stage 1 fee. Both superseded commission figures stay pinned absent by name.
     const questionFigures = questions.match(/£[\d,]+/g) ?? [];
-    expect(new Set(questionFigures)).toEqual(new Set([STAGE_1_FEE]));
+    expect(new Set(questionFigures)).toEqual(new Set([FOUNDING_SITE_STUDY_FEE]));
+    expect(questions.toLowerCase()).not.toContain('credited');
     expect(questions).not.toContain('£350,000');
     expect(questions).not.toContain('£150,000');
     expect(questions).toContain('planning permission');

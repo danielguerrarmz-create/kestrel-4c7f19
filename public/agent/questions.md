@@ -30,11 +30,15 @@ Size is settled early, with the landscape, because the span of the frame and the
 
 ## What does it cost?
 
-A Bower is a serious building, priced like one.
+A Bower is a serious, site-specific building, priced like one.
 
-We don’t name a figure before we have tested the site and the structure, because a number before that is a guess wearing a suit.
+The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a six-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.
 
-Stage 1, the paid feasibility study, is £20,000. The fee is credited in full against the design and engineering commission that follows.
+The fixed fee is £45,000 plus approved expenses, with half payable on appointment.
+
+The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.
+
+Concept design, detailed design, specialist consultants, fabrication, construction and planting are appointed separately if the patron decides to proceed.
 
 03
 
@@ -44,7 +48,7 @@ Possibly. Planning requirements depend on the property, location, size and inten
 
 Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.
 
-Stage 1 establishes the likely planning route before detailed design begins.
+The Founding Site Study identifies the likely planning route and any obvious consent risks. Detailed planning advice and applications form part of a later appointment.
 
 04
 
@@ -60,7 +64,7 @@ It can be made waterproof. That adds engineering, so it is decided at the start,
 
 Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.
 
-A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. Stage 1 establishes which apply before the design begins.
+A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. The Founding Site Study identifies the principal requirements. Access, fire safety, crowd loading and other public-use obligations are developed with the relevant specialists during design.
 
 06
 
@@ -74,7 +78,9 @@ The images on this site are concept visualisations, and the engineering and fabr
 
 ## Will it wreck my lawn?
 
-Not if we can help it. But soil, roots, buried services and the way in decide the foundations, so we will not promise a method before we have walked the ground. Stage 1 settles it.
+Not if we can help it. But soil, roots, buried services and the route to the site all influence the foundations and installation strategy, so we will not promise a method before walking the ground.
+
+The Founding Site Study assesses the likely approach. Surveys and detailed foundation design follow later if the project proceeds.
 
 The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.
 
@@ -82,9 +88,9 @@ The work needs a working area and a route for deliveries, agreed beforehand and 
 
 ## When could mine be built?
 
-The first installations are planned for summer and autumn 2027.
+The earliest founding installations are being planned for 2027, subject to site, consent and fabrication requirements.
 
-The programme includes feasibility, planning, technical design, fabrication and erection. A project-specific timeline is confirmed during Stage 1.
+The programme includes the Founding Site Study, planning, technical design, fabrication and erection. The Founding Site Study provides a preliminary programme. The construction date is confirmed only after the planning, engineering and fabrication route is sufficiently resolved.
 
 The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.
 
@@ -94,11 +100,11 @@ You can sit in it the week it goes up. That first year it is a timber structure,
 
 ## Who prunes it?
 
-For the first three years after planting, we do. If you have a gardener or grounds staff, we’d rather teach them and hand it across: they’re there every day and we aren’t.
+For the first three years after planting, its growth is actively guided. Where a property has its own gardener or grounds team, we work with them and gradually hand over the routine care.
 
 That isn’t maintenance, it’s the second half of the building work. The climbers are tied in, trained along the lattice and pruned to hold the shape. Left alone, you get a green mound. The training is what keeps the drawing.
 
-It runs at 6 to 10% of the commission a year and is arranged at the same time. Either way you get a pruning calendar, notes on every plant, and an inspection once a year.
+Every commission includes a separately priced three-year stewardship plan. Its cost depends on the planting, scale, location and whether care is undertaken by Bower’s landscape partner or the property’s own grounds team.
 
 After the third year, one visit annually.
 
@@ -120,17 +126,33 @@ Then in March it begins to disappear again.
 
 11
 
-## Who do I ring?
+## How does a commission begin?
+
+Begin by introducing the landscape.
+
+The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.
+
+If there is, we propose a six-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.
+
+It establishes:
+
+- The strongest location
+
+- One preliminary site-specific proposition
+
+- Likely planning and access constraints
+
+- Early structural and fabrication thinking
+
+- An indicative project range and programme
+
+- The recommended route into design
+
+The study concludes with a decision: proceed into Concept Design, pause, or conclude that a Bower does not belong there.
 
 Clay Seifert
 
 [+44 20 7139 5142](tel:+442071395142) [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
-
-The first conversation happens in your garden, by arrangement. An hour, walking the ground, working out where a structure might go and whether it should.
-
-After that, a paid feasibility study establishes where it sits, how large it should be, the likely planning route, engineering and fabrication strategy, access, delivery sequence and a project-specific cost range.
-
-Only when that work is complete is a design and engineering commission proposed.
 
 [Bower](/)
 

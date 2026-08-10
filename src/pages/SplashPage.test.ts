@@ -37,6 +37,11 @@ describe('SplashPage', () => {
     expect(labels).toEqual(['Works', 'Making', 'Practice', 'Enquire']);
   });
 
+  it('opens the gallery when the hero imagery is selected', () => {
+    expect(html).toContain(`href="${routes.gallery}"`);
+    expect(html).toContain('aria-label="View the full Bower gallery"');
+  });
+
   it('tells the seven-movement exhibition story', () => {
     expect(html.match(/<section\b/g)).toHaveLength(7);
     for (const line of [

@@ -53,7 +53,7 @@
  * venue owner will have both open; the number has one owner and each page writes its own sentence.
  */
 import { HEADS_IN_WORDS } from '../../data/capacity';
-import { COMMISSION_STATEMENT, FEES_NOT_CREDITED, STAGE_1_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
+import { COMMISSION_STATEMENT, FEES_NOT_CREDITED, FOUNDING_SITE_STUDY_FEE, STAGE_2_FEE } from '../../ui/priceCopy';
 
 /** A titled section of the page. `body` is paragraphs, in order. */
 export interface HouseSection {
@@ -146,7 +146,7 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
     heading: 'What it costs',
     body: [
       ...COMMISSION_STATEMENT,
-      `Stage 1, siting and feasibility, is ${STAGE_1_FEE} including VAT, and it is yours to keep whatever you decide. Stage 2, planning, design and engineering, is typically ${STAGE_2_FEE} including VAT, fixed at the end of Stage 1.`,
+      `The six-week Founding Site Study is ${FOUNDING_SITE_STUDY_FEE} plus approved expenses. Planning, design and engineering are appointed separately, and are typically ${STAGE_2_FEE} including VAT once their scope is defined.`,
       FEES_NOT_CREDITED,
     ],
   },

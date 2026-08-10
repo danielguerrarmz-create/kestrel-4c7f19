@@ -9,7 +9,7 @@ import { useReducedMotion } from '../ui/useReducedMotion';
 
 export const PROCESS_STEPS = [
   { title: 'Conversation', body: 'Landscape, people, purpose.' },
-  { title: 'Feasibility', body: 'Site, consent, route, cost.' },
+  { title: 'Founding Site Study', body: 'Place, possibility, route, cost.' },
   { title: 'Design', body: 'Geometry, structure, planting.' },
   { title: 'Making', body: 'Fabrication and assembly.' },
   { title: 'Stewardship', body: 'Training, growth, care.' },

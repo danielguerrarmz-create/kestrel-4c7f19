@@ -27,6 +27,9 @@ describe('ProcessPage', () => {
     expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
     expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
     expect(html).toContain('Five acts of making.');
+    expect(html).toContain('Founding Site Study');
+    expect(html).toContain('Place, possibility, route, cost.');
+    expect(html).not.toContain('Site, consent, route, cost.');
     expect(html.indexOf('The garden continues the architecture.')).toBeLessThan(html.indexOf('Five acts of making.'));
     expect(html.lastIndexOf('/assets/process/evolution/mature.webp')).toBeLessThan(html.indexOf('Five acts of making.'));
     expect(html).toContain('/assets/gallery/week-3/landscape-room-at-dawn.webp');

@@ -12,7 +12,11 @@
 
 [Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
+[
+
 ![Concept visualisation from within a planted timber Bower](/assets/gallery/favorites/living-bower-interior.webp)
+
+](/gallery)
 
 Living architecture
 

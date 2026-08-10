@@ -175,10 +175,9 @@ export const COMMISSION_STATEMENT: readonly string[] = [
 ];
 
 /**
- * STAGE 1, THE PAID STUDY: £20,000 as of 2026-08-04 (Clay), AND IT IS NOW CREDITED — in full,
- * against the design and engineering commission that follows (`STAGE_1_CREDIT`), NOT against
- * construction. The figure has been £1,500, £6,500, £15,000 and £18,000 — which is the whole
- * argument for it being a constant rather than a literal typed into three pages.
+ * THE FOUNDING SITE STUDY: £45,000 plus approved expenses as of 2026-08-10 (Clay). It is a
+ * six-week, standalone appointment with its own valid conclusion, even when that conclusion is
+ * not to build. It is not credited against later work.
  *
  * ONE OWNER, because several surfaces state it: the cost answer on `/questions`, the founding
  * terms on `/commissions`, and the `/houses` cost section (dev-only). A fee that has moved four
@@ -195,20 +194,10 @@ export const COMMISSION_STATEMENT: readonly string[] = [
  * failed on precisely this number, which is the difference between guarding a quantity and
  * guarding everything shaped like one.
  */
-export const STAGE_1_FEE_GBP = 20_000;
+export const FOUNDING_SITE_STUDY_FEE_GBP = 45_000;
 
 /** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
-export const STAGE_1_FEE = '£20,000';
-
-/**
- * THE CREDIT TERM (Clay, 2026-08-04: "That 20k gets credited against DD"). One sentence, one
- * owner, because it is a commercial term and a term that exists in two wordings is two terms.
- * It is credited against the DESIGN AND ENGINEERING commission (Stage 2 / detailed design),
- * deliberately NOT "against construction" — see `FEES_NOT_CREDITED`, which still governs that
- * boundary.
- */
-export const STAGE_1_CREDIT =
-  'The fee is credited in full against the design and engineering commission that follows.';
+export const FOUNDING_SITE_STUDY_FEE = '£45,000';
 
 /**
  * STAGE 2, PLANNING / DESIGN / ENGINEERING: £60,000 to £90,000 including VAT (Clay, 2026-07-31).
@@ -234,14 +223,11 @@ export const STAGE_2_FEE_LOW_GBP = 60_000;
 export const STAGE_2_FEE_HIGH_GBP = 90_000;
 
 /**
- * The construction boundary. AMENDED 2026-08-04: Stage 1 is now credited against the design and
- * engineering commission (`STAGE_1_CREDIT`), so this sentence no longer claims both stages sit
- * outside everything — but the line it holds is unchanged and still matters: neither fee is money
- * on account against CONSTRUCTION, and a buyer who nets the fees off the build budget has
- * mis-budgeted.
+ * The construction boundary. The Founding Site Study and later stages are separately appointed;
+ * neither is money on account against construction.
  */
 export const FEES_NOT_CREDITED =
-  'The Stage 1 fee is credited against the design and engineering commission. Neither fee is credited against construction.';
+  'The Founding Site Study and all later stages are appointed separately. Neither fee is credited against construction.';
 
 /** What the floor is a floor OF. Sits with it, never with a computed figure. */
 export const COMMISSION_LABEL = 'commission, installed and planted';
