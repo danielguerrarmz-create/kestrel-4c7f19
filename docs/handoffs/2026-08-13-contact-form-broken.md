@@ -52,17 +52,26 @@ faults are not independent: fault 1 makes fault 2 the entire user experience of 
 
 ## Left — and the first one is the actual fix
 
-1. **DANIEL / CLAY, MANUAL, ~10 MINUTES: set `RESEND_API_KEY` in Vercel (Production, Sensitive),
-   then redeploy.** Until that happens the form still does not send, and nothing merged here
-   changes that. Leave `RESEND_FROM` / `RESEND_TO` unset. The sending domain
-   `send.bowerbuild.org` is already verified, so the key is the only missing piece.
-   - **`GET /api/contact` reporting `configured: true` is NOT proof the form works.** It reads
-     `Boolean(RESEND_API_KEY)` and cannot see domain verification. Confirm end-to-end via the
-     sandbox hatch on a preview deployment, never against the real client inbox.
-2. **`clay@bowerbuild.org` is now the only address on the failure path and on `/contact`, and
-   nothing in the repo confirms it has a mailbox behind it** (flagged in `config.ts` on 2026-08-04,
-   still open). If it bounces, the fallback for a broken form is itself broken. Confirm it
-   receives, or alias it into the `contact@` Workspace box.
+1. ~~**Set `RESEND_API_KEY` in Vercel, then redeploy.**~~ **DONE, same day. THE FORM SENDS.**
+   Daniel set it (Production, Sensitive) and redeployed; verified end to end — `GET` →
+   `{"configured":true}`, `POST` → `200 {"ok":true}`, and the mail was confirmed received. First
+   real send this site has ever made.
+   - **The redeploy is the step that looks like the variable not saving.** `configured` stayed
+     `false` after the key was added, because Vercel binds env vars at BUILD time and a deployment
+     that already exists never sees a new one. Diagnosed without dashboard access by reading the
+     response headers: `age: 0` + `x-vercel-cache: MISS` proved the function really executed (so
+     the code was current and `process.env` genuinely empty), while a large `age` on `/` proved
+     nothing had redeployed. That pair separates the two causes in one call. ~2 min to flip after.
+   - Vercel's sidebar showed **Environments**, not "Environment Variables" — the docs' own path was
+     stale. Direct URL: `https://vercel.com/<team>/<project>/settings/environment-variables`.
+   - Standing caveat, unchanged: **`GET` reporting `configured: true` is not proof mail sends.** It
+     reads `Boolean(RESEND_API_KEY)` and cannot see domain verification. Only a `POST` returning
+     200 is evidence, and even that proves ACCEPTANCE by Resend, not DELIVERY to a human.
+2. ~~**`clay@bowerbuild.org` is unconfirmed.**~~ **CLOSED (Daniel, 2026-08-13): it is a real
+   mailbox, and it plus `contact@bowerbuild.org` are the practice's only two addresses.** The
+   caveat has been deleted from `config.ts` rather than left to be re-raised by the next reader.
+   What survives it: **no test can see a mailbox**, so a published address that stops receiving
+   fails nothing, silently, forever. Re-confirm with a person on every change of `CONTACT.email`.
 3. ~~**`agentMirror.generated.test.ts` is RED on `main`**~~ — **DONE, and the reason given here for
    deferring it was wrong.** Regenerated the same day (Daniel's call); suite is now **966/966 green**.
 

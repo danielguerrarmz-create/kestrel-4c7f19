@@ -55,23 +55,45 @@ sit in the structure, and a venue owner is not buying somewhere to sit.
     built work their record is the only substitute for a portfolio of finished buildings, so going
     anonymous the moment buyers ask "will these people exist in three years" makes the practice look
     smaller, not more corporate.
-- **ONE ADDRESS: `contact@bowerbuild.org` (Daniel, 2026-08-02, "our new email").** `CONTACT.email`
-  (what the site PRINTS) and `FORM_INBOX` (where the FORM posts) are the SAME value, and
-  `config.test.ts` + `api/contact.test.ts` pin them EQUAL. **This block said the opposite until
-  2026-08-02 and it was two versions stale**: it described a deliberate `clay@` / `info@` split that
-  `345a8eb` had already retired, and the "never converge" rule it quoted had been inverted in that
-  same commit. Nothing failed, because a map cannot fail.
-  - **The constants stay two names even though the values match.** `api/` is built by Vercel
+- **TWO ADDRESSES, AND THEY ARE THE PRACTICE'S ONLY TWO (confirmed by Daniel, 2026-08-13):**
+  `clay@bowerbuild.org` is what the site **PRINTS** (`CONTACT.email`, on `/contact`, `/press`,
+  `/questions` and the form's failure branch), and `contact@bowerbuild.org` is where the **FORM
+  POSTS** (`FORM_INBOX`). `config.test.ts` pins them **NOT equal**, plus the published value by
+  name and the form box by domain PROPERTY. Both mailboxes are real; a send through the live
+  endpoint was verified end to end on 2026-08-13.
+  - **THIS BLOCK HAS NOW BEEN STALE TWICE, IN BOTH DIRECTIONS, AND THE SECOND TIME IT WAS STALE
+    ABOUT ITS OWN LESSON.** It described a `clay@`/`info@` split after that split was retired, was
+    corrected on 2026-08-02 to say the two constants CONVERGE and are pinned EQUAL — and then the
+    founding-commission branch split them again on 2026-08-04 and this paragraph went on asserting
+    the merge for nine days, under a sentence reading *"nothing failed, because a map cannot fail."*
+    The test was right the whole time. **When a value here disagrees with `config.test.ts`, the test
+    is the fact and this file is the rumour.**
+  - **Consequence worth holding: the site's printed address and its form inbox are allowed to
+    differ, and that is not a bug to "tidy".** The published one names a person because the outreach
+    is signed by one; the form's one is the durable shared box, so the site's own enquiries always
+    land somewhere that survives a founder being away.
+  - **The constants stay two names whether or not the values match.** `api/` is built by Vercel
     independently of the Vite app and cannot import from `src/`, so it carries its own copy pinned
-    against this one. Re-splitting later should be an edit, not a refactor.
+    against this one. Converging or re-splitting is an edit, not a refactor.
+  - **NO TEST CAN SEE A MAILBOX.** A published address that stops receiving fails nothing, silently,
+    forever. Re-confirm with a person on every change of this value; never infer it from green.
   - **The value has changed four times in five days; do not pin the local part in a test.**
     `config.test.ts` asserted `FORM_INBOX.startsWith('info@')` for one day and it went red on a
     correct change. The invariants that survive a rename are: on the practice domain, not a free
     provider, not a founder's personal address, and the app and the endpoint agree.
-- **THE SITE HAS A BACKEND NOW: `api/contact.ts`** (Vercel function, Resend), and the
-  register-interest form posts to it. **It is INERT until `RESEND_API_KEY` is set in Vercel** — this
-  repo is PUBLIC so no key can live here — returning a real `503 not-configured`, which the form
-  reads.
+- **THE SITE HAS A BACKEND: `api/contact.ts`** (Vercel function, Resend), and `/contact` posts to it.
+  **IT IS LIVE AS OF 2026-08-13** — `RESEND_API_KEY` set in Vercel (Production, Sensitive), verified
+  end to end (`POST` → `200 {"ok":true}`, mail confirmed received). It was **INERT for eleven days**
+  before that, returning a real `503 not-configured` which the form read honestly, and **there is no
+  durable store, so every enquiry submitted 2026-08-02 → 2026-08-13 was lost.**
+  - **THE REDEPLOY IS THE STEP THAT LOOKS LIKE THE VARIABLE NOT SAVING.** Adding an env var does
+    nothing to a deployment that already exists — Vercel binds them at BUILD time. After the key
+    was added, `configured` stayed `false` until a redeploy, then flipped in ~2 minutes. To tell
+    "variable missing" from "deployment stale" without dashboard access, probe the function and read
+    the headers: `age: 0` + `x-vercel-cache: MISS` proves it really executed (so the code is current
+    and `process.env` is genuinely empty), while a large `age` on `/` proves nothing has redeployed.
+  - Vercel's sidebar may show **Environments**, not "Environment Variables". Skip the navigation:
+    `https://vercel.com/<team>/<project>/settings/environment-variables`.
   - **MAIL IS SENT FROM THE SUBDOMAIN `send.bowerbuild.org` AND RECEIVED AT `contact@bowerbuild.org`.
     That asymmetry is deliberate and the apex is FORBIDDEN as a sending domain** (Daniel,
     2026-08-02): the apex carries Google's MX for the practice's real mail, Resend wants its own MX

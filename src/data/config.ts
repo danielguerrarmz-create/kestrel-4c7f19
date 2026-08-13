@@ -409,11 +409,19 @@ export const CONTACT = {
    * `info@` (Clay, 2026-08-01) -> `contact@` (Daniel, 2026-08-02, "our new email") -> `clay@`
    * again (Clay, 2026-08-04, this branch, on the founding-outreach argument above).
    *
-   * THE STANDING CAVEAT TRAVELS WITH THE VALUE: `contact@` is the address this repo has always
-   * known to receive (a verified Google Workspace mailbox). Nothing in the repo can confirm
-   * `clay@` has a mailbox behind it, and an address that bounces under the outreach it exists to
-   * serve is worse than any alternative. **Confirm `clay@` receives before the letters go out**,
-   * or route it as an alias into the same Workspace box.
+   * THE CAVEAT IS DISCHARGED (Daniel, 2026-08-13): **`clay@bowerbuild.org` is a real mailbox.**
+   * It and `contact@bowerbuild.org` are the practice's only two addresses at present. This block
+   * carried a standing warning that nothing in the repo could confirm `clay@` receives, and that
+   * an address bouncing under the outreach it exists to serve is worse than any alternative. The
+   * warning was correct to write and is now answered, so it is deleted rather than left to be
+   * re-raised by every reader who arrives here next.
+   *
+   * What survives it is the smaller true thing: **the repo cannot see a mailbox, so it cannot
+   * guard this.** No test will ever fail if a published address stops receiving. That makes it a
+   * fact to re-confirm with a person whenever this value changes, and never one to infer from a
+   * green suite. `FOUNDERS` carries `daniel@bowerbuild.org` alongside it and that one has NOT been
+   * confirmed the same way, because nothing has yet published it as a route a stranger is asked
+   * to use.
    *
    * THE ARGUMENT FOR A SHARED ADDRESS IS KEPT, because it is the thing to weigh when this is
    * revisited: a shared address is durable, survives one person being away, and fans out to both
