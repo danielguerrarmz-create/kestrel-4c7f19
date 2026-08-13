@@ -7,6 +7,43 @@ import { usePageSnap } from '../ui/usePageSnap';
 
 type Outcome = 'idle' | 'sending' | 'delivered' | 'undelivered';
 
+/**
+ * What the reader is given when the send failed — and it must be BOTH routes, not one.
+ *
+ * THE REGRESSION THIS EXISTS TO CLOSE (2026-08-13). The site's contract, written up in CLAUDE.md
+ * and implemented in `splash/RegisterInterest.tsx` since 2026-07-31, is: the outcome is decided by
+ * the SERVER, and every path that is not a 2xx "prints the phone number and the address". The
+ * 2026-08-08 site rework replaced that form with this page and carried over the honesty of the
+ * control flow but not the recovery route — the failure branch printed the email alone.
+ *
+ * That is not a cosmetic loss, because of WHEN it is read. This branch renders exactly when the
+ * form did not work, so the person reading it has already had one route fail on them, and handing
+ * them a second address on the same domain asks them to trust the channel that just dropped their
+ * message. The phone is the only route here that does not share a failure mode with the form.
+ * It also matters more than usual right now: `RESEND_API_KEY` is unset in Vercel Production, so
+ * `POST /api/contact` returns 503 not-configured and **this is the branch every submission takes.**
+ *
+ * Both values come from `CONTACT`, never from a literal — the published address has changed five
+ * times in a fortnight (see the comment on `CONTACT.email`), and a hand-copied one here would go
+ * stale silently on the page that exists to be correct about how to reach the practice.
+ */
+export function UndeliveredNotice() {
+  return (
+    <p role="alert" className="sm:col-span-2 font-serifDisplay text-[16px] italic text-black/52">
+      That did not send, and we would rather tell you than lose your note. The sure way to reach us
+      is directly:{' '}
+      <a className="not-italic underline" href={`tel:${CONTACT.phoneHref}`}>
+        {CONTACT.phone}
+      </a>{' '}
+      or{' '}
+      <a className="not-italic underline" href={`mailto:${CONTACT.email}`}>
+        {CONTACT.email}
+      </a>
+      .
+    </p>
+  );
+}
+
 export function ContactPage() {
   usePageSnap({ wheel: true });
   const [outcome, setOutcome] = useState<Outcome>('idle');
@@ -76,7 +113,7 @@ export function ContactPage() {
                     {outcome === 'sending' ? 'Sending' : 'Send your note →'}
                   </button>
                 </div>
-                {outcome === 'undelivered' && <p role="alert" className="sm:col-span-2 font-serifDisplay text-[16px] italic text-black/52">That did not send. Please email <a className="underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> directly.</p>}
+                {outcome === 'undelivered' && <UndeliveredNotice />}
               </form>
             )}
           </div>
