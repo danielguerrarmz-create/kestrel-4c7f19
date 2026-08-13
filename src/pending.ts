@@ -104,14 +104,44 @@ export const PENDING: readonly PendingFact[] = [
    * each also pins the ABSENCE of what was wrong (`+1`, a free-provider domain), because "some
    * other wrong value" would satisfy the positive rule on its own.
    */
+  /*
+   * `contact-form-provider` RESOLVED 2026-08-13 (Daniel): `RESEND_API_KEY` set in Vercel
+   * (Production, Sensitive), redeployed, verified end to end — `POST /api/contact` returns
+   * `200 {"ok":true}` and the mail was confirmed received. The sending domain
+   * `send.bowerbuild.org` was already verified. The form sends.
+   *
+   * WHAT IT COST WHILE IT SAT HERE, because this entry is the argument for the whole file and also
+   * the limit of it: the endpoint shipped on 2026-08-02 and the key was not set until 2026-08-13.
+   * For **eleven days the live site's only conversion point returned 503 to every submission**, and
+   * with no durable store **every enquiry in that window was lost.** The design worked exactly as
+   * intended — the reader was told plainly and handed the phone and the address, so nobody was
+   * promised a reply that never came — but honest failure is still failure, and this registry
+   * recorded the debt without anyone reading it.
+   *
+   * **A REGISTRY IS A REMINDER, NOT AN ALARM.** Everything about this entry was correct: it named
+   * the exact step, it named the person, it said `blocks: 'Nothing visible, and that is the point'`.
+   * That last phrase is the reason it survived eleven days — the cost was real and invisible, and
+   * an invisible cost does not interrupt anyone. The lesson the `contact-uk-phone` tombstone above
+   * already teaches, unlearned one entry later: **a debt stated as an assertion is visible; a debt
+   * stated as prose is decoration.** An `it.skip('UNBLOCK ME: ...')` would have printed a named line
+   * in the suite output on every run for eleven days. Prefer that for anything whose failure mode
+   * is silent.
+   *
+   * THE MECHANICAL GOTCHA, kept because it will recur on every future Vercel variable: **adding an
+   * env var does nothing to a deployment that already exists** — Vercel binds them at BUILD time.
+   * `configured` stayed `false` after the key was added, which is indistinguishable from the
+   * variable not saving. Read the response headers to tell them apart: `age: 0` +
+   * `x-vercel-cache: MISS` on the function proves it really executed (code current, `process.env`
+   * genuinely empty), while a large `age` on `/` proves nothing has redeployed.
+   */
   {
-    id: 'contact-form-provider',
-    item: 3,
+    id: 'founder-daniel-mailbox',
+    item: 8,
     awaiting: 'confirmation',
     needs:
-      'A Resend account with send.bowerbuild.org verified: the SUBDOMAIN, never the apex, because the apex carries Google MX and a single v=spf1 record that a second one would invalidate (Daniel, 2026-08-02). Three DNS records on send.: DKIM, SPF, return-path CNAME. Then RESEND_API_KEY set as a Production environment variable in Vercel, and RESEND_FROM and RESEND_TO deliberately left unset. NOT in .env, which is tracked in this public repo.',
+      'A real mailbox (or a Workspace alias) behind daniel@bowerbuild.org. Daniel confirmed on 2026-08-13 that it DOES NOT EXIST YET, and that the practice has exactly two addresses: clay@bowerbuild.org and contact@bowerbuild.org. Either provision it in Google Workspace, or change the FOUNDERS entry in src/data/config.ts to an address that receives, or drop the address and leave the founder named without one.',
     blocks:
-      'Nothing visible, and that is the point: `api/contact.ts` is deployed and answers 503 not-configured until the key exists, so the register-interest form keeps showing the direct contact route instead of promising a reply. The moment the key lands AND the domain is verified, the form starts mailing contact@bowerbuild.org and the confirmation becomes "we will be in touch". GET /api/contact reports whether the KEY landed, without sending anything into the inbox a real client writes to, but it cannot see domain verification and will say configured:true while every send still fails: confirm the domain in Resend’s own dashboard, and the end-to-end path through the sandbox hatch.',
+      'Nothing today, and that is precisely the risk: the address is already sitting in FOUNDERS in src/data/config.ts, labelled "for the footer\'s practice block", and nothing renders it because that block was cut back to one plain row on 2026-07-31. The day anyone restores a founder contact row, /about/practice or the footer publishes an address that bounces, and a bounce off the company\'s own About page is silent to us and terminal to the reader who tried it. houseRules.test.ts pins every unprovisioned founder address ABSENT from the rendered mirrors, so restoring that row turns the suite red instead of shipping. Flip `provisioned: true` on the founder entry the day the mailbox exists.',
   },
   /*
    * `weather-glazed-crown` RESOLVED 2026-07-31 (Clay), and it is the entry worth reading twice.

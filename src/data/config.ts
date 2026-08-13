@@ -465,9 +465,34 @@ export const FORM_INBOX = 'contact@bowerbuild.org';
  *
  * The order is the order they are printed in, and it matches `TEAM`.
  */
+/**
+ * `provisioned` SAYS WHETHER THE MAILBOX ACTUALLY EXISTS, and it is a field rather than a comment
+ * because a comment cannot fail (2026-08-13).
+ *
+ * **`daniel@bowerbuild.org` DOES NOT EXIST YET.** Daniel, 2026-08-13: the practice has exactly two
+ * addresses, `clay@` and `contact@`. The string below has been sitting in this array since it was
+ * written, described as being "for the footer's practice block" — a block that was cut back to one
+ * plain row on 2026-07-31, which is the only reason nothing publishes it today. Verified against
+ * the live site: it appears on none of the nine rendered pages.
+ *
+ * So this is a landmine, not a live defect, and the distinction is what makes the flag worth
+ * having. Nothing is wrong now; the wrong thing happens the day someone restores a founder contact
+ * row in good faith, from data that looks complete and passes every test. **The suite was actively
+ * certifying this address** — the sweeps below check it is on the practice domain and distinct from
+ * `FORM_INBOX`, both of which a nonexistent mailbox satisfies perfectly.
+ *
+ * `houseRules.test.ts` now pins every UNPROVISIONED address ABSENT from the rendered mirrors, so
+ * restoring that row turns the suite red instead of shipping a bounce off the company's own About
+ * page. **Flip the flag the day the mailbox exists** — and see `pending.ts` (`founder-daniel-mailbox`)
+ * for the three ways out, one of which is dropping the address and leaving the founder named.
+ *
+ * THE FLAG IS A CLAIM ABOUT THE WORLD, NOT ABOUT THE CODE, so nothing here can verify it. It is
+ * only as true as the last time a person was asked. Re-confirm on every change; never infer it
+ * from a green run.
+ */
 export const FOUNDERS = [
-  { id: 'clay', name: 'Clay Seifert', email: 'clay@bowerbuild.org' },
-  { id: 'daniel', name: 'Daniel Guerra', email: 'daniel@bowerbuild.org' },
+  { id: 'clay', name: 'Clay Seifert', email: 'clay@bowerbuild.org', provisioned: true },
+  { id: 'daniel', name: 'Daniel Guerra', email: 'daniel@bowerbuild.org', provisioned: false },
 ] as const;
 
 /**

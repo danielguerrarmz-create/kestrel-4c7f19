@@ -14,6 +14,7 @@ import {
 } from './agent/mirror';
 import { metaForPath, organizationJsonLd } from './seo';
 import { PUBLIC_ROUTES } from './routing';
+import { CONTACT, FOUNDERS } from './data/config';
 
 /**
  * THE VENUE SPEC'S GROUND RULES, AS ABSENCES, SWEPT OVER EVERYTHING THE SITE PUBLISHES.
@@ -369,5 +370,53 @@ describe('ground rule 2: renders are always labelled as renders', () => {
     // llms.txt makes the same promise to agents; it is checked in the mirror's own suite.
     const llms = readFileSync(fileURLToPath(new URL('../public/llms.txt', import.meta.url)), 'utf8');
     expect(llms).toMatch(/not photographs of\s+built work/i);
+  });
+});
+
+describe('no unprovisioned contact address reaches a reader', () => {
+  /**
+   * A MAILBOX THAT DOES NOT EXIST IS NOT A COPY BUG, SO NO COPY RULE ABOVE WOULD CATCH IT.
+   *
+   * `daniel@bowerbuild.org` is in `FOUNDERS` and has no mailbox behind it (Daniel, 2026-08-13).
+   * Nothing renders it today only because the footer's practice block was cut to one plain row on
+   * 2026-07-31 — an accident of layout, not a decision anyone made about this address. The moment a
+   * founder contact row is restored in good faith, the site publishes an address that bounces off
+   * its own About page, silently to us and terminally to the reader who tried it.
+   *
+   * **THE SUITE WAS ACTIVELY CERTIFYING IT.** `config.test.ts` checks every founder address is on
+   * the practice domain and distinct from `FORM_INBOX`. A nonexistent mailbox satisfies both
+   * perfectly, because both are questions about the STRING. Existence is a question about the world,
+   * and the only thing in this repo that can answer it is a person, recorded as `provisioned`.
+   *
+   * Swept over the RAW mirror, not `prose()`: an address can reach a reader as an `mailto:` target
+   * under different link text, and `prose()` strips exactly that. This is the one rule here whose
+   * failure hides in the URL rather than in the sentence.
+   */
+  it('sweeps a non-empty set of pages and a non-empty set of addresses', () => {
+    // Both halves of this guard have failed as no-ops elsewhere in this repo: a loop over zero
+    // pages and a loop over zero patterns each pass while checking nothing.
+    expect(PAGES.length).toBe(PUBLIC_ROUTES.length);
+    expect(FOUNDERS.length).toBeGreaterThan(0);
+  });
+
+  it('an address with no mailbox behind it appears on no published page', () => {
+    const unprovisioned = FOUNDERS.filter((f) => !f.provisioned).map((f) => f.email);
+    if (unprovisioned.length === 0) return; // every address is real; nothing to defend against
+    for (const { name, text } of PAGES.map((p) => ({ name: p.name, text: p.text() }))) {
+      for (const email of unprovisioned) {
+        expect(
+          text.includes(email),
+          `${name} publishes ${email}, which has no mailbox behind it (see pending.ts: founder-daniel-mailbox)`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it('the address the site actually prints IS provisioned', () => {
+    // The positive half, so this describe cannot quietly become a test about nothing: the guard
+    // above is vacuous the day every address is real, and this one is not.
+    const published = FOUNDERS.find((f) => f.email === CONTACT.email);
+    if (published) expect(published.provisioned, `${CONTACT.email} is printed but not provisioned`).toBe(true);
+    expect(contactMirror()).toContain(CONTACT.email);
   });
 });
