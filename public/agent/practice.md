@@ -46,7 +46,7 @@ Living systems
 
 Dougherty Arts Center · 2024
 
-![Looping animation of the building growing from bare structure to fully planted, bamboo and hemp filling in the planter cells](/assets/projects/01-synergy/synergy-cosmos-growth-loop-poster.webp)
+![Looping animation of the building growing from bare structure to fully planted, bamboo and hemp filling in the planter cells](/assets/projects/01-synergy/synergy-cosmos-growth-loop.gif)
 
 Plentify · 2023
 
