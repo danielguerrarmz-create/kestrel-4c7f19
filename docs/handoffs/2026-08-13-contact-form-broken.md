@@ -63,11 +63,21 @@ faults are not independent: fault 1 makes fault 2 the entire user experience of 
    nothing in the repo confirms it has a mailbox behind it** (flagged in `config.ts` on 2026-08-04,
    still open). If it bounces, the fallback for a broken form is itself broken. Confirm it
    receives, or alias it into the `contact@` Workspace box.
-3. **`agentMirror.generated.test.ts` is RED on `main` and was before this branch.** `home.md` drifted
-   when the site was reworked and `GEN=1 npx vitest run agentMirror.generated` was never re-run, so
-   `/agent/*.md` currently serves LLM readers the pre-rework copy. Deliberately **not** bundled here
-   — it is a whole-site copy regeneration, it is Clay's copy, and it does not belong in a contact-form
-   fix. It does mean the suite cannot go fully green until someone regenerates it.
+3. ~~**`agentMirror.generated.test.ts` is RED on `main`**~~ — **DONE, and the reason given here for
+   deferring it was wrong.** Regenerated the same day (Daniel's call); suite is now **966/966 green**.
+
+   The line above called it "a whole-site copy regeneration" and used that to justify not bundling
+   it. Measured, the drift was **two lines in two files** — not a copy change at all:
+   - `home.md` was missing `[Discover](#meaning)`. That is a real link (`SplashPage.tsx`, pinned in
+     `SplashPage.test.ts`), so the mirror had been hiding one of the home page's two actions from
+     every agent reading the site.
+   - `practice.md` pointed at `synergy-cosmos-growth-loop-poster.webp` where the component serves
+     `synergy-cosmos-growth-loop.gif` — the still, not the animation the page actually shows.
+
+   **The estimate came from the size of the commit that caused the drift, not from running the
+   generator**, and it was off by two orders of magnitude in the direction that justified skipping
+   the work. The generator is one command and prints the diff; it costs less to run it than to
+   reason about how big it might be.
 4. `splash/RegisterInterest.tsx` is now mounted nowhere — orphaned by the rework. Left in place; it
    is the component the recovery-route contract was originally written in.
 

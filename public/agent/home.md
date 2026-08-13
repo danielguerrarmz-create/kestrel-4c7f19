@@ -16,7 +16,7 @@
 
 ![Concept visualisation from within a planted timber Bower](/assets/gallery/favorites/living-bower-interior.webp)
 
-](/gallery)
+](/gallery) [Discover](#meaning)
 
 Living architecture
 
