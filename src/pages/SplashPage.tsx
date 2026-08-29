@@ -12,9 +12,9 @@ const HERO_IMAGES = [
     src: '/assets/gallery/favorites/living-bower-interior.webp',
     mobileSrc: '/hero/v4/eden-oculus-up-tall.webp',
   },
-  { src: '/hero/v4/manor-garden.webp' },
   { src: '/assets/gallery/favorites/garden-performance.webp' },
   { src: '/assets/gallery/week-3/stained-glass-cliff-interior.webp' },
+  { src: '/assets/gallery/favorites/xwwxdu-grygwq.jpg' },
 ] as const;
 
 export const HERO_ROTATION_MS = 5000;
@@ -111,11 +111,11 @@ export function SplashPage() {
         <a
           href="#meaning"
           aria-label="Scroll to discover more"
-          className="absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 font-mono text-[8px] uppercase tracking-[0.2em] text-white/65 transition-colors hover:text-white focus-visible:outline-white sm:bottom-8"
+          className="absolute bottom-0 left-1/2 z-30 flex min-h-14 min-w-[10rem] -translate-x-1/2 translate-y-px flex-col items-center justify-center gap-1 rounded-t-sm bg-white/95 px-6 pt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#11110e] shadow-[0_-2px_18px_rgba(0,0,0,0.14)] backdrop-blur-sm transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-black"
         >
-          <span>Discover</span>
-          <span aria-hidden className="relative block h-8 w-px overflow-hidden bg-white/20">
-            <span className="absolute inset-x-0 top-0 h-1/2 bg-white/80 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
+          <span>Scroll to explore</span>
+          <span aria-hidden className="relative block h-4 w-px overflow-hidden bg-black/15">
+            <span className="absolute inset-x-0 top-0 h-1/2 bg-black/70 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
           </span>
         </a>
         <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">

@@ -18,6 +18,7 @@ describe('SplashPage', () => {
     expect(html.match(/snap-start/g)).toHaveLength(7);
     expect(html).toContain('href="#meaning"');
     expect(html).toContain('Scroll to discover more');
+    expect(html).toContain('Scroll to explore');
     expect(html).toContain('id="meaning"');
   });
 
@@ -80,8 +81,9 @@ describe('SplashPage', () => {
 });
 
 describe('homepage hero rotation', () => {
-  it('includes the former manor-garden homepage hero', () => {
-    expect(html).toContain('/hero/v4/manor-garden.webp');
+  it('removes the manor-garden image and includes the new garden Bower hero', () => {
+    expect(html).not.toContain('/hero/v4/manor-garden.webp');
+    expect(html).toContain('/assets/gallery/favorites/xwwxdu-grygwq.jpg');
     expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
   });
 
