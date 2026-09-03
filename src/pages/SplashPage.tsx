@@ -225,7 +225,7 @@ export function SplashPage() {
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-16 md:py-[clamp(8rem,17vw,17rem)]">
         <div className="mx-auto w-full max-w-[1080px]">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Founding commissions</p>
-          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first Bowers will be made for three English landscapes.</h2>
+          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first Bowers will be made for three spectacular landscapes.</h2>
           <p className="mt-7 max-w-[31rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/48 md:mt-10">We are now speaking with their patrons.</p>
           <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Introduce a landscape →</a>
         </div>
