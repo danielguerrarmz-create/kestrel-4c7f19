@@ -25,8 +25,9 @@ describe('questions copy', () => {
   it('publishes the standalone Founding Site Study fee and no construction figure', () => {
     const cost = QUESTIONS.find((item) => item.id === 'cost')!.a.join(' ');
     expect(cost).toContain(FOUNDING_SITE_STUDY_FEE);
-    expect(cost).toContain('six-week Founding Site Study');
-    expect(cost).toContain('plus approved expenses');
+    expect(cost).toContain('four-week Founding Site Study');
+    expect(cost).toContain('plus approved travel and project expenses');
+    expect(cost).toContain('Tax treatment is confirmed according to the client and project location.');
     expect(cost).toContain('half payable on appointment');
     const figures = cost.match(/£[\d,]+/g) ?? [];
     expect(figures.length).toBeGreaterThan(0);
@@ -41,7 +42,7 @@ describe('questions copy', () => {
     // no committee vocabulary). Each pin is the presence half of a fact the answer must keep
     // carrying, whatever its phrasing does next; the waterproof answer's full shape (default
     // first, engineered option with its cost) is pinned in houseRules.test.ts.
-    for (const id of ['built-status', 'public-programmes', 'waterproof', 'planning', 'size']) {
+    for (const id of ['built-status', 'public-programmes', 'waterproof', 'international', 'planning', 'size']) {
       expect(QUESTIONS.some((item) => item.id === id), `missing ${id}`).toBe(true);
     }
     expect(allCopy).toContain('Not yet.');
@@ -50,6 +51,17 @@ describe('questions copy', () => {
     expect(allCopy).toContain('level ways in, safe ways out');
     // Size: still no capacity figure invented here — the range is stated as rooms, not heads.
     expect(allCopy).toContain('decide the structure, the planning route and the cost');
+    // REACH, REPINNED 2026-09-03 for the European outreach. The old literal was 'considers
+    // commissions internationally', and the rewrite deleted it on purpose — "considers" was the
+    // hedge that told a patron in Navarra they were the exception. Two pins now, because the
+    // answer has to keep BOTH halves: Europe stated as ordinary work, and an honest weaker verb
+    // still holding the door open past it.
+    expect(allCopy).toContain('works across Europe');
+    expect(allCopy).toContain('commissions further afield');
+    // APPROVALS: England must never be the only jurisdiction the answer addresses. Pinned as the
+    // elsewhere-clause rather than as the old 'equivalent local approvals' wording, so a rephrase
+    // of the sentence cannot quietly leave a reader outside England unanswered.
+    expect(allCopy).toContain('the local equivalent');
   });
 
   it('does not assume permitted development or a settled foundation route', () => {
@@ -62,7 +74,7 @@ describe('questions copy', () => {
 
   it('provides the named domain contact and a Founding Site Study next step', () => {
     expect(CONTACT.email).toBe('clay@bowerbuild.org');
-    expect(allCopy).toContain('six-week Founding Site Study');
+    expect(allCopy).toContain('four-week Founding Site Study');
     expect(RING.deliverables).toHaveLength(6);
     expect(allCopy).not.toContain('gmail.com');
   });

@@ -260,7 +260,9 @@ export const routes = {
   /** The commission visions: seven concept renderings of Bower pavilions in their
    *  gardens (2026-07-23, Clay). A public page, NOT an engine route. */
   gallery: '/gallery',
-  /** The three ways a Bower can serve a landscape. */
+  /** The three ways a Bower can serve a landscape.
+   *  DEV-ONLY since 2026-09-03 (Clay: "we killed it") — see `DEV_ONLY_ROUTES`. The route
+   *  constant stays because the PAGE stays; only publication of the URL was withdrawn. */
   commissions: '/commissions',
   /** The five-stage route from first conversation to long-term stewardship. */
   process: '/process',
@@ -268,6 +270,8 @@ export const routes = {
   contact: '/contact',
   /** A quiet, footer-only route for journalists and editors. */
   press: '/press',
+  /** How enquiry and site-usage information is handled. */
+  privacy: '/privacy',
   /** The practical questions (2026-07-28): size, price, planning, the lawn, the
    *  timeline, pruning, winter, and who to ring. The site's only contact surface. */
   questions: '/questions',
@@ -310,13 +314,13 @@ export const routes = {
  *  `DEV_ONLY_ROUTES`). */
 export const PUBLIC_ROUTES: readonly string[] = [
   routes.home,
-  routes.commissions,
   routes.gallery,
   routes.process,
   routes.about,
   routes.practice,
   routes.contact,
   routes.press,
+  routes.privacy,
   routes.questions,
 ];
 
@@ -355,9 +359,22 @@ export const ENGINE_ROUTES: readonly string[] = [
  * budget"). An indexed page contradicting the proposal terms the outreach emails carry is worse
  * than no page; the hospitality material stays reviewable in dev for a later aimed relaunch.
  */
-export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree', '/houses'];
+/**
+ * `/commissions` JOINED THIS LIST ON 2026-09-03 (Clay: "the commissions page is no longer live,
+ * we killed it"), and it was still fully published when he said so — in `PUBLIC_ROUTES`, in
+ * `seo.ts`'s META, in the sitemap, in `llms.txt` and mirrored at `/agent/commissions.md`. A page
+ * that has been killed in conversation and not in code is the worst version of both: nobody is
+ * maintaining it and everybody can still reach it, and the European patron letters were about to
+ * point readers at the site.
+ *
+ * KEEP THE PAGE, UNPUBLISH THE URL — Clay's call, and the same shape as `/houses`: the copy, the
+ * three commission settings and the appointment gates are worth keeping for a later aimed
+ * relaunch, so this is a gate, not a deletion. `CommissionsPage.tsx` and its test stay; production
+ * serves the home at `/commissions` and the URL leaves the sitemap.
+ */
+export const DEV_ONLY_ROUTES: readonly string[] = ['/about/tree', '/houses', '/commissions'];
 
-/** What a path resolves to. `engine`, `aboutTree` and `houses` are only ever returned when
+/** What a path resolves to. `engine`, `aboutTree`, `houses` and `commissions` are only ever returned when
  *  `dev` is true. */
 export type RouteTarget =
   | 'splash'
@@ -369,6 +386,7 @@ export type RouteTarget =
   | 'process'
   | 'contact'
   | 'press'
+  | 'privacy'
   | 'questions'
   | 'houses'
   | 'engine';
@@ -385,14 +403,15 @@ export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.practice) return 'practice';
   if (path === routes.about) return 'about';
   if (path === routes.gallery) return 'gallery';
-  if (path === routes.commissions) return 'commissions';
   if (path === routes.process) return 'process';
   if (path === routes.contact) return 'contact';
   if (path === routes.press) return 'press';
+  if (path === routes.privacy) return 'privacy';
   if (path === routes.questions) return 'questions';
   // The two gated families. Both fall through to the home in production, so a stray bookmark or a
   // guessed URL lands somewhere real instead of on a blank or a page we are not ready to show.
   if (dev && path === routes.houses) return 'houses';
+  if (dev && path === routes.commissions) return 'commissions';
   if (dev && path === routes.aboutTree) return 'aboutTree';
   if (dev && ENGINE_ROUTES.includes(path)) return 'engine';
   return 'splash';

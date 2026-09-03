@@ -67,6 +67,11 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
         <a href={routes.press} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Press</a>
         <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Questions</a>
         <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Gallery</a>
+        {/* PRESS / QUESTIONS / GALLERY / CONTACT, and no more (Clay, 2026-09-03). A `Privacy` link
+            was added here in the in-flight work and came back out: `/privacy` is still reached from
+            the contact form's own "Read our privacy notice", which is the point of collection and
+            the only place it is actually load-bearing. The row stays ONE plain row — a footer that
+            grows a section competes with the page above it, and this one closes every page. */}
         <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Contact</a>
       </nav>
       {/* THE COMPANY LINE. Stubbed 2026-07-31 and rendering the copyright alone until

@@ -316,7 +316,7 @@ describe('structured data', () => {
      * The floor phrase must be in the schema, and the lowest reading of that phrase must clear
      * cost. Both halves are needed: the number alone would guard a sentence nobody publishes.
      */
-    expect(cost.acceptedAnswer.text).toContain('six-week Founding Site Study');
+    expect(cost.acceptedAnswer.text).toContain('four-week Founding Site Study');
     const schemaFigures = cost.acceptedAnswer.text.match(/£[\d,]+/g) ?? [];
     expect(new Set(schemaFigures)).toEqual(new Set([FOUNDING_SITE_STUDY_FEE]));
     expect(cost.acceptedAnswer.text.toLowerCase()).not.toContain('credited');
@@ -331,7 +331,7 @@ describe('structured data', () => {
     // BOTH STAGE FEES, as the page states them. The schema is generated from `QUESTIONS`, so an
     // answer engine quoting a superseded price is the same anchoring harm as the page doing it —
     // and it is the audience least able to notice.
-    expect(text).toContain('six-week Founding Site Study');
+    expect(text).toContain('four-week Founding Site Study');
     expect(text).toContain(FOUNDING_SITE_STUDY_FEE);
     expect(text).not.toContain('£18,000');
     // Every superseded fee, pinned absent. £25,000 was the old Stage 2 ceiling; £18,000 was its

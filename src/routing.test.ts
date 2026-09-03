@@ -174,6 +174,7 @@ describe('the engine routes are dev-only in production', () => {
       // The questions page joined 2026-07-28: the price, the planning position, the contact.
       expect(resolveRoute('/questions', dev)).toBe('questions');
       expect(resolveRoute('/press', dev)).toBe('press');
+      expect(resolveRoute('/privacy', dev)).toBe('privacy');
       // An in-page anchor normalizes to an unknown path and must land on the home, not a blank.
       expect(resolveRoute('/register', dev)).toBe('splash');
       expect(resolveRoute('/how-it-works', dev)).toBe('splash');
@@ -185,6 +186,7 @@ describe('the engine routes are dev-only in production', () => {
     expect(resolveRoute(routes.gallery, true)).toBe('gallery');
     expect(resolveRoute(routes.questions, true)).toBe('questions');
     expect(resolveRoute(routes.press, true)).toBe('press');
+    expect(resolveRoute(routes.privacy, true)).toBe('privacy');
     // Both dev-only pages: real targets under dev, the home splash in production.
     expect(resolveRoute(routes.houses, true)).toBe('houses');
     expect(resolveRoute(routes.houses, false)).toBe('splash');
@@ -204,8 +206,10 @@ describe('the engine routes are dev-only in production', () => {
     // The sitemap and the per-page metadata are both built from this list, so it is the one place
     // a page becomes public. Pinned by name so adding or removing one is a deliberate act — which
     // is what it was for: `/houses` joined 2026-07-31 and was gated 2026-08-04 (its fee figures
-    // contradicted the withdrawn-budget posture of the founding-commission launch).
-    expect([...PUBLIC_ROUTES]).toEqual(['/', '/commissions', '/gallery', '/process', '/about', '/about/practice', '/contact', '/press', '/questions']);
+    // contradicted the withdrawn-budget posture of the founding-commission launch), and
+    // `/commissions` was gated 2026-09-03 (Clay: "we killed it" — and it was still fully published
+    // when he said so, which is what this pin exists to make impossible to miss again).
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/gallery', '/process', '/about', '/about/practice', '/contact', '/press', '/privacy', '/questions']);
     for (const path of PUBLIC_ROUTES) {
       expect(ENGINE_ROUTES).not.toContain(path);
       expect(DEV_ONLY_ROUTES).not.toContain(path);
@@ -392,7 +396,11 @@ describe('the about/tree page is dev-only', () => {
   it('DEV_ONLY_ROUTES is pinned by name, so removing an entry (which would ship it) fails here', () => {
     // `/houses` joined 2026-08-04 (Clay, founding-commission launch): unlinked from every nav,
     // and its fee copy contradicted the withdrawn-budget posture. Gated, not deleted.
-    expect([...DEV_ONLY_ROUTES]).toEqual(['/about/tree', '/houses']);
+    // `/commissions` joined 2026-09-03, also Clay, also gated rather than deleted — and it left
+    // `PUBLIC_ROUTES`, `seo.ts`'s META, `SplashHeader`'s nav, llms.txt, the sitemap and
+    // `public/agent/commissions.md` in the same change. Removing it from THIS list without undoing
+    // all of that is how a page comes back live and unmaintained.
+    expect([...DEV_ONLY_ROUTES]).toEqual(['/about/tree', '/houses', '/commissions']);
   });
 
   it('is lazy behind the DEV ternary in Root, so the build folds the tree bundle away', () => {

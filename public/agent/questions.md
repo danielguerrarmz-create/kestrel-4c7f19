@@ -32,9 +32,9 @@ Size is settled early, with the landscape, because the span of the frame and the
 
 A Bower is a serious, site-specific building, priced like one.
 
-The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a six-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.
+The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a four-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.
 
-The fixed fee is £45,000 plus approved expenses, with half payable on appointment.
+The fixed fee is £45,000 GBP plus approved travel and project expenses, with half payable on appointment. Tax treatment is confirmed according to the client and project location.
 
 The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.
 
@@ -42,15 +42,23 @@ Concept design, detailed design, specialist consultants, fabrication, constructi
 
 03
 
-## Will I need planning permission?
+## Do you work internationally?
 
-Possibly. Planning requirements depend on the property, location, size and intended use.
+Yes. Bower is based in England and works across Europe. We consider commissions further afield.
 
-Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.
-
-The Founding Site Study identifies the likely planning route and any obvious consent risks. Detailed planning advice and applications form part of a later appointment.
+Each project begins with a remote conversation, followed by a Founding Site Study if there is a credible fit. We work with locally qualified planning, engineering, fabrication and landscape specialists where required. Travel and project expenses are agreed in advance.
 
 04
+
+## What permissions or approvals will I need?
+
+Requirements depend on the country, property, location, size and intended use.
+
+Almost anywhere, a permanent garden structure needs consent, and the process is longer where the building is protected, the garden is historic or the landscape is designated. In England that means planning permission and, where it applies, listed building consent. Elsewhere it is the local equivalent.
+
+The Founding Site Study identifies the likely approvals route and any obvious consent risks. Detailed local advice and applications form part of a later appointment.
+
+05
 
 ## Is a Bower waterproof?
 
@@ -58,7 +66,7 @@ Not by default. A Bower is an open garden building: it gives shade, and more she
 
 It can be made waterproof. That adds engineering, so it is decided at the start, and the design carries it from the first drawing.
 
-05
+06
 
 ## Can it host public programmes?
 
@@ -66,7 +74,7 @@ Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happ
 
 A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. The Founding Site Study identifies the principal requirements. Access, fire safety, crowd loading and other public-use obligations are developed with the relevant specialists during design.
 
-06
+07
 
 ## Has one been built?
 
@@ -74,7 +82,7 @@ Not yet. Bower is currently developing its first commissions for construction fr
 
 The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.
 
-07
+08
 
 ## Will it wreck my lawn?
 
@@ -84,7 +92,7 @@ The Founding Site Study assesses the likely approach. Surveys and detailed found
 
 The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.
 
-08
+09
 
 ## When could mine be built?
 
@@ -96,7 +104,7 @@ The structure goes up in summer, when the ground is dry enough to bring a crew a
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
 
-09
+10
 
 ## Who prunes it?
 
@@ -110,7 +118,7 @@ After the third year, one visit annually.
 
 And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.
 
-10
+11
 
 ## What does it look like in February?
 
@@ -124,7 +132,7 @@ For a house that sells weeks of the year, this is the half of it that matters mo
 
 Then in March it begins to disappear again.
 
-11
+12
 
 ## How does a commission begin?
 
@@ -132,7 +140,7 @@ Begin by introducing the landscape.
 
 The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.
 
-If there is, we propose a six-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.
+If there is, we propose a four-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.
 
 It establishes:
 

@@ -54,11 +54,41 @@ Plentify · 2023
 
 Flowerfield · 2022
 
-Bower · England
+How the work is delivered
+
+## One Bower team, assembled for one place.
+
+Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
+
+01
+
+Engineering
+
+Structure, foundations, weather and public use
+
+02
+
+Fabrication
+
+Timber development, prototyping and assembly
+
+03
+
+Landscape
+
+Planting design, establishment and stewardship
+
+04
+
+Planning
+
+Consent strategy and project-specific advice
+
+Bower · Based in England · Working across Europe
 
 ## A design practice for living structures.
 
-[Introduce a landscape →](/contact)
+[Discuss a founding commission →](/contact)
 
 [Bower](/)
 

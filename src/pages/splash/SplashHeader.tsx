@@ -39,6 +39,10 @@ import { useReducedMotion } from '../../ui/useReducedMotion';
  *  and linked from nothing between 2026-07-26 and 2026-07-28, and a public URL nobody can reach is
  *  a page nobody has reviewed. `/about` stays in `PUBLIC_ROUTES`, the sitemap, llms.txt and the
  *  agent mirror, and is linked from every page's footer. */
+/* `commissions` LEFT THIS NAV ON 2026-09-03 with the page's gating. A link to a dev-only route
+   renders in production as an anchor that silently drops the reader on the home splash — the
+   route resolves, nothing errors, and the nav just quietly lies. Same reason the engine links were
+   stripped rather than left dangling in 2026-07-21. */
 const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [
   { href: routes.gallery, label: 'gallery' },
   { href: routes.process, label: 'process' },

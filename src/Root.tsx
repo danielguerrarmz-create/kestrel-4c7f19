@@ -54,10 +54,10 @@ import { AboutPage } from './pages/AboutPage';
 import { PracticePage } from './pages/PracticePage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
-import { CommissionsPage } from './pages/CommissionsPage';
 import { ProcessPage } from './pages/ProcessPage';
 import { ContactPage } from './pages/ContactPage';
 import { PressPage } from './pages/PressPage';
+import { PrivacyPage } from './pages/PrivacyPage';
 import { resolveRoute, useFragmentScroll, useRoute } from './routing';
 import { useDocumentMeta } from './seo';
 
@@ -69,6 +69,20 @@ const DevRoutes = import.meta.env.DEV
 /** Null in production, for the same reason and by the same mechanism (2026-07-28). */
 const AboutTreePage = import.meta.env.DEV
   ? lazy(() => import('./pages/about-tree/AboutTreePage').then((m) => ({ default: m.AboutTreePage })))
+  : null;
+
+/**
+ * Null in production (2026-09-03): `/commissions` is dev-only after Clay killed the page.
+ *
+ * LAZY BEHIND THE TERNARY, NOT A STATIC IMPORT, and that is why this file had to change and not
+ * only `routing.ts`. It WAS statically imported here, so dropping it from `PUBLIC_ROUTES` alone
+ * would have left the whole page — the copy, the three commission settings, the appointment gates
+ * and the Founding Site Study fee — compiled into the production bundle for a route production
+ * never serves. Unlinked is not gated; this repo has shipped that exact bug before with
+ * `/about/tree`.
+ */
+const CommissionsPage = import.meta.env.DEV
+  ? lazy(() => import('./pages/CommissionsPage').then((m) => ({ default: m.CommissionsPage })))
   : null;
 
 /** Null in production (2026-08-04): `/houses` is dev-only during the founding-commission launch.
@@ -90,11 +104,18 @@ export function Root() {
   if (target === 'about') return <AboutPage />;
   if (target === 'practice') return <PracticePage />;
   if (target === 'gallery') return <GalleryPage />;
-  if (target === 'commissions') return <CommissionsPage />;
   if (target === 'process') return <ProcessPage />;
   if (target === 'contact') return <ContactPage />;
   if (target === 'press') return <PressPage />;
+  if (target === 'privacy') return <PrivacyPage />;
   if (target === 'questions') return <QuestionsPage />;
+  if (target === 'commissions' && CommissionsPage) {
+    return (
+      <Suspense fallback={null}>
+        <CommissionsPage />
+      </Suspense>
+    );
+  }
   if (target === 'houses' && HousesPage) {
     return (
       <Suspense fallback={null}>

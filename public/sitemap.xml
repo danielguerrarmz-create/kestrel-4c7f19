@@ -4,9 +4,6 @@
     <loc>https://www.bowerbuild.org/</loc>
   </url>
   <url>
-    <loc>https://www.bowerbuild.org/commissions</loc>
-  </url>
-  <url>
     <loc>https://www.bowerbuild.org/gallery</loc>
   </url>
   <url>
@@ -23,6 +20,9 @@
   </url>
   <url>
     <loc>https://www.bowerbuild.org/press</loc>
+  </url>
+  <url>
+    <loc>https://www.bowerbuild.org/privacy</loc>
   </url>
   <url>
     <loc>https://www.bowerbuild.org/questions</loc>

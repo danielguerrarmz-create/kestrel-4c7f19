@@ -6,14 +6,7 @@ import { routes } from '../routing';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
-
-/*
- * THE FOUNDING-TERMS LIST IS GONE (2026-08-05, Clay: "Just remove all of this shit... extra
- * language that doesn't need to exist"). It lived one day, in three shrinking versions. The
- * commercial facts it carried still exist where they belong — the £20,000 study and its credit
- * are the cost answer on /questions — so nothing was lost from the site, only from this band,
- * which now says the one thing an image cannot: three landscapes will be first.
- */
+import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
 
 /**
  * A full-bleed image with scroll-linked drift (2026-08-05, Clay: the page read "rather plain
@@ -78,6 +71,33 @@ const COMMISSION_TYPES = [
   },
 ] as const;
 
+const STUDY_DELIVERABLES = [
+  'A serious site decision',
+  'One preliminary Bower proposition',
+  'Early planning, structural and fabrication thinking',
+  'A credible cost range and programme',
+  'A defined proceed, pause or stop decision',
+  'A reserved route toward one of three founding commissions',
+] as const;
+
+const APPOINTMENT_GATES = [
+  {
+    number: '01',
+    title: 'Before the study',
+    body: 'The agreement, scope, fixed fee, four-week timetable and the professional arrangements required for the study are confirmed before appointment.',
+  },
+  {
+    number: '02',
+    title: 'During the study',
+    body: 'Bower tests the place, the proposition and the route to planning, engineering and fabrication. Specialist input is matched to the work as it becomes clear.',
+  },
+  {
+    number: '03',
+    title: 'After the study',
+    body: 'The patron chooses to proceed, pause or stop. Concept Design and construction are separate appointments. No construction commitment is made in the study.',
+  },
+] as const;
+
 export function CommissionsPage() {
   const [active, setActive] = useState<(typeof COMMISSION_TYPES)[number]['id']>('culture');
   const interludeRef = useRef<HTMLElement>(null);
@@ -87,7 +107,7 @@ export function CommissionsPage() {
      bands and the tab section settle to their tops when a scroll ends NEAR them. The ruling
      and the mechanics (proximity, <html>, scroll-padding) live in usePageSnap — this page's
      inline effect became the site-wide pattern on 2026-08-06. */
-  usePageSnap();
+  usePageSnap({ strength: 'proximity', mobileStrength: 'proximity' });
 
   return (
     <div className="min-h-screen bg-paperVellum text-inkBlack">
@@ -111,12 +131,18 @@ export function CommissionsPage() {
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
           <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,6vw,5rem)]">
             <header className="max-w-[58rem] [text-shadow:0_1px_18px_rgba(0,0,0,0.55)]">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-paperVellum/70">Commissions</p>
+              {/* Four segments was already one too many, and "Based in England" was the one doing
+                  least work here: this page is about where a Bower GOES, and the practice's own
+                  address lives on /about/practice and in the footer. "Working internationally"
+                  became "across Europe" for the 2026-09 patron outreach — 28 of 30 prospects are on
+                  the continent, and "internationally" is the word every English exporter uses to
+                  mean "we would consider it". */}
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-paperVellum/70">Three founding commissions · Working across Europe · 2027</p>
               <h1 className="mt-4 max-w-[16ch] font-serifDisplay text-[clamp(2.4rem,6vw,5.3rem)] font-medium leading-[0.98] tracking-[-0.025em]">
                 What a Bower makes possible.
               </h1>
               <p className="mt-6 max-w-[60ch] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.4rem)] leading-[1.55] text-paperVellum/85">
-                Each Bower begins with a landscape and the life already gathering there. It is drawn for one place, not selected from a catalogue.
+                Each Bower begins with what a particular landscape is trying to become: a room for consequential conversation, a living landmark, a place to gather, or a work that changes every season.
               </p>
             </header>
           </div>
@@ -189,6 +215,71 @@ export function CommissionsPage() {
 
         </div>
 
+        <section className="mt-[clamp(5rem,10vw,9rem)] bg-paperDeep px-gutter py-[clamp(5rem,10vw,9rem)] text-inkBlack">
+          <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accentOlive">The first appointment</p>
+              <h2 className="mt-5 max-w-[11ch] font-serifDisplay text-[clamp(2.8rem,5.5vw,5.5rem)] font-medium leading-[0.96] tracking-[-0.035em]">Four weeks to make a serious decision.</h2>
+              <p className="mt-6 max-w-[34rem] font-serifDisplay text-[clamp(1.08rem,1.7vw,1.35rem)] leading-[1.58] text-inkBlack/68">The Founding Site Study turns an instinct about the landscape into a proposition a family, estate team or board can assess with confidence.</p>
+              <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-inkBlack/12">
+                <div className="bg-paperVellum p-5 sm:p-6">
+                  <dt className="font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/48">Fixed fee</dt>
+                  <dd className="mt-2 font-serifDisplay text-[clamp(1.5rem,3vw,2.4rem)]">{FOUNDING_SITE_STUDY_FEE_INTERNATIONAL}</dd>
+                </div>
+                <div className="bg-paperVellum p-5 sm:p-6">
+                  <dt className="font-mono text-[9px] uppercase tracking-[0.16em] text-inkBlack/48">Timetable</dt>
+                  <dd className="mt-2 font-serifDisplay text-[clamp(1.5rem,3vw,2.4rem)]">Four weeks</dd>
+                </div>
+              </dl>
+              <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.12em] text-inkBlack/45">Plus approved travel and project expenses · Half payable on appointment</p>
+              <p className="mt-3 max-w-[36rem] font-serifDisplay text-[14px] leading-[1.5] text-inkBlack/52">Tax treatment is confirmed according to the client and project location.</p>
+            </div>
+
+            <div>
+              <p className="max-w-[42rem] font-serifDisplay text-[clamp(1.25rem,2.1vw,1.65rem)] leading-[1.5]">The fee buys clarity, not a predetermined answer.</p>
+              <ol className="mt-7 border-t border-inkBlack/18">
+                {STUDY_DELIVERABLES.map((item, index) => (
+                  <li key={item} className="grid grid-cols-[2rem_1fr] gap-4 border-b border-inkBlack/14 py-4 sm:grid-cols-[3rem_1fr] sm:py-5">
+                    <span className="font-mono text-[10px] text-inkBlack/38">0{index + 1}</span>
+                    <span className="font-serifDisplay text-[clamp(1.08rem,1.7vw,1.3rem)] leading-[1.38]">{item}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-8 rounded-2xl bg-paperVellum p-6 sm:p-8">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accentOlive">A valid outcome</p>
+                <p className="mt-3 font-serifDisplay text-[clamp(1.35rem,2.4vw,1.85rem)] leading-[1.34]">The study may conclude that a Bower does not belong on the property. That discipline is part of what the patron is buying.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-paperVellum px-gutter py-[clamp(5rem,10vw,9rem)] text-inkBlack">
+          <div className="mx-auto w-full max-w-canvas">
+            <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accentOlive">A controlled route to delivery</p>
+              <div>
+                <h2 className="max-w-[13ch] font-serifDisplay text-[clamp(2.8rem,5.5vw,5.5rem)] font-medium leading-[0.96] tracking-[-0.035em]">Commitment increases only as certainty does.</h2>
+                <p className="mt-6 max-w-[43rem] font-serifDisplay text-[clamp(1.08rem,1.7vw,1.35rem)] leading-[1.58] text-inkBlack/66">Bower leads the commission and assembles the engineering, fabrication, planning and landscape expertise appropriate to the site. The team is defined by the work, not borrowed as decoration for a sales page.</p>
+              </div>
+            </div>
+
+            <ol className="mt-[clamp(3rem,7vw,6rem)] grid gap-px overflow-hidden rounded-2xl bg-inkBlack/12 lg:grid-cols-3">
+              {APPOINTMENT_GATES.map((gate) => (
+                <li key={gate.number} className="bg-paperDeep p-6 sm:p-8 lg:min-h-[22rem] lg:p-10">
+                  <span className="font-mono text-[10px] tracking-[0.16em] text-inkBlack/38">{gate.number}</span>
+                  <h3 className="mt-12 font-serifDisplay text-[clamp(1.7rem,2.8vw,2.5rem)] leading-[1.05]">{gate.title}</h3>
+                  <p className="mt-5 font-serifDisplay text-[clamp(1rem,1.4vw,1.16rem)] leading-[1.6] text-inkBlack/65">{gate.body}</p>
+                </li>
+              ))}
+            </ol>
+
+            <div className="mt-10 flex flex-col gap-5 border-t border-inkBlack/18 pt-7 sm:flex-row sm:items-center sm:justify-between">
+              <p className="max-w-[45rem] font-serifDisplay text-[clamp(1.1rem,1.6vw,1.3rem)] leading-[1.5]">The study agreement and professional arrangements are conditions of appointment. Construction begins only under a later, separate commitment.</p>
+              <a href={routes.process} className="inline-flex shrink-0 items-center border-b border-inkBlack/45 pb-1 font-serifDisplay text-[16px]">See the full process <span aria-hidden className="ml-2">→</span></a>
+            </div>
+          </div>
+        </section>
+
         {/* THE FOUNDING BAND: FULL-BLEED OVER THE PRODUCT, EXACTLY ONE VIEWPORT (2026-08-05,
             Clay, two rounds). Round one put the ask on the image; round two cut it to the bone:
             "clear, punchy, simple, and also elegant... it should fit all on one page." So the
@@ -196,7 +287,7 @@ export function CommissionsPage() {
             is five words, the list label is gone, and the scrim is a flat darkening plus a
             bottom gradient because legibility was ruled before atmosphere. The render keeps its
             concept-visualisation label, as every render on this site must. */}
-        <section ref={bandRef} className="relative mt-24 h-svh min-h-[560px] snap-start overflow-hidden bg-inkBlack text-paperVellum">
+        <section ref={bandRef} className="relative min-h-[88svh] snap-start overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={bandRef}
             src="/assets/gallery/exclusive/garden-concert-aerial.webp"
@@ -204,14 +295,16 @@ export function CommissionsPage() {
           />
           <div aria-hidden className="absolute inset-0 bg-black/30" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
-          <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,5vw,4rem)]">
-            <div className="max-w-[38rem] [text-shadow:0_1px_16px_rgba(0,0,0,0.65)]">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/75">The founding commissions</p>
+          <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-canvas items-center px-gutter py-24">
+            <div className="max-w-[43rem] [text-shadow:0_1px_16px_rgba(0,0,0,0.65)]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-paperVellum/75">Three founding commissions · 2027</p>
               {/* THE FUNNEL ADVANCES, IT DOES NOT REPEAT (2026-08-05, Clay): the home announces
                   "three founding commissions"; this band's job is the personal turn, not the
                   same announcement again. Home owns the count; this owns "yours". */}
-              <h2 className="mt-3 font-serifDisplay text-[clamp(2.1rem,4.2vw,3.6rem)] leading-[1.04]">Yours could be the first.</h2>
+              <h2 className="mt-4 max-w-[11ch] font-serifDisplay text-[clamp(2.8rem,5.8vw,5.6rem)] font-medium leading-[0.96] tracking-[-0.035em]">Three landscapes will define the first chapter.</h2>
+              <p className="mt-6 max-w-[36rem] font-serifDisplay text-[clamp(1.08rem,1.7vw,1.35rem)] leading-[1.55] text-paperVellum/82">Founding patrons work directly with Bower’s founders, shape how the first works are documented and stewarded, and reserve a route toward one of three commissions. The Founding Site Study is the first decision, not a construction deposit.</p>
               <a href={routes.contact} className="group mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-paperVellum px-6 py-3 font-serifDisplay text-[17px] text-inkBlack [text-shadow:none]">Discuss a founding commission <span aria-hidden className="text-mossDeep transition-transform group-hover:translate-x-1">→</span></a>
+              <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.13em] text-paperVellum/55">Concept visualisation</p>
             </div>
           </div>
         </section>

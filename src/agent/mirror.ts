@@ -42,6 +42,7 @@ import { CommissionsPage } from '../pages/CommissionsPage';
 import { ProcessPage } from '../pages/ProcessPage';
 import { ContactPage } from '../pages/ContactPage';
 import { PressPage } from '../pages/PressPage';
+import { PrivacyPage } from '../pages/PrivacyPage';
 import { COMPANY_DESCRIPTION } from '../ui/priceCopy';
 
 /* ------------------------------ html -> markdown --------------------------- */
@@ -270,6 +271,12 @@ export function housesMirror(): string {
   );
 }
 
+/** The three commission settings and the Founding Site Study terms. DEV-ONLY since 2026-09-03
+ *  (Clay killed the page): no longer generated into `public/agent/` and no longer listed in
+ *  llms.txt, but kept exported — exactly like `housesMirror` above — so the page's own guards
+ *  (house rules, price copy) keep sweeping its rendered text while the material waits. A gated
+ *  page whose mirror stops being rendered anywhere is a page whose copy quietly stops being
+ *  tested. */
 export function commissionsMirror(): string {
   return PREAMBLE('the Bower commissions page (`/commissions`)', 'Bower — commissions') + render(CommissionsPage) + '\n';
 }
@@ -284,6 +291,10 @@ export function contactMirror(): string {
 
 export function pressMirror(): string {
   return PREAMBLE('the Bower press page (`/press`)', 'Bower — press') + render(PressPage) + '\n';
+}
+
+export function privacyMirror(): string {
+  return PREAMBLE('the Bower privacy notice (`/privacy`)', 'Bower — privacy') + render(PrivacyPage) + '\n';
 }
 
 /** The llms.txt site guide (llmstxt.org convention): a short orientation plus links to the full
@@ -301,12 +312,12 @@ export function llmsTxt(): string {
 ## Pages
 
 - [Home](/agent/home.md): the work in time, one concept study, evidence of making and the invitation
-- [Commissions](/agent/commissions.md): cultural landscapes, gathering, ecology and learning
 - [Gallery](/agent/gallery.md): eight concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries
-- [Questions](/agent/questions.md): size, price, planning permission, groundworks, timeline,
+- [Privacy](/agent/privacy.md): how enquiry details and site usage information are handled
+- [Questions](/agent/questions.md): size, price, international work, approvals, site works, timeline,
   pruning, and how to contact the studio
 - [About](/agent/about.md): what a Bower is and what the practice is for, in short
 - [The company](/agent/practice.md): the two founders, the timeline of the company, and the
@@ -314,8 +325,8 @@ export function llmsTxt(): string {
 
 ## Notes for agents
 
-- The human site lives at \`/\`, \`/commissions\`, \`/gallery\`, \`/process\`, \`/about\`,
-  \`/about/practice\`, \`/contact\`, \`/press\` and \`/questions\`. These are real paths, and an
+- The human site lives at \`/\`, \`/gallery\`, \`/process\`, \`/about\`,
+  \`/about/practice\`, \`/contact\`, \`/press\`, \`/privacy\` and \`/questions\`. These are real paths, and an
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.

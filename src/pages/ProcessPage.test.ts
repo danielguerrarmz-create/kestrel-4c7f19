@@ -28,7 +28,7 @@ describe('ProcessPage', () => {
     expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
     expect(html).toContain('Five acts of making.');
     expect(html).toContain('Founding Site Study');
-    expect(html).toContain('Place, possibility, route, cost.');
+    expect(html).toContain('Four weeks · £45,000 GBP plus approved travel and project expenses.');
     expect(html).not.toContain('Site, consent, route, cost.');
     expect(html.indexOf('The garden continues the architecture.')).toBeLessThan(html.indexOf('Five acts of making.'));
     expect(html.lastIndexOf('/assets/process/evolution/mature.webp')).toBeLessThan(html.indexOf('Five acts of making.'));
@@ -42,7 +42,7 @@ describe('ProcessPage', () => {
     expect(html).toContain('href="/gallery"');
     expect(html).toContain('href="/about/practice"');
     expect(html).toContain('href="/contact"');
-    expect(html).toContain('Introduce yours →');
+    expect(html).toContain('Discuss a founding commission →');
     expect(html).not.toContain('nav-pill');
   });
 });

@@ -14,13 +14,13 @@
 
 ![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 
-Enquire
+Founding commissions · 2027
 
 # Tell us about your landscape.
 
 One conversation begins below ↓
 
-Introduce a landscape
+Discuss a founding commission
 
 ## Begin with the place.
 
@@ -28,9 +28,11 @@ Clay Seifert
 
 [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
-NameOrganisationSite or locationEmailWhat might happen in the Bower?
+NameProject location and countryEmailPreferred time zoneNo preferenceLondon, Dublin, LisbonParis, Rome, Madrid, BerlinAthens, HelsinkiThe AmericasElsewhere What might happen in the Bower?
 
 Send your note →
+
+We use these details to respond to your enquiry. Read our [privacy notice](/privacy).
 
 [Bower](/)
 
