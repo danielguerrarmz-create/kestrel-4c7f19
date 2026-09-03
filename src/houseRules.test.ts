@@ -7,10 +7,10 @@ import {
   galleryMirror,
   questionsMirror,
   practiceMirror,
-  commissionsMirror,
   processMirror,
   contactMirror,
   pressMirror,
+  privacyMirror,
 } from './agent/mirror';
 import { metaForPath, organizationJsonLd } from './seo';
 import { PUBLIC_ROUTES } from './routing';
@@ -40,17 +40,20 @@ import { CONTACT, FOUNDERS } from './data/config';
  *  `/houses` left this list on 2026-08-04 when it was gated to dev-only — the sweep covers what
  *  the site PUBLISHES, and the length assert against PUBLIC_ROUTES keeps the two in step. Its
  *  copy is still swept by `capacity.test.ts` while it waits, and it must rejoin here the day it
- *  is republished. */
+ *  is republished.
+ *  `/commissions` left on 2026-09-03 for the same reason (Clay killed the page; gated, not
+ *  deleted). Its copy keeps a reader in `CommissionsPage.test.ts` and a render assertion in
+ *  `agentMirror.generated.test.ts`, and it must rejoin here the day it is republished. */
 const PAGES: ReadonlyArray<{ name: string; text: () => string }> = [
   { name: 'home', text: homeMirror },
   { name: 'gallery', text: galleryMirror },
   { name: 'questions', text: questionsMirror },
   { name: 'about', text: aboutMirror },
   { name: 'practice', text: practiceMirror },
-  { name: 'commissions', text: commissionsMirror },
   { name: 'process', text: processMirror },
   { name: 'contact', text: contactMirror },
   { name: 'press', text: pressMirror },
+  { name: 'privacy', text: privacyMirror },
 ];
 
 /**

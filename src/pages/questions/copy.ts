@@ -23,7 +23,8 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - The six-week Founding Site Study: £45,000 plus approved expenses as of 2026-08-10, owned by
+ *   - The four-week Founding Site Study: £45,000 plus approved expenses, corrected 2026-08-31 to
+ *     match the Broughton proposal, owned by
  *     `FOUNDING_SITE_STUDY_FEE` in ui/priceCopy.ts because several surfaces state it. It is a
  *     standalone appointment and is not credited against later work.
  *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
@@ -96,7 +97,7 @@
  * the engine: it models the smallest thing the studio makes, and this page is about commissions.
  */
 
-import { FOUNDING_SITE_STUDY_FEE } from '../../ui/priceCopy';
+import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../../ui/priceCopy';
 
 /** One question and its answer. `a` is paragraphs; `rows` renders as a ruled schedule. */
 export interface QA {
@@ -131,15 +132,33 @@ export const QUESTIONS: readonly QA[] = [
     /**
      * The Founding Site Study fee is published plainly as of 2026-08-10. The commission itself
      * still carries no construction figure; the only £-figure in this answer is the fixed fee for
-     * the six-week standalone study.
+     * the four-week standalone study.
      */
     q: 'What does it cost?',
     a: [
       'A Bower is a serious, site-specific building, priced like one.',
-      'The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a six-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.',
-      `The fixed fee is ${FOUNDING_SITE_STUDY_FEE} plus approved expenses, with half payable on appointment.`,
+      'The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a four-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.',
+      `The fixed fee is ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses, with half payable on appointment. Tax treatment is confirmed according to the client and project location.`,
       'The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.',
       'Concept design, detailed design, specialist consultants, fabrication, construction and planting are appointed separately if the patron decides to proceed.',
+    ],
+  },
+  {
+    id: 'international',
+    /**
+     * REWRITTEN FOR THE EUROPEAN OUTREACH, 2026-09-03. It read "Bower is based in England and
+     * considers commissions internationally", and "considers" was the whole problem: it is the
+     * word a practice uses when the answer is really "ask us and we'll see". A patron in Navarra
+     * or Gavi reading it has just learned they are the exception, not the plan.
+     *
+     * Europe is now stated as ordinary work and the rest of the world keeps the honest weaker verb,
+     * which is the true shape of it — the studio has no built work anywhere, so the distinction is
+     * about where it is set up to travel and staff a study, not about where it would take money.
+     */
+    q: 'Do you work internationally?',
+    a: [
+      'Yes. Bower is based in England and works across Europe. We consider commissions further afield.',
+      'Each project begins with a remote conversation, followed by a Founding Site Study if there is a credible fit. We work with locally qualified planning, engineering, fabrication and landscape specialists where required. Travel and project expenses are agreed in advance.',
     ],
   },
   {
@@ -161,11 +180,19 @@ export const QUESTIONS: readonly QA[] = [
      * overstated the practice; saying nothing is the honest position while neither is true yet.
      * **If a venue asks, that is a conversation, not a published claim.**
      */
-    q: 'Will I need planning permission?',
+    q: 'What permissions or approvals will I need?',
     a: [
-      'Possibly. Planning requirements depend on the property, location, size and intended use.',
-      'Listed buildings, registered gardens, conservation areas and protected landscapes usually require a more involved consent process.',
-      'The Founding Site Study identifies the likely planning route and any obvious consent risks. Detailed planning advice and applications form part of a later appointment.',
+      'Requirements depend on the country, property, location, size and intended use.',
+      /*
+       * PRINCIPLE FIRST, ENGLAND AS THE EXAMPLE (2026-09-03). This paragraph opened "In England
+       * this may include planning permission... Projects elsewhere follow the equivalent local
+       * approvals" — accurate, and it put the European reader in the second sentence, in the word
+       * "elsewhere". The prospects for this outreach own protected buildings and historic gardens
+       * in Italy, France, Spain, Portugal and Germany; the consent problem they have is the one
+       * named first now, and England is one instance of it rather than the default case.
+       */
+      'Almost anywhere, a permanent garden structure needs consent, and the process is longer where the building is protected, the garden is historic or the landscape is designated. In England that means planning permission and, where it applies, listed building consent. Elsewhere it is the local equivalent.',
+      'The Founding Site Study identifies the likely approvals route and any obvious consent risks. Detailed local advice and applications form part of a later appointment.',
     ],
   },
   {
@@ -307,7 +334,7 @@ export const RING = {
   first:
     'The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.',
   appointment:
-    'If there is, we propose a six-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.',
+    'If there is, we propose a four-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.',
   leadIn: 'It establishes:',
   deliverables: [
     'The strongest location',

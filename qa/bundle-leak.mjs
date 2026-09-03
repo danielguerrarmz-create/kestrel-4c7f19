@@ -71,6 +71,20 @@ const GATED = {
   'houses (DEV_ONLY_ROUTES)': {
     app: ['nothing else like it in England', 'hundred and twenty', '£18,000', 'HousesPage'],
   },
+  /* Gated 2026-09-03 (Clay: "the commissions page is no longer live, we killed it" — and it was
+     still fully published when he said so). Like `/houses`, this is a MESSAGE leak as well as a
+     payload one: the page carries the Founding Site Study fee and the appointment gates, so a
+     killed page shipping its terms is worse than shipping its weight. `CommissionsPage` is in the
+     list because the static import in Root was the actual bug — dropping a route from
+     PUBLIC_ROUTES does nothing to a page the bundler was still told to include. */
+  'commissions (DEV_ONLY_ROUTES)': {
+    app: [
+      'What a Bower makes possible',
+      'Commitment increases only as certainty does',
+      'A controlled route to delivery',
+      'CommissionsPage',
+    ],
+  },
   'sculpt (ENGINE_ROUTES)': { app: ['reset shell', 'the param prototype'] },
   'shape (ENGINE_ROUTES)': { app: ['drag the handles to shape the pavilion'] },
   'studio / draw (ENGINE_ROUTES)': { app: ['cut list', 'how the engine works'] },
@@ -180,10 +194,33 @@ for (const [surface, { app = [], emitted = [] }] of Object.entries(GATED)) {
   }
 }
 
-// The public surface must be present, or a build that emitted nothing would "pass" every check
-// above. A guard that cannot fail is the bug this repo names most often.
-const PRESENT = ['Grow a living', 'og:image', 'bowerbuild.org'];
-const missing = PRESENT.filter((m) => !blob.includes(m));
+/*
+ * The public surface must be present, or a build that emitted nothing would "pass" every check
+ * above. A guard that cannot fail is the bug this repo names most often.
+ *
+ * AND THIS CONTROL WENT STALE AND TOOK THE WHOLE PROBE WITH IT (found 2026-09-03). It read
+ * `'Grow a living'`, which was home-page copy until the 2026-07-23 rewrite cut the page from 240
+ * words to 123 — the string has been pinned ABSENT in `SplashPage.test.ts` ever since. So this
+ * check had been failing for weeks, the probe exited 2 on every run, and NOTHING above it was ever
+ * reported. The gate it exists to verify was never actually verified.
+ *
+ * The fix is not just a fresher string, because a fresher string goes stale the same way. The
+ * app-side control is now held to the SAME standard as a GATED marker: it must exist in `src/`,
+ * and the probe says so in its own words when it does not. A positive control that can rot into a
+ * silent no-op is the exact failure this file's header lectures about, committed in the file's own
+ * last ten lines.
+ */
+const PRESENT = { app: ['Buildings that nature designs.'], emitted: ['og:image', 'bowerbuild.org'] };
+const deadControl = PRESENT.app.filter((m) => !src.includes(m));
+if (deadControl.length) {
+  console.log(
+    `\n  HARNESS FAILURE: the positive control is stale — ${deadControl.map((m) => JSON.stringify(m)).join(', ')}\n` +
+      '  no longer exists in src/, so this probe would pass over an empty bundle. Repoint it at\n' +
+      '  copy the home page actually renders.',
+  );
+  process.exit(2);
+}
+const missing = [...PRESENT.app, ...PRESENT.emitted].filter((m) => !blob.includes(m));
 if (missing.length) {
   console.log(`\n  HARNESS FAILURE: the public site is missing from the scan (${missing.join(', ')})`);
   process.exit(2);

@@ -61,8 +61,19 @@ describe('the sitemap is fresh', () => {
     expect(robots).toMatch(/^Allow: \/$/m);
     // Every published mirror is named, so adding a page cannot silently leave one unlisted.
     // `houses` left 2026-08-04 (dev-only, mirror ungenerated); `press` joined the same day.
-    for (const md of ['home', 'commissions', 'gallery', 'process', 'contact', 'press', 'questions', 'about', 'practice']) {
+    // `commissions` left 2026-09-03 (dev-only, same reason).
+    const PUBLISHED = ['home', 'gallery', 'process', 'contact', 'press', 'privacy', 'questions', 'about', 'practice'];
+    for (const md of PUBLISHED) {
       expect(robots).toContain(`/agent/${md}.md`);
+    }
+    // AND THE OTHER DIRECTION, ADDED 2026-09-03 AFTER GATING `/commissions`. The list above only
+    // catches a mirror that is published and unlisted; the failure that actually happened was the
+    // mirror image of it — `public/agent/commissions.md` was deleted and robots.txt, index.html's
+    // <noscript> block and llms.txt all went on advertising it, which is a 404 handed to exactly
+    // the non-JavaScript readers those lists exist to serve. Every `/agent/*.md` robots.txt names
+    // must be a file that is actually there.
+    for (const [, name] of robots.matchAll(/\/agent\/([a-z-]+)\.md/g)) {
+      expect(PUBLISHED, `robots.txt advertises /agent/${name}.md, which is not published`).toContain(name);
     }
   });
 });

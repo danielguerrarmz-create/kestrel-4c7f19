@@ -127,8 +127,8 @@ export interface ContactPayload {
   /** Which surface it came from, so a reply can be written knowing what they had just read. */
   source?: string;
   name?: string;
-  organisation?: string;
   location?: string;
+  timeZone?: string;
   programme?: string;
 }
 
@@ -168,8 +168,11 @@ export function buildMessage(
       `${p.name?.trim() || 'A visitor'} sent a founding commission enquiry on bowerbuild.org.`,
       ``,
       `Email: ${p.email}`,
-      `Organisation: ${p.organisation?.trim() || 'Not provided'}`,
-      `Site or location: ${p.location?.trim() || 'Not provided'}`,
+      // `Organisation` was a line here until 2026-09-03. The form field was removed, so it could
+      // only ever have printed "Not provided" — a permanent blank in a notification two people read
+      // under time pressure, which trains the eye to skim the block it sits in.
+      `Project location and country: ${p.location?.trim() || 'Not provided'}`,
+      `Preferred time zone: ${p.timeZone?.trim() || 'Not provided'}`,
       `What might happen in the Bower: ${p.programme?.trim() || 'Not provided'}`,
       ``,
       `Source: ${p.source ?? 'unknown'}`,

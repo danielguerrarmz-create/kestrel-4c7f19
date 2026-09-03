@@ -176,7 +176,7 @@ export const COMMISSION_STATEMENT: readonly string[] = [
 
 /**
  * THE FOUNDING SITE STUDY: £45,000 plus approved expenses as of 2026-08-10 (Clay). It is a
- * six-week, standalone appointment with its own valid conclusion, even when that conclusion is
+ * four-week, standalone appointment with its own valid conclusion, even when that conclusion is
  * not to build. It is not credited against later work.
  *
  * ONE OWNER, because several surfaces state it: the cost answer on `/questions`, the founding
@@ -198,6 +198,9 @@ export const FOUNDING_SITE_STUDY_FEE_GBP = 45_000;
 
 /** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
 export const FOUNDING_SITE_STUDY_FEE = '£45,000';
+
+/** The same fee with an ISO currency label for readers outside the UK. */
+export const FOUNDING_SITE_STUDY_FEE_INTERNATIONAL = `${FOUNDING_SITE_STUDY_FEE} GBP`;
 
 /**
  * STAGE 2, PLANNING / DESIGN / ENGINEERING: £60,000 to £90,000 including VAT (Clay, 2026-07-31).

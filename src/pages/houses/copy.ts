@@ -146,7 +146,7 @@ export const HOUSE_SECTIONS: readonly HouseSection[] = [
     heading: 'What it costs',
     body: [
       ...COMMISSION_STATEMENT,
-      `The six-week Founding Site Study is ${FOUNDING_SITE_STUDY_FEE} plus approved expenses. Planning, design and engineering are appointed separately, and are typically ${STAGE_2_FEE} including VAT once their scope is defined.`,
+      `The four-week Founding Site Study is ${FOUNDING_SITE_STUDY_FEE} plus approved expenses. Planning, design and engineering are appointed separately, and are typically ${STAGE_2_FEE} including VAT once their scope is defined.`,
       FEES_NOT_CREDITED,
     ],
   },

@@ -11,6 +11,13 @@ const LEAD_WORK = PROJECTS.filter((project) => project.tier === 'lead').map((pro
   image: project.images.find((image) => image.hero) ?? project.images[0],
 }));
 
+const DELIVERY_DISCIPLINES = [
+  ['Engineering', 'Structure, foundations, weather and public use'],
+  ['Fabrication', 'Timber development, prototyping and assembly'],
+  ['Landscape', 'Planting design, establishment and stewardship'],
+  ['Planning', 'Consent strategy and project-specific advice'],
+] as const;
+
 export function PracticeEditorial() {
   usePageSnap({ wheel: true });
   const reduced = useReducedMotion();
@@ -93,11 +100,32 @@ export function PracticeEditorial() {
           </div>
         </section>
 
+        <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20">
+          <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/55">How the work is delivered</p>
+              <h2 className="mt-8 max-w-[10ch] font-quote text-[clamp(3.3rem,7vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">One Bower team, assembled for one place.</h2>
+              <p className="mt-8 max-w-[34rem] font-serifDisplay text-[clamp(1.15rem,1.8vw,1.45rem)] leading-[1.55] text-black/58">
+                Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
+              </p>
+            </div>
+            <dl className="border-t border-black/20">
+              {DELIVERY_DISCIPLINES.map(([title, description], index) => (
+                <div key={title} className="grid grid-cols-[2rem_1fr] gap-4 border-b border-black/15 py-5 sm:grid-cols-[3rem_.7fr_1.3fr]">
+                  <dt className="font-mono text-[10px] text-black/38">0{index + 1}</dt>
+                  <dd className="font-serifDisplay text-[clamp(1.15rem,2vw,1.45rem)]">{title}</dd>
+                  <dd className="col-start-2 font-mono text-[10px] uppercase tracking-[0.1em] text-black/48 sm:col-start-auto sm:self-center">{description}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
         <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
           <div className="mx-auto w-full max-w-[1080px]">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · England</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · Based in England · Working across Europe</p>
             <h2 className="mt-10 max-w-[12ch] font-quote text-[clamp(3.6rem,8vw,8.4rem)] leading-[0.88] tracking-[-0.048em]">A design practice for living structures.</h2>
-            <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Introduce a landscape →</a>
+            <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Discuss a founding commission →</a>
           </div>
         </section>
       </main>

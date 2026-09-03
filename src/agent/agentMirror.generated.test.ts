@@ -13,6 +13,7 @@ import {
   processMirror,
   contactMirror,
   pressMirror,
+  privacyMirror,
 } from './mirror';
 import { CONTACT } from '../data/config';
 import { FOUNDING_SITE_STUDY_FEE } from '../ui/priceCopy';
@@ -42,10 +43,13 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   // `/houses` was gated to dev-only on 2026-08-04, so its mirror is no longer generated or
   // published; `public/agent/houses.md` was deleted in the same change.
   { rel: 'agent/practice.md', fresh: practiceMirror },
-  { rel: 'agent/commissions.md', fresh: commissionsMirror },
+  // `/commissions` was gated to dev-only on 2026-09-03 (Clay killed the page), so its mirror is no
+  // longer generated or published either; `public/agent/commissions.md` was deleted in the same
+  // change. Same treatment, same reasoning as `/houses` above.
   { rel: 'agent/process.md', fresh: processMirror },
   { rel: 'agent/contact.md', fresh: contactMirror },
   { rel: 'agent/press.md', fresh: pressMirror },
+  { rel: 'agent/privacy.md', fresh: privacyMirror },
 ];
 
 describe('the agent mirror is fresh', () => {
@@ -88,7 +92,7 @@ describe('the agent mirror is fresh', () => {
     // the live phrase present, both superseded figures absent — because an agent quoting a stale
     // price back to a buyer is the same anchoring harm as the page doing it, and the agent's
     // reader has no way to tell the figure was withdrawn.
-    expect(questions).toContain('six-week Founding Site Study');
+    expect(questions).toContain('four-week Founding Site Study');
     // AMENDED 2026-08-04: the Stage 1 fee (£20,000, credited against the design and engineering
     // commission) is published again on Clay's ruling, so "no £ at all" became the property that
     // survives fee changes: every £-figure an agent can quote from this mirror IS the live
@@ -98,7 +102,8 @@ describe('the agent mirror is fresh', () => {
     expect(questions.toLowerCase()).not.toContain('credited');
     expect(questions).not.toContain('£350,000');
     expect(questions).not.toContain('£150,000');
-    expect(questions).toContain('planning permission');
+    expect(questions).toContain('permissions or approvals');
+    expect(questions).toContain('Do you work internationally?');
     // BOTH HALVES OF THIS SURVIVED THE MERGE, because they guard different failures. Reading
     // through `CONTACT` (main) catches the mirror going stale against the constant; asserting the
     // DOMAIN as a property (this branch) catches the constant itself being changed to something
@@ -120,11 +125,17 @@ describe('the agent mirror is fresh', () => {
     expect(houses).toContain('hundred and twenty');
     expect(houses.length).toBeGreaterThan(1200);
     expect(llmsTxt()).not.toContain('houses.md');
+    // `/commissions` is gated the same way (2026-09-03) and gets the same two-part check: the copy
+    // must still render, and it must NOT be advertised to agents. The first half is what keeps a
+    // shelved page from rotting; the second is what stops llms.txt handing out a dead link.
     expect(commissionsMirror()).toContain('What a Bower makes possible');
+    expect(llmsTxt()).not.toContain('commissions.md');
     expect(processMirror()).toContain('From landscape to Bower');
     // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in
     // the reader's own terms, not a restatement of the button that brought them here.
     expect(contactMirror()).toContain('Tell us about your landscape.');
+    expect(privacyMirror()).toContain('Privacy, plainly.');
+    expect(llmsTxt()).toContain('/agent/privacy.md');
   });
 
   it('the committed mirrors are byte-identical to a fresh render of the live pages', () => {

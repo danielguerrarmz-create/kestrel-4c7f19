@@ -44,7 +44,7 @@ A disciplined route
 
 - 01 Conversation Landscape, people, purpose.
 
-- 02 Founding Site Study Place, possibility, route, cost.
+- 02 Founding Site Study Four weeks · £45,000 GBP plus approved travel and project expenses.
 
 - 03 Design Geometry, structure, planting.
 
@@ -60,7 +60,7 @@ Founding commissions
 
 ## Every landscape asks for a different answer.
 
-[Introduce yours →](/contact)
+[Discuss a founding commission →](/contact)
 
 [Bower](/)
 

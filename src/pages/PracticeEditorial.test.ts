@@ -9,4 +9,14 @@ describe('PracticeEditorial', () => {
 
     expect(html).toContain('src="/assets/projects/01-synergy/synergy-cosmos-growth-loop.gif"');
   });
+
+  it('explains how a project-specific delivery team is assembled', () => {
+    const html = renderToStaticMarkup(createElement(PracticeEditorial));
+
+    expect(html).toContain('One Bower team, assembled for one place.');
+    expect(html).toContain('Bower leads the commission');
+    for (const discipline of ['Engineering', 'Fabrication', 'Landscape', 'Planning']) {
+      expect(html).toContain(discipline);
+    }
+  });
 });

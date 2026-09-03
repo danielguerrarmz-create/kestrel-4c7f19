@@ -6,10 +6,11 @@ import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
+import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
 
 export const PROCESS_STEPS = [
   { title: 'Conversation', body: 'Landscape, people, purpose.' },
-  { title: 'Founding Site Study', body: 'Place, possibility, route, cost.' },
+  { title: 'Founding Site Study', body: `Four weeks · ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses.` },
   { title: 'Design', body: 'Geometry, structure, planting.' },
   { title: 'Making', body: 'Fabrication and assembly.' },
   { title: 'Stewardship', body: 'Training, growth, care.' },
@@ -170,7 +171,7 @@ export function ProcessPage() {
             <div className="relative mx-auto w-full max-w-canvas">
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/58">Founding commissions</p>
               <h2 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.3rem,7vw,7.5rem)] leading-[0.89] tracking-[-0.045em]">Every landscape asks for a different answer.</h2>
-              <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)] transition-colors hover:border-white hover:text-white/70">Introduce yours →</a>
+              <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)] transition-colors hover:border-white hover:text-white/70">Discuss a founding commission →</a>
             </div>
           </div>
         </section>
