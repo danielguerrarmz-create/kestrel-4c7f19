@@ -60,7 +60,7 @@ Founding commissions
 
 ## Every landscape asks for a different answer.
 
-[Discuss a founding commission →](/contact)
+[Begin with a conversation →](/contact)
 
 [Bower](/)
 

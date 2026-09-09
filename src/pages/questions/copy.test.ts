@@ -27,8 +27,14 @@ describe('questions copy', () => {
     expect(cost).toContain(FOUNDING_SITE_STUDY_FEE);
     expect(cost).toContain('four-week Founding Site Study');
     expect(cost).toContain('plus approved travel and project expenses');
-    expect(cost).toContain('Tax treatment is confirmed according to the client and project location.');
-    expect(cost).toContain('half payable on appointment');
+    // THE PAYMENT SCHEDULE IS PINNED ABSENT (2026-09-09, Clay), having been pinned PRESENT on
+    // these two lines until this date. The schedule and the tax-treatment sentence are both true
+    // and both belong in the letter of appointment, which is where a patron expects to meet them;
+    // on a public page they read as a proposal template left open at the wrong page. Guarded as an
+    // absence rather than simply deleted, because a term that comes back is rarely worded the way
+    // the one that went was, and expressed as the PROPERTY (any payment schedule, any tax note)
+    // rather than as the two literals that happen to have been removed today.
+    expect(cost.toLowerCase()).not.toMatch(/payable|deposit|instalments?|installments?|tax treatment|vat/);
     const figures = cost.match(/£[\d,]+/g) ?? [];
     expect(figures.length).toBeGreaterThan(0);
     expect(new Set(figures)).toEqual(new Set([FOUNDING_SITE_STUDY_FEE]));

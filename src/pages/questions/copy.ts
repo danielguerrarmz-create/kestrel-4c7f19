@@ -133,12 +133,25 @@ export const QUESTIONS: readonly QA[] = [
      * The Founding Site Study fee is published plainly as of 2026-08-10. The commission itself
      * still carries no construction figure; the only £-figure in this answer is the fixed fee for
      * the four-week standalone study.
+     *
+     * TWO THINGS CAME OUT ON 2026-09-09 (Clay), both of register rather than of fact.
+     *
+     * The answer opened "A Bower is a serious, site-specific building, priced like one." That is a
+     * defence of the price, and a defence tells the reader you expect them to flinch. The audience
+     * this page is now written for does not. The line replacing it states why there is no number,
+     * instead of bracing the reader for the one that follows.
+     *
+     * And the payment schedule went: "half payable on appointment", plus the tax-treatment
+     * sentence. Both are true and both belong in the letter of appointment, which is where a
+     * patron expects to meet them. Published on a website they read as a proposal template left
+     * open to the wrong page. Nothing is lost commercially; terms are agreed where terms are
+     * agreed.
      */
     q: 'What does it cost?',
     a: [
-      'A Bower is a serious, site-specific building, priced like one.',
+      'Every Bower is made for one landscape, so there is no price list.',
       'The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a four-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.',
-      `The fixed fee is ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses, with half payable on appointment. Tax treatment is confirmed according to the client and project location.`,
+      `The fixed fee is ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses.`,
       'The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.',
       'Concept design, detailed design, specialist consultants, fabrication, construction and planting are appointed separately if the patron decides to proceed.',
     ],
@@ -261,10 +274,16 @@ export const QUESTIONS: readonly QA[] = [
      * sentence about liability, not about grass. The property it keeps is the one the test pins:
      * NO promised foundation method — the houses page may say ground screws because that page
      * argues; this page answers, and the honest answer is that the ground decides.
+     *
+     * RETITLED 2026-09-09 (Clay). It asked "Will it wreck my lawn?" and opened "Not if we can help
+     * it." Both are written in the voice of a homeowner worrying about a hot tub, and this page is
+     * read by people commissioning a building. The anxiety belonged to the question, not to the
+     * reader, and answering an anxiety nobody brought is its own kind of sell. The pinned property
+     * and the closing line are untouched.
      */
-    q: 'Will it wreck my lawn?',
+    q: 'What does the work do to the garden?',
     a: [
-      'Not if we can help it. But soil, roots, buried services and the route to the site all influence the foundations and installation strategy, so we will not promise a method before walking the ground.',
+      'Soil, roots, buried services and the route to the site all influence the foundations and the installation strategy, so we will not promise a method before walking the ground.',
       'The Founding Site Study assesses the likely approach. Surveys and detailed foundation design follow later if the project proceeds.',
       'The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.',
     ],
@@ -294,7 +313,7 @@ export const QUESTIONS: readonly QA[] = [
       'The earliest founding installations are being planned for 2027, subject to site, consent and fabrication requirements.',
       'The programme includes the Founding Site Study, planning, technical design, fabrication and erection. The Founding Site Study provides a preliminary programme. The construction date is confirmed only after the planning, engineering and fabrication route is sufficiently resolved.',
       'The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.',
-      'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.',
+      'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the room it was drawn to be until the third summer.',
     ],
   },
   {
@@ -315,7 +334,7 @@ export const QUESTIONS: readonly QA[] = [
       'Like a drawing held in the air.',
       'The leaves fall and give you back the timber: the whole woven lattice, bare, frost along the top of every lath. That’s four months of the year, so it is designed to be worth looking at empty.',
       'Not that it’s empty. We plant for winter deliberately: something evergreen threaded through, rose hips, clematis seedheads, the peeling bark of a honeysuckle. The timber silvers as it ages and sits better against a grey sky than any stain would.',
-      'For a house that sells weeks of the year, this is the half of it that matters most. The lattice bare and lit is a different room from the lattice in leaf, and it is a room that exists in November and January, when the lawn is unusable and the marquee is in storage.',
+      'The lattice bare and lit is a different room from the lattice in leaf, and it is a room that exists in November and January, when the garden is otherwise closed.',
       'Then in March it begins to disappear again.',
     ],
   },

@@ -84,7 +84,7 @@ function ExpandingPlate({ image, eager }: { image: (typeof GALLERY_IMAGES)[numbe
           style={reduced ? undefined : { opacity: captionOpacity }}
           className="pointer-events-none absolute bottom-7 left-gutter z-10 font-mono text-[8px] uppercase tracking-[0.17em] text-black/48 mix-blend-difference invert md:bottom-10 md:text-[9px]"
         >
-          {image.n} · {image.title} · Concept visualisation
+          {image.n} · {image.title}
         </motion.p>
       </div>
     </section>

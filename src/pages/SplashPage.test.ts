@@ -21,17 +21,46 @@ describe('SplashPage', () => {
     expect(html).toContain('Living architecture');
     expect(html).toContain('Buildings that nature designs.');
     expect(html).toContain('We make the structure. The garden makes the rest.');
-    expect(html).toContain('Estates · Gardens · Hotels · Cultural landscapes');
+    expect(html).toContain('Estates · Gardens · Cultural landscapes');
+    // "Hotels" was the fourth segment until 2026-09-09 (Clay). Beside Estates and Cultural
+    // landscapes it recalibrated the whole list downward: a foundation reading it now knew it was
+    // being sorted alongside hospitality procurement. Pinned absent because a segment list is
+    // exactly the thing a later pass "completes".
+    expect(html).not.toContain('Hotels');
     expect(html).toContain('Founding commissions · 2027');
     expect(html).toContain('id="meaning"');
   });
 
   it('makes the commissioning action and the first appointment visible', () => {
-    expect(html).toContain('The first Bowers will be made for three spectacular landscapes.');
-    expect(html).toContain('Founding Site Study');
-    expect(html).toContain('£45,000 GBP');
-    expect(html).toContain('plus approved travel and project expenses');
+    expect(html).toContain('The first three landscapes will decide what a Bower is.');
+    /**
+     * THE CLOSE NO LONGER GRADES A LANDSCAPE IT HAS NOT SEEN (2026-09-09, Clay). It read "The
+     * first Bowers will be made for three spectacular landscapes." Three is a real capacity limit
+     * and stays; "spectacular" was praising the reader's garden sight-unseen, in the largest type
+     * on the site, and the passive voice left nobody in the sentence to do the praising. The line
+     * that replaced it makes the same offer as authorship rather than as scarcity: what a founding
+     * client buys is a hand in defining the type, which is the one thing a fourth client cannot.
+     *
+     * Pinned as an absence too, because an adjective is the easiest thing in the world to put back.
+     */
+    expect(html).not.toContain('spectacular');
     expect(html).toContain('Discuss a founding commission');
+    /**
+     * NO FIGURE ON THE HOME (2026-09-09, Clay) — and this is a repaired guard, not a new rule.
+     *
+     * The band carried "Founding Site Study · Four weeks · £45,000 GBP plus approved travel and
+     * project expenses", and the three lines that stood here pinned all of it PRESENT. But the
+     * ruling of 2026-08-03 — still quoted verbatim in HeroReveal.tsx, that clientele at this range
+     * care less about what one costs — was never rescinded. The 2026-09-03 rewrite re-derived this
+     * file from "the page as it actually renders", and a pin taken from a page cannot defend a
+     * decision the page has drifted away from. It inverted the guard while staying green.
+     *
+     * Expressed as the PROPERTY, not as not.toContain('£45,000 GBP'): the next change of fee would
+     * disarm that literal and leave it passing, which is the failure mode this repo keeps finding.
+     * /questions owns the price, and the head layer is pinned figure-free in seo.test.ts already.
+     */
+    expect(html).not.toMatch(/£s?[d,]/);
+    expect(html).not.toMatch(/d{1,3},d{3}/);
     expect(html).toContain(`href="${routes.contact}"`);
     expect([...PUBLIC_ROUTES]).toContain(routes.contact);
   });
@@ -50,9 +79,17 @@ describe('SplashPage', () => {
   });
 
   it('moves from the object in time to a controlled decision', () => {
+    /**
+     * THE THIRD MOVEMENT IS THE PICTURE ALONE (2026-09-09, Clay). Its heading was pinned in the
+     * list below and its paragraph was never pinned at all. Both are gone: the heading argued
+     * ("cannot simply be purchased and placed") against a proposition no reader had made, and the
+     * paragraph graded the practice's own work ("more extraordinary"). Pinned as absences, because
+     * a silent movement is the single easiest thing for a later copy pass to fill back in.
+     */
+    expect(html).not.toContain('cannot simply be purchased');
+    expect(html).not.toContain('more extraordinary');
     for (const line of [
       'A Bower begins when building ends.',
-      'We create buildings that cannot simply be purchased and placed.',
       'The garden becomes a place to gather.',
       'Every Bower is different.',
       'See how it is made →',
@@ -74,7 +111,17 @@ describe('SplashPage', () => {
   });
 
   it('labels imagined work honestly and keeps secondary routes in the footer', () => {
-    expect(html).toContain('Unbuilt concept visualisation');
+    /**
+     * THE DISCLOSURE MOVED OUT OF THE CAPTIONS AND INTO THE ALT TEXT (2026-09-09, Clay).
+     *
+     * The visible captions read "Unbuilt concept visualisation" and "A garden room in use ·
+     * Concept visualisation". Repeated under every plate, a true statement starts working as a
+     * disclaimer, and a disclaimer reads as a practice apologising for having built nothing yet.
+     * The honesty is not negotiable and has not moved far: every render still declares itself in
+     * its alt text, which is what a screen reader announces, and /questions 07 states it plainly
+     * once in prose. What went is the drumbeat, not the fact.
+     */
+    expect(html).toContain('Concept visualisation of a planted timber Bower occupying a misted valley at dawn');
     expect(html).toContain('Concept study of a timber lattice joint');
     // The footer row is press / questions / gallery / contact and nothing else (Clay,
     // 2026-09-03). The previous version of this test also demanded `href="/commissions"` here and
@@ -98,13 +145,24 @@ describe('SplashPage', () => {
    *
    * Pinned as ABSENCES because that is the half a copy pass silently reintroduces.
    */
-  it('states its reach as Europe, not as England with exceptions', () => {
-    // The hero eyebrow carried this too until 2026-09-03 and Clay cut it for length. One statement
-    // of the reach on the page, in the band with room for it.
-    expect(html).toContain('Bower · Working across Europe');
+  it('does not pin its reach to one country', () => {
+    /**
+     * THE HOME NO LONGER STATES ITS REACH AT ALL (2026-09-09, Clay). "Bower · Working across
+     * Europe" was pinned present on this line; the whole band is gone. The absences below are the
+     * half that still matters, and they are why this test survives the line it was written for:
+     * the home may not re-acquire an England frame by any wording.
+     *
+     * The positive fact lives on /about/practice ("Bower · Based in England · Working across
+     * Europe", PracticeEditorial.tsx) and in the contact form's project-location and time-zone
+     * fields. If that band ever comes off /about/practice, the reach is stated nowhere.
+     */
     expect(html).not.toContain('Working internationally');
     expect(html).not.toContain('English valley');
-    expect(html).toContain('Valley at dawn · Morning mist');
+    expect(html).not.toContain('Based in England');
+    // The valley caption is two spans now: the place at the left, the light at the right.
+    expect(html).toContain('Valley at dawn');
+    expect(html).toContain('Morning mist');
+    expect(html).not.toContain('Unbuilt concept visualisation');
   });
 
   /**

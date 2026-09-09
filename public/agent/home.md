@@ -20,13 +20,11 @@ Living architecture
 
 Founding commissions · 2027
 
-Bower · Working across Europe
-
 # Buildings that nature designs.
 
 We make the structure. The garden makes the rest.
 
-Estates · Gardens · Hotels · Cultural landscapes
+Estates · Gardens · Cultural landscapes
 
 The object in time
 
@@ -44,27 +42,19 @@ The object in time
 
 03 A room of blossom and eaves
 
-Study No. 01 · Concept study
-
-## We create buildings that cannot simply be purchased and placed.
-
-They belong to one landscape, develop with it, and become more extraordinary with every passing year.
-
 ![Concept visualisation of a planted timber Bower occupying a misted valley at dawn](/assets/gallery/week-3/valley-bower-at-dawn.webp)
 
-Valley at dawn · Morning mist Unbuilt concept visualisation
-
-A life of its own
+Valley at dawn Morning mist
 
 ## The garden becomes a place to gather.
 
 ![Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden](/assets/gallery/week-3/garden-room-gathering.webp)
 
-A garden room in use · Concept visualisation
+A garden room in use
 
 ![Concept study of a timber lattice joint and carved connection](/assets/gallery/favorites/timber-joinery-detail.webp)
 
-Evidence of making · Joint study 01
+Joint study 01
 
 ## Every Bower is different.
 
@@ -84,9 +74,7 @@ We are building the means to make them again and again, without ever making the 
 
 Founding commissions
 
-## The first Bowers will be made for three spectacular landscapes.
-
-Founding Site Study · Four weeks · £45,000 GBP plus approved travel and project expenses
+## The first three landscapes will decide what a Bower is.
 
 [Discuss a founding commission →](/contact)
 

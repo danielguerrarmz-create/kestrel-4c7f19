@@ -42,7 +42,13 @@ describe('ProcessPage', () => {
     expect(html).toContain('href="/gallery"');
     expect(html).toContain('href="/about/practice"');
     expect(html).toContain('href="/contact"');
-    expect(html).toContain('Discuss a founding commission →');
+    // ONE CTA PER PAGE, EACH FOLLOWING FROM ITS OWN ARGUMENT (2026-09-09, Clay). This page closed
+    // with "Discuss a founding commission →", the identical words the home and the practice page
+    // both closed with; three identical closes read as a repeated advertisement rather than as
+    // three invitations. This page has just walked the reader through five acts of making, so it
+    // asks for the conversation that starts them.
+    expect(html).toContain('Begin with a conversation →');
+    expect(html).not.toContain('Discuss a founding commission');
     expect(html).not.toContain('nav-pill');
   });
 });

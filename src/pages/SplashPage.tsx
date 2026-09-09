@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
-import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
 import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { BowerIntro } from './splash/BowerIntro';
@@ -159,15 +158,16 @@ export function SplashPage() {
 
       <section id="meaning" data-snap-section style={{ scrollMarginTop: 0 }} className="flex min-h-[100svh] snap-start items-center px-gutter py-[clamp(8rem,18vw,18rem)]">
         <div className="mx-auto w-full max-w-canvas">
-          {/* THIS BAND IS NOW THE ONLY PLACE THE HOME STATES ITS REACH. It read "Bower · Based in
-              England", which told a patron in Gavi or Navarra they were an exception. The hero
-              briefly carried "Based in England · Working across Europe" as well and Clay cut it on
-              2026-09-03 for length, so the fact lives here alone — which is where it has room. */}
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · Working across Europe</p>
+          {/* THE REACH LINE CAME OFF THE HOME (2026-09-09, Clay). It read "Bower · Working across
+              Europe", and "Bower · Based in England" before that. A geography set in the quietest
+              type on the page reads as a qualification, and a reader does not need to be told the
+              practice will travel to them before they know what a Bower is. The fact survives where
+              someone goes looking for it: /about/practice states it, and the contact form asks for
+              a project location and a time zone. */}
           <h1 className="mt-[clamp(3rem,7vw,7rem)] max-w-[11ch] font-quote text-[clamp(3.6rem,9.2vw,9.8rem)] leading-[0.87] tracking-[-0.05em]">Buildings that nature designs.</h1>
           <div className="ml-auto mt-[clamp(5rem,11vw,10rem)] max-w-[27rem]">
             <p className="font-serifDisplay text-[clamp(1.2rem,2vw,1.65rem)] leading-[1.5] text-black/52">We make the structure. The garden makes the rest.</p>
-            <p className="mt-6 font-mono text-[9px] uppercase tracking-[0.16em] text-black/38">Estates · Gardens · Hotels · Cultural landscapes</p>
+            <p className="mt-6 font-mono text-[9px] uppercase tracking-[0.16em] text-black/38">Estates · Gardens · Cultural landscapes</p>
           </div>
         </div>
       </section>
@@ -195,14 +195,20 @@ export function SplashPage() {
 
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
         <div className="mx-auto w-full max-w-canvas">
-          <div className="grid gap-8 md:grid-cols-[.7fr_1.3fr] md:items-end">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Study No. 01 · Concept study</p>
-            <div>
-              <h2 className="max-w-[13ch] font-quote text-[clamp(3rem,6.4vw,6.8rem)] leading-[0.91] tracking-[-0.045em]">We create buildings that cannot simply be purchased and placed.</h2>
-              <p className="mt-8 max-w-[35rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/52">They belong to one landscape, develop with it, and become more extraordinary with every passing year.</p>
-            </div>
-          </div>
-          <figure className="mt-10 md:mt-[clamp(4rem,9vw,9rem)]">
+          {/* THIS MOVEMENT IS THE PICTURE, AND NOTHING ELSE (2026-09-09, Clay).
+              It carried an eyebrow ("Study No. 01 · Concept study"), a heading ("We create
+              buildings that cannot simply be purchased and placed.") and a paragraph ("They belong
+              to one landscape, develop with it, and become more extraordinary with every passing
+              year."). All three went in one pass, and the reason they went together is that none
+              of them had a fact of its own: the movement above owns time ("A Bower begins when
+              building ends"), the movement below owns singularity ("Every Bower is different"), so
+              this one was left restating both and reached for an argument and an adjective to do
+              it. "Cannot simply be purchased" argues against something the reader never proposed,
+              and no practice may grade its own work as "more extraordinary" and be believed.
+              What is left is the strongest asset on the site at full bleed, with the place at one
+              end of its caption and the light at the other. The section centres it: no top margin,
+              because there is no longer anything above it to be pushed away from. */}
+          <figure>
             <div className="aspect-[16/10] overflow-hidden bg-[#f1f1ef]">
               <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="100vw" className="object-[78%_center] md:object-[68%_center]" />
             </div>
@@ -212,7 +218,7 @@ export function SplashPage() {
                 -time reader studies longest. Dropped for the European outreach; nothing else about
                 the caption changed. */}
             <figcaption className="mt-4 flex flex-wrap justify-between gap-3 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">
-              <span>Valley at dawn · Morning mist</span><span>Unbuilt concept visualisation</span>
+              <span>Valley at dawn</span><span>Morning mist</span>
             </figcaption>
           </figure>
         </div>
@@ -220,15 +226,14 @@ export function SplashPage() {
 
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
         <div className="mx-auto w-full max-w-canvas">
-          <div className="grid gap-8 md:grid-cols-2 md:items-end">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">A life of its own</p>
+          <div>
             <h2 className="max-w-[10ch] font-quote text-[clamp(3.2rem,6.8vw,7rem)] leading-[0.9] tracking-[-0.04em]">The garden becomes a place to gather.</h2>
           </div>
           <figure className="mt-10 md:mt-[clamp(4rem,9vw,9rem)]">
             <div className="aspect-[16/10] overflow-hidden bg-[#11110e]">
               <Image src="/assets/gallery/week-3/garden-room-gathering.webp" alt="Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden" sizes="100vw" />
             </div>
-            <figcaption className="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">A garden room in use · Concept visualisation</figcaption>
+            <figcaption className="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">A garden room in use</figcaption>
           </figure>
         </div>
       </section>
@@ -238,7 +243,7 @@ export function SplashPage() {
         <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,7,0.06)_0%,rgba(9,9,7,0.48)_42%,rgba(9,9,7,0.96)_100%)]" />
         <div className="relative mx-auto grid w-full max-w-canvas gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/48">Evidence of making · Joint study 01</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/48">Joint study 01</p>
             <h2 className="mt-7 max-w-[9ch] font-quote text-[clamp(3.3rem,6.8vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">Every Bower is different.</h2>
             <p className="mt-5 max-w-[34rem] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.55rem)] leading-[1.45] text-white/62">We are building the means to make them again and again, without ever making the same one twice.</p>
           </div>
@@ -258,8 +263,7 @@ export function SplashPage() {
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-16 md:py-[clamp(8rem,17vw,17rem)]">
         <div className="mx-auto w-full max-w-[1080px]">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Founding commissions</p>
-          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first Bowers will be made for three spectacular landscapes.</h2>
-          <p className="mt-7 font-mono text-[9px] uppercase tracking-[0.16em] text-black/42 md:mt-10">Founding Site Study · Four weeks · {FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses</p>
+          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first three landscapes will decide what a Bower is.</h2>
           <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Discuss a founding commission →</a>
         </div>
       </section>
