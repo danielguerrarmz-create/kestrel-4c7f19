@@ -30,11 +30,11 @@ Size is settled early, with the landscape, because the span of the frame and the
 
 ## What does it cost?
 
-A Bower is a serious, site-specific building, priced like one.
+Every Bower is made for one landscape, so there is no price list.
 
 The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a four-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.
 
-The fixed fee is £45,000 GBP plus approved travel and project expenses, with half payable on appointment. Tax treatment is confirmed according to the client and project location.
+The fixed fee is £45,000 GBP plus approved travel and project expenses.
 
 The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.
 
@@ -84,9 +84,9 @@ The images on this site are concept visualisations, and the engineering and fabr
 
 08
 
-## Will it wreck my lawn?
+## What does the work do to the garden?
 
-Not if we can help it. But soil, roots, buried services and the route to the site all influence the foundations and installation strategy, so we will not promise a method before walking the ground.
+Soil, roots, buried services and the route to the site all influence the foundations and the installation strategy, so we will not promise a method before walking the ground.
 
 The Founding Site Study assesses the likely approach. Surveys and detailed foundation design follow later if the project proceeds.
 
@@ -102,7 +102,7 @@ The programme includes the Founding Site Study, planning, technical design, fabr
 
 The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.
 
-You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the thing you actually bought until the third summer.
+You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the room it was drawn to be until the third summer.
 
 10
 
@@ -128,7 +128,7 @@ The leaves fall and give you back the timber: the whole woven lattice, bare, fro
 
 Not that it’s empty. We plant for winter deliberately: something evergreen threaded through, rose hips, clematis seedheads, the peeling bark of a honeysuckle. The timber silvers as it ages and sits better against a grey sky than any stain would.
 
-For a house that sells weeks of the year, this is the half of it that matters most. The lattice bare and lit is a different room from the lattice in leaf, and it is a room that exists in November and January, when the lawn is unusable and the marquee is in storage.
+The lattice bare and lit is a different room from the lattice in leaf, and it is a room that exists in November and January, when the garden is otherwise closed.
 
 Then in March it begins to disappear again.
 

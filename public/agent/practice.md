@@ -26,7 +26,7 @@ Two founders · One practice
 
 Cofounder · design & research
 
-Founded Resia, an AI remodeling platform, and grew it to ten people through two accelerators. Product development at TestFit before that.
+Founded and led Resia, a design technology company. Product development at TestFit.
 
 ![Daniel Guerra](/assets/about/daniel-headshot.jpg)
 
@@ -34,7 +34,7 @@ Founded Resia, an AI remodeling platform, and grew it to ten people through two 
 
 Cofounder · engine & systems
 
-Runs projects at Forsite Studio, a design-build firm of eight, from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.
+Projects at Forsite Studio from concept through permitting to construction on site.
 
 ## The work came before Bower.
 
@@ -88,7 +88,7 @@ Bower · Based in England · Working across Europe
 
 ## A design practice for living structures.
 
-[Discuss a founding commission →](/contact)
+[Talk to Clay →](/contact)
 
 [Bower](/)
 

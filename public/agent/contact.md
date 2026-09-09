@@ -14,13 +14,9 @@
 
 ![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 
-Founding commissions · 2027
-
 # Tell us about your landscape.
 
-One conversation begins below ↓
-
-Discuss a founding commission
+Scroll to continue ↓
 
 ## Begin with the place.
 

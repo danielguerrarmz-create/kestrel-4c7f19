@@ -18,6 +18,14 @@ const DELIVERY_DISCIPLINES = [
   ['Planning', 'Consent strategy and project-specific advice'],
 ] as const;
 
+/* THE BIOS STAY (2026-09-09, Clay), and the `?bios=work` comparison variant that stood here has
+   been deleted with the decision it existed to serve. It rendered the founders as names and roles
+   only, on the argument that three delivered projects credential a practice better than any
+   sentence about them. They read better with the sentence: with nothing built, the record is the
+   only substitute for a portfolio, and going quiet exactly where a patron asks "will these people
+   still be here in three years" reads as a smaller practice, not a more discreet one. What the
+   September pass changed is the currency, not the presence: see the note over TEAM in
+   about/projects.ts for every fact that came out and why. */
 export function PracticeEditorial() {
   usePageSnap({ wheel: true });
   const reduced = useReducedMotion();
@@ -41,7 +49,11 @@ export function PracticeEditorial() {
               {TEAM.map((person) => {
                 const built = person.facts.find((fact) => fact.label === 'Built');
                 return (
-                  <article key={person.id} className="grid grid-cols-[7rem_1fr] gap-6 border-t border-black/18 pt-5 sm:grid-cols-[10rem_1fr] md:grid-cols-1">
+                  // NO RULE ABOVE THE PORTRAITS (2026-09-09, Clay). Each article carried
+                  // `border-t border-black/18 pt-5`, which drew a hairline directly across the top
+                  // of both headshots. It was there to register the two founders as a pair of
+                  // table entries; what it actually did was put a line over two people's heads.
+                  <article key={person.id} className="grid grid-cols-[7rem_1fr] gap-6 sm:grid-cols-[10rem_1fr] md:grid-cols-1">
                     {person.image && <img src={person.image} alt={person.name} loading="eager" decoding="async" className="aspect-[4/5] w-full object-cover grayscale" />}
                     <div>
                       <h2 className="font-quote text-[clamp(2.2rem,4vw,4.2rem)] leading-[0.95] tracking-[-0.035em]">{person.name}</h2>
@@ -125,7 +137,7 @@ export function PracticeEditorial() {
           <div className="mx-auto w-full max-w-[1080px]">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · Based in England · Working across Europe</p>
             <h2 className="mt-10 max-w-[12ch] font-quote text-[clamp(3.6rem,8vw,8.4rem)] leading-[0.88] tracking-[-0.048em]">A design practice for living structures.</h2>
-            <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Discuss a founding commission →</a>
+            <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Talk to Clay →</a>
           </div>
         </section>
       </main>

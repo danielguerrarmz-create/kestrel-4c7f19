@@ -223,6 +223,24 @@ export interface TeamMember {
  * NOTE for the next editor: the founders proposal drafted Daniel's Rogers Partners stint as "a
  * year". The resume says June to December 2025. The resume wins; do not restore "a year".
  *
+ * BOTH 'Built' FACTS WERE SHORTENED ON 2026-09-09 (Clay), and this is a change of CURRENCY, not a
+ * correction: every fact removed was true and authorized. What went, so it can be restored if the
+ * audience changes back:
+ *   - Clay: "an AI remodeling platform", "grew it to ten people", "through two accelerators".
+ *   - Daniel: "a design-build firm of eight", "through contractors and subcontractors",
+ *     "Also built the studio's AI operations layer".
+ * The reason is that /about/practice is now read by European patrons, foundations and institutions
+ * deciding whether a practice with nothing built will still exist in three years. An accelerator
+ * is not a credential in that room, and both bios volunteered a headcount nobody had asked for:
+ * ten, and eight. Small numbers offered unprompted answer the durability question in the wrong
+ * direction. What survives is the part that room is actually buying, which is that one founder has
+ * run a company and the other has taken buildings through permitting onto a site.
+ *
+ * DANIEL'S LINE IS CLAY'S OWN WORDING and it carries a factual correction: he does NOT "run"
+ * projects at Forsite Studio, which is what this file said from 2026-07-14 until today. Daniel
+ * authorized the longer sentence; he has not yet signed off on this one or on the loss of the AI
+ * operations layer. TODO(Daniel): confirm.
+ *
  * TODO(Daniel): Daniel's robotics facts are deliberately ABSENT from his stem. The KUKA work is now
  * attributed to Daniel in the merged n:02 project (shared with Clay's Texas Robotics half); restore a
  * "taught a robot arm to draw with light" line to his stem only once you confirm you want it public. */
@@ -242,7 +260,7 @@ export const TEAM: TeamMember[] = [
       {
         label: 'Built',
         value:
-          'Founded Resia, an AI remodeling platform, and grew it to ten people through two accelerators. Product development at TestFit before that.',
+          'Founded and led Resia, a design technology company. Product development at TestFit.',
       },
       {
         label: 'Published',
@@ -381,7 +399,7 @@ export const TEAM: TeamMember[] = [
       {
         label: 'Built',
         value:
-          'Runs projects at Forsite Studio, a design-build firm of eight, from concept through contractors and subcontractors to construction on site and permitting. Also built the studio’s AI operations layer.',
+          'Projects at Forsite Studio from concept through permitting to construction on site.',
       },
       /*
        * ROUND 5 (2026-07-16) — THE DESK LAMP IS CLAY'S AND IS REMOVED. Daniel: "the desk lamp is

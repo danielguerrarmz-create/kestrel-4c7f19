@@ -99,9 +99,18 @@ export function ContactPage() {
           />
           <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.46)_0%,rgba(0,0,0,.04)_38%,rgba(0,0,0,.78)_100%)]" />
           <div className="relative mx-auto w-full max-w-canvas">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/70">Founding commissions · 2027</p>
-            <h1 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.8rem,9vw,9rem)] leading-[0.87] tracking-[-0.05em]">Tell us about your landscape.</h1>
-            <p className="mt-9 font-mono text-[8px] uppercase tracking-[0.18em] text-white/48 md:text-[9px]">One conversation begins below ↓</p>
+            {/* NO EYEBROW (2026-09-09, Clay). It read "Founding commissions · 2027". The page a
+                reader lands on after clicking a commissioning CTA does not need to re-announce the
+                programme they clicked; it needs to ask them one thing. The h1 is the first mark on
+                the page now. */}
+            <h1 className="max-w-[11ch] font-quote text-[clamp(3.8rem,9vw,9rem)] leading-[0.87] tracking-[-0.05em]">Tell us about your landscape.</h1>
+            {/* A CUE, NOT A HEADING (2026-09-09, Clay). It read "One conversation begins below",
+                which is a fourth heading on a page whose first three all say the same thing: the
+                eyebrow announces founding commissions, the h1 asks for the landscape, and the form
+                section's own heading says begin. The scroll affordance is deliberate and stays,
+                because readers were genuinely missing the form below the fold; what went is the
+                portent. It now does one job and says one thing. */}
+            <p className="mt-9 font-mono text-[8px] uppercase tracking-[0.18em] text-white/48 md:text-[9px]">Scroll to continue ↓</p>
           </div>
         </section>
 
@@ -131,8 +140,13 @@ export function ContactPage() {
               200px hole above them. */}
           <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.65fr_1.35fr] lg:items-center">
             <div>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/55">Discuss a founding commission</p>
-              <h2 className="mt-8 max-w-[8ch] font-quote text-[clamp(3rem,6vw,6rem)] leading-[0.9] tracking-[-0.04em]">Begin with the place.</h2>
+              {/* The "Discuss a founding commission" eyebrow came off on 2026-09-09 (Clay), and
+                  the hero's "Founding commissions · 2027" went in the same pass. This note said
+                  the second one survived, which was true for about an hour: the page carried five
+                  headings before a reader reached a field, and both eyebrows were restating the
+                  CTA that brought them here. Two remain, and they do different jobs: the h1 asks
+                  for the landscape, and "Begin with the place." says where to start. */}
+              <h2 className="max-w-[8ch] font-quote text-[clamp(3rem,6vw,6rem)] leading-[0.9] tracking-[-0.04em]">Begin with the place.</h2>
               {/* NO GEOGRAPHY LINE HERE (2026-09-03, Clay). The eyebrow's "International enquiries"
                   went first, then this one: a reader who has scrolled to the form has already
                   decided to write, and telling them where the studio is at the moment they reach
