@@ -8,8 +8,18 @@ import { useReducedMotion } from '../ui/useReducedMotion';
 
 const G = '/assets/gallery';
 
-/** Preserve the gallery's soft desktop drift while giving touch screens a clear panel rhythm. */
-export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'mandatory' } as const;
+/**
+ * THE PHONE GALLERY SNAPS SOFTLY NOW (2026-09-13, Daniel). `mobileStrength` was `mandatory`, which
+ * is the one snap rule a finger can feel fighting it: mandatory forces the scroller to rest on a
+ * snap point after EVERY gesture, so on a 13,849px page of eight full-screen plates a flick can
+ * only ever travel one plate, and the momentum the reader started gets cancelled on landing.
+ *
+ * `proximity` keeps the framing (a plate that ends near the viewport edge still settles to it) and
+ * gives the flick back. The desktop value was already `proximity` and the home page uses it at
+ * every width, so this makes the gallery agree with the rest of the site rather than inventing a
+ * new rule. Guarded in `GalleryPage.test.ts` and `ui/usePageSnap.test.ts`.
+ */
+export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'proximity' } as const;
 
 export const GALLERY_IMAGES = [
   {
