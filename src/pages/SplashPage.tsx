@@ -63,8 +63,16 @@ function RotatingHeroImages() {
           aria-hidden={index !== active}
           className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}
         >
+          {/* THE PHONE HERO IS CAPPED AT ~DPR 2, WHICH IS THE POLICY `MAX_SRCSET_W` ALREADY SETS
+              FOR DESKTOP, APPLIED WHERE IT COSTS THE MOST. `100vw` at 390 CSS px and DPR 3 asks
+              for 1,170 device px; `eden-oculus-up-tall` has variants only to 800w, so the browser
+              took the 1,073px ORIGINAL: measured 445 KB on production 2026-09-13, the single
+              heaviest asset on the home page and the one blocking LCP. `800px` pins the 800w
+              variant at 215 KB, so 230 KB is saved at an effective density of 2.05x, which is
+              indistinguishable on a photograph and is the same trade `MAX_SRCSET_W` documents
+              for a 1440 viewport. Full resolution is not lost; the original is still the `src`. */}
           {'mobileSrc' in image && (
-            <source media="(max-width: 640px)" srcSet={srcSetFor(image.mobileSrc)} sizes="100vw" />
+            <source media="(max-width: 640px)" srcSet={srcSetFor(image.mobileSrc)} sizes="800px" />
           )}
           <img
             src={image.src}
@@ -182,7 +190,19 @@ export function SplashPage() {
             {TIME_STUDY.map((study) => (
               <figure key={study.year}>
                 <div className="aspect-[3/2] overflow-hidden bg-[#f1f1ef]">
-                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, 100vw" />
+                  {/* THE `sizes` HERE CLAIMED 100vw ON PHONES AND THE STRIP HAS NEVER BEEN ONE
+                      COLUMN. The grid is `grid-cols-3` at EVERY width (there is no `md:` on it),
+                      so a cell renders 111 CSS px at 390w, but `100vw` told the browser it needed
+                      390 CSS px, which at DPR 3 is 1,170 device px, which resolves to the 1280w
+                      variant. Measured on production 2026-09-13 at 390x844 DPR3: these three
+                      thumbnails pulled 899 KB (290 + 279 + 330) where the correct 400w candidates
+                      are 113 KB total. They are `loading="eager"`, so that 786 KB was competing
+                      with the hero for bandwidth during first paint.
+                      `33vw` is what the layout actually does at every width, which is the rule
+                      `SIZES` in `responsiveImg.ts` already states: keep the hint honest against the
+                      real layout, because a `sizes` that overstates the width defeats the whole
+                      point by pulling a bigger file. */}
+                  <Image src={study.image} alt={study.alt} sizes="33vw" />
                 </div>
                 <figcaption className="mt-3 flex flex-col gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-black/45 md:grid md:grid-cols-[3rem_1fr] md:gap-3 md:text-[9px] md:tracking-[0.14em]">
                   <span>{study.year}</span><span>{study.title}</span>
