@@ -35,7 +35,7 @@ export function BowerIntro() {
       // If storage is unavailable, the intro may play again on a later visit.
     }
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-    return shouldPlayIntro(reduced, played);
+    return shouldPlayIntro(reduced, played) && !window.matchMedia('(max-width: 767px), (pointer: coarse)').matches;
   });
   const [traveling, setTraveling] = useState(false);
   const [revealing, setRevealing] = useState(false);

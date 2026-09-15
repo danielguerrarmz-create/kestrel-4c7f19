@@ -18,6 +18,7 @@ import { existsSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 
 const ROOTS = [
+  'public/assets/home',
   'public/assets/projects',
   'public/assets/product',
   'public/assets/about',
