@@ -67,8 +67,8 @@ function ExpandingPlate({ image, eager }: { image: (typeof GALLERY_IMAGES)[numbe
   const captionOpacity = useTransform(scrollYProgress, [0, 0.3, 0.52], [1, 1, 0]);
 
   return (
-    <section ref={ref} data-snap-section aria-label={`${image.n} ${image.title}`} className="relative h-[190svh] snap-start bg-white">
-      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden bg-white">
+    <section ref={ref} data-snap-section aria-label={`${image.n} ${image.title}`} className="relative h-[190svh] snap-start bg-floralWhite">
+      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden bg-floralWhite">
         <motion.figure
           style={reduced ? undefined : { width, height, borderRadius: radius }}
           className="relative h-[100svh] w-screen overflow-hidden bg-[#efefed]"
@@ -100,7 +100,7 @@ export function GalleryPage() {
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <div className="gallery-page editorial-page min-h-screen bg-white text-[#11110e]">
+    <div className="gallery-page editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="gallery-intro relative flex min-h-[100svh] snap-start items-center px-gutter">
           <EditorialHeader />

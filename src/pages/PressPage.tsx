@@ -8,7 +8,7 @@ export function PressPage() {
   usePageSnap();
 
   return (
-    <div className="editorial-page min-h-screen bg-white text-[#11110e]">
+    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
           <EditorialHeader />
