@@ -125,7 +125,7 @@ export function SplashPage() {
   usePageSnap({ strength: 'proximity' });
 
   return (
-    <main className="editorial-page home-page min-h-screen w-full overflow-hidden bg-white text-[#11110e]">
+    <main className="editorial-page home-page min-h-screen w-full overflow-hidden bg-floralWhite text-[#11110e]">
       <BowerIntro />
 
       <section data-snap-section className="home-hero relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">

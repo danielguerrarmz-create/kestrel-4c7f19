@@ -100,7 +100,7 @@ export function BowerIntro() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[100] overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-white"
+        className="absolute inset-0 bg-floralWhite"
         initial={{ opacity: 1 }}
         animate={{ opacity: revealing ? 0 : 1 }}
         transition={{ duration: 0.58, ease: EASE_SETTLE }}

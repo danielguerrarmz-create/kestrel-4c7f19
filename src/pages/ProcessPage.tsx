@@ -102,7 +102,7 @@ export function ProcessPage() {
   usePageSnap({ wheel: true });
 
   return (
-    <div className="editorial-page min-h-screen bg-white text-[#11110e]">
+    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
           <EditorialHeader />
@@ -157,7 +157,7 @@ export function ProcessPage() {
           </div>
         </section>
 
-        <section data-snap-section className="min-h-[100svh] snap-start bg-white pt-[clamp(3.5rem,8svh,6rem)]">
+        <section data-snap-section className="min-h-[100svh] snap-start bg-floralWhite pt-[clamp(3.5rem,8svh,6rem)]">
           <div className="mobile-photo-story relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
             <img
               src="/assets/gallery/week-3/landscape-room-at-dawn.webp"
