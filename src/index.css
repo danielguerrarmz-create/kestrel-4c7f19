@@ -279,8 +279,9 @@ html.adaptive-cursor-active input[type='range'] {
 .home-page { overflow: clip; }
 .home-page .home-time-image { aspect-ratio: 2760 / 1504; }
 .home-page .home-time-image img { aspect-ratio: auto; object-fit: contain; }
+.home-page .home-landscape { height: 100svh; height: 100dvh; scroll-margin-top: 0; }
 @media (min-width: 768px) {
-  .home-page > section[data-snap-section]:not(.home-hero) {
+  .home-page > section[data-snap-section]:not(.home-hero):not(.home-landscape) {
     min-height: 100svh;
     padding-block: clamp(3rem, 7svh, 6rem);
   }
@@ -288,7 +289,6 @@ html.adaptive-cursor-active input[type='range'] {
   .home-page #meaning > div > div { margin-top: clamp(2.5rem, 7svh, 6rem); }
   .home-page .home-time h2 { font-size: clamp(3rem, min(6.4vw, 8svh), 6.8rem); }
   .home-page .home-time .mobile-image-rail { margin-top: clamp(2rem, 5svh, 4rem); }
-  .home-page .home-landscape figure { width: 100%; }
   .home-page .home-gathering > div { display: grid; grid-template-columns: .75fr 1.25fr; align-items: center; gap: clamp(2rem, 5vw, 6rem); }
   .home-page .home-gathering h2 { font-size: clamp(3rem, min(5.4vw, 9svh), 6rem); }
   .home-page .home-gathering figure { margin-top: 0; }
@@ -309,7 +309,7 @@ html.adaptive-cursor-active input[type='range'] {
   .editorial-header > div { gap: 10px; }
   .editorial-header nav { font-size: 12px; gap: 8px; letter-spacing: .09em; }
   .editorial-header a { min-height: 44px; display: flex; align-items: center; }
-  .editorial-page section[data-snap-section]:not(.home-hero):not(.mobile-gallery-plate) { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
+  .editorial-page section[data-snap-section]:not(.home-hero):not(.home-landscape):not(.mobile-gallery-plate) { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
   .editorial-page main > section:first-child:not(.home-hero):not(.gallery-intro) { padding-top: 190px; }
   .editorial-page .font-quote { font-size: clamp(44px, 12vw, 76px); line-height: .98; }
   .editorial-page .gallery-intro { min-height: 48svh !important; padding-top: 180px !important; padding-bottom: 40px !important; }

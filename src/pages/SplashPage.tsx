@@ -197,35 +197,14 @@ export function SplashPage() {
         </div>
       </section>
 
-      <section data-snap-section className="home-landscape flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
-        <div className="mx-auto w-full max-w-canvas">
-          {/* THIS MOVEMENT IS THE PICTURE, AND NOTHING ELSE (2026-09-09, Clay).
-              It carried an eyebrow ("Study No. 01 · Concept study"), a heading ("We create
-              buildings that cannot simply be purchased and placed.") and a paragraph ("They belong
-              to one landscape, develop with it, and become more extraordinary with every passing
-              year."). All three went in one pass, and the reason they went together is that none
-              of them had a fact of its own: the movement above owns time ("A Bower begins when
-              building ends"), the movement below owns singularity ("Every Bower is different"), so
-              this one was left restating both and reached for an argument and an adjective to do
-              it. "Cannot simply be purchased" argues against something the reader never proposed,
-              and no practice may grade its own work as "more extraordinary" and be believed.
-              What is left is the strongest asset on the site at full bleed, with the place at one
-              end of its caption and the light at the other. The section centres it: no top margin,
-              because there is no longer anything above it to be pushed away from. */}
-          <figure>
-            <div className="aspect-[16/10] overflow-hidden bg-[#f1f1ef]">
-              <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="100vw" className="object-[78%_center] md:object-[68%_center]" />
-            </div>
-            {/* "English valley" until 2026-09-03, and it was the ONLY place named on the home page.
-                The render is not identifiably English — it is mist, a wooded valley and a dawn — so
-                the nationality was a claim the picture never made, sitting on the one image a first
-                -time reader studies longest. Dropped for the European outreach; nothing else about
-                the caption changed. */}
-            <figcaption className="mt-4 flex flex-wrap justify-between gap-3 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">
-              <span>Valley at dawn</span><span>Morning mist</span>
-            </figcaption>
-          </figure>
-        </div>
+      {/* A viewport-sized photograph: the image crops to the screen, never to a fixed plate. */}
+      <section data-snap-section aria-label="Valley at dawn" className="home-landscape relative w-full snap-start overflow-hidden bg-[#11110e] text-white">
+        <figure className="absolute inset-0">
+          <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="(max-aspect-ratio: 2560/1396) 184dvh, 100vw" className="object-[78%_center] md:object-[68%_center]" />
+          <figcaption className="absolute inset-x-0 bottom-0 flex flex-wrap justify-between gap-3 bg-gradient-to-t from-black/60 to-transparent px-gutter pb-[max(2rem,env(safe-area-inset-bottom))] pt-20 font-mono text-[9px] uppercase tracking-[0.15em] text-white/85 md:pb-10">
+            <span>Valley at dawn</span><span>Morning mist</span>
+          </figcaption>
+        </figure>
       </section>
 
       <section data-snap-section className="home-gathering flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
