@@ -288,7 +288,7 @@ html.adaptive-cursor-active input[type='range'] {
   .home-page #meaning > div > div { margin-top: clamp(2.5rem, 7svh, 6rem); }
   .home-page .home-time h2 { font-size: clamp(3rem, min(6.4vw, 8svh), 6.8rem); }
   .home-page .home-time .mobile-image-rail { margin-top: clamp(2rem, 5svh, 4rem); }
-  .home-page .home-landscape figure { width: min(100%, 120svh); margin-inline: auto; }
+  .home-page .home-landscape figure { width: 100%; }
   .home-page .home-gathering > div { display: grid; grid-template-columns: .75fr 1.25fr; align-items: center; gap: clamp(2rem, 5vw, 6rem); }
   .home-page .home-gathering h2 { font-size: clamp(3rem, min(5.4vw, 9svh), 6rem); }
   .home-page .home-gathering figure { margin-top: 0; }
