@@ -97,9 +97,9 @@ describe('SplashPage', () => {
       expect(html).toContain(line);
     }
     expect(html.match(/<section\b/g)).toHaveLength(7);
-    expect(html).toContain('/assets/process/evolution/installation.webp');
-    expect(html).toContain('/assets/process/evolution/establishing.webp');
-    expect(html).toContain('/assets/process/evolution/mature.webp');
+    expect(html).toContain('/assets/home/evolution/installation.webp');
+    expect(html).toContain('/assets/home/evolution/establishing.webp');
+    expect(html).toContain('/assets/home/evolution/mature.webp');
     expect(html).toContain('/assets/gallery/week-3/valley-bower-at-dawn.webp');
     expect(html).toContain('/assets/gallery/favorites/timber-joinery-detail.webp');
     for (const step of ['Site', 'Geometry', 'Structure', 'Planting', 'Stewardship']) {
