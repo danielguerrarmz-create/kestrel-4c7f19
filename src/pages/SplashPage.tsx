@@ -67,8 +67,9 @@ function RotatingHeroImages() {
           aria-hidden={index !== active}
           className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}
         >
+          {/* Cap the actual candidates, not sizes: sizes is multiplied by device DPR. */}
           {'mobileSrc' in image && (
-            <source media="(max-width: 767px)" srcSet={srcSetFor(image.mobileSrc)} sizes="100vw" />
+            <source media="(max-width: 767px)" srcSet={srcSetFor(image.mobileSrc, 800)} sizes="100vw" />
           )}
           <img
             src={image.src}
@@ -186,7 +187,8 @@ export function SplashPage() {
             {TIME_STUDY.map((study) => (
               <figure key={study.year}>
                 <div className="home-time-image aspect-[2760/1504] overflow-hidden bg-[#f1f1ef]">
-                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, 100vw" />
+                  {/* The mobile rail uses 88% of the content width; desktop keeps three columns. */}
+                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, calc(88vw - clamp(2.2rem, 4.928vw, 7.04rem))" />
                 </div>
                 <figcaption className="mt-3 flex flex-col gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-black/45 md:grid md:grid-cols-[3rem_1fr] md:gap-3 md:text-[9px] md:tracking-[0.14em]">
                   <span>{study.year}</span><span>{study.title}</span>

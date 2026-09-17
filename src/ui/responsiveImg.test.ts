@@ -98,3 +98,15 @@ describe('no srcset candidate is enormous (the 2026-07-23 hero regression)', () 
     }
   });
 });
+
+describe('mobile hero candidate budget', () => {
+  it('caps the portrait source at 800 pixels without changing the default candidates', () => {
+    const src = '/hero/v4/eden-oculus-up-tall.webp';
+    const capped = srcSetFor(src, 800);
+    expect(capped).toBeDefined();
+    const widths = capped!.split(',').map(candidate => Number(candidate.trim().match(/(\d+)w$/)![1]));
+    expect(Math.max(...widths)).toBe(800);
+    expect(capped).not.toContain(`${src} `);
+    expect(srcSetFor(src)).toContain(`${src} 1073w`);
+  });
+});

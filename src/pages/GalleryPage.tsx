@@ -11,8 +11,8 @@ import { ImageViewer } from '../ui/ImageViewer';
 
 const G = '/assets/gallery';
 
-/** Preserve the gallery's soft desktop drift while giving touch screens a clear panel rhythm. */
-export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'mandatory' } as const;
+/** Soft snapping on both layouts lets touch scrolling settle near a plate without requiring it. */
+export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'proximity' } as const;
 
 export const GALLERY_IMAGES = [
   {
