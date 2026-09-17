@@ -31,20 +31,20 @@ describe('SplashPage', () => {
     expect(html).toContain('id="meaning"');
   });
 
-  it('makes the commissioning action and the first appointment visible', () => {
-    expect(html).toContain('The first three landscapes will decide what a Bower is.');
+  it('makes the private commissioning invitation visible', () => {
+    expect(html).toContain('Three landscapes. By private commission.');
     /**
      * THE CLOSE NO LONGER GRADES A LANDSCAPE IT HAS NOT SEEN (2026-09-09, Clay). It read "The
      * first Bowers will be made for three spectacular landscapes." Three is a real capacity limit
      * and stays; "spectacular" was praising the reader's garden sight-unseen, in the largest type
-     * on the site, and the passive voice left nobody in the sentence to do the praising. The line
-     * that replaced it makes the same offer as authorship rather than as scarcity: what a founding
-     * client buys is a hand in defining the type, which is the one thing a fourth client cannot.
+     * on the site, and the passive voice left nobody in the sentence to do the praising.
+     * The September 16 invitation emphasises exclusivity through the real three-commission
+     * limit and a private enquiry, following Clay's request for more assurance and mystique.
      *
      * Pinned as an absence too, because an adjective is the easiest thing in the world to put back.
      */
     expect(html).not.toContain('spectacular');
-    expect(html).toContain('Discuss a founding commission');
+    expect(html).toContain('Enquire privately');
     /**
      * NO FIGURE ON THE HOME (2026-09-09, Clay) — and this is a repaired guard, not a new rule.
      *
@@ -97,9 +97,9 @@ describe('SplashPage', () => {
       expect(html).toContain(line);
     }
     expect(html.match(/<section\b/g)).toHaveLength(7);
-    expect(html).toContain('/assets/process/evolution/installation.webp');
-    expect(html).toContain('/assets/process/evolution/establishing.webp');
-    expect(html).toContain('/assets/process/evolution/mature.webp');
+    expect(html).toContain('/assets/home/evolution/installation.webp');
+    expect(html).toContain('/assets/home/evolution/establishing.webp');
+    expect(html).toContain('/assets/home/evolution/mature.webp');
     expect(html).toContain('/assets/gallery/week-3/valley-bower-at-dawn.webp');
     expect(html).toContain('/assets/gallery/favorites/timber-joinery-detail.webp');
     for (const step of ['Site', 'Geometry', 'Structure', 'Planting', 'Stewardship']) {

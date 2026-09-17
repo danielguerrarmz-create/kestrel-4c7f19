@@ -35,7 +35,7 @@ export function BowerIntro() {
       // If storage is unavailable, the intro may play again on a later visit.
     }
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-    return shouldPlayIntro(reduced, played);
+    return shouldPlayIntro(reduced, played) && !window.matchMedia('(max-width: 767px), (pointer: coarse)').matches;
   });
   const [traveling, setTraveling] = useState(false);
   const [revealing, setRevealing] = useState(false);
@@ -100,7 +100,7 @@ export function BowerIntro() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[100] overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-white"
+        className="absolute inset-0 bg-floralWhite"
         initial={{ opacity: 1 }}
         animate={{ opacity: revealing ? 0 : 1 }}
         transition={{ duration: 0.58, ease: EASE_SETTLE }}

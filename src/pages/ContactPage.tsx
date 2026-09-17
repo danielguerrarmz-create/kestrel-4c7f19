@@ -84,7 +84,7 @@ export function ContactPage() {
     'w-full cursor-pointer appearance-none border-0 border-b border-black/28 bg-transparent px-0 py-2 pr-6 font-serifDisplay text-[18px] text-black outline-none transition-colors focus:border-black';
 
   return (
-    <div className="min-h-screen bg-white text-[#11110e]">
+    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
           <EditorialHeader tone="white" />

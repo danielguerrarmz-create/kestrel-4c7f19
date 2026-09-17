@@ -6,19 +6,12 @@ import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
+import { useMobileLayout } from '../ui/useMobileLayout';
+import { ImageViewer } from '../ui/ImageViewer';
+
 const G = '/assets/gallery';
 
-/**
- * THE PHONE GALLERY SNAPS SOFTLY NOW (2026-09-13, Daniel). `mobileStrength` was `mandatory`, which
- * is the one snap rule a finger can feel fighting it: mandatory forces the scroller to rest on a
- * snap point after EVERY gesture, so on a 13,849px page of eight full-screen plates a flick can
- * only ever travel one plate, and the momentum the reader started gets cancelled on landing.
- *
- * `proximity` keeps the framing (a plate that ends near the viewport edge still settles to it) and
- * gives the flick back. The desktop value was already `proximity` and the home page uses it at
- * every width, so this makes the gallery agree with the rest of the site rather than inventing a
- * new rule. Guarded in `GalleryPage.test.ts` and `ui/usePageSnap.test.ts`.
- */
+/** Soft snapping on both layouts lets touch scrolling settle near a plate without requiring it. */
 export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'proximity' } as const;
 
 export const GALLERY_IMAGES = [
@@ -74,8 +67,8 @@ function ExpandingPlate({ image, eager }: { image: (typeof GALLERY_IMAGES)[numbe
   const captionOpacity = useTransform(scrollYProgress, [0, 0.3, 0.52], [1, 1, 0]);
 
   return (
-    <section ref={ref} data-snap-section aria-label={`${image.n} ${image.title}`} className="relative h-[190svh] snap-start bg-white">
-      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden bg-white">
+    <section ref={ref} data-snap-section aria-label={`${image.n} ${image.title}`} className="relative h-[190svh] snap-start bg-floralWhite">
+      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden bg-floralWhite">
         <motion.figure
           style={reduced ? undefined : { width, height, borderRadius: radius }}
           className="relative h-[100svh] w-screen overflow-hidden bg-[#efefed]"
@@ -103,19 +96,30 @@ function ExpandingPlate({ image, eager }: { image: (typeof GALLERY_IMAGES)[numbe
 
 export function GalleryPage() {
   usePageSnap(GALLERY_SNAP);
+  const mobile = useMobileLayout();
+  const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-white text-[#11110e]">
+    <div className="gallery-page editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
-        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter">
+        <section data-snap-section className="gallery-intro relative flex min-h-[100svh] snap-start items-center px-gutter">
           <EditorialHeader />
           <div className="mx-auto flex w-full max-w-canvas items-end justify-between gap-8">
             <h1 className="font-quote text-[clamp(4rem,12vw,12rem)] leading-[0.82] tracking-[-0.055em]">Works</h1>
-            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />Scroll to enter</p>
+            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />{mobile ? 'Tap a work to explore' : 'Scroll to enter'}</p>
           </div>
         </section>
 
-        {GALLERY_IMAGES.map((image, index) => <ExpandingPlate key={image.src} image={image} eager={index < 2} />)}
+        {GALLERY_IMAGES.map((image, index) => mobile ? (
+          <section key={image.src} data-snap-section className="mobile-gallery-plate" aria-label={image.title}>
+            <button className="mobile-gallery-image" onClick={() => setSelected(index)} aria-label={`Enlarge ${image.title}`}>
+              <img src={image.src} srcSet={srcSetFor(image.src)} sizes="100vw" alt={image.alt} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
+              <span className="gallery-enlarge" aria-hidden>↗</span>
+            </button>
+            <div className="mobile-gallery-caption"><span>{image.n}</span><h2>{image.title}</h2><span>View +</span></div>
+          </section>
+        ) : <ExpandingPlate key={image.src} image={image} eager={index < 2} />)}
+        {selected !== null && <ImageViewer images={GALLERY_IMAGES} initial={selected} onClose={() => setSelected(null)} />}
       </main>
       <Footer />
     </div>

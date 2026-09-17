@@ -48,6 +48,7 @@ export default {
         inkForest: '#163A28',
         accentOlive: '#ACC13A',
         paperVellum: '#FBF9F3',
+        floralWhite: '#FFFAF0',
       },
       fontFamily: {
         // Eccentric organic display for titles + the big price.

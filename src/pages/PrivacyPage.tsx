@@ -6,7 +6,7 @@ const UPDATED = '3 September 2026';
 
 export function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white text-[#11110e]">
+    <div className="min-h-screen bg-floralWhite text-[#11110e]">
       <EditorialHeader />
       <main className="px-gutter pb-[clamp(5rem,10vw,9rem)] pt-[clamp(9rem,16vw,14rem)]">
         <article className="mx-auto w-full max-w-read">

@@ -864,5 +864,29 @@
       1280,
       1920
     ]
+  },
+  "/assets/home/evolution/installation.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/home/evolution/establishing.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/home/evolution/mature.webp": {
+    "w": 1920,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
   }
 }

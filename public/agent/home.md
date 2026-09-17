@@ -30,15 +30,15 @@ The object in time
 
 ## A Bower begins when building ends.
 
-![Concept visualisation of a newly installed timber Bower before the planting has established](/assets/process/evolution/installation.webp)
+![Concept visualisation of a newly installed timber Bower before the planting has established](/assets/home/evolution/installation.webp)
 
 00 A lattice
 
-![Concept visualisation of the same Bower after its first season of growth](/assets/process/evolution/establishing.webp)
+![Concept visualisation of the same Bower after its first season of growth](/assets/home/evolution/establishing.webp)
 
 01 Leaves in the weave
 
-![Concept visualisation of the same Bower after the planting has matured through its lattice](/assets/process/evolution/mature.webp)
+![Concept visualisation of the same Bower after the planting has matured through its lattice](/assets/home/evolution/mature.webp)
 
 03 A room of blossom and eaves
 
@@ -74,9 +74,9 @@ We are building the means to make them again and again, without ever making the 
 
 Founding commissions
 
-## The first three landscapes will decide what a Bower is.
+## Three landscapes. By private commission.
 
-[Discuss a founding commission →](/contact)
+[Enquire privately →](/contact)
 
 [Bower](/)
 

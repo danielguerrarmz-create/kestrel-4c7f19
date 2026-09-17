@@ -34,15 +34,17 @@ export const MAX_SRCSET_W = 2560;
  * PNG line-drawing left un-varianted) — the caller then keeps its plain `src`.
  *
  * The original is offered as the top candidate ONLY when it is no wider than `MAX_SRCSET_W`; past
- * that the widest generated variant is the ceiling. A source narrower than the cap is by
+ * that the widest generated variant is the ceiling. An optional maxWidth caps candidates
+ * further for a bandwidth-sensitive source; sizes still describes its real CSS width. A source narrower than the cap is by
  * definition a modest file, so there is no jump to guard against.
  */
-export function srcSetFor(src: string): string | undefined {
+export function srcSetFor(src: string, maxWidth = MAX_SRCSET_W): string | undefined {
   const entry = MANIFEST[src];
   if (!entry) return undefined;
   const base = src.replace(/\.(webp|jpe?g)$/i, '');
-  const parts = entry.variants.map((w) => `${base}-${w}w.webp ${w}w`);
-  if (entry.w <= MAX_SRCSET_W) parts.push(`${src} ${entry.w}w`);
+  const cap = Math.min(maxWidth, MAX_SRCSET_W);
+  const parts = entry.variants.filter((w) => w <= cap).map((w) => `${base}-${w}w.webp ${w}w`);
+  if (entry.w <= cap) parts.push(`${src} ${entry.w}w`);
   return parts.length ? parts.join(', ') : undefined;
 }
 

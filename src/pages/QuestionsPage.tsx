@@ -50,7 +50,7 @@ export function QuestionsPage() {
   usePageSnap();
 
   return (
-    <div className="min-h-screen bg-white text-[#11110e]">
+    <div className="min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end px-gutter py-[clamp(5rem,10vw,10rem)]">
           <EditorialHeader />

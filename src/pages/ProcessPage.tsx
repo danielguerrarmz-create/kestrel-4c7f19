@@ -1,3 +1,4 @@
+import { useMobileLayout } from '../ui/useMobileLayout';
 import { useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { routes } from '../routing';
@@ -25,6 +26,7 @@ const GROWTH_STAGES = [
 function GrowthEvolution() {
   const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const mobile = useMobileLayout();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
@@ -40,16 +42,16 @@ function GrowthEvolution() {
   const matureOpacity = useTransform(smoothProgress, [0.55, 0.84, 1], [0, 1, 1]);
   const opacities = [installationOpacity, establishingOpacity, matureOpacity] as const;
 
-  if (reduced) {
+  if (reduced || mobile) {
     return (
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center bg-[#11110e] px-gutter py-12 text-white" aria-label="The same Bower from year zero to year three">
         <div className="mx-auto w-full max-w-canvas">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/45">Year zero to year three</p>
           <h2 className="mt-5 max-w-[10ch] font-quote text-[clamp(3.2rem,6vw,7rem)] leading-[0.89] tracking-[-0.045em]">The garden continues the architecture.</h2>
-          <div className="mt-10 grid grid-cols-3 gap-2 md:gap-4">
+          <div className="mt-10 mobile-image-rail grid grid-cols-3 gap-2 md:gap-4">
             {GROWTH_STAGES.map((stage) => (
               <figure key={stage.src}>
-                <img src={stage.src} srcSet={srcSetFor(stage.src)} sizes="(min-width: 768px) 33vw, 34vw" alt={stage.alt} loading="eager" decoding="async" className="aspect-[3/2] w-full object-cover" />
+                <img src={stage.src} srcSet={srcSetFor(stage.src)} sizes="(min-width: 768px) 33vw, 88vw" alt={stage.alt} loading="eager" decoding="async" className="aspect-[3/2] w-full object-cover" />
                 <figcaption className="mt-3 font-mono text-[8px] uppercase tracking-[0.12em] text-white/50 md:text-[9px]">{stage.year} · {stage.label}</figcaption>
               </figure>
             ))}
@@ -100,7 +102,7 @@ export function ProcessPage() {
   usePageSnap({ wheel: true });
 
   return (
-    <div className="min-h-screen bg-white text-[#11110e]">
+    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
           <EditorialHeader />
@@ -122,7 +124,7 @@ export function ProcessPage() {
           </div>
         </section>
 
-        <section data-snap-section aria-label="A flowering Bower in the landscape" className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e]">
+        <section data-snap-section data-mobile-landscape aria-label="A flowering Bower in the landscape" className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e]">
           <img
             src="/assets/gallery/week-3/flowering-bower-morning-mist.webp"
             srcSet={srcSetFor('/assets/gallery/week-3/flowering-bower-morning-mist.webp')}
@@ -155,8 +157,8 @@ export function ProcessPage() {
           </div>
         </section>
 
-        <section data-snap-section className="min-h-[100svh] snap-start bg-white pt-[clamp(3.5rem,8svh,6rem)]">
-          <div className="relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
+        <section data-snap-section className="min-h-[100svh] snap-start bg-floralWhite pt-[clamp(3.5rem,8svh,6rem)]">
+          <div className="mobile-photo-story relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
             <img
               src="/assets/gallery/week-3/landscape-room-at-dawn.webp"
               srcSet={srcSetFor('/assets/gallery/week-3/landscape-room-at-dawn.webp')}

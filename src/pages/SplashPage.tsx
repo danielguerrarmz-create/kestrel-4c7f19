@@ -1,4 +1,5 @@
 /** The home page as a seven-movement exhibition. */
+import { useMobileLayout } from '../ui/useMobileLayout';
 import { useEffect, useState } from 'react';
 import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
@@ -38,11 +39,14 @@ export function nextHeroIndex(current: number): number {
 
 function RotatingHeroImages() {
   const [active, setActive] = useState(0);
+  const mobile = useMobileLayout();
 
   useEffect(() => {
+    if (mobile) { setActive(0); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => setActive(nextHeroIndex), HERO_ROTATION_MS);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [mobile]);
 
   /*
    * THE HERO IS NOT A LINK ANY MORE (2026-09-03, Clay). The whole first screen was wrapped in an
@@ -63,16 +67,9 @@ function RotatingHeroImages() {
           aria-hidden={index !== active}
           className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}
         >
-          {/* THE PHONE HERO IS CAPPED AT ~DPR 2, WHICH IS THE POLICY `MAX_SRCSET_W` ALREADY SETS
-              FOR DESKTOP, APPLIED WHERE IT COSTS THE MOST. `100vw` at 390 CSS px and DPR 3 asks
-              for 1,170 device px; `eden-oculus-up-tall` has variants only to 800w, so the browser
-              took the 1,073px ORIGINAL: measured 445 KB on production 2026-09-13, the single
-              heaviest asset on the home page and the one blocking LCP. `800px` pins the 800w
-              variant at 215 KB, so 230 KB is saved at an effective density of 2.05x, which is
-              indistinguishable on a photograph and is the same trade `MAX_SRCSET_W` documents
-              for a 1440 viewport. Full resolution is not lost; the original is still the `src`. */}
+          {/* Cap the actual candidates, not sizes: sizes is multiplied by device DPR. */}
           {'mobileSrc' in image && (
-            <source media="(max-width: 640px)" srcSet={srcSetFor(image.mobileSrc)} sizes="800px" />
+            <source media="(max-width: 767px)" srcSet={srcSetFor(image.mobileSrc, 800)} sizes="100vw" />
           )}
           <img
             src={image.src}
@@ -94,19 +91,19 @@ const TIME_STUDY = [
   {
     year: '00',
     title: 'A lattice',
-    image: '/assets/process/evolution/installation.webp',
+    image: '/assets/home/evolution/installation.webp',
     alt: 'Concept visualisation of a newly installed timber Bower before the planting has established',
   },
   {
     year: '01',
     title: 'Leaves in the weave',
-    image: '/assets/process/evolution/establishing.webp',
+    image: '/assets/home/evolution/establishing.webp',
     alt: 'Concept visualisation of the same Bower after its first season of growth',
   },
   {
     year: '03',
     title: 'A room of blossom and eaves',
-    image: '/assets/process/evolution/mature.webp',
+    image: '/assets/home/evolution/mature.webp',
     alt: 'Concept visualisation of the same Bower after the planting has matured through its lattice',
   },
 ] as const;
@@ -126,13 +123,13 @@ function Image({ src, alt, sizes, className = '' }: { src: string; alt: string; 
 }
 
 export function SplashPage() {
-  usePageSnap({ wheel: true });
+  usePageSnap({ strength: 'proximity' });
 
   return (
-    <main className="min-h-screen w-full overflow-hidden bg-white text-[#11110e]">
+    <main className="editorial-page home-page min-h-screen w-full overflow-hidden bg-floralWhite text-[#11110e]">
       <BowerIntro />
 
-      <section data-snap-section className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
+      <section data-snap-section className="home-hero relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
         <EditorialHeader tone="white" />
         <RotatingHeroImages />
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
@@ -145,14 +142,14 @@ export function SplashPage() {
         <a
           href="#meaning"
           aria-label="Scroll to discover more"
-          className="absolute bottom-8 left-1/2 z-30 flex min-h-11 -translate-x-1/2 flex-col items-center justify-end gap-2 px-6 font-mono text-[9px] uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:bottom-12 md:text-[10px]"
+          className="hero-scroll absolute bottom-8 left-1/2 z-30 flex min-h-11 -translate-x-1/2 flex-col items-center justify-end gap-2 px-6 font-mono text-[9px] uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:bottom-12 md:text-[10px]"
         >
           <span>Scroll to explore</span>
           <span aria-hidden className="relative block h-4 w-px overflow-hidden bg-white/25">
             <span className="absolute inset-x-0 top-0 h-1/2 bg-white/85 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
           </span>
         </a>
-        <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
+        <div className="hero-caption pointer-events-none relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
           <p className="font-serifDisplay text-[clamp(1.25rem,2vw,1.75rem)] tracking-[-0.01em]">Living architecture</p>
           {/* THREE WORDS AND A YEAR (2026-09-03, Clay: "way too many words — when in doubt, err on
               the side of saying the least amount possible"). It carried the availability AND the
@@ -180,29 +177,18 @@ export function SplashPage() {
         </div>
       </section>
 
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-16 md:py-[clamp(7rem,12vw,12rem)]">
+      <section data-snap-section className="home-time flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-16 md:py-[clamp(7rem,12vw,12rem)]">
         <div className="mx-auto w-full max-w-canvas">
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">The object in time</p>
             <h2 className="max-w-[9ch] font-quote text-[clamp(3rem,6.4vw,6.8rem)] leading-[0.91] tracking-[-0.04em]">A Bower begins when building ends.</h2>
           </div>
-          <div className="mt-10 grid grid-cols-3 gap-2 md:mt-[clamp(4rem,8vw,8rem)] md:gap-4">
+          <div className="mt-10 mobile-image-rail grid grid-cols-3 gap-2 md:mt-[clamp(4rem,8vw,8rem)] md:gap-4">
             {TIME_STUDY.map((study) => (
               <figure key={study.year}>
-                <div className="aspect-[3/2] overflow-hidden bg-[#f1f1ef]">
-                  {/* THE `sizes` HERE CLAIMED 100vw ON PHONES AND THE STRIP HAS NEVER BEEN ONE
-                      COLUMN. The grid is `grid-cols-3` at EVERY width (there is no `md:` on it),
-                      so a cell renders 111 CSS px at 390w, but `100vw` told the browser it needed
-                      390 CSS px, which at DPR 3 is 1,170 device px, which resolves to the 1280w
-                      variant. Measured on production 2026-09-13 at 390x844 DPR3: these three
-                      thumbnails pulled 899 KB (290 + 279 + 330) where the correct 400w candidates
-                      are 113 KB total. They are `loading="eager"`, so that 786 KB was competing
-                      with the hero for bandwidth during first paint.
-                      `33vw` is what the layout actually does at every width, which is the rule
-                      `SIZES` in `responsiveImg.ts` already states: keep the hint honest against the
-                      real layout, because a `sizes` that overstates the width defeats the whole
-                      point by pulling a bigger file. */}
-                  <Image src={study.image} alt={study.alt} sizes="33vw" />
+                <div className="home-time-image aspect-[2760/1504] overflow-hidden bg-[#f1f1ef]">
+                  {/* The mobile rail uses 88% of the content width; desktop keeps three columns. */}
+                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, calc(88vw - clamp(2.2rem, 4.928vw, 7.04rem))" />
                 </div>
                 <figcaption className="mt-3 flex flex-col gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-black/45 md:grid md:grid-cols-[3rem_1fr] md:gap-3 md:text-[9px] md:tracking-[0.14em]">
                   <span>{study.year}</span><span>{study.title}</span>
@@ -213,38 +199,17 @@ export function SplashPage() {
         </div>
       </section>
 
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
-        <div className="mx-auto w-full max-w-canvas">
-          {/* THIS MOVEMENT IS THE PICTURE, AND NOTHING ELSE (2026-09-09, Clay).
-              It carried an eyebrow ("Study No. 01 · Concept study"), a heading ("We create
-              buildings that cannot simply be purchased and placed.") and a paragraph ("They belong
-              to one landscape, develop with it, and become more extraordinary with every passing
-              year."). All three went in one pass, and the reason they went together is that none
-              of them had a fact of its own: the movement above owns time ("A Bower begins when
-              building ends"), the movement below owns singularity ("Every Bower is different"), so
-              this one was left restating both and reached for an argument and an adjective to do
-              it. "Cannot simply be purchased" argues against something the reader never proposed,
-              and no practice may grade its own work as "more extraordinary" and be believed.
-              What is left is the strongest asset on the site at full bleed, with the place at one
-              end of its caption and the light at the other. The section centres it: no top margin,
-              because there is no longer anything above it to be pushed away from. */}
-          <figure>
-            <div className="aspect-[16/10] overflow-hidden bg-[#f1f1ef]">
-              <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="100vw" className="object-[78%_center] md:object-[68%_center]" />
-            </div>
-            {/* "English valley" until 2026-09-03, and it was the ONLY place named on the home page.
-                The render is not identifiably English — it is mist, a wooded valley and a dawn — so
-                the nationality was a claim the picture never made, sitting on the one image a first
-                -time reader studies longest. Dropped for the European outreach; nothing else about
-                the caption changed. */}
-            <figcaption className="mt-4 flex flex-wrap justify-between gap-3 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">
-              <span>Valley at dawn</span><span>Morning mist</span>
-            </figcaption>
-          </figure>
-        </div>
+      {/* A viewport-sized photograph: the image crops to the screen, never to a fixed plate. */}
+      <section data-snap-section aria-label="Valley at dawn" className="home-landscape relative w-full snap-start overflow-hidden bg-[#11110e] text-white">
+        <figure className="absolute inset-0">
+          <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="(max-aspect-ratio: 2560/1396) 184dvh, 100vw" className="object-[78%_center] md:object-[68%_center]" />
+          <figcaption className="absolute inset-x-0 bottom-0 flex flex-wrap justify-between gap-3 bg-gradient-to-t from-black/60 to-transparent px-gutter pb-[max(2rem,env(safe-area-inset-bottom))] pt-20 font-mono text-[9px] uppercase tracking-[0.15em] text-white/85 md:pb-10">
+            <span>Valley at dawn</span><span>Morning mist</span>
+          </figcaption>
+        </figure>
       </section>
 
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
+      <section data-snap-section className="home-gathering flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
         <div className="mx-auto w-full max-w-canvas">
           <div>
             <h2 className="max-w-[10ch] font-quote text-[clamp(3.2rem,6.8vw,7rem)] leading-[0.9] tracking-[-0.04em]">The garden becomes a place to gather.</h2>
@@ -258,7 +223,7 @@ export function SplashPage() {
         </div>
       </section>
 
-      <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-[clamp(6rem,10vw,10rem)]">
+      <section data-snap-section className="mobile-material relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-[clamp(6rem,10vw,10rem)]">
         <Image src="/assets/gallery/favorites/timber-joinery-detail.webp" alt="Concept study of a timber lattice joint and carved connection" sizes="100vw" className="absolute inset-0 object-center opacity-72" />
         <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,7,0.06)_0%,rgba(9,9,7,0.48)_42%,rgba(9,9,7,0.96)_100%)]" />
         <div className="relative mx-auto grid w-full max-w-canvas gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
@@ -283,8 +248,8 @@ export function SplashPage() {
       <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-16 md:py-[clamp(8rem,17vw,17rem)]">
         <div className="mx-auto w-full max-w-[1080px]">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Founding commissions</p>
-          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">The first three landscapes will decide what a Bower is.</h2>
-          <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Discuss a founding commission →</a>
+          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">Three landscapes. By private commission.</h2>
+          <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Enquire privately →</a>
         </div>
       </section>
 
