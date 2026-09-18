@@ -6,12 +6,25 @@ dist-ssr
 .DS_Store
 *.tsbuildinfo
 
+# ENV -- this repo is PUBLIC. `.env` itself is TRACKED ON PURPOSE and is NOT listed
+# below: it holds only VITE_ variables, which Vite inlines into the client bundle
+# anyway, so nothing in it is secret. Today that is the PostHog PROJECT key
+# (`phc_...`) and its host. Keep it that way: a non-VITE_ value does not belong in
+# that file, and a PostHog PERSONAL key (`phx_...`) least of all. Listing `.env`
+# here would do nothing anyway -- .gitignore never applies to a tracked file.
+#
+# Every OTHER .env is ignored. There was no rule before: `*.local` caught
+# .env.local by luck of the suffix, and nothing caught .env.production or the rest.
+# .env.example stays committable so the variable NAMES can be documented in-tree.
+.env.*
+!.env.example
+
 # agent worktrees (isolated, own git)
 .claude/worktrees/
 
 # INTERNAL DOCS -- this repo is PUBLIC. Candid internal material (audits, stress
 # tests, accelerator application drafts, reviews of Clay's work) lives in the
-# PRIVATE `bower-docs` repo, mirrored from ~/restless-egg/docs. Never commit it here.
+# PRIVATE `bower-docs` repo, mirrored from ~/Bower Website/docs. Never commit it here.
 #
 # THE RULES BELOW PROTECT BY FILENAME PREFIX, AND THAT IS NOT ENOUGH. A doc is
 # candid because of what it SAYS, not what it is called, so a new candid doc
