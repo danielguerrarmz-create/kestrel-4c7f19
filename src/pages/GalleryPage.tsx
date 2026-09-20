@@ -106,7 +106,7 @@ export function GalleryPage() {
           <EditorialHeader />
           <div className="mx-auto flex w-full max-w-canvas items-end justify-between gap-8">
             <h1 className="font-quote text-[clamp(4rem,12vw,12rem)] leading-[0.82] tracking-[-0.055em]">Works</h1>
-            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />{mobile ? 'Tap a work to explore' : 'Scroll to enter'}</p>
+            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />Design studies, not completed buildings<br />{mobile ? 'Tap a work to explore' : 'Scroll to enter'}</p>
           </div>
         </section>
 

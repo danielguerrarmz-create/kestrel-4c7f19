@@ -1,0 +1,1065 @@
+/* Approved September brand palette. The page is a quiet frame; scale and movement belong to the work. */
+@font-face {
+  font-family: Inter;
+  src: url("/fonts/Inter-variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+.bower-v2 {
+  --green: #354d40;
+  --ink: #17160f;
+  background: #fff;
+  color: var(--ink);
+  font-family: Inter, Arial, sans-serif;
+  overflow: clip;
+}
+.bower-v2 button,
+.bower-v2 a {
+  touch-action: manipulation;
+}
+.bower-v2 :focus-visible {
+  outline: 2px solid #354d40;
+  outline-offset: 6px;
+}
+.bower-v2 h1,
+.bower-v2 h2 {
+  font-family: "Bodoni Moda", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+.bower-v2 em {
+  font-weight: 400;
+}
+.bower-v2 .editorial-header {
+  padding: 25px 3vw;
+}
+.editorial-header nav {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  align-items: center;
+}
+.editorial-header nav a {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+}
+.editorial-header nav a:last-child {
+  color: inherit;
+  border-bottom: 1px solid currentColor;
+}
+.bower-v2 .kicker,
+.bower-v2 figcaption,
+.study-disclaimer,
+.stage-note {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+}
+.bower-v2 .kicker {
+  margin-bottom: 30px;
+}
+.bower-v2 .text-link {
+  display: inline-block;
+  border-bottom: 1px solid;
+  padding-bottom: 9px;
+  margin-top: 25px;
+  font:
+    15px Inter,
+    sans-serif;
+}
+.overture {
+  min-height: 100svh;
+  padding: 110px 5vw 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.overture-top,
+.overture-bottom,
+.atlas-top,
+.atlas-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 12px;
+}
+.overture-top {
+  position: absolute;
+  top: 120px;
+  left: 5vw;
+  right: 5vw;
+  color: #526056;
+}
+.overture-poem {
+  text-align: center;
+  font-size: clamp(27px, 3.75vw, 66px);
+  line-height: 1.18 !important;
+  margin: 55px auto 0;
+  width: 100%;
+}
+.overture-poem > span {
+  display: block;
+  font:
+    13px Inter,
+    sans-serif;
+  letter-spacing: 0.04em;
+  margin: 25px 0 8px;
+}
+.overture-poem strong {
+  display: block;
+  font-size: clamp(100px, 17vw, 270px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+  color: var(--green);
+  animation: word-arrives 1.5s ease both;
+}
+.overture-enter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  border-bottom: 1px solid;
+  align-self: center;
+  padding: 12px 0;
+  margin-top: 24px;
+  font-size: 14px;
+  min-width: 200px;
+}
+.overture-bottom {
+  position: absolute;
+  left: 3vw;
+  right: 3vw;
+  bottom: 22px;
+  color: inherit;
+}
+.overture-bottom button {
+  border-bottom: 1px solid;
+  padding-bottom: 4px;
+}
+.overture--dark,
+.overture--pop {
+  background: #080a08;
+  color: white;
+}
+.overture-flash {
+  position: absolute;
+  inset: 14% 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overture-flash img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.overture-flash--1 {
+  inset: 0 18%;
+}
+.overture-flash--2 {
+  inset: 8% 0;
+}
+.overture-flash--3 {
+  inset: 0;
+}
+.overture-flash--3 img {
+  object-fit: cover;
+}
+.overture-flash span {
+  position: absolute;
+  bottom: 12px;
+  left: 20px;
+  font-size: 12px;
+  text-shadow: 0 1px 6px #000;
+}
+.preload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.atlas {
+  padding: 130px 3vw 50px;
+}
+.atlas-top {
+  color: #536056;
+  margin-bottom: 42px;
+}
+.atlas-top button {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.atlas h1 {
+  font-size: clamp(50px, 8.3vw, 145px);
+  text-align: center;
+  outline: none !important;
+}
+.atlas h1 em {
+  color: var(--green);
+}
+.atlas-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 30px 0 15px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.atlas-intro p:first-child {
+  font:
+    24px/1.25 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.atlas-field {
+  position: relative;
+  height: 77vw;
+  margin: 45px -3vw 15px;
+}
+.atlas-image {
+  display: block;
+  text-align: left;
+  transition: filter 0.25s;
+  min-width: 0;
+}
+.atlas-field .atlas-image {
+  position: absolute;
+  left: var(--left);
+  top: var(--top);
+  width: var(--width);
+  animation: atlas-arrives 1.3s cubic-bezier(0.16, 1, 0.3, 1) var(--delay) both;
+}
+.atlas-image img {
+  width: 100%;
+  display: block;
+}
+.atlas-image > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.atlas-image > span > span:last-child {
+  white-space: nowrap;
+}
+.atlas-field .atlas-image--0 {
+  z-index: 2;
+}
+.atlas-field .atlas-image--4 {
+  z-index: 3;
+}
+.atlas-image:hover {
+  z-index: 5;
+  filter: brightness(1.06);
+}
+.atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px 25px;
+  margin: 50px 0;
+}
+.atlas-grid img {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+.atlas-bottom {
+  border-top: 1px solid #c9cec9;
+  padding-top: 20px;
+}
+.atlas-bottom button {
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
+}
+.inhabit {
+  margin: 80px 0 0;
+}
+.inhabit-title {
+  padding: 45px 5vw 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.inhabit h2,
+.becoming h2,
+.bower-belief h2,
+.making-door h2,
+.founding-invitation h2 {
+  font-size: clamp(55px, 7.8vw, 130px);
+}
+.wide-scene img {
+  width: 100%;
+  height: auto;
+}
+.bower-v2 figcaption {
+  margin: 12px 3vw;
+  color: #525b53;
+}
+.inhabit-copy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10vw;
+  padding: 70px 8vw 120px;
+}
+.inhabit-copy > p {
+  font:
+    clamp(28px, 3vw, 46px) / 1.3 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.inhabit-copy > div {
+  font:
+    20px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  max-width: 32em;
+}
+.becoming {
+  background: #edf0ec;
+  padding: 80px 5vw 60px;
+}
+.becoming-heading {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 30px;
+  align-items: end;
+  margin-bottom: 50px;
+}
+.becoming-heading h2 {
+  font-size: clamp(52px, 6vw, 100px);
+}
+.becoming-heading > p:last-child {
+  font:
+    18px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.season-view img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.season-controls {
+  display: flex;
+  border-bottom: 1px solid #a4b1a5;
+  justify-content: space-between;
+  gap: 16px;
+}
+.season-controls button {
+  padding: 22px 0;
+  color: #58645b;
+  font-size: 15px;
+}
+.season-controls button[aria-pressed="true"] {
+  color: #172d1c;
+  box-shadow: 0 2px #354d40;
+}
+.season-controls span {
+  font-size: 11px;
+  margin-right: 10px;
+}
+.season-caption {
+  font:
+    24px/1.5 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  margin: 25px 0 12px;
+}
+.bower-belief {
+  padding: 130px 8vw;
+}
+.bower-belief h2 {
+  max-width: 1100px;
+}
+.bower-belief > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  margin: 60px 0 0 20%;
+  font:
+    22px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.making-door {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7vw;
+  align-items: center;
+  padding: 0 5vw 100px;
+}
+.making-door img {
+  width: 100%;
+}
+.making-door h2 {
+  font-size: clamp(44px, 5vw, 80px);
+}
+.making-door p:not(.kicker) {
+  font:
+    21px/1.5 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  margin-top: 30px;
+}
+.making-door figcaption {
+  margin-left: 0;
+}
+.founding-invitation {
+  background: var(--green);
+  color: #fff;
+  padding: 80px 5vw 35px;
+}
+.founding-invitation h2 {
+  font-size: clamp(64px, 9vw, 155px);
+}
+.invitation-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12vw;
+  align-items: end;
+  margin-top: 70px;
+}
+.invitation-bottom p {
+  max-width: 31em;
+  font:
+    21px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.invitation-bottom a {
+  font:
+    clamp(26px, 3.5vw, 55px) / 1.3 "Bodoni Moda",
+    Georgia,
+    serif;
+  border-bottom: 1px solid #fff;
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.stage-note {
+  border-top: 1px solid #ffffff50;
+  margin-top: 70px;
+  padding-top: 22px;
+  max-width: 900px;
+  color: #e3e9e0;
+}
+.scene-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100svh;
+  max-width: none;
+  max-height: none;
+  background: #fff;
+  color: #17160f;
+  padding: 20px 3vw;
+  border: 0;
+}
+.scene-dialog::backdrop {
+  background: #fff;
+}
+.scene-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.scene-dialog-top,
+.scene-dialog-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font:
+    12px Inter,
+    sans-serif;
+}
+.scene-dialog button {
+  padding: 8px;
+}
+.scene-dialog > img {
+  flex: 1;
+  min-height: 0;
+  object-fit: contain;
+  max-height: 70svh;
+  margin: 18px 0;
+}
+.scene-dialog-copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 20px;
+}
+.scene-dialog h2 {
+  font-size: 36px;
+}
+.scene-dialog-copy p {
+  font:
+    16px/1.5 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  margin-top: 8px;
+}
+.scene-dialog-copy a {
+  font:
+    14px Inter,
+    sans-serif;
+  border-bottom: 1px solid;
+}
+.scene-dialog-nav {
+  border-top: 1px solid #ddd;
+  align-items: center;
+  padding-top: 8px;
+}
+.brand-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #354d40;
+}
+.brand-motion {
+  position: relative;
+  width: min(65vw, 550px);
+  height: 220px;
+}
+.brand-unfurl {
+  position: absolute;
+  left: calc(50% - 95px);
+  top: 10px;
+  width: 190px;
+  animation: emblem-unfurl 2.6s ease both;
+}
+.brand-resolve {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: lockup-resolve 3.2s ease both;
+}
+.brand-loading p {
+  font:
+    14px Inter,
+    sans-serif;
+  animation: lockup-resolve 3.2s ease both;
+}
+.brand-loading button {
+  position: absolute;
+  bottom: 30px;
+  right: 4vw;
+  font-size: 13px;
+  border-bottom: 1px solid;
+  padding: 12px;
+}
+@keyframes emblem-unfurl {
+  0% {
+    opacity: 0;
+    clip-path: inset(100% 0 0);
+    transform: rotate(-35deg) scale(0.7);
+  }
+  45% {
+    opacity: 1;
+    clip-path: inset(0);
+    transform: rotate(0) scale(1);
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-130px) scale(0.6);
+  }
+}
+@keyframes lockup-resolve {
+  0%,
+  58% {
+    opacity: 0;
+  }
+  85%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes atlas-arrives {
+  from {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.25);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+@keyframes word-arrives {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.process-opening {
+  padding: 165px 5vw 60px;
+  min-height: 88svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+}
+.process-opening h1 {
+  font-size: clamp(64px, 8vw, 130px);
+}
+.process-opening p:not(.kicker) {
+  font:
+    22px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  max-width: 25em;
+  margin-top: 35px;
+}
+.process-opening figure {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.process-opening img {
+  width: 100%;
+  max-height: 70svh;
+  object-fit: contain;
+}
+.process-opening figcaption {
+  margin-left: 0;
+}
+.process-principle {
+  padding: 65px 5vw;
+  border-top: 1px solid #c7cdc7;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8vw;
+}
+.process-principle p:last-child {
+  font:
+    clamp(28px, 3vw, 48px) / 1.3 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.making-chapter {
+  padding: 90px 5vw;
+}
+.chapter-heading {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6vw;
+  margin-bottom: 60px;
+}
+.chapter-heading h2 {
+  font-size: clamp(56px, 7vw, 110px);
+}
+.chapter-heading > div > p {
+  font:
+    22px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  margin-top: 30px;
+  max-width: 29em;
+}
+.process-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4vw;
+  align-items: center;
+}
+.process-pair img {
+  width: 100%;
+}
+.process-pair h3 {
+  font:
+    36px/1.2 "Bodoni Moda",
+    Georgia,
+    serif;
+  margin-bottom: 25px;
+}
+.process-pair p {
+  font:
+    20px/1.6 "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.process-pair figcaption {
+  margin: 12px 0;
+}
+.robotic-chapter {
+  background: #101b14;
+  color: white;
+}
+.robotic-chapter video {
+  width: 100%;
+  max-height: 80svh;
+  background: #0a0e0b;
+}
+.robotic-chapter figcaption {
+  color: #c6d0c6;
+  margin-left: 0;
+}
+.robotic-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5vw;
+  margin-top: 55px;
+}
+.robotic-notes h3 {
+  font:
+    28px "Source Serif 4 Variable",
+    Georgia,
+    serif;
+  margin-bottom: 18px;
+}
+.robotic-notes p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #d0d8d0;
+}
+.making-steps {
+  padding: 80px 5vw;
+}
+.making-steps h2 {
+  font-size: clamp(50px, 6vw, 95px);
+  margin-bottom: 50px;
+}
+.making-steps li {
+  display: grid;
+  grid-template-columns: 60px 1fr 1.4fr;
+  gap: 30px;
+  padding: 25px 0;
+  border-top: 1px solid #bac5bb;
+}
+.making-steps h3 {
+  font:
+    26px "Source Serif 4 Variable",
+    Georgia,
+    serif;
+}
+.making-steps p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+@media (max-width: 767px) {
+  .bower-v2 .editorial-header {
+    padding: 20px 5vw;
+  }
+  .editorial-header nav {
+    font-size: 10px;
+    gap: 12px;
+  }
+  .editorial-header nav a {
+    min-height: 32px;
+  }
+  .overture {
+    padding: 170px 5vw 70px;
+  }
+  .overture-top {
+    top: 145px;
+    font-size: 10px;
+  }
+  .overture-poem {
+    font-size: clamp(25px, 5.5vw, 42px);
+    margin-top: 20px;
+  }
+  .overture-poem strong {
+    font-size: 25vw;
+  }
+  .overture-bottom {
+    font-size: 10px;
+    left: 5vw;
+    right: 5vw;
+  }
+  .atlas {
+    padding: 170px 5vw 45px;
+  }
+  .atlas-top {
+    font-size: 10px;
+    margin-bottom: 30px;
+  }
+  .atlas h1 {
+    font-size: 14vw;
+  }
+  .atlas-intro {
+    display: block;
+    font-size: 12px;
+  }
+  .atlas-intro p:first-child {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .atlas-field {
+    height: 132vw;
+    margin: 30px -5vw 0;
+  }
+  .atlas-field .atlas-image--0 {
+    left: 8%;
+    top: 24%;
+    width: 85%;
+  }
+  .atlas-field .atlas-image--1 {
+    left: 2%;
+    top: 1%;
+    width: 40%;
+  }
+  .atlas-field .atlas-image--2 {
+    left: 65%;
+    top: 0;
+    width: 32%;
+  }
+  .atlas-field .atlas-image--3 {
+    left: 1%;
+    top: 68%;
+    width: 36%;
+  }
+  .atlas-field .atlas-image--4 {
+    left: 76%;
+    top: 61%;
+    width: 23%;
+  }
+  .atlas-field .atlas-image--5 {
+    left: 30%;
+    top: 79%;
+    width: 47%;
+  }
+  .atlas-image > span {
+    font-size: 9px;
+  }
+  .atlas-field .atlas-image > span > span:last-child {
+    display: none;
+  }
+  .atlas-bottom {
+    font-size: 11px;
+  }
+  .atlas-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 16px;
+  }
+  .inhabit {
+    margin-top: 20px;
+  }
+  .inhabit-title {
+    display: block;
+  }
+  .inhabit h2 {
+    font-size: 20vw;
+  }
+  .inhabit-copy {
+    grid-template-columns: 1fr;
+    padding: 45px 6vw 65px;
+    gap: 35px;
+  }
+  .inhabit-copy > div {
+    font-size: 19px;
+  }
+  .becoming {
+    padding: 55px 5vw 35px;
+  }
+  .becoming-heading {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .becoming-heading h2 {
+    font-size: 17vw;
+  }
+  .season-view img {
+    aspect-ratio: 4/3;
+  }
+  .season-controls {
+    gap: 10px;
+  }
+  .season-controls button {
+    font-size: 12px;
+    text-align: left;
+    padding: 18px 0;
+  }
+  .season-controls span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .season-caption {
+    font-size: 20px;
+  }
+  .bower-belief {
+    padding: 70px 6vw;
+  }
+  .bower-belief h2 {
+    font-size: 13vw;
+  }
+  .bower-belief > div {
+    grid-template-columns: 1fr;
+    margin: 35px 0 0;
+    gap: 24px;
+    font-size: 20px;
+  }
+  .making-door {
+    grid-template-columns: 1fr;
+    padding-bottom: 65px;
+    gap: 35px;
+  }
+  .making-door h2 {
+    font-size: 14vw;
+  }
+  .founding-invitation {
+    padding: 55px 6vw 30px;
+  }
+  .founding-invitation h2 {
+    font-size: 16vw;
+  }
+  .invitation-bottom {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  .invitation-bottom p {
+    font-size: 19px;
+  }
+  .invitation-bottom a {
+    font-size: 38px;
+  }
+  .stage-note {
+    margin-top: 45px;
+  }
+  .scene-dialog-copy {
+    display: block;
+  }
+  .scene-dialog h2 {
+    font-size: 28px;
+  }
+  .scene-dialog-copy a {
+    display: inline-block;
+    margin-top: 18px;
+  }
+  .scene-dialog-nav {
+    font-size: 10px;
+  }
+  .scene-dialog-nav span {
+    max-width: 130px;
+    text-align: center;
+  }
+  .brand-motion {
+    width: 80vw;
+  }
+  .process-opening {
+    padding-top: 175px;
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .process-opening h1 {
+    font-size: 19vw;
+  }
+  .process-opening p:not(.kicker) {
+    font-size: 20px;
+  }
+  .process-principle,
+  .chapter-heading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .making-chapter {
+    padding: 60px 5vw;
+  }
+  .chapter-heading h2 {
+    font-size: 16vw;
+  }
+  .chapter-heading > div > p {
+    font-size: 20px;
+  }
+  .process-pair {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .robotic-notes {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .making-steps li {
+    grid-template-columns: 30px 1fr;
+    gap: 15px;
+  }
+  .making-steps li p {
+    grid-column: 2;
+  }
+  .making-steps h3 {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bower-v2 *,
+  .bower-v2 *::before {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+.process-specimen svg {
+  width: 100%;
+  height: auto;
+  background: #f4f6f2;
+}
+.specimen-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  font-size: 13px;
+}
+.specimen-controls button {
+  border-bottom: 1px solid #354d40;
+  padding-bottom: 6px;
+}
+.process-specimen line {
+  transition:
+    opacity 0.3s,
+    stroke-width 0.3s;
+}
+.brand-loading {
+  width: 100vw;
+  height: 100svh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+}
+.brand-loading::backdrop {
+  background: #fff;
+}
+@media (max-width: 767px) {
+  .atlas-top,
+  .atlas-bottom,
+  .atlas-image > span,
+  .overture-bottom,
+  .overture-top {
+    font-size: 12px;
+  }
+  .atlas-field .atlas-image > span {
+    line-height: 1.35;
+  }
+  .atlas-field .atlas-image--0 > span {
+    background: #fff;
+    padding: 3px 0;
+  }
+  .atlas-field .atlas-image--1 {
+    top: 0;
+  }
+  .atlas-field .atlas-image--2 {
+    top: 0;
+  }
+}

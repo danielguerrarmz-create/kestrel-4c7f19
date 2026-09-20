@@ -114,7 +114,7 @@ const META: Record<ProductionTarget, PageMeta> = {
     title: 'From landscape to Bower: the commissioning process',
     description: 'Conversation, feasibility, design and engineering, making, growth and stewardship: the route from a landscape to a built Bower.',
     ogTitle: 'From landscape to Bower',
-    ogDescription: 'A clear five-stage route from first conversation to a living pavilion maturing in its landscape.',
+    ogDescription: 'Craft, computation and robotic fabrication: developing a repeatable system for unique living timber buildings.',
   },
   contact: {
     path: routes.contact,
@@ -126,7 +126,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   press: {
     path: routes.press,
     title: 'Press enquiries | Bower',
-    description: 'Press enquiries for Bower, an England-based design practice making living timber structures for significant landscapes internationally.',
+    description: 'Press enquiries for Bower, a building technology company developing living timber buildings for exceptional landscapes.',
     ogTitle: 'Press enquiries | Bower',
     ogDescription: 'Contact Bower about editorial, media and press enquiries.',
   },

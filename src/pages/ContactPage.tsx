@@ -88,6 +88,7 @@ export function ContactPage() {
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
           <EditorialHeader tone="white" />
+          <p className="absolute right-gutter top-36 z-10 max-w-[16rem] text-right font-sans text-xs leading-relaxed text-white [text-shadow:0_1px_8px_#000] md:top-24">Design study, not a completed building.</p>
           <img
             src="/assets/gallery/02-garden-pavilion.webp"
             srcSet={srcSetFor('/assets/gallery/02-garden-pavilion.webp')}

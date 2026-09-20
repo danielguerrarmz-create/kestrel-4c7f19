@@ -1,10 +1,10 @@
 import { routes } from '../routing';
 
 const LINKS = [
-  { href: routes.gallery, label: 'Works' },
-  { href: routes.process, label: 'Making' },
+  { href: routes.gallery, label: 'Gallery' },
+  { href: routes.process, label: 'Process' },
   { href: routes.practice, label: 'Practice' },
-  { href: routes.contact, label: 'Enquire' },
+  { href: routes.contact, label: 'Contact Bower ↗' },
 ] as const;
 
 /** The quiet navigation shared by every public-facing editorial page. */
@@ -17,7 +17,7 @@ export function EditorialHeader({ tone = 'ink' }: { tone?: 'ink' | 'white' }) {
     <header className={`editorial-header absolute inset-x-0 top-0 z-30 px-gutter py-6 ${colour} md:py-8`}>
       <div className="mx-auto flex w-full max-w-canvas flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
         <a data-intro-logo href={routes.home} aria-label="Bower, home" className="w-fit font-sans text-[17px] font-medium tracking-[0.22em] focus-visible:outline-current">
-          BOWER
+          <img src={`/assets/brand/bower-logo-${tone === 'white' ? 'inverse' : 'evergreen'}-horizontal.png`} width="148" height="37" alt="Bower" />
         </a>
         <nav aria-label="Primary" className={`grid w-full grid-cols-4 gap-3 font-sans text-[9px] uppercase tracking-[0.16em] ${muted} sm:flex sm:w-auto sm:gap-8 sm:text-[10px]`}>
           {LINKS.map((link) => (

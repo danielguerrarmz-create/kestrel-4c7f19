@@ -130,7 +130,7 @@ describe('the agent mirror is fresh', () => {
     // shelved page from rotting; the second is what stops llms.txt handing out a dead link.
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(llmsTxt()).not.toContain('commissions.md');
-    expect(processMirror()).toContain('From landscape to Bower');
+    expect(processMirror()).toContain('Robotic fabrication');
     // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in
     // the reader's own terms, not a restatement of the button that brought them here.
     expect(contactMirror()).toContain('Tell us about your landscape.');

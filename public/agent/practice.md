@@ -8,9 +8,13 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
 Practice
 
@@ -86,11 +90,15 @@ Consent strategy and project-specific advice
 
 Bower · Based in England · Working across Europe
 
-## A design practice for living structures.
+## Building technology for living structures.
 
 [Talk to Clay →](/contact)
 
-[Bower](/)
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

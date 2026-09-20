@@ -10,8 +10,6 @@
  * the one-time BowerIntro flies its lockup onto, and there must be exactly one on a page. The footer
  * draws its own mark + name so it never mints a second wordmark target.
  */
-import { OculusMark } from './OculusMark';
-import { WORDMARK } from '../data/config';
 import { routes } from '../routing';
 import type { Measure } from './Frame';
 
@@ -53,8 +51,8 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
         aria-label="Bower, home"
         className="inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
       >
-        <OculusMark size={18} />
-        <span className="font-sans text-[13px] font-medium uppercase tracking-[0.18em]">{WORDMARK}</span>
+        <img src="/assets/brand/bower-logo-evergreen-horizontal.png" width="112" height="28" alt="Bower" />
+
       </a>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.

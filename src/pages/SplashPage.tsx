@@ -1,259 +1,479 @@
-/** The home page as a seven-movement exhibition. */
-import { useMobileLayout } from '../ui/useMobileLayout';
-import { useEffect, useState } from 'react';
-import { routes } from '../routing';
-import { EditorialHeader } from '../ui/EditorialHeader';
-import { Footer } from '../ui/Footer';
-import { srcSetFor } from '../ui/responsiveImg';
-import { usePageSnap } from '../ui/usePageSnap';
-import { BowerIntro } from './splash/BowerIntro';
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { EditorialHeader } from "../ui/EditorialHeader";
+import { Footer } from "../ui/Footer";
+import { useReducedMotion } from "../ui/useReducedMotion";
+import { routes } from "../routing";
+import { FoundingInvitation } from "../ui/FoundingInvitation";
+import { BowerLoading } from "./splash/BowerLoading";
+import "./bower-direction.css";
+import { srcSetFor } from "../ui/responsiveImg";
 
-/**
- * THE ROTATION LOST `manor-garden` AND GAINED `bower-in-summer-borders` (2026-09-03, Clay).
- *
- * `manor-garden` — the v4 hero still, a small shell across a lawn at a brick manor — was the
- * second frame and Clay's word for it was "slightly understated". It is a picture of a garden
- * that happens to contain a Bower; at that distance the structure reads as garden furniture. Every
- * other frame in this rotation puts the reader INSIDE or immediately beneath the thing. The new
- * frame is the flowering Bower at close range: curved lattice arches, roses and wisteria over the
- * crown, borders in full summer, people walking through at the scale of the arch.
- *
- * The file is NOT deleted. `heroStill.ts` still points at it for the engine-side reveal (dev-only),
- * and that surface has its own reasoning for the choice — see the comment there.
- */
-export const HERO_IMAGES = [
-  {
-    src: '/assets/gallery/favorites/living-bower-interior.webp',
-    mobileSrc: '/hero/v4/eden-oculus-up-tall.webp',
-  },
-  { src: '/assets/gallery/week-3/stained-glass-cliff-interior.webp' },
-  { src: '/assets/gallery/favorites/bower-in-summer-borders.webp' },
-  { src: '/assets/gallery/favorites/garden-performance.webp' },
+export const studies = [
+  [
+    "wisteria-walk",
+    "Lights of leaves",
+    "To sit beneath the leaves. To watch the light move.",
+  ],
+  [
+    "summer-borders",
+    "A room in the garden",
+    "An open edge between shelter and the summer border.",
+  ],
+  [
+    "stained-glass-cliff",
+    "A little ceremony",
+    "Colour, timber and planting gather around a view.",
+  ],
+  [
+    "valley-dawn",
+    "Before the day begins",
+    "A place to pause at the threshold of a landscape.",
+  ],
+  [
+    "oculus-portrait",
+    "Open to the sky",
+    "Weather and changing light are part of the room.",
+  ],
+  [
+    "garden-room-gathering",
+    "Room for one. Room for many.",
+    "An intimate shelter becomes a place to come together.",
+  ],
+  [
+    "living-interior",
+    "Between inside and outside",
+    "The garden reaches into the timber frame.",
+  ],
+  [
+    "winter-canopy",
+    "When the garden is quiet",
+    "A different presence in the winter landscape.",
+  ],
+  [
+    "pondside-pavilion",
+    "At the water’s edge",
+    "Somewhere to linger on the way around the garden.",
+  ],
+  [
+    "garden-performance",
+    "An occasion, outdoors",
+    "Gathering, listening and performing in the landscape.",
+  ],
+  [
+    "stained-glass-garden-canopy",
+    "A change in the light",
+    "A study in colour, shelter and an open edge.",
+  ],
+  [
+    "sunset-flower-garden",
+    "Stay a little longer",
+    "An evening destination at the end of the garden.",
+  ],
 ] as const;
-
-export const HERO_ROTATION_MS = 5000;
-
-export function nextHeroIndex(current: number): number {
-  return (current + 1) % HERO_IMAGES.length;
-}
-
-function RotatingHeroImages() {
-  const [active, setActive] = useState(0);
-  const mobile = useMobileLayout();
-
-  useEffect(() => {
-    if (mobile) { setActive(0); return; }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => setActive(nextHeroIndex), HERO_ROTATION_MS);
-    return () => window.clearInterval(timer);
-  }, [mobile]);
-
-  /*
-   * THE HERO IS NOT A LINK ANY MORE (2026-09-03, Clay). The whole first screen was wrapped in an
-   * `<a href="/gallery">` carrying `cursor-zoom-in`, which failed in three ways at once: the
-   * magnifying glass is the browser's own zoom affordance and promised an enlarge that never came,
-   * the entire viewport was a click target so any stray click on the home page navigated away, and
-   * there was no visible control to explain or escape it. A reader could not tell they were inside
-   * a link, and once the cursor changed they had no way to reason about what a click would do.
-   *
-   * Nothing is lost by removing it: the gallery is one deliberate click away in the header ("Works")
-   * and again in the footer. A whole-viewport hit target is not navigation, it is a trapdoor.
-   */
-  return (
-    <div className="absolute inset-0">
-      {HERO_IMAGES.map((image, index) => (
-        <picture
-          key={image.src}
-          aria-hidden={index !== active}
-          className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {/* Cap the actual candidates, not sizes: sizes is multiplied by device DPR. */}
-          {'mobileSrc' in image && (
-            <source media="(max-width: 767px)" srcSet={srcSetFor(image.mobileSrc, 800)} sizes="100vw" />
-          )}
-          <img
-            src={image.src}
-            srcSet={srcSetFor(image.src)}
-            sizes="100vw"
-            alt={index === 0 ? 'Concept visualisation from within a planted timber Bower' : ''}
-            decoding="async"
-            loading={index === 0 ? 'eager' : 'lazy'}
-            {...(index === 0 ? { fetchpriority: 'high' } : {})}
-            className="h-full w-full scale-[1.015] object-cover object-center motion-safe:animate-[hero-drift_24s_ease-out_both]"
-          />
-        </picture>
-      ))}
-    </div>
-  );
-}
-
-const TIME_STUDY = [
-  {
-    year: '00',
-    title: 'A lattice',
-    image: '/assets/home/evolution/installation.webp',
-    alt: 'Concept visualisation of a newly installed timber Bower before the planting has established',
-  },
-  {
-    year: '01',
-    title: 'Leaves in the weave',
-    image: '/assets/home/evolution/establishing.webp',
-    alt: 'Concept visualisation of the same Bower after its first season of growth',
-  },
-  {
-    year: '03',
-    title: 'A room of blossom and eaves',
-    image: '/assets/home/evolution/mature.webp',
-    alt: 'Concept visualisation of the same Bower after the planting has matured through its lattice',
-  },
-] as const;
-
-function Image({ src, alt, sizes, className = '' }: { src: string; alt: string; sizes: string; className?: string }) {
-  return (
-    <img
-      src={src}
-      srcSet={srcSetFor(src)}
-      sizes={sizes}
-      alt={alt}
-      loading="eager"
-      decoding="async"
-      className={`h-full w-full object-cover ${className}`}
-    />
-  );
-}
+const studySrc = (slug: string) => `/assets/studies/${slug}.webp`;
+const burst = [3, 2, 5, 0];
+const places = [
+  [19, 25, 62],
+  [2, 4, 27],
+  [73, 0, 25],
+  [1, 70, 28],
+  [81, 46, 15],
+  [64, 77, 33],
+];
+const seasons = [
+  [
+    "growth-01-installation",
+    "The open frame",
+    "Timber, light, and room for what comes next.",
+  ],
+  [
+    "growth-02-establishing",
+    "Finding its way",
+    "Climbers begin to change the edges of the room.",
+  ],
+  [
+    "growth-03-mature",
+    "A living enclosure",
+    "Shade deepens. The garden becomes one of its authors.",
+  ],
+];
 
 export function SplashPage() {
-  usePageSnap({ strength: 'proximity' });
+  const reduced = useReducedMotion();
+  const [phase, setPhase] = useState<"arrival" | "dark" | "pop" | "gallery">(
+    "arrival",
+  );
+  const [frame, setFrame] = useState(0);
+  const [introReplay, setIntroReplay] = useState(0);
+  const [grid, setGrid] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [season, setSeason] = useState(0);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const galleryHeading = useRef<HTMLHeadingElement>(null);
+  const enter = () => {
+    setFrame(0);
+    setPhase(reduced ? "gallery" : "dark");
+  };
+
+  useEffect(() => {
+    if (phase === "arrival" || phase === "gallery") return;
+    if (reduced) {
+      setPhase("gallery");
+      return;
+    }
+    const timer = window.setTimeout(
+      () => {
+        if (phase === "dark") setPhase("pop");
+        else if (frame < burst.length - 1) setFrame(frame + 1);
+        else setPhase("gallery");
+      },
+      phase === "dark" ? 550 : 550,
+    );
+    return () => window.clearTimeout(timer);
+  }, [phase, frame, reduced]);
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    if (phase !== "gallery") document.body.style.overflow = "hidden";
+    else galleryHeading.current?.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [phase]);
+  const show = (index: number) => {
+    setSelected(index);
+    dialog.current?.showModal();
+  };
 
   return (
-    <main className="editorial-page home-page min-h-screen w-full overflow-hidden bg-floralWhite text-[#11110e]">
-      <BowerIntro />
-
-      <section data-snap-section className="home-hero relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e] text-white">
-        <EditorialHeader tone="white" />
-        <RotatingHeroImages />
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,5,0.48)_0%,rgba(7,7,5,0.03)_46%,rgba(7,7,5,0.55)_100%)]" />
-        {/* THE WHITE PANEL IS GONE (2026-09-03, Clay). The cue sat in a `bg-white/95` capsule with
-            its own shadow and blur, welded to the bottom edge — a piece of UI chrome parked on top
-            of a full-bleed photograph, and the heaviest object in the frame after the picture
-            itself. The mark now reads directly on the image: the hero's bottom scrim already
-            darkens to rgba(7,7,5,0.55), so white at 70% clears contrast without a plate behind it.
-            It keeps its 44px touch target via the padding, not via a visible box. */}
-        <a
-          href="#meaning"
-          aria-label="Scroll to discover more"
-          className="hero-scroll absolute bottom-8 left-1/2 z-30 flex min-h-11 -translate-x-1/2 flex-col items-center justify-end gap-2 px-6 font-mono text-[9px] uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:bottom-12 md:text-[10px]"
-        >
-          <span>Scroll to explore</span>
-          <span aria-hidden className="relative block h-4 w-px overflow-hidden bg-white/25">
-            <span className="absolute inset-x-0 top-0 h-1/2 bg-white/85 motion-safe:animate-[scroll-cue_2.2s_cubic-bezier(0.45,0,0.2,1)_infinite]" />
-          </span>
-        </a>
-        <div className="hero-caption pointer-events-none relative z-10 mx-auto flex min-h-[100svh] w-full max-w-canvas items-end justify-between gap-8 px-gutter pb-8 pt-40 md:pb-12">
-          <p className="font-serifDisplay text-[clamp(1.25rem,2vw,1.75rem)] tracking-[-0.01em]">Living architecture</p>
-          {/* THREE WORDS AND A YEAR (2026-09-03, Clay: "way too many words — when in doubt, err on
-              the side of saying the least amount possible"). It carried the availability AND the
-              geography on two lines, which is two facts fighting in the quietest type on the page.
-              The reach is already stated one screen down ("Bower · Working across Europe"), where
-              it has room; the hero keeps only the fact that cannot be read anywhere else on this
-              screen. Say each fact once, in the place that owns it. */}
-          <p className="text-right font-mono text-[8px] uppercase tracking-[0.18em] text-white/58 sm:text-[9px]">Founding commissions · 2027</p>
-        </div>
-      </section>
-
-      <section id="meaning" data-snap-section style={{ scrollMarginTop: 0 }} className="flex min-h-[100svh] snap-start items-center px-gutter py-[clamp(8rem,18vw,18rem)]">
-        <div className="mx-auto w-full max-w-canvas">
-          {/* THE REACH LINE CAME OFF THE HOME (2026-09-09, Clay). It read "Bower · Working across
-              Europe", and "Bower · Based in England" before that. A geography set in the quietest
-              type on the page reads as a qualification, and a reader does not need to be told the
-              practice will travel to them before they know what a Bower is. The fact survives where
-              someone goes looking for it: /about/practice states it, and the contact form asks for
-              a project location and a time zone. */}
-          <h1 className="mt-[clamp(3rem,7vw,7rem)] max-w-[11ch] font-quote text-[clamp(3.6rem,9.2vw,9.8rem)] leading-[0.87] tracking-[-0.05em]">Buildings that nature designs.</h1>
-          <div className="ml-auto mt-[clamp(5rem,11vw,10rem)] max-w-[27rem]">
-            <p className="font-serifDisplay text-[clamp(1.2rem,2vw,1.65rem)] leading-[1.5] text-black/52">We make the structure. The garden makes the rest.</p>
-            <p className="mt-6 font-mono text-[9px] uppercase tracking-[0.16em] text-black/38">Estates · Gardens · Cultural landscapes</p>
+    <div className={`bower-site bower-v2 phase-${phase}`}>
+      <BowerLoading replay={introReplay} />
+      <EditorialHeader
+        tone={phase === "dark" || phase === "pop" ? "white" : "ink"}
+      />
+      {phase !== "gallery" ? (
+        <main className={`overture overture--${phase}`}>
+          {phase === "arrival" && (
+            <>
+              <div className="overture-top">
+                <span>A building that grows.</span>
+                <span>For life in the landscape.</span>
+              </div>
+              <h1 className="overture-poem">
+                We dream of a world
+                <br />
+                of <em>lights of leaves…</em>
+                <br />
+                of buildings like <em>waves and caves.</em>
+                <span>A world full of</span>
+                <strong>Bowers.</strong>
+              </h1>
+              <button
+                className="overture-enter"
+                onClick={enter}
+                aria-label="Enter the world of Bower"
+              >
+                Enter the world <span>↗</span>
+              </button>
+            </>
+          )}
+          {phase === "pop" && (
+            <div
+              className={`overture-flash overture-flash--${frame}`}
+              key={frame}
+            >
+              <img
+                src={studySrc(studies[burst[frame]][0])}
+                srcSet={srcSetFor(studySrc(studies[burst[frame]][0]))}
+                sizes="(max-width: 767px) 100vw, 80vw"
+                alt="Bower pavilion design study"
+              />
+              <span>
+                {String(frame + 1).padStart(2, "0")} / A world of possibilities
+              </span>
+            </div>
+          )}
+          <div className="overture-bottom">
+            <span>
+              {phase === "arrival"
+                ? "Bower / Living architecture"
+                : "Design studies · Not completed buildings"}
+            </span>
+            <button onClick={() => setPhase("gallery")}>
+              Skip to gallery ↗
+            </button>
           </div>
-        </div>
-      </section>
-
-      <section data-snap-section className="home-time flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-16 md:py-[clamp(7rem,12vw,12rem)]">
-        <div className="mx-auto w-full max-w-canvas">
-          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">The object in time</p>
-            <h2 className="max-w-[9ch] font-quote text-[clamp(3rem,6.4vw,6.8rem)] leading-[0.91] tracking-[-0.04em]">A Bower begins when building ends.</h2>
-          </div>
-          <div className="mt-10 mobile-image-rail grid grid-cols-3 gap-2 md:mt-[clamp(4rem,8vw,8rem)] md:gap-4">
-            {TIME_STUDY.map((study) => (
-              <figure key={study.year}>
-                <div className="home-time-image aspect-[2760/1504] overflow-hidden bg-[#f1f1ef]">
-                  {/* The mobile rail uses 88% of the content width; desktop keeps three columns. */}
-                  <Image src={study.image} alt={study.alt} sizes="(min-width: 768px) 33vw, calc(88vw - clamp(2.2rem, 4.928vw, 7.04rem))" />
-                </div>
-                <figcaption className="mt-3 flex flex-col gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-black/45 md:grid md:grid-cols-[3rem_1fr] md:gap-3 md:text-[9px] md:tracking-[0.14em]">
-                  <span>{study.year}</span><span>{study.title}</span>
-                </figcaption>
-              </figure>
+          <div className="preload" aria-hidden="true">
+            {burst.map((i) => (
+              <img key={i} src={studySrc(studies[i][0])} alt="" />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* A viewport-sized photograph: the image crops to the screen, never to a fixed plate. */}
-      <section data-snap-section aria-label="Valley at dawn" className="home-landscape relative w-full snap-start overflow-hidden bg-[#11110e] text-white">
-        <figure className="absolute inset-0">
-          <Image src="/assets/gallery/week-3/valley-bower-at-dawn.webp" alt="Concept visualisation of a planted timber Bower occupying a misted valley at dawn" sizes="(max-aspect-ratio: 2560/1396) 184dvh, 100vw" className="object-[78%_center] md:object-[68%_center]" />
-          <figcaption className="absolute inset-x-0 bottom-0 flex flex-wrap justify-between gap-3 bg-gradient-to-t from-black/60 to-transparent px-gutter pb-[max(2rem,env(safe-area-inset-bottom))] pt-20 font-mono text-[9px] uppercase tracking-[0.15em] text-white/85 md:pb-10">
-            <span>Valley at dawn</span><span>Morning mist</span>
-          </figcaption>
-        </figure>
-      </section>
-
-      <section data-snap-section className="home-gathering flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20 md:py-[clamp(7rem,13vw,13rem)]">
-        <div className="mx-auto w-full max-w-canvas">
-          <div>
-            <h2 className="max-w-[10ch] font-quote text-[clamp(3.2rem,6.8vw,7rem)] leading-[0.9] tracking-[-0.04em]">The garden becomes a place to gather.</h2>
+        </main>
+      ) : null}
+      <main hidden={phase !== "gallery"}>
+        <section className="atlas" aria-labelledby="gallery-title">
+          <div className="atlas-top">
+            <span>01 / An inhabited landscape</span>
+            <button
+              onClick={() => {
+                window.scrollTo(0, 0);
+                setPhase("arrival");
+                setIntroReplay((n) => n + 1);
+              }}
+            >
+              Replay the opening ↗
+            </button>
           </div>
-          <figure className="mt-10 md:mt-[clamp(4rem,9vw,9rem)]">
-            <div className="aspect-[16/10] overflow-hidden bg-[#11110e]">
-              <Image src="/assets/gallery/week-3/garden-room-gathering.webp" alt="Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden" sizes="100vw" />
-            </div>
-            <figcaption className="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-black/42">A garden room in use</figcaption>
+          <h1 ref={galleryHeading} tabIndex={-1} id="gallery-title">
+            A world full of <em>Bowers.</em>
+          </h1>
+          <div className="atlas-intro">
+            <p>
+              Places to gather.
+              <br />
+              Places to simply be.
+            </p>
+            <p>
+              Site-specific living pavilions for exceptional gardens.
+              <br />
+              Design studies, not photographs of completed buildings.
+            </p>
+          </div>
+          <div className={grid ? "atlas-grid" : "atlas-field"}>
+            {(grid ? studies : studies.slice(0, 6)).map(([slug, title], i) => (
+              <button
+                key={slug}
+                className={`atlas-image atlas-image--${i}`}
+                style={
+                  {
+                    "--left": `${places[i % 6][0]}%`,
+                    "--top": `${places[i % 6][1]}%`,
+                    "--width": `${places[i % 6][2]}%`,
+                    "--delay": `${i * 70}ms`,
+                    "--dx": `${(50 - places[i % 6][0]) * 0.8}vw`,
+                    "--dy": `${(45 - places[i % 6][1]) * 0.5}vw`,
+                  } as CSSProperties
+                }
+                onClick={() => show(i)}
+                aria-label={`Explore ${title}`}
+              >
+                <img
+                  src={studySrc(slug)}
+                  srcSet={srcSetFor(studySrc(slug))}
+                  sizes="(max-width: 767px) 100vw, 80vw"
+                  alt={`${title}, Bower design study`}
+                  loading={i < 6 ? "eager" : "lazy"}
+                />
+                <span>
+                  <span>
+                    {String(i + 1).padStart(2, "0")} / {title}
+                  </span>
+                  <span>Open ↗</span>
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="atlas-bottom">
+            <span>Select a scene. Imagine being there.</span>
+            <button aria-pressed={grid} onClick={() => setGrid(!grid)}>
+              {grid ? "Return to free gallery" : "View all 12 studies"}{" "}
+              <span>↗</span>
+            </button>
+          </div>
+        </section>
+
+        <section className="inhabit" aria-labelledby="inhabit-title">
+          <div className="inhabit-title">
+            <p className="kicker">
+              02 / Ordinary life. Extraordinary presence.
+            </p>
+            <h2 id="inhabit-title">
+              Somewhere
+              <br />
+              <em>to be.</em>
+            </h2>
+          </div>
+          <figure className="wide-scene">
+            <img
+              src={studySrc("garden-room-gathering")}
+              srcSet={srcSetFor(studySrc("garden-room-gathering"))}
+              sizes="(max-width: 767px) 100vw, 80vw"
+              alt="Design study of people gathered beneath an open timber pavilion"
+              loading="lazy"
+            />
+            <figcaption>Gathering beneath a Bower / design study</figcaption>
           </figure>
-        </div>
-      </section>
-
-      <section data-snap-section className="mobile-material relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-[clamp(6rem,10vw,10rem)]">
-        <Image src="/assets/gallery/favorites/timber-joinery-detail.webp" alt="Concept study of a timber lattice joint and carved connection" sizes="100vw" className="absolute inset-0 object-center opacity-72" />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,7,0.06)_0%,rgba(9,9,7,0.48)_42%,rgba(9,9,7,0.96)_100%)]" />
-        <div className="relative mx-auto grid w-full max-w-canvas gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
-          <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/48">Joint study 01</p>
-            <h2 className="mt-7 max-w-[9ch] font-quote text-[clamp(3.3rem,6.8vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">Every Bower is different.</h2>
-            <p className="mt-5 max-w-[34rem] font-serifDisplay text-[clamp(1.1rem,1.8vw,1.55rem)] leading-[1.45] text-white/62">We are building the means to make them again and again, without ever making the same one twice.</p>
+          <div className="inhabit-copy">
+            <p>
+              A long lunch.
+              <br />
+              An hour alone.
+              <br />A reason to stay outside.
+            </p>
+            <div>
+              <p>
+                A Bower makes room for the intimate, inhabited life of a
+                landscape. Somewhere between the individual and the group,
+                ordinary experience and ceremony.
+              </p>
+              <a className="text-link" href={routes.contact}>
+                A place in mind? Contact Bower ↗
+              </a>
+            </div>
           </div>
-          <div>
-            <ol className="grid grid-cols-2 gap-x-6 border-t border-white/25 sm:grid-cols-5 lg:grid-cols-2">
-              {['Site', 'Geometry', 'Structure', 'Planting', 'Stewardship'].map((step, index) => (
-                <li key={step} className="border-b border-white/20 py-3 font-sans text-[8px] uppercase tracking-[0.14em] text-white/72 md:py-4 md:text-[9px]">
-                  <span className="mr-3 font-mono text-white/38">0{index + 1}</span>{step}
-                </li>
+        </section>
+
+        <section className="becoming" aria-labelledby="becoming-title">
+          <div className="becoming-heading">
+            <p className="kicker">03 / Time is part of the design</p>
+            <h2 id="becoming-title">
+              The garden
+              <br />
+              <em>makes it more.</em>
+            </h2>
+            <p>
+              Plants find a way through.
+              <br />
+              Light changes. Habitats form.
+              <br />
+              The room keeps becoming.
+            </p>
+          </div>
+          <div className="season-view">
+            <img
+              src={studySrc(seasons[season][0])}
+              srcSet={srcSetFor(studySrc(seasons[season][0]))}
+              sizes="(max-width: 767px) 100vw, 80vw"
+              alt={`${seasons[season][1]}, illustrative Bower growth study`}
+              loading="lazy"
+            />
+            <div
+              className="season-controls"
+              aria-label="Explore growth studies"
+            >
+              {seasons.map((s, i) => (
+                <button
+                  key={s[0]}
+                  aria-pressed={season === i}
+                  onClick={() => setSeason(i)}
+                >
+                  <span>0{i + 1}</span> {s[1]}
+                </button>
               ))}
-            </ol>
-            <a href={routes.process} className="mt-6 inline-block border-b border-white/55 pb-1 font-serifDisplay text-[16px] transition-colors hover:border-white hover:text-white/70 md:mt-9 md:text-[17px]">See how it is made →</a>
+            </div>
+            <p className="season-caption" aria-live="polite">
+              {seasons[season][2]}
+            </p>
+            <p className="study-disclaimer">
+              Illustrative growth studies. Planting, timing and coverage depend
+              on species, site and care.
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-16 md:py-[clamp(8rem,17vw,17rem)]">
-        <div className="mx-auto w-full max-w-[1080px]">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Founding commissions</p>
-          <h2 className="mt-8 max-w-[13ch] font-quote text-[clamp(3.4rem,7.6vw,8rem)] leading-[0.89] tracking-[-0.045em] md:mt-12">Three landscapes. By private commission.</h2>
-          <a href={routes.contact} className="mt-8 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)] transition-colors hover:border-black hover:text-black/55 md:mt-12">Enquire privately →</a>
-        </div>
-      </section>
+        <section className="bower-belief" id="how-it-works">
+          <p className="kicker">
+            The natural, made possible through the digital.
+          </p>
+          <h2>
+            Nature becomes
+            <br />
+            <em>one of the authors.</em>
+          </h2>
+          <div>
+            <p>
+              We do not use nature to make architecture look organic; we build
+              architecture that gives living systems agency in determining what
+              it becomes.
+            </p>
+            <p>
+              Bower is a building technology company developing a repeatable
+              system for geometrically unique timber buildings that grow into
+              their landscapes.
+            </p>
+          </div>
+        </section>
+        <section className="making-door">
+          <figure>
+            <img
+              src={studySrc("rib-to-arch-joint")}
+              srcSet={srcSetFor(studySrc("rib-to-arch-joint"))}
+              sizes="(max-width: 767px) 100vw, 80vw"
+              alt="Illustrative timber connection study with a round peg"
+              loading="lazy"
+            />
+            <figcaption>
+              Connection image study / not an issued fabrication detail
+            </figcaption>
+          </figure>
+          <div>
+            <p className="kicker">04 / Behind the living building</p>
+            <h2>
+              From possibility
+              <br />
+              <em>to the part.</em>
+            </h2>
+            <p>
+              Geometry, timber, connections and robotic making. See the system
+              we are developing to bring a Bower into the world.
+            </p>
+            <a className="text-link" href={routes.process}>
+              See how it is made ↗
+            </a>
+          </div>
+        </section>
+        <FoundingInvitation />
+        <Footer />
+      </main>
 
-      <Footer />
-    </main>
+      <dialog
+        ref={dialog}
+        className="scene-dialog"
+        aria-labelledby="study-title"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) dialog.current?.close();
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight")
+            setSelected((selected + 1) % studies.length);
+          if (e.key === "ArrowLeft")
+            setSelected((selected + studies.length - 1) % studies.length);
+        }}
+      >
+        <div className="scene-dialog-top">
+          <span>
+            Bower / Design study {String(selected + 1).padStart(2, "0")}
+          </span>
+          <button onClick={() => dialog.current?.close()} autoFocus>
+            Close ×
+          </button>
+        </div>
+        <img
+          src={studySrc(studies[selected][0])}
+          srcSet={srcSetFor(studySrc(studies[selected][0]))}
+          sizes="(max-width: 767px) 100vw, 80vw"
+          alt={studies[selected][2]}
+        />
+        <div className="scene-dialog-copy">
+          <div>
+            <h2 id="study-title">{studies[selected][1]}</h2>
+            <p>{studies[selected][2]}</p>
+          </div>
+          <a href={routes.contact}>Imagine a Bower on your land ↗</a>
+        </div>
+        <div className="scene-dialog-nav">
+          <button
+            onClick={() =>
+              setSelected((selected + studies.length - 1) % studies.length)
+            }
+          >
+            ← Previous
+          </button>
+          <span>Design study, not a completed building.</span>
+          <button onClick={() => setSelected((selected + 1) % studies.length)}>
+            Next →
+          </button>
+        </div>
+      </dialog>
+    </div>
   );
 }

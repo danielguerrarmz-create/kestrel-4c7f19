@@ -1,182 +1,239 @@
-import { useMobileLayout } from '../ui/useMobileLayout';
-import { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { routes } from '../routing';
-import { EditorialHeader } from '../ui/EditorialHeader';
-import { Footer } from '../ui/Footer';
-import { srcSetFor } from '../ui/responsiveImg';
-import { usePageSnap } from '../ui/usePageSnap';
-import { useReducedMotion } from '../ui/useReducedMotion';
-import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
+import { EditorialHeader } from "../ui/EditorialHeader";
+import { Footer } from "../ui/Footer";
+import { FoundingInvitation } from "../ui/FoundingInvitation";
+import { ProcessSpecimen } from "./ProcessSpecimen";
+import { srcSetFor } from "../ui/responsiveImg";
+import "./bower-direction.css";
 
+const study = (name: string) => `/assets/studies/${name}.webp`;
+const robotics = "/assets/projects/06-kuka-robotics/kuka-robotics";
 export const PROCESS_STEPS = [
-  { title: 'Conversation', body: 'Landscape, people, purpose.' },
-  { title: 'Founding Site Study', body: `Four weeks · ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses.` },
-  { title: 'Design', body: 'Geometry, structure, planting.' },
-  { title: 'Making', body: 'Fabrication and assembly.' },
-  { title: 'Stewardship', body: 'Training, growth, care.' },
-] as const;
-
-const GROWTH_STAGES = [
-  { year: '00', label: 'A lattice', src: '/assets/process/evolution/installation.webp', alt: 'Concept visualisation of a newly installed bare timber Bower' },
-  { year: '01', label: 'Leaves in the weave', src: '/assets/process/evolution/establishing.webp', alt: 'Concept visualisation of the same Bower as planting begins to establish' },
-  { year: '03', label: 'A room of blossom and eaves', src: '/assets/process/evolution/mature.webp', alt: 'Concept visualisation of the same Bower with mature planting through its lattice' },
-] as const;
-
-function GrowthEvolution() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const mobile = useMobileLayout();
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 55,
-    damping: 18,
-    mass: 0.25,
-    restDelta: 0.0005,
-  });
-  const installationOpacity = useTransform(smoothProgress, [0, 0.2, 0.48], [1, 1, 0]);
-  const establishingOpacity = useTransform(smoothProgress, [0.18, 0.42, 0.58, 0.82], [0, 1, 1, 0]);
-  const matureOpacity = useTransform(smoothProgress, [0.55, 0.84, 1], [0, 1, 1]);
-  const opacities = [installationOpacity, establishingOpacity, matureOpacity] as const;
-
-  if (reduced || mobile) {
-    return (
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center bg-[#11110e] px-gutter py-12 text-white" aria-label="The same Bower from year zero to year three">
-        <div className="mx-auto w-full max-w-canvas">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/45">Year zero to year three</p>
-          <h2 className="mt-5 max-w-[10ch] font-quote text-[clamp(3.2rem,6vw,7rem)] leading-[0.89] tracking-[-0.045em]">The garden continues the architecture.</h2>
-          <div className="mt-10 mobile-image-rail grid grid-cols-3 gap-2 md:gap-4">
-            {GROWTH_STAGES.map((stage) => (
-              <figure key={stage.src}>
-                <img src={stage.src} srcSet={srcSetFor(stage.src)} sizes="(min-width: 768px) 33vw, 88vw" alt={stage.alt} loading="eager" decoding="async" className="aspect-[3/2] w-full object-cover" />
-                <figcaption className="mt-3 font-mono text-[8px] uppercase tracking-[0.12em] text-white/50 md:text-[9px]">{stage.year} · {stage.label}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section ref={sectionRef} data-snap-section className="relative h-[320svh] snap-start bg-[#11110e]" aria-label="The same Bower from year zero to year three">
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#11110e] text-white">
-        {GROWTH_STAGES.map((stage, index) => (
-          <motion.img
-            key={stage.src}
-            src={stage.src}
-            srcSet={srcSetFor(stage.src)}
-            sizes="100vw"
-            alt={stage.alt}
-            loading="eager"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center will-change-[opacity] [transform:translateZ(0)]"
-            style={{ opacity: opacities[index] }}
-          />
-        ))}
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.48)_0%,rgba(8,8,6,0.02)_48%,rgba(8,8,6,0.62)_100%)]" />
-        <div className="absolute inset-0 mx-auto flex w-full max-w-canvas flex-col justify-between px-gutter py-[clamp(2rem,6svh,4rem)]">
-          <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/60">Year zero to year three</p>
-            <h2 className="mt-5 max-w-[10ch] font-quote text-[clamp(3.2rem,6vw,7rem)] leading-[0.89] tracking-[-0.045em] [text-shadow:0_1px_22px_rgba(0,0,0,0.45)]">The garden continues the architecture.</h2>
-          </div>
-          <div className="relative min-h-10 border-l border-white/35 pl-4 font-mono text-[9px] uppercase tracking-[0.16em] text-white/78">
-            {GROWTH_STAGES.map((stage, index) => (
-              <motion.p key={stage.label} aria-hidden className="absolute inset-y-0 left-4 flex items-center" style={{ opacity: opacities[index] }}>
-                {stage.year} · {stage.label}
-              </motion.p>
-            ))}
-            <span className="sr-only">The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</span>
-          </div>
-        </div>
-        <motion.div data-growth-progress aria-hidden className="absolute inset-x-0 bottom-0 h-px origin-left bg-white/55" style={{ scaleX: smoothProgress }} />
-      </div>
-    </section>
-  );
-}
+  {
+    title: "Read the landscape",
+    body: "Begin with people, light, terrain and the life already there. Establish the purpose of the Bower and the permissions the site needs.",
+  },
+  {
+    title: "Develop the system",
+    body: "Bring geometry, structural design, timber and planting into conversation. Resolve the proposal with specialist partners before committing to manufacture.",
+  },
+  {
+    title: "Prove the making",
+    body: "Test connections, material behaviour and machine operations. Prototype, measure and refine before producing a building’s components.",
+  },
+  {
+    title: "Assemble and establish",
+    body: "Plan transport, access, foundations and assembly together. Planting and long-term care are part of the commission from the beginning.",
+  },
+];
 
 export function ProcessPage() {
-  usePageSnap({ wheel: true });
-
   return (
-    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
+    <div className="bower-v2">
+      <EditorialHeader />
       <main>
-        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
-          <EditorialHeader />
-          <div className="mx-auto w-full max-w-canvas">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Making</p>
-            <h1 className="mt-10 max-w-[11ch] font-quote text-[clamp(4rem,10vw,10rem)] leading-[0.86] tracking-[-0.05em]">From landscape to Bower.</h1>
-            <p className="ml-auto mt-14 max-w-[23rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/48">The structure is finished once. The garden never is.</p>
-          </div>
-        </section>
-
-        <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(7rem,14vw,14rem)]">
-          <div className="mx-auto w-full max-w-canvas">
-            <p className="max-w-[36rem] font-serifDisplay text-[clamp(1.2rem,2.1vw,1.75rem)] leading-[1.55] text-black/52">
-              Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
+        <section className="process-opening">
+          <div>
+            <p className="kicker">
+              Process / Craft · Computation · Living systems
             </p>
-            <h2 className="ml-auto mt-[clamp(6rem,14vw,13rem)] max-w-[12ch] text-right font-quote text-[clamp(3.5rem,8vw,8.5rem)] leading-[0.88] tracking-[-0.05em]">
-              None of them finished. All of them alive.
-            </h2>
+            <h1>
+              The natural.
+              <br />
+              Made through
+              <br />
+              <em>the digital.</em>
+            </h1>
+            <p>
+              A unique building should not require us to invent how to build it
+              from the beginning, every time.
+            </p>
           </div>
+          <ProcessSpecimen />
         </section>
-
-        <section data-snap-section data-mobile-landscape aria-label="A flowering Bower in the landscape" className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e]">
-          <img
-            src="/assets/gallery/week-3/flowering-bower-morning-mist.webp"
-            srcSet={srcSetFor('/assets/gallery/week-3/flowering-bower-morning-mist.webp')}
-            sizes="100vw"
-            alt="Concept visualisation of a flowering timber Bower among stone walls in morning mist"
-            loading="eager"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center motion-safe:scale-[1.015] motion-safe:animate-[hero-drift_24s_ease-out_both]"
-          />
-          <p className="absolute bottom-6 left-gutter font-mono text-[8px] uppercase tracking-[0.16em] text-white/72 [text-shadow:0_1px_12px_rgba(0,0,0,0.72)] md:bottom-8 md:text-[9px]">A living room in the landscape · Concept visualisation</p>
+        <section className="process-principle">
+          <p className="kicker">
+            A repeatable system.
+            <br />
+            An unrepeatable place.
+          </p>
+          <p>
+            We are developing the connection between a landscape, a geometric
+            idea and the individual pieces of timber that make it real.
+          </p>
         </section>
-
-        <GrowthEvolution />
-
-        <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
-          <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+        <section className="making-chapter">
+          <div className="chapter-heading">
+            <p className="kicker">01 / Computation</p>
             <div>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">A disciplined route</p>
-              <h2 className="mt-8 max-w-[8ch] font-quote text-[clamp(3.3rem,7vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">Five acts of making.</h2>
-            </div>
-            <ol className="border-t border-black/18">
-              {PROCESS_STEPS.map((step, index) => (
-                <li key={step.title} className="grid grid-cols-[2rem_1fr] gap-4 border-b border-black/14 py-4 md:grid-cols-[3rem_1fr_1fr] md:py-5">
-                  <span className="font-mono text-[9px] text-black/32">0{index + 1}</span>
-                  <span className="font-serifDisplay text-[clamp(1.15rem,2vw,1.55rem)]">{step.title}</span>
-                  <span className="col-start-2 font-mono text-[8px] uppercase tracking-[0.13em] text-black/38 md:col-start-auto md:self-center md:text-[9px]">{step.body}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section data-snap-section className="min-h-[100svh] snap-start bg-floralWhite pt-[clamp(3.5rem,8svh,6rem)]">
-          <div className="mobile-photo-story relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
-            <img
-              src="/assets/gallery/week-3/landscape-room-at-dawn.webp"
-              srcSet={srcSetFor('/assets/gallery/week-3/landscape-room-at-dawn.webp')}
-              sizes="100vw"
-              alt="Concept visualisation of a flowering timber Bower overlooking a misted rural valley at dawn"
-              loading="eager"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-[54%_center]"
-            />
-            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.16)_0%,rgba(8,8,6,0.03)_40%,rgba(8,8,6,0.78)_100%)]" />
-            <p className="absolute right-gutter top-6 font-mono text-[8px] uppercase tracking-[0.16em] text-white/62 [text-shadow:0_1px_10px_rgba(0,0,0,0.65)] md:top-8 md:text-[9px]">Unbuilt concept visualisation</p>
-            <div className="relative mx-auto w-full max-w-canvas">
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/58">Founding commissions</p>
-              <h2 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.3rem,7vw,7.5rem)] leading-[0.89] tracking-[-0.045em]">Every landscape asks for a different answer.</h2>
-              <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)] transition-colors hover:border-white hover:text-white/70">Begin with a conversation →</a>
+              <h2>
+                Think in systems.
+                <br />
+                <em>Make for a place.</em>
+              </h2>
+              <p>
+                Computation lets us work with complex relationships: how a form
+                opens to a view, how its parts meet, where light enters and
+                where planting might take hold.
+              </p>
             </div>
           </div>
+          <div className="process-pair">
+            <figure>
+              <img
+                src={study("growth-01-installation")}
+                srcSet={srcSetFor(study("growth-01-installation"))}
+                sizes="(max-width:767px) 90vw,45vw"
+                alt="Design study of a bare timber Bower in a garden"
+                loading="lazy"
+              />
+              <figcaption>
+                Timber frame / design study, not a completed building
+              </figcaption>
+            </figure>
+            <div>
+              <h3>From the whole to the part.</h3>
+              <p>
+                The proposition is a family of buildings with shared rules,
+                rather than identical forms. Geometry must become identifiable
+                components, workable connections and a sequence of making. The
+                computational prototype above exposes that relationship;
+                engineering and fabrication validation remain ahead.
+              </p>
+            </div>
+          </div>
         </section>
+        <section className="making-chapter robotic-chapter">
+          <div className="chapter-heading">
+            <p className="kicker">02 / Robotic fabrication</p>
+            <div>
+              <h2>
+                A different way
+                <br />
+                <em>to make difference.</em>
+              </h2>
+              <p>
+                Robotic fabrication is central to the system we are developing.
+                The ambition is to translate geometric variation into controlled
+                machine operations, so complexity can be handled through a
+                repeatable process.
+              </p>
+            </div>
+          </div>
+          <figure>
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster={`${robotics}-robot-loop-poster.webp`}
+              aria-label="Prior KUKA robotics research footage"
+            >
+              <source src={`${robotics}-robot-loop.webm`} type="video/webm" />
+              <source src={`${robotics}-robot-loop.mp4`} type="video/mp4" />
+              Your browser does not support this video.
+            </video>
+            <figcaption>
+              Prior robotics research / accelerated silent footage. This is not
+              a Bower production line.
+            </figcaption>
+          </figure>
+          <div className="robotic-notes">
+            <div>
+              <h3>Geometry → instructions</h3>
+              <p>
+                Define each component and translate its geometry into proposed
+                cutting and machining operations.
+              </p>
+            </div>
+            <div>
+              <h3>Instructions → trials</h3>
+              <p>
+                Check tool access, fixturing, tolerances and timber behaviour
+                through physical trials with manufacturing partners.
+              </p>
+            </div>
+            <div>
+              <h3>Trials → repeatability</h3>
+              <p>
+                Use what is measured to refine the system. Precision, waste and
+                production time must be demonstrated, not assumed.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="making-chapter">
+          <div className="chapter-heading">
+            <p className="kicker">03 / Craft and connection</p>
+            <div>
+              <h2>
+                The intelligence
+                <br />
+                <em>is in the meeting.</em>
+              </h2>
+              <p>
+                A beautiful form is only the beginning. The connection brings
+                material, force, making and assembly into one small place.
+              </p>
+            </div>
+          </div>
+          <div className="process-pair">
+            <figure>
+              <img
+                src={study("rib-to-arch-joint")}
+                srcSet={srcSetFor(study("rib-to-arch-joint"))}
+                sizes="(max-width:767px) 90vw,45vw"
+                alt="Illustrative timber connection study with a round peg"
+                loading="lazy"
+              />
+              <figcaption>
+                Connection image study / not an issued fabrication detail
+              </figcaption>
+            </figure>
+            <div>
+              <h3>
+                Digital precision.
+                <br />
+                Material judgement.
+              </h3>
+              <p>
+                Robots do not remove the need for craft. Grain, moisture,
+                finish, weathering and the fit of a joint still demand
+                judgement. Structural review, connection testing and fabrication
+                trials will shape the details of the first permanent works.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="making-steps">
+          <p className="kicker">From a first conversation to a living place</p>
+          <h2>
+            How a commission
+            <br />
+            <em>takes shape.</em>
+          </h2>
+          <ol>
+            {PROCESS_STEPS.map((s, i) => (
+              <li key={s.title}>
+                <span>0{i + 1}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+        <figure className="wide-scene">
+          <img
+            src={study("growth-03-mature")}
+            srcSet={srcSetFor(study("growth-03-mature"))}
+            sizes="100vw"
+            alt="Illustrative study of planting growing through a mature Bower"
+            loading="lazy"
+          />
+          <figcaption>
+            The garden continues the architecture / illustrative growth study.
+            Planting, timing and coverage depend on species, site and care.
+          </figcaption>
+        </figure>
+        <FoundingInvitation />
       </main>
       <Footer />
     </div>

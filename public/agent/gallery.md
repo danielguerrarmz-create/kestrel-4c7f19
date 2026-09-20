@@ -8,13 +8,18 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
 # Works
 
 Eight concept studies
+Design studies, not completed buildings
 Scroll to enter
 
 ![Concept visualisation of a walk beneath planted timber lattice arches with a stone manor beyond](/assets/gallery/01-wisteria-walk.webp)
@@ -49,7 +54,11 @@ Scroll to enter
 
 08 · Inside the Bower
 
-[Bower](/)
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

@@ -136,7 +136,7 @@ export function PracticeEditorial() {
         <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
           <div className="mx-auto w-full max-w-[1080px]">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · Based in England · Working across Europe</p>
-            <h2 className="mt-10 max-w-[12ch] font-quote text-[clamp(3.6rem,8vw,8.4rem)] leading-[0.88] tracking-[-0.048em]">A design practice for living structures.</h2>
+            <h2 className="mt-10 max-w-[12ch] font-quote text-[clamp(3.6rem,8vw,8.4rem)] leading-[0.88] tracking-[-0.048em]">Building technology for living structures.</h2>
             <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Talk to Clay →</a>
           </div>
         </section>

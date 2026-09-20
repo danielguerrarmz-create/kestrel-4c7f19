@@ -8,61 +8,136 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-Making
+](/)
 
-# From landscape to Bower.
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
-The structure is finished once. The garden never is.
+Process / Craft · Computation · Living systems
 
-Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
+# The natural.
+Made through
+the digital.
 
-## None of them finished. All of them alive.
+A unique building should not require us to invent how to build it from the beginning, every time.
 
-![Concept visualisation of a flowering timber Bower among stone walls in morning mist](/assets/gallery/week-3/flowering-bower-morning-mist.webp)
+*Centreline geometry of a Bower computational prototype*
 
-A living room in the landscape · Concept visualisation
+Find the part ↗
 
-![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
+Computational prototype / centreline study. Not an engineered or production-ready design.
 
-![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
+A repeatable system.
+An unrepeatable place.
 
-![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
+We are developing the connection between a landscape, a geometric idea and the individual pieces of timber that make it real.
 
-Year zero to year three
+01 / Computation
 
-## The garden continues the architecture.
+## Think in systems.
+Make for a place.
 
-The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
+Computation lets us work with complex relationships: how a form opens to a view, how its parts meet, where light enters and where planting might take hold.
 
-A disciplined route
+![Design study of a bare timber Bower in a garden](/assets/studies/growth-01-installation.webp)
 
-## Five acts of making.
+Timber frame / design study, not a completed building
 
-- 01 Conversation Landscape, people, purpose.
+### From the whole to the part.
 
-- 02 Founding Site Study Four weeks · £45,000 GBP plus approved travel and project expenses.
+The proposition is a family of buildings with shared rules, rather than identical forms. Geometry must become identifiable components, workable connections and a sequence of making. The computational prototype above exposes that relationship; engineering and fabrication validation remain ahead.
 
-- 03 Design Geometry, structure, planting.
+02 / Robotic fabrication
 
-- 04 Making Fabrication and assembly.
+## A different way
+to make difference.
 
-- 05 Stewardship Training, growth, care.
+Robotic fabrication is central to the system we are developing. The ambition is to translate geometric variation into controlled machine operations, so complexity can be handled through a repeatable process.
 
-![Concept visualisation of a flowering timber Bower overlooking a misted rural valley at dawn](/assets/gallery/week-3/landscape-room-at-dawn.webp)
+Your browser does not support this video.
 
-Unbuilt concept visualisation
+Prior robotics research / accelerated silent footage. This is not a Bower production line.
 
-Founding commissions
+### Geometry → instructions
 
-## Every landscape asks for a different answer.
+Define each component and translate its geometry into proposed cutting and machining operations.
 
-[Begin with a conversation →](/contact)
+### Instructions → trials
 
-[Bower](/)
+Check tool access, fixturing, tolerances and timber behaviour through physical trials with manufacturing partners.
+
+### Trials → repeatability
+
+Use what is measured to refine the system. Precision, waste and production time must be demonstrated, not assumed.
+
+03 / Craft and connection
+
+## The intelligence
+is in the meeting.
+
+A beautiful form is only the beginning. The connection brings material, force, making and assembly into one small place.
+
+![Illustrative timber connection study with a round peg](/assets/studies/rib-to-arch-joint.webp)
+
+Connection image study / not an issued fabrication detail
+
+### Digital precision.
+Material judgement.
+
+Robots do not remove the need for craft. Grain, moisture, finish, weathering and the fit of a joint still demand judgement. Structural review, connection testing and fabrication trials will shape the details of the first permanent works.
+
+From a first conversation to a living place
+
+## How a commission
+takes shape.
+
+- 01
+
+### Read the landscape
+
+Begin with people, light, terrain and the life already there. Establish the purpose of the Bower and the permissions the site needs.
+
+- 02
+
+### Develop the system
+
+Bring geometry, structural design, timber and planting into conversation. Resolve the proposal with specialist partners before committing to manufacture.
+
+- 03
+
+### Prove the making
+
+Test connections, material behaviour and machine operations. Prototype, measure and refine before producing a building’s components.
+
+- 04
+
+### Assemble and establish
+
+Plan transport, access, foundations and assembly together. Planting and long-term care are part of the commission from the beginning.
+
+![Illustrative study of planting growing through a mature Bower](/assets/studies/growth-03-mature.webp)
+
+The garden continues the architecture / illustrative growth study. Planting, timing and coverage depend on species, site and care.
+
+Three founding commissions
+
+## Every Bower begins
+with a place.
+
+We are selecting three sites for the system’s founding commissions. Tell us about your landscape, and the life you imagine there.
+
+[Contact Bower ↗](/contact)
+
+Founded in 2026. Our computational and architectural proposition is developed; structural, manufacturing and delivery partnerships for the first permanent works are forming.
+
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 
