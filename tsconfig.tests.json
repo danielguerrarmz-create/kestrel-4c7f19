@@ -17,6 +17,6 @@
   "compilerOptions": {
     "types": ["@react-three/fiber", "vite/client", "node"]
   },
-  "include": ["src/**/*.test.ts"],
+  "include": ["src/**/*.test.ts", "tests/**/*.test.ts", "api/**/*.ts"],
   "exclude": []
 }

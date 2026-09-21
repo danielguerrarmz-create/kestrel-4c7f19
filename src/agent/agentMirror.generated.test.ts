@@ -75,13 +75,14 @@ describe('the agent mirror is fresh', () => {
 
     // The expanded about: the founders and the work.
     const practice = practiceMirror();
-    expect(practice).toContain('The obsession is old.');
+    expect(practice).toContain('A shared curiosity.');
     expect(practice).toContain('Clay Seifert');
     expect(practice).toContain('Daniel Guerra');
     const gallery = galleryMirror();
     expect(gallery.toLowerCase()).toContain('concept studies');
-    // The reworked gallery is deliberately held to eight immersive plates.
-    expect(gallery.match(/!\[[^\]]+\]\(\/assets\/gallery\/[^)]+\.webp\)/g)?.length).toBe(8);
+    // Eight unique studies appear in both the immersive sequence and collection.
+    expect(new Set(gallery.match(/\/assets\/gallery\/[^)]+\.webp/g)).size).toBe(8);
+    expect(gallery).toContain('All eight design studies.');
     expect(llmsTxt()).toContain('/agent/gallery.md');
     // The questions page is the one an agent asked "what does a Bower cost" most needs, so its
     // load-bearing facts are asserted on the FRESH render: the price, the planning position, and
@@ -130,7 +131,8 @@ describe('the agent mirror is fresh', () => {
     // shelved page from rotting; the second is what stops llms.txt handing out a dead link.
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(llmsTxt()).not.toContain('commissions.md');
-    expect(processMirror()).toContain('Robotic fabrication');
+    expect(processMirror()).toContain('From model to workshop.');
+    expect(processMirror()).not.toContain('AI-generated material illustration');
     // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in
     // the reader's own terms, not a restatement of the button that brought them here.
     expect(contactMirror()).toContain('Tell us about your landscape.');

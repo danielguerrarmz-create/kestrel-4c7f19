@@ -1,0 +1,63 @@
+/* Shared geometry prevents the header moving between page themes. */
+.editorial-header {
+  padding: 32px var(--gutter);
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.5;
+}
+.editorial-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  max-width: var(--measure-canvas);
+  margin-inline: auto;
+}
+.editorial-header-logo {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 148px;
+  min-height: 44px;
+}
+.editorial-header-logo img {
+  display: block;
+  width: 148px;
+  height: auto;
+}
+.editorial-header nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.editorial-header nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.editorial-header nav a:last-child {
+  color: inherit;
+  border-bottom: 1px solid currentColor;
+}
+@media (max-width: 767px) {
+  .editorial-header {
+    padding: max(20px, env(safe-area-inset-top)) var(--gutter) 12px;
+  }
+  .editorial-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .editorial-header nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 10px;
+  }
+}

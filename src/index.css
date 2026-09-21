@@ -65,6 +65,7 @@ body,
 /* Anything that can be scrolled to lands BELOW the fixed header, never tucked
    under it. Covers both the pipeline index's scrollIntoView and a deep link. */
 html {
+  scrollbar-gutter: stable;
   scroll-padding-top: calc(var(--header-h) + 1rem);
 }
 [id] {
@@ -305,10 +306,6 @@ html.adaptive-cursor-active input[type='range'] {
   .editorial-page .font-mono, .editorial-page li.font-sans { font-size: 12px; line-height: 1.6; letter-spacing: .09em; }
   .editorial-page [class*="text-black/"] { color: rgb(0 0 0 / .65); }
   .editorial-page [class*="text-white/"] { color: rgb(255 255 255 / .8); }
-  .editorial-header { padding-top: max(20px, env(safe-area-inset-top)); padding-bottom: 12px; }
-  .editorial-header > div { gap: 10px; }
-  .editorial-header nav { font-size: 12px; gap: 8px; letter-spacing: .09em; }
-  .editorial-header a { min-height: 44px; display: flex; align-items: center; }
   .editorial-page section[data-snap-section]:not(.home-hero):not(.home-landscape):not(.mobile-gallery-plate) { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
   .editorial-page main > section:first-child:not(.home-hero):not(.gallery-intro) { padding-top: 190px; }
   .editorial-page .font-quote { font-size: clamp(44px, 12vw, 76px); line-height: .98; }

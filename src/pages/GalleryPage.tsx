@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
-import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 
 import { useMobileLayout } from '../ui/useMobileLayout';
 import { ImageViewer } from '../ui/ImageViewer';
+import './bower-direction.css';
 
 const G = '/assets/gallery';
 
@@ -49,64 +49,49 @@ export const GALLERY_IMAGES = [
   },
 ] as const;
 
-function ExpandingPlate({ image, eager }: { image: (typeof GALLERY_IMAGES)[number]; eager: boolean }) {
+function ExpandingPlate({ image, eager, opening }: { image: (typeof GALLERY_IMAGES)[number]; eager: boolean; opening: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const [viewport, setViewport] = useState({ width: 1280, height: 720 });
-  useEffect(() => {
-    const measure = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, []);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const startWidth = Math.min(viewport.width * 0.72, 620);
-  const width = useTransform(scrollYProgress, [0, 0.72], [startWidth, viewport.width]);
-  const height = useTransform(scrollYProgress, [0, 0.72], [startWidth / 1.833, viewport.height]);
-  const radius = useTransform(scrollYProgress, [0, 0.72], ['2px', '0px']);
-  const captionOpacity = useTransform(scrollYProgress, [0, 0.3, 0.52], [1, 1, 0]);
-
+  const { scrollY } = useScroll();
+  const progress = useTransform(scrollY, () => {
+    const bounds = ref.current?.getBoundingClientRect();
+    if (!bounds || typeof window === 'undefined') return 0;
+    return Math.max(0, Math.min(1, (window.innerHeight - bounds.top) / bounds.height));
+  });
+  // A feathered edge grows beyond the frame; image detail itself stays sharp.
+  const radiusX = useTransform(progress, [0, 0.45, 0.9], [32, 40, 185]);
+  const radiusY = useTransform(progress, [0, 0.45, 0.9], [48, 60, 245]);
+  const maskImage = useMotionTemplate`radial-gradient(ellipse ${radiusX}% ${radiusY}% at 50% 100%, #000 58%, transparent 100%)`;
+  const scale = useTransform(progress, [0, 0.8], [1.04, 1]);
   return (
-    <section ref={ref} data-snap-section aria-label={`${image.n} ${image.title}`} className="relative h-[190svh] snap-start bg-floralWhite">
-      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden bg-floralWhite">
-        <motion.figure
-          style={reduced ? undefined : { width, height, borderRadius: radius }}
-          className="relative h-[100svh] w-screen overflow-hidden bg-[#efefed]"
-        >
-          <img
-            src={image.src}
-            srcSet={srcSetFor(image.src)}
-            sizes="100vw"
-            alt={image.alt}
-            loading={eager ? 'eager' : 'lazy'}
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-[1800ms] ease-out hover:scale-[1.012] motion-reduce:transition-none"
+    <section ref={ref} aria-label={`${image.n} ${image.title}`} className={`gallery-growth-plate${reduced || opening ? ' is-still' : ''}`}>
+      <div className="gallery-growth-stage">
+        <motion.figure style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }} className="gallery-growth-image">
+          <motion.img
+            style={reduced || opening ? undefined : { scale }}
+            src={image.src} srcSet={srcSetFor(image.src)} sizes="100vw"
+            alt={image.alt} loading={eager ? 'eager' : 'lazy'} decoding="async"
           />
         </motion.figure>
-        <motion.p
-          style={reduced ? undefined : { opacity: captionOpacity }}
-          className="pointer-events-none absolute bottom-7 left-gutter z-10 font-mono text-[8px] uppercase tracking-[0.17em] text-black/48 mix-blend-difference invert md:bottom-10 md:text-[9px]"
-        >
-          {image.n} · {image.title}
-        </motion.p>
+        <p className="gallery-plate-label">{image.title}</p>
       </div>
     </section>
   );
 }
 
 export function GalleryPage() {
-  usePageSnap(GALLERY_SNAP);
   const mobile = useMobileLayout();
+  const reduced = useReducedMotion();
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
     <div className="gallery-page editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
-        <section data-snap-section className="gallery-intro relative flex min-h-[100svh] snap-start items-center px-gutter">
-          <EditorialHeader />
+        <section data-snap-section className="gallery-intro relative flex min-h-[240px] items-end px-gutter pb-10 pt-32">
+          <EditorialHeader logoSrc="/assets/brand/bower-logo-evergreen-horizontal-transparent.png" />
           <div className="mx-auto flex w-full max-w-canvas items-end justify-between gap-8">
-            <h1 className="font-quote text-[clamp(4rem,12vw,12rem)] leading-[0.82] tracking-[-0.055em]">Works</h1>
-            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />Design studies, not completed buildings<br />{mobile ? 'Tap a work to explore' : 'Scroll to enter'}</p>
+            <h1 className="font-quote text-[clamp(2.8rem,6vw,5rem)] leading-[0.82] tracking-[-0.055em]">Works</h1>
+            <p className="pb-2 text-right font-mono text-[8px] uppercase tracking-[0.18em] text-black/38 md:text-[9px]">Eight concept studies<br />Design studies, not completed buildings<br />{mobile ? 'Tap a work to explore' : 'Scroll to explore'}</p>
           </div>
         </section>
 
@@ -118,7 +103,26 @@ export function GalleryPage() {
             </button>
             <div className="mobile-gallery-caption"><span>{image.n}</span><h2>{image.title}</h2><span>View +</span></div>
           </section>
-        ) : <ExpandingPlate key={image.src} image={image} eager={index < 2} />)}
+        ) : <ExpandingPlate key={image.src} image={image} eager={index < 2} opening={index === 0} />)}
+        <section className="gallery-collection" aria-labelledby="collection-title">
+          <div className="gallery-collection-heading">
+            <h2 id="collection-title">A world of Bowers.</h2>
+            <p>All eight design studies. Select a view to explore.</p>
+          </div>
+          <motion.div className="gallery-collection-grid"
+            initial={reduced ? false : "above"} whileInView="settled"
+            viewport={{ once: true, amount: 0.12 }}
+            variants={{ above: {}, settled: { transition: { staggerChildren: 0.08 } } }}>
+            {GALLERY_IMAGES.map((image, index) => (
+              <motion.button key={image.src} onClick={() => setSelected(index)}
+                aria-label={`Open study ${image.n}: ${image.title}`}
+                variants={{ above: { opacity: 0, y: mobile ? -45 : -160, scale: 0.92, rotate: index % 2 ? 3 : -3 }, settled: { opacity: 1, y: 0, scale: 1, rotate: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } }}>
+                <img src={image.src} srcSet={srcSetFor(image.src)} sizes="(max-width: 600px) 88vw, (max-width: 1000px) 44vw, 21vw" alt={image.alt} loading="lazy" />
+                <span><span>{image.title}</span><span aria-hidden="true">↗</span></span>
+              </motion.button>
+            ))}
+          </motion.div>
+        </section>
         {selected !== null && <ImageViewer images={GALLERY_IMAGES} initial={selected} onClose={() => setSelected(null)} />}
       </main>
       <Footer />

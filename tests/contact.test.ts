@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { FORM_INBOX, FORM_SENDER, buildMessage, deliver, normalizeEmail } from './contact';
+import handler, { normalizePayload, FORM_INBOX, FORM_SENDER, buildMessage, deliver, normalizeEmail } from '../api/contact';
 import { FORM_INBOX as APP_FORM_INBOX, CONTACT } from '../src/data/config';
 
 /**
@@ -213,5 +213,29 @@ describe('the endpoint agrees with the app it serves', () => {
     const re = new RegExp('^' + rewrite.source + '$');
     expect(re.test('/api/contact'), '/api/contact would be served the SPA shell').toBe(false);
     expect(re.test('/houses'), '/houses must still reach the SPA').toBe(true);
+  });
+});
+
+
+describe('contact security boundaries', () => {
+  it.each([null, [], 4, { email: 'a@b.com', name: {} }, { email: 'a@b.com', name: 'x'.repeat(121) }, { email: 'a@b.com', name: 'Name\r\nBcc: other@example.com' }, { email: 'a@b.com', programme: 'x'.repeat(4001) }, { email: 'a@b.com', website: 'spam' }])('rejects malformed or oversized fields: %j', async (payload) => {
+    expect(normalizePayload(payload)).toBeNull();
+    const result = await deliver(payload, KEY, NOW, forbiddenFetch);
+    expect(result.ok).toBe(false);
+  });
+  it('allows a plain-text multiline enquiry and ignores unrecognized recipient fields', () => {
+    expect(normalizePayload({ email: ' a@b.com ', programme: 'A garden\nwith shelter', to: 'attacker@example.com' })).toEqual({ email: 'a@b.com', programme: 'A garden\nwith shelter' });
+  });
+  it.each([
+    [{ method: 'POST', headers: { origin: 'https://evil.example', 'content-type': 'application/json' }, body: { email: 'a@b.com' } }, 403],
+    [{ method: 'POST', headers: { 'content-type': 'text/plain' }, body: '{}' }, 415],
+    [{ method: 'POST', headers: { 'content-type': 'application/json' }, body: 'x'.repeat(16385) }, 413],
+    [{ method: 'POST', headers: { 'content-type': 'application/json' }, body: '{' }, 400],
+    [{ method: 'DELETE' }, 405],
+  ])('rejects abusive requests before contacting the provider', async (req, expected) => {
+    let status = 0;
+    const res = { status(code: number) { status = code; return res; }, json() {} };
+    await handler(req, res);
+    expect(status).toBe(expected);
   });
 });

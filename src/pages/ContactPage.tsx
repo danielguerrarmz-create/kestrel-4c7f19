@@ -84,15 +84,15 @@ export function ContactPage() {
     'w-full cursor-pointer appearance-none border-0 border-b border-black/28 bg-transparent px-0 py-2 pr-6 font-serifDisplay text-[18px] text-black outline-none transition-colors focus:border-black';
 
   return (
-    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
+    <div className="contact-page editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
           <EditorialHeader tone="white" />
-          <p className="absolute right-gutter top-36 z-10 max-w-[16rem] text-right font-sans text-xs leading-relaxed text-white [text-shadow:0_1px_8px_#000] md:top-24">Design study, not a completed building.</p>
+          <p className="absolute right-gutter top-36 z-10 max-w-[16rem] text-right font-sans text-xs leading-relaxed text-white [text-shadow:0_1px_8px_#000] md:top-24">Design study.</p>
           <img
             src="/assets/gallery/02-garden-pavilion.webp"
             srcSet={srcSetFor('/assets/gallery/02-garden-pavilion.webp')}
-            sizes="100vw"
+            sizes="(max-width: 767px) 120svh, 100vw"
             alt="Concept visualisation of a timber Bower within a mature walled garden"
             loading="eager"
             decoding="async"
@@ -161,15 +161,16 @@ export function ContactPage() {
             {outcome === 'delivered' ? (
               <p className="max-w-[28rem] font-quote text-[clamp(2.6rem,5vw,5rem)] leading-[0.95]">Thank you. Your note has reached us.</p>
             ) : (
-              <form onSubmit={onSubmit} className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
+              <form data-ph-no-capture onSubmit={onSubmit} className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
+                <label hidden aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
                 {/* ORGANISATION REMOVED 2026-09-03 (Clay). It also leaves `ContactPayload` and the
                     notification body in `api/contact.ts`, and the collected-details list on
                     /privacy — a privacy notice that names a field the form no longer has is a
                     statement about data handling that is simply untrue. Four fields now sit as two
                     clean rows above the message. */}
-                <label className={label}>Name<input className={field} name="name" autoComplete="name" /></label>
-                <label className={label}>Project location and country<input className={field} name="location" autoComplete="country-name" /></label>
-                <label className={label}>Email<input className={field} name="email" type="email" required autoComplete="email" /></label>
+                <label className={label}>Name<input className={field} name="name" maxLength={120} autoComplete="name" /></label>
+                <label className={label}>Project location and country<input className={field} name="location" maxLength={200} autoComplete="country-name" /></label>
+                <label className={label}>Email<input className={field} name="email" type="email" maxLength={254} required autoComplete="email" /></label>
                 {/* A SELECT, NOT A TEXT BOX (2026-09-03, Clay). Free text here produced answers a
                     scheduler cannot use ("CET", "GMT+1", "same as you"), and asked a patron to
                     name their own offset, which nobody knows without checking. The options are
@@ -193,7 +194,7 @@ export function ContactPage() {
                     <span aria-hidden className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[10px] text-black/40">▾</span>
                   </span>
                 </label>
-                <label className={`sm:col-span-2 ${label}`}>What might happen in the Bower?<textarea className={`${field} min-h-[5rem] resize-y`} name="programme" /></label>
+                <label className={`sm:col-span-2 ${label}`}>What might happen in the Bower?<textarea className={`${field} min-h-[5rem] resize-y`} name="programme" maxLength={4000} /></label>
                 <div className="sm:col-span-2">
                   <button type="submit" disabled={outcome === 'sending'} className="border-b border-black/45 pb-1 font-serifDisplay text-[19px] transition-opacity hover:opacity-55 disabled:opacity-35">
                     {outcome === 'sending' ? 'Sending' : 'Send your note →'}

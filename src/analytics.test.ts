@@ -148,8 +148,8 @@ describe('what posthog is told a pageview is', () => {
     // `location`. Left alone, `/wp-login.php` opens a row while actually being the home page —
     // the identical failure `route`/`path` exists to prevent on the Vercel side.
     expect(posthogSource).toMatch(/\$pathname: route/);
-    // The real URL still has to survive somewhere, or a junk hit becomes uninvestigable.
-    expect(posthogSource).toMatch(/\$current_url: window\.location\.href/);
+    // Queries and fragments may contain private data and must not be sent.
+    expect(posthogSource).toMatch(/\$current_url: window\.location\.origin \+ route/);
   });
 
   it('turns automatic pageview capture OFF, so navigations are not counted twice', () => {

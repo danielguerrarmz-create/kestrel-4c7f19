@@ -16,122 +16,123 @@
 
 [Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
-Process / Craft · Computation · Living systems
+![Close-up design study of timber grain and a pegged connection](/assets/gallery/favorites/timber-joinery-detail.webp)
 
-# The natural.
-Made through
-the digital.
+# Making
+a Bower.
 
-A unique building should not require us to invent how to build it from the beginning, every time.
+Timber connection study
 
-*Centreline geometry of a Bower computational prototype*
+## First, the place.
 
-Find the part ↗
+Before drawing a structure, we look at how you want to use it, what already grows there and what the landscape needs.
 
-Computational prototype / centreline study. Not an engineered or production-ready design.
+Sun, views, access and ground conditions help shape the brief.
 
-A repeatable system.
-An unrepeatable place.
+![Garden design study used to illustrate sunlight, movement and ground considerations](/assets/studies/growth-01-installation.webp)
 
-We are developing the connection between a landscape, a geometric idea and the individual pieces of timber that make it real.
+Illustrative site study
 
-01 / Computation
+Sun & shelter
 
-## Think in systems.
-Make for a place.
+Views & movement
 
-Computation lets us work with complex relationships: how a form opens to a view, how its parts meet, where light enters and where planting might take hold.
+Ground & planting
 
-![Design study of a bare timber Bower in a garden](/assets/studies/growth-01-installation.webp)
+Follow the light through the day. Decide where a canopy should shade, open or shelter, and which plants will thrive there.
 
-Timber frame / design study, not a completed building
+What we establish on site
 
-### From the whole to the part.
+## Drawing the form.
 
-The proposition is a family of buildings with shared rules, rather than identical forms. Geometry must become identifiable components, workable connections and a sequence of making. The computational prototype above exposes that relationship; engineering and fabrication validation remain ahead.
+A low canopy can make a room in a garden. A taller opening can frame a view or welcome a gathering.
 
-02 / Robotic fabrication
+We explore the footprint, height and openings together. Bower Engine carries those choices into the geometry of the frame and its individual timber pieces.
 
-## A different way
-to make difference.
+How the model responds
 
-Robotic fabrication is central to the system we are developing. The ambition is to translate geometric variation into controlled machine operations, so complexity can be handled through a repeatable process.
+![Design study of an open timber canopy shaped around a garden](/assets/studies/swept-garden-canopy.webp)
 
-Your browser does not support this video.
+Form study
 
-Prior robotics research / accelerated silent footage. This is not a Bower production line.
+### Change the size.
+Recalculate the parts.
 
-### Geometry → instructions
+These three studies come from Bower Engine. Choose a footprint to see its timber schedule update.
 
-Define each component and translate its geometry into proposed cutting and machining operations.
+12 m²
 
-### Instructions → trials
+15 m²
 
-Check tool access, fixturing, tolerances and timber behaviour through physical trials with manufacturing partners.
+18 m²
 
-### Trials → repeatability
+Timber pieces
 
-Use what is measured to refine the system. Precision, waste and production time must be demonstrated, not assumed.
+125
 
-03 / Craft and connection
+Total timber length
 
-## The intelligence
-is in the meeting.
+122.2 m
 
-A beautiful form is only the beginning. The connection brings material, force, making and assembly into one small place.
+Precomputed engine studies. Same height, spacing and joint family. Engineering and fabrication review remain ahead.
 
-![Illustrative timber connection study with a round peg](/assets/studies/rib-to-arch-joint.webp)
+*Eight sample timber lengths from the 15 square metre engine study*
 
-Connection image study / not an issued fabrication detail
+Sample piece lengths from the model, not machining profiles.
 
-### Digital precision.
-Material judgement.
+Joint detail Image to come
 
-Robots do not remove the need for craft. Grain, moisture, finish, weathering and the fit of a joint still demand judgement. Structural review, connection testing and fabrication trials will shape the details of the first permanent works.
+## Working out
+the meeting.
 
-From a first conversation to a living place
+Each piece needs a place, an angle and a connection. Those meetings are resolved alongside the overall form.
 
-## How a commission
-takes shape.
+Timber, metalwork and planting supports have different jobs. We develop the details with structural and fabrication partners, then test how they fit and weather.
 
-- 01
+## From model to workshop.
 
-### Read the landscape
+Piece lengths, profiles and connection details become the starting point for fabrication. Trial cuts and physical mock-ups check what a model cannot: tool access, fit, grain and finish.
 
-Begin with people, light, terrain and the life already there. Establish the purpose of the Bower and the permissions the site needs.
+Bower fabrication film
 
-- 02
+Cutting, connection trials and workshop assemblyVideo to come
 
-### Develop the system
+The engine groups timber pieces and studies how they fit into stock lengths and sheets. The fabricator develops the machine operations and checks the results through trials.
 
-Bring geometry, structural design, timber and planting into conversation. Resolve the proposal with specialist partners before committing to manufacture.
+From a schedule to machine instructions
 
-- 03
+## Putting it together.
 
-### Prove the making
+Assembly is planned before the pieces leave the workshop. Ground conditions, delivery access and the order of installation belong in the same conversation.
 
-Test connections, material behaviour and machine operations. Prototype, measure and refine before producing a building’s components.
+Bower assembly film
 
-- 04
+Video to come
 
-### Assemble and establish
+## A structure for growth.
 
-Plan transport, access, foundations and assembly together. Planting and long-term care are part of the commission from the beginning.
+The timber gives the plants a framework. Planting brings shade, seasonal change and a different character over time.
 
-![Illustrative study of planting growing through a mature Bower](/assets/studies/growth-03-mature.webp)
+Species, growing conditions and ongoing care are considered from the first design conversations.
 
-The garden continues the architecture / illustrative growth study. Planting, timing and coverage depend on species, site and care.
+![Frame planting design study](/assets/studies/growth-01-installation.webp)
 
-Three founding commissions
+Illustrative growth sequence. Timing and coverage depend on species, site and care.
 
-## Every Bower begins
-with a place.
+Frame
 
-We are selecting three sites for the system’s founding commissions. Tell us about your landscape, and the life you imagine there.
+Establishing
 
-[Contact Bower ↗](/contact)
+Maturing
 
-Founded in 2026. Our computational and architectural proposition is developed; structural, manufacturing and delivery partnerships for the first permanent works are forming.
+Prepare the planting beds and support system alongside the timber frame.
+
+## Tell us about
+your place.
+
+[Start a conversation](/contact)
+
+Structural, manufacturing and delivery partnerships for the first permanent works are forming.
 
 [
 

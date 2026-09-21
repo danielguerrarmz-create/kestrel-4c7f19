@@ -14,7 +14,7 @@
 
 ](/)
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
 # Bower
 

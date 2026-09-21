@@ -26,7 +26,7 @@
  *
  * Images are REAL, imported from Daniel's portfolio (see about/projects.ts).
  */
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SplashHeader } from './splash/SplashHeader';
 import { Footer, COMPANY } from '../ui/Footer';
@@ -35,7 +35,6 @@ import { OculusMark } from '../ui/OculusMark';
 import { srcSetFor, SIZES } from '../ui/responsiveImg';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { useAutoplayVideo } from './about/useAutoplayVideo';
-import { packWall } from './about/pack';
 import {
   PROJECTS,
   TEAM,
@@ -365,7 +364,7 @@ function ProjectImg({
   const sizes = srcSet ? SIZES.galleryPlate : undefined;
   const img = onOpen ? (
     <motion.img
-      layoutId={`shot-${image.src}`}
+      layoutId={brick ? undefined : `shot-${image.src}`}
       src={image.src}
       srcSet={srcSet}
       sizes={sizes}
@@ -795,128 +794,27 @@ function DownloadGlyph() {
  *  neither, so no empty label ever shows. Olive stays reserved for the one lesson pill, so it isn't
  *  diluted by a second use here. */
 function Recognition({ project, className = '' }: { project: Project; className?: string }) {
-  const { paper, awards } = project;
-  if (!(awards && awards.length > 0) && !paper) return null;
-  return (
-    <div className={className}>
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkBlack/40">
-        Awards and publications
-      </p>
-      {awards && awards.length > 0 && (
-        <ul className="mt-1.5 space-y-0.5">
-          {awards.map((award) => (
-            <li key={award} className="font-serifDisplay text-[14px] leading-snug text-inkBlack/75">
-              {award}
-            </li>
-          ))}
-        </ul>
-      )}
-      {paper?.title && (
-        <p className="mt-1.5 font-serifDisplay text-[14px] italic leading-snug text-inkBlack/75">
-          {paper.title}
-        </p>
-      )}
-      {paper && (
-        <p className="mt-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/55">
-          {paper.venue} · {paper.authors}
-        </p>
-      )}
-      {paper?.pdf && (
-        <a
-          href={paper.pdf}
-          download
-          className="group mt-3 inline-flex items-center gap-2.5 border border-inkBlack/25 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-inkBlack transition-colors hover:border-accentOlive hover:text-accentOlive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inkBlack [@media(pointer:coarse)]:min-h-[44px]"
-        >
-          <DownloadGlyph />
-          Read the paper
-          <span className="text-inkBlack/40 group-hover:text-accentOlive/70">{paper.pdfSize}</span>
-        </a>
-      )}
-    </div>
-  );
+  const { paper, awards, collaborators } = project;
+  return <div className={`project-recognition ${className}`}>
+    <div className="recognition-awards">{!!awards?.length && <><p className="recognition-eyebrow">Awards</p>{awards.map(award=><p key={award}>{award}</p>)}</>}</div>
+    <div className="recognition-publication">{paper && <>
+      <p className="recognition-eyebrow">Publication</p>
+      {paper.title && <p className="recognition-title">{paper.title}</p>}
+      <p>{paper.venue}</p>
+      <p className="recognition-authors">{paper.authors}</p>
+    </>}</div>
+    <div className="recognition-collaborators">{collaborators && <p><span className="recognition-eyebrow">Collaborators</span> {collaborators}</p>}</div>
+    <div className="project-paper-action">{paper?.pdf && <a href={paper.pdf} download><DownloadGlyph/>Read paper <span>{paper.pdfSize}</span></a>}</div>
+  </div>;
 }
 
-/** The lesson, as a filled/bordered pill. No divider rule — the chip itself sets it apart. */
-function LessonPill({ project }: { project: Project }) {
-  return (
-    <div className="inline-flex max-w-full flex-col gap-1 rounded-2xl border border-accentOlive/35 bg-accentOlive/[0.07] px-4 py-3">
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accentOlive">
-        What we learned
-      </span>
-      <span className="font-serifDisplay text-[clamp(1rem,1.2vw,1.2rem)] leading-snug text-inkBlack">
-        {project.learned}
-      </span>
-    </div>
-  );
-}
-
-/**
- * THE PROJECT INFORMATION BAND — the bottom row of the desktop detail (2026-07-16, round 2).
- *
- * Daniel: "What if we switch them to rows instead where the main images of the projects show up at
- * the top... and have the project information at the bottom". So the information reads ACROSS, under
- * the picture rather than beside it: (1) title · credit · description, (2) awards and publications ·
- * collaborators, (3) the lesson.
- *
- * THE COLUMN SPLIT IS A HEIGHT BUDGET, NOT A STYLE CHOICE, and it is counter-intuitive enough to be
- * worth stating: a grid row is as tall as its TALLEST column, and this band's height comes straight
- * out of the hero above it. So the split has to BALANCE the stacks, and there are two ways to get it
- * wrong, both of which shipped in this file today before this comment did:
- *   - Stacking description AND recognition in one column (3 cols) made that column 319px on Synthetic
- *     Vision and squeezed the hero to 254px at 875 wide — a 3.4:1 letterbox. The same "wrong aspect"
- *     complaint that this whole rework is fixing, arriving from the other direction.
- *   - Splitting them apart into FOUR columns made it WORSE, not better (465px on Robots as
- *     Instruments): narrower columns wrap more, so every column grows taller at once. More columns
- *     does not mean a shorter band.
- * What works is three columns with the description paired with the SHORT thing (the title) and the
- * recognition list paired with the other short thing (collaborators): two stacks of ~195 and ~180
- * instead of one of 319. The measure lands near 40ch, which is a real reading measure.
- *
- * The band is NOT capped and NOT scrollable. An earlier cut put `maxHeight` + `overflow-y-auto` here
- * to protect the hero's height, and it silently hid the bottom of seven projects' awards and
- * collaborators (up to 61px of it) behind a scrollbar nobody would find in a band this short. The
- * band takes the height it needs; the hero absorbs the difference down to its floor.
- *
- * ---
- *
- * THE DIVIDER NEVER MOVES (round 10, item 7), AND THE BAND IS WHAT MOVES IT. Daniel: the line must
- * sit at the same place on every project, only images above it, only text below.
- *
- * THE BRIEF'S PREMISE WAS INVERTED, and the measurement is what settled it. The media region does not
- * push the divider down — the media region is the REMAINDER (`flex-1`), the band is `shrink-0`, and
- * so `dividerY = detail.bottom − band.height`. The frame itself never moved: measured at 1440x900,
- * `detailTop`/`detailBot` are identical on all twelve. The band was the only variable, and every
- * divider position was an exact multiple of 20.6px — one line of `text-[15px] leading-snug`. The
- * divider's y was literally "how many lines the tallest column wraps to". So no hero change could
- * ever have fixed this, and cropping heroes to chase it would have been the fake fix the brief warns
- * about.
- *
- * ARCHIPEDIA IS NOT THE MAX — it is 4th of 7 distinct values, which is the trap. Pinning the band at
- * Archipedia's 228.4 would have cut 73.8px of real text off Hydraulic Commons and 71.1px off Robots,
- * and capping with a scrollbar is the thing already tried and reverted (above). Put to Daniel with
- * those numbers, he ruled: PIN AT THE LONGEST, LOSE NO TEXT, and accepted explicitly that Archipedia's
- * own line rises ~74px from where he had called it correct.
- *
- * HOW IT IS PINNED, AND WHY NOT `min-h-[302px]`: 302.1 is a MEASUREMENT AT ONE VIEWPORT. The detail
- * column's width changes with the window, text re-wraps, and the tallest band stops being 302 —
- * so a hardcoded floor would pin the divider at 1440x900 and let it drift everywhere else, which is
- * this page's most-repeated bug ("the fix is never a better number") wearing a ruling as cover.
- * Instead EVERY project's band is rendered into the SAME grid cell, and the inactive ones are
- * `invisible`. A grid row is as tall as its tallest child, so the row IS the longest band, measured
- * by the browser, at whatever width it currently is. No constant to go stale.
- *
- * `visibility: hidden` rather than `display: none` or unmounting, and the distinction is the whole
- * trick: a `hidden` element still occupies its grid cell (which is what holds the height) while being
- * removed from the accessibility tree AND the tab order, so the twelve shadow bands cannot be read
- * out, focused, or reached by a screen reader. `display:none` would collapse the cell and pin
- * nothing; `aria-hidden` alone would leave their links tabbable.
- */
+/** Stable information band below the images, sized by the longest project. */
 function ProjectInfoBand({ project, shadow = false }: { project: Project; shadow?: boolean }) {
   return (
     <div
       data-project-band={shadow ? 'shadow' : 'active'}
       aria-hidden={shadow || undefined}
-      className={`col-start-1 row-start-1 grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)_minmax(0,1fr)] gap-x-7 border-t border-inkBlack/12 pt-4 ${
+      className={`col-start-1 row-start-1 grid grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] gap-x-7 border-t border-inkBlack/12 pt-4 ${
         shadow ? 'invisible' : ''
       }`}
     >
@@ -927,17 +825,7 @@ function ProjectInfoBand({ project, shadow = false }: { project: Project; shadow
       </div>
       <div>
         <Recognition project={project} />
-        {project.collaborators && (
-          <div className="mt-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkBlack/40">Collaborators</p>
-            <p className="mt-1.5 font-serifDisplay text-[13px] leading-snug text-inkBlack/75">
-              {project.collaborators}
-            </p>
-          </div>
-        )}
-      </div>
-      <div>
-        <LessonPill project={project} />
+
       </div>
     </div>
   );
@@ -958,19 +846,21 @@ function ProjectText({ project }: { project: Project }) {
         {project.description}
       </p>
       <Recognition project={project} className="mt-5" />
-      {project.collaborators && (
-        <div className="mt-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkBlack/40">Collaborators</p>
-          <p className="mt-1.5 font-serifDisplay text-[14px] leading-snug text-inkBlack/75">
-            {project.collaborators}
-          </p>
-        </div>
-      )}
-      <div className="mt-6">
-        <LessonPill project={project} />
-      </div>
+
     </div>
   );
+}
+
+function MobileProjectGallery({project,reduced}:{project:Project;reduced:boolean}) {
+  const [shot,setShot]=useState<number|null>(null);
+  const split=heroSplit(project.images);
+  const images=[split.hero,...split.rest].filter(image=>!image.pending);
+  return <>
+    <div className="mobile-project-media">
+      {images.map((image,index)=><div key={image.src} className={index===0?'mobile-project-hero':'mobile-project-thumb'}><ProjectImg image={image} reduced={reduced} brick onOpen={image=>setShot(images.findIndex(item=>item.src===image.src))}/></div>)}
+    </div>
+    <Lightbox images={images} index={shot} onClose={()=>setShot(null)} onStep={delta=>setShot(index=>index===null?null:(index+delta+images.length)%images.length)} reduced={reduced}/>
+  </>;
 }
 
 /* ------------------------------- LIST view -------------------------------- */
@@ -998,57 +888,6 @@ function ListView({ reduced }: { reduced: boolean }) {
   const project = items.find((p) => p.n === activeN) ?? items[0];
   const { hero, rest } = heroSplit(project.images);
 
-
-  // THE MEDIA REGION, measured — BOTH dimensions now. The pack solves an arrangement against a real
-  // W x H (see pack.ts); the region is the `flex-1` remainder of a viewport-locked panel, so nothing
-  // static knows either number. The old rail only needed the height and took its width from a
-  // percentage; the pack needs the box.
-  const mediaRowRef = useRef<HTMLDivElement>(null);
-  const [region, setRegion] = useState({ w: 0, h: 0 });
-  // RE-BOUND ON EVERY PROJECT, because the row lives inside a `key={project.n}` subtree that
-  // REMOUNTS on each switch. With `[]` deps the observer keeps watching the detached old element
-  // and the size freezes at whatever the first project measured — or at 0.
-  useEffect(() => {
-    const el = mediaRowRef.current;
-    if (!el) return;
-    const measure = () => {
-      const r = el.getBoundingClientRect();
-      // Only ever widen from a real reading. A 0 here is the element between mounts, not a region
-      // that has collapsed, and writing it back would unpack the wall for a frame.
-      if (r.width > 0 && r.height > 0)
-        setRegion((prev) => (Math.abs(prev.w - r.width) < 0.5 && Math.abs(prev.h - r.height) < 0.5 ? prev : { w: r.width, h: r.height }));
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [project.n]);
-
-  /**
-   * THE WALL. Daniel, 2026-07-17: "all of these photos are like bricks, there must be an equal line of
-   * mortar between them, and that must be very thin. There are too many spacings between. Find a
-   * dynamic way to organize them."
-   *
-   * `packWall` searches every arrangement of THIS project's pictures against the region it actually
-   * has and picks the one that leaves the least paper, with every box built to its picture's authored
-   * ratio. The whole argument is in pack.ts; the two things that matter at this call site:
-   *
-   *   - THE HERO IS `items[0]`, so the pack knows which brick has to stay the biggest. Same split the
-   *     page has always used (`heroSplit`), same reading order after it — the pack is NOT allowed to
-   *     reorder the supports, because the captions tell a story in sequence.
-   *
-   *   - `fillHero` IS NOT PASSED, AND THE WALL REFUNDS THE CROP. Daniel licensed a 20.1% crop on
-   *     Robots' KUKA video because the alternative was a bespoke region height, and he had ruled
-   *     "prioritize that every project occupies the same formatting". The pack dissolves that
-   *     dilemma: the video's cell is built at exactly 1.7778, so it is uncropped AND the region is
-   *     still uniform — what varies is the arrangement inside it, which was always varying anyway
-   *     (the old heroes ran 511px to 744px wide across the twelve). The cost is 71px of paper at the
-   *     wall's bottom edge on that one project. The flag STAYS in projects.ts: it is Daniel's ruling
-   *     on the record, it costs nothing inert, and if the layout ever needs it again the licence is
-   *     still there. RAISED FOR HIM — uncropped video with air beneath it, or the crop back.
-   */
-  const wallItems = useMemo(() => [hero, ...rest], [hero, rest]);
-  const wall = useMemo(() => packWall(wallItems, region.w, region.h), [wallItems, region.w, region.h]);
 
   const lightboxImages = project.images.filter((im) => !im.pending);
   const [shot, setShot] = useState<number | null>(null);
@@ -1110,7 +949,7 @@ function ListView({ reduced }: { reduced: boolean }) {
                 <li className="border-t border-inkBlack/10 last:border-b">
                   <button
                     type="button"
-                    onMouseEnter={() => setActiveN(p.n)}
+                    onMouseEnter={() => { if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) setActiveN(p.n); }}
                     onFocus={() => setActiveN(p.n)}
                     onClick={() => setActiveN(p.n)}
                     aria-label={`${p.title}, ${AUTHOR_LABEL[p.by]}, ${p.year}`}
@@ -1172,41 +1011,13 @@ function ListView({ reduced }: { reduced: boolean }) {
             animate={{ opacity: 1 }}
             transition={{ duration: reduced ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* ROW 1 — THE WALL. See the MEDIA comment above, and pack.ts for the packer. */}
-            <div ref={mediaRowRef} className="relative min-h-0 flex-1">
-              {/* THE CELLS ARE ABSOLUTE, AND THAT IS LOad-BEARING FOR THE DIVIDER. The media row is the
-                  `flex-1` REMAINDER of a viewport-locked panel and the band below it is `shrink-0`, so
-                  `dividerY = detail.bottom − band.height` and the row's height must depend on NOTHING
-                  the wall does. Absolute children have no intrinsic contribution, so there is no path
-                  from a pack decision back to the row's height, and therefore none to the divider.
-                  A flow-laid wall would close that loop — the wall would size the row, the row would
-                  size the wall — and the divider pin would start drifting per project. Verified with
-                  qa/divider.mjs at four widths.
-
-                  It also means the wall is measured, never declared: `mediaRowH`/`mediaRowW` come from
-                  a ResizeObserver, and before the first measurement `packWall` returns null and this
-                  renders nothing. That is deliberate. The old rail rendered `width: railWidth(rest, 0)`
-                  = 0 on the first paint, i.e. a row of zero-width images. */}
-              {wall && (
-                <div data-project-wall className="absolute left-0 top-0" style={{ width: wall.w, height: wall.h }}>
-                  {wall.cells.map((c) => (
-                    <div
-                      key={c.item.src}
-                      /* `data-project-hero` stays on the hero's CELL: it is the handle every probe
-                         selects (qa/hero-clip.mjs, qa/project-media.mjs), and a guard cannot check
-                         what it cannot select. `data-wall-cell` is new, because the wall's promise is
-                         about EVERY picture now, not only the hero — the rail was the only thing that
-                         was ever a separate species and it no longer exists. */
-                      data-wall-cell
-                      data-project-hero={c.item === hero ? '' : undefined}
-                      className="absolute"
-                      style={{ left: c.x, top: c.y, width: c.w, height: c.h }}
-                    >
-                      <ProjectImg image={c.item} onOpen={openShot} reduced={reduced} brick />
-                    </div>
-                  ))}
-                </div>
-              )}
+            <div className="project-showcase-media" data-project-wall>
+              <div className="project-showcase-hero" data-project-hero data-wall-cell>
+                <ProjectImg image={hero} onOpen={openShot} reduced={reduced} brick />
+              </div>
+              <div className="project-showcase-supports">
+                {rest.slice(0,3).map(image=><div data-wall-cell key={image.src}><ProjectImg image={image} onOpen={openShot} reduced={reduced} brick /></div>)}
+              </div>
             </div>
             {/* ROW 2 — the project information, AND THE DIVIDER THAT NEVER MOVES.
                 Every project's band is stacked into one grid cell so the row is always as tall as the
@@ -1223,20 +1034,13 @@ function ListView({ reduced }: { reduced: boolean }) {
         </div>
       </div>
 
-      {/* Mobile: the same projects stacked, each with its images + text inline. */}
-      <div className="space-y-16 lg:hidden">
-        {items.map((p) => (
-          <section key={p.n} aria-label={`${p.title}, ${AUTHOR_LABEL[p.by]}, ${p.year}`}>
-            <div className="mb-3 flex items-center gap-3">
-              <span aria-hidden className="h-[3px] w-6 rounded-full" style={{ background: authorColor(p.by) }} />
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/40">{p.year}</span>
-            </div>
-            <Gallery project={p} reduced={reduced} />
-            <div className="mt-5">
-              <ProjectText project={p} />
-            </div>
-          </section>
-        ))}
+      <div className="project-mobile-browser lg:hidden">
+        <label htmlFor="mobile-project-choice">Explore a project</label>
+        <select id="mobile-project-choice" value={activeN} onChange={event=>setActiveN(event.target.value)}>
+          {items.map(item=><option key={item.n} value={item.n}>{item.title} · {item.year}</option>)}
+        </select>
+        <MobileProjectGallery key={project.n} project={project} reduced={reduced}/>
+        <ProjectText project={project}/>
       </div>
 
       <Lightbox images={lightboxImages} index={shot} onClose={closeShot} onStep={stepShot} reduced={reduced} />
@@ -1329,6 +1133,7 @@ const CODA_STEM_MASK_W = 14;
 const CODA_ORGAN_R = 58;
 
 function CodaBower({ reduced }: { reduced: boolean }) {
+  const botanicalId = useId();
   const [url, setUrl] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   // The frame scale is read BEFORE the card line because the line is now placed against the span,
@@ -1460,11 +1265,11 @@ function CodaBower({ reduced }: { reduced: boolean }) {
          * `#paren-organ-disc` below, and `#sub-organ-disc` in CrossPathsTimeline.tsx. That is why
          * Daniel said "our flowers" and not "the timeline's flowers". Fix one, fix all three.
          */}
-        <radialGradient id="coda-organ-disc">
+        <radialGradient id={`${botanicalId}-disc`}>
           <stop offset="0.9" stopColor="#fff" />
           <stop offset="1" stopColor="#000" stopOpacity="0" />
         </radialGradient>
-        <mask id="coda-mask" maskUnits="userSpaceOnUse" x={0} y={0} width={CODA_BAND.w} height={CODA_BAND.h}>
+        <mask id={`${botanicalId}-mask`} maskUnits="userSpaceOnUse" x={0} y={0} width={CODA_BAND.w} height={CODA_BAND.h}>
           {CODA_VINES.map((path, i) => {
             const pts = path.map(([x, y]) => ({ x, y }));
             const grow = reduced ? 1 : growAt(localLine, pts[0].y, spanBand);
@@ -1495,7 +1300,7 @@ function CodaBower({ reduced }: { reduced: boolean }) {
                       cx={pts[k].x}
                       cy={pts[k].y}
                       r={CODA_ORGAN_R}
-                      fill="url(#coda-organ-disc)"
+                      fill={`url(#${botanicalId}-disc)`}
                       opacity={o}
                     />
                   );
@@ -1511,7 +1316,7 @@ function CodaBower({ reduced }: { reduced: boolean }) {
         y={0}
         width={CODA_BAND.w}
         height={CODA_BAND.h}
-        mask={reduced ? undefined : 'url(#coda-mask)'}
+        mask={reduced ? undefined : `url(#${botanicalId}-mask)`}
       />
     </svg>
   );
@@ -2234,6 +2039,7 @@ function ThePractice() {
 // public route wears the new editorial composition. Keep their references live until that
 // extraction is completed separately.
 void [
+  Gallery,
   SplashHeader,
   Footer,
   useReducedMotion,
@@ -2252,5 +2058,6 @@ void [
 ];
 
 export function PracticePage() {
-  return <PracticeEditorial />;
+  const reduced = useReducedMotion();
+  return <PracticeEditorial portfolio={<ListView reduced={reduced} />} />;
 }

@@ -10,13 +10,13 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-inverse-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
 ](/)
 
 [Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
-Design study, not a completed building.
+Design study.
 
 ![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 

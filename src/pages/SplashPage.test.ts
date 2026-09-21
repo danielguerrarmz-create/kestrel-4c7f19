@@ -6,15 +6,15 @@ import { PUBLIC_ROUTES, routes } from '../routing';
 import { SplashPage, studies } from './SplashPage';
 const html = renderToString(createElement(SplashPage)).replace(/<!-- -->/g, '');
 describe('Bower homepage', () => {
-  it('keeps the opening skippable and the gallery accessible without playing motion', () => {
-    expect(html).toContain('Skip to gallery');
-    expect(html).toContain('Enter the world of Bower');
-    expect(html).toContain('aria-labelledby="gallery-title"');
-    expect(html).toContain('aria-labelledby="study-title"');
+  it('links directly to the public gallery and leads with the product image', () => {
+    expect(html).toContain(`href="${routes.gallery}"`);
+    expect(html).toContain('View the gallery');
+    expect(html).toContain('Living architecture.');
+    expect(html).not.toContain('Enter the world');
   });
   it('identifies the company and the status of the work', () => {
     expect(html).toContain('building technology company');
-    expect(html).toContain('not photographs of completed buildings');
+    expect(html).toContain('design study');
     expect(html).toContain('Founded in 2026');
     expect(html).toContain('partnerships for the first permanent works are forming');
     expect(html).not.toMatch(/guaranteed|production-ready|architect<|ROI/);

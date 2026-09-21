@@ -17,7 +17,9 @@ export default defineConfig({
     // separately from the Vite app, so it is easy to forget it is code at all — and it is the one
     // place where a bug is INVISIBLE from the site, because a form that silently fails still shows
     // a confirmation. Its decision table is pure and belongs under the same rule as everything else.
-    include: ['src/**/*.test.ts', 'qa/**/*.test.mjs', 'api/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'qa/**/*.test.mjs', 'tests/**/*.test.ts'],
     environment: 'node',
+    // Exhaustive geometry sweeps take over five seconds under parallel Windows runs.
+    testTimeout: 20000,
   },
 });
