@@ -1,6 +1,6 @@
 # Bower
 
-> Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes.
+> Bower is a design practice making living timber structures for significant landscapes.
 > We make living timber structures, drawn for one landscape and gradually completed by planting,
 > weather and use.
 > This is the marketing site; it is a JavaScript single-page app, so non-JavaScript readers

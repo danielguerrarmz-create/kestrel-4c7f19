@@ -46,13 +46,13 @@ export default {
         // The /about poem's ink (Clay, 2026-08-04: "a deep deep green, instead of the black").
         // Reading-weight forest green: ~11:1 on paperVellum, so it clears AAA at body size.
         inkForest: '#163A28',
-        accentOlive: '#354D40',
+        accentOlive: '#ACC13A',
         paperVellum: '#FBF9F3',
-        floralWhite: '#FFFFFF',
+        floralWhite: '#FFFAF0',
       },
       fontFamily: {
         // Eccentric organic display for titles + the big price.
-        display: ['"Bodoni Moda"', 'ui-serif', 'Georgia', 'serif'],
+        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
         // Clean neutral sans for all UI.
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         // IBM Plex Mono leads for drafting character on technical labels

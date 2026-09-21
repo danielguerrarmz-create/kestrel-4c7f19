@@ -15,7 +15,7 @@
  * once. `<h1>` is the wordmark, which is also what the document is about, so the outline stays
  * honest for a screen reader and for the markdown mirror.
  */
-import { EditorialHeader } from '../ui/EditorialHeader';
+import { SplashHeader } from './splash/SplashHeader';
 import { Footer } from '../ui/Footer';
 import { ABOUT_CODA, ABOUT_LINK, ABOUT_PARAGRAPHS } from './about/aboutCopy';
 import { WORDMARK } from '../data/config';
@@ -26,7 +26,7 @@ const COLUMN = 'mx-auto w-full max-w-[58ch]';
 export function AboutPage() {
   return (
     <div className="min-h-screen w-full bg-paperVellum text-inkForest">
-      <EditorialHeader />
+      <SplashHeader transparent logoPill />
 
       <main className={`${COLUMN} px-gutter pb-24 pt-[calc(var(--header-h)+5rem)]`}>
         {/* The name, at reading weight. Not the home's viewport-wide monument: that gesture belongs

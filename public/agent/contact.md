@@ -8,15 +8,9 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[
+[BOWER](/)
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
-
-](/)
-
-[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
-
-Design study.
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
 ![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 
@@ -36,11 +30,7 @@ Send your note →
 
 We use these details to respond to your enquiry. Read our [privacy notice](/privacy).
 
-[
-
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
-
-](/)
+[Bower](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

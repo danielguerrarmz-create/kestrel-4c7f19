@@ -2,38 +2,53 @@ import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { ProcessPage } from './ProcessPage';
-import parts from '../data/process-parts.json';
-import { runEngine } from '../engine';
-const html=renderToString(createElement(ProcessPage));
-describe('ProcessPage',()=>{
- it('keeps studies, research and proposed production distinguishable',()=>{
-  expect(html).toContain('Precomputed engine studies');
-  expect(html).toContain('Placeholder for a Bower fabrication film');
-  expect(html).toContain('Joint detail image placeholder');
-  expect(html).toContain('partnerships for the first permanent works are forming');
-  expect(html).toContain('not validated CNC toolpath code');
- });
- it('offers deliberate media controls without the rejected wireframe or numbered kickers',()=>{
-  expect(html).toContain('aria-expanded="false"');
-  expect(html).toContain('Placeholder for a Bower assembly film');
-  expect(html).not.toContain('Assembly progress');
-  expect(html).not.toContain('Joint system');
-  expect(html).not.toContain('autoPlay');
-  expect(html).not.toContain('Centreline geometry');
-  expect(html).not.toMatch(/0[1-9] \/ /);
-  expect(html).not.toContain('kuka-robotics-robot-loop');
-  expect(html).not.toContain('/assets/process/joints-composed-v1.webp');
-  expect(html).not.toContain('Pause assembly');
-  expect(html).not.toContain('assembly-sequence');
-  expect(html).toContain('href="/contact"');
- });
- it.each(parts)('shows actual engine quantities for the $footprintM2 m² study',study=>{
-  const result=runEngine({footprintM2:study.footprintM2,riseM:2.3,strutSpacingM:.55,apertureDeg:90,jointSystem:'lamella',speciesId:'clematis',year:0});
-  expect(study.count).toBe(result.components.totalCount);
-  expect(study.lengthM).toBe(Math.round(result.components.totalLengthM*10)/10);
-  for(const piece of study.pieces){
-   expect(piece.lengthM).toBeGreaterThan(0);
-   expect(piece.lengthM).toBe(result.geometry.pieces.find(p=>p.id===piece.id)?.lengthM);
-  }
- });
+
+const html = renderToString(createElement(ProcessPage));
+
+describe('ProcessPage', () => {
+  it('shows one work through time in the redesigned making sequence', () => {
+    expect(html).toContain('/assets/process/evolution/installation.webp');
+    expect(html).toContain('/assets/process/evolution/establishing.webp');
+    expect(html).toContain('/assets/process/evolution/mature.webp');
+    expect(html).toContain('Ask anyone for the most beautiful place they have ever stood in');
+    expect(html).toContain('None of them finished. All of them alive.');
+    expect(html).toContain('/assets/gallery/week-3/flowering-bower-morning-mist.webp');
+    expect(html).toContain('A living room in the landscape · Concept visualisation');
+    expect(html).not.toContain('Built to be unfinished.');
+    expect(html).toContain('The garden continues the architecture.');
+    expect(html).not.toContain('The garden takes it from here.');
+    expect(html).toContain('aria-label="The same Bower from year zero to year three"');
+    expect(html).toContain('A lattice');
+    expect(html).toContain('Leaves in the weave');
+    expect(html).toContain('A room of blossom and eaves');
+    expect(html).toContain('h-[320svh]');
+    expect(html).toContain('data-growth-progress');
+    expect(html).not.toContain('/assets/gallery/favorites/living-bower-interior.webp');
+    expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
+    expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
+    expect(html).toContain('Five acts of making.');
+    expect(html).toContain('Founding Site Study');
+    expect(html).toContain('Four weeks · £45,000 GBP plus approved travel and project expenses.');
+    expect(html).not.toContain('Site, consent, route, cost.');
+    expect(html.indexOf('The garden continues the architecture.')).toBeLessThan(html.indexOf('Five acts of making.'));
+    expect(html.lastIndexOf('/assets/process/evolution/mature.webp')).toBeLessThan(html.indexOf('Five acts of making.'));
+    expect(html).toContain('/assets/gallery/week-3/landscape-room-at-dawn.webp');
+    expect(html.indexOf('/assets/gallery/week-3/landscape-room-at-dawn.webp')).toBeGreaterThan(html.indexOf('Five acts of making.'));
+    expect(html).toContain('Every landscape asks for a different answer.');
+    expect(html.match(/data-snap-section/g)).toHaveLength(6);
+  });
+
+  it('uses the shared editorial navigation and ends with the quiet footer', () => {
+    expect(html).toContain('href="/gallery"');
+    expect(html).toContain('href="/about/practice"');
+    expect(html).toContain('href="/contact"');
+    // ONE CTA PER PAGE, EACH FOLLOWING FROM ITS OWN ARGUMENT (2026-09-09, Clay). This page closed
+    // with "Discuss a founding commission →", the identical words the home and the practice page
+    // both closed with; three identical closes read as a repeated advertisement rather than as
+    // three invitations. This page has just walked the reader through five acts of making, so it
+    // asks for the conversation that starts them.
+    expect(html).toContain('Begin with a conversation →');
+    expect(html).not.toContain('Discuss a founding commission');
+    expect(html).not.toContain('nav-pill');
+  });
 });

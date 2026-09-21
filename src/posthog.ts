@@ -34,8 +34,12 @@
  * a quiet week. A PERSONAL API key (`phx_`) is a real secret and must never come near this
  * PUBLIC repo.
  *
- * SECURITY REVIEW 2026-09-20: use memory-only analytics and disable autocapture and replay.
- * Contact field values must not be recorded. Page URLs exclude queries and fragments.
+ * THE COOKIE IS A DECISION, NOT AN OVERSIGHT. Daniel picked Vercel Analytics partly because it
+ * sets no cookie and therefore needs no consent banner (`analytics.tsx`). PostHog does set one,
+ * and session replay is ON in the project's own remote config — which means replay records the
+ * `/questions` contact form. Clay accepted both on 2026-07-29 with the consent banner still
+ * unbuilt. **If that is revisited, the switches are `persistence: 'memory'` and
+ * `disable_session_recording: true` here, plus the replay toggle in PostHog's settings.**
  */
 
 /** Write-only ingest token. Public by design — see the header. */
@@ -93,9 +97,6 @@ function load(): void {
         api_host: HOST,
         // See the header: we send our own, against the collapsed route.
         capture_pageview: false,
-        autocapture: false,
-        disable_session_recording: true,
-        persistence: 'memory',
         capture_pageleave: true,
       });
       send = (view) => {
@@ -115,6 +116,6 @@ function load(): void {
  */
 export function capturePageview(route: string, path: string): void {
   if (!ENABLED) return;
-  send({ route, path, $pathname: route, $current_url: window.location.origin + route });
+  send({ route, path, $pathname: route, $current_url: window.location.href });
   load();
 }

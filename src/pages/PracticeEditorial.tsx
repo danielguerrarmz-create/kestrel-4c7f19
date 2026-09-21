@@ -1,257 +1,145 @@
-import { useEffect, useState, useRef, type ReactNode, type CSSProperties } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { requestGarland } from '../engine/gongbi/painter';
-import { PAGE_SPECIES } from './about/species';
-import { CLUSTERS } from './about/clusters';
-import './bower-direction.css';
-import './practice-garden.css';
 import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
+import { srcSetFor } from '../ui/responsiveImg';
+import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { PROJECTS, TEAM } from './about/projects';
 
-const MILESTONES = [
-  { year: 2022, lead: 'early-2022', title: 'A shared studio', text: 'A shared desk, late nights, and the first experiments in making.', caption: 'Late nights in the studio.' },
-  { year: 2023, lead: 'together', title: 'Designing with growth', text: 'Planting, materials, and machine vision opened new directions.', caption: 'Plentify: a building conceived to grow.' },
-  { year: 2024, lead: 'dougherty', title: 'From models to material', text: 'Studio proposals met physical models, robotic tools, and material trials.', caption: 'Dougherty Arts Center: the catenary entrances.' },
-  { year: 2025, lead: 'factory', title: 'Bringing systems together', text: 'Computation, fabrication, and landscape began to converge.', caption: 'Robotic Factory: the section assembles.' },
-];
-const HISTORY_CAPTIONS: Record<string, string[]> = {
-  'early-2022': ['Late nights in the studio.'], medical: ['A folded-cardboard care device.'],
-  together: ['Plentify: a building conceived to grow.'], research: ['Reading geometry through machine vision.'],
-  making: ['Testing the Plentify composite.'], robotics: ['KUKA material experiments.', 'A Texas Robotics mechanism.'],
-  llo: ['LLO: an articulated desk lamp.'], resia: ['Clay presenting Resia.'],
-  dougherty: ['Dougherty Arts Center: catenary entrances.', 'The cardboard study model.', 'A shared studio review.'],
-  factory: ['Robotic Factory: the section assembles.'], newyork: ['Door study at Rogers Partners, NYC.'],
-};
-const HISTORY_GIFS = new Map(PROJECTS.flatMap(project => project.images.filter(image=>image.video?.gif).map(image=>[image.src,image.video!.gif!])));
-const DISCIPLINES = [
-  ['Engineering', 'Structure and foundations.'],
-  ['Fabrication', 'Timber, trials and assembly.'],
-  ['Landscape', 'Planting and long-term care.'],
-  ['Planning', 'Permissions for each place.'],
-];
+const LEAD_WORK = PROJECTS.filter((project) => project.tier === 'lead').map((project) => ({
+  ...project,
+  image: project.images.find((image) => image.hero) ?? project.images[0],
+}));
 
-type VinePanel = { top: number; height: number; width: number; paths: [number, number][][] };
-function curve(points: number[]): [number, number][] {
-  const [x0,y0,x1,y1,x2,y2,x3,y3] = points;
-  return Array.from({length: 61}, (_, i) => {
-    const t=i/60, u=1-t;
-    return [u*u*u*x0+3*u*u*t*x1+3*u*t*t*x2+t*t*t*x3, u*u*u*y0+3*u*u*t*y1+3*u*t*t*y2+t*t*t*y3];
-  });
-}
-function spiralTip(x:number, mirror:number): [number,number][] {
-  return Array.from({length:70},(_,i)=>{
-    const t=i/69, angle=t*Math.PI*1.65, radius=5+t*34;
-    return [x+mirror*Math.cos(angle)*radius,50+Math.sin(angle)*radius];
-  });
-}
-function PaintedRoute({ panel }: { panel: VinePanel }) {
-  const [src, setSrc] = useState<string>();
-  useEffect(() => {
-    let live=true;
-    requestGarland({seed:PAGE_SPECIES, voice:'pigment', width:panel.width, height:panel.height+80,
-      vines:panel.paths.map(path => {
-        const length=path.slice(1).reduce((sum,point,i)=>sum+Math.hypot(point[0]-path[i][0],point[1]-path[i][1]),0);
-        const count=Math.max(1,Math.round(length/110));
-        return {path:path.map(([x,y])=>[x,y+40] as [number,number]), stations:Array.from({length:count},(_,i)=>({t:(i+.4)/(count+.5),organ:i%4===1?'bloom' as const:'leaf' as const}))};
-      }),
-      scale:.65, rootWidth:1.15, tube:true}).then(url=>{if(live)setSrc(url);}).catch(()=>{});
-    return ()=>{live=false;};
-  },[panel]);
-  return src ? <img src={src} alt="" style={{position:'absolute',top:panel.top-40,left:0,width:panel.width,height:panel.height+80}}/> : null;
-}
-/** Measured ornament follows the media perimeter; each panel shares its end with the next. */
-function ConnectedVine() {
-  const ref=useRef<HTMLDivElement>(null);
-  const [panels,setPanels]=useState<VinePanel[]>([]);
-  useEffect(()=>{
-    const main=ref.current?.parentElement;
-    if(!main)return;
-    let frame=0;
-    const measure=()=>{
-      cancelAnimationFrame(frame);
-      frame=requestAnimationFrame(()=>{
-        const base=main.getBoundingClientRect(), width=main.clientWidth, mobile=width<768;
-        const center=mobile?28:width/2;
-        const opening=main.querySelector('.practice-opening-copy')?.getBoundingClientRect();
-        const ending=main.querySelector('.practice-vine-signature')?.getBoundingClientRect();
-        const rows=Array.from(main.querySelectorAll('.practice-milestone'));
-        if(!opening||!ending||!rows.length)return;
-        const start=opening.bottom-base.top+45;
-        const first=rows[0].getBoundingClientRect().top-base.top;
-        const h=first-start;
-        const leftTip=spiralTip(width*.13,1), rightTip=spiralTip(width*.87,-1);
-        const leftEnd=leftTip[leftTip.length-1], rightEnd=rightTip[rightTip.length-1];
-        const out:VinePanel[]=[{top:start,height:h,width,paths:[
-          mobile ? [...curve([width*.28,10,width*.8,60,center,100,center,170]),...curve([center,170,center-8,h*.5,center+8,h*.8,center,h])] : [...leftTip,...curve([leftEnd[0],leftEnd[1],width*.62,130,center-65,h*.45,center,h])],
-          mobile ? curve([width*.72,0,width*.35,80,center,110,center,170]) : [...rightTip,...curve([rightEnd[0],rightEnd[1],width*.38,140,center+65,h*.45,center,h])]]}];
-        rows.forEach((row,index)=>{
-          const rect=row.getBoundingClientRect(), media=row.querySelector('.milestone-record')!.getBoundingClientRect();
-          const top=rect.top-base.top;
-          const bottom=index+1<rows.length?rows[index+1].getBoundingClientRect().top-base.top:ending.top-base.top;
-          const height=bottom-top;
-          // Smooth S curves through the gutter, with vertical tangents at every join.
-          // The media stays on either side of this corridor; no branch crosses a caption.
-          const head=row.querySelector('.milestone-copy')!.getBoundingClientRect();
-          const startY=head.bottom-rect.top+20;
-          const imageHeight=media.height;
-          const bands=Math.max(1,Math.ceil(row.querySelectorAll('figure').length/2));
-          const path:[number,number][]=[];
-          let previousY=0, previousX=center;
-          for(let band=0;band<=bands;band++) {
-            const y=band===bands?height:startY+imageHeight*(band+.5)/bands;
-            const x=band===bands?center:mobile?center+(band%2?7:-7):center+(band%2?-48:48);
-            const span=y-previousY;
-            path.push(...curve([previousX,previousY,previousX,previousY+span*.48,x,y-span*.48,x,y]));
-            previousX=x; previousY=y;
-          }
-          const branches: [number, number][][] = [];
-          const branch = (y: number, endX: number, variation: number, radius: number) => {
-            const origin = path.reduce((best, point) => Math.abs(point[1]-y) < Math.abs(best[1]-y) ? point : best);
-            const direction = Math.sign(endX-origin[0]);
-            const ellipse = .72 + (variation%3)*.14;
-            const turns = 1.45 + (variation%4)*.19;
-            const endY = y-radius*.5;
-            const twig = curve([origin[0],origin[1],origin[0]+direction*55,y-radius*.35,endX-direction*radius*.7,endY,endX,endY]);
-            for (let i=1;i<=100;i++) {
-              const t=i/100, angle=-Math.PI/2+t*Math.PI*turns, r=radius*(1-.87*t);
-              twig.push([endX+direction*Math.cos(angle)*r,endY+radius*ellipse+Math.sin(angle)*r*ellipse]);
-            }
-            branches.push(twig);
-          };
-          if (!mobile) branch(head.height*.43, width*(index%2===0?.78:.22), index, Math.min(width*.115,head.height*.68));
-          // Only branch between complete media rows, never across an image or caption.
-          const figures = Array.from(row.querySelectorAll('figure')).map(figure=>figure.getBoundingClientRect()).sort((a,b)=>a.top-b.top);
-          let occupiedBottom=figures[0]?.bottom ?? media.top;
-          let pocket=0;
-          for (const figure of figures.slice(1)) {
-            const gap=figure.top-occupiedBottom;
-            if (gap>=70) {
-              // The two 2024 pockets have different visual clearances: lift the
-              // Resia-side twig, lower the studio-review-side twig.
-              const placement = index===2 ? (pocket===1?.18:pocket===2?.88:.45) : .45;
-              const y=(occupiedBottom+gap*placement)-rect.top;
-              branch(y, mobile ? width*(pocket%2===0?.65:.48) : width*(pocket%2===0?.25:.75), index*3+pocket+1, Math.min(gap*.34,mobile?width*.19:width*.105));
-              pocket++;
-            }
-            occupiedBottom=Math.max(occupiedBottom,figure.bottom);
-          }
-          out.push({top,height,width,paths:[path,...branches]});
-        });
-        setPanels(previous=>JSON.stringify(previous)===JSON.stringify(out)?previous:out);
-      });
-    };
-    const observer=new ResizeObserver(measure);observer.observe(main);measure();
-    return ()=>{observer.disconnect();cancelAnimationFrame(frame);};
-  },[]);
-  return <div ref={ref} className="practice-contour-vines" aria-hidden="true">{panels.map((panel,i)=><PaintedRoute key={i} panel={panel}/>)}</div>;
-}
+const DELIVERY_DISCIPLINES = [
+  ['Engineering', 'Structure, foundations, weather and public use'],
+  ['Fabrication', 'Timber development, prototyping and assembly'],
+  ['Landscape', 'Planting design, establishment and stewardship'],
+  ['Planning', 'Consent strategy and project-specific advice'],
+] as const;
 
-function VineSignature() {
-  const [narrow, setNarrow] = useState(false);
-  useEffect(() => {
-    const query = window.matchMedia('(max-width: 767px)');
-    const update = () => setNarrow(query.matches);
-    update(); query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
-  }, []);
-  const ref = useRef<HTMLDivElement>(null);
+/* THE BIOS STAY (2026-09-09, Clay), and the `?bios=work` comparison variant that stood here has
+   been deleted with the decision it existed to serve. It rendered the founders as names and roles
+   only, on the argument that three delivered projects credential a practice better than any
+   sentence about them. They read better with the sentence: with nothing built, the record is the
+   only substitute for a portfolio, and going quiet exactly where a patron asks "will these people
+   still be here in three years" reads as a smaller practice, not a more discreet one. What the
+   September pass changed is the currency, not the presence: see the note over TEAM in
+   about/projects.ts for every fact that came out and why. */
+export function PracticeEditorial() {
+  usePageSnap({ wheel: true });
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 90%', 'end 65%'] });
-  const progress = useSpring(scrollYProgress, { stiffness: 45, damping: 22, mass: .8 });
-  const opacity = useTransform(progress, [.55, .95], [0, 1]);
-  const wordOpacity = useTransform(progress, [.72, 1], [0, 1]);
-  const stemOpacity = useTransform(progress, [.38, .58], [1, 0]);
-  const scale = useTransform(progress, [.55, 1], [.65, 1]);
-  const curl = useTransform(progress, [0, .65], [
-    `M${narrow ? 0 : 100} 0 C100 60 100 90 100 140 C100 180 100 220 100 260`,
-    `M${narrow ? 0 : 100} 0 C100 80 185 135 145 210 C85 305 5 175 100 160`,
-  ]);
-  return <div ref={ref} className="practice-vine-signature" aria-hidden="true">
-    <svg viewBox="0 0 200 320" preserveAspectRatio="none" fill="none">
-      <motion.path d={curl} stroke="#738369" strokeWidth="1.4" style={{ pathLength: reduced ? 1 : progress, opacity: reduced ? 0 : stemOpacity }} />
-    </svg>
-    <motion.img className="signature-emblem" src="/assets/brand/bower-logo-evergreen-emblem.png" alt="" style={{ opacity: reduced ? 1 : opacity, scale: reduced ? 1 : scale }} />
-    <motion.div className="signature-wordmark" style={{ opacity: reduced ? 1 : wordOpacity }}><img src="/assets/brand/bower-logo-evergreen-horizontal.png" alt="" /></motion.div>
-  </div>;
-}
 
-export function PracticeEditorial({ portfolio }: { portfolio?: ReactNode }) {
-  const reduced = useReducedMotion();
   return (
-    <div className="practice-renewed practice-garden editorial-page">
+    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
-        <ConnectedVine />
-        <section className="practice-opening relative">
-          <EditorialHeader logoSrc="/assets/brand/bower-logo-evergreen-horizontal-transparent.png" />
-          <div className="practice-opening-copy">
-            <h1>A shared curiosity.</h1>
-            <div className="practice-questions">
-              <p>How can a building become more alive with time?</p>
-              <p>What if nature could shape its future, helping the landscape regenerate as it grows?</p>
+        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
+          <EditorialHeader />
+          <div className="mx-auto w-full max-w-canvas">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Practice</p>
+            <h1 className="mt-10 max-w-[10ch] font-quote text-[clamp(4rem,10vw,10rem)] leading-[0.86] tracking-[-0.05em]">The obsession is old.</h1>
+            <p className="ml-auto mt-14 max-w-[28rem] font-serifDisplay text-[clamp(1.2rem,2vw,1.7rem)] leading-[1.45] text-black/50">How can architecture be grown, not only built?</p>
+          </div>
+        </section>
+
+        <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20">
+          <div className="mx-auto w-full max-w-canvas">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Two founders · One practice</p>
+            <div className="mt-12 grid gap-14 md:grid-cols-2 md:gap-8">
+              {TEAM.map((person) => {
+                const built = person.facts.find((fact) => fact.label === 'Built');
+                return (
+                  // NO RULE ABOVE THE PORTRAITS (2026-09-09, Clay). Each article carried
+                  // `border-t border-black/18 pt-5`, which drew a hairline directly across the top
+                  // of both headshots. It was there to register the two founders as a pair of
+                  // table entries; what it actually did was put a line over two people's heads.
+                  <article key={person.id} className="founder-card grid grid-cols-[7rem_1fr] gap-6 sm:grid-cols-[10rem_1fr] md:grid-cols-1">
+                    {person.image && <img src={person.image} alt={person.name} loading="eager" decoding="async" className="aspect-[4/5] w-full object-cover grayscale" />}
+                    <div>
+                      <h2 className="font-quote text-[clamp(2.2rem,4vw,4.2rem)] leading-[0.95] tracking-[-0.035em]">{person.name}</h2>
+                      <p className="mt-2 font-mono text-[8px] uppercase tracking-[0.16em] text-black/38 md:text-[9px]">{person.role}</p>
+                      {built && <p className="mt-6 max-w-[34rem] font-serifDisplay text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.55] text-black/52">{built.value}</p>}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        <div className="practice-growing-story">
-          <section className="practice-people" aria-label="Founders">
-            <div className="practice-founders">
-              {TEAM.map((person) => <article key={person.id} className="practice-person">
-                <div className="practice-person-heading">
-                  {person.image && <img src={person.image} alt={person.name} loading="lazy" />}
-                  <h3>{person.name}</h3>
-                </div>
-                <p className="practice-person-role">{person.id === 'clay' ? 'Cofounder · Design & research' : 'Cofounder · Engine & systems'}</p>
-                <p>{person.facts.find((fact) => fact.label === 'Built')?.value}</p>
-              </article>)}
+        <section data-snap-section className="flex min-h-[100svh] snap-start items-center bg-[#11110e] px-gutter py-16 text-white md:py-24">
+          <div className="mx-auto w-full max-w-canvas">
+            <div className="flex items-end justify-between gap-8">
+              <h2 className="max-w-[10ch] font-quote text-[clamp(3.3rem,7vw,7.4rem)] leading-[0.89] tracking-[-0.045em]">The work came before Bower.</h2>
+              <p className="hidden pb-2 text-right font-mono text-[9px] uppercase tracking-[0.18em] text-white/38 sm:block">Architecture<br />Material research<br />Living systems</p>
             </div>
-          </section>
-
-          <section className="practice-history" aria-label="Our history">
-            <div className="practice-milestones">
-              {MILESTONES.map((milestone) => {
-                const clusters = CLUSTERS.filter(cluster => Math.floor(cluster.year) === milestone.year);
-                const items = clusters.flatMap(cluster => cluster.nodes.filter(node=>!node.media.pending).map((node,index)=>({media:node.media,caption:HISTORY_CAPTIONS[cluster.id]?.[index] ?? cluster.hint})));
-                return <article className="practice-milestone timeline-chapter" key={milestone.year}>
-                  <header className="milestone-copy">
-                    <p className="milestone-year">{milestone.year}</p>
-                    <h3>{milestone.title}</h3>
-                    <p>{milestone.text}</p>
-                  </header>
-                  <div className="milestone-record">
-                    {items.map(({media,caption},index)=><figure key={media.src} className={`timeline-plate timeline-plate-${index%4}`} style={{'--media-ratio':media.ratio} as CSSProperties}>
-                        {HISTORY_GIFS.has(media.src) && !reduced ? <img src={HISTORY_GIFS.get(media.src)} alt={media.alt} loading="lazy" style={{aspectRatio:media.ratio}} /> : media.video ? <video autoPlay={!reduced} loop muted controls={reduced} playsInline preload="metadata" poster={media.src} aria-label={media.alt}><source src={media.video.mp4} type="video/mp4" /></video> : <img src={media.src} alt={media.alt} loading="lazy" style={{aspectRatio:media.ratio,objectFit:media.fit??'contain'}}/>}
-                        <figcaption><span>{milestone.year} · </span>{caption}</figcaption>
-                    </figure>)}
+            <div className="mt-12 mobile-image-rail grid grid-cols-3 gap-2 md:mt-20 md:gap-4">
+              {LEAD_WORK.map((project) => (
+                <figure key={project.title}>
+                  <div className="aspect-[4/5] overflow-hidden bg-white/5 md:aspect-[3/2]">
+                    {project.image.video?.gif && !reduced ? (
+                      <img
+                        src={project.image.video.gif}
+                        alt={project.image.alt}
+                        loading="eager"
+                        decoding="async"
+                        className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+                      />
+                    ) : project.image.video && !reduced ? (
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        poster={project.image.src}
+                        aria-label={project.image.alt}
+                        className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+                        onLoadedMetadata={(event) => {
+                          event.currentTarget.playbackRate = project.image.video?.rate ?? 1;
+                        }}
+                      >
+                        {project.image.video.webm && <source src={project.image.video.webm} type="video/webm" />}
+                        <source src={project.image.video.mp4} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img src={project.image.src} srcSet={srcSetFor(project.image.src)} sizes="(min-width: 768px) 33vw, 88vw" alt={project.image.alt} loading="eager" decoding="async" className={`h-full w-full ${project.image.fit === 'contain' ? 'object-contain' : 'object-cover'}`} />
+                    )}
                   </div>
-                </article>;
-              })}
+                  <figcaption className="mt-3 font-mono text-[8px] uppercase tracking-[0.12em] text-white/45 md:text-[9px]">{project.title} · {project.year}</figcaption>
+                </figure>
+              ))}
             </div>
-            <VineSignature />
-          </section>
+          </div>
+        </section>
 
-          <section className="practice-record" aria-labelledby="projects-title">
-            <div className="practice-section-heading">
-              <h2 id="projects-title">Projects &amp; research.</h2>
+        <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-20">
+          <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-black/55">How the work is delivered</p>
+              <h2 className="mt-8 max-w-[10ch] font-quote text-[clamp(3.3rem,7vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">One Bower team, assembled for one place.</h2>
+              <p className="mt-8 max-w-[34rem] font-serifDisplay text-[clamp(1.15rem,1.8vw,1.45rem)] leading-[1.55] text-black/58">
+                Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
+              </p>
             </div>
-            <div className="practice-portfolio-frame">{portfolio}</div>
-          </section>
+            <dl className="border-t border-black/20">
+              {DELIVERY_DISCIPLINES.map(([title, description], index) => (
+                <div key={title} className="grid grid-cols-[2rem_1fr] gap-4 border-b border-black/15 py-5 sm:grid-cols-[3rem_.7fr_1.3fr]">
+                  <dt className="font-mono text-[10px] text-black/38">0{index + 1}</dt>
+                  <dd className="font-serifDisplay text-[clamp(1.15rem,2vw,1.45rem)]">{title}</dd>
+                  <dd className="col-start-2 font-mono text-[10px] uppercase tracking-[0.1em] text-black/48 sm:col-start-auto sm:self-center">{description}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
 
-          <section className="practice-delivery" aria-labelledby="delivery-title">
-            <div className="practice-section-heading">
-              <h2 id="delivery-title">Building living structures together.</h2>
-              <p>We are forming the specialist partnerships for Bower’s first permanent works. Each team will be shaped around its landscape.</p>
-            </div>
-            <div className="practice-disciplines">
-              {DISCIPLINES.map(([title, description]) => <div key={title}><h3>{title}</h3><p>{description}</p></div>)}
-            </div>
-            <div className="practice-invitation practice-invitation-merged">
-              <a href={routes.contact}>Start a commission <span aria-hidden="true">↗</span></a>
-            </div>
-          </section>
-        </div>
+        <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
+          <div className="mx-auto w-full max-w-[1080px]">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Bower · Based in England · Working across Europe</p>
+            <h2 className="mt-10 max-w-[12ch] font-quote text-[clamp(3.6rem,8vw,8.4rem)] leading-[0.88] tracking-[-0.048em]">A design practice for living structures.</h2>
+            <a href={routes.contact} className="mt-12 inline-block border-b border-black/45 pb-1 font-serifDisplay text-[clamp(1.2rem,2vw,1.55rem)]">Talk to Clay →</a>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

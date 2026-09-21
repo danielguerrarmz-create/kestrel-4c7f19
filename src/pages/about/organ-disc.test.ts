@@ -53,6 +53,7 @@ describe('the organ disc mask: every copy of it, including ones not written yet'
     // "PASS across all 0 projects" while the page would not compile. If the regex drifts, or the
     // markup is reformatted, this test would go quietly green while checking nothing.
     expect(discs.map((d) => d.id).sort(), 'the disc scan found the wrong set — is the regex stale?').toEqual([
+      'coda-organ-disc',
       'paren-organ-disc',
       'sub-organ-disc',
     ]);

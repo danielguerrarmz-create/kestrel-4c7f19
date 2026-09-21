@@ -210,7 +210,7 @@ for (const [surface, { app = [], emitted = [] }] of Object.entries(GATED)) {
  * silent no-op is the exact failure this file's header lectures about, committed in the file's own
  * last ten lines.
  */
-const PRESENT = { app: ['Living architecture.'], emitted: ['og:image', 'bowerbuild.org'] };
+const PRESENT = { app: ['Buildings that nature designs.'], emitted: ['og:image', 'bowerbuild.org'] };
 const deadControl = PRESENT.app.filter((m) => !src.includes(m));
 if (deadControl.length) {
   console.log(

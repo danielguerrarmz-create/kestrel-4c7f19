@@ -678,13 +678,6 @@ export const PROJECTS: Project[] = [
         alt: 'Long-exposure photograph of the KUKA arm tracing a radial burst of LED light',
         caption: 'Drawing with light, the motion made visible',
       },
-      {
-        src: `${A}/06-kuka-robotics/kuka-robotics-toolpath-simulation-rosette.webp`,
-        ratio: 1.11235,
-        alt: 'KUKA arm simulation tracing a red rosette toolpath',
-        caption: 'Simulating the rosette toolpath',
-        fit: 'contain',
-      },
     ],
   },
   {

@@ -10,8 +10,8 @@
  * ONLY mark on the site: the studio's old pill + Sprout glyph are gone, and every page
  * wears the same header, so the chrome never changes shape between routes.
  */
-
-
+import { WORDMARK } from '../data/config';
+import { OculusMark } from './OculusMark';
 
 export function BowerMark({
   className = '',
@@ -26,7 +26,10 @@ export function BowerMark({
 }) {
   return (
     <span data-intro-logo className={`inline-flex items-center gap-1.5 ${className}`}>
-      <img data-wordmark src="/assets/brand/bower-logo-evergreen-horizontal.png" alt="Bower" style={{width: Math.max(110,markSize*5)}} className={nameClass} />
+      <OculusMark size={markSize} />
+      <span data-wordmark className={nameClass}>
+        {WORDMARK}
+      </span>
     </span>
   );
 }

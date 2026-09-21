@@ -39,23 +39,20 @@ function contactEndpointDev(): Plugin {
         }
         if (req.method !== 'POST') return send(405, { ok: false, reason: 'method-not-allowed' });
         const chunks: Buffer[] = [];
-        let bytes = 0;
-        for await (const c of req) {
-          bytes += Buffer.byteLength(c);
-          if (bytes > 16384) return send(413, { ok: false, reason: 'payload-too-large' });
-          chunks.push(c as Buffer);
-        }
-        let payload: unknown;
+        for await (const c of req) chunks.push(c as Buffer);
+        let payload: { email?: string; source?: string };
         try {
           payload = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
         } catch {
           return send(400, { ok: false, reason: 'invalid-email' });
         }
         const result = await deliver(
-          payload,
+          { email: payload.email ?? '', source: payload.source },
           process.env,
           new Date().toISOString(),
         );
+        // eslint-disable-next-line no-console
+        console.log('[api/contact]', payload.email, '->', JSON.stringify(result));
         send(result.ok ? 200 : result.status, result);
       });
     },

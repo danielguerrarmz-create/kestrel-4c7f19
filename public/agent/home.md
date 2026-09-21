@@ -8,75 +8,77 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[
+[BOWER](/)
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
 
-](/)
+![Concept visualisation from within a planted timber Bower](/assets/gallery/favorites/living-bower-interior.webp)
 
-[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
+[Scroll to explore](#meaning)
 
-![Design study of a planted timber pavilion beside a garden pond](/assets/studies/pondside-pavilion.webp)
+Living architecture
 
-# Living architecture.
+Founding commissions · 2027
 
-[View the gallery](/gallery)
+# Buildings that nature designs.
 
-## Somewhere to be.
+We make the structure. The garden makes the rest.
 
-A living timber pavilion, shaped for your garden. Shelter for gathering, with the landscape always close.
+Estates · Gardens · Cultural landscapes
 
-![Design study of people gathered beneath an open timber pavilion](/assets/studies/garden-room-gathering.webp)
+The object in time
 
-Gathering beneath a Bower / design study
+## A Bower begins when building ends.
 
-A long lunch.
-An hour alone.
-A reason to stay outside.
+![Concept visualisation of a newly installed timber Bower before the planting has established](/assets/home/evolution/installation.webp)
 
-A Bower makes room for the intimate, inhabited life of a landscape. Somewhere between the individual and the group, ordinary experience and ceremony.
+00 A lattice
 
-[A place in mind? Contact Bower ↗](/contact)
+![Concept visualisation of the same Bower after its first season of growth](/assets/home/evolution/establishing.webp)
 
-A place to gather.
+01 Leaves in the weave
 
-A place that grows.
+![Concept visualisation of the same Bower after the planting has matured through its lattice](/assets/home/evolution/mature.webp)
 
-## The garden makes it more.
+03 A room of blossom and eaves
 
-Plants find a way through.
-Light changes. Habitats form.
-The room keeps becoming.
+![Concept visualisation of a planted timber Bower occupying a misted valley at dawn](/assets/gallery/week-3/valley-bower-at-dawn.webp)
 
-![Illustrative study of a mature Bower with planting growing through its timber frame](/assets/studies/growth-03-mature.webp)
+Valley at dawn Morning mist
 
-## Nature becomes one of the authors.
+## The garden becomes a place to gather.
 
-We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.
+![Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden](/assets/gallery/week-3/garden-room-gathering.webp)
 
-Founded in 2026, Bower is a building technology company with a developed computational design system for unique timber buildings that grow into their landscapes. Engineering, manufacturing and delivery partnerships for the first permanent works are forming.
+A garden room in use
 
-![Illustrative timber connection study with a round peg](/assets/studies/rib-to-arch-joint.webp)
+![Concept study of a timber lattice joint and carved connection](/assets/gallery/favorites/timber-joinery-detail.webp)
 
-Connection image study / not an issued fabrication detail
+Joint study 01
 
-## From possibility to the part.
+## Every Bower is different.
 
-Geometry, timber, connections and robotic making. See the system we are developing to bring a Bower into the world.
+We are building the means to make them again and again, without ever making the same one twice.
 
-[See how it is made ↗](/process)
+- 01 Site
 
-## Every Bower begins with a place.
+- 02 Geometry
 
-We are selecting three gardens for Bower’s founding commissions.
+- 03 Structure
 
-[Contact Bower ↗](/contact)
+- 04 Planting
 
-[
+- 05 Stewardship
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+[See how it is made →](/process)
 
-](/)
+Founding commissions
+
+## Three landscapes. By private commission.
+
+[Enquire privately →](/contact)
+
+[Bower](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

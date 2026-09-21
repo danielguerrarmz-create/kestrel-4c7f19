@@ -152,7 +152,7 @@ export const COMMISSION_BUDGET_POSITION =
  * reads as a pitch to the other. Same sentence, right reader, different surface.
  */
 export const COMPANY_DESCRIPTION =
-  'Bower is a building technology company developing a repeatable system for geometrically unique timber buildings that grow into their landscapes.';
+  'Bower is a design practice making living timber structures for significant landscapes.';
 
 /** The lowest a reader could reasonably read `COMMISSION_FLOOR_WORDS` as. Guarded against
  *  `COMMISSION_BREAKEVEN_GBP`, so the published words can never fall below cost the way a
