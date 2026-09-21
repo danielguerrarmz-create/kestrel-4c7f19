@@ -1,0 +1,195 @@
+/* Illustrated workshop: full-bleed evidence, deliberately contained drawing fields. */
+.process-workshop { --process-paper:#f1f0e8; --process-green:#354d40; }
+.process-workshop main { padding-top:0; }
+.process-workshop figure { margin:0; }
+.process-workshop h2 { font-size:clamp(40px,4.5vw,72px); line-height:1.04; letter-spacing:-.04em; }
+.process-workshop p { font-family:'Source Serif 4 Variable',Georgia,serif; font-size:clamp(19px,1.7vw,24px); line-height:1.45; text-wrap:pretty; }
+.process-workshop figcaption,.process-workshop .process-fine { font-family:Inter,Arial,sans-serif; font-size:11px; line-height:1.55; color:#667061; letter-spacing:0; }
+.process-workshop figcaption { padding:12px 0; }
+.workshop-opening { height:100svh; min-height:540px; position:relative; background:#4d4233; overflow:hidden; }
+.workshop-opening > img { width:100%; height:100%; object-fit:cover; object-position:55% center; }
+.workshop-opening::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(16,24,15,.48),transparent 26%),linear-gradient(90deg,rgba(16,24,15,.46),transparent 75%); }
+.process-workshop .workshop-opening h1 { position:absolute; z-index:1; bottom:9%; left:7vw; color:white; font-size:clamp(80px,10.5vw,165px); line-height:.91; letter-spacing:-.055em; margin:0; }
+.workshop-opening h1 em { font-weight:400; }
+.image-note { position:absolute; bottom:20px; right:24px; font:10px/1.4 Inter,Arial,sans-serif; color:white; z-index:2; text-shadow:0 1px 6px #000; }
+.workshop-introduction { max-width:650px; margin:0 auto; padding:110px 28px 65px; text-align:center; }
+.workshop-introduction h2 { margin:0 0 32px; }
+.workshop-introduction p+p { margin-top:20px; }
+.site-reading-image { height:min(76vw,720px); min-height:420px; position:relative; overflow:hidden; background:#44553d; }
+.site-reading-image > img { width:100%; height:100%; object-fit:cover; }
+.site-marker { position:absolute; display:flex; align-items:center; gap:12px; color:white; padding:10px 16px 10px 10px; background:#253e31e8; font-size:13px; transform:translate(-30%,-50%); box-shadow:0 2px 24px #0002; }
+.site-marker > span { width:12px; height:12px; border:1px solid white; border-radius:50%; box-shadow:0 0 0 5px #ffffff20; }
+.site-reading-notes { padding:32px 7vw 20px; display:grid; grid-template-columns:1fr 1fr; gap:7vw; align-items:start; }
+.site-reading-notes p { min-height:105px; }
+.process-choices { display:flex; flex-wrap:wrap; gap:8px 24px; }
+.process-choices button { border-bottom:1px solid #b7c0b1; color:#64735f; min-height:48px; padding:10px 0; font:14px/1.4 Inter,Arial,sans-serif; text-align:left; }
+.process-choices button[aria-pressed=true] { color:#243d2c; border-bottom:2px solid #354d40; }
+.process-detail { border-top:1px solid #c5ccbf; margin-top:25px; }
+.process-detail summary { display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:52px; font:13px/1.4 Inter,Arial,sans-serif; cursor:pointer; list-style:none; }
+.process-detail summary::-webkit-details-marker { display:none; }
+.process-detail summary span { font-size:23px; font-weight:300; }
+.process-detail[open] summary span { transform:rotate(45deg); }
+.process-detail > div { padding:6px 0 25px; }
+.process-workshop .process-detail p { font:15px/1.65 Inter,Arial,sans-serif; }
+.workshop-site > .process-detail { margin:0 7vw; }
+.workshop-form { display:grid; grid-template-columns:.85fr 1.15fr; gap:6vw; padding:110px 7vw 75px; align-items:center; }
+.workshop-form h2 { margin-bottom:30px; }
+.workshop-form p+p { margin-top:22px; }
+.workshop-form figure img { width:100%; height:550px; object-fit:cover; }
+.workshop-parts { background:var(--process-paper); padding:75px 7vw; }
+.parts-workbench { display:grid; grid-template-columns:.78fr 1.22fr; gap:5vw; align-items:center; }
+.parts-explanation h3 { font:400 clamp(30px,3.2vw,46px)/1.08 'Bodoni Moda',Georgia,serif; letter-spacing:-.025em; margin-bottom:26px; }
+.parts-explanation > p { font-size:19px; }
+.parts-explanation .process-choices { margin:18px 0 28px; gap:28px; }
+.parts-explanation dl { display:flex; gap:35px; margin-bottom:24px; }
+.parts-explanation dt { font:11px/1.4 Inter,Arial,sans-serif; color:#6d7768; margin-bottom:9px; }
+.parts-explanation dd { font:36px/1 'Bodoni Moda',Georgia,serif; }
+.parts-explanation dd small { font:14px Inter,Arial,sans-serif; }
+.parts-drawing svg { width:100%; height:auto; overflow:visible; }
+.parts-drawing figcaption { padding-left:6.5%; }
+.workshop-joints { display:grid; grid-template-columns:1.2fr .8fr; gap:7vw; padding:115px 7vw; align-items:center; }
+.workshop-joints img { width:100%; height:580px; object-fit:cover; }
+.workshop-joints h2 { margin-bottom:30px; }
+.workshop-joints p+p { margin-top:22px; }
+.workshop-making { background:#e7eadd; }
+.workshop-film video { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#26372b; max-height:850px; }
+.workshop-film figcaption { padding:14px 7vw; }
+.workshop-making-notes { display:grid; grid-template-columns:1fr 1fr; gap:7vw; padding:20px 7vw 75px; }
+.workshop-making-notes .process-detail { margin-top:0; }
+.assembly-sequence { display:grid; grid-template-columns:repeat(4,1fr); gap:35px; padding:0 7vw 30px; }
+.assembly-sequence article { padding-top:24px; border-top:1px solid #9da994; }
+.assembly-sequence h3 { font:400 27px/1.15 'Bodoni Moda',Georgia,serif; margin-bottom:20px; }
+.assembly-sequence p { font-size:18px; }
+.process-workshop .assembly-note { padding:0 7vw 25px; }
+.workshop-growing .workshop-introduction { padding-top:100px; }
+.living-sequence figure { position:relative; }
+.living-sequence figure img { width:100%; height: min(72vw,780px); min-height:400px; object-fit:cover; }
+.living-sequence figcaption { padding:12px 7vw; }
+.living-sequence-controls { display:grid; grid-template-columns:1fr 1fr; gap:7vw; padding:15px 7vw 75px; }
+.living-sequence-controls p { min-height:100px; }
+.workshop-close { background:#dfe5d7; padding:85px 7vw; display:grid; grid-template-columns:1fr 1fr; gap:30px 7vw; align-items:center; }
+.workshop-close a { justify-self:start; font-size:19px; padding:15px 0; border-bottom:1px solid #354d40; display:flex; gap:60px; }
+.workshop-close p { grid-column:2; font:12px/1.6 Inter,Arial,sans-serif; max-width:46ch; color:#58694f; }
+@media(max-width:767px) {
+ .process-workshop main { padding-top:0; }
+ .workshop-opening { height:100svh; min-height:470px; }
+ .workshop-opening > img { object-position:52% center; }
+ .process-workshop .workshop-opening h1 { font-size:clamp(74px,18vw,125px); left:7vw; bottom:13%; }
+ .workshop-introduction { padding:72px 7vw 38px; }
+ .process-workshop h2 { font-size:42px; }
+ .site-reading-image { height:480px; min-height:0; }
+ .site-reading-image > img { object-position:52% center; }
+ .site-marker { font-size:11px; white-space:nowrap; padding:9px 11px; }
+ .site-reading-notes,.living-sequence-controls { display:block; padding:22px 7vw 30px; }
+ .site-reading-notes p,.living-sequence-controls p { min-height:0; margin-top:20px; }
+ .process-choices { gap:12px 20px; }
+ .process-choices button { font-size:12px; }
+ .workshop-form { display:flex; flex-direction:column; gap:30px; padding:72px 7vw 45px; }
+ .workshop-form figure { width:100%; }
+ .workshop-form figure img { height:400px; }
+ .workshop-parts { padding:45px 7vw; }
+ .parts-workbench { display:flex; flex-direction:column; gap:25px; }
+ .parts-drawing { width:100%; }
+ .parts-drawing svg { min-height:280px; }
+ .parts-drawing figcaption { padding-left:0; }
+ .workshop-joints { display:flex; flex-direction:column-reverse; gap:30px; padding:72px 7vw; }
+ .workshop-joints figure { width:100%; }
+ .workshop-joints img { height:380px; }
+ .workshop-film video { aspect-ratio:4/3; }
+ .workshop-making-notes { display:block; padding:15px 7vw 40px; }
+ .workshop-making-notes .process-detail { margin-top:25px; }
+ .assembly-sequence { grid-template-columns:1fr; gap:24px; }
+ .assembly-sequence article { display:grid; grid-template-columns:.8fr 1.2fr; gap:20px; }
+ .assembly-sequence h3 { font-size:25px; margin:0; }
+ .assembly-sequence p { font-size:17px; }
+ .workshop-growing .workshop-introduction { padding-top:55px; }
+ .living-sequence figure img { height:470px; min-height:0; }
+ .workshop-close { display:block; padding:60px 7vw; }
+ .workshop-close a { width:fit-content; margin:28px 0; font-size:17px; }
+ .image-note { font-size:10px; bottom:16px; right:7vw; }
+}
+
+@media(max-width:767px) { .parts-drawing svg text { font-size:24px; } }
+
+.living-sequence figure img { animation: process-photo-reveal .25s ease-out; }
+@keyframes process-photo-reveal { from { opacity:.65; } to { opacity:1; } }
+@media(prefers-reduced-motion:reduce) { .living-sequence figure img { animation:none; } }
+
+.workshop-site > .workshop-introduction { padding-block:88px; }
+@media(max-width:767px) { .workshop-site > .workshop-introduction { padding-block:55px; } }
+
+/* Reserve disclosure copy at its natural size so opening never shifts the page. */
+.process-detail-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; gap:20px; min-height:52px; text-align:left; font:13px/1.4 Inter,Arial,sans-serif; }
+.process-detail-toggle span { font-size:23px; font-weight:300; }
+.process-detail > .process-detail-body { padding:6px 0 25px; opacity:0; visibility:hidden; transition:opacity .35s ease,visibility 0s linear .35s; }
+.process-detail > .process-detail-body.is-open { opacity:1; visibility:visible; transition:opacity .35s ease,visibility 0s; }
+.workshop-site .process-detail-body { max-width:75ch; }
+.workshop-parts { background:linear-gradient(#fff,var(--process-paper) 160px,var(--process-paper) calc(100% - 160px),#fff); padding-block:140px; }
+.workshop-making { background:linear-gradient(#fff,#e7eadd 260px,#e7eadd); }
+.workshop-assembly { background:linear-gradient(#e7eadd,#f5f6ef 220px,#fff 500px); }
+.workshop-close { background:linear-gradient(#fff,#dfe5d7 220px); padding-top:150px; }
+.process-video-placeholder { aspect-ratio:16/9; width:86%; margin:0 auto; background:#d5d7d3; border:1px solid #b6bbb2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; color:#60675e; padding:25px; }
+.process-video-placeholder > span:first-child { font-size:52px; line-height:1; font-weight:200; }
+.process-video-placeholder small { font:13px/1.5 Inter,Arial,sans-serif; }
+.placeholder-status { font:11px/1.4 Inter,Arial,sans-serif; margin-top:20px; }
+.workshop-making-notes { padding-top:35px; }
+@media(max-width:767px) {
+ .workshop-parts { padding-block:85px; }
+ .workshop-making { background:linear-gradient(#fff,#e7eadd 200px,#e7eadd); }
+ .workshop-assembly { background:linear-gradient(#e7eadd,#fff 420px); }
+ .process-video-placeholder { aspect-ratio:4/3; }
+ .process-video-placeholder small { font-size:12px; }
+}
+@media(prefers-reduced-motion:reduce) { .process-detail > .process-detail-body { transition:none; } }
+
+.workshop-joints .joint-study > img { height:auto; aspect-ratio:4/3; object-fit:contain; background:#f4f3ed; }
+.joint-study .process-choices { padding-top:14px; }
+.assembly-animation { margin:0 7vw 45px; }
+.assembly-animation-frame { position:relative; aspect-ratio:4/3; max-height:680px; background:#f4f3ed; overflow:hidden; }
+.assembly-animation-frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .5s ease; }
+.assembly-animation-frame img.is-current { opacity:1; }
+.assembly-animation-controls { display:flex; justify-content:space-between; align-items:center; gap:25px; padding:18px 0; }
+.assembly-play { min-height:48px; font:12px/1.4 Inter,Arial,sans-serif; border-bottom:1px solid #9da994; }
+.assembly-animation .process-fine { max-width:90ch; }
+@media(max-width:767px) {
+ .assembly-animation { margin-bottom:35px; }
+ .assembly-animation-controls { display:block; }
+ .assembly-animation-controls .process-choices { display:grid; grid-template-columns:1fr 1fr; gap:4px 15px; }
+ .assembly-play { margin-top:10px; }
+}
+@media(prefers-reduced-motion:reduce) { .assembly-animation-frame img { transition:none; } }
+
+.assembly-animation-frame { width:100%; }
+
+.joint-study-key { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:24px 0 8px; }
+.joint-study-key p { font:13px/1.6 Inter,Arial,sans-serif; color:#637060; margin:0; }
+.joint-study-key strong { display:block; color:#354d40; font-weight:500; margin-bottom:6px; }
+.joint-study figcaption { padding:12px 0 0; }
+.assembly-scrubber { display:flex; gap:20px; align-items:center; padding:20px 0 12px; }
+.assembly-scrubber .assembly-play { border:1px solid #b7c0af; border-radius:50%; width:48px; flex:0 0 48px; margin:0; font-size:22px; }
+.assembly-track { flex:1; min-width:0; }
+.assembly-track-label { display:flex; justify-content:space-between; gap:12px; font:12px/1.5 Inter,Arial,sans-serif; color:#50614e; }
+.assembly-track input { display:block; width:100%; height:44px; margin:0; accent-color:#354d40; cursor:ew-resize; }
+.assembly-scrubber button:focus-visible,.assembly-track input:focus-visible { outline:2px solid #354d40; outline-offset:4px; }
+@media(max-width:767px) { .joint-study-key { gap:18px; } .assembly-scrubber { gap:12px; } .assembly-track-label { font-size:11px; } }
+
+.process-workshop .joint-study-key p + p { margin-top:0; }
+.assembly-play[hidden] { display:none; }
+
+.joint-placeholder { aspect-ratio:4/3; width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:12px; background:#e7e8e4; color:#687064; }
+.joint-placeholder span { font:24px/1.3 Inter,Arial,sans-serif; }
+.joint-placeholder small { font:12px/1.4 Inter,Arial,sans-serif; }
+.assembly-explanation { display:grid; max-width:640px; margin:6px auto 0; text-align:center; }
+.process-workshop .assembly-explanation p { grid-area:1/1; margin:0; font-size:clamp(17px,1.7vw,22px); line-height:1.5; opacity:0; visibility:hidden; transition:opacity .4s ease,visibility 0s linear .4s; }
+.process-workshop .assembly-explanation p.is-current { opacity:1; visibility:visible; transition:opacity .4s ease; }
+@media(prefers-reduced-motion:reduce) { .process-workshop .assembly-explanation p { transition:none; } }
+
+.process-workshop .workshop-making { background:linear-gradient(180deg,#fff,#f3f5f0 140px,#e7eadd var(--section-fade)); }
+.process-workshop .workshop-assembly { background:linear-gradient(180deg,#e7eadd,#f3f5f0 180px,#fff calc(var(--section-fade) + 140px)); }
+.process-workshop .workshop-close { background:linear-gradient(180deg,#fff,#f3f5f0 140px,#dfe5d7 var(--section-fade)); padding-top:210px; }
+.process-workshop > footer { background:linear-gradient(180deg,#dfe5d7,#fff var(--section-fade)); padding-top:180px; }
+@media(max-width:767px) { .process-workshop .workshop-close { padding-top:160px; } .process-workshop > footer { padding-top:120px; } }
+
+.process-workshop > footer { max-width:none; border-top:0; }
+
+.process-workshop .assembly-placeholder { margin:0 auto 60px; }

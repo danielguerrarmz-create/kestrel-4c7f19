@@ -1,0 +1,38 @@
+[
+  {
+    "file": "bower-logo-evergreen-emblem.png",
+    "source": "bower-logo-evergreen-emblem-v01.png",
+    "sha256": "0462d6b79f027cd4d73748b8876b22cd7ec74ae3df1e8ea54928c5d4e3730bf4",
+    "operation": "Trim empty canvas; proportional resize"
+  },
+  {
+    "file": "bower-logo-evergreen-horizontal.png",
+    "source": "bower-logo-evergreen-horizontal-v01.png",
+    "sha256": "46df714889852488cdbf40866720bc6739e961c3a2dc2f03361cfe4abcce9b0d",
+    "operation": "Trim empty canvas; proportional resize"
+  },
+  {
+    "file": "bower-logo-inverse-emblem.png",
+    "source": "bower-logo-inverse-emblem-v01.png",
+    "sha256": "bae56cbe3672ef8033f58c0c1af3a4c9c3702bd2425f9005d5902d1eac91c010",
+    "operation": "Trim empty canvas; proportional resize"
+  },
+  {
+    "file": "bower-logo-inverse-horizontal.png",
+    "source": "bower-logo-inverse-horizontal-v01.png",
+    "sha256": "310901c3bf74762e66610e8e22059c274bdf201225a0c507f0e22bfaafa373fe",
+    "operation": "Trim empty canvas; proportional resize"
+  },
+  {
+    "file": "bower-logo-timber-emblem.png",
+    "source": "bower-logo-timber-emblem-v01.png",
+    "sha256": "2def192b5610bdb6b32548ed26f0e4c985cd4036f96a321589cc2f7f0c08e876",
+    "operation": "Trim empty canvas; proportional resize"
+  },
+  {
+    "file": "bower-logo-timber-horizontal.png",
+    "source": "bower-logo-timber-horizontal-v01.png",
+    "sha256": "50d9d5abb6929e2640921243086a87daaf167817636c05ee77e1098e2d359fbd",
+    "operation": "Trim empty canvas; proportional resize"
+  }
+]

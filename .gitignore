@@ -60,3 +60,10 @@ qa/shots/
 # files already on disk and any run that passes `.` explicitly. Fixing the source is the real fix;
 # this is the net under it.
 /grow-*.png
+
+# Local review and release evidence
+/qa-*.log
+/qa-*.json
+/qa-*.png
+/qa/iterations/
+.vercel/

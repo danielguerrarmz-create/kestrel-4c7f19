@@ -1,0 +1,439 @@
+/* Practice: an open record, joined by the same growing botanical drawing. */
+.practice-garden { background: #fff; color: #171b16; font-family: Inter, sans-serif; }
+.practice-garden h1, .practice-garden h2, .practice-garden h3 { font-family: "Bodoni Moda", Georgia, serif; font-weight: 400; }
+.practice-garden h1 { font-size: clamp(72px, 10vw, 150px); line-height: .94; letter-spacing: -.045em; }
+.practice-garden h2 { font-size: clamp(42px, 5.5vw, 80px); line-height: 1.03; letter-spacing: -.035em; }
+.practice-garden h3 { font-size: 32px; line-height: 1.15; }
+.practice-garden p { line-height: 1.6; }
+.practice-garden .practice-opening { padding: 190px 6vw 25px; min-height: 90svh; }
+.practice-opening-copy { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 8vw; }
+.practice-questions { max-width: 32ch; padding-bottom: 6px; font: 24px/1.5 "Source Serif 4 Variable", Georgia, serif; }
+.practice-questions p + p { margin-top: 28px; color: #536151; }
+.practice-garden .practice-botanical { margin: 35px auto 0; min-height: 150px; max-width: 1150px; }
+.practice-growing-story { position: relative; }
+.practice-growing-margin { position: absolute; left: 1vw; top: 0; bottom: 0; width: 4vw; pointer-events: none; z-index: 1; }
+.practice-growing-margin svg { width: 100%; height: 100%; overflow: visible; }
+.practice-growing-margin path { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.vine-trace { stroke: #7a8c6a25; }
+.vine-ink { stroke: #819373; }
+.practice-people, .practice-history, .practice-record, .practice-delivery { position: relative; padding: 110px 7vw; }
+.practice-section-heading { display: grid; grid-template-columns: 1.25fr 1fr; align-items: end; gap: 8vw; margin-bottom: 80px; }
+.practice-section-heading > p { max-width: 34ch; font: 21px/1.6 "Source Serif 4 Variable", Georgia, serif; color: #536151; }
+.practice-founders { display: grid; grid-template-columns: 1fr 1fr; gap: 9vw; }
+.practice-person { max-width: 460px; }
+.practice-person-heading { display: flex; gap: 28px; align-items: center; }
+.practice-person-heading img { width: 110px; height: 138px; object-fit: cover; filter: grayscale(1); }
+.practice-person-heading h3 { max-width: 8ch; font-size: 42px; }
+.practice-person-role { color: #536151; font-size: 13px; margin: 28px 0 14px; }
+.practice-person > p:last-child { max-width: 36ch; font: 20px/1.6 "Source Serif 4 Variable", Georgia, serif; }
+.practice-vine-bridge { max-width: 750px; margin: 65px auto -40px; transform: rotate(-5deg); pointer-events: none; }
+.practice-history { background: linear-gradient(#fff, #f0f3ed 220px); padding-bottom: 30px; }
+.practice-history-year { display: grid; grid-template-columns: 110px 1fr; gap: 4vw; padding: 45px 0 100px; align-items: start; }
+.practice-history-year > h3 { position: sticky; top: 35px; font-size: 38px; color: #52674f; }
+.practice-history-images { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 55px 36px; align-items: start; }
+.practice-history-images figure:nth-child(even) { margin-top: 80px; }
+.practice-history-images img, .practice-history-images video { width: 100%; height: auto; max-height: 470px; object-fit: contain; }
+.practice-garden figcaption { margin-top: 14px; font: 12px/1.65 Inter, sans-serif; color: #586154; max-width: 65ch; }
+.practice-vine-signature { position: relative; margin: 10px auto; width: min(400px, 90%); height: 160px; }
+.practice-vine-signature svg { width: 100%; height: 100%; }
+.practice-vine-signature img { position: absolute; width: 72px; top: 30px; left: 56%; mix-blend-mode: multiply; }
+.practice-record { background: #f0f3ed; padding-top: 90px; }
+.practice-record-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 110px 6vw; align-items: start; }
+.practice-work > figure > img, .practice-work > figure > video { width: 100%; height: 330px; object-fit: contain; }
+.practice-work > figure > figcaption { margin-bottom: 30px; }
+.practice-work-credit { font-size: 12px; color: #536151; margin: 25px 0 12px; }
+.practice-work > p:not(.practice-work-credit) { font: 18px/1.6 "Source Serif 4 Variable", Georgia, serif; margin-top: 20px; max-width: 48ch; }
+.practice-work summary { display: inline-flex; gap: 25px; padding: 12px 0; margin-top: 18px; border-bottom: 1px solid #53615180; font-size: 13px; cursor: pointer; list-style: none; }
+.practice-work summary::-webkit-details-marker { display: none; }
+.practice-work-detail { padding-top: 28px; }
+.practice-work-detail p { font-size: 14px; margin-bottom: 20px; }
+.practice-work-detail figure { margin: 30px 0; }
+.practice-work-detail img, .practice-work-detail video { width: 100%; max-height: 430px; object-fit: contain; }
+.practice-delivery { background: linear-gradient(#f0f3ed, #fff 220px); padding-top: 0; padding-bottom: 150px; }
+.practice-delivery .practice-vine-bridge { margin: 0 auto 80px; }
+.practice-disciplines { display: grid; grid-template-columns: repeat(4,1fr); gap: 30px; }
+.practice-disciplines h3 { font-size: 28px; }
+.practice-disciplines p { font-size: 14px; margin-top: 15px; color: #536151; }
+.practice-invitation { background: #e5ebe0; padding: 100px 7vw 120px; }
+.practice-invitation h2 { max-width: 20ch; }
+.practice-invitation a { display: inline-flex; align-items: center; gap: 70px; border-bottom: 1px solid #354d40; padding: 15px 0; margin-top: 45px; font-size: 18px; }
+@media(max-width: 767px) {
+  .practice-garden .practice-opening { padding: 180px 6vw 30px; min-height: auto; }
+  .practice-opening-copy, .practice-section-heading { grid-template-columns: 1fr; gap: 35px; }
+  .practice-garden h1 { font-size: clamp(64px, 13vw, 95px); }
+  .practice-questions { font-size: 21px; margin-top: 15px; }
+  .practice-garden .practice-botanical { min-height: 85px; margin-top: 10px; }
+  .practice-people, .practice-history, .practice-record, .practice-delivery { padding: 75px 7vw; }
+  .practice-section-heading { margin-bottom: 45px; }
+  .practice-section-heading > p { font-size: 19px; }
+  .practice-founders { grid-template-columns: 1fr; gap: 55px; }
+  .practice-person-heading img { width: 85px; height: 106px; }
+  .practice-person-heading h3 { font-size: 36px; }
+  .practice-person-role { margin-top: 20px; }
+  .practice-person > p:last-child { font-size: 19px; }
+  .practice-growing-margin { left: 0; width: 4vw; }
+  .practice-vine-bridge { margin: 40px auto -30px; }
+  .practice-history-year { grid-template-columns: 1fr; gap: 25px; padding: 20px 0 70px; }
+  .practice-history-year > h3 { position: static; font-size: 34px; }
+  .practice-history-images { grid-template-columns: 1fr; gap: 35px; }
+  .practice-history-images figure:nth-child(even) { margin-top: 0; }
+  .practice-record-grid { grid-template-columns: 1fr; gap: 70px; }
+  .practice-work > figure > img, .practice-work > figure > video { height: auto; max-height: 400px; }
+  .practice-delivery .practice-vine-bridge { margin: -50px auto 35px; }
+  .practice-disciplines { grid-template-columns: 1fr 1fr; gap: 35px 20px; }
+  .practice-disciplines h3 { font-size: 25px; }
+  .practice-invitation { padding: 75px 7vw; }
+}
+@media(prefers-reduced-motion: reduce) { .practice-growing-margin { display: none; } }
+
+/* September review: history follows a vertical stem; projects form a separate portfolio. */
+.practice-garden .practice-history, .practice-garden .practice-record,
+.practice-garden .practice-delivery, .practice-garden .practice-invitation { background: #fff; }
+.practice-garden .practice-opening { padding-right: 12vw; padding-bottom: 120px; }
+.practice-opening-copy { position: relative; z-index: 1; }
+.practice-garden .practice-botanical { position: absolute; width: 120px; height: 420px; right: 1vw; top: 210px; min-height: 0; margin: 0; overflow: hidden; pointer-events: none; }
+.practice-botanical > div, .practice-vine-bridge > div, .milestone-vine > div { height: 100%; }
+.practice-botanical > div > div, .practice-vine-bridge > div > div, .milestone-vine > div > div { height: 100%; }
+.practice-garden .practice-botanical svg, .practice-garden .practice-vine-bridge svg, .practice-garden .milestone-vine svg { position: absolute; width: 450px; max-width: none; height: 135px; left: 0; top: 0; transform-origin: 0 0; transform: translateX(135px) rotate(90deg); }
+.practice-garden .practice-vine-bridge { position: absolute; width: 100px; height: 360px; top: 260px; left: calc(50% - 50px); margin: 0; transform: none; overflow: hidden; }
+.practice-garden .practice-vine-bridge svg { width: 360px; height: 108px; transform: translateX(108px) rotate(90deg); }
+.practice-delivery .practice-vine-bridge { left: auto; right: 0; top: 40px; width: 80px; }
+.practice-garden .practice-history { padding-top: 80px; }
+.practice-history > .practice-section-heading { margin-bottom: 90px; }
+.practice-milestones { position: relative; }
+.practice-milestones .practice-growing-margin { left: calc(50% - 30px); width: 60px; top: 0; bottom: 0; }
+.practice-milestone { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12vw; align-items: start; padding: 45px 0 125px; }
+.milestone-copy { position: sticky; top: 100px; padding: 40px 0 150px; }
+.milestone-copy::before { content: ''; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #718368; right: calc(-6vw - 3.5px); top: 58px; }
+.milestone-year { font-size: 14px; color: #536151; margin-bottom: 25px; }
+.practice-garden .milestone-copy h3 { font-size: clamp(32px,3.4vw,50px); max-width: 12ch; }
+.milestone-copy > p:last-of-type { font: 19px/1.5 "Source Serif 4 Variable", Georgia, serif; max-width: 26ch; margin-top: 25px; }
+.milestone-vine { position: absolute; width: 70px; height: 230px; right: -3vw; top: 120px; overflow: hidden; pointer-events: none; }
+.practice-garden .milestone-vine svg { width: 230px; height: 69px; transform: translateX(69px) rotate(90deg); }
+.milestone-record img, .milestone-record video { width: 100%; height: auto; max-height: 510px; object-fit: contain; }
+.milestone-notes { margin-top: 25px; }
+.milestone-notes summary { display: flex; justify-content: space-between; cursor: pointer; padding: 12px 0; font-size: 13px; color: #536151; list-style: none; }
+.milestone-notes summary::-webkit-details-marker { display: none; }
+.milestone-notes[open] summary span { transform: rotate(45deg); }
+.milestone-notes > div { display: grid; gap: 40px; padding-top: 25px; }
+.practice-garden .practice-vine-signature { width: 100px; height: 240px; margin: -90px auto 30px; }
+.practice-vine-signature img { width: 56px; top: 169px; left: 22px; }
+.practice-garden .practice-record { padding-top: 140px; }
+.practice-record > .practice-section-heading { margin-bottom: 100px; }
+.practice-record-grid { display: block; }
+.practice-work { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(0,1fr); align-items: start; gap: 7vw; margin-bottom: 120px; }
+.practice-work:nth-child(even) { grid-template-columns: minmax(0,1fr) minmax(0,1.35fr); }
+.practice-work:nth-child(even) > figure { grid-column: 2; grid-row: 1; }
+.practice-work:nth-child(even) > .practice-work-copy { grid-column: 1; grid-row: 1; }
+.practice-work > figure > img, .practice-work > figure > video { height: auto; max-height: 450px; }
+.practice-work-copy { padding-top: 15px; }
+.practice-work-copy .practice-work-credit { margin-top: 0; }
+.practice-work-summary { font: 19px/1.5 "Source Serif 4 Variable", Georgia, serif; margin-top: 25px; }
+.practice-work-detail p { line-height: 1.6; }
+/* A narrow feather softens image edges without obscuring drawings or video controls. */
+.practice-garden figure > img, .practice-garden figure > video, .practice-person-heading > img {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7px, #000 calc(100% - 7px), transparent), linear-gradient(to bottom, transparent, #000 7px, #000 calc(100% - 7px), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 7px, #000 calc(100% - 7px), transparent), linear-gradient(to bottom, transparent, #000 7px, #000 calc(100% - 7px), transparent);
+  mask-composite: intersect;
+}
+.practice-garden figcaption { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+@media(max-width: 767px) {
+  .practice-garden .practice-opening { padding-right: 16vw; padding-bottom: 75px; }
+  .practice-garden .practice-botanical { width: 45px; height: 360px; right: 0; top: 330px; }
+  .practice-garden .practice-botanical svg { width: 340px; height: 102px; transform: translateX(65px) rotate(90deg); }
+  .practice-garden .practice-people { padding-right: 14vw; }
+  .practice-garden .practice-people .practice-vine-bridge { left: auto; right: 0; top: 370px; width: 45px; height: 450px; }
+  .practice-garden .practice-people .practice-vine-bridge svg { transform: translateX(70px) rotate(90deg); }
+  .practice-garden .practice-history { padding-left: 9vw; padding-right: 6vw; }
+  .practice-milestones .practice-growing-margin { left: -8vw; width: 30px; }
+  .practice-milestone { grid-template-columns: 1fr; gap: 30px; padding: 15px 0 85px; }
+  .milestone-copy { position: relative; top: auto; padding: 0 40px 0 0; }
+  .milestone-copy::before { right: auto; left: -6vw; top: 9px; }
+  .milestone-year { margin-bottom: 16px; }
+  .milestone-copy > p:last-of-type { margin-top: 16px; font-size: 18px; }
+  .milestone-vine { right: -5vw; top: 10px; width: 35px; height: 170px; }
+  .practice-garden .milestone-vine svg { width: 190px; height: 57px; transform: translateX(42px) rotate(90deg); }
+  .practice-garden .practice-vine-signature { margin: -40px 0 0 -8vw; width: 56px; height: 200px; }
+  .practice-vine-signature img { width: 38px; left: 9px; top: 140px; }
+  .practice-garden .practice-record { padding-top: 80px; }
+  .practice-record > .practice-section-heading { margin-bottom: 50px; }
+  .practice-work, .practice-work:nth-child(even) { display: flex; flex-direction: column; gap: 10px; margin-bottom: 80px; }
+  .practice-work > figure { width: 100%; }
+  .practice-work-copy { width: 100%; }
+  .practice-garden .practice-delivery .practice-vine-bridge { right: 0; top: 60px; width: 35px; height: 240px; }
+  .practice-garden .practice-delivery { padding-right: 12vw; }
+}
+
+.practice-vertical-vine { display: block; width: 100%; height: 100%; object-fit: fill; }
+.practice-garden .practice-botanical { width: 100px; height: 440px; }
+.practice-garden .practice-vine-bridge { width: 90px; left: calc(50% - 45px); height: 400px; }
+.practice-garden .practice-delivery .practice-vine-bridge { left: auto; right: 0; }
+@media(max-width:767px) {
+  .practice-garden .practice-botanical { width: 45px; height: 360px; }
+  .practice-garden .practice-people .practice-vine-bridge { width: 40px; left: auto; right: 0; height: 400px; }
+}
+
+/* One botanical route, with history and portfolio using distinct rhythms. */
+.practice-garden main { position: relative; }
+.practice-garden .practice-opening { padding-top: 260px; padding-bottom: 100px; padding-right: 6vw; }
+.practice-connected-vine { position: absolute; top: 250px; left: calc(50% - 36px); width: 72px; z-index: 2; pointer-events: none; overflow: hidden; }
+.practice-connected-vine > div { height: 100%; }
+.connected-vine-segment { width: 100%; height: 420px; }
+.connected-vine-segment:nth-child(even) { transform: scaleX(-1); }
+.connected-vine-segment .practice-vertical-vine { height: 100%; width: 100%; }
+.practice-garden .practice-people { padding-top: 75px; padding-bottom: 130px; }
+.practice-garden .practice-history { padding-top: 0; }
+.practice-milestone { padding: 30px 0 100px; }
+.milestone-copy::before { display: none; }
+.milestone-copy { position: static; padding: 30px 0; }
+.milestone-record { width: 67%; justify-self: start; }
+.practice-milestone:nth-child(even) .milestone-copy { grid-column: 2; grid-row: 1; }
+.practice-milestone:nth-child(even) .milestone-record { grid-column: 1; grid-row: 1; justify-self: end; }
+.milestone-archive { display: grid; gap: 35px; margin-top: 35px; }
+.practice-garden .practice-vine-signature { width: 200px; height: 320px; margin: 0 auto 20px; }
+.practice-garden .practice-vine-signature img { width: 180px; top: 130px; left: 10px; }
+.practice-record-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 100px 6vw; }
+.practice-work, .practice-work:nth-child(even) { display: block; margin: 0; }
+.practice-work > figure > img, .practice-work > figure > video { width: 100%; height: 320px; object-fit: contain; }
+.practice-work-copy { padding-top: 20px; }
+.practice-work-copy h3 { font-size: 32px; }
+.practice-garden .practice-delivery { padding-top: 100px; }
+.practice-garden .practice-invitation h2 { max-width: 23ch; }
+@media(max-width:767px) {
+  .practice-garden .practice-opening { padding: 230px 6vw 80px 65px; }
+  .practice-garden h1 { font-size: clamp(52px,12vw,90px); }
+  .practice-connected-vine { top: 230px; left: 9px; width: 38px; }
+  .practice-garden .practice-people, .practice-garden .practice-history { padding-left: 65px; padding-right: 6vw; }
+  .practice-garden .practice-people { padding-top: 55px; padding-bottom: 90px; }
+  .practice-milestone, .practice-milestone:nth-child(even) { display: flex; flex-direction: column; gap: 20px; }
+  .milestone-copy { padding: 0; }
+  .milestone-record, .practice-milestone:nth-child(even) .milestone-record { width: 100%; }
+  .practice-garden .practice-vine-signature { width: 160px; height: 260px; margin-left: -117px; }
+  .practice-garden .practice-vine-signature img { width: 130px; left: 15px; top: 120px; }
+  .practice-record-grid { grid-template-columns: 1fr; gap: 75px; }
+  .practice-work > figure > img, .practice-work > figure > video { height: auto; max-height: 360px; }
+}
+
+@media(max-width:767px) {
+  .practice-garden .practice-vine-signature { width: calc(100vw - 56px); height: 320px; margin-left: -37px; }
+  .practice-garden .practice-vine-signature img { width: 140px; left: calc(50% - 70px); top: 130px; }
+}
+/* Review: paired history, measured botanical contours, restored portfolio instrument. */
+.practice-contour-vines { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.practice-contour-vines img { max-width: none; }
+.practice-garden .practice-opening { padding-bottom: 190px; min-height: 0; }
+.practice-garden .practice-people { padding-bottom: 100px; }
+.practice-milestone { gap: 10vw; padding: 25px 0 95px; }
+.milestone-record { display: grid; gap: 30px; width: 76%; }
+.milestone-record img, .milestone-record video { max-height: 260px; object-fit: contain; }
+.milestone-continuation .milestone-copy { display: none; }
+.practice-milestone:nth-child(odd) .milestone-record { grid-column: 2; grid-row: 1; }
+.practice-milestone:nth-child(even) .milestone-record { grid-column: 1; grid-row: 1; }
+.practice-portfolio-frame { height: min(760px, 85svh); min-height: 620px; display: flex; }
+.practice-garden .practice-record { padding-top: 70px; }
+.practice-record > .practice-section-heading { margin-bottom: 55px; }
+.practice-portfolio-frame h3 { font-size: 26px; }
+.practice-portfolio-frame [data-project-band] p { line-height: 1.4; }
+.practice-portfolio-frame [data-project-band] { gap: 22px; }
+.practice-portfolio-frame nav button { min-height: 48px; }
+.practice-garden .practice-delivery { padding-top: 95px; padding-bottom: 100px; }
+.practice-garden .practice-invitation-merged { padding: 0; background: transparent; }
+.practice-invitation-merged a { margin-top: 65px; }
+@media(max-width:1023px) {
+  .practice-portfolio-frame { height: auto; min-height: 0; display: block; }
+}
+@media(max-width:767px) {
+  .practice-garden .practice-opening { padding-bottom: 180px; }
+  .practice-milestone { padding-bottom: 100px; }
+  .milestone-record { gap: 25px; }
+  .milestone-record img, .milestone-record video { max-height: 290px; }
+  .practice-garden .practice-record { padding-left: 6vw; padding-right: 6vw; }
+  .practice-portfolio-frame h3 { font-size: 24px; }
+}
+
+.practice-milestone { padding-bottom: 160px; }
+/* Year chapters: clear introductions, then balanced but unequal image pairs. */
+.practice-garden .timeline-chapter,
+.practice-garden .timeline-chapter:nth-child(even) { display: block; padding: 35px 0 95px; }
+.timeline-chapter .milestone-copy,
+.timeline-chapter:nth-child(even) .milestone-copy { width: 46%; padding: 0; margin: 0 0 50px; }
+.practice-garden .timeline-chapter .milestone-copy h3 { max-width: none; font-size: clamp(30px,3.1vw,44px); }
+.timeline-chapter .milestone-year { margin-bottom: 15px; letter-spacing: .1em; }
+.timeline-chapter .milestone-copy > p:last-of-type { max-width: 38ch; margin-top: 18px; font-size: 18px; }
+.practice-garden .timeline-chapter .milestone-record { width: 100%; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 48px 12vw; align-items: start; }
+.timeline-chapter .timeline-plate { min-width: 0; margin: 0; }
+.timeline-chapter .timeline-plate:nth-child(odd) { grid-column: 2; width: 94%; justify-self: start; }
+.timeline-chapter .timeline-plate:nth-child(even) { grid-column: 1; width: 80%; justify-self: end; margin-top: 100px; }
+.timeline-chapter .timeline-plate:nth-child(4n+1), .timeline-chapter .timeline-plate:nth-child(4n+2) { grid-row: auto; }
+.timeline-chapter .milestone-record { grid-auto-flow: dense; }
+.timeline-chapter .timeline-plate img, .timeline-chapter .timeline-plate video { max-height: 320px; width: 100%; object-fit: contain; }
+.practice-garden .practice-record > .practice-section-heading { display: block; }
+.practice-garden #projects-title { white-space: nowrap; font-size: clamp(30px,5.3vw,76px); }
+.practice-record > .practice-section-heading > p { margin-top: 24px; max-width: 64ch; font-size: 18px; }
+.practice-portfolio-frame { height: auto; min-height: 0; }
+.project-showcase-media { display: grid; grid-template-columns: minmax(0,3.5fr) minmax(0,1fr); gap: 10px; height: clamp(290px,32vw,410px); flex-shrink: 0; }
+.project-showcase-hero, .project-showcase-supports > div { min-height: 0; min-width: 0; background: #fafbf8; }
+.project-showcase-supports { display: grid; grid-template-rows: repeat(3,minmax(0,1fr)); gap: 10px; min-height: 0; }
+.practice-portfolio-frame [data-project-band] { grid-template-columns: minmax(0,1.65fr) minmax(0,1fr); padding-top: 22px; gap: 32px; }
+.practice-portfolio-frame [data-project-band] p { font-size: 15px; line-height: 1.55; }
+.practice-garden .practice-delivery { margin-top: 60px; background: #e6ebe1; color: #283e32; }
+.practice-delivery .practice-section-heading > p, .practice-delivery .practice-disciplines p { color: #405647; }
+@media(max-width:767px) {
+ .practice-garden .timeline-chapter { padding-bottom: 55px; }
+ .timeline-chapter .milestone-copy { width: 100%; margin-bottom: 32px; }
+ .practice-garden .timeline-chapter .milestone-record { grid-template-columns: 1fr; gap: 35px; }
+ .timeline-chapter .timeline-plate:nth-child(n) { grid-column: 1; width: 100%; margin-top: 0; }
+ .timeline-chapter .timeline-plate:nth-child(even) { width: 87%; justify-self: start; }
+ .practice-garden #projects-title { font-size: clamp(24px,7.5vw,42px); letter-spacing: -.04em; }
+ .practice-garden .practice-delivery { margin-top: 0; padding-right: 7vw; }
+}
+.project-showcase-media button, .project-showcase-media img, .project-showcase-media video { background: #fff; }
+.practice-garden .practice-record { padding-bottom: 70px; }
+.practice-garden .practice-delivery { margin-top: 0; }
+/* Final portfolio review: shared positions, filled previews, compact mobile selection. */
+.project-showcase-media img, .project-showcase-media video,
+.mobile-project-media img, .mobile-project-media video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.project-recognition { display: grid; grid-template-rows: 18px 34px 54px 50px 34px 28px; gap: 2px; align-content: start; }
+.practice-portfolio-frame .project-recognition p { margin: 0; font: 12px/1.4 Inter,sans-serif; color: #566054; letter-spacing: 0; text-transform: none; }
+.practice-portfolio-frame .project-recognition .project-recognition-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.project-paper-action a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; border-bottom: 1px solid #64765e; font: 11px/1.3 Inter,sans-serif; }
+.project-paper-action a span { font-size: 10px; color: #63705e; }
+.practice-portfolio-frame [data-project-band] > div:first-child { display: grid; grid-template-rows: 56px 22px auto; align-content: start; }
+.practice-portfolio-frame [data-project-band] > div:first-child > * { margin: 0; }
+.practice-portfolio-frame [data-project-band] > div:first-child > p { font-size: 14px; line-height: 1.5; }
+.practice-garden .practice-founders { align-items: start; }
+.practice-garden .practice-person { width: 100%; max-width: none; display: grid; grid-template-rows: 138px 28px auto; row-gap: 20px; }
+.practice-person-heading { align-items: center; height: 138px; }
+.practice-person-heading h3 { margin: 0; }
+.practice-garden .practice-person > p { margin: 0; }
+.practice-garden .practice-person > p:last-child { max-width: 35ch; }
+.timeline-chapter .timeline-plate:nth-child(even) { justify-self: start; }
+.practice-garden .practice-vine-signature { margin-top: -45px; height: 270px; }
+.practice-garden .practice-vine-signature img { top: 85px; }
+@media(min-width:1024px) {
+ .practice-garden .practice-record { height: 100svh; min-height: 720px; padding: 35px 7vw; display: flex; flex-direction: column; }
+ .practice-record > .practice-section-heading { flex: 0 0 auto; margin-bottom: 25px; }
+ .practice-garden #projects-title { font-size: clamp(42px,4.3vw,62px); }
+ .practice-portfolio-frame { flex: 1; min-height: 0; }
+ .project-showcase-media { height: auto; min-height: 220px; flex: 1; }
+ .practice-portfolio-frame [data-project-band] { padding-top: 15px; }
+ .practice-portfolio-frame nav button { min-height: 42px; }
+}
+.project-mobile-browser > label { display: block; font-size: 12px; margin-bottom: 10px; color: #52634f; }
+.project-mobile-browser > select { width: 100%; min-height: 48px; padding: 10px; font-size: 16px; background: #f1f4ed; border: 1px solid #c9d2c4; border-radius: 0; margin-bottom: 24px; }
+.mobile-project-media { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-bottom: 24px; }
+.mobile-project-hero { grid-column: 1/-1; height: clamp(200px,60vw,390px); }
+.mobile-project-thumb { height: clamp(72px,21vw,130px); }
+.project-mobile-browser > div:last-child > div:first-child { display: block; }
+.project-mobile-browser > div:last-child > div:first-child > span { display: block; margin-top: 10px; }
+@media(max-width:1023px) {
+ .project-recognition { display: flex; flex-direction: column; gap: 8px; }
+ .project-recognition > :empty { display: none; }
+ .project-paper-action a { min-height: 44px; }
+ .practice-garden .practice-record { padding-top: 50px; }
+}
+@media(max-width:767px) {
+ .practice-garden .practice-person { grid-template-rows: 106px auto auto; gap: 18px; }
+ .practice-person-heading { height: 106px; }
+ .practice-garden .practice-vine-signature { height: 260px; }
+ .practice-garden .practice-vine-signature img { top: 85px; }
+}
+/* Group related publication content; reserve consistent groups instead of empty text rows. */
+.project-recognition { grid-template-rows: 40px 126px 28px 24px; gap: 12px; }
+.practice-portfolio-frame .project-recognition p { font-size: 12px; line-height: 1.4; }
+.practice-portfolio-frame .project-recognition .recognition-eyebrow { display: block; font-size: 10px; line-height: 1.4; letter-spacing: .09em; text-transform: uppercase; color: #71806c; margin-bottom: 6px; }
+.practice-portfolio-frame .project-recognition .recognition-title { color: #293c2e; font-weight: 500; margin-bottom: 6px; }
+.practice-portfolio-frame .project-recognition .recognition-authors { margin-top: 4px; color: #72806d; }
+.practice-portfolio-frame .recognition-collaborators .recognition-eyebrow { display: inline; margin-right: 5px; }
+@media(min-width:768px) {
+ .practice-garden .practice-founders { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12vw; justify-items: center; }
+ .practice-garden .practice-person { max-width: 390px; }
+ .practice-garden .practice-person-heading { gap: 24px; }
+ .practice-garden .practice-person-heading h3 { font-size: 40px; }
+ .practice-garden .practice-person > p:last-child { max-width: none; }
+}
+@media(min-width:1024px) {
+ .practice-garden .practice-record { padding-bottom: 90px; }
+}
+@media(max-width:1023px) {
+ .project-recognition { gap: 18px; }
+ .practice-garden .practice-record { padding-bottom: 95px; }
+}
+.project-recognition { grid-template-rows: 40px auto auto auto; gap: 12px; }
+.project-recognition .recognition-publication:empty, .project-recognition .recognition-collaborators:empty, .project-recognition .project-paper-action:empty { display: none; }
+/* Give the founders their own breathing space and alternate the year introductions. */
+@media(min-width:768px) {
+ .practice-garden .practice-opening { padding-top: 190px; padding-bottom: 240px; }
+ .practice-garden .practice-people { padding-top: 110px; padding-bottom: 180px; }
+ .practice-garden .practice-person { grid-template-rows: 160px 28px auto; row-gap: 24px; }
+ .practice-garden .practice-person-heading { height: 160px; gap: 26px; }
+ .practice-garden .practice-person-heading img { width: 126px; height: 158px; }
+ .practice-garden .practice-person-heading h3 { font-size: 42px; }
+ .practice-garden .timeline-chapter:nth-child(even) .milestone-copy { margin-left: 56%; width: 44%; }
+ .practice-garden .timeline-chapter .milestone-copy { margin-bottom: 65px; }
+}
+@media(max-width:767px) {
+ .practice-garden .practice-opening { padding-top: 180px; padding-bottom: 195px; }
+ .practice-garden .practice-people { padding-top: 75px; padding-bottom: 125px; }
+ .practice-founders { gap: 75px; }
+ .practice-garden .timeline-chapter:nth-child(even) .milestone-copy { width: 94%; margin-left: 6%; }
+}
+
+/* Branch pockets leave clear air around the ornament and adjacent captions. */
+.practice-garden .timeline-chapter .milestone-record { row-gap: 90px; }
+@media(max-width:767px) {
+ .practice-garden .timeline-chapter .milestone-record { row-gap: 82px; }
+}
+
+.practice-garden .practice-record .practice-section-heading { margin-bottom: 44px; }
+@media(max-width:767px) {
+ .practice-garden .practice-record .practice-section-heading { margin-bottom: 32px; }
+}
+
+/* Spacious finale, with the intact brand lockup revealed as the vine settles. */
+.practice-garden .practice-vine-signature { width:320px; height:340px; margin:-90px auto 20px; }
+.practice-garden .practice-vine-signature .signature-emblem { width:240px; left:40px; top:35px; }
+.practice-garden .practice-vine-signature .signature-wordmark { width:250px; left:35px; top:285px; }
+.practice-garden .practice-delivery { background:linear-gradient(180deg,#fff 0%,#f3f5f0 140px,#e6ebe1 320px); padding-top:210px; }
+.practice-garden > footer { background:linear-gradient(180deg,#e6ebe1,#fff 300px); padding-top:180px; }
+@media(max-width:767px) {
+ .practice-garden .practice-vine-signature { width:260px; height:300px; margin:-65px auto 15px; }
+ .practice-garden .practice-vine-signature .signature-emblem { width:200px; left:30px; top:25px; }
+ .practice-garden .practice-vine-signature .signature-wordmark { width:210px; left:25px; top:242px; }
+ .practice-garden .practice-delivery { padding-top:160px; background:linear-gradient(#fff,#f3f5f0 90px,#e6ebe1 220px); }
+ .practice-garden > footer { padding-top:120px; }
+}
+
+/* Caption measure follows each image's constrained intrinsic aspect ratio. */
+.practice-garden .timeline-chapter .timeline-plate { max-width:calc(320px * var(--media-ratio,1.5)); }
+.practice-garden .timeline-chapter .timeline-plate img,
+.practice-garden .timeline-chapter .timeline-plate video { height:auto; max-height:none; }
+.practice-garden .timeline-chapter:nth-child(3) .timeline-plate:nth-child(5) { justify-self:end; }
+.practice-garden .timeline-chapter:nth-child(4) .timeline-plate:nth-child(2) { width:96%; max-width:calc(390px * var(--media-ratio,1.5)); margin-top:10px; }
+.practice-garden .practice-vine-signature .signature-wordmark { position:absolute; width:180px; height:66px; top:285px; left:70px; overflow:hidden; }
+.practice-garden .practice-vine-signature .signature-wordmark img { position:absolute; width:250px; max-width:none; top:0; left:-70px; }
+.practice-garden .practice-record { margin-top:100px; }
+.practice-garden > footer { max-width:none; border-top:0; }
+@media(max-width:767px) {
+ .practice-garden .timeline-chapter .timeline-plate { max-width:100%; }
+ .practice-garden .timeline-chapter:nth-child(4) .timeline-plate:nth-child(2) { width:100%; margin-top:0; }
+ .practice-garden .practice-vine-signature .signature-wordmark { width:150px; height:55px; top:242px; left:55px; }
+ .practice-garden .practice-vine-signature .signature-wordmark img { width:210px; left:-60px; top:0; }
+ .practice-garden .practice-record { margin-top:65px; }
+}
+
+/* Opening mirrors the closing sage wash, including the header's full width. */
+.practice-garden .practice-opening {
+ background:linear-gradient(180deg,#e6ebe1 0%,#edf0e9 24%,#f5f6f2 55%,#fff 100%);
+}
+.practice-garden .practice-opening .editorial-header { background:transparent; }
+@media(min-width:768px) {
+ .practice-garden .timeline-chapter:nth-child(3) .timeline-plate:first-child { justify-self:end; }
+ .practice-garden .timeline-chapter:nth-child(2) .timeline-plate:first-child { margin-top:65px; }
+ .practice-garden .timeline-chapter:last-child { padding-bottom:245px; }
+}
+@media(max-width:767px) {
+ .practice-garden .timeline-chapter:nth-child(2) .timeline-plate:first-child { margin-top:24px; }
+ .practice-garden .timeline-chapter:last-child { padding-bottom:185px; }
+}

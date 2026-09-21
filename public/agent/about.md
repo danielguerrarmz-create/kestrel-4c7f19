@@ -8,9 +8,13 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[Bower](/)
+[
 
-[gallery](/gallery) [process](/process) [contact](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
 # Bower
 
@@ -28,7 +32,11 @@ Clay Seifert and Daniel Guerra. Founding commissions from 2027.
 
 [About the company](/about/practice)
 
-[Bower](/)
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

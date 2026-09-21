@@ -135,7 +135,7 @@ export interface ContactPayload {
 /** What the handler decided, separated from the HTTP plumbing so it is testable without a server. */
 export type ContactResult =
   | { ok: true }
-  | { ok: false; status: 400; reason: 'invalid-email' }
+  | { ok: false; status: 400; reason: 'invalid-email' | 'invalid-fields' }
   | { ok: false; status: 503; reason: 'not-configured' }
   | { ok: false; status: 502; reason: 'send-failed' };
 
@@ -145,6 +145,25 @@ export function normalizeEmail(raw: unknown): string | null {
   const email = raw.trim();
   if (!email || email.length > MAX_EMAIL || !EMAIL_RE.test(email)) return null;
   return email;
+}
+
+/** Bound every externally supplied field before constructing a mail payload. */
+export function normalizePayload(raw: unknown): ContactPayload | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const input = raw as Record<string, unknown>;
+  const email = normalizeEmail(input.email);
+  if (!email || /[\x00-\x1f\x7f]/.test(email)) return null;
+  const payload: ContactPayload = { email };
+  const limits = { name: 120, location: 200, timeZone: 100, source: 80, programme: 4000 } as const;
+  for (const key of Object.keys(limits) as Array<keyof typeof limits>) {
+    const value = input[key];
+    if (value === undefined) continue;
+    if (typeof value !== 'string' || value.length > limits[key]) return null;
+    if ((key === 'programme' ? /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/ : /[\x00-\x1f\x7f]/).test(value)) return null;
+    payload[key] = value.trim();
+  }
+  if (input.website !== undefined && input.website !== '') return null;
+  return payload;
 }
 
 /**
@@ -188,13 +207,15 @@ export function buildMessage(
  * injectable for the same reason.
  */
 export async function deliver(
-  payload: ContactPayload,
+  payload: unknown,
   env: { RESEND_API_KEY?: string; RESEND_FROM?: string; RESEND_TO?: string },
   now: string,
   fetchImpl: typeof fetch = fetch,
 ): Promise<ContactResult> {
-  const email = normalizeEmail(payload.email);
+  const email = normalizeEmail((payload as ContactPayload | null)?.email);
   if (!email) return { ok: false, status: 400, reason: 'invalid-email' };
+  const normalized = normalizePayload(payload);
+  if (!normalized) return { ok: false, status: 400, reason: 'invalid-fields' };
 
   const key = env.RESEND_API_KEY;
   // The honest unconfigured state. NOT a thrown error and NOT a fake success: the form is going to
@@ -204,8 +225,9 @@ export async function deliver(
   try {
     const res = await fetchImpl('https://api.resend.com/emails', {
       method: 'POST',
+      signal: AbortSignal.timeout(10000),
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(buildMessage({ ...payload, email }, now, env)),
+      body: JSON.stringify(buildMessage(normalized, now, env)),
     });
     if (!res.ok) return { ok: false, status: 502, reason: 'send-failed' };
     return { ok: true };
@@ -218,13 +240,16 @@ export async function deliver(
 interface Req {
   method?: string;
   body?: unknown;
+  headers?: Record<string, string | string[] | undefined>;
 }
 interface Res {
   status(code: number): Res;
+  setHeader?(name: string, value: string): void;
   json(body: unknown): void;
 }
 
 export default async function handler(req: Req, res: Res): Promise<void> {
+  res.setHeader?.('Cache-Control', 'no-store');
   // A KEY probe, not a readiness probe, and the name matters. It answers "did `RESEND_API_KEY`
   // land in this deployment", which is worth a lot because it costs no fake enquiry in the inbox a
   // real client writes to. It does NOT answer "will a message send": domain verification lives at
@@ -236,6 +261,23 @@ export default async function handler(req: Req, res: Res): Promise<void> {
   }
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, reason: 'method-not-allowed' });
+    return;
+  }
+
+  const origin = req.headers?.origin;
+  const allowed = new Set(['https://bowerbuild.org', 'https://www.bowerbuild.org']);
+  if (process.env.VERCEL_URL) allowed.add(`https://${process.env.VERCEL_URL}`);
+  if (origin && (typeof origin !== 'string' || !allowed.has(origin))) {
+    res.status(403).json({ ok: false, reason: 'invalid-origin' });
+    return;
+  }
+  const contentType = req.headers?.['content-type'];
+  if (typeof contentType !== 'string' || contentType.split(';')[0].trim().toLowerCase() !== 'application/json') {
+    res.status(415).json({ ok: false, reason: 'unsupported-media-type' });
+    return;
+  }
+  if (Buffer.byteLength(typeof req.body === 'string' ? req.body : JSON.stringify(req.body ?? null)) > 16384) {
+    res.status(413).json({ ok: false, reason: 'payload-too-large' });
     return;
   }
 

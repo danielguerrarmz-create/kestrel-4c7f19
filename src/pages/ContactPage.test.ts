@@ -11,7 +11,7 @@ describe('ContactPage', () => {
   it('requires only the reply address', () => {
     expect(html.match(/required=""/g)).toHaveLength(1);
     expect(html).toContain('name="email"');
-    expect(html).toContain('name="email" type="email" required=""');
+    expect(html).toContain('name="email" type="email" maxLength="254" required=""');
     expect(html).not.toContain('(optional)');
   });
 });

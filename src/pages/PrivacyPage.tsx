@@ -42,7 +42,7 @@ export function PrivacyPage() {
 
             <section>
               <h2 className="font-quote text-[clamp(2rem,4vw,3.25rem)] leading-none text-black">Our service providers</h2>
-              <p className="mt-5">The website is hosted by Vercel. Enquiry emails are delivered through Resend. We use Vercel Web Analytics and PostHog to understand visits and use of the site. PostHog may provide session replay. These providers process information on our behalf and may process it outside the United Kingdom under their applicable safeguards.</p>
+              <p className="mt-5">The website is hosted by Vercel. Enquiry emails are delivered through Resend. We use Vercel Web Analytics and PostHog to understand visits and use of the site. Session replay and automatic interaction capture are disabled; enquiry field values are not recorded by our analytics. These providers process information on our behalf and may process it outside the United Kingdom under their applicable safeguards.</p>
             </section>
 
             <section>

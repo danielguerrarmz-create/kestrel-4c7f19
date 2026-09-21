@@ -8,9 +8,13 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Gallery](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower ↗](/contact)
 
 Privacy notice · Updated 3 September 2026
 
@@ -48,7 +52,11 @@ We keep information only for as long as it is needed for these purposes, includi
 
 Depending on the law that applies, you may ask for access to your information, correction, deletion, restriction, portability or object to its use. You may withdraw consent where processing relies on it. Contact us using the address above. You may also raise a concern with the [UK Information Commissioner’s Office](https://ico.org.uk/make-a-complaint/data-protection-complaints/) or the relevant authority where you live.
 
-[Bower](/)
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
 
 [Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
 

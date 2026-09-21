@@ -27,39 +27,7 @@ export const CENTERS: ReadonlyArray<readonly [number, number]> = [
   [60.61, 39.39],
 ];
 
-/** The single accent circle when `accent` is on (index 1), in accent-olive. */
-const ACCENT_INDEX = 1;
-const ACCENT_OLIVE = '#ACC13A';
-
-export function OculusMark({
-  size = 40,
-  accent = false,
-  className = '',
-}: {
-  size?: number;
-  accent?: boolean;
-  className?: string;
-}) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      aria-hidden="true"
-      className={`shrink-0 ${className}`}
-    >
-      <g stroke="currentColor" strokeWidth={2.8} fill="none" strokeLinecap="round">
-        {CENTERS.map(([cx, cy], i) => (
-          <circle
-            key={i}
-            cx={cx}
-            cy={cy}
-            r={30}
-            stroke={accent && i === ACCENT_INDEX ? ACCENT_OLIVE : undefined}
-          />
-        ))}
-      </g>
-    </svg>
-  );
+/** Current approved September emblem. Geometry constants above remain for historical diagrams. */
+export function OculusMark({size=40,className=''}:{size?:number;accent?:boolean;className?:string}) {
+ return <img src="/assets/brand/bower-logo-evergreen-emblem.png" width={size} height={size} alt="" aria-hidden="true" className={`shrink-0 object-contain ${className}`} />;
 }

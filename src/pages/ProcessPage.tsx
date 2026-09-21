@@ -1,184 +1,86 @@
-import { useMobileLayout } from '../ui/useMobileLayout';
-import { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { routes } from '../routing';
+import { useState, useId, type ReactNode } from 'react';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
-import { usePageSnap } from '../ui/usePageSnap';
-import { useReducedMotion } from '../ui/useReducedMotion';
-import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
+import parts from '../data/process-parts.json';
+import './bower-direction.css';
+import './process-journey.css';
 
-export const PROCESS_STEPS = [
-  { title: 'Conversation', body: 'Landscape, people, purpose.' },
-  { title: 'Founding Site Study', body: `Four weeks · ${FOUNDING_SITE_STUDY_FEE_INTERNATIONAL} plus approved travel and project expenses.` },
-  { title: 'Design', body: 'Geometry, structure, planting.' },
-  { title: 'Making', body: 'Fabrication and assembly.' },
-  { title: 'Stewardship', body: 'Training, growth, care.' },
-] as const;
+const study=(name:string)=>`/assets/studies/${name}.webp`;
 
-const GROWTH_STAGES = [
-  { year: '00', label: 'A lattice', src: '/assets/process/evolution/installation.webp', alt: 'Concept visualisation of a newly installed bare timber Bower' },
-  { year: '01', label: 'Leaves in the weave', src: '/assets/process/evolution/establishing.webp', alt: 'Concept visualisation of the same Bower as planting begins to establish' },
-  { year: '03', label: 'A room of blossom and eaves', src: '/assets/process/evolution/mature.webp', alt: 'Concept visualisation of the same Bower with mature planting through its lattice' },
-] as const;
-
-function GrowthEvolution() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const mobile = useMobileLayout();
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 55,
-    damping: 18,
-    mass: 0.25,
-    restDelta: 0.0005,
-  });
-  const installationOpacity = useTransform(smoothProgress, [0, 0.2, 0.48], [1, 1, 0]);
-  const establishingOpacity = useTransform(smoothProgress, [0.18, 0.42, 0.58, 0.82], [0, 1, 1, 0]);
-  const matureOpacity = useTransform(smoothProgress, [0.55, 0.84, 1], [0, 1, 1]);
-  const opacities = [installationOpacity, establishingOpacity, matureOpacity] as const;
-
-  if (reduced || mobile) {
-    return (
-      <section data-snap-section className="flex min-h-[100svh] snap-start items-center bg-[#11110e] px-gutter py-12 text-white" aria-label="The same Bower from year zero to year three">
-        <div className="mx-auto w-full max-w-canvas">
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/45">Year zero to year three</p>
-          <h2 className="mt-5 max-w-[10ch] font-quote text-[clamp(3.2rem,6vw,7rem)] leading-[0.89] tracking-[-0.045em]">The garden continues the architecture.</h2>
-          <div className="mt-10 mobile-image-rail grid grid-cols-3 gap-2 md:gap-4">
-            {GROWTH_STAGES.map((stage) => (
-              <figure key={stage.src}>
-                <img src={stage.src} srcSet={srcSetFor(stage.src)} sizes="(min-width: 768px) 33vw, 88vw" alt={stage.alt} loading="eager" decoding="async" className="aspect-[3/2] w-full object-cover" />
-                <figcaption className="mt-3 font-mono text-[8px] uppercase tracking-[0.12em] text-white/50 md:text-[9px]">{stage.year} · {stage.label}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section ref={sectionRef} data-snap-section className="relative h-[320svh] snap-start bg-[#11110e]" aria-label="The same Bower from year zero to year three">
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#11110e] text-white">
-        {GROWTH_STAGES.map((stage, index) => (
-          <motion.img
-            key={stage.src}
-            src={stage.src}
-            srcSet={srcSetFor(stage.src)}
-            sizes="100vw"
-            alt={stage.alt}
-            loading="eager"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center will-change-[opacity] [transform:translateZ(0)]"
-            style={{ opacity: opacities[index] }}
-          />
-        ))}
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.48)_0%,rgba(8,8,6,0.02)_48%,rgba(8,8,6,0.62)_100%)]" />
-        <div className="absolute inset-0 mx-auto flex w-full max-w-canvas flex-col justify-between px-gutter py-[clamp(2rem,6svh,4rem)]">
-          <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/60">Year zero to year three</p>
-            <h2 className="mt-5 max-w-[10ch] font-quote text-[clamp(3.2rem,6vw,7rem)] leading-[0.89] tracking-[-0.045em] [text-shadow:0_1px_22px_rgba(0,0,0,0.45)]">The garden continues the architecture.</h2>
-          </div>
-          <div className="relative min-h-10 border-l border-white/35 pl-4 font-mono text-[9px] uppercase tracking-[0.16em] text-white/78">
-            {GROWTH_STAGES.map((stage, index) => (
-              <motion.p key={stage.label} aria-hidden className="absolute inset-y-0 left-4 flex items-center" style={{ opacity: opacities[index] }}>
-                {stage.year} · {stage.label}
-              </motion.p>
-            ))}
-            <span className="sr-only">The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</span>
-          </div>
-        </div>
-        <motion.div data-growth-progress aria-hidden className="absolute inset-x-0 bottom-0 h-px origin-left bg-white/55" style={{ scaleX: smoothProgress }} />
-      </div>
-    </section>
-  );
+function Photo({src,alt,eager=false}:{src:string;alt:string;eager?:boolean}) {
+ return <img src={src} srcSet={srcSetFor(src)} sizes="(max-width:767px) 1000px,100vw" alt={alt} loading={eager?'eager':'lazy'}/>;
 }
-
-export function ProcessPage() {
-  usePageSnap({ wheel: true });
-
-  return (
-    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
-      <main>
-        <section data-snap-section className="relative flex min-h-[100svh] snap-start items-center px-gutter py-28">
-          <EditorialHeader />
-          <div className="mx-auto w-full max-w-canvas">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">Making</p>
-            <h1 className="mt-10 max-w-[11ch] font-quote text-[clamp(4rem,10vw,10rem)] leading-[0.86] tracking-[-0.05em]">From landscape to Bower.</h1>
-            <p className="ml-auto mt-14 max-w-[23rem] font-serifDisplay text-[clamp(1.15rem,1.9vw,1.55rem)] leading-[1.5] text-black/48">The structure is finished once. The garden never is.</p>
-          </div>
-        </section>
-
-        <section data-snap-section className="flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(7rem,14vw,14rem)]">
-          <div className="mx-auto w-full max-w-canvas">
-            <p className="max-w-[36rem] font-serifDisplay text-[clamp(1.2rem,2.1vw,1.75rem)] leading-[1.55] text-black/52">
-              Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
-            </p>
-            <h2 className="ml-auto mt-[clamp(6rem,14vw,13rem)] max-w-[12ch] text-right font-quote text-[clamp(3.5rem,8vw,8.5rem)] leading-[0.88] tracking-[-0.05em]">
-              None of them finished. All of them alive.
-            </h2>
-          </div>
-        </section>
-
-        <section data-snap-section data-mobile-landscape aria-label="A flowering Bower in the landscape" className="relative min-h-[100svh] snap-start overflow-hidden bg-[#11110e]">
-          <img
-            src="/assets/gallery/week-3/flowering-bower-morning-mist.webp"
-            srcSet={srcSetFor('/assets/gallery/week-3/flowering-bower-morning-mist.webp')}
-            sizes="100vw"
-            alt="Concept visualisation of a flowering timber Bower among stone walls in morning mist"
-            loading="eager"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center motion-safe:scale-[1.015] motion-safe:animate-[hero-drift_24s_ease-out_both]"
-          />
-          <p className="absolute bottom-6 left-gutter font-mono text-[8px] uppercase tracking-[0.16em] text-white/72 [text-shadow:0_1px_12px_rgba(0,0,0,0.72)] md:bottom-8 md:text-[9px]">A living room in the landscape · Concept visualisation</p>
-        </section>
-
-        <GrowthEvolution />
-
-        <section data-snap-section className="flex min-h-[100svh] snap-start items-center px-gutter py-20">
-          <div className="mx-auto grid w-full max-w-canvas gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
-            <div>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/38">A disciplined route</p>
-              <h2 className="mt-8 max-w-[8ch] font-quote text-[clamp(3.3rem,7vw,7.2rem)] leading-[0.89] tracking-[-0.045em]">Five acts of making.</h2>
-            </div>
-            <ol className="border-t border-black/18">
-              {PROCESS_STEPS.map((step, index) => (
-                <li key={step.title} className="grid grid-cols-[2rem_1fr] gap-4 border-b border-black/14 py-4 md:grid-cols-[3rem_1fr_1fr] md:py-5">
-                  <span className="font-mono text-[9px] text-black/32">0{index + 1}</span>
-                  <span className="font-serifDisplay text-[clamp(1.15rem,2vw,1.55rem)]">{step.title}</span>
-                  <span className="col-start-2 font-mono text-[8px] uppercase tracking-[0.13em] text-black/38 md:col-start-auto md:self-center md:text-[9px]">{step.body}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section data-snap-section className="min-h-[100svh] snap-start bg-floralWhite pt-[clamp(3.5rem,8svh,6rem)]">
-          <div className="mobile-photo-story relative flex h-[88svh] min-h-[34rem] items-end overflow-hidden bg-[#11110e] px-gutter py-[clamp(3rem,7svh,6rem)] text-white">
-            <img
-              src="/assets/gallery/week-3/landscape-room-at-dawn.webp"
-              srcSet={srcSetFor('/assets/gallery/week-3/landscape-room-at-dawn.webp')}
-              sizes="100vw"
-              alt="Concept visualisation of a flowering timber Bower overlooking a misted rural valley at dawn"
-              loading="eager"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-[54%_center]"
-            />
-            <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.16)_0%,rgba(8,8,6,0.03)_40%,rgba(8,8,6,0.78)_100%)]" />
-            <p className="absolute right-gutter top-6 font-mono text-[8px] uppercase tracking-[0.16em] text-white/62 [text-shadow:0_1px_10px_rgba(0,0,0,0.65)] md:top-8 md:text-[9px]">Unbuilt concept visualisation</p>
-            <div className="relative mx-auto w-full max-w-canvas">
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/58">Founding commissions</p>
-              <h2 className="mt-7 max-w-[11ch] font-quote text-[clamp(3.3rem,7vw,7.5rem)] leading-[0.89] tracking-[-0.045em]">Every landscape asks for a different answer.</h2>
-              <a href={routes.contact} className="mt-9 inline-block border-b border-white/60 pb-1 font-serifDisplay text-[clamp(1.15rem,2vw,1.5rem)] transition-colors hover:border-white hover:text-white/70">Begin with a conversation →</a>
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
-  );
+function Detail({title,children}:{title:string;children:ReactNode}) {
+ const [open,setOpen]=useState(false);
+ const id=useId();
+ return <div className="process-detail"><button className="process-detail-toggle" aria-expanded={open} aria-controls={id} onClick={()=>setOpen(!open)}>{title}<span aria-hidden="true">{open?'−':'+'}</span></button><div id={id} className={`process-detail-body ${open?'is-open':''}`} aria-hidden={!open}>{children}</div></div>;
+}
+const siteTopics=[
+ {name:'Sun & shelter',text:'Follow the light through the day. Decide where a canopy should shade, open or shelter, and which plants will thrive there.',x:67,y:22},
+ {name:'Views & movement',text:'Keep the views that matter. Place openings around the way people arrive, gather and move through the garden.',x:47,y:62},
+ {name:'Ground & planting',text:'Understand levels, roots, soil and access before choosing where the structure meets the ground.',x:24,y:78},
+];
+function SiteReading(){
+ const [active,setActive]=useState(0);
+ const topic=siteTopics[active];
+ return <div className="site-reading">
+  <div className="site-reading-image"><Photo src={study('growth-01-installation')} alt="Garden design study used to illustrate sunlight, movement and ground considerations"/>
+   <div className="site-marker" style={{left:`${topic.x}%`,top:`${topic.y}%`}} aria-hidden="true"><span/>{topic.name}</div>
+   <span className="image-note">Illustrative site study</span>
+  </div>
+  <div className="site-reading-notes"><div className="process-choices" aria-label="Site considerations">{siteTopics.map((item,i)=><button key={item.name} aria-pressed={active===i} onClick={()=>setActive(i)}>{item.name}</button>)}</div><p aria-live="polite">{topic.text}</p></div>
+ </div>;
+}
+function PartsWorkbench(){
+ const [choice,setChoice]=useState(1);
+ const current=parts[choice];
+ const sample=current.pieces.slice(0,8);
+ const max=Math.max(...parts.flatMap(p=>p.pieces.map(piece=>piece.lengthM)));
+ return <div className="parts-workbench">
+  <div className="parts-explanation"><h3>Change the size.<br/>Recalculate the parts.</h3><p>These three studies come from Bower Engine. Choose a footprint to see its timber schedule update.</p>
+   <div className="process-choices" aria-label="Example footprint">{parts.map((part,i)=><button key={part.footprintM2} aria-pressed={choice===i} onClick={()=>setChoice(i)}>{part.footprintM2} m²</button>)}</div>
+   <dl aria-live="polite"><div><dt>Timber pieces</dt><dd>{current.count}</dd></div><div><dt>Total timber length</dt><dd>{current.lengthM} <small>m</small></dd></div></dl>
+   <p className="process-fine">Precomputed engine studies. Same height, spacing and joint family. Engineering and fabrication review remain ahead.</p>
+  </div>
+  <figure className="parts-drawing"><svg viewBox="0 0 640 465" role="img" aria-label={`Eight sample timber lengths from the ${current.footprintM2} square metre engine study`}>
+   <defs><linearGradient id="timber-face" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#d8bd94"/><stop offset="1" stopColor="#b49267"/></linearGradient></defs>
+   {sample.map((piece,i)=>{const y=38+i*53,w=piece.lengthM/max*415;return <g key={piece.id}>
+    <path d={`M42 ${y} l8 -7 h${w} l-8 7 Z`} fill="#ead6b6"/>
+    <path d={`M${42+w} ${y} l8 -7 v23 l-8 7 Z`} fill="#917653"/>
+    <rect x="42" y={y} width={w} height="23" fill="url(#timber-face)"/>
+    {[6,11,17].map(offset=><path key={offset} d={`M48 ${y+offset} Q${70+w*.35} ${y+offset-3} ${36+w} ${y+offset}`} fill="none" stroke="#8b6b43" strokeOpacity=".23"/>) }
+    <path d={`M${w+58} ${y+11} H515`} stroke="#b6bcaf" strokeDasharray="2 4"/>
+    <text x="632" textAnchor="end" y={y+16} fill="#354d40" fontSize="14">{Math.round(piece.lengthM*1000)} mm</text>
+   </g>})}
+  </svg><figcaption>Sample piece lengths from the model, not machining profiles.</figcaption></figure>
+ </div>;
+}
+function JointStudy(){
+ return <figure className="joint-study"><div className="joint-placeholder" role="img" aria-label="Joint detail image placeholder"><span>Joint detail</span><small>Image to come</small></div></figure>;
+}
+function AssemblyPlaceholder(){
+ return <figure className="assembly-placeholder process-video-placeholder" role="img" aria-label="Placeholder for a Bower assembly film"><p>Bower assembly film</p><span className="placeholder-status">Video to come</span></figure>;
+}
+const growth=[
+ {name:'Frame',image:'growth-01-installation',text:'Prepare the planting beds and support system alongside the timber frame.'},
+ {name:'Establishing',image:'growth-02-establishing',text:'Train new growth, water through establishment and check ties as stems develop.'},
+ {name:'Maturing',image:'growth-03-mature',text:'Prune, inspect and maintain access to the structure as the planting fills out.'},
+];
+function LivingSequence(){
+ const [active,setActive]=useState(0);
+ return <div className="living-sequence"><figure><Photo key={growth[active].name} src={study(growth[active].image)} alt={`${growth[active].name} planting design study`}/><figcaption>Illustrative growth sequence. Timing and coverage depend on species, site and care.</figcaption></figure><div className="living-sequence-controls"><div className="process-choices" aria-label="Planting stages">{growth.map((item,i)=><button key={item.name} aria-pressed={i===active} onClick={()=>setActive(i)}>{item.name}</button>)}</div><p aria-live="polite">{growth[active].text}</p></div></div>;
+}
+export function ProcessPage(){
+ return <div className="bower-v2 process-workshop"><EditorialHeader tone="white"/><main>
+  <section className="workshop-opening" aria-labelledby="process-title"><Photo src="/assets/gallery/favorites/timber-joinery-detail.webp" alt="Close-up design study of timber grain and a pegged connection" eager/><h1 id="process-title">Making<br/><em>a Bower.</em></h1><span className="image-note">Timber connection study</span></section>
+  <section className="workshop-site" aria-labelledby="site-title"><div className="workshop-introduction"><h2 id="site-title">First, the place.</h2><p>Before drawing a structure, we look at how you want to use it, what already grows there and what the landscape needs.</p><p>Sun, views, access and ground conditions help shape the brief.</p></div><SiteReading/><Detail title="What we establish on site"><p>A survey, orientation, existing trees, soil conditions, access and the planning route inform the design. Our engine helps study geometry and sunlight; it does not replace a site survey or planning advice.</p></Detail></section>
+  <section className="workshop-form" aria-labelledby="form-title"><div className="workshop-form-copy"><h2 id="form-title">Drawing the form.</h2><p>A low canopy can make a room in a garden. A taller opening can frame a view or welcome a gathering.</p><p>We explore the footprint, height and openings together. Bower Engine carries those choices into the geometry of the frame and its individual timber pieces.</p><Detail title="How the model responds"><p>The current engine varies footprint, rise, lattice spacing, opening direction and joint family. It generates identified members and connections, then derives piece lengths and a material schedule. Structural performance still requires specialist review.</p></Detail></div><figure><Photo src={study('swept-garden-canopy')} alt="Design study of an open timber canopy shaped around a garden"/><figcaption>Form study</figcaption></figure></section>
+  <section className="workshop-parts" aria-label="From form to timber pieces"><PartsWorkbench/></section>
+  <section className="workshop-joints" aria-labelledby="joints-title"><JointStudy/><div><h2 id="joints-title">Working out<br/>the meeting.</h2><p>Each piece needs a place, an angle and a connection. Those meetings are resolved alongside the overall form.</p><p>Timber, metalwork and planting supports have different jobs. We develop the details with structural and fabrication partners, then test how they fit and weather.</p></div></section>
+  <section className="workshop-making" aria-labelledby="making-title"><div className="workshop-introduction"><h2 id="making-title">From model to workshop.</h2><p>Piece lengths, profiles and connection details become the starting point for fabrication. Trial cuts and physical mock-ups check what a model cannot: tool access, fit, grain and finish.</p></div><figure className="workshop-film"><div className="process-video-placeholder" role="img" aria-label="Placeholder for a Bower fabrication film"><span aria-hidden="true">▷</span><p>Bower fabrication film</p><small>Cutting, connection trials and workshop assembly</small><span className="placeholder-status">Video to come</span></div></figure><div className="workshop-making-notes"><p>The engine groups timber pieces and studies how they fit into stock lengths and sheets. The fabricator develops the machine operations and checks the results through trials.</p><Detail title="From a schedule to machine instructions"><p>The current stock layout uses conservative packing estimates. It is not validated CNC toolpath code. Tooling, fixtures, tolerances and production timing must be resolved with the fabrication partner before manufacture.</p></Detail></div></section>
+  <section className="workshop-assembly" aria-labelledby="assembly-title"><div className="workshop-introduction"><h2 id="assembly-title">Putting it together.</h2><p>Assembly is planned before the pieces leave the workshop. Ground conditions, delivery access and the order of installation belong in the same conversation.</p></div><AssemblyPlaceholder/></section>
+  <section className="workshop-growing" aria-labelledby="growing-title"><div className="workshop-introduction"><h2 id="growing-title">A structure for growth.</h2><p>The timber gives the plants a framework. Planting brings shade, seasonal change and a different character over time.</p><p>Species, growing conditions and ongoing care are considered from the first design conversations.</p></div><LivingSequence/></section>
+  <section className="workshop-close"><h2>Tell us about<br/><em>your place.</em></h2><a href="/contact">Start a conversation <span aria-hidden="true">↗</span></a><p>Structural, manufacturing and delivery partnerships for the first permanent works are forming.</p></section>
+ </main><Footer/></div>;
 }
