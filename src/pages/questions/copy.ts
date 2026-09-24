@@ -259,14 +259,6 @@ export const QUESTIONS: readonly QA[] = [
     ],
   },
   {
-    id: 'built-status',
-    q: 'Has one been built?',
-    a: [
-      'Not yet. Bower is currently developing its first commissions for construction from 2027.',
-      'The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.',
-    ],
-  },
-  {
     id: 'lawn',
     /**
      * REWRITTEN 2026-08-05 (same pass). The old answer spent its first breath explaining why it

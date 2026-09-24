@@ -76,14 +76,6 @@ A room the public gathers in carries duties a private garden does not: level way
 
 07
 
-## Has one been built?
-
-Not yet. Bower is currently developing its first commissions for construction from 2027.
-
-The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.
-
-08
-
 ## What does the work do to the garden?
 
 Soil, roots, buried services and the route to the site all influence the foundations and the installation strategy, so we will not promise a method before walking the ground.
@@ -92,7 +84,7 @@ The Founding Site Study assesses the likely approach. Surveys and detailed found
 
 The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.
 
-09
+08
 
 ## When could mine be built?
 
@@ -104,7 +96,7 @@ The structure goes up in summer, when the ground is dry enough to bring a crew a
 
 You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the room it was drawn to be until the third summer.
 
-10
+09
 
 ## Who prunes it?
 
@@ -118,7 +110,7 @@ After the third year, one visit annually.
 
 And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.
 
-11
+10
 
 ## What does it look like in February?
 
@@ -132,7 +124,7 @@ The lattice bare and lit is a different room from the lattice in leaf, and it is
 
 Then in March it begins to disappear again.
 
-12
+11
 
 ## How does a commission begin?
 

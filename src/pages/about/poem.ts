@@ -23,9 +23,7 @@
  *     and "a robot cut the timber" are narrative history, not links to the dev-only engine. They
  *     name no tool and claim no capability a reader could go and fail to find.
  *   - The poem narrates a built, inhabited bower ("the swifts find a rafter") in an openly
- *     fabulist register. The factual record ("Has one been built? Not yet") lives on /questions
- *     Q6 and the home's own founding line; a fable does not overwrite a fact stated plainly two
- *     pages away.
+ *     fabulist register.
  *   - The coda is the one place outside /about/practice where both founders are named together
  *     in body copy. That is its job: the poem is fun, and the plain line under it says two real
  *     people are standing behind it.
