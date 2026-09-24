@@ -310,7 +310,7 @@ html.adaptive-cursor-active input[type='range'] {
   .editorial-header nav { font-size: 12px; gap: 8px; letter-spacing: .09em; }
   .editorial-header a { min-height: 44px; display: flex; align-items: center; }
   .editorial-page section[data-snap-section]:not(.home-hero):not(.home-landscape):not(.mobile-gallery-plate) { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
-  .editorial-page main > section:first-child:not(.home-hero):not(.gallery-intro) { padding-top: 190px; }
+  .editorial-page main > section[data-snap-section]:first-child:not(.home-hero):not(.gallery-intro) { padding-top: 190px; }
   .editorial-page .font-quote { font-size: clamp(44px, 12vw, 76px); line-height: .98; }
   .editorial-page .gallery-intro { min-height: 48svh !important; padding-top: 180px !important; padding-bottom: 40px !important; }
   .gallery-intro > div { flex-direction: column; align-items: flex-start; gap: 24px; }
