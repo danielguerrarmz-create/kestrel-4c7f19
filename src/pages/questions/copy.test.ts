@@ -43,15 +43,14 @@ describe('questions copy', () => {
     expect(cost).toContain('appointed separately');
   });
 
-  it('answers built status, public use, weather, planning and scale plainly', () => {
+  it('answers public use, weather, planning and scale plainly', () => {
     // LITERALS UPDATED 2026-08-05 with the plain-register rewrite (Clay: beautiful and deliberate,
     // no committee vocabulary). Each pin is the presence half of a fact the answer must keep
     // carrying, whatever its phrasing does next; the waterproof answer's full shape (default
     // first, engineered option with its cost) is pinned in houseRules.test.ts.
-    for (const id of ['built-status', 'public-programmes', 'waterproof', 'international', 'planning', 'size']) {
+    for (const id of ['public-programmes', 'waterproof', 'international', 'planning', 'size']) {
       expect(QUESTIONS.some((item) => item.id === id), `missing ${id}`).toBe(true);
     }
-    expect(allCopy).toContain('Not yet.');
     expect(allCopy).toContain('open garden building');
     // Public use: the duties are named in plain words and none of them is promised.
     expect(allCopy).toContain('level ways in, safe ways out');

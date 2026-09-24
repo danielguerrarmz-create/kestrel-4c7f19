@@ -26,7 +26,7 @@ Two founders · One practice
 
 Cofounder · design & research
 
-Founded and led Resia, a design technology company. Product development at TestFit.
+Founded and led Resia, a design technology company. Peer-reviewed research on architectural geometry.
 
 ![Daniel Guerra](/assets/about/daniel-headshot.jpg)
 

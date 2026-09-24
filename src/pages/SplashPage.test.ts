@@ -118,8 +118,8 @@ describe('SplashPage', () => {
      * Concept visualisation". Repeated under every plate, a true statement starts working as a
      * disclaimer, and a disclaimer reads as a practice apologising for having built nothing yet.
      * The honesty is not negotiable and has not moved far: every render still declares itself in
-     * its alt text, which is what a screen reader announces, and /questions 07 states it plainly
-     * once in prose. What went is the drumbeat, not the fact.
+     * its alt text, which is what a screen reader announces. What went is the drumbeat, not the
+     * fact.
      */
     expect(html).toContain('Concept visualisation of a planted timber Bower occupying a misted valley at dawn');
     expect(html).toContain('Concept study of a timber lattice joint');

@@ -23,8 +23,8 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - The four-week Founding Site Study: £45,000 plus approved expenses, corrected 2026-08-31 to
- *     match the Broughton proposal, owned by
+ *   - The four-week Founding Site Study: £65,000 plus approved expenses, updated 2026-09-24,
+ *     owned by
  *     `FOUNDING_SITE_STUDY_FEE` in ui/priceCopy.ts because several surfaces state it. It is a
  *     standalone appointment and is not credited against later work.
  *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
@@ -256,14 +256,6 @@ export const QUESTIONS: readonly QA[] = [
     a: [
       'Yes. Talks, concerts, teaching, dinners: a Bower is shaped around what will happen inside it.',
       'A room the public gathers in carries duties a private garden does not: level ways in, safe ways out, and the weight of a crowd on the structure. The Founding Site Study identifies the principal requirements. Access, fire safety, crowd loading and other public-use obligations are developed with the relevant specialists during design.',
-    ],
-  },
-  {
-    id: 'built-status',
-    q: 'Has one been built?',
-    a: [
-      'Not yet. Bower is currently developing its first commissions for construction from 2027.',
-      'The images on this site are concept visualisations, and the engineering and fabrication route for each project is established through the commissioning process.',
     ],
   },
   {

@@ -175,7 +175,7 @@ export const COMMISSION_STATEMENT: readonly string[] = [
 ];
 
 /**
- * THE FOUNDING SITE STUDY: £45,000 plus approved expenses as of 2026-08-10 (Clay). It is a
+ * THE FOUNDING SITE STUDY: £65,000 plus approved expenses as of 2026-09-24 (Clay). It is a
  * four-week, standalone appointment with its own valid conclusion, even when that conclusion is
  * not to build. It is not credited against later work.
  *
@@ -184,9 +184,8 @@ export const COMMISSION_STATEMENT: readonly string[] = [
  * times is exactly the fact that ends up right in two places and wrong in the third.
  * `questions/copy.test.ts` binds the prose to this constant.
  *
- * VAT STATUS UNCONFIRMED for the £20,000: every prior figure was stated "including VAT" and
- * Clay's 2026-08-04 instruction named only the number, so the published copy prints the bare
- * figure. Confirm with Clay before adding "including VAT" back.
+ * VAT STATUS UNCONFIRMED: the instruction names only the number, so the published copy prints the
+ * bare figure. Confirm with Clay before adding "including VAT".
  *
  * IT IS A PROFESSIONAL FEE AND IS *SUPPOSED* TO SIT FAR BELOW `COMMISSION_BREAKEVEN_GBP`, so the
  * break-even guard deliberately does not sweep it — that guard is scoped to the sentence stating
@@ -194,10 +193,10 @@ export const COMMISSION_STATEMENT: readonly string[] = [
  * failed on precisely this number, which is the difference between guarding a quantity and
  * guarding everything shaped like one.
  */
-export const FOUNDING_SITE_STUDY_FEE_GBP = 45_000;
+export const FOUNDING_SITE_STUDY_FEE_GBP = 65_000;
 
 /** The same figure as the copy prints it. Held beside the number so prose cannot drift from it. */
-export const FOUNDING_SITE_STUDY_FEE = '£45,000';
+export const FOUNDING_SITE_STUDY_FEE = '£65,000';
 
 /** The same fee with an ISO currency label for readers outside the UK. */
 export const FOUNDING_SITE_STUDY_FEE_INTERNATIONAL = `${FOUNDING_SITE_STUDY_FEE} GBP`;
