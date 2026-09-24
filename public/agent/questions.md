@@ -34,7 +34,7 @@ Every Bower is made for one landscape, so there is no price list.
 
 The scale, ground conditions, planning route, access and intended use all materially affect the final cost. We therefore begin with a four-week Founding Site Study, rather than offering a construction figure before the site and structure have been tested.
 
-The fixed fee is £45,000 GBP plus approved travel and project expenses.
+The fixed fee is £65,000 GBP plus approved travel and project expenses.
 
 The study compares up to three locations, recommends the strongest, and develops one preliminary Bower proposition with early planning, structural and fabrication input. It concludes with an indicative project range, programme and proposal for the next stage.
 

@@ -23,8 +23,8 @@
  * the engine derives them:
  *   - £350,000 published starting point, including VAT, running to seven figures for landmark
  *     pieces. Mirrors `COMMISSION_FROM` in ui/priceCopy.ts. If one moves, move both.
- *   - The four-week Founding Site Study: £45,000 plus approved expenses, corrected 2026-08-31 to
- *     match the Broughton proposal, owned by
+ *   - The four-week Founding Site Study: £65,000 plus approved expenses, updated 2026-09-24,
+ *     owned by
  *     `FOUNDING_SITE_STUDY_FEE` in ui/priceCopy.ts because several surfaces state it. It is a
  *     standalone appointment and is not credited against later work.
  *   - Stage 2, planning, design and engineering: £60,000 to £90,000 including VAT, `STAGE_2_FEE`.
