@@ -260,7 +260,7 @@ export const TEAM: TeamMember[] = [
       {
         label: 'Built',
         value:
-          'Founded and led Resia, a design technology company. Product development at TestFit.',
+          'Founded and led Resia, a design technology company. Peer-reviewed research on architectural geometry.',
       },
       {
         label: 'Published',
