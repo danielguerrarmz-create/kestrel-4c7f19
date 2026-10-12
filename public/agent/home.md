@@ -48,7 +48,7 @@ A Bower makes room for the intimate, inhabited life of a landscape. Somewhere be
 
 We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.
 
-Founded in 2026, Bower is a building technology company with a developed computational design system for unique timber buildings that grow into their landscapes. Engineering, manufacturing and delivery partnerships for the first permanent works are forming.
+Founded in 2026, Bower is a building technology company creating timber structures that grow into their landscapes; partnerships for the first permanent works are forming.
 
 ![Aerial concept visualisation of a timber Bower within an estate garden](/assets/selected/10-estate-aerial.webp)
 
@@ -57,6 +57,8 @@ Founded in 2026, Bower is a building technology company with a developed computa
 For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.
 
 [View the gallery](/gallery)
+
+![Concept visualisation of a timber Bower on a green knoll above a river valley](/assets/gallery/week-3/valley-bower-at-dawn.webp)
 
 ## Every Bower begins with a place.
 

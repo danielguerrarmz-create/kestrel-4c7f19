@@ -44,14 +44,14 @@ export function BowerLoading({ replay = 0 }: { replay?: number }) {
       logo.style.width = `${from.width}px`;
       logo.style.height = `${from.height}px`;
       overlay.classList.add("brand-loading--docking");
-      const timing = { duration: 1500, easing: "cubic-bezier(.65,0,.2,1)", fill: "forwards" as const };
+      const timing = { duration: 900, easing: "cubic-bezier(.65,0,.2,1)", fill: "forwards" as const };
       logo.animate([
         { transform: "translate(0,0) scale(1)" },
         { transform: `translate(${to.left - from.left}px,${to.top - from.top}px) scale(${to.width / from.width})` },
       ], timing);
       overlay.animate([{ backgroundColor: "#fff" }, { backgroundColor: "transparent" }], timing);
-      completion = window.setTimeout(finish, 1500);
-    }, 3200);
+      completion = window.setTimeout(finish, 900);
+    }, 1800);
     return () => { window.clearTimeout(timer); window.clearTimeout(completion); };
   }, [active, reduced]);
   if (!active || reduced) return null;

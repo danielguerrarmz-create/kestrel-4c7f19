@@ -78,7 +78,14 @@ function ExpandingPlate({ image, eager, opening }: { image: (typeof GALLERY_IMAG
   return (
     <section ref={ref} aria-label={image.title} className={`gallery-growth-plate${reduced || opening ? ' is-still' : ''}`}>
       <div className="gallery-growth-stage">
-        <motion.figure style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }} className="gallery-growth-image">
+        <motion.figure
+          style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }}
+          className="gallery-growth-image"
+          initial={!reduced && opening ? { opacity: 0, scale: 1.025 } : false}
+          whileInView={!reduced && opening ? { opacity: 1, scale: 1 } : undefined}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1] }}
+        >
           <motion.img
             style={reduced || opening ? undefined : { scale }}
             src={image.src} srcSet={srcSetFor(image.src)} sizes="100vw"

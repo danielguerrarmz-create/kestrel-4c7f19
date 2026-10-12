@@ -336,6 +336,18 @@ html.adaptive-cursor-active input[type='range'] {
   footer nav { width: 100%; display: grid !important; grid-template-columns: 1fr 1fr; gap: 4px 20px !important; font-size: 12px !important; }
   footer a { min-height: 44px; justify-content: flex-start !important; }
 }
+
+/* The navigation occupies the true center column regardless of logo or legal-copy width. */
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+.site-footer > nav { justify-self: center; }
+.site-footer-legal { justify-self: end; text-align: right; }
+@media (max-width: 767px) {
+  .site-footer { grid-template-columns: 1fr; align-items: start !important; gap: 20px; }
+  .site-footer > nav, .site-footer-legal { justify-self: stretch; text-align: left; }
+}
 @media (max-width: 767px) {
   .editorial-page section.mobile-material, .editorial-page .mobile-photo-story { display: block; height: auto; min-height: 0; padding: 0 !important; }
   .mobile-material > img, .mobile-photo-story > img { position: relative; height: auto; opacity: 1; object-fit: contain; }

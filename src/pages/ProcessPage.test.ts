@@ -38,7 +38,8 @@ describe('ProcessPage', () => {
     expect(html).toContain('/assets/process/bower-growth-transition.mp4');
     expect(html).toContain('/assets/process/bower-growth-transition-mobile.mp4');
     expect(html).toContain('/assets/process/bower-growth-transition-poster.webp');
-    expect(html).toContain('autoplay=""');
+    expect(html).not.toContain('autoplay=""');
+    expect(html).toContain('muted=""');
     expect(html).toContain('loop=""');
     expect(html).toContain('process-editorial-transition');
     expect(html).toContain('Every<br/>landscape asks');

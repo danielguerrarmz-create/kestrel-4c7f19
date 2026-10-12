@@ -9,6 +9,7 @@ import { BowerLoading } from "./splash/BowerLoading";
 import "./bower-direction.css";
 import { srcSetFor } from "../ui/responsiveImg";
 import { SELECTED_STUDIES, selectedImage } from "../data/selectedImages";
+import { useViewportSequence } from "../ui/useViewportPlayback";
 
 export const studies = SELECTED_STUDIES.map(({ slug, title, alt }) => [slug, title, alt] as const);
 
@@ -64,7 +65,6 @@ function ArrivalImages() {
         src={selectedImage(slide.slug)} srcSet={srcSetFor(selectedImage(slide.slug))}
         sizes="(max-width: 767px) 120svh, 100vw" alt={slide.alt} aria-hidden={index !== active}
         style={{ objectPosition: mobile && 'mobilePosition' in slide ? slide.mobilePosition : slide.position }} loading={index === 0 ? "eager" : "lazy"}
-        fetchPriority={index === 0 ? "high" : "low"}
         onLoad={() => setReady(current => current.includes(index) ? current : [...current, index])} />)}
     </div>
     <div className="arrival-shade" aria-hidden="true" />
@@ -82,6 +82,7 @@ function ArrivalImages() {
   </>;
 }
 export function SplashPage() {
+  const seasonal = useViewportSequence<HTMLElement>();
   return <div className="bower-site bower-v2">
     <BowerLoading />
     <EditorialHeader tone="white" />
@@ -102,16 +103,19 @@ export function SplashPage() {
           </div>
         </div>
         <div id="inhabit-copy" className="inhabit-copy"><p>A long lunch.<br />An hour alone.<br />A reason to stay outside.</p><div><p>A Bower makes room for the intimate, inhabited life of a landscape. Somewhere between the individual and the group, ordinary experience and ceremony.</p></div></div>
-        <figure id="seasonal-family-scene" className="wide-scene seasonal-morph">
+        <figure ref={seasonal.ref} id="seasonal-family-scene" className={`wide-scene seasonal-morph${seasonal.active ? " is-active" : ""}`}>
           <img className="seasonal-morph-summer" src={selectedImage("09-summer-family")} srcSet={srcSetFor(selectedImage("09-summer-family"))} sizes="(max-width: 767px) 100vw, 80vw" alt={SELECTED_STUDIES[8].alt} loading="lazy" />
           <img className="seasonal-morph-winter" src={selectedImage("08-winter-family")} srcSet={srcSetFor(selectedImage("08-winter-family"))} sizes="(max-width: 767px) 100vw, 80vw" alt="" aria-hidden="true" loading="lazy" />
         </figure>
       </section>
       <section className="bower-belief" id="how-it-works"><h2>Nature becomes one of the authors.</h2><div>
         <p>We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.</p>
-        <p>Founded in 2026, Bower is a building technology company with a developed computational design system for unique timber buildings that grow into their landscapes. Engineering, manufacturing and delivery partnerships for the first permanent works are forming.</p>
+        <p>Founded in 2026, Bower is a building technology company creating timber structures that grow into their landscapes; partnerships for the first permanent works are forming.</p>
       </div></section>
-      <section className="making-door"><figure><img src={selectedImage("10-estate-aerial")} srcSet={srcSetFor(selectedImage("10-estate-aerial"))} sizes="(max-width: 767px) 100vw, 64vw" alt={SELECTED_STUDIES[9].alt} loading="lazy" /></figure><div><h2>A room for the life around it.</h2><p>For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.</p><a className="text-link" href={routes.gallery}>View the gallery</a></div></section>
+      <section className="making-door"><figure><img src={selectedImage("10-estate-aerial")} srcSet={srcSetFor(selectedImage("10-estate-aerial"))} sizes="100vw" alt={SELECTED_STUDIES[9].alt} loading="lazy" /></figure><div><h2>A room for the life around it.</h2><p>For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.</p><a className="text-link" href={routes.gallery}>View the gallery</a></div></section>
+      <figure className="knoll-study">
+        <img src="/assets/gallery/week-3/valley-bower-at-dawn.webp" srcSet="/assets/gallery/week-3/valley-bower-at-dawn-400w.webp 400w, /assets/gallery/week-3/valley-bower-at-dawn-800w.webp 800w, /assets/gallery/week-3/valley-bower-at-dawn-1280w.webp 1280w, /assets/gallery/week-3/valley-bower-at-dawn-1920w.webp 1920w, /assets/gallery/week-3/valley-bower-at-dawn.webp 2560w" sizes="100vw" alt="Concept visualisation of a timber Bower on a green knoll above a river valley" loading="lazy" />
+      </figure>
       <FoundingInvitation showEyebrow={false} quiet />
       <Footer />
     </main>
