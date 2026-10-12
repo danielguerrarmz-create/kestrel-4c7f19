@@ -262,7 +262,7 @@ describe('the Vercel SPA rewrite', () => {
     for (const path of [
       '/assets/index-abc123.js',
       '/assets/social/og-card.jpg',
-      '/assets/gallery/01-wisteria-walk.webp',
+      '/assets/selected/03-wisteria-walk.webp',
       '/agent/home.md',
       '/agent/questions.md',
       '/robots.txt',

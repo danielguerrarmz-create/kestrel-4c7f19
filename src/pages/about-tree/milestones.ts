@@ -64,7 +64,6 @@ export interface TreeMilestone {
 
 const A = '/assets/projects';
 const T = '/assets/about/timeline';
-const G = '/assets/gallery';
 
 export const TREE_MILESTONES: TreeMilestone[] = [
   {
@@ -303,7 +302,7 @@ export const TREE_MILESTONES: TreeMilestone[] = [
     tier: 'landmark',
     side: 'center',
     image: {
-      src: `${G}/02-garden-pavilion.webp`,
+      src: '/assets/selected/05-walled-garden.webp',
       ratio: 1.8338,
       alt: 'A woven timber garden pavilion standing on a lawn, climbing plants growing through its lattice crown',
     },

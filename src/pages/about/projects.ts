@@ -281,7 +281,7 @@ export const TEAM: TeamMember[] = [
     id: 'daniel',
     name: 'Daniel Guerra',
     role: 'Cofounder · engine & systems',
-    image: '/assets/about/daniel-headshot.jpg',
+    image: '/assets/about/daniel-guerra.jpg',
     facts: [
       /*
        * ROUND 10 (2026-07-16) — REWRITTEN ON DANIEL'S NOTE, NOW FULLY SOURCED. No TODO left here.

@@ -11,6 +11,10 @@ describe('Footer', () => {
     expect(html).toContain('aria-label="Bower, home"');
     expect(html).toContain(`aria-label="© ${year} Bower, home"`);
     expect(html.match(/href="\/"/g)).toHaveLength(2);
+    expect(html).not.toContain('Living architecture for significant landscapes.');
+    expect(html).not.toContain('mailto:');
+    expect(html).toContain(`aria-label="© ${year} Bower, home"`);
+    expect(html).toContain('Bower. All rights reserved.');
   });
 
   it('keeps the four requested secondary doors in the footer', () => {
@@ -19,7 +23,7 @@ describe('Footer', () => {
     expect(html).toContain('href="/questions"');
     expect(html).toContain('>Questions</a>');
     expect(html).toContain('href="/gallery"');
-    expect(html).toContain('>Gallery</a>');
+    expect(html).toContain('>Works</a>');
     expect(html).toContain('href="/contact"');
     expect(html).toContain('>Contact</a>');
     for (const href of ['/commissions', '/process', '/about']) {

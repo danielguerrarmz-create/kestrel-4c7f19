@@ -1,0 +1,146 @@
+{
+  "source": "Bower Marketing / 04-product-images / bower-product-images-v01 / manifest-v02",
+  "purpose": "Web derivatives of active design studies, no creative edits or cropping",
+  "images": [
+    {
+      "file": "wisteria-walk.webp",
+      "source": "bower-product-001-wisteria-walk-v01.png",
+      "sha256": "8e5d80738c1627d4705d305db60f040d7b0f389842d7632d7a1d5b15e7a2c18d"
+    },
+    {
+      "file": "garden-pavilion.webp",
+      "source": "bower-product-002-garden-pavilion-v01.png",
+      "sha256": "c2345b592cf87e92aa658cbe62b84db3ef7de6ebffa5ba0749e43c30869d965a"
+    },
+    {
+      "file": "stained-glass-interior.webp",
+      "source": "bower-product-003-stained-glass-interior-v01.png",
+      "sha256": "ade07a9aba72d473e032fd3afa751f4f1b5d9145a7be00ab9ae40e5560bc8f33"
+    },
+    {
+      "file": "summer-borders.webp",
+      "source": "bower-product-004-summer-borders-v01.png",
+      "sha256": "57e72020f142c1f3c29873d14613942713d893690475bcf25bbb7c960b02a1c4"
+    },
+    {
+      "file": "curator-talk.webp",
+      "source": "bower-product-005-curator-talk-v01.png",
+      "sha256": "533936e46b7db440c45a9b43d267249d8dd28b268ac306eac063a2e8dd44df19"
+    },
+    {
+      "file": "oculus-portrait.webp",
+      "source": "bower-product-006-oculus-portrait-v01.png",
+      "sha256": "0b4516a2fbf103f746e4291fe619d3c030abf9748bebffebf9ccb4136bfe50e3"
+    },
+    {
+      "file": "growth-02-establishing.webp",
+      "source": "bower-product-007-growth-02-establishing-v01.png",
+      "sha256": "e3ca72b2659173d2b5772259e96b7aca8f1a301364224e1a4b270a1494abf3cf"
+    },
+    {
+      "file": "flowering-morning-mist.webp",
+      "source": "bower-product-008-flowering-morning-mist-v01.png",
+      "sha256": "7d7b3d62d6be849e7aa0502e636f506adc4a1db886f305db9960bcb09076dc02"
+    },
+    {
+      "file": "concert-aerial.webp",
+      "source": "bower-product-009-concert-aerial-v01.png",
+      "sha256": "5245588e32a7dcb65114a35debb34e53c302601c11cfe6e363df6417ad65085d"
+    },
+    {
+      "file": "wedding-dinner.webp",
+      "source": "bower-product-010-wedding-dinner-v01.png",
+      "sha256": "bffd4f998d3165d97cf16b99678779a1e91eda6ad2355c3a1b380d98c1c6d88b"
+    },
+    {
+      "file": "garden-performance.webp",
+      "source": "bower-product-011-garden-performance-v01.png",
+      "sha256": "f65505afd2fe6b5cdb280a5ac3c750e2ef5883899a4ebf85b98ac0f0fed47424"
+    },
+    {
+      "file": "garden-room-gathering.webp",
+      "source": "bower-product-012-garden-room-gathering-v01.png",
+      "sha256": "61e3387e45ec44bd2b9aaa438d795044a2f9a6d616fcdd147d811104e4e7fc6f"
+    },
+    {
+      "file": "growth-01-installation.webp",
+      "source": "bower-product-013-growth-01-installation-v01.png",
+      "sha256": "f00c29c765021e66c41e3434446fdc4dcef9869b0447795b6f4ea3f560b11863"
+    },
+    {
+      "file": "landscape-room-dawn.webp",
+      "source": "bower-product-014-landscape-room-dawn-v01.png",
+      "sha256": "58751361ce4bad1f63411411a8c2764c9fd1d9224245f41aaef93ef68558ae25"
+    },
+    {
+      "file": "living-interior.webp",
+      "source": "bower-product-015-living-interior-v01.png",
+      "sha256": "e92ddce704b7e95762af2eafd1d36e58318e19cdc4b5a9aa71dd1a3378844f28"
+    },
+    {
+      "file": "growth-03-mature.webp",
+      "source": "bower-product-016-growth-03-mature-v01.png",
+      "sha256": "011c4b36dbceb5ea66fdd4728f8b2c165233076a93d0bb9140f23d6721da1fa5"
+    },
+    {
+      "file": "stained-glass-cliff.webp",
+      "source": "bower-product-017-stained-glass-cliff-v01.png",
+      "sha256": "1f2299792a21c21f4aa71aefb820bc08964905a55b5c96e25cdb2d7ecf12d807"
+    },
+    {
+      "file": "rib-to-arch-joint.webp",
+      "source": "bower-product-018-rib-to-arch-joint-v01.png",
+      "sha256": "c1bba3635004111d1a507d088d76f8c947786f8ebd58629f093a7e09d90139a4"
+    },
+    {
+      "file": "valley-dawn.webp",
+      "source": "bower-product-019-valley-dawn-v01.png",
+      "sha256": "114c40892d33738b3e24c7c3ce3d5b5fe918081acf3f4463994cc0164ef8aa03"
+    },
+    {
+      "file": "winter-canopy.webp",
+      "source": "bower-product-020-winter-canopy-v01.png",
+      "sha256": "ffca3daa7df3197e32fc72724d93af81f13778d790398239a314a73b4d712140"
+    },
+    {
+      "file": "courtyard-winged-pavilion.webp",
+      "source": "bower-product-022-courtyard-winged-pavilion-v01.png",
+      "sha256": "9e677bd7bf36d3e6edb4d4a1badced4668936c606c2a881bdadc06b1b3148e6a"
+    },
+    {
+      "file": "swept-garden-canopy.webp",
+      "source": "bower-product-023-swept-garden-canopy-v01.png",
+      "sha256": "ee1d3c0539c88f491c25ee22f2efb5bcf8016ec62397898af88239add298af59"
+    },
+    {
+      "file": "stained-glass-garden-canopy.webp",
+      "source": "bower-product-024-stained-glass-garden-canopy-v01.png",
+      "sha256": "d4fa587afa0eae2e91d3a4948e02190b67cc07928f072362fd59cf54d8e1ce7b"
+    },
+    {
+      "file": "rose-covered-pavilion.webp",
+      "source": "bower-product-025-rose-covered-pavilion-v01.png",
+      "sha256": "1bf058dba7a8d915c127fe5583713cad05c3ffccc7246e1c36dbc3eded954dab"
+    },
+    {
+      "file": "oculus-garden-interior.webp",
+      "source": "bower-product-026-oculus-garden-interior-v01.png",
+      "sha256": "84d52037c778ce3f49fdfa45bdc605da415fba66900b26b1f3ecb5e0e44a5f5c"
+    },
+    {
+      "file": "pondside-pavilion.webp",
+      "source": "bower-product-027-pondside-pavilion-v01.png",
+      "sha256": "79e35d234592e03e0acecad2f26c2c7357d647e726793b9bc8db6153aa0a5f0c"
+    },
+    {
+      "file": "sunset-flower-garden.webp",
+      "source": "bower-product-028-sunset-flower-garden-v01.png",
+      "sha256": "88d043fc78cdb637388b7c847e255ffe74415f9cec66b67a06bcb7a1c9b6daf2"
+    },
+    {
+      "file": "estate-garden-evening.webp",
+      "source": "bower-product-029-estate-garden-evening-v01.png",
+      "sha256": "caed5eacfafd8258c3517ee17005d7917729c1d111dc4d1ae5df2c2d3f18421a"
+    }
+  ]
+}

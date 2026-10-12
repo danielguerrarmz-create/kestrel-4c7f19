@@ -11,28 +11,16 @@
  * none of it.
  *
  * WHY A SEPARATE ASSET WHEN THE SITE ALREADY SHIPS THIS PICTURE:
- *   - FORMAT. The gallery serves `.webp`. Link unfurlers are unreliable with WebP (iMessage and
- *     WhatsApp in particular), and their failure mode is no image rather than a fallback, which is
- *     precisely the bug being fixed. JPEG is the format every one of them handles.
- *   - RATIO. The source is 1920x1046 (1.836:1) and the card slot is 1200x630 (1.905:1). Handing an
- *     unfurler the wrong ratio lets IT choose the crop, which is how a canopy gets decapitated.
- *   - SIZE. Under ~300 KB, because several unfurlers give up on large images.
- *
- * THE CROP IS 38 PIXELS OFF THE BOTTOM AND NOTHING ELSE. Reaching 1.905:1 from 1.836:1 needs
- * 1046 - 1920/1.905 = 38px of height, 3.6% of the picture. It comes off the BOTTOM, which is plain
- * decking and foreground planting: the arches spring from the top edge already, the wisteria hangs
- * through the upper middle, and the cafe tables that give the structure its scale sit well above
- * the cut. Taking it off the top would clip the crown; splitting it would do a little of both for
- * no gain. The remaining 1920x1008 then scales to 1200x630 by exactly 0.625 in both axes, so
- * nothing is stretched. This is the repo's standing law applied to a picture: give the thing its
- * own shape back rather than forcing a box onto it.
+ *   - JPEG remains the most reliable format for link unfurlers.
+ *   - The approved estate-garden aerial is nearly the 1200x630 card ratio, so the crop is minimal.
+ *   - The result stays under 300 KB for conservative unfurling limits.
  */
 import sharp from 'sharp';
 import { mkdir, stat } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SRC = 'public/assets/gallery/01-wisteria-walk.webp';
-const OUT = 'public/assets/social/og-card.jpg';
+const SRC = 'public/assets/selected/10-estate-aerial.webp';
+const OUT = 'public/assets/social/og-card-v2.jpg';
 
 /** The Open Graph card slot. Every major unfurler crops to this; matching it exactly means none
  *  of them has to choose. Mirrored by `OG_CARD` in src/seo.ts, pinned by src/seo.test.ts. */
@@ -58,10 +46,10 @@ if (cropH > height) {
 
 await mkdir(dirname(OUT), { recursive: true });
 await src
-  // top-anchored: the 38px comes off the decking at the bottom. See the header.
+  // Top-anchored so the garden composition and Bower remain intact.
   .extract({ left: 0, top: 0, width, height: cropH })
   .resize(CARD_W, CARD_H, { fit: 'fill' }) // exact integer scale, so `fill` cannot distort
-  .jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:4:4' })
+  .jpeg({ quality: 80, mozjpeg: true, chromaSubsampling: '4:4:4' })
   .toFile(OUT);
 
 const { size } = await stat(OUT);

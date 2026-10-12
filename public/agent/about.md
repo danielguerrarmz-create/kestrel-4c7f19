@@ -28,8 +28,12 @@ Clay Seifert and Daniel Guerra. Founding commissions from 2027.
 
 [About the company](/about/practice)
 
-[Bower](/)
+[
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-[© 2026 Bower](/)
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

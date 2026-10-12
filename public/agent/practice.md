@@ -8,90 +8,67 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
-Practice
+](/)
 
-# The obsession is old.
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
 
-How can architecture be grown, not only built?
+# A shared belief in living architecture.
 
-Two founders · One practice
+## Two ways of seeing,
+one direction.
 
 ![Clay Seifert](/assets/about/clay-seifert.jpg)
 
-## Clay Seifert
+### Clay Seifert
 
-Cofounder · design & research
+Cofounder · design
 
-Founded and led Resia, a design technology company. Peer-reviewed research on architectural geometry.
+Clay works across design and the geometry of timber structures, bringing a patient interest in how materials, plants and buildings shape one another.
 
-![Daniel Guerra](/assets/about/daniel-headshot.jpg)
+![Daniel Guerra](/assets/about/daniel-guerra.jpg)
 
-## Daniel Guerra
+### Daniel Guerra
 
-Cofounder · engine & systems
+Cofounder · systems
 
-Projects at Forsite Studio from concept through permitting to construction on site.
+Daniel works across design, building systems and computational tools, connecting an idea for a place with the practical path toward making it real.
 
-## The work came before Bower.
+Our mission
 
-Architecture
-Material research
-Living systems
-
-![The catenary arch entrances framing a runner with the downtown Austin skyline behind](/assets/projects/05-dougherty/dougherty-arts-center-catenary-entrance-skyline-money-shot.webp)
-
-Dougherty Arts Center · 2024
-
-![Looping animation of the building growing from bare structure to fully planted, bamboo and hemp filling in the planter cells](/assets/projects/01-synergy/synergy-cosmos-growth-loop.gif)
-
-Plentify · 2023
-
-![Aerial-level render of the flowerfield ecodistrict, organic white buildings above a field of flowers and filtration ponds with the Austin skyline behind](/assets/projects/07-flowerfield/flowerfield-biophilic-ecodistrict-hero-render.webp)
-
-Flowerfield · 2022
-
-How the work is delivered
-
-## One Bower team, assembled for one place.
+## One Bower team,
+assembled for
+one place.
 
 Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
 
-01
+[Contact Bower](/contact)
 
-Engineering
+- Engineering
 
 Structure, foundations, weather and public use
 
-02
-
-Fabrication
+- Fabrication
 
 Timber development, prototyping and assembly
 
-03
-
-Landscape
+- Landscape
 
 Planting design, establishment and stewardship
 
-04
-
-Planning
+- Planning
 
 Consent strategy and project-specific advice
 
-Bower · Based in England · Working across Europe
+[
 
-## A design practice for living structures.
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-[Talk to Clay →](/contact)
+](/)
 
-[Bower](/)
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
-
-[© 2026 Bower](/)
+[© 2026 Bower. All rights reserved.](/)

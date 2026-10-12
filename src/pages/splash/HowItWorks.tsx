@@ -22,6 +22,7 @@ import type { EngineOutputs } from '../../engine/types';
 import { PRODUCT } from '../../data/config';
 import { routes } from '../../routing';
 import { srcSetFor, SIZES } from '../../ui/responsiveImg';
+import { SELECTED_STUDIES, selectedImage } from '../../data/selectedImages';
 import { Eyebrow, EngineSection } from '../engine/EngineSection';
 import { H1, H2, BODY } from '../typeScale';
 
@@ -180,10 +181,10 @@ export function HowItWorks({
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <figure className="order-2 md:order-1">
             <img
-              src="/assets/product/pavilion-garden-sunset.webp"
-              srcSet={srcSetFor('/assets/product/pavilion-garden-sunset.webp')}
+              src={selectedImage('09-summer-family')}
+              srcSet={srcSetFor(selectedImage('09-summer-family'))}
               sizes={SIZES.photoBand}
-              alt="A Bower grown in at dusk: the woven timber pavilion covered in wisteria and roses in a garden beside a stone house, a couple and their dog nearby"
+              alt={SELECTED_STUDIES[8].alt}
               loading="lazy"
               decoding="async"
               className="block h-auto w-full"

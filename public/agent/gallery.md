@@ -8,49 +8,126 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
 
 # Works
 
-Eight concept studies
-Scroll to enter
+Concept studies Scroll to enter
 
-![Concept visualisation of a walk beneath planted timber lattice arches with a stone manor beyond](/assets/gallery/01-wisteria-walk.webp)
+![Concept visualisation looking through a timber canopy filled with roses and hanging wisteria](/assets/selected/14-rose-wisteria.webp)
 
-01 · Wisteria walk
+![Concept visualisation of dinner tables within a candlelit flowering timber canopy](/assets/selected/24-candlelit-canopy.webp)
 
-![Concept visualisation of an open timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
+![Concept visualisation of a timber Bower set within a mature walled garden](/assets/selected/05-walled-garden.webp)
 
-02 · Walled garden
+![Concept visualisation of an intimate dinner beneath a red autumn canopy](/assets/selected/18-autumn-dinner.webp)
 
-![Concept visualisation of an open timber canopy in a snow-covered sculpture garden](/assets/gallery/exclusive/winter-canopy.webp)
+![Concept visualisation looking through a timber Bower planted with flowering wisteria](/assets/selected/03-wisteria-walk.webp)
 
-03 · Winter canopy
+![Concept visualisation of a chamber concert beneath a mature wisteria-covered Bower at sunset](/assets/selected/29-wisteria-theatre.webp)
 
-![Concept visualisation of musicians performing within a planted Bower in an estate garden](/assets/gallery/exclusive/garden-concert-aerial.webp)
+![Concept visualisation of a quiet reading place beneath rose-covered timber arches](/assets/selected/15-rose-reading.webp)
 
-04 · Garden concert
+![Concept visualisation of a wedding speech beneath a timber Bower at sunset](/assets/selected/06-wedding-speech.webp)
 
-![Concept visualisation of a curator speaking inside a planted timber Bower](/assets/gallery/favorites/curator-in-landscape.webp)
+![Concept visualisation approaching a timber Bower through a flowering spring orchard](/assets/selected/12-orchard-approach.webp)
 
-05 · The curator’s room
+![Concept visualisation of an intimate family supper beneath flowering timber arches](/assets/selected/31-family-supper.webp)
 
-![Concept visualisation of guests dining beneath a flower-covered timber lattice](/assets/gallery/exclusive/garden-dinner.webp)
+## A world of Bowers.
 
-06 · Dinner beneath the lattice
+![Concept visualisation looking through a timber canopy filled with roses and hanging wisteria](/assets/selected/14-rose-wisteria.webp)
 
-![Concept study of curved timber members meeting at a fitted pegged joint](/assets/gallery/favorites/timber-joinery-detail.webp)
+Rose Wisteria
 
-07 · Timber joint
+![Concept visualisation of a wedding speech beneath a timber Bower at sunset](/assets/selected/06-wedding-speech.webp)
 
-![Concept visualisation from inside a mature planted Bower with stained glass between its timbers](/assets/gallery/05-stained-glass-interior.webp)
+Wedding Speech
 
-08 · Inside the Bower
+![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
 
-[Bower](/)
+Woodland Bower
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+![Concept visualisation of a century-old flowering timber Bower beside a veteran tree](/assets/selected/30-ancient-bower.webp)
 
-[© 2026 Bower](/)
+Ancient Bower
+
+![Concept visualisation of a quiet reading place beneath rose-covered timber arches](/assets/selected/15-rose-reading.webp)
+
+Rose Reading
+
+![Concept visualisation of a chamber concert beneath a mature wisteria-covered Bower at sunset](/assets/selected/29-wisteria-theatre.webp)
+
+Wisteria Theatre
+
+![Concept visualisation of a timber Bower set within a mature walled garden](/assets/selected/05-walled-garden.webp)
+
+Walled Garden
+
+![Concept visualisation of an intimate family supper beneath flowering timber arches](/assets/selected/31-family-supper.webp)
+
+Family Supper
+
+![Concept visualisation of a candlelit banquet beneath a mature wisteria canopy](/assets/selected/22-wisteria-banquet.webp)
+
+Wisteria Banquet
+
+![Concept visualisation approaching a timber Bower through a flowering spring orchard](/assets/selected/12-orchard-approach.webp)
+
+Orchard Approach
+
+![Concept visualisation of a candlelit dinner for two beneath a rose-covered timber Bower](/assets/selected/16-romantic-dinner.webp)
+
+Romantic Dinner
+
+![Concept visualisation of a public exhibition arranged inside a planted garden Bower](/assets/selected/04-garden-exhibition.webp)
+
+Garden Exhibition
+
+![Concept visualisation of a contemplative autumn Bower beside a garden memorial](/assets/selected/17-memorial-garden.webp)
+
+Memorial Garden
+
+![Concept visualisation of guests taking tea beneath a planted timber Bower in a meadow](/assets/selected/01-meadow-tea.webp)
+
+Meadow Tea
+
+![Concept visualisation of evening dinner tables beneath white wisteria and timber arches](/assets/selected/23-white-wisteria.webp)
+
+White Wisteria
+
+![Concept visualisation of a quiet planted Bower in an autumn garden](/assets/selected/11-autumn-retreat.webp)
+
+Autumn Retreat
+
+![Concept visualisation of a singer performing during a charity dinner beneath a Bower](/assets/selected/07-charity-dinner.webp)
+
+Charity Dinner
+
+![Concept visualisation looking through a timber Bower planted with flowering wisteria](/assets/selected/03-wisteria-walk.webp)
+
+Wisteria Walk
+
+![Concept visualisation of dinner tables within a candlelit flowering timber canopy](/assets/selected/24-candlelit-canopy.webp)
+
+Candlelit Canopy
+
+![Concept visualisation of an intimate dinner beneath a red autumn canopy](/assets/selected/18-autumn-dinner.webp)
+
+Autumn Dinner
+
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

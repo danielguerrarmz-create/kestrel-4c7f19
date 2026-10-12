@@ -69,12 +69,6 @@ export function AboutPage() {
                 className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-px origin-left scale-x-0 bg-inkForest transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
               />
             </span>
-            <span
-              aria-hidden
-              className="text-accentOlive transition-transform duration-200 group-hover:translate-x-1"
-            >
-              →
-            </span>
           </a>
         </p>
       </main>
