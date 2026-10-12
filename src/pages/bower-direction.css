@@ -291,8 +291,8 @@
 }
 .seasonal-morph-winter {
   opacity: 0;
-  animation: seasonal-morph 10s ease-in-out infinite;
 }
+.seasonal-morph.is-active .seasonal-morph-winter { animation: seasonal-morph 10s ease-in-out infinite; }
 @keyframes seasonal-morph {
   0%, 20% { opacity: 0; }
   46%, 70% { opacity: 1; }
@@ -587,7 +587,7 @@
   top: 50%;
   width: 26.4%;
   transform: translateY(-50%);
-  animation: emblem-settle 3.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: emblem-settle 1.8s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 .brand-wordmark {
   position: absolute;
@@ -596,13 +596,13 @@
   transform: translateY(-50%);
   /* Only the lettering is painted. The one persistent emblem never crossfades. */
   clip-path: inset(0 0 0 29%);
-  animation: wordmark-reveal 3.2s ease both;
+  animation: wordmark-reveal 1.8s ease both;
 }
 .brand-loading p {
   font:
     14px Inter,
     sans-serif;
-  animation: lockup-resolve 3.2s ease both;
+  animation: lockup-resolve 1.8s ease both;
 }
 @keyframes emblem-settle {
   0% {
@@ -1486,7 +1486,7 @@
 .brand-loading--docking .brand-docking-logo { display: block; }
 .brand-loading--docking .brand-motion { visibility: hidden; }
 .brand-loading--docking p { animation: none; opacity: 0; transition: opacity .25s; }
-.brand-loading--docking .brand-docking-ink { animation: docking-ink 1.5s ease both; }
+.brand-loading--docking .brand-docking-ink { animation: docking-ink .9s ease both; }
 .bower-site:has(.brand-loading[open]) [data-intro-logo] { visibility: hidden; }
 @keyframes docking-ink { 0%, 20% { fill: #354d40; } 85%, 100% { fill: #fff; } }
 
@@ -1506,7 +1506,42 @@
 }
 
 /* Home invitation fades through the process teaser into the green footer. */
-.bower-site .making-door { position:relative; z-index:1; background:linear-gradient(#fff 0%,#f0f3ed 30%,#e5ebe0 65%,#c5d0c0 100%); padding-top:clamp(140px,18vh,220px); padding-bottom:55px; }
+.bower-site .making-door {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-height: 100svh;
+  padding: 0;
+  overflow: hidden;
+  background: #142018;
+  color: #fff;
+}
+.bower-site .making-door::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(7,15,9,.12) 25%, rgba(7,15,9,.74) 100%), linear-gradient(0deg, rgba(7,15,9,.42), transparent 55%);
+  pointer-events: none;
+}
+.bower-site .making-door figure { position: absolute; inset: 0; margin: 0; }
+.bower-site .making-door img { width: 100%; height: 100%; object-fit: cover; }
+.bower-site .making-door > div {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(38rem, 43vw);
+  min-height: 100svh;
+  margin-left: auto;
+  padding: clamp(70px, 10vh, 130px) 6vw;
+  flex-direction: column;
+  justify-content: center;
+}
+.bower-site .making-door h2 { font-size: clamp(58px, 6vw, 104px); line-height: .94; }
+.bower-site .making-door p:not(.kicker) { font-size: clamp(18px, 1.35vw, 23px); }
+.bower-site .making-door .text-link { color: #fff; border-color: rgba(255,255,255,.65); }
+.knoll-study { height: 100svh; margin: 0; overflow: hidden; background: #fff; }
+.knoll-study img { width: 100%; height: 100%; object-fit: cover; }
 .bower-site .founding-invitation--quiet {
   margin-top: 0;
   background: linear-gradient(180deg, #c5d0c0 0%, #a9b8aa 20%, #81998b 43%, #587669 67%, var(--green) 100%);
@@ -1529,7 +1564,12 @@
 .arrival-dots button[aria-pressed="true"] span { background:#fff; }
 .arrival-dots button:focus-visible { outline:1px solid #fff; outline-offset:-3px; border-radius:4px; }
 @media(max-width:767px) {
- .bower-site .making-door { padding-top:100px; padding-bottom:40px; }
+ .bower-site .making-door { min-height: 100svh; padding: 0; }
+ .bower-site .making-door::after { background:linear-gradient(0deg,rgba(7,15,9,.78) 0%,rgba(7,15,9,.18) 72%); }
+ .bower-site .making-door > div { width: auto; min-height: 100svh; margin: 0; padding: 58vh 6vw 9vh; justify-content: flex-end; }
+ .bower-site .making-door h2 { font-size: clamp(48px, 14vw, 68px); }
+ .knoll-study { height: 78svh; }
+ .knoll-study img { object-position: 58% center; }
  .bower-site .founding-invitation--quiet {
    background: linear-gradient(180deg, #c5d0c0 0%, #a9b8aa 20%, #81998b 43%, #587669 67%, var(--green) 100%);
    padding-top: 240px;

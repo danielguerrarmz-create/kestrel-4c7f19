@@ -516,11 +516,11 @@
     var(--practice-green) 100%
   );
 }
-.practice-minimal-mission .practice-minimal-kicker { color: #536151; }
+.practice-minimal-mission .practice-minimal-kicker { color: #2d4035; }
 .practice-minimal-mission a { display: inline-block; margin-top: 35px; padding-bottom: 8px; border-bottom: 1px solid currentColor; font: 16px/1.4 Inter, Arial, sans-serif; }
 .practice-minimal-mission-list { align-self: start; display: grid; grid-template-columns: 1fr 1fr; gap: 42px 42px; margin: clamp(225px, 21vw, 298px) 0 0; padding: 0; list-style: none; }
 .practice-minimal-mission-list li { min-width: 0; }
-.practice-minimal-mission-list p { max-width: 29ch; margin-top: 12px; font: 11px/1.55 Inter, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #536151; }
+.practice-minimal-mission-list p { max-width: 29ch; margin-top: 12px; font: 600 12px/1.55 Inter, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #1d2c24; }
 .practice-minimal-mission-list strong { font: 29px/1.15 "Source Serif 4 Variable", Georgia, serif; font-weight: 400; }
 .practice-minimal > footer { max-width: none; border-top: 0; background: var(--practice-green); color: #fff; }
 .practice-minimal > footer nav,

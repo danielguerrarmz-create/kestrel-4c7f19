@@ -37,7 +37,7 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
   const year = new Date().getFullYear();
   const width = measure === 'page' ? 'max-w-page' : measure === 'read' ? 'max-w-read' : 'max-w-canvas';
   return (
-    <footer className={`mx-auto flex w-full ${width} snap-end flex-wrap items-center justify-between gap-x-8 gap-y-4 px-gutter py-8 text-inkBlack`}>
+    <footer className={`site-footer mx-auto w-full ${width} snap-end items-center gap-x-8 gap-y-4 px-gutter py-8 text-inkBlack`}>
       <a
         href={routes.home}
         aria-label="Bower, home"

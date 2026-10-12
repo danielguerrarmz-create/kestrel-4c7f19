@@ -20,7 +20,7 @@ const galleryImage = (slug: SelectedStudy['slug']) => {
 
 /** Narrative plates may sit together when they show a deliberate change over time. */
 export const FEATURED_SLUGS = [
-  '14-rose-wisteria',
+  '31-family-supper',
   '24-candlelit-canopy',
   '05-walled-garden',
   '18-autumn-dinner',
@@ -29,19 +29,19 @@ export const FEATURED_SLUGS = [
   '15-rose-reading',
   '06-wedding-speech',
   '12-orchard-approach',
-  '31-family-supper',
+  '14-rose-wisteria',
 ] as const satisfies readonly SelectedStudy['slug'][];
 
 /** Hand-curated visual rhythm. This intentionally does not follow source-folder numbering. */
 export const COLLECTION_SLUGS = [
-  '14-rose-wisteria',
+  '31-family-supper',
   '06-wedding-speech',
   '21-woodland-bower',
   '30-ancient-bower',
   '15-rose-reading',
   '29-wisteria-theatre',
   '05-walled-garden',
-  '31-family-supper',
+  '14-rose-wisteria',
   '22-wisteria-banquet',
   '12-orchard-approach',
   '16-romantic-dinner',
@@ -78,7 +78,14 @@ function ExpandingPlate({ image, eager, opening }: { image: (typeof GALLERY_IMAG
   return (
     <section ref={ref} aria-label={image.title} className={`gallery-growth-plate${reduced || opening ? ' is-still' : ''}`}>
       <div className="gallery-growth-stage">
-        <motion.figure style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }} className="gallery-growth-image">
+        <motion.figure
+          style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }}
+          className="gallery-growth-image"
+          initial={!reduced && opening ? { opacity: 0, scale: 1.025 } : false}
+          whileInView={!reduced && opening ? { opacity: 1, scale: 1 } : undefined}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1] }}
+        >
           <motion.img
             style={reduced || opening ? undefined : { scale }}
             src={image.src} srcSet={srcSetFor(image.src)} sizes="100vw"

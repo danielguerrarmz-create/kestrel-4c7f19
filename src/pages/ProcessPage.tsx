@@ -4,6 +4,7 @@ import { srcSetFor } from '../ui/responsiveImg';
 import { selectedImage, selectedStudy, type SelectedStudy } from '../data/selectedImages';
 import './bower-direction.css';
 import './process-journey.css';
+import { useViewportSequence, useViewportVideo } from '../ui/useViewportPlayback';
 
 function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   slug: SelectedStudy['slug'];
@@ -26,6 +27,8 @@ const acts = [
 ] as const;
 
 export function ProcessPage() {
+  const growthVideo = useViewportVideo();
+  const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
     <EditorialHeader />
     <main>
@@ -51,7 +54,7 @@ export function ProcessPage() {
           <p>The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</p>
           <h2 id="process-growth-title">The garden continues<br />the architecture.</h2>
         </div>
-        <video className="process-editorial-growth-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/process/bower-growth-transition-poster.webp" aria-label="A Bower changing as its planting becomes established">
+        <video ref={growthVideo} className="process-editorial-growth-video" muted loop playsInline preload="metadata" poster="/assets/process/bower-growth-transition-poster.webp" aria-label="A Bower changing as its planting becomes established">
           <source src="/assets/process/bower-growth-transition-mobile.mp4" media="(max-width: 767px)" type="video/mp4" />
           <source src="/assets/process/bower-growth-transition.mp4" type="video/mp4" />
         </video>
@@ -70,7 +73,7 @@ export function ProcessPage() {
       </section>
 
       <section id="process-transition" className="process-editorial-close" aria-label="A Bower through four seasons">
-        <div className="process-editorial-transition">
+        <div ref={seasons.ref} className={`process-editorial-transition${seasons.active ? ' is-active' : ''}`}>
           {closingFrames.map((slug, index) => <ProcessImage key={slug} slug={slug} sizes="100vw" eager={index === 0} />)}
         </div>
         <div className="process-editorial-close-copy">
