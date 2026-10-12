@@ -537,10 +537,9 @@
 }
 @media (max-width: 767px) {
   .practice-minimal-opening {
-    min-height: 72svh;
-    padding: 190px 6vw 85px;
-    align-items: stretch;
-    justify-content: flex-end;
+    min-height: 100svh;
+    padding: 150px 6vw 90px;
+    align-items: center;
   }
   .practice-minimal-opening h1 {
     max-width: 12ch;
@@ -563,4 +562,8 @@
   .practice-minimal-mission { padding: 220px 6vw 150px; }
   .practice-minimal-mission-statement > p:not(.practice-minimal-kicker) { margin-top: 32px; font-size: 20px; }
   .practice-minimal-mission-list { grid-template-columns: 1fr; gap: 38px; }
+  .practice-minimal-mission-list strong,
+  .practice-minimal-mission-list p {
+    color: rgba(255, 255, 255, .94);
+  }
 }

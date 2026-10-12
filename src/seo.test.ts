@@ -91,6 +91,10 @@ describe('the social card', () => {
 });
 
 describe('per-page metadata', () => {
+  it('keeps the static home title aligned with the routed home title', () => {
+    expect(indexTags).toContain(`<title>${metaForPath(routes.home).title}</title>`);
+  });
+
   it('gives every public route a distinct title, description and canonical', () => {
     // DISTINCTNESS is the property, so it counts against the real list rather than a literal.
     // Two pages sharing a title or a canonical is the bug this guards, and that stays true at
@@ -101,11 +105,10 @@ describe('per-page metadata', () => {
     expect(new Set(metas.map((m) => m.description)).size).toBe(n);
     expect(new Set(metas.map((m) => m.path)).size).toBe(n);
     for (const m of metas) {
-      // The whole point of the path migration: `<title>` was the single word "Bower" for every
-      // page, which spent the strongest relevance signal on the brand name four times over.
-      expect(m.title).not.toBe('Bower');
-      expect(m.title.length).toBeGreaterThan(20);
-      expect(m.title.length).toBeLessThanOrEqual(60);
+      // Browser tabs stay short and predictable while the distinct page name still gives every
+      // route its own title. Search and social detail belongs in the description and OG fields.
+      expect(m.title).toMatch(/^Bower - [A-Z]/);
+      expect(m.title.length).toBeLessThanOrEqual(24);
       expect(m.description.length).toBeGreaterThanOrEqual(110);
       expect(m.description.length).toBeLessThanOrEqual(160);
       expect(m.ogTitle.length).toBeGreaterThan(8);

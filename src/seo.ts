@@ -93,7 +93,7 @@ type ProductionTarget = Exclude<RouteTarget, 'engine' | 'aboutTree' | 'houses' |
 const META: Record<ProductionTarget, PageMeta> = {
   splash: {
     path: routes.home,
-    title: 'Bower: living architecture for significant landscapes',
+    title: 'Bower - Home',
     description:
       'A living timber structure, drawn for one landscape and transformed over years by planting, weather and use. Based in England and working across Europe.',
     ogTitle: 'Architecture the garden finishes',
@@ -102,7 +102,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   gallery: {
     path: routes.gallery,
-    title: 'Living Bower gallery: selected design studies',
+    title: 'Bower - Works',
     description:
       'Selected concept visualisations exploring the geometry of living Bowers across gardens, gathering and performance settings.',
     ogTitle: 'Bower: selected design studies',
@@ -111,28 +111,28 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   process: {
     path: routes.process,
-    title: 'From landscape to Bower: the commissioning process',
+    title: 'Bower - Process',
     description: 'Conversation, feasibility, design and engineering, making, growth and stewardship: the route from a landscape to a built Bower.',
     ogTitle: 'From landscape to Bower',
     ogDescription: 'A clear five-stage route from first conversation to a living pavilion maturing in its landscape.',
   },
   contact: {
     path: routes.contact,
-    title: 'Discuss a founding commission | Bower',
+    title: 'Bower - Contact',
     description: 'Speak with Bower about a founding commission for a garden, estate or cultural landscape in England, Europe or beyond.',
     ogTitle: 'Discuss a founding Bower commission',
     ogDescription: 'Bower is speaking with gardens, estates and cultural landscapes across England and Europe.',
   },
   press: {
     path: routes.press,
-    title: 'Press enquiries | Bower',
+    title: 'Bower - Press',
     description: 'Press enquiries for Bower, an England-based design practice making living timber structures for significant landscapes internationally.',
     ogTitle: 'Press enquiries | Bower',
     ogDescription: 'Contact Bower about editorial, media and press enquiries.',
   },
   questions: {
     path: routes.questions,
-    title: 'Garden pavilion cost, approvals and timeline | Bower',
+    title: 'Bower - Questions',
     description:
       'What a Bower costs, international commissions, local approvals, what it does to the ground and how long the process takes.',
     ogTitle: 'Bower: what one costs, and what it involves',
@@ -141,7 +141,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   privacy: {
     path: routes.privacy,
-    title: 'Privacy notice | Bower',
+    title: 'Bower - Privacy',
     description: 'How Bower handles personal information received through commission enquiries, correspondence, website analytics and site usage.',
     ogTitle: 'Bower privacy notice',
     ogDescription: 'How Bower handles information received through this website.',
@@ -154,7 +154,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   // to make impossible. Recover the copy from git if the page is ever republished.
   about: {
     path: routes.about,
-    title: 'About Bower: what we build, and why',
+    title: 'Bower - About',
     description:
       'The most beautiful places are rarely buildings. A Bower is a woven timber lattice, deliberately incomplete: we make the structure, the garden makes the rest.',
     ogTitle: 'About Bower',
@@ -163,7 +163,7 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   practice: {
     path: routes.practice,
-    title: 'About Bower: founders, origins and mission',
+    title: 'Bower - Practice',
     description:
       'Meet Bower cofounders Clay Seifert and Daniel Guerra, where the company began, and its mission to create timber structures for living landscapes.',
     ogTitle: 'Bower: founders, origins and mission',
