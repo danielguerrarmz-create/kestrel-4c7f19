@@ -22,16 +22,16 @@ describe('GalleryPage curation', () => {
       '/assets/selected/13-grape-oculus.webp',
     ]));
     expect(COLLECTION_SLUGS).toEqual([
-      '14-rose-wisteria', '06-wedding-speech', '21-woodland-bower', '30-ancient-bower',
-      '15-rose-reading', '29-wisteria-theatre', '05-walled-garden', '31-family-supper',
+      '31-family-supper', '06-wedding-speech', '21-woodland-bower', '30-ancient-bower',
+      '15-rose-reading', '29-wisteria-theatre', '05-walled-garden', '14-rose-wisteria',
       '22-wisteria-banquet', '12-orchard-approach', '16-romantic-dinner', '04-garden-exhibition',
       '17-memorial-garden', '01-meadow-tea', '23-white-wisteria', '11-autumn-retreat',
       '07-charity-dinner', '03-wisteria-walk', '24-candlelit-canopy', '18-autumn-dinner',
     ]);
     expect(FEATURED_SLUGS).toEqual([
-      '14-rose-wisteria', '24-candlelit-canopy', '05-walled-garden', '18-autumn-dinner',
+      '31-family-supper', '24-candlelit-canopy', '05-walled-garden', '18-autumn-dinner',
       '03-wisteria-walk', '29-wisteria-theatre', '15-rose-reading', '06-wedding-speech',
-      '12-orchard-approach', '31-family-supper',
+      '12-orchard-approach', '14-rose-wisteria',
     ]);
   });
 

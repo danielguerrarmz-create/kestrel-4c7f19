@@ -20,7 +20,7 @@ const galleryImage = (slug: SelectedStudy['slug']) => {
 
 /** Narrative plates may sit together when they show a deliberate change over time. */
 export const FEATURED_SLUGS = [
-  '14-rose-wisteria',
+  '31-family-supper',
   '24-candlelit-canopy',
   '05-walled-garden',
   '18-autumn-dinner',
@@ -29,19 +29,19 @@ export const FEATURED_SLUGS = [
   '15-rose-reading',
   '06-wedding-speech',
   '12-orchard-approach',
-  '31-family-supper',
+  '14-rose-wisteria',
 ] as const satisfies readonly SelectedStudy['slug'][];
 
 /** Hand-curated visual rhythm. This intentionally does not follow source-folder numbering. */
 export const COLLECTION_SLUGS = [
-  '14-rose-wisteria',
+  '31-family-supper',
   '06-wedding-speech',
   '21-woodland-bower',
   '30-ancient-bower',
   '15-rose-reading',
   '29-wisteria-theatre',
   '05-walled-garden',
-  '31-family-supper',
+  '14-rose-wisteria',
   '22-wisteria-banquet',
   '12-orchard-approach',
   '16-romantic-dinner',
