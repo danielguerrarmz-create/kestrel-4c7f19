@@ -1,4 +1,18 @@
 {
+  "/assets/about/clay-seifert.jpg": {
+    "w": 1200,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/about/daniel-guerra.jpg": {
+    "w": 1200,
+    "variants": [
+      400,
+      800
+    ]
+  },
   "/assets/about/daniel-headshot.jpg": {
     "w": 1467,
     "variants": [
@@ -34,7 +48,7 @@
     ]
   },
   "/assets/gallery/01-wisteria-walk.webp": {
-    "w": 1920,
+    "w": 1600,
     "variants": [
       400,
       800,
@@ -42,7 +56,7 @@
     ]
   },
   "/assets/gallery/02-garden-pavilion.webp": {
-    "w": 1920,
+    "w": 1600,
     "variants": [
       400,
       800,
@@ -66,7 +80,7 @@
     ]
   },
   "/assets/gallery/05-stained-glass-interior.webp": {
-    "w": 1920,
+    "w": 1600,
     "variants": [
       400,
       800,
@@ -108,48 +122,43 @@
     ]
   },
   "/assets/gallery/exclusive/garden-concert-aerial.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/exclusive/garden-dinner.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/exclusive/winter-canopy.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/favorites/bower-in-summer-borders.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/favorites/curator-in-landscape.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/favorites/english-garden-path.webp": {
@@ -162,12 +171,11 @@
     ]
   },
   "/assets/gallery/favorites/garden-performance.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/favorites/garden-table.webp": {
@@ -180,30 +188,27 @@
     ]
   },
   "/assets/gallery/favorites/living-bower-interior.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/favorites/timber-joinery-detail.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/week-3/flowering-bower-morning-mist.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/week-3/garden-room-gathering.webp": {
@@ -216,58 +221,51 @@
     ]
   },
   "/assets/gallery/week-3/landscape-room-at-dawn.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/gallery/week-3/stained-glass-cliff-interior.webp": {
-    "w": 5520,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920,
-      2560
+      1280
     ]
   },
   "/assets/gallery/week-3/valley-bower-at-dawn.webp": {
-    "w": 2560,
+    "w": 1600,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
-  "/assets/process/evolution/establishing.webp": {
-    "w": 2560,
+  "/assets/home/evolution/establishing.webp": {
+    "w": 1698,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
-  "/assets/process/evolution/installation.webp": {
-    "w": 2560,
+  "/assets/home/evolution/installation.webp": {
+    "w": 1698,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
-  "/assets/process/evolution/mature.webp": {
-    "w": 2560,
+  "/assets/home/evolution/mature.webp": {
+    "w": 1698,
     "variants": [
       400,
       800,
-      1280,
-      1920
+      1280
     ]
   },
   "/assets/product/pavilion-exterior-garden.webp": {
@@ -802,6 +800,690 @@
       1920
     ]
   },
+  "/assets/selected/01-meadow-tea-party.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/01-meadow-tea.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/02-rib-to-arch-joint.webp": {
+    "w": 1536,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/selected/02-timber-joint.webp": {
+    "w": 1536,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/selected/03-wisteria-walk.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/04-garden-exhibition.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/04-garden-room-public-exhibition.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/05-walled-garden-bower.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/05-walled-garden.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/06-sunset-wedding-speech.webp": {
+    "w": 6336,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/06-wedding-speech.webp": {
+    "w": 6336,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/07-charity-dinner-singer.webp": {
+    "w": 5504,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/07-charity-dinner.webp": {
+    "w": 4800,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/08-winter-family-bower.webp": {
+    "w": 5568,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/08-winter-family.webp": {
+    "w": 5568,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/09-summer-family-bower.webp": {
+    "w": 5568,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/09-summer-family.webp": {
+    "w": 5568,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/10-estate-aerial.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/10-estate-garden-aerial.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/11-autumn-quiet-garden.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/11-autumn-retreat.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/12-orchard-approach.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/12-spring-orchard-approach.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/13-grape-oculus.webp": {
+    "w": 3712,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/13-oculus-interior-grape.webp": {
+    "w": 3392,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/14-rose-wisteria.webp": {
+    "w": 5568,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/15-rose-reading.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/16-romantic-dinner.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/17-memorial-garden.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/18-autumn-dinner.webp": {
+    "w": 5056,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/19-floral-canopy.webp": {
+    "w": 4800,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/20-autumn-canopy.webp": {
+    "w": 4608,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/21-woodland-bower.webp": {
+    "w": 5504,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/22-wisteria-banquet.webp": {
+    "w": 5504,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/23-white-wisteria.webp": {
+    "w": 4608,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/24-candlelit-canopy.webp": {
+    "w": 4800,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/25-new-bower.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/26-growing-bower.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/27-mature-bower.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/28-winter-bower.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/29-wisteria-theatre.webp": {
+    "w": 5632,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/30-ancient-bower.webp": {
+    "w": 5504,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/31-family-supper.webp": {
+    "w": 4812,
+    "variants": [
+      400,
+      800,
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "/assets/selected/32-floral-detail.webp": {
+    "w": 1053,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/selected/33-spring-opening.webp": {
+    "w": 973,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/selected/34-summer-dance.webp": {
+    "w": 980,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/selected/35-autumn-harvest.webp": {
+    "w": 980,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/selected/36-winter-walk.webp": {
+    "w": 986,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/studies/concert-aerial.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/courtyard-winged-pavilion.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/curator-talk.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/estate-garden-evening.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/flowering-morning-mist.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/garden-pavilion.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/garden-performance.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/garden-room-gathering.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/growth-01-installation.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/growth-02-establishing.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/growth-03-mature.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/landscape-room-dawn.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/living-interior.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/oculus-garden-interior.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/oculus-portrait.webp": {
+    "w": 1073,
+    "variants": [
+      400,
+      800
+    ]
+  },
+  "/assets/studies/pondside-pavilion.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/rib-to-arch-joint.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/rose-covered-pavilion.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/stained-glass-cliff.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/stained-glass-garden-canopy.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/stained-glass-interior.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/summer-borders.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/sunset-flower-garden.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/swept-garden-canopy.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/valley-dawn.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/wedding-dinner.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/winter-canopy.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
+  "/assets/studies/wisteria-walk.webp": {
+    "w": 1600,
+    "variants": [
+      400,
+      800,
+      1280
+    ]
+  },
   "/hero/v1/pavilion.jpg": {
     "w": 984,
     "variants": [
@@ -863,30 +1545,6 @@
       800,
       1280,
       1920
-    ]
-  },
-  "/assets/home/evolution/installation.webp": {
-    "w": 1920,
-    "variants": [
-      400,
-      800,
-      1280
-    ]
-  },
-  "/assets/home/evolution/establishing.webp": {
-    "w": 1920,
-    "variants": [
-      400,
-      800,
-      1280
-    ]
-  },
-  "/assets/home/evolution/mature.webp": {
-    "w": 1920,
-    "variants": [
-      400,
-      800,
-      1280
     ]
   }
 }

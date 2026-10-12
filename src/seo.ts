@@ -65,7 +65,7 @@ export const OG_CARD = {
   path: '/assets/social/og-card-v2.jpg',
   width: 1200,
   height: 630,
-  alt: 'A planted timber Bower in an English garden with the words Architecture the garden finishes',
+  alt: 'Aerial concept visualisation of a timber Bower within an estate garden',
 } as const;
 
 /** One page's head. `ogTitle`/`ogDescription` are separate because a link card is read in a
@@ -102,12 +102,12 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   gallery: {
     path: routes.gallery,
-    title: 'Living Bower gallery: eight commission visions',
+    title: 'Living Bower gallery: selected design studies',
     description:
-      'Eight concept visualisations of living Bowers across gardens, cultural landscapes, gathering, performance and craft.',
-    ogTitle: 'Bower: eight commission visions',
+      'Selected concept visualisations exploring the geometry of living Bowers across gardens, gathering and performance settings.',
+    ogTitle: 'Bower: selected design studies',
     ogDescription:
-      'Concept renderings of Bower garden pavilions in their gardens, from a wisteria walk to a glass crown.',
+      'Concept renderings of Bower garden pavilions, from quiet planted rooms to gatherings and performances.',
   },
   process: {
     path: routes.process,
@@ -163,12 +163,12 @@ const META: Record<ProductionTarget, PageMeta> = {
   },
   practice: {
     path: routes.practice,
-    title: 'The company behind Bower: the founders and the work',
+    title: 'About Bower: founders, origins and mission',
     description:
-      'The two cofounders behind Bower, the research the company grew out of, and the architecture and robotics work that came before the first pavilion.',
-    ogTitle: 'The company behind Bower',
+      'Meet Bower cofounders Clay Seifert and Daniel Guerra, where the company began, and its mission to create timber structures for living landscapes.',
+    ogTitle: 'Bower: founders, origins and mission',
     ogDescription:
-      'The two cofounders, the research the company grew out of, and the work that came before the first pavilion.',
+      'Two founders, one shared origin, and a mission to make buildings that give nature room to act.',
   },
 };
 
@@ -215,7 +215,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     '@type': 'Organization',
     name: WORDMARK,
     url: SITE_ORIGIN + routes.home,
-    logo: absoluteUrl('/favicon.svg'),
+    logo: absoluteUrl('/assets/brand/bower-favicon-white-on-green.png'),
     image: absoluteUrl(OG_CARD.path),
     // `COMPANY_DESCRIPTION` is how the practice describes itself to a crawler, an agent or a
     // journalist (Clay, 2026-08-01), followed by what the thing actually is. The order matters:

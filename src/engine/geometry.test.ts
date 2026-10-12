@@ -1,8 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { generateGeometry, canopyProfile } from './geometry';
 import { memberPrism, sectionFor } from './jointGeometry';
 import { GRAMMAR, ENVELOPE, JOINTS, STOCK } from '../data/config';
 import type { DesignParams, JointSystem, Member, Vec3 } from './types';
+
+// The representative parameter sweeps are intentionally exhaustive and can exceed Vitest's
+// five-second default on slower Windows runners.
+vi.setConfig({ testTimeout: 30_000 });
 
 const vSub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 const vDot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];

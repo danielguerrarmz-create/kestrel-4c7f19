@@ -8,62 +8,86 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-Making
+](/)
 
-# From landscape to Bower.
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+
+# From landscape
+to Bower.
 
 The structure is finished once. The garden never is.
 
 Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
 
-## None of them finished. All of them alive.
+## None of them
+finished. All of
+them alive.
 
-![Concept visualisation of a flowering timber Bower among stone walls in morning mist](/assets/gallery/week-3/flowering-bower-morning-mist.webp)
-
-A living room in the landscape · Concept visualisation
-
-![Concept visualisation of a newly installed bare timber Bower](/assets/process/evolution/installation.webp)
-
-![Concept visualisation of the same Bower as planting begins to establish](/assets/process/evolution/establishing.webp)
-
-![Concept visualisation of the same Bower with mature planting through its lattice](/assets/process/evolution/mature.webp)
-
-Year zero to year three
-
-## The garden continues the architecture.
+![Concept visualisation of a century-old flowering timber Bower beside a veteran tree](/assets/selected/30-ancient-bower.webp)
 
 The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 
-A disciplined route
+## The garden continues
+the architecture.
 
-## Five acts of making.
+## Five acts of
+making.
 
-- 01 Conversation Landscape, people, purpose.
+-
 
-- 02 Founding Site Study Four weeks · £65,000 GBP plus approved travel and project expenses.
+### 1. Conversation
 
-- 03 Design Geometry, structure, planting.
+Landscape, people, purpose.
 
-- 04 Making Fabrication and assembly.
+-
 
-- 05 Stewardship Training, growth, care.
+### 2. Founding Site Study
 
-![Concept visualisation of a flowering timber Bower overlooking a misted rural valley at dawn](/assets/gallery/week-3/landscape-room-at-dawn.webp)
+Four weeks · £65,000 GBP plus approved travel and project expenses.
 
-Unbuilt concept visualisation
+-
 
-Founding commissions
+### 3. Design
 
-## Every landscape asks for a different answer.
+Geometry, structure, planting.
 
-[Begin with a conversation →](/contact)
+-
 
-[Bower](/)
+### 4. Making
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+Fabrication and assembly.
 
-[© 2026 Bower](/)
+-
+
+### 5. Stewardship
+
+Training, growth, care.
+
+![Concept visualisation of a newly installed timber Bower with young planting](/assets/selected/25-new-bower.webp)
+
+![Concept visualisation of the same Bower garden after about twenty years of growth](/assets/selected/26-growing-bower.webp)
+
+![Concept visualisation of the same Bower garden after about sixty years of growth](/assets/selected/27-mature-bower.webp)
+
+![Concept visualisation of the mature Bower garden in winter with dormant climbers](/assets/selected/28-winter-bower.webp)
+
+## Every
+landscape asks
+for a different
+answer.
+
+[Begin with a conversation](/contact)
+
+[
+
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

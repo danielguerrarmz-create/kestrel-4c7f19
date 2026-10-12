@@ -7,6 +7,7 @@ import { srcSetFor } from '../ui/responsiveImg';
 import { usePageSnap } from '../ui/usePageSnap';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { FOUNDING_SITE_STUDY_FEE_INTERNATIONAL } from '../ui/priceCopy';
+import { SELECTED_STUDIES, selectedImage } from '../data/selectedImages';
 
 /**
  * A full-bleed image with scroll-linked drift (2026-08-05, Clay: the page read "rather plain
@@ -48,8 +49,8 @@ const COMMISSION_TYPES = [
     title: 'A living work',
     body: 'For sculpture parks, galleries, estates and gardens: a work to stand inside, changing with the garden that holds it.',
     uses: ['Curator walks', 'Intimate performance', 'Readings and talks', 'Daily encounter'],
-    src: '/assets/commissions/cultural-landscape-tour.webp',
-    alt: 'A curator addressing visitors gathered in and around a planted timber Bower, with a sculpture garden and lake beyond',
+    src: selectedImage('29-wisteria-theatre'),
+    alt: SELECTED_STUDIES[28].alt,
   },
   {
     id: 'gathering',
@@ -57,8 +58,8 @@ const COMMISSION_TYPES = [
     title: 'A place to gather',
     body: 'For houses and gardens that receive guests: a table under the lattice, a small ceremony, an evening that ends in the garden.',
     uses: ['Seasonal table', 'Shared meals', 'Private gatherings', 'Quiet daily use'],
-    src: '/assets/gallery/favorites/garden-table.webp',
-    alt: 'Guests sharing a long garden lunch beneath a planted timber Bower, with a gardener and garden produce at the table',
+    src: selectedImage('22-wisteria-banquet'),
+    alt: SELECTED_STUDIES[21].alt,
   },
   {
     id: 'ecology',
@@ -66,8 +67,8 @@ const COMMISSION_TYPES = [
     title: 'A place to attend to the landscape',
     body: 'For land that is studied and taught: a field room, a classroom under leaves, a hide the habitat slowly claims.',
     uses: ['Field room', 'Outdoor classroom', 'Observation', 'Horticultural workshop'],
-    src: '/assets/commissions/winter-landscape-talk.webp',
-    alt: 'A guide speaking to visitors beside a timber Bower in a winter garden, its bare lattice and surrounding landscape held by frost',
+    src: selectedImage('21-woodland-bower'),
+    alt: SELECTED_STUDIES[20].alt,
   },
 ] as const;
 
@@ -125,8 +126,8 @@ export function CommissionsPage() {
         <section ref={interludeRef} className="relative h-svh min-h-[560px] snap-start overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={interludeRef}
-            src="/assets/gallery/01-wisteria-walk.webp"
-            alt="A walk beneath a run of woven timber lattice arches, wisteria hanging through the crown, cafe tables to one side and a stone manor beyond"
+            src={selectedImage('03-wisteria-walk')}
+            alt={SELECTED_STUDIES[2].alt}
           />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
           <div className="relative z-10 mx-auto flex h-full w-full max-w-canvas items-end px-gutter pb-[clamp(2.5rem,6vw,5rem)]">
@@ -290,8 +291,8 @@ export function CommissionsPage() {
         <section ref={bandRef} className="relative min-h-[88svh] snap-start overflow-hidden bg-inkBlack text-paperVellum">
           <ParallaxImg
             containerRef={bandRef}
-            src="/assets/gallery/exclusive/garden-concert-aerial.webp"
-            alt="Aerial view of musicians performing in a planted timber Bower before an audience in an estate garden"
+            src={selectedImage('10-estate-aerial')}
+            alt={SELECTED_STUDIES[9].alt}
           />
           <div aria-hidden className="absolute inset-0 bg-black/30" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />

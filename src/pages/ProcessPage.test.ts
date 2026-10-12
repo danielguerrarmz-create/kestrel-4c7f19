@@ -6,49 +6,42 @@ import { ProcessPage } from './ProcessPage';
 const html = renderToString(createElement(ProcessPage));
 
 describe('ProcessPage', () => {
-  it('shows one work through time in the redesigned making sequence', () => {
-    expect(html).toContain('/assets/process/evolution/installation.webp');
-    expect(html).toContain('/assets/process/evolution/establishing.webp');
-    expect(html).toContain('/assets/process/evolution/mature.webp');
-    expect(html).toContain('Ask anyone for the most beautiful place they have ever stood in');
-    expect(html).toContain('None of them finished. All of them alive.');
-    expect(html).toContain('/assets/gallery/week-3/flowering-bower-morning-mist.webp');
-    expect(html).toContain('A living room in the landscape · Concept visualisation');
-    expect(html).not.toContain('Built to be unfinished.');
-    expect(html).toContain('The garden continues the architecture.');
-    expect(html).not.toContain('The garden takes it from here.');
-    expect(html).toContain('aria-label="The same Bower from year zero to year three"');
-    expect(html).toContain('A lattice');
-    expect(html).toContain('Leaves in the weave');
-    expect(html).toContain('A room of blossom and eaves');
-    expect(html).toContain('h-[320svh]');
-    expect(html).toContain('data-growth-progress');
-    expect(html).not.toContain('/assets/gallery/favorites/living-bower-interior.webp');
-    expect(html).not.toContain('/assets/gallery/favorites/english-garden-path.webp');
-    expect(html).not.toContain('A Bower begins as a woven, load-bearing timber lattice.');
-    expect(html).toContain('Five acts of making.');
+  it('carries the approved live-page narrative into the editorial layout', () => {
+    expect(html).toContain('From landscape');
+    expect(html).toContain('The structure is finished once. The garden never is.');
+    expect(html).toContain('None of them<br/>finished.');
+    expect(html).toContain('The garden continues');
+    expect(html).toContain('Five acts');
     expect(html).toContain('Founding Site Study');
-    expect(html).toContain('Four weeks · £65,000 GBP plus approved travel and project expenses.');
-    expect(html).not.toContain('Site, consent, route, cost.');
-    expect(html.indexOf('The garden continues the architecture.')).toBeLessThan(html.indexOf('Five acts of making.'));
-    expect(html.lastIndexOf('/assets/process/evolution/mature.webp')).toBeLessThan(html.indexOf('Five acts of making.'));
-    expect(html).toContain('/assets/gallery/week-3/landscape-room-at-dawn.webp');
-    expect(html.indexOf('/assets/gallery/week-3/landscape-room-at-dawn.webp')).toBeGreaterThan(html.indexOf('Five acts of making.'));
-    expect(html).toContain('Every landscape asks for a different answer.');
-    expect(html.match(/data-snap-section/g)).toHaveLength(6);
   });
 
-  it('uses the shared editorial navigation and ends with the quiet footer', () => {
-    expect(html).toContain('href="/gallery"');
-    expect(html).toContain('href="/about/practice"');
-    expect(html).toContain('href="/contact"');
-    // ONE CTA PER PAGE, EACH FOLLOWING FROM ITS OWN ARGUMENT (2026-09-09, Clay). This page closed
-    // with "Discuss a founding commission →", the identical words the home and the practice page
-    // both closed with; three identical closes read as a repeated advertisement rather than as
-    // three invitations. This page has just walked the reader through five acts of making, so it
-    // asks for the conversation that starts them.
-    expect(html).toContain('Begin with a conversation →');
-    expect(html).not.toContain('Discuss a founding commission');
-    expect(html).not.toContain('nav-pill');
+  it('uses five distinct selected renditions and keeps their status clear', () => {
+    const sources = [...html.matchAll(/src="(\/assets\/selected\/[^" ]+\.webp)"/g)].map((match) => match[1]);
+    expect(sources).toEqual([
+      '/assets/selected/30-ancient-bower.webp',
+      '/assets/selected/25-new-bower.webp',
+      '/assets/selected/26-growing-bower.webp',
+      '/assets/selected/27-mature-bower.webp',
+      '/assets/selected/28-winter-bower.webp',
+    ]);
+    expect(new Set(sources).size).toBe(sources.length);
+    expect(html).not.toContain('<figcaption');
+    expect(html).not.toContain('A disciplined route');
+    expect(html).not.toContain('Year zero to year three');
+    expect(html).toMatch(/<span>1(?:<!-- -->)?\.<\/span>Conversation/);
+    expect(html).toMatch(/<span>5(?:<!-- -->)?\.<\/span>Stewardship/);
+  });
+
+  it('uses the supplied growth video and retains the four-frame seasonal transition', () => {
+    expect(html).not.toContain('Placeholder for a Bower fabrication film');
+    expect(html).not.toContain('Placeholder for a Bower assembly film');
+    expect(html).toContain('/assets/process/bower-growth-transition.mp4');
+    expect(html).toContain('/assets/process/bower-growth-transition-mobile.mp4');
+    expect(html).toContain('/assets/process/bower-growth-transition-poster.webp');
+    expect(html).toContain('autoplay=""');
+    expect(html).toContain('loop=""');
+    expect(html).toContain('process-editorial-transition');
+    expect(html).toContain('Every<br/>landscape asks');
+    expect(html).toContain('Begin with a conversation');
   });
 });

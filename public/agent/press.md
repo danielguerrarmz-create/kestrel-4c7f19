@@ -8,14 +8,22 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
 
 # [contact@bowerbuild.org](mailto:contact@bowerbuild.org)
 
-[Bower](/)
+[
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-[© 2026 Bower](/)
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

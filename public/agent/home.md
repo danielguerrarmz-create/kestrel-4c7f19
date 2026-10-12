@@ -8,78 +8,68 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
-![Concept visualisation from within a planted timber Bower](/assets/gallery/favorites/living-bower-interior.webp)
+](/)
 
-[Scroll to explore](#meaning)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
 
-Living architecture
+![Concept visualisation of a public exhibition arranged inside a planted garden Bower](/assets/selected/04-garden-exhibition.webp)
 
-Founding commissions · 2027
+# Living architecture.
 
-# Buildings that nature designs.
-
-We make the structure. The garden makes the rest.
-
-Estates · Gardens · Cultural landscapes
-
-The object in time
+[View the gallery](/gallery)
 
 ## A Bower begins when building ends.
 
-![Concept visualisation of a newly installed timber Bower before the planting has established](/assets/home/evolution/installation.webp)
+![Concept visualisation at installation: a timber Bower among young trees and newly planted borders](/assets/selected/25-new-bower.webp)
 
-00 A lattice
+At installation
 
-![Concept visualisation of the same Bower after its first season of growth](/assets/home/evolution/establishing.webp)
+![Concept visualisation after 20 years: trees and borders have grown around a Bower with roses and wisteria](/assets/selected/26-growing-bower.webp)
 
-01 Leaves in the weave
+After 20 years
 
-![Concept visualisation of the same Bower after the planting has matured through its lattice](/assets/home/evolution/mature.webp)
+![Concept visualisation after 60 years: mature trees and layered planting surround a weathered Bower with roses and wisteria](/assets/selected/27-mature-bower.webp)
 
-03 A room of blossom and eaves
+After 60 years
 
-![Concept visualisation of a planted timber Bower occupying a misted valley at dawn](/assets/gallery/week-3/valley-bower-at-dawn.webp)
+A long lunch.
+An hour alone.
+A reason to stay outside.
 
-Valley at dawn Morning mist
+A Bower makes room for the intimate, inhabited life of a landscape. Somewhere between the individual and the group, ordinary experience and ceremony.
 
-## The garden becomes a place to gather.
+![Concept visualisation of a family gathering beneath a planted timber Bower in summer](/assets/selected/09-summer-family.webp)
 
-![Concept visualisation of visitors gathering beneath a planted timber Bower in a formal garden](/assets/gallery/week-3/garden-room-gathering.webp)
+## Nature becomes one of the authors.
 
-A garden room in use
+We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.
 
-![Concept study of a timber lattice joint and carved connection](/assets/gallery/favorites/timber-joinery-detail.webp)
+Founded in 2026, Bower is a building technology company with a developed computational design system for unique timber buildings that grow into their landscapes. Engineering, manufacturing and delivery partnerships for the first permanent works are forming.
 
-Joint study 01
+![Aerial concept visualisation of a timber Bower within an estate garden](/assets/selected/10-estate-aerial.webp)
 
-## Every Bower is different.
+## A room for the life around it.
 
-We are building the means to make them again and again, without ever making the same one twice.
+For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.
 
-- 01 Site
+[View the gallery](/gallery)
 
-- 02 Geometry
+## Every Bower begins with a place.
 
-- 03 Structure
+We are selecting three gardens for Bower’s founding commissions.
 
-- 04 Planting
+[Contact Bower](/contact)
 
-- 05 Stewardship
+[
 
-[See how it is made →](/process)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-Founding commissions
+](/)
 
-## Three landscapes. By private commission.
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
 
-[Enquire privately →](/contact)
-
-[Bower](/)
-
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
-
-[© 2026 Bower](/)
+[© 2026 Bower. All rights reserved.](/)

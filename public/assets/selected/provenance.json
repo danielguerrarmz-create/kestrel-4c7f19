@@ -1,0 +1,365 @@
+{
+  "importedFrom": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected",
+  "images": [
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/01-meadow-tea.jpg",
+      "sourceSha256": "fd4f9e3f89d8f869f93a1bd1f2410bd1149a256994f00b27a2ef25857296d731",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/01-meadow-tea.webp",
+      "outputSha256": "6b033d6d9f358a1f652114a302d3d099f40dc90db0091c52c9abc2f8b8912912",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/02-timber-joint.png",
+      "sourceSha256": "079649c7b5ed81c1d9bd25d2ffd7810338344ded0c9b511adfce916e09d5e0c9",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "output": "/assets/selected/02-timber-joint.webp",
+      "outputSha256": "defb57003c5b7f1b1da16405a41399940bb45232558bdafe35059d1b52150666",
+      "outputWidth": 1536,
+      "outputHeight": 1024
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/03-wisteria-walk.jpg",
+      "sourceSha256": "e2654e4cba8e58a56e0f3cfadaeed951f218e298438ef2df1253d3251a4b4f7f",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/03-wisteria-walk.webp",
+      "outputSha256": "c5aec12a9b828d42a8029cccf0d5b895c4680fa2b96d05f1320311ce8cda2700",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/04-garden-exhibition.jpg",
+      "sourceSha256": "1fe06da50404ad24e40f77b0dce40a32c3210b2f8c6a10cd6af4654bcdade3de",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/04-garden-exhibition.webp",
+      "outputSha256": "b0617ef95d9bee4b03302f141f6d85509ab9bea44834d0c9e849052f08064eba",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/05-walled-garden.jpg",
+      "sourceSha256": "36233c15c480d6feef5b6adad6315b8ad485324b68c8673dfe17afd60104c2c8",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/05-walled-garden.webp",
+      "outputSha256": "e5337a265db1f675e6ce8d632c44b6c5e3ac67e3595ce9cee1222fe7f812f3e3",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/06-wedding-speech.jpg",
+      "sourceSha256": "c1d42a050796bc019c509a8afd0f76ab2fe88748ad7d6e192e76ad7530c95b69",
+      "sourceWidth": 6336,
+      "sourceHeight": 2688,
+      "output": "/assets/selected/06-wedding-speech.webp",
+      "outputSha256": "5e13ed42dc53cedb2438206256b4201757472bc43e904dafffb476311e1adb92",
+      "outputWidth": 6336,
+      "outputHeight": 2688
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/07-charity-dinner.jpg",
+      "sourceSha256": "bb9d1c7847512813ffa8f8388deb51c49d29e67323ce5cbe78d2190ade5f3a41",
+      "sourceWidth": 4800,
+      "sourceHeight": 3584,
+      "output": "/assets/selected/07-charity-dinner.webp",
+      "outputSha256": "44603effa44af1aaaca8d135c8ac08ced1ad4cd4eb504843d993953daf917998",
+      "outputWidth": 4800,
+      "outputHeight": 3584
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/08-winter-family.jpg",
+      "sourceSha256": "998c87a3d972c32d3242cad7cd40e5614a8bd369baeccf87886dfc74ca902e09",
+      "sourceWidth": 5568,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/08-winter-family.webp",
+      "outputSha256": "4f3fbbde80ffaa5136cfee7bddec97752aca91a9bd7207f725cabbabcaa87633",
+      "outputWidth": 5568,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/09-summer-family.jpg",
+      "sourceSha256": "17ea7964b19164b5df0af88a78128b69ae29b74e89a259e21f6d58a709f145da",
+      "sourceWidth": 5568,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/09-summer-family.webp",
+      "outputSha256": "81dca09d8aed660553dc811c3894fafd54fc67b76e7b9c1039a8f996c94f9a04",
+      "outputWidth": 5568,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/10-estate-aerial.jpg",
+      "sourceSha256": "bac027c8d939fac84a940fd5a4b26538f1294261ce04878ebdfe4db92f8f206b",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/10-estate-aerial.webp",
+      "outputSha256": "1a9eef91643945d04764d158fe55a8ee83e04dcb98129e5711311b516ed4f595",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/11-autumn-retreat.jpg",
+      "sourceSha256": "579943200fad23597f0b986218ffb9c4a6203ea0001b09fc3cbb28fa5e22599c",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/11-autumn-retreat.webp",
+      "outputSha256": "e86d3d809feeb370e9500a90d69b4412c1edbf4aa72820ad78cb031900ba947d",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/12-orchard-approach.jpg",
+      "sourceSha256": "77a02319c76ec244c61d200f968eba583433e8e37a6f0107d90fda6018262318",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/12-orchard-approach.webp",
+      "outputSha256": "399ddf38e4e978affd5ff666145648fc031413d03733d6731e113172681056a2",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/13-grape-oculus.jpg",
+      "sourceSha256": "7e47c9ca391d8dc0c96fb283d799b1ed6bc5bc34d0c0b0095c338d69e3a1fbfb",
+      "sourceWidth": 3712,
+      "sourceHeight": 4608,
+      "output": "/assets/selected/13-grape-oculus.webp",
+      "outputSha256": "bb8c39a8bd44dbc8d74392e982af09889784eb8d4ab8d770d9b823aa1366507b",
+      "outputWidth": 3712,
+      "outputHeight": 4608
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/14-rose-wisteria.jpg",
+      "sourceSha256": "5093e9801d68f24d958adab2a00861a651ffa36ddf60178dd5928ca0447766a5",
+      "sourceWidth": 5568,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/14-rose-wisteria.webp",
+      "outputSha256": "8dfab06d38aba059e92af79f334e45563008a818f77f96768fe85a00c224cf04",
+      "outputWidth": 5568,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/15-rose-reading.jpg",
+      "sourceSha256": "c8fec69b7135404783fe239588799d24c3b9e4b773ef88b7d849cc9f79654c58",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/15-rose-reading.webp",
+      "outputSha256": "d1c4fe002a3b467a5bfa692122d213bfc66e6806916c99070642f4438b977f29",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/16-romantic-dinner.jpg",
+      "sourceSha256": "23b21ebbdb5725602e119999f7b1462173569f1af084487fb26f67e014bb9e39",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/16-romantic-dinner.webp",
+      "outputSha256": "39a80b63dd3c3875b39180aec577cd7663be4bc393aaf3b89b3932d35e8a18b3",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/17-memorial-garden.jpg",
+      "sourceSha256": "6f2ab182937653e702aa3510f8b0c5f4711a4e49fa2879735016676f9a1a2bc0",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/17-memorial-garden.webp",
+      "outputSha256": "e4c8f3a54dd3df02bbdace6ee16f4c9df9798dabbad660fa3e296114c8e2284b",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/18-autumn-dinner.jpg",
+      "sourceSha256": "dd26b5c226f98e89b0a9fb4cb9b8a0472e92b6fe0ce01a86e008e1dd7a59c609",
+      "sourceWidth": 5056,
+      "sourceHeight": 3392,
+      "output": "/assets/selected/18-autumn-dinner.webp",
+      "outputSha256": "aca2b97505975e6e3439cfcf9401b09f57434d8165ee4bab73879ec180d49697",
+      "outputWidth": 5056,
+      "outputHeight": 3392
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/19-floral-canopy.jpg",
+      "sourceSha256": "e8ca3641e154c254f6212006e5cfab0f34250d7d5dbd67becc0270f93a8c56c4",
+      "sourceWidth": 4800,
+      "sourceHeight": 3584,
+      "output": "/assets/selected/19-floral-canopy.webp",
+      "outputSha256": "889f65c0289f32523fa5424771c9497318d3956e9fe3e72e46bf7ae40702a7c8",
+      "outputWidth": 4800,
+      "outputHeight": 3584
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/20-autumn-canopy.jpg",
+      "sourceSha256": "3a05b99e4e6c306e70064e670590dc57962eb57dcbbd0c93c9bfb5a0f5e0db48",
+      "sourceWidth": 4608,
+      "sourceHeight": 3712,
+      "output": "/assets/selected/20-autumn-canopy.webp",
+      "outputSha256": "405fd439e226dfa80a9f2a9214f9de9039426ecb0d6a74b7280f2d378da670bd",
+      "outputWidth": 4608,
+      "outputHeight": 3712
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/21-woodland-bower.jpg",
+      "sourceSha256": "82169560fb555cc6aeeb55a9e59c2741cc57414d6d2238863f6bb5aa891101a2",
+      "sourceWidth": 5504,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/21-woodland-bower.webp",
+      "outputSha256": "03501bbc2c61d6ff4b70d9b4d038d297cfa0d7016d6040bb4b0867a014571579",
+      "outputWidth": 5504,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/22-wisteria-banquet.jpg",
+      "sourceSha256": "d3f31811b786ba76841f2c96b2640f0a64f1ae58239c06fb4a2fa3c49d4b3d98",
+      "sourceWidth": 5504,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/22-wisteria-banquet.webp",
+      "outputSha256": "33948ca921ef45c5f8cf8ff8bd75e5fc11da69b3032fb9fafdc85d4f4f684115",
+      "outputWidth": 5504,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/23-white-wisteria.jpg",
+      "sourceSha256": "7199999c1e06aabd6ef3a06a66e28c54c189647382b0960ee3ffcf5bb90b8213",
+      "sourceWidth": 4608,
+      "sourceHeight": 3712,
+      "output": "/assets/selected/23-white-wisteria.webp",
+      "outputSha256": "0b62550c417e46f63e0d09770a96e201b3a7e40418115eaf0cdef5e30e16a46e",
+      "outputWidth": 4608,
+      "outputHeight": 3712
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/24-candlelit-canopy.jpg",
+      "sourceSha256": "48e56f2bfbe25d0a6ff04e86e0a965fe773098170062974cd64db2a57472aea9",
+      "sourceWidth": 4800,
+      "sourceHeight": 3584,
+      "output": "/assets/selected/24-candlelit-canopy.webp",
+      "outputSha256": "06ae978deffd5a71c485f3b47930c7fee6d55929c67b5055da20b8cd116d6cec",
+      "outputWidth": 4800,
+      "outputHeight": 3584
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/25-new-bower.jpg",
+      "sourceSha256": "4499e05f8fbad5251288e489e9b9581394ee933e42fd02a58095f8ec3c3e5398",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/25-new-bower.webp",
+      "outputSha256": "3e03c74b9ae74f3e0b301c9349c8cae30d43e8307d4f21c3f48b565392af5d95",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/26-growing-bower.jpg",
+      "sourceSha256": "8af46f61acff671bd65bf33a1a1a18456b78fb6257f0bf4167a6a804733e7be4",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/26-growing-bower.webp",
+      "outputSha256": "2b400d0559d089496dc3b146ba13b670e038ae9c052ec70d22d8797778e6f075",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/27-mature-bower.jpg",
+      "sourceSha256": "091d15d73137ebe76f54573dd61dd127524f97c81ef33efea177448d30de93ff",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/27-mature-bower.webp",
+      "outputSha256": "a27e0241b61fc8b2c33ad2adea6381496ec3645dc419cfb52bb7a0cde92ffad3",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/28-winter-bower.jpg",
+      "sourceSha256": "728acb1ca4c76e9de0bbd2914ef470c2de292ff5a73a0054b277f29f93763274",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/28-winter-bower.webp",
+      "outputSha256": "d929c89a3e7ad38e36c2dc53dda88aebed27576efb4ae4a4044adc54d6139f5a",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/29-wisteria-theatre.jpg",
+      "sourceSha256": "04ef2634b539881d89a63a7493f6762f0593147a810cea07adac072be0fb26be",
+      "sourceWidth": 5632,
+      "sourceHeight": 3008,
+      "output": "/assets/selected/29-wisteria-theatre.webp",
+      "outputSha256": "66af7529c29a0affc7dfeb25c0e13d14a5c0f545785491f9a67948a023ac74dd",
+      "outputWidth": 5632,
+      "outputHeight": 3008
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/30-ancient-bower.png",
+      "sourceSha256": "8bd3566bec41f6a6ed681eb80f5177f75f66631d44f969a287d228dbe6f797bc",
+      "sourceWidth": 5504,
+      "sourceHeight": 3072,
+      "output": "/assets/selected/30-ancient-bower.webp",
+      "outputSha256": "594a7c2b6f8685128b9e5425382a2ab05fb3484c4a06f5b62862be28ecba249c",
+      "outputWidth": 5504,
+      "outputHeight": 3072
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/31-family-supper.jpg",
+      "sourceSha256": "11e782fa637dc5e7fbd744ae5f8662ca4d4fcb64a26cb0e3d89ed8551254044a",
+      "sourceWidth": 4812,
+      "sourceHeight": 3520,
+      "output": "/assets/selected/31-family-supper.webp",
+      "outputSha256": "1de57c37810d8c898c626eab9118e4c00f4a087cb764b632e7454a7936fa3628",
+      "outputWidth": 4812,
+      "outputHeight": 3520
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/32-floral-detail.png",
+      "sourceSha256": "4bcc094d793880c862031ac9b8fee4627f13a322febd7f97b9723a884fb42226",
+      "sourceWidth": 1053,
+      "sourceHeight": 821,
+      "output": "/assets/selected/32-floral-detail.webp",
+      "outputSha256": "3027a96293e79a345bcb96cef96adf3f12a1c33300294014eac87cd10eb0c1d8",
+      "outputWidth": 1053,
+      "outputHeight": 821
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/33-spring-opening.png",
+      "sourceSha256": "8935348acde9e45c720f3007e769d62e37cd56a7b962e4753cfdcc2eef79b522",
+      "sourceWidth": 973,
+      "sourceHeight": 1595,
+      "output": "/assets/selected/33-spring-opening.webp",
+      "outputSha256": "dff3e2c80282b67bb495813c85d4b2214f469776a95e7c9a178df9904d4c016a",
+      "outputWidth": 973,
+      "outputHeight": 1595
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/34-summer-dance.png",
+      "sourceSha256": "92011af2675fb9a1523b4fe68c399d62e2b9ab3cdb4ae4a695d3e31be57d6d1f",
+      "sourceWidth": 980,
+      "sourceHeight": 1583,
+      "output": "/assets/selected/34-summer-dance.webp",
+      "outputSha256": "08297e2859ca867eb2f4de0c585e15da243d4b79fefe5b6e8c7d85877bda0c45",
+      "outputWidth": 980,
+      "outputHeight": 1583
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/35-autumn-harvest.png",
+      "sourceSha256": "8a1cc10519c28a51adac87937ea24c50d21bc0ba1cea28e997c8575717e2e375",
+      "sourceWidth": 980,
+      "sourceHeight": 1595,
+      "output": "/assets/selected/35-autumn-harvest.webp",
+      "outputSha256": "aa219ad126638984275a8f77275f6d1dae15c91979bbdfcc924af0b4495c8665",
+      "outputWidth": 980,
+      "outputHeight": 1595
+    },
+    {
+      "source": "C:/Users/danie/Documents/Codex/Projects/Bower Marketing/04-product-images/selected/36-winter-walk.png",
+      "sourceSha256": "5b693a9ffd7acdba0df604221b2f30fa3927b4f7828162019dcf77cfb8ff5bc2",
+      "sourceWidth": 986,
+      "sourceHeight": 1595,
+      "output": "/assets/selected/36-winter-walk.webp",
+      "outputSha256": "510c7faf74cac5ed4f5125122c5c8790f15abf187768fd8614d3bf0ccd5c8b32",
+      "outputWidth": 986,
+      "outputHeight": 1595
+    }
+  ]
+}

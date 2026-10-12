@@ -24,7 +24,7 @@ const ROOTS = [
   'public/assets/about',
   'public/assets/gallery',
   'public/assets/commissions',
-  'public/assets/process',
+  'public/assets/selected',
   'public/hero',
 ];
 /**

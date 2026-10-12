@@ -28,7 +28,8 @@
  * output; it is not a general HTML parser and must never be pointed at foreign HTML. Rules:
  * headings become `#`s, list items become `-`, images become `![alt](src)`, anchors become
  * `[text](href)`, an `<svg role="img">` collapses to its aria-label (that is how the drawn About
- * timeline stays readable), and `aria-hidden` subtrees plus bare ornament svgs are dropped.
+ * timeline stays readable), and `aria-hidden`, `data-agent-hidden` subtrees plus bare ornament
+ * svgs are dropped.
  */
 import { renderToString } from 'react-dom/server';
 import { createElement, type ComponentType } from 'react';
@@ -70,8 +71,9 @@ const attr = (tag: string, name: string): string | null => {
 
 /**
  * Convert renderToString output to readable markdown. A single pass over a tag/text token
- * stream with a skip-depth for subtrees that carry no prose (aria-hidden ornament, style, and
- * svgs — except an svg with a role="img" aria-label, which contributes its label as a paragraph).
+ * stream with a skip-depth for subtrees that carry no prose (aria-hidden ornament,
+ * data-agent-hidden responsive duplicates, style, and svgs — except an svg with a role="img"
+ * aria-label, which contributes its label as a paragraph).
  */
 export function htmlToMarkdown(html: string): string {
   const tokens = html.split(/(<[^>]+>)/g).filter(Boolean);
@@ -129,7 +131,7 @@ export function htmlToMarkdown(html: string): string {
       skipTag = 'svg';
       continue;
     }
-    if (!isClose && attr(t, 'aria-hidden') === 'true' && !selfClosing) {
+    if (!isClose && (attr(t, 'aria-hidden') === 'true' || attr(t, 'data-agent-hidden') === 'true') && !selfClosing) {
       skip = 1;
       skipTag = name;
       continue;
@@ -312,7 +314,7 @@ export function llmsTxt(): string {
 ## Pages
 
 - [Home](/agent/home.md): the work in time, one concept study, evidence of making and the invitation
-- [Gallery](/agent/gallery.md): eight concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Gallery](/agent/gallery.md): thirteen concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries

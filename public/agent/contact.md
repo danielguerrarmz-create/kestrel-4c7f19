@@ -8,15 +8,17 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
-![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
+](/)
+
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+
+![Concept visualisation of a timber Bower set within a mature walled garden](/assets/selected/05-walled-garden.webp)
 
 # Tell us about your landscape.
-
-Scroll to continue ↓
 
 ## Begin with the place.
 
@@ -26,12 +28,16 @@ Clay Seifert
 
 NameProject location and countryEmailPreferred time zoneNo preferenceLondon, Dublin, LisbonParis, Rome, Madrid, BerlinAthens, HelsinkiThe AmericasElsewhere What might happen in the Bower?
 
-Send your note →
+Send your note
 
 We use these details to respond to your enquiry. Read our [privacy notice](/privacy).
 
-[Bower](/)
+[
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-[© 2026 Bower](/)
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

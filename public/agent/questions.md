@@ -8,9 +8,13 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[BOWER](/)
+[
 
-[Works](/gallery) [Making](/process) [Practice](/about/practice) [Enquire](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+
+](/)
+
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
 
 Questions
 
@@ -154,8 +158,12 @@ Clay Seifert
 
 [+44 20 7139 5142](tel:+442071395142) [clay@bowerbuild.org](mailto:clay@bowerbuild.org)
 
-[Bower](/)
+[
 
-[Press](/press) [Questions](/questions) [Gallery](/gallery) [Contact](/contact)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
 
-[© 2026 Bower](/)
+](/)
+
+[Press](/press) [Questions](/questions) [Works](/gallery) [Contact](/contact)
+
+[© 2026 Bower. All rights reserved.](/)

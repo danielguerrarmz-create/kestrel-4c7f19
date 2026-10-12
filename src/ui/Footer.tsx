@@ -2,16 +2,14 @@
  * Footer.tsx — the small, quiet footer every standalone page wears.
  *
  * NOT the home page's monument (the viewport-wide lowercase "bower" that closes the splash). This is
- * its documentation-layer cousin: the Oculus mark, the wordmark in mono, a thin rule, the ways in,
- * and a year. Understated on purpose — it closes a page without competing with its content. The
+ * its documentation-layer cousin: the Oculus mark, the ways in and the global copyright.
+ * Understated on purpose — it closes a page without competing with its content. The
  * home keeps its monument and suppresses this one (see the pages), so the big gesture stays unique.
  *
  * IT DELIBERATELY DOES NOT USE `BowerMark`: that component carries the single `[data-wordmark]` span
  * the one-time BowerIntro flies its lockup onto, and there must be exactly one on a page. The footer
  * draws its own mark + name so it never mints a second wordmark target.
  */
-import { OculusMark } from './OculusMark';
-import { WORDMARK } from '../data/config';
 import { routes } from '../routing';
 import type { Measure } from './Frame';
 
@@ -39,22 +37,13 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
   const year = new Date().getFullYear();
   const width = measure === 'page' ? 'max-w-page' : measure === 'read' ? 'max-w-read' : 'max-w-canvas';
   return (
-    <footer className={`mx-auto flex w-full ${width} snap-end flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-inkBlack/15 px-gutter py-8 text-inkBlack`}>
-      {/* ONE PLAIN ROW, and it stays that way. An earlier pass on 2026-07-31 grew a whole practice
-          block here — both founders, both addresses, a labelled door — on the reasoning that a
-          solicitor scans a footer for who carries the liability. Clay's correction was that the
-          footer stays plain and a SHORT ABOUT PAGE carries that job, with the founders' page nested
-          behind it. The reason is worth keeping: a footer that grows a section is a footer competing
-          with the page above it, and this one closes six different pages. The names and addresses
-          live on `/about/practice`, which is where someone asking "who are you" has already
-          arrived. */}
+    <footer className={`mx-auto flex w-full ${width} snap-end flex-wrap items-center justify-between gap-x-8 gap-y-4 px-gutter py-8 text-inkBlack`}>
       <a
         href={routes.home}
         aria-label="Bower, home"
         className="inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
       >
-        <OculusMark size={18} />
-        <span className="font-sans text-[13px] font-medium uppercase tracking-[0.18em]">{WORDMARK}</span>
+        <img src="/assets/brand/bower-logo-evergreen-horizontal.png" width="112" height="28" alt="Bower" />
       </a>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.
@@ -66,12 +55,8 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
       <nav aria-label="Footer" className="flex flex-wrap items-center gap-6 font-sans text-[11px] uppercase tracking-[0.16em] text-inkBlack/48">
         <a href={routes.press} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Press</a>
         <a href={routes.questions} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Questions</a>
-        <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Gallery</a>
-        {/* PRESS / QUESTIONS / GALLERY / CONTACT, and no more (Clay, 2026-09-03). A `Privacy` link
-            was added here in the in-flight work and came back out: `/privacy` is still reached from
-            the contact form's own "Read our privacy notice", which is the point of collection and
-            the only place it is actually load-bearing. The row stays ONE plain row — a footer that
-            grows a section competes with the page above it, and this one closes every page. */}
+        <a href={routes.gallery} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Works</a>
+        {/* `/privacy` remains linked at the contact form, where it is load-bearing. */}
         <a href={routes.contact} className="inline-flex items-center justify-center transition-colors duration-150 hover:text-inkBlack [@media(pointer:coarse)]:min-h-[44px] [@media(pointer:coarse)]:min-w-[44px]">Contact</a>
       </nav>
       {/* THE COMPANY LINE. Stubbed 2026-07-31 and rendering the copyright alone until
@@ -82,13 +67,13 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
           data change rather than a layout change; `COMPANY` is deliberately `null` rather than a
           set of empty strings, because an empty string renders as a stray separator and reads as a
           bug, whereas an absent block reads as a footer. */}
-      <span className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/40">
+      <span className="site-footer-legal flex items-center font-mono text-[11px] uppercase tracking-[0.14em] text-inkBlack/40">
         <a
           href={routes.home}
           aria-label={`© ${year} Bower, home`}
           className="transition-colors duration-150 hover:text-inkBlack focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
         >
-          © {year} Bower
+          © {year} Bower. All rights reserved.
         </a>
         {COMPANY && (
           <>
