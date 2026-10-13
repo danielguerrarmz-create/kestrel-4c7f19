@@ -1544,7 +1544,7 @@ body:has(.brand-loading[open]) {
   padding-top: clamp(150px, 17vw, 260px);
   padding-bottom: clamp(120px, 14vw, 210px);
 }
-.bower-site main > footer { max-width:none; background:var(--green); color:#fff; border-top:0; }
+.bower-site main > footer { max-width:none; background:var(--green); color:#fff; border-top:1px solid rgba(255,255,255,.24); }
 .bower-site main > footer nav,.bower-site main > footer a { color:#fff; }
 .bower-site main > footer img { filter:grayscale(1) invert(1) brightness(3); mix-blend-mode:screen; }
 .gallery-page .gallery-intro { background:#fff; }
