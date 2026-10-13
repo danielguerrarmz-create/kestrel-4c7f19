@@ -96,7 +96,7 @@ export function SplashPage() {
           <div className="object-in-time-sequence">
             {objectInTime.map((study) => <figure key={study.image}>
               <div className="object-in-time-image">
-                <img src={study.image} srcSet={srcSetFor(study.image)} sizes="33vw" alt={study.alt} loading="lazy" />
+                <img src={study.image} srcSet={srcSetFor(study.image)} sizes="(max-width: 767px) 82vw, 33vw" alt={study.alt} loading="lazy" />
               </div>
               <figcaption>{study.caption}</figcaption>
             </figure>)}
@@ -112,8 +112,8 @@ export function SplashPage() {
         <p>We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.</p>
         <p>Founded in 2026, Bower is a building technology company creating timber structures that grow into their landscapes; partnerships for the first permanent works are forming.</p>
       </div></section>
-      <section className="making-door"><figure><img src={selectedImage("10-estate-aerial")} srcSet={srcSetFor(selectedImage("10-estate-aerial"))} sizes="100vw" alt={SELECTED_STUDIES[9].alt} loading="lazy" /></figure><div><h2>A room for the life around it.</h2><p>For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.</p><a className="text-link" href={routes.gallery}>View the gallery</a></div></section>
-      <figure className="knoll-study">
+      <section id="life-around" className="making-door"><figure><img src={selectedImage("10-estate-aerial")} srcSet={srcSetFor(selectedImage("10-estate-aerial"))} sizes="(max-width: 767px) 100vw, 58vw" alt={SELECTED_STUDIES[9].alt} loading="lazy" /></figure><div><h2>A room for the life around it.</h2><p>For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.</p><a className="text-link" href={routes.gallery}>View the gallery</a></div></section>
+      <figure id="knoll-study" className="knoll-study">
         <img src="/assets/gallery/week-3/valley-bower-at-dawn.webp" srcSet="/assets/gallery/week-3/valley-bower-at-dawn-400w.webp 400w, /assets/gallery/week-3/valley-bower-at-dawn-800w.webp 800w, /assets/gallery/week-3/valley-bower-at-dawn-1280w.webp 1280w, /assets/gallery/week-3/valley-bower-at-dawn-1920w.webp 1920w, /assets/gallery/week-3/valley-bower-at-dawn.webp 2560w" sizes="100vw" alt="Concept visualisation of a timber Bower on a green knoll above a river valley" loading="lazy" />
       </figure>
       <FoundingInvitation showEyebrow={false} quiet />
