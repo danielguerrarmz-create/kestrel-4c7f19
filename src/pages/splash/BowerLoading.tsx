@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../../ui/useReducedMotion";
 
-/** Motion study interpretation: emblem unfurls, settles beside the intact wordmark. */
+/** A single official lockup resolves before the page reveal. */
 export function BowerLoading({ replay = 0 }: { replay?: number }) {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(false);
@@ -32,7 +32,7 @@ export function BowerLoading({ replay = 0 }: { replay?: number }) {
     dialog.current?.showModal();
     let completion: number | undefined;
     const timer = window.setTimeout(() => {
-      const source = motion.current?.querySelector(".brand-wordmark");
+      const source = motion.current?.querySelector(".brand-lockup");
       const target = document.querySelector<HTMLImageElement>("[data-intro-logo] img");
       const logo = movingLogo.current;
       const overlay = dialog.current;
@@ -78,12 +78,7 @@ export function BowerLoading({ replay = 0 }: { replay?: number }) {
     >
       <div ref={motion} className="brand-motion" aria-hidden="true">
         <img
-          className="brand-emblem"
-          src="/assets/brand/bower-logo-evergreen-emblem.png"
-          alt=""
-        />
-        <img
-          className="brand-wordmark"
+          className="brand-lockup"
           src="/assets/brand/bower-logo-evergreen-horizontal.png"
           alt=""
         />
