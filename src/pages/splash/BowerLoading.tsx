@@ -37,6 +37,20 @@ export function BowerLoading({ replay = 0 }: { replay?: number }) {
       const logo = movingLogo.current;
       const overlay = dialog.current;
       if (!source || !target || !logo || !overlay) { finish(); return; }
+
+      // A travelling replacement logo caused a visible colour change and snap on
+      // narrow screens. Mobile now dissolves the intact lockup into the header's
+      // final position, so there is only one handoff and no intermediate mark.
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        overlay.classList.add("brand-loading--mobile-exit");
+        overlay.animate(
+          [{ opacity: 1 }, { opacity: 0 }],
+          { duration: 550, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" },
+        );
+        completion = window.setTimeout(finish, 550);
+        return;
+      }
+
       const from = source.getBoundingClientRect();
       const to = target.getBoundingClientRect();
       logo.style.left = `${from.left}px`;

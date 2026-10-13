@@ -1021,8 +1021,11 @@
     text-align: center;
   }
   .brand-motion {
-    width: min(78vw, 360px);
-    height: min(32svh, 180px);
+    width: min(66vw, 280px);
+    height: 132px;
+  }
+  .brand-loading p {
+    margin-top: 18px;
   }
   .process-opening {
     padding-top: 175px;
@@ -1492,6 +1495,14 @@ body:has(.brand-loading[open]) {
 .brand-loading--docking p { animation: none; opacity: 0; transition: opacity .25s; }
 .brand-loading--docking .brand-docking-ink { animation: docking-ink .9s ease both; }
 .bower-site:has(.brand-loading[open]) [data-intro-logo] { visibility: hidden; }
+.bower-site:has(.brand-loading--mobile-exit[open]) [data-intro-logo] { visibility: visible; }
+.brand-loading--mobile-exit { pointer-events: none; }
+.brand-loading--mobile-exit .brand-motion,
+.brand-loading--mobile-exit p {
+  animation: none;
+  opacity: 0;
+  transition: opacity .22s ease;
+}
 @keyframes docking-ink { 0%, 20% { fill: #354d40; } 85%, 100% { fill: #fff; } }
 
 
