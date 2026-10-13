@@ -1535,9 +1535,7 @@ body:has(.brand-loading[open]) {
 .bower-site .making-door p:not(.kicker) { max-width: 34em; margin-top: 32px; font-size: clamp(18px, 1.25vw, 22px); line-height: 1.5; }
 .bower-site .making-door .text-link { margin-top: 30px; color: inherit; border-color: currentColor; }
 .knoll-study { position: relative; height: min(820px, 88svh); margin: 0; overflow: hidden; background: #e4e9e0; }
-.knoll-study::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 66%, rgba(8,18,11,.52)); pointer-events: none; }
 .knoll-study img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.knoll-study figcaption { position: absolute; right: 5vw; bottom: 38px; left: 5vw; z-index: 1; display: flex; justify-content: space-between; margin: 0; color: #fff; font: 11px/1.3 Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 .bower-site .founding-invitation--quiet {
   margin-top: 0;
   background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
@@ -1563,8 +1561,11 @@ body:has(.brand-loading[open]) {
  .object-in-time { min-height: auto; padding: 96px 0 86px; justify-content: flex-start; overflow: hidden; }
  .object-in-time-heading { display: block; margin: 0; padding: 0 6vw; }
  .object-in-time h2 { width: 8.8ch; margin: 0; font-size: clamp(46px, 13.5vw, 62px); line-height: .94; }
- .object-in-time-sequence { display: flex; gap: 14px; margin-top: 54px; padding: 0 6vw 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+ .object-in-time-sequence { display: flex; gap: 14px; margin-top: 54px; padding: 0 0 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 14px; scrollbar-width: none; }
  .object-in-time-sequence::-webkit-scrollbar { display: none; }
+ .object-in-time-sequence::before, .object-in-time-sequence::after { content: ''; flex: 0 0 0; }
+ .object-in-time-sequence::before { flex-basis: 14px; }
+ .object-in-time-sequence::after { flex-basis: 1px; }
  .object-in-time-sequence figure { flex: 0 0 82vw; scroll-snap-align: start; }
  .object-in-time-image { aspect-ratio: 4 / 3; }
  .object-in-time-sequence figcaption { margin-top: 14px; }
@@ -1572,13 +1573,11 @@ body:has(.brand-loading[open]) {
  .bower-site .making-door figure { order: 0; }
  .bower-site .making-door img { aspect-ratio: 1 / 1.04; }
  .bower-site .making-door > div { order: 1; padding: 54px 6vw 76px; }
- .bower-site .making-door .kicker { margin-bottom: 20px; }
  .bower-site .making-door h2 { max-width: 8ch; font-size: clamp(48px, 14vw, 66px); }
  .bower-site .making-door p:not(.kicker) { margin-top: 26px; font-size: 19px; }
  .bower-site .making-door .text-link { margin-top: 26px; }
  .knoll-study { height: 62svh; min-height: 480px; }
  .knoll-study img { object-position: 58% center; }
- .knoll-study figcaption { right: 6vw; bottom: 22px; left: 6vw; font-size: 9px; }
  .bower-site .founding-invitation--quiet {
    background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
    padding-top: 150px;

@@ -360,16 +360,12 @@ html.adaptive-cursor-active input[type='range'] {
     gap: 0 !important;
     justify-self: stretch;
     padding: 8px 0;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
     font-size: 10px !important;
   }
   .site-footer > nav a {
     min-width: 0;
     justify-content: center !important;
   }
-  .site-footer > nav a:first-child { justify-content: flex-start !important; }
-  .site-footer > nav a:last-child { justify-content: flex-end !important; }
   .site-footer-legal {
     justify-self: stretch;
     padding-top: 20px;
