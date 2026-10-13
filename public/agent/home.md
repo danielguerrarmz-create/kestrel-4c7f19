@@ -52,6 +52,8 @@ Founded in 2026, Bower is a building technology company creating timber structur
 
 ![Aerial concept visualisation of a timber Bower within an estate garden](/assets/selected/10-estate-aerial.webp)
 
+Life around a Bower
+
 ## A room for the life around it.
 
 For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.
@@ -59,6 +61,8 @@ For celebrations of love, performances that linger after the final note and idea
 [View the gallery](/gallery)
 
 ![Concept visualisation of a timber Bower on a green knoll above a river valley](/assets/gallery/week-3/valley-bower-at-dawn.webp)
+
+Concept study A Bower on the knoll
 
 ## Every Bower begins with a place.
 

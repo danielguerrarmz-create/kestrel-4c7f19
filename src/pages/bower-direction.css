@@ -1108,6 +1108,10 @@
 .brand-loading::backdrop {
   background: transparent;
 }
+html:has(.brand-loading[open]),
+body:has(.brand-loading[open]) {
+  overflow: hidden;
+}
 @media (max-width: 767px) {
   .atlas-top,
   .atlas-bottom,
@@ -1505,48 +1509,40 @@
   }
 }
 
-/* Home invitation fades through the process teaser into the green footer. */
+/* The closing sequence returns to the site's editorial image-and-copy rhythm. */
 .bower-site .making-door {
   position: relative;
   z-index: 1;
-  display: block;
-  min-height: 100svh;
-  padding: 0;
-  overflow: hidden;
-  background: #142018;
-  color: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
+  gap: clamp(42px, 6vw, 110px);
+  align-items: center;
+  min-height: 0;
+  padding: clamp(86px, 8vw, 120px) 5vw;
+  border: 0;
+  background: linear-gradient(180deg, #fff 0%, #f2f4ef 66%, #e4e9e0 100%);
+  color: #111612;
 }
-.bower-site .making-door::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(90deg, rgba(7,15,9,.12) 25%, rgba(7,15,9,.74) 100%), linear-gradient(0deg, rgba(7,15,9,.42), transparent 55%);
-  pointer-events: none;
-}
-.bower-site .making-door figure { position: absolute; inset: 0; margin: 0; }
-.bower-site .making-door img { width: 100%; height: 100%; object-fit: cover; }
+.bower-site .making-door figure { margin: 0; overflow: hidden; }
+.bower-site .making-door img { display: block; width: 100%; aspect-ratio: 1.48 / 1; object-fit: cover; }
 .bower-site .making-door > div {
-  position: relative;
-  z-index: 2;
   display: flex;
-  width: min(38rem, 43vw);
-  min-height: 100svh;
-  margin-left: auto;
-  padding: clamp(70px, 10vh, 130px) 6vw;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
 }
-.bower-site .making-door h2 { font-size: clamp(58px, 6vw, 104px); line-height: .94; }
-.bower-site .making-door p:not(.kicker) { font-size: clamp(18px, 1.35vw, 23px); }
-.bower-site .making-door .text-link { color: #fff; border-color: rgba(255,255,255,.65); }
-.knoll-study { height: 100svh; margin: 0; overflow: hidden; background: #fff; }
-.knoll-study img { width: 100%; height: 100%; object-fit: cover; }
+.bower-site .making-door .kicker { margin-bottom: 26px; color: #5f6d62; }
+.bower-site .making-door h2 { max-width: 8ch; font-size: clamp(56px, 5.4vw, 92px); line-height: .96; }
+.bower-site .making-door p:not(.kicker) { max-width: 34em; margin-top: 32px; font-size: clamp(18px, 1.25vw, 22px); line-height: 1.5; }
+.bower-site .making-door .text-link { margin-top: 30px; color: inherit; border-color: currentColor; }
+.knoll-study { position: relative; height: min(820px, 88svh); margin: 0; overflow: hidden; background: #e4e9e0; }
+.knoll-study::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 66%, rgba(8,18,11,.52)); pointer-events: none; }
+.knoll-study img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.knoll-study figcaption { position: absolute; right: 5vw; bottom: 38px; left: 5vw; z-index: 1; display: flex; justify-content: space-between; margin: 0; color: #fff; font: 11px/1.3 Inter, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 .bower-site .founding-invitation--quiet {
   margin-top: 0;
-  background: linear-gradient(180deg, #c5d0c0 0%, #a9b8aa 20%, #81998b 43%, #587669 67%, var(--green) 100%);
-  padding-top: 330px;
-  padding-bottom: 225px;
+  background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
+  padding-top: clamp(150px, 17vw, 260px);
+  padding-bottom: clamp(120px, 14vw, 210px);
 }
 .bower-site main > footer { max-width:none; background:var(--green); color:#fff; border-top:0; }
 .bower-site main > footer nav,.bower-site main > footer a { color:#fff; }
@@ -1564,16 +1560,29 @@
 .arrival-dots button[aria-pressed="true"] span { background:#fff; }
 .arrival-dots button:focus-visible { outline:1px solid #fff; outline-offset:-3px; border-radius:4px; }
 @media(max-width:767px) {
- .bower-site .making-door { min-height: 100svh; padding: 0; }
- .bower-site .making-door::after { background:linear-gradient(0deg,rgba(7,15,9,.78) 0%,rgba(7,15,9,.18) 72%); }
- .bower-site .making-door > div { width: auto; min-height: 100svh; margin: 0; padding: 58vh 6vw 9vh; justify-content: flex-end; }
- .bower-site .making-door h2 { font-size: clamp(48px, 14vw, 68px); }
- .knoll-study { height: 78svh; }
+ .object-in-time { min-height: auto; padding: 96px 0 86px; justify-content: flex-start; overflow: hidden; }
+ .object-in-time-heading { display: block; margin: 0; padding: 0 6vw; }
+ .object-in-time h2 { width: 8.8ch; margin: 0; font-size: clamp(46px, 13.5vw, 62px); line-height: .94; }
+ .object-in-time-sequence { display: flex; gap: 14px; margin-top: 54px; padding: 0 6vw 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+ .object-in-time-sequence::-webkit-scrollbar { display: none; }
+ .object-in-time-sequence figure { flex: 0 0 82vw; scroll-snap-align: start; }
+ .object-in-time-image { aspect-ratio: 4 / 3; }
+ .object-in-time-sequence figcaption { margin-top: 14px; }
+ .bower-site .making-door { grid-template-columns: 1fr; gap: 0; min-height: 0; padding: 0; background: #f2f4ef; }
+ .bower-site .making-door figure { order: 0; }
+ .bower-site .making-door img { aspect-ratio: 1 / 1.04; }
+ .bower-site .making-door > div { order: 1; padding: 54px 6vw 76px; }
+ .bower-site .making-door .kicker { margin-bottom: 20px; }
+ .bower-site .making-door h2 { max-width: 8ch; font-size: clamp(48px, 14vw, 66px); }
+ .bower-site .making-door p:not(.kicker) { margin-top: 26px; font-size: 19px; }
+ .bower-site .making-door .text-link { margin-top: 26px; }
+ .knoll-study { height: 62svh; min-height: 480px; }
  .knoll-study img { object-position: 58% center; }
+ .knoll-study figcaption { right: 6vw; bottom: 22px; left: 6vw; font-size: 9px; }
  .bower-site .founding-invitation--quiet {
-   background: linear-gradient(180deg, #c5d0c0 0%, #a9b8aa 20%, #81998b 43%, #587669 67%, var(--green) 100%);
-   padding-top: 240px;
-   padding-bottom: 160px;
+   background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
+   padding-top: 150px;
+   padding-bottom: 130px;
  }
  .arrival-gallery-controls { width:100%; justify-content:space-between; gap:10px; }
  .arrival-dots button { width:44px; height:44px; }
