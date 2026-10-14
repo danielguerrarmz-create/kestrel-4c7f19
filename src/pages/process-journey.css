@@ -127,6 +127,13 @@
   text-transform: uppercase;
 }
 
+/* Process should settle into its full-screen frames, not trap a gesture at each
+   one. The global spread rule uses `always` for galleries; this longer narrative
+   needs the browser's gentler, velocity-aware proximity behavior. */
+.process-editorial [data-snap-spread] {
+  scroll-snap-stop: normal;
+}
+
 .process-editorial-evolution {
   display: grid;
   grid-template-columns: minmax(340px, .88fr) minmax(0, 1.12fr);

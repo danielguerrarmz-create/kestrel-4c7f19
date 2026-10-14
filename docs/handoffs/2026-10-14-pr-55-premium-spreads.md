@@ -10,7 +10,8 @@
 - Rebuilt the mobile sandwich menu as a full-height white editorial index with unnumbered links, no dividers, a circular menu/close control, staggered motion, and reduced-motion support.
 - Reframed the homepage seasonal sequence on phones as a full-height, horizontally pannable panorama that opens centered on the Bower.
 - Shortened the global navigation label to `Contact` and made the underline indicate only the current route.
-- Made the desktop `Five acts of making` section a dedicated one-screen snap frame, normalized the final Process image to the desktop viewport height, and made the desktop Process snap rhythm exact while retaining softer proximity snapping on phones.
+- Made the desktop `Five acts of making` section a dedicated one-screen snap frame, normalized the final Process image to the desktop viewport height, and retained proximity snapping at every size with normal snap stops so Process settles gently without trapping gestures.
+- Added a reusable whole-site walkthrough that checks all nine public routes at desktop and phone sizes for overflow, failed visible images, runtime errors, page titles, footers, and top, middle, and end compositions.
 
 ## Why
 

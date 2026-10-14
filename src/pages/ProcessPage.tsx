@@ -28,7 +28,7 @@ const acts = [
 ] as const;
 
 export function ProcessPage() {
-  usePageSnap({ strength: 'mandatory', mobileStrength: 'proximity' });
+  usePageSnap({ strength: 'proximity', mobileStrength: 'proximity' });
   const growthVideo = useViewportVideo();
   const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
