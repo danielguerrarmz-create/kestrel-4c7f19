@@ -5,6 +5,7 @@ import { selectedImage, selectedStudy, type SelectedStudy } from '../data/select
 import './bower-direction.css';
 import './process-journey.css';
 import { useViewportSequence, useViewportVideo } from '../ui/useViewportPlayback';
+import { usePageSnap } from '../ui/usePageSnap';
 
 function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   slug: SelectedStudy['slug'];
@@ -27,6 +28,7 @@ const acts = [
 ] as const;
 
 export function ProcessPage() {
+  usePageSnap({ strength: 'mandatory', mobileStrength: 'proximity' });
   const growthVideo = useViewportVideo();
   const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
@@ -60,7 +62,7 @@ export function ProcessPage() {
         </video>
       </section>
 
-      <section className="process-editorial-acts" aria-labelledby="process-acts-title">
+      <section data-snap-spread className="process-editorial-acts viewport-spread" aria-labelledby="process-acts-title">
         <div>
           <h2 id="process-acts-title"><span>Five acts of</span><br />making.</h2>
         </div>

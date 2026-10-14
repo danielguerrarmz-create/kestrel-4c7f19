@@ -181,6 +181,19 @@
   color: var(--process-ink);
 }
 
+@media (min-width: 768px) {
+  .process-editorial-acts.viewport-spread,
+  .process-editorial-close.viewport-spread {
+    box-sizing: border-box;
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .process-editorial-acts.viewport-spread {
+    align-items: center;
+  }
+}
+
 .process-editorial-acts h2 {
   font-size: clamp(58px, 5.8vw, 94px);
   line-height: .95;
@@ -224,10 +237,11 @@
   letter-spacing: .035em;
 }
 
-.process-editorial-close {
+#process-transition.process-editorial-close {
   position: relative;
   padding: 0;
   overflow: hidden;
+  scroll-margin-top: 0;
   color: #fff;
 }
 
@@ -389,6 +403,12 @@
   .process-editorial-acts {
     display: block;
     padding: 105px 6vw 115px;
+  }
+
+  .process-editorial-acts.viewport-spread {
+    height: auto;
+    min-height: 0;
+    scroll-snap-align: none;
   }
 
   .process-editorial-acts > div { margin-bottom: 70px; }
