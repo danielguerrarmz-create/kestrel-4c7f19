@@ -46,8 +46,8 @@ describe('ProcessPage', () => {
     expect(html).toContain('Begin with a conversation');
   });
 
-  it('sizes and snaps the three full-spread image sequences to the viewport', () => {
-    expect(html.match(/data-snap-spread="true"/g)).toHaveLength(3);
-    expect(html.match(/viewport-spread/g)).toHaveLength(3);
+  it('sizes and snaps the two full-spread image sequences to the viewport', () => {
+    expect(html.match(/data-snap-spread="true"/g)).toHaveLength(2);
+    expect(html.match(/viewport-spread/g)).toHaveLength(2);
   });
 });
