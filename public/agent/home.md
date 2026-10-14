@@ -68,7 +68,7 @@ We are selecting three gardens for Bower’s founding commissions.
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

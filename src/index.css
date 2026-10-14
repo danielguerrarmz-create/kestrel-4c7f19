@@ -67,12 +67,34 @@ body,
 html {
   scroll-padding-top: calc(var(--header-h) + 1rem);
 }
+html:has([data-snap-spread]) {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 0;
+}
+[data-snap-spread] {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.viewport-spread {
+  width: 100%;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.viewport-spread > img,
+.viewport-spread > picture,
+.viewport-spread > picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 [id] {
   scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
 body {
-  background: #FFFAF0;
+  background: #fff;
   color: #1e1b17;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -267,9 +289,9 @@ html.adaptive-cursor-active input[type='range'] {
 .viewer-details > p:first-child { font-size: 21px; }
 .viewer-controls { display: flex; justify-content: space-between; align-items: center; margin: 12px auto; max-width: 360px; }
 .viewer-hint { font-size: 12px; color: #bbb; }
-.mobile-gallery-plate { min-height: auto; display: flex; flex-direction: column; justify-content: center; padding: 24px 0 40px; scroll-snap-align: start; border-bottom: 1px solid #e8e7e3; }
-.mobile-gallery-image { position: relative; width: 100%; background: #f3f2ee; }
-.mobile-gallery-image img { width: 100%; max-height: 70svh; object-fit: contain; }
+.mobile-gallery-plate { display: flex; flex-direction: column; justify-content: center; padding: 0; scroll-snap-align: start; border-bottom: 0; }
+.mobile-gallery-image { position: relative; width: 100%; height: 100%; background: #fff; }
+.mobile-gallery-image img { width: 100%; height: 100%; max-height: none; object-fit: cover; }
 .gallery-enlarge { position: absolute; bottom: 12px; right: 16px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #fff; color: #111; font-size: 24px; }
 .mobile-gallery-caption { display: flex; align-items: baseline; gap: 16px; padding: 20px; }
 .mobile-gallery-caption h2 { flex: 1; font-family: 'Source Serif 4 Variable', Georgia, serif; font-size: 23px; line-height: 1.2; }
@@ -344,6 +366,19 @@ html.adaptive-cursor-active input[type='range'] {
 }
 .site-footer > nav { justify-self: center; }
 .site-footer-legal { justify-self: end; text-align: right; }
+.site-footer-logo { isolation: isolate; }
+.site-footer-logo img {
+  display: block;
+  background: transparent;
+  mix-blend-mode: multiply;
+  transition: transform 200ms ease, filter 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .site-footer-logo:hover img {
+    transform: translateY(-2px);
+    filter: brightness(1.2);
+  }
+}
 @media (max-width: 767px) {
   .site-footer {
     grid-template-columns: 1fr;
@@ -373,6 +408,9 @@ html.adaptive-cursor-active input[type='range'] {
     font-size: 9px;
     line-height: 1.5;
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has([data-snap-spread]) { scroll-snap-type: none; }
 }
 @media (max-width: 767px) {
   .editorial-page section.mobile-material, .editorial-page .mobile-photo-story { display: block; height: auto; min-height: 0; padding: 0 !important; }

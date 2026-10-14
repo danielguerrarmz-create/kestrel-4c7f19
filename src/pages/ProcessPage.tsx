@@ -44,7 +44,7 @@ export function ProcessPage() {
           <p>Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.</p>
           <h2 id="process-alive-title">None of them<br />finished. All of<br />them alive.</h2>
         </div>
-        <figure>
+        <figure data-snap-spread className="viewport-spread">
           <ProcessImage slug="30-ancient-bower" sizes="100vw" eager />
         </figure>
       </section>
@@ -72,7 +72,7 @@ export function ProcessPage() {
         </ol>
       </section>
 
-      <section id="process-transition" className="process-editorial-close" aria-label="A Bower through four seasons">
+      <section id="process-transition" data-snap-spread className="process-editorial-close viewport-spread" aria-label="A Bower through four seasons">
         <div ref={seasons.ref} className={`process-editorial-transition${seasons.active ? ' is-active' : ''}`}>
           {closingFrames.map((slug, index) => <ProcessImage key={slug} slug={slug} sizes="100vw" eager={index === 0} />)}
         </div>

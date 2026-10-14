@@ -10,7 +10,7 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 
@@ -84,7 +84,7 @@ answer.
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

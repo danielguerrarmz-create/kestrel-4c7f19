@@ -10,7 +10,7 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 
@@ -124,7 +124,7 @@ Autumn Dinner
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

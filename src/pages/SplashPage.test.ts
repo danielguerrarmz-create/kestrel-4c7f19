@@ -28,6 +28,10 @@ describe('Bower homepage', () => {
   it('uses available current study images', () => {
     for (const [slug] of studies) expect(existsSync(`public/assets/selected/${slug}.webp`)).toBe(true);
   });
+  it('marks every full-spread image for viewport sizing and soft page snapping', () => {
+    expect(html.match(/data-snap-spread="true"/g)).toHaveLength(3);
+    expect(html.match(/viewport-spread/g)).toHaveLength(3);
+  });
   it('carries the original object-in-time frame into the new home page', () => {
     expect(html).toContain('A Bower begins when building ends.');
     for (const image of ['25-new-bower', '26-growing-bower', '27-mature-bower']) {

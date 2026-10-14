@@ -10,7 +10,7 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 
@@ -20,7 +20,7 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

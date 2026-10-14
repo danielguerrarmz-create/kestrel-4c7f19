@@ -10,7 +10,7 @@
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 
@@ -160,7 +160,7 @@ Clay Seifert
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

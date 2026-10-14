@@ -27,7 +27,7 @@
 .practice-person-role { color: #536151; font-size: 13px; margin: 28px 0 14px; }
 .practice-person > p:last-child { max-width: 36ch; font: 20px/1.6 "Source Serif 4 Variable", Georgia, serif; }
 .practice-vine-bridge { max-width: 750px; margin: 65px auto -40px; transform: rotate(-5deg); pointer-events: none; }
-.practice-history { background: linear-gradient(#fff, #f0f3ed 220px); padding-bottom: 30px; }
+.practice-history { background: #fff; padding-bottom: 30px; }
 .practice-history-year { display: grid; grid-template-columns: 110px 1fr; gap: 4vw; padding: 45px 0 100px; align-items: start; }
 .practice-history-year > h3 { position: sticky; top: 35px; font-size: 38px; color: #52674f; }
 .practice-history-images { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 55px 36px; align-items: start; }
@@ -37,7 +37,7 @@
 .practice-vine-signature { position: relative; margin: 10px auto; width: min(400px, 90%); height: 160px; }
 .practice-vine-signature svg { width: 100%; height: 100%; }
 .practice-vine-signature img { position: absolute; width: 72px; top: 30px; left: 56%; mix-blend-mode: multiply; }
-.practice-record { background: #f0f3ed; padding-top: 90px; }
+.practice-record { background: #fff; padding-top: 90px; }
 .practice-record-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 110px 6vw; align-items: start; }
 .practice-work > figure > img, .practice-work > figure > video { width: 100%; height: 330px; object-fit: contain; }
 .practice-work > figure > figcaption { margin-bottom: 30px; }
@@ -49,12 +49,12 @@
 .practice-work-detail p { font-size: 14px; margin-bottom: 20px; }
 .practice-work-detail figure { margin: 30px 0; }
 .practice-work-detail img, .practice-work-detail video { width: 100%; max-height: 430px; object-fit: contain; }
-.practice-delivery { background: linear-gradient(#f0f3ed, #fff 220px); padding-top: 0; padding-bottom: 150px; }
+.practice-delivery { background: #fff; padding-top: 0; padding-bottom: 150px; }
 .practice-delivery .practice-vine-bridge { margin: 0 auto 80px; }
 .practice-disciplines { display: grid; grid-template-columns: repeat(4,1fr); gap: 30px; }
 .practice-disciplines h3 { font-size: 28px; }
 .practice-disciplines p { font-size: 14px; margin-top: 15px; color: #536151; }
-.practice-invitation { background: #e5ebe0; padding: 100px 7vw 120px; }
+.practice-invitation { background: #fff; padding: 100px 7vw 120px; }
 .practice-invitation h2 { max-width: 20ch; }
 .practice-invitation a { display: inline-flex; align-items: center; gap: 70px; border-bottom: 1px solid #354d40; padding: 15px 0; margin-top: 45px; font-size: 18px; }
 @media(max-width: 767px) {
@@ -277,7 +277,7 @@
 .project-showcase-supports { display: grid; grid-template-rows: repeat(3,minmax(0,1fr)); gap: 10px; min-height: 0; }
 .practice-portfolio-frame [data-project-band] { grid-template-columns: minmax(0,1.65fr) minmax(0,1fr); padding-top: 22px; gap: 32px; }
 .practice-portfolio-frame [data-project-band] p { font-size: 15px; line-height: 1.55; }
-.practice-garden .practice-delivery { margin-top: 60px; background: #e6ebe1; color: #283e32; }
+.practice-garden .practice-delivery { margin-top: 60px; background: #fff; color: #283e32; }
 .practice-delivery .practice-section-heading > p, .practice-delivery .practice-disciplines p { color: #405647; }
 @media(max-width:767px) {
  .practice-garden .timeline-chapter { padding-bottom: 55px; }
@@ -321,7 +321,7 @@
  .practice-portfolio-frame nav button { min-height: 42px; }
 }
 .project-mobile-browser > label { display: block; font-size: 12px; margin-bottom: 10px; color: #52634f; }
-.project-mobile-browser > select { width: 100%; min-height: 48px; padding: 10px; font-size: 16px; background: #f1f4ed; border: 1px solid #c9d2c4; border-radius: 0; margin-bottom: 24px; }
+.project-mobile-browser > select { width: 100%; min-height: 48px; padding: 10px; font-size: 16px; background: #fff; border: 1px solid #c9d2c4; border-radius: 0; margin-bottom: 24px; }
 .mobile-project-media { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-bottom: 24px; }
 .mobile-project-hero { grid-column: 1/-1; height: clamp(200px,60vw,390px); }
 .mobile-project-thumb { height: clamp(72px,21vw,130px); }
@@ -395,13 +395,13 @@
 .practice-garden .practice-vine-signature { width:320px; height:340px; margin:-90px auto 20px; }
 .practice-garden .practice-vine-signature .signature-emblem { width:240px; left:40px; top:35px; }
 .practice-garden .practice-vine-signature .signature-wordmark { width:250px; left:35px; top:285px; }
-.practice-garden .practice-delivery { background:linear-gradient(180deg,#fff 0%,#f3f5f0 140px,#e6ebe1 320px); padding-top:210px; }
-.practice-garden > footer { background:linear-gradient(180deg,#e6ebe1,#fff 300px); padding-top:180px; }
+.practice-garden .practice-delivery { background:#fff; padding-top:210px; }
+.practice-garden > footer { background:#fff; padding-top:180px; }
 @media(max-width:767px) {
  .practice-garden .practice-vine-signature { width:260px; height:300px; margin:-65px auto 15px; }
  .practice-garden .practice-vine-signature .signature-emblem { width:200px; left:30px; top:25px; }
  .practice-garden .practice-vine-signature .signature-wordmark { width:210px; left:25px; top:242px; }
- .practice-garden .practice-delivery { padding-top:160px; background:linear-gradient(#fff,#f3f5f0 90px,#e6ebe1 220px); }
+ .practice-garden .practice-delivery { padding-top:160px; background:#fff; }
  .practice-garden > footer { padding-top:120px; }
 }
 
@@ -425,7 +425,7 @@
 
 /* Opening mirrors the closing sage wash, including the header's full width. */
 .practice-garden .practice-opening {
- background:linear-gradient(180deg,#e6ebe1 0%,#edf0e9 24%,#f5f6f2 55%,#fff 100%);
+ background:#fff;
 }
 .practice-garden .practice-opening .editorial-header { background:transparent; }
 @media(min-width:768px) {
@@ -504,17 +504,7 @@
 .practice-minimal-mission-statement > p:not(.practice-minimal-kicker) { max-width: 50ch; margin-top: 30px; font: 19px/1.45 "Source Serif 4 Variable", Georgia, serif; }
 .practice-minimal-mission {
   color: var(--practice-ink);
-  background: linear-gradient(
-    180deg,
-    #fff 0%,
-    #f0f3ed 15%,
-    #e5ebe0 32.5%,
-    #c5d0c0 50%,
-    #a9b8aa 60%,
-    #81998b 71.5%,
-    #587669 83.5%,
-    var(--practice-green) 100%
-  );
+  background: #fff;
 }
 .practice-minimal-mission .practice-minimal-kicker { color: #2d4035; }
 .practice-minimal-mission a { display: inline-block; margin-top: 35px; padding-bottom: 8px; border-bottom: 1px solid currentColor; font: 16px/1.4 Inter, Arial, sans-serif; }
@@ -522,10 +512,9 @@
 .practice-minimal-mission-list li { min-width: 0; }
 .practice-minimal-mission-list p { max-width: 29ch; margin-top: 12px; font: 600 12px/1.55 Inter, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #1d2c24; }
 .practice-minimal-mission-list strong { font: 29px/1.15 "Source Serif 4 Variable", Georgia, serif; font-weight: 400; }
-.practice-minimal > footer { max-width: none; border-top: 0; background: var(--practice-green); color: #fff; }
+.practice-minimal > footer { max-width: none; border-top: 1px solid rgba(17,17,14,.14); background: #fff; color: var(--practice-ink); }
 .practice-minimal > footer nav,
-.practice-minimal > footer a { color: #fff; }
-.practice-minimal > footer img { filter: grayscale(1) invert(1) brightness(3); mix-blend-mode: screen; }
+.practice-minimal > footer a { color: inherit; }
 @media (max-width: 900px) {
   .practice-minimal-founder-grid { gap: 7vw; }
   .practice-minimal-founder-grid article { grid-template-columns: 160px 1fr; gap: 24px; }

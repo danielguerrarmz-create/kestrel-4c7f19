@@ -10,9 +10,7 @@ const LINKS = [
 
 /** The quiet navigation shared by every public-facing editorial page. */
 export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "white"; logoSrc?: string }) {
-  const imageSrc = logoSrc ?? (tone === "white"
-    ? "/assets/brand/bower-logo-evergreen-horizontal-transparent.png"
-    : "/assets/brand/bower-logo-evergreen-horizontal.png");
+  const imageSrc = logoSrc ?? "/assets/brand/bower-logo-evergreen-horizontal-transparent.png";
   const colour = tone === "white" ? "text-white" : "text-[#11110e]";
   const muted = tone === "white" ? "text-white/74" : "text-black/55";
   const line =
@@ -27,7 +25,7 @@ export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "whi
           data-intro-logo
           href={routes.home}
           aria-label="Bower, home"
-          className="editorial-header-logo focus-visible:outline-current"
+          className={`editorial-header-logo editorial-header-logo--${tone} focus-visible:outline-current`}
         >
           <img
             src={imageSrc}

@@ -34,7 +34,7 @@ We use these details to respond to your enquiry. Read our [privacy notice](/priv
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

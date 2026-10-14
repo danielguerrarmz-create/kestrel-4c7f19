@@ -24,6 +24,12 @@
   display: block;
   width: 148px;
   height: auto;
+  transition: transform 200ms ease, filter 200ms ease;
+}
+.editorial-header-logo--ink img { mix-blend-mode: multiply; }
+@media (hover: hover) and (pointer: fine) {
+  .editorial-header-logo:hover img { transform: translateY(-2px); filter: brightness(1.2); }
+  .editorial-header-logo--white:hover img { filter: grayscale(1) invert(1) brightness(2.4); }
 }
 .editorial-header nav {
   display: flex;

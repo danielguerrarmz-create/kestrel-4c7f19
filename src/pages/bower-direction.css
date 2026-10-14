@@ -279,12 +279,13 @@
 }
 .wide-scene img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 .seasonal-morph {
   display: grid;
   overflow: hidden;
-  background: #e7e8e2;
+  background: #fff;
 }
 .seasonal-morph img {
   grid-area: 1 / 1;
@@ -325,7 +326,7 @@
   max-width: 32em;
 }
 .becoming {
-  background: #edf0ec;
+  background: #fff;
   padding: 80px 5vw 60px;
 }
 .becoming-heading {
@@ -406,7 +407,7 @@
 .object-in-time-image {
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: #f1f1ef;
+  background: #fff;
 }
 .object-in-time-image img {
   width: 100%;
@@ -461,8 +462,8 @@
   margin-left: 0;
 }
 .founding-invitation {
-  background: var(--green);
-  color: #fff;
+  background: #fff;
+  color: #11110e;
   padding: 80px 5vw 35px;
 }
 .founding-invitation h2 {
@@ -487,17 +488,17 @@
     clamp(26px, 3.5vw, 55px) / 1.3 "Bodoni Moda",
     Georgia,
     serif;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid currentColor;
   padding: 12px 0;
   display: flex;
   justify-content: space-between;
 }
 .stage-note {
-  border-top: 1px solid #ffffff50;
+  border-top: 1px solid #11110e40;
   margin-top: 70px;
   padding-top: 22px;
   max-width: 900px;
-  color: #e3e9e0;
+  color: #525b53;
 }
 .scene-dialog {
   position: fixed;
@@ -1041,7 +1042,7 @@
 .process-specimen svg {
   width: 100%;
   height: auto;
-  background: #f4f6f2;
+  background: #fff;
 }
 .specimen-controls {
   display: flex;
@@ -1101,10 +1102,11 @@ body:has(.brand-loading[open]) {
   min-height: 700px;
   height: 100svh;
   padding: 0;
-  background: #203929;
+  background: #11110e;
   color: #fff;
   isolation: isolate;
 }
+.overture--arrival.viewport-spread { min-height: 0; height: 100svh; height: 100dvh; }
 .arrival-image,
 .arrival-shade {
   position: absolute;
@@ -1122,15 +1124,15 @@ body:has(.brand-loading[open]) {
   background:
     linear-gradient(
       180deg,
-      rgba(7, 20, 12, 0.64),
+      rgba(0, 0, 0, 0.64),
       transparent 26%,
       transparent 72%,
-      rgba(7, 20, 12, 0.55)
+      rgba(0, 0, 0, 0.55)
     ),
     linear-gradient(
       90deg,
-      rgba(7, 20, 12, 0.72),
-      rgba(7, 20, 12, 0.12) 65%,
+      rgba(0, 0, 0, 0.72),
+      rgba(0, 0, 0, 0.12) 65%,
       transparent
     );
 }
@@ -1201,6 +1203,7 @@ body:has(.brand-loading[open]) {
     padding: 0;
     justify-content: flex-end;
   }
+  .overture--arrival.viewport-spread { min-height: 0; height: 100svh; height: 100dvh; }
   .arrival-image {
     height: 65%;
     object-position: 55% center;
@@ -1208,10 +1211,10 @@ body:has(.brand-loading[open]) {
   .arrival-shade {
     background: linear-gradient(
       180deg,
-      rgba(7, 20, 12, 0.65),
+      rgba(0, 0, 0, 0.65),
       transparent 28%,
       transparent 38%,
-      #203929 65%
+      #11110e 65%
     );
   }
   .arrival-label {
@@ -1250,7 +1253,7 @@ body:has(.brand-loading[open]) {
 /* September review: let the image lead, with one direct route into the gallery. */
 .arrival-quiet { min-height: 560px; }
 .arrival-quiet .arrival-image { height: 100%; object-position: 58% center; }
-.arrival-quiet .arrival-shade { background: linear-gradient(180deg, #07140c88, transparent 24%, transparent 65%, #07140cb8); }
+.arrival-quiet .arrival-shade { background: linear-gradient(180deg, #0008, transparent 24%, transparent 65%, #000b); }
 .arrival-caption { position: absolute; left: 5vw; right: 5vw; bottom: 78px; display: flex; align-items: end; justify-content: space-between; gap: 24px; }
 .bower-v2 .arrival-caption h1 { font-size: clamp(32px, 3.6vw, 56px); line-height: 1.1; letter-spacing: -.025em; }
 .arrival-caption .overture-enter { display: inline-flex; align-items: center; justify-content: space-between; gap: 35px; margin: 0; padding: 12px 0; font-size: 16px; border-bottom: 1px solid white; }
@@ -1278,7 +1281,7 @@ body:has(.brand-loading[open]) {
 .practice-renewed .founder-card p { font-size: 16px; line-height: 1.65; }
 .practice-renewed .founder-card p:first-of-type { font-size: 10px; }
 .practice-timeline, .practice-projects { padding: 130px 5vw; }
-.practice-timeline { background: #f0f3ee; }
+.practice-timeline { background: #fff; }
 .practice-renewed .kicker { font: 11px/1.6 Inter,sans-serif; text-transform: uppercase; letter-spacing: .12em; }
 .practice-timeline h2, .practice-projects > h2 { font-family: 'Bodoni Moda',Georgia,serif; font-size: clamp(42px,6vw,80px); line-height: 1.08; max-width: 14ch; margin: 35px 0 60px; }
 .timeline-years { display: flex; gap: 25px; flex-wrap: wrap; border-bottom: 1px solid #354d4030; margin-bottom: 48px; }
@@ -1417,12 +1420,12 @@ body:has(.brand-loading[open]) {
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.gallery-growth-plate { position: relative; height: 155svh; background: #e5ebe0; }
+.gallery-growth-plate { position: relative; height: 155svh; background: #fff; scroll-snap-align: start; scroll-snap-stop: always; }
 .gallery-growth-plate.is-still { height: 100svh; }
 .gallery-growth-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .gallery-growth-image { position: absolute; inset: 0; margin: 0; overflow: hidden; }
 .gallery-growth-image img { width: 100%; height: 100%; object-fit: cover; transform-origin: center bottom; }
-.gallery-growth-stage::after { content: ""; position: absolute; inset: auto 0 0; height: 155px; pointer-events: none; background: linear-gradient(0deg, #07140ccc, #07140c38 48%, transparent); }
+.gallery-growth-stage::after { content: ""; position: absolute; inset: auto 0 0; height: 155px; pointer-events: none; background: linear-gradient(0deg, #000c, #0003 48%, transparent); }
 .gallery-plate-label { position: absolute; z-index: 1; left: 3vw; bottom: 30px; color: #fff; font: 15px/1.5 Inter,sans-serif; letter-spacing: .015em; text-shadow: 0 1px 5px #0005; }
 .gallery-collection { padding: 115px 5vw 50px; background: #fff; overflow: hidden; }
 .gallery-collection-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 70px; }
@@ -1490,7 +1493,7 @@ body:has(.brand-loading[open]) {
   min-height: 0;
   padding: clamp(86px, 8vw, 120px) 5vw;
   border: 0;
-  background: linear-gradient(180deg, #fff 0%, #f2f4ef 66%, #e4e9e0 100%);
+  background: #fff;
   color: #111612;
 }
 .bower-site .making-door figure { margin: 0; overflow: hidden; }
@@ -1504,17 +1507,17 @@ body:has(.brand-loading[open]) {
 .bower-site .making-door h2 { max-width: 8ch; font-size: clamp(56px, 5.4vw, 92px); line-height: .96; }
 .bower-site .making-door p:not(.kicker) { max-width: 34em; margin-top: 32px; font-size: clamp(18px, 1.25vw, 22px); line-height: 1.5; }
 .bower-site .making-door .text-link { margin-top: 30px; color: inherit; border-color: currentColor; }
-.knoll-study { position: relative; height: min(820px, 88svh); margin: 0; overflow: hidden; background: #e4e9e0; }
+.knoll-study { position: relative; margin: 0; overflow: hidden; background: #fff; }
 .knoll-study img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .bower-site .founding-invitation--quiet {
   margin-top: 0;
-  background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
+  background: #fff;
+  color: #11110e;
   padding-top: clamp(150px, 17vw, 260px);
   padding-bottom: clamp(120px, 14vw, 210px);
 }
-.bower-site main > footer { max-width:none; background:var(--green); color:#fff; border-top:1px solid rgba(255,255,255,.24); }
-.bower-site main > footer nav,.bower-site main > footer a { color:#fff; }
-.bower-site main > footer img { filter:grayscale(1) invert(1) brightness(3); mix-blend-mode:screen; }
+.bower-site main > footer { max-width:none; background:#fff; color:#11110e; border-top:1px solid rgba(17,17,14,.14); }
+.bower-site main > footer nav,.bower-site main > footer a { color:inherit; }
 .gallery-page .gallery-intro { background:#fff; }
 .arrival-slides { position:absolute; inset:0; z-index:auto; }
 .arrival-quiet .arrival-slide { opacity:0; transition:opacity 1.8s ease; }
@@ -1539,17 +1542,16 @@ body:has(.brand-loading[open]) {
  .object-in-time-sequence figure { flex: 0 0 82vw; scroll-snap-align: start; }
  .object-in-time-image { aspect-ratio: 4 / 3; }
  .object-in-time-sequence figcaption { margin-top: 14px; }
- .bower-site .making-door { grid-template-columns: 1fr; gap: 0; min-height: 0; padding: 0; background: #f2f4ef; }
+ .bower-site .making-door { grid-template-columns: 1fr; gap: 0; min-height: 0; padding: 0; background: #fff; }
  .bower-site .making-door figure { order: 0; }
  .bower-site .making-door img { aspect-ratio: 1 / 1.04; }
  .bower-site .making-door > div { order: 1; padding: 54px 6vw 76px; }
  .bower-site .making-door h2 { max-width: 8ch; font-size: clamp(48px, 14vw, 66px); }
  .bower-site .making-door p:not(.kicker) { margin-top: 26px; font-size: 19px; }
  .bower-site .making-door .text-link { margin-top: 26px; }
- .knoll-study { height: 62svh; min-height: 480px; }
  .knoll-study img { object-position: 58% center; }
  .bower-site .founding-invitation--quiet {
-   background: linear-gradient(180deg, #dfe6dc 0%, #b9c7b9 24%, #81998b 56%, var(--green) 100%);
+   background: #fff;
    padding-top: 150px;
    padding-bottom: 130px;
  }
