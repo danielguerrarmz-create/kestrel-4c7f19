@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
 # [contact@bowerbuild.org](mailto:contact@bowerbuild.org)
 

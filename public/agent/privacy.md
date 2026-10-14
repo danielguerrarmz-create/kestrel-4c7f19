@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
 Privacy notice · Updated 3 September 2026
 

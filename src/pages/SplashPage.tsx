@@ -83,6 +83,20 @@ function ArrivalImages() {
 }
 export function SplashPage() {
   const seasonal = useViewportSequence<HTMLElement>();
+  useEffect(() => {
+    const panorama = seasonal.ref.current;
+    if (!panorama || !window.matchMedia("(max-width: 767px)").matches) return;
+    const centrePanorama = () => {
+      panorama.scrollLeft = (panorama.scrollWidth - panorama.clientWidth) / 2;
+    };
+    const frame = window.requestAnimationFrame(centrePanorama);
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(centrePanorama);
+    observer?.observe(panorama);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer?.disconnect();
+    };
+  }, [seasonal.ref]);
   return <div className="bower-site bower-v2">
     <BowerLoading />
     <EditorialHeader tone="white" />
@@ -103,9 +117,11 @@ export function SplashPage() {
           </div>
         </div>
         <div id="inhabit-copy" className="inhabit-copy"><p>A long lunch.<br />An hour alone.<br />A reason to stay outside.</p><div><p>A Bower makes room for the intimate, inhabited life of a landscape. Somewhere between the individual and the group, ordinary experience and ceremony.</p></div></div>
-        <figure ref={seasonal.ref} id="seasonal-family-scene" data-snap-spread className={`wide-scene seasonal-morph viewport-spread${seasonal.active ? " is-active" : ""}`}>
-          <img className="seasonal-morph-summer" src={selectedImage("09-summer-family")} srcSet={srcSetFor(selectedImage("09-summer-family"))} sizes="(max-width: 767px) 100vw, 80vw" alt={SELECTED_STUDIES[8].alt} loading="lazy" />
-          <img className="seasonal-morph-winter" src={selectedImage("08-winter-family")} srcSet={srcSetFor(selectedImage("08-winter-family"))} sizes="(max-width: 767px) 100vw, 80vw" alt="" aria-hidden="true" loading="lazy" />
+        <figure ref={seasonal.ref} id="seasonal-family-scene" data-snap-spread tabIndex={0} aria-label="Seasonal Bower panorama. Swipe horizontally to explore." className={`wide-scene seasonal-morph viewport-spread${seasonal.active ? " is-active" : ""}`}>
+          <div className="seasonal-morph-track">
+            <img className="seasonal-morph-summer" src={selectedImage("09-summer-family")} srcSet={srcSetFor(selectedImage("09-summer-family"))} sizes="(max-width: 767px) 182vh, 100vw" alt={SELECTED_STUDIES[8].alt} loading="lazy" />
+            <img className="seasonal-morph-winter" src={selectedImage("08-winter-family")} srcSet={srcSetFor(selectedImage("08-winter-family"))} sizes="(max-width: 767px) 182vh, 100vw" alt="" aria-hidden="true" loading="lazy" />
+          </div>
         </figure>
       </section>
       <section className="bower-belief" id="how-it-works"><h2>Nature becomes one of the authors.</h2><div>

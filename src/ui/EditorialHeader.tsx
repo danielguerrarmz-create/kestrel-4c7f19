@@ -1,20 +1,19 @@
-import { routes } from "../routing";
+import { routes, useRoute } from "../routing";
 import "./EditorialHeader.css";
 
 const LINKS = [
   { href: routes.gallery, label: "Works", mobileLabel: "Works" },
   { href: routes.process, label: "Process", mobileLabel: "Process" },
   { href: routes.practice, label: "Practice", mobileLabel: "Practice" },
-  { href: routes.contact, label: "Contact Bower", mobileLabel: "Contact" },
+  { href: routes.contact, label: "Contact", mobileLabel: "Contact" },
 ] as const;
 
 /** The quiet navigation shared by every public-facing editorial page. */
 export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "white"; logoSrc?: string }) {
+  const currentRoute = useRoute();
   const imageSrc = logoSrc ?? "/assets/brand/bower-logo-evergreen-horizontal-transparent.png";
   const colour = tone === "white" ? "text-white" : "text-[#11110e]";
   const muted = tone === "white" ? "text-white/74" : "text-black/55";
-  const line =
-    tone === "white" ? "hover:border-white/70" : "hover:border-black/55";
 
   return (
     <header
@@ -43,7 +42,8 @@ export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "whi
             <a
               key={link.href}
               href={link.href}
-              className={`border-b border-transparent pb-1 transition-colors ${line} hover:text-current focus-visible:outline-current`}
+              aria-current={currentRoute === link.href ? "page" : undefined}
+              className="editorial-nav-link focus-visible:outline-current"
             >
               {link.label}
             </a>
@@ -55,7 +55,7 @@ export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "whi
             <span className="menu-bars" aria-hidden="true"><span /><span /><span /></span>
           </summary>
           <nav aria-label="Mobile primary">
-            {LINKS.map((link) => <a key={link.href} href={link.href}>{link.mobileLabel}</a>)}
+            {LINKS.map((link) => <a key={link.href} href={link.href} aria-current={currentRoute === link.href ? "page" : undefined}>{link.mobileLabel}</a>)}
           </nav>
         </details>
       </div>

@@ -21,7 +21,8 @@ describe('Bower homepage', () => {
   });
   it('keeps navigation public and Contact primary', () => {
     const primary = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/)?.[1] ?? '';
-    expect(primary).toContain('Contact Bower');
+    expect(primary).toContain('Contact');
+    expect(primary).not.toContain('Contact Bower');
     expect(primary).toContain(`href="${routes.contact}"`);
     for (const match of html.matchAll(/href="(\/[^"#]*)"/g)) expect([...PUBLIC_ROUTES]).toContain(match[1]);
   });

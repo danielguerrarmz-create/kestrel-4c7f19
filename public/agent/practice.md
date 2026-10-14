@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
 # A shared belief in living architecture.
 

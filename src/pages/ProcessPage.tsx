@@ -49,7 +49,7 @@ export function ProcessPage() {
         </figure>
       </section>
 
-      <section className="process-editorial-evolution" aria-labelledby="process-growth-title">
+      <section data-snap-spread className="process-editorial-evolution viewport-spread" aria-labelledby="process-growth-title">
         <div className="process-editorial-evolution-copy">
           <p>The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</p>
           <h2 id="process-growth-title">The garden continues<br />the architecture.</h2>

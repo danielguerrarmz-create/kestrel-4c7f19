@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
 ![Concept visualisation of a timber Bower set within a mature walled garden](/assets/selected/05-walled-garden.webp)
 

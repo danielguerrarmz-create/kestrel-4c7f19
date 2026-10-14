@@ -8,7 +8,9 @@
 - Added a 20 percent brightness lift and two-pixel rise to logo hover states while keeping blend mode on the image itself.
 - Removed green and green ombre backgrounds from public page sections and footers. Image overlays now use neutral black only where text contrast requires them.
 - Rebuilt the mobile sandwich menu as a full-height white editorial index with unnumbered links, no dividers, a circular menu/close control, staggered motion, and reduced-motion support.
-- Reframed the homepage seasonal sequence on phones as a near-full-width 16:9 landscape plate, preserving the full Bower composition instead of cropping it into a portrait viewport.
+- Reframed the homepage seasonal sequence on phones as a full-height, horizontally pannable panorama that opens centered on the Bower.
+- Shortened the global navigation label to `Contact` and made the underline indicate only the current route.
+- Added the Process growth-video spread to the soft page-snapping sequence.
 
 ## Why
 
@@ -24,7 +26,9 @@
 4. Hover the header and footer logos with a fine pointer. Only the transparent logo pixels should rise and brighten.
 5. Confirm no public section or footer uses a green fill or green ombre.
 6. At a phone width, open and close the primary menu. Confirm the logo and circular close control remain visible above the full-height navigation.
-7. Scroll to the summer-to-winter family sequence on a phone. Confirm the whole Bower reads in both frames without a tall portrait crop.
+7. Scroll to the summer-to-winter family sequence on a phone. Confirm it fills the viewport, opens centered on the Bower, and pans horizontally in both frames.
+8. Visit Works, Process, Practice, and Contact. Confirm only the current desktop navigation item is underlined and the label reads `Contact`.
+9. On Process, confirm the growth-video spread settles softly at the viewport edge.
 
 ## What's left
 

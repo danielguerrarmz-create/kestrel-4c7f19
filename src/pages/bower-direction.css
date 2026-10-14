@@ -287,6 +287,11 @@
   overflow: hidden;
   background: #fff;
 }
+.seasonal-morph-track {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
 .seasonal-morph img {
   grid-area: 1 / 1;
 }
@@ -882,15 +887,27 @@
     font-size: 19px;
   }
   .seasonal-morph.viewport-spread {
-    width: calc(100% - 8vw);
-    height: auto;
+    display: block;
+    width: 100%;
+    height: 100svh;
+    height: 100dvh;
     min-height: 0;
-    aspect-ratio: 16 / 9;
-    margin: clamp(52px, 15vw, 76px) 4vw;
-    scroll-snap-align: center;
-    scroll-snap-stop: normal;
+    aspect-ratio: auto;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    cursor: grab;
   }
-  .seasonal-morph.viewport-spread > img {
+  .seasonal-morph.viewport-spread::-webkit-scrollbar { display: none; }
+  .seasonal-morph.viewport-spread:active { cursor: grabbing; }
+  .seasonal-morph .seasonal-morph-track {
+    width: max(100%, 181.25dvh);
+    min-width: 100%;
+    height: 100%;
+  }
+  .seasonal-morph.viewport-spread img {
     width: 100%;
     height: 100%;
     object-fit: cover;
