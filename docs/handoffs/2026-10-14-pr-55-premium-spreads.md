@@ -7,7 +7,7 @@
 - Replaced opaque logo artwork with the transparent lockup.
 - Added a 20 percent brightness lift and two-pixel rise to logo hover states while keeping blend mode on the image itself.
 - Removed green and green ombre backgrounds from public page sections and footers. Image overlays now use neutral black only where text contrast requires them.
-- Rebuilt the mobile sandwich menu as a full-height white editorial index with numbered links, a circular menu/close control, staggered motion, and reduced-motion support.
+- Rebuilt the mobile sandwich menu as a full-height white editorial index with unnumbered links, no dividers, a circular menu/close control, staggered motion, and reduced-motion support.
 
 ## Why
 

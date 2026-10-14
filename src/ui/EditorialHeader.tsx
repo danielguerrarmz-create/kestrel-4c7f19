@@ -2,10 +2,10 @@ import { routes } from "../routing";
 import "./EditorialHeader.css";
 
 const LINKS = [
-  { href: routes.gallery, label: "Works" },
-  { href: routes.process, label: "Process" },
-  { href: routes.practice, label: "Practice" },
-  { href: routes.contact, label: "Contact Bower" },
+  { href: routes.gallery, label: "Works", mobileLabel: "Works" },
+  { href: routes.process, label: "Process", mobileLabel: "Process" },
+  { href: routes.practice, label: "Practice", mobileLabel: "Practice" },
+  { href: routes.contact, label: "Contact Bower", mobileLabel: "Contact" },
 ] as const;
 
 /** The quiet navigation shared by every public-facing editorial page. */
@@ -55,7 +55,7 @@ export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "whi
             <span className="menu-bars" aria-hidden="true"><span /><span /><span /></span>
           </summary>
           <nav aria-label="Mobile primary">
-            {LINKS.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
+            {LINKS.map((link) => <a key={link.href} href={link.href}>{link.mobileLabel}</a>)}
           </nav>
         </details>
       </div>
