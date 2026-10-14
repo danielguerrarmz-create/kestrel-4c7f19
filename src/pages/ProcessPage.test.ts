@@ -45,4 +45,9 @@ describe('ProcessPage', () => {
     expect(html).toContain('Every<br/>landscape asks');
     expect(html).toContain('Begin with a conversation');
   });
+
+  it('sizes and snaps the two image spreads and the desktop acts frame to the viewport', () => {
+    expect(html.match(/data-snap-spread="true"/g)).toHaveLength(3);
+    expect(html.match(/viewport-spread/g)).toHaveLength(3);
+  });
 });

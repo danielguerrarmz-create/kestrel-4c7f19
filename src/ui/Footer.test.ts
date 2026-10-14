@@ -15,6 +15,8 @@ describe('Footer', () => {
     expect(html).not.toContain('mailto:');
     expect(html).toContain(`aria-label="© ${year} Bower, home"`);
     expect(html).toContain('Bower. All rights reserved.');
+    expect(html).toContain('/assets/brand/bower-logo-evergreen-horizontal-transparent.png');
+    expect(html).toContain('site-footer-logo');
   });
 
   it('keeps the four requested secondary doors in the footer', () => {

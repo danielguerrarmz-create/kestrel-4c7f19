@@ -41,9 +41,9 @@ export function Footer({ measure = 'canvas' }: { measure?: Measure }) {
       <a
         href={routes.home}
         aria-label="Bower, home"
-        className="inline-flex items-center gap-1.5 transition-opacity duration-150 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
+        className="site-footer-logo inline-flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inkBlack"
       >
-        <img src="/assets/brand/bower-logo-evergreen-horizontal.png" width="112" height="28" alt="Bower" />
+        <img src="/assets/brand/bower-logo-evergreen-horizontal-transparent.png" width="112" height="28" alt="Bower" />
       </a>
       {/* Coarse-pointer devices get a 44px tap height on each footer link (they render ~17px tall);
           gated so the desktop footer's density is unchanged.

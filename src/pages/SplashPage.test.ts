@@ -21,12 +21,17 @@ describe('Bower homepage', () => {
   });
   it('keeps navigation public and Contact primary', () => {
     const primary = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/)?.[1] ?? '';
-    expect(primary).toContain('Contact Bower');
+    expect(primary).toContain('Contact');
+    expect(primary).not.toContain('Contact Bower');
     expect(primary).toContain(`href="${routes.contact}"`);
     for (const match of html.matchAll(/href="(\/[^"#]*)"/g)) expect([...PUBLIC_ROUTES]).toContain(match[1]);
   });
   it('uses available current study images', () => {
     for (const [slug] of studies) expect(existsSync(`public/assets/selected/${slug}.webp`)).toBe(true);
+  });
+  it('marks every full-spread image for viewport sizing and soft page snapping', () => {
+    expect(html.match(/data-snap-spread="true"/g)).toHaveLength(3);
+    expect(html.match(/viewport-spread/g)).toHaveLength(3);
   });
   it('carries the original object-in-time frame into the new home page', () => {
     expect(html).toContain('A Bower begins when building ends.');

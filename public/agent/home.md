@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact Bower](/contact)
+[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
 ![Concept visualisation of a public exhibition arranged inside a planted garden Bower](/assets/selected/04-garden-exhibition.webp)
 
@@ -68,7 +68,7 @@ We are selecting three gardens for Bower’s founding commissions.
 
 [
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal.png)
+![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
 
 ](/)
 

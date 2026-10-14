@@ -76,7 +76,7 @@ function ExpandingPlate({ image, eager, opening }: { image: (typeof GALLERY_IMAG
   const maskImage = useMotionTemplate`radial-gradient(ellipse ${radiusX}% ${radiusY}% at 50% 100%, #000 58%, transparent 100%)`;
   const scale = useTransform(progress, [0, 0.8], [1.04, 1]);
   return (
-    <section ref={ref} aria-label={image.title} className={`gallery-growth-plate${reduced || opening ? ' is-still' : ''}`}>
+    <section ref={ref} data-snap-spread aria-label={image.title} className={`gallery-growth-plate${reduced || opening ? ' is-still' : ''}`}>
       <div className="gallery-growth-stage">
         <motion.figure
           style={reduced || opening ? undefined : { maskImage, WebkitMaskImage: maskImage }}
@@ -118,7 +118,7 @@ export function GalleryPage() {
         </section>
 
         {FEATURED_IMAGES.map((image, index) => mobile ? (
-          <section key={image.src} data-snap-section className="mobile-gallery-plate" aria-label={image.title}>
+          <section key={image.src} data-snap-section data-snap-spread className="mobile-gallery-plate viewport-spread" aria-label={image.title}>
             <button className="mobile-gallery-image" onClick={() => openImage(image.src)} aria-label={`Enlarge ${image.title}`}>
               <img src={image.src} srcSet={srcSetFor(image.src)} sizes="100vw" alt={image.alt} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
             </button>

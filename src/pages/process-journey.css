@@ -115,7 +115,7 @@
 }
 
 .process-editorial-prologue figure img {
-  height: min(68vw, 850px);
+  height: 100%;
   object-position: center 60%;
 }
 
@@ -125,6 +125,13 @@
   font: 500 10px/1.5 Inter, Arial, sans-serif;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+/* Process should settle into its full-screen frames, not trap a gesture at each
+   one. The global spread rule uses `always` for galleries; this longer narrative
+   needs the browser's gentler, velocity-aware proximity behavior. */
+.process-editorial [data-snap-spread] {
+  scroll-snap-stop: normal;
 }
 
 .process-editorial-evolution {
@@ -167,7 +174,7 @@
   width: 100%;
   aspect-ratio: 9 / 16;
   margin: 0;
-  background: #eceee9;
+  background: #fff;
   object-fit: cover;
 }
 
@@ -179,6 +186,19 @@
   padding: clamp(100px, 11vw, 160px) 7vw;
   background: #fff;
   color: var(--process-ink);
+}
+
+@media (min-width: 768px) {
+  .process-editorial-acts.viewport-spread,
+  .process-editorial-close.viewport-spread {
+    box-sizing: border-box;
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .process-editorial-acts.viewport-spread {
+    align-items: center;
+  }
 }
 
 .process-editorial-acts h2 {
@@ -224,17 +244,18 @@
   letter-spacing: .035em;
 }
 
-.process-editorial-close {
+#process-transition.process-editorial-close {
   position: relative;
   padding: 0;
   overflow: hidden;
+  scroll-margin-top: 0;
   color: #fff;
 }
 
 .process-editorial-transition {
   display: grid;
-  height: min(69vw, 900px);
-  background: #e8eae5;
+  height: 100%;
+  background: #fff;
 }
 
 .process-editorial-transition img {
@@ -255,7 +276,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(7, 15, 9, .7), rgba(7, 15, 9, .16) 73%), linear-gradient(0deg, rgba(7, 15, 9, .5), transparent 58%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, .7), rgba(0, 0, 0, .16) 73%), linear-gradient(0deg, rgba(0, 0, 0, .5), transparent 58%);
   pointer-events: none;
 }
 
@@ -356,8 +377,8 @@
   .process-editorial-prologue figure { padding: 0; }
 
   .process-editorial-prologue figure img {
-    height: 72vh;
-    min-height: 520px;
+    height: 100%;
+    min-height: 0;
     object-position: 48% center;
   }
 
@@ -391,6 +412,12 @@
     padding: 105px 6vw 115px;
   }
 
+  .process-editorial-acts.viewport-spread {
+    height: auto;
+    min-height: 0;
+    scroll-snap-align: none;
+  }
+
   .process-editorial-acts > div { margin-bottom: 70px; }
   .process-editorial-acts h2 { font-size: clamp(52px, 14vw, 68px); }
 
@@ -403,10 +430,7 @@
     gap: 42px;
   }
 
-  .process-editorial-transition {
-    height: 68vh;
-    min-height: 510px;
-  }
+  .process-editorial-transition { height: 100%; min-height: 0; }
 
   .process-editorial-close-copy { inset: 30px 6vw; }
 
