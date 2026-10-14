@@ -104,19 +104,83 @@
       body {
         background: #ffffff;
       }
-      /* Pre-JS loading state: a plain blank vellum field, no text. Replaced the
-         moment React mounts, and toned to the intro backdrop so there is no flash. */
-      #root:empty::after {
-        content: '';
+      /* Asset-free cold-load state. It is inline on purpose: it can paint before
+         React, the webfonts, the wordmark PNG, or a hero image has downloaded. */
+      .site-loader {
         position: fixed;
         inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
         background: #ffffff;
+        color: #263d31;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 220ms ease, visibility 0s linear 220ms;
+      }
+      .site-loader.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 0s;
+      }
+      .site-loader.is-leaving {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .site-loader__lockup {
+        width: min(42vw, 168px);
+        text-align: center;
+      }
+      .site-loader__name {
+        display: block;
+        font: 400 clamp(34px, 7vw, 48px)/1 Georgia, 'Times New Roman', serif;
+        letter-spacing: -0.045em;
+      }
+      .site-loader__line {
+        display: block;
+        width: 100%;
+        height: 1px;
+        margin-top: 18px;
+        overflow: hidden;
+        background: rgba(38, 61, 49, 0.16);
+      }
+      .site-loader__line::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: site-loader-progress 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
+      }
+      .site-loader__caption {
+        margin: 12px 0 0;
+        font: 11px/1.4 Arial, sans-serif;
+        letter-spacing: .08em;
+      }
+      @keyframes site-loader-progress {
+        0% { transform: scaleX(0); transform-origin: left; }
+        48% { transform: scaleX(1); transform-origin: left; }
+        52% { transform: scaleX(1); transform-origin: right; }
+        100% { transform: scaleX(0); transform-origin: right; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .site-loader__line::after { animation: none; transform: scaleX(.45); }
       }
     </style>
   </head>
   <body>
+    <div id="site-loader" class="site-loader" role="status" aria-label="Loading Bower">
+      <div class="site-loader__lockup" aria-hidden="true">
+        <span class="site-loader__name">bower</span>
+        <span class="site-loader__line"></span>
+        <p class="site-loader__caption">A building that grows.</p>
+      </div>
+    </div>
     <div id="root"></div>
     <noscript>
+      <style>#site-loader { display: none; }</style>
       <div style="max-width: 40rem; margin: 4rem auto; padding: 0 1.5rem; font-family: Georgia, serif; color: #17160f; line-height: 1.6">
         <h1>Bower</h1>
         <p>
@@ -142,6 +206,27 @@
         </ul>
       </div>
     </noscript>
+    <script>
+      (() => {
+        const loader = document.getElementById('site-loader');
+        const preview = ['127.0.0.1', 'localhost'].includes(window.location.hostname) &&
+          new URLSearchParams(window.location.search).has('loader-preview');
+        const showTimer = window.setTimeout(() => {
+          loader?.classList.add('is-visible');
+          document.documentElement.dataset.siteLoaderShown = 'true';
+        }, preview ? 0 : 180);
+        window.__bowerReleaseSiteLoader = () => {
+          if (preview) return;
+          window.clearTimeout(showTimer);
+          if (!loader?.classList.contains('is-visible')) {
+            loader?.remove();
+            return;
+          }
+          loader.classList.add('is-leaving');
+          window.setTimeout(() => loader.remove(), 240);
+        };
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
