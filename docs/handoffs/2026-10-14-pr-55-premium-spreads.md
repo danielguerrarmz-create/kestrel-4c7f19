@@ -8,6 +8,7 @@
 - Added a 20 percent brightness lift and two-pixel rise to logo hover states while keeping blend mode on the image itself.
 - Removed green and green ombre backgrounds from public page sections and footers. Image overlays now use neutral black only where text contrast requires them.
 - Rebuilt the mobile sandwich menu as a full-height white editorial index with unnumbered links, no dividers, a circular menu/close control, staggered motion, and reduced-motion support.
+- Reframed the homepage seasonal sequence on phones as a near-full-width 16:9 landscape plate, preserving the full Bower composition instead of cropping it into a portrait viewport.
 
 ## Why
 
@@ -23,6 +24,7 @@
 4. Hover the header and footer logos with a fine pointer. Only the transparent logo pixels should rise and brighten.
 5. Confirm no public section or footer uses a green fill or green ombre.
 6. At a phone width, open and close the primary menu. Confirm the logo and circular close control remain visible above the full-height navigation.
+7. Scroll to the summer-to-winter family sequence on a phone. Confirm the whole Bower reads in both frames without a tall portrait crop.
 
 ## What's left
 

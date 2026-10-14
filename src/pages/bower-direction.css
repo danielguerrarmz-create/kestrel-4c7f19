@@ -881,6 +881,21 @@
   .inhabit-copy > div {
     font-size: 19px;
   }
+  .seasonal-morph.viewport-spread {
+    width: calc(100% - 8vw);
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    margin: clamp(52px, 15vw, 76px) 4vw;
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+  }
+  .seasonal-morph.viewport-spread > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
   .becoming {
     padding: 55px 5vw 35px;
   }
