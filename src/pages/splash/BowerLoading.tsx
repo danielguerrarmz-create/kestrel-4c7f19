@@ -18,6 +18,12 @@ export function BowerLoading({ replay = 0 }: { replay?: number }) {
   };
   useEffect(() => {
     if (reduced) return;
+    // On a genuinely slow cold load, the asset-free site loader has already
+    // carried the opening. Do not follow it with a second full-screen intro.
+    if (document.documentElement.dataset.siteLoaderShown === "true") {
+      finish();
+      return;
+    }
     const previewReplay = import.meta.env.DEV && new URLSearchParams(window.location.search).has("intro");
     try {
       if (!replay && !previewReplay && sessionStorage.getItem("bower.brand-intro.v3")) return;

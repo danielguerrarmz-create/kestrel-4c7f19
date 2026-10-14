@@ -100,6 +100,45 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* A content image reserves its real layout from the first React frame. While
+   its bytes are in flight, this hairline makes that geometry intentional rather
+   than leaving an unexplained white void. Branding is excluded by the observer. */
+img[data-image-loading='true'] {
+  background-color: #fff;
+  background-image:
+    linear-gradient(90deg, #354d40, #354d40),
+    linear-gradient(180deg, #354d40, #354d40),
+    linear-gradient(270deg, #354d40, #354d40),
+    linear-gradient(0deg, #354d40, #354d40);
+  background-position: top left, top right, bottom right, bottom left;
+  background-repeat: no-repeat;
+  background-size: 0 1px, 1px 0, 0 1px, 1px 0;
+  outline: 1px solid rgba(53, 77, 64, .28);
+  outline-offset: -1px;
+  animation: image-frame-trace 2.4s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+img[data-image-state='ready'] {
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color 340ms ease;
+}
+img[data-image-state='error'] {
+  outline: 1px dashed rgba(53, 77, 64, .34);
+  outline-offset: -1px;
+}
+@keyframes image-frame-trace {
+  0% { background-size: 0 1px, 1px 0, 0 1px, 1px 0; }
+  22% { background-size: 100% 1px, 1px 0, 0 1px, 1px 0; }
+  44% { background-size: 100% 1px, 1px 100%, 0 1px, 1px 0; }
+  66% { background-size: 100% 1px, 1px 100%, 100% 1px, 1px 0; }
+  88% { background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%; }
+  100% { background-size: 0 1px, 1px 0, 0 1px, 1px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  img[data-image-loading='true'] { animation: none; }
+  img[data-image-state='ready'] { transition: none; }
+}
+
 @keyframes hero-drift {
   from {
     transform: scale(1.01);

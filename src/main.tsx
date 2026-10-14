@@ -4,6 +4,7 @@ import { Root } from './Root';
 import { ErrorBoundary } from './ui/ErrorBoundary';
 import { installRouter } from './routing';
 import { SiteAnalytics } from './analytics';
+import { installImageLoadingFrames } from './ui/installImageLoadingFrames';
 
 // Self-hosted fonts for the documentation layer (the studio keeps its
 // Google-served Fraunces + Inter). Source Serif 4 = free Freight Big Pro
@@ -19,12 +20,21 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import './index.css';
 
+declare global {
+  interface Window {
+    __bowerReleaseSiteLoader?: () => void;
+  }
+}
+
 // BEFORE the first render, not in an effect. `installRouter` rewrites an inbound legacy
 // `/#/gallery` to `/gallery` in place; doing that after mount would paint the home for a frame
 // first, and every link shared while the site was hash-routed would flash the wrong page.
 installRouter();
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!;
+installImageLoadingFrames(root);
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <ErrorBoundary>
       <Root />
@@ -37,3 +47,24 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <SiteAnalytics />
   </React.StrictMode>,
 );
+
+// Keep the inline, zero-asset loader only until the rendered shell and its first
+// eager image are ready. A three-second ceiling prevents a slow or failed image
+// from holding the interface hostage once the usable page already exists.
+window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+  const release = () => window.__bowerReleaseSiteLoader?.();
+  const eagerImage = [...document.querySelectorAll<HTMLImageElement>('main img')]
+    .find((image) => image.loading !== 'lazy');
+  if (!eagerImage || (eagerImage.complete && eagerImage.naturalWidth > 0)) {
+    release();
+    return;
+  }
+  const finish = () => {
+    eagerImage.removeEventListener('load', finish);
+    eagerImage.removeEventListener('error', finish);
+    release();
+  };
+  eagerImage.addEventListener('load', finish, { once: true });
+  eagerImage.addEventListener('error', finish, { once: true });
+  window.setTimeout(finish, 3000);
+}));
