@@ -343,20 +343,7 @@ export const RING = {
   q: 'How does a commission begin?',
   opening: 'Begin by introducing the landscape.',
   first:
-    'The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.',
-  appointment:
-    'If there is, we propose a four-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.',
-  leadIn: 'It establishes:',
-  deliverables: [
-    'The strongest location',
-    'One preliminary site-specific proposition',
-    'Likely planning and access constraints',
-    'Early structural and fabrication thinking',
-    'An indicative project range and programme',
-    'The recommended route into design',
-  ],
-  conclusion:
-    'The study concludes with a decision: proceed into Concept Design, pause, or conclude that a Bower does not belong there.',
+    'The first step is a short conversation with Clay and Daniel to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.',
 } as const;
 
 /** The page's frontispiece. The subline names the audience's own worry, not the product.

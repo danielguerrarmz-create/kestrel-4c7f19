@@ -1501,15 +1501,14 @@ body:has(.brand-loading[open]) {
 
 /* Shared long section transitions, matching the home page growth threshold. */
 :root { --section-fade:clamp(220px,24vw,320px); }
-.contact-page main > section:nth-of-type(2) {
+.contact-page .contact-inquiry {
   background: #fff;
-  padding-top: clamp(120px, 15vh, 170px);
-  padding-bottom: clamp(150px, 18vh, 210px);
+  min-height: 100svh;
+  padding-block: clamp(2rem, 6svh, 5rem);
 }
 @media(max-width:767px) {
-  .contact-page main > section:nth-of-type(2) {
-    padding-top: 90px;
-    padding-bottom: 125px;
+  .contact-page .contact-inquiry {
+    padding-block: 64px;
   }
 }
 

@@ -285,8 +285,8 @@ describe('structured data', () => {
     const last = faq.mainEntity[faq.mainEntity.length - 1];
     expect(last.name).toBe(RING.q);
     expect(last.acceptedAnswer.text).toContain(CONTACT.email);
-    expect(last.acceptedAnswer.text).toContain(RING.appointment);
-    expect(last.acceptedAnswer.text).toContain(RING.conclusion);
+    expect(last.acceptedAnswer.text).toContain(RING.opening);
+    expect(last.acceptedAnswer.text).toContain(RING.first);
   });
 
   /**

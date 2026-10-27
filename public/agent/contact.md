@@ -16,9 +16,11 @@
 
 [Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
-![Concept visualisation of a timber Bower set within a mature walled garden](/assets/selected/05-walled-garden.webp)
+![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 
 # Tell us about your landscape.
+
+[Scroll to continue](#contact-inquiry)
 
 ## Begin with the place.
 

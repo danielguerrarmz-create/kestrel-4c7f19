@@ -127,8 +127,7 @@ export function SplashPage() {
         </figure>
       </section>
       <section data-snap-section className="bower-belief" id="how-it-works"><h2>Nature becomes one of the authors.</h2><div>
-        <p>We do not use nature to make architecture look organic; we build architecture that gives living systems agency in determining what it becomes.</p>
-        <p>Founded in 2026, Bower is a building technology company creating timber structures that grow into their landscapes; partnerships for the first permanent works are forming.</p>
+        <p>We build architecture that gives living systems agency in determining what it becomes.</p>
       </div></section>
       <section id="life-around" data-snap-section className="making-door"><figure><img src={selectedImage("10-estate-aerial")} srcSet={srcSetFor(selectedImage("10-estate-aerial"))} sizes="(max-width: 767px) 100vw, 58vw" alt={SELECTED_STUDIES[9].alt} loading="lazy" /></figure><div><h2>A room for the life around it.</h2><p>For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.</p><a className="text-link" href={routes.gallery}>View the gallery</a></div></section>
       <figure id="knoll-study" data-snap-spread className="knoll-study viewport-spread">

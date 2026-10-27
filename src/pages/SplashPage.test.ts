@@ -12,11 +12,12 @@ describe('Bower homepage', () => {
     expect(html).toContain('Living architecture.');
     expect(html).not.toContain('Enter the world');
   });
-  it('identifies the company and the status of the work', () => {
-    expect(html).toContain('building technology company');
+  it('states the purpose and invites readers to commission one of the first Bowers', () => {
+    expect(html).toContain('<p>We build architecture that gives living systems agency in determining what it becomes.</p>');
     expect(html).toContain('Concept visualisation');
-    expect(html).toContain('Founded in 2026');
-    expect(html).toContain('partnerships for the first permanent works are forming');
+    expect(html).toContain('<h2>Begin.</h2>');
+    expect(html).toContain('These are the first Bowers. Yours could be among them.');
+    expect(html).not.toContain('Founded in 2026');
     expect(html).not.toMatch(/guaranteed|production-ready|architect<|ROI/);
   });
   it('keeps navigation public and Contact primary', () => {

@@ -251,10 +251,6 @@ export function faqPageJsonLd(): Record<string, unknown> {
       a: [
         RING.opening,
         RING.first,
-        RING.appointment,
-        RING.leadIn,
-        ...RING.deliverables,
-        RING.conclusion,
         `${CONTACT.name}, ${CONTACT.phone}, ${CONTACT.email}`,
       ],
     },

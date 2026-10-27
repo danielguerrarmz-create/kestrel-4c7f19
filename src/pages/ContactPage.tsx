@@ -4,7 +4,6 @@ import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
-import { SELECTED_STUDIES, selectedImage } from '../data/selectedImages';
 import { usePageSnap } from '../ui/usePageSnap';
 
 type Outcome = 'idle' | 'sending' | 'delivered' | 'undelivered';
@@ -90,10 +89,10 @@ export function ContactPage() {
         <section data-snap-section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
           <EditorialHeader tone="white" />
           <img
-            src={selectedImage('05-walled-garden')}
-            srcSet={srcSetFor(selectedImage('05-walled-garden'))}
-            sizes="(max-width: 767px) 120svh, 100vw"
-            alt={SELECTED_STUDIES[4].alt}
+            src="/assets/gallery/02-garden-pavilion.webp"
+            srcSet={srcSetFor('/assets/gallery/02-garden-pavilion.webp')}
+            sizes="(max-aspect-ratio: 1920/1047) 184svh, 100vw"
+            alt="Concept visualisation of a timber Bower within a mature walled garden"
             loading="eager"
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
@@ -111,6 +110,9 @@ export function ContactPage() {
                 section's own heading says begin. The scroll affordance is deliberate and stays,
                 because readers were genuinely missing the form below the fold; what went is the
                 portent. It now does one job and says one thing. */}
+            <a href="#contact-inquiry" className="mt-5 inline-flex min-h-11 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+              Scroll to continue <span aria-hidden="true">↓</span>
+            </a>
           </div>
         </section>
 
@@ -133,7 +135,7 @@ export function ContactPage() {
           * SHOULD do when it genuinely cannot fit (below `lg` the columns stack and scrolling is
           * correct). The bug was padding that refused to yield first.
           */}
-        <section data-snap-section className="contact-inquiry flex items-center px-gutter">
+        <section id="contact-inquiry" data-snap-section className="contact-inquiry flex items-center px-gutter">
           {/* `lg:items-center`, not `items-end` (2026-09-03, Clay): the left column's text is
               centred against the form beside it, so it sits centred on the snapped screen. It was
               bottom-aligned, which pinned the name and address to the form's last field and left a
