@@ -27,7 +27,7 @@ Ask anyone for the most beautiful place they have ever stood in and they rarely 
 finished. All of
 them alive.
 
-![Concept visualisation of a century-old flowering timber Bower beside a veteran tree](/assets/selected/30-ancient-bower.webp)
+![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
 
 The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 

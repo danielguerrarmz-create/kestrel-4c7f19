@@ -2,7 +2,7 @@ import { routes } from "../routing";
 
 export function FoundingInvitation({ showEyebrow = true, quiet = false }: { showEyebrow?: boolean; quiet?: boolean }) {
   return (
-    <section className={`founding-invitation${quiet ? " founding-invitation--quiet" : ""}`} id="register">
+    <section data-snap-section className={`founding-invitation${quiet ? " founding-invitation--quiet" : ""}`} id="register">
       {showEyebrow && <p className="kicker">Three founding commissions</p>}
       <h2>
         Every Bower begins with a place.

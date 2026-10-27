@@ -28,13 +28,13 @@ const acts = [
 ] as const;
 
 export function ProcessPage() {
-  usePageSnap({ strength: 'proximity', mobileStrength: 'proximity' });
+  usePageSnap();
   const growthVideo = useViewportVideo();
   const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
     <EditorialHeader />
     <main>
-      <section className="process-editorial-hero" aria-labelledby="process-title">
+      <section data-snap-section className="process-editorial-hero" aria-labelledby="process-title">
         <div className="process-editorial-hero-copy">
           <h1 id="process-title">From landscape<br />to Bower.</h1>
           <p>The structure is finished once. The garden never is.</p>
@@ -42,16 +42,16 @@ export function ProcessPage() {
       </section>
 
       <section className="process-editorial-prologue" aria-labelledby="process-alive-title">
-        <div className="process-editorial-prologue-copy">
+        <div data-snap-section className="process-editorial-prologue-copy">
           <p>Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.</p>
           <h2 id="process-alive-title">None of them<br />finished. All of<br />them alive.</h2>
         </div>
         <figure data-snap-spread className="viewport-spread">
-          <ProcessImage slug="30-ancient-bower" sizes="100vw" eager />
+          <ProcessImage slug="21-woodland-bower" sizes="100vw" eager />
         </figure>
       </section>
 
-      <section className="process-editorial-evolution" aria-labelledby="process-growth-title">
+      <section data-snap-section className="process-editorial-evolution" aria-labelledby="process-growth-title">
         <div className="process-editorial-evolution-copy">
           <p>The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</p>
           <h2 id="process-growth-title">The garden continues<br />the architecture.</h2>

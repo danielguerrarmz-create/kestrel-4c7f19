@@ -18,7 +18,7 @@ describe('ProcessPage', () => {
   it('uses five distinct selected renditions and keeps their status clear', () => {
     const sources = [...html.matchAll(/src="(\/assets\/selected\/[^" ]+\.webp)"/g)].map((match) => match[1]);
     expect(sources).toEqual([
-      '/assets/selected/30-ancient-bower.webp',
+      '/assets/selected/21-woodland-bower.webp',
       '/assets/selected/25-new-bower.webp',
       '/assets/selected/26-growing-bower.webp',
       '/assets/selected/27-mature-bower.webp',

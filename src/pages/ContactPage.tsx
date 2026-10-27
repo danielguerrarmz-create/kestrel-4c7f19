@@ -5,6 +5,7 @@ import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
 import { SELECTED_STUDIES, selectedImage } from '../data/selectedImages';
+import { usePageSnap } from '../ui/usePageSnap';
 
 type Outcome = 'idle' | 'sending' | 'delivered' | 'undelivered';
 
@@ -46,6 +47,7 @@ export function UndeliveredNotice() {
 }
 
 export function ContactPage() {
+  usePageSnap();
   const [outcome, setOutcome] = useState<Outcome>('idle');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -85,7 +87,7 @@ export function ContactPage() {
   return (
     <div className="contact-page editorial-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
-        <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
+        <section data-snap-section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[#11110e] px-gutter py-16 text-white md:py-24">
           <EditorialHeader tone="white" />
           <img
             src={selectedImage('05-walled-garden')}
@@ -131,7 +133,7 @@ export function ContactPage() {
           * SHOULD do when it genuinely cannot fit (below `lg` the columns stack and scrolling is
           * correct). The bug was padding that refused to yield first.
           */}
-        <section className="contact-inquiry flex items-center px-gutter">
+        <section data-snap-section className="contact-inquiry flex items-center px-gutter">
           {/* `lg:items-center`, not `items-end` (2026-09-03, Clay): the left column's text is
               centred against the form beside it, so it sits centred on the snapped screen. It was
               bottom-aligned, which pinned the name and address to the form's last field and left a

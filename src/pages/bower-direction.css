@@ -1367,7 +1367,6 @@ body:has(.brand-loading[open]) {
 }
 
 @media(max-width:767px) {
-  .contact-page.editorial-page main > section:first-child[data-snap-section] { min-height: 620px !important; padding-top: 230px !important; padding-bottom: 75px !important; }
   .contact-page main > section:first-child > p { top: 145px; left: 20px; right: auto; text-align: left; font-size: 11px; }
 }
 
@@ -1452,7 +1451,7 @@ body:has(.brand-loading[open]) {
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.gallery-growth-plate { position: relative; height: 155svh; background: #fff; scroll-snap-align: start; scroll-snap-stop: always; }
+.gallery-growth-plate { position: relative; height: 155svh; background: #fff; }
 .gallery-growth-plate.is-still { height: 100svh; }
 .gallery-growth-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .gallery-growth-image { position: absolute; inset: 0; margin: 0; overflow: hidden; }

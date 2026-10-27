@@ -16,26 +16,28 @@
 
 [Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
 
-# A shared belief in living architecture.
+# The obsession is old.
 
-## Two ways of seeing,
-one direction.
+How can architecture be grown, not only built?
+
+## Two founders.
+One practice.
 
 ![Clay Seifert](/assets/about/clay-seifert.jpg)
 
 ### Clay Seifert
 
-Cofounder · design
+Cofounder · design & research
 
-Clay works across design and the geometry of timber structures, bringing a patient interest in how materials, plants and buildings shape one another.
+Founded and led Resia, a design technology company. Peer-reviewed research on architectural geometry.
 
 ![Daniel Guerra](/assets/about/daniel-guerra.jpg)
 
 ### Daniel Guerra
 
-Cofounder · systems
+Cofounder · engine & systems
 
-Daniel works across design, building systems and computational tools, connecting an idea for a place with the practical path toward making it real.
+Projects at Forsite Studio from concept through permitting to construction on site.
 
 Our mission
 

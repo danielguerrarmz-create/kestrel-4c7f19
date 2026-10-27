@@ -3,50 +3,45 @@ import './practice-garden.css';
 import { routes } from '../routing';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
-
-const FOUNDERS = [
-  {
-    name: 'Clay Seifert',
-    role: 'Cofounder · design',
-    image: '/assets/about/clay-seifert.jpg',
-    bio: 'Clay works across design and the geometry of timber structures, bringing a patient interest in how materials, plants and buildings shape one another.',
-  },
-  {
-    name: 'Daniel Guerra',
-    role: 'Cofounder · systems',
-    image: '/assets/about/daniel-guerra.jpg',
-    bio: 'Daniel works across design, building systems and computational tools, connecting an idea for a place with the practical path toward making it real.',
-  },
-] as const;
+import { usePageSnap } from '../ui/usePageSnap';
+import { TEAM } from './about/projects';
 
 export function PracticeEditorial() {
+  usePageSnap();
   return (
     <div className="practice-minimal editorial-page">
       <EditorialHeader logoSrc="/assets/brand/bower-logo-evergreen-horizontal-transparent.png" />
       <main>
-        <section className="practice-minimal-opening" aria-labelledby="practice-title">
-          <h1 id="practice-title">A shared belief in living architecture.</h1>
-        </section>
-
-        <section className="practice-minimal-founders" aria-labelledby="founders-title">
-          <header>
-            <h2 id="founders-title">Two ways of seeing,<br />one direction.</h2>
-          </header>
-          <div className="practice-minimal-founder-grid">
-            {FOUNDERS.map((founder) => (
-              <article key={founder.name}>
-                <img src={founder.image} alt={founder.name} loading="lazy" />
-                <div>
-                  <h3>{founder.name}</h3>
-                  <p className="practice-minimal-role">{founder.role}</p>
-                  <p>{founder.bio}</p>
-                </div>
-              </article>
-            ))}
+        <section data-snap-section className="practice-minimal-opening" aria-labelledby="practice-title">
+          <div className="practice-minimal-opening-copy">
+            <h1 id="practice-title">The obsession is old.</h1>
+            <p>How can architecture be grown, not only built?</p>
           </div>
         </section>
 
-        <section className="practice-minimal-mission" aria-labelledby="mission-title">
+        <section data-snap-section className="practice-minimal-founders" aria-labelledby="founders-title">
+          <header>
+            <h2 id="founders-title">Two founders.<br />One practice.</h2>
+          </header>
+          <div className="practice-minimal-founder-grid">
+            {TEAM.map((founder) => {
+              // The approved short bios are the Built facts, as on the September page.
+              const bio = founder.facts.find((fact) => fact.label === 'Built');
+              return (
+                <article key={founder.id}>
+                  {founder.image && <img src={founder.image} alt={founder.name} loading="lazy" />}
+                  <div>
+                    <h3>{founder.name}</h3>
+                    <p className="practice-minimal-role">{founder.role}</p>
+                    {bio && <p className="practice-minimal-founder-bio">{bio.value}</p>}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section data-snap-section className="practice-minimal-mission" aria-labelledby="mission-title">
           <div className="practice-minimal-mission-statement">
             <p className="practice-minimal-kicker">Our mission</p>
             <h2 id="mission-title">One Bower team,<br />assembled for<br />one place.</h2>

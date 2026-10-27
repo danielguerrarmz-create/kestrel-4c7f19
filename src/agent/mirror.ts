@@ -314,7 +314,7 @@ export function llmsTxt(): string {
 ## Pages
 
 - [Home](/agent/home.md): the work in time, one concept study, evidence of making and the invitation
-- [Gallery](/agent/gallery.md): thirteen concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Gallery](/agent/gallery.md): concept studies of Bowers in gardens, gatherings and cultural landscapes
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries
