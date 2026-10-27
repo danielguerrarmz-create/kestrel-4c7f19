@@ -4,8 +4,9 @@ import { srcSetFor } from '../ui/responsiveImg';
 import { selectedImage, selectedStudy, type SelectedStudy } from '../data/selectedImages';
 import './bower-direction.css';
 import './process-journey.css';
-import { useViewportSequence, useViewportVideo } from '../ui/useViewportPlayback';
+import { useViewportVideo } from '../ui/useViewportPlayback';
 import { usePageSnap } from '../ui/usePageSnap';
+import { SeasonalSequence } from './process/SeasonalSequence';
 
 function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   slug: SelectedStudy['slug'];
@@ -16,8 +17,6 @@ function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   const src = selectedImage(slug);
   return <img src={src} srcSet={srcSetFor(src)} sizes={sizes} alt={study.alt} loading={eager ? 'eager' : 'lazy'} />;
 }
-
-const closingFrames = ['25-new-bower', '26-growing-bower', '27-mature-bower', '28-winter-bower'] as const;
 
 const acts = [
   ['Conversation', 'Landscape, people, purpose.'],
@@ -30,7 +29,6 @@ const acts = [
 export function ProcessPage() {
   usePageSnap();
   const growthVideo = useViewportVideo();
-  const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
     <EditorialHeader />
     <main>
@@ -75,9 +73,7 @@ export function ProcessPage() {
       </section>
 
       <section id="process-transition" data-snap-spread className="process-editorial-close viewport-spread" aria-label="A Bower through four seasons">
-        <div ref={seasons.ref} className={`process-editorial-transition${seasons.active ? ' is-active' : ''}`}>
-          {closingFrames.map((slug, index) => <ProcessImage key={slug} slug={slug} sizes="100vw" eager={index === 0} />)}
-        </div>
+        <SeasonalSequence />
         <div className="process-editorial-close-copy">
           <h2>Every<br />landscape asks<br />for a different<br />answer.</h2>
           <a href="/contact">Begin with a conversation <span aria-hidden="true">→</span></a>

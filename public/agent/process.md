@@ -69,12 +69,6 @@ Training, growth, care.
 
 ![Concept visualisation of a newly installed timber Bower with young planting](/assets/selected/25-new-bower.webp)
 
-![Concept visualisation of the same Bower garden after about twenty years of growth](/assets/selected/26-growing-bower.webp)
-
-![Concept visualisation of the same Bower garden after about sixty years of growth](/assets/selected/27-mature-bower.webp)
-
-![Concept visualisation of the mature Bower garden in winter with dormant climbers](/assets/selected/28-winter-bower.webp)
-
 ## Every
 landscape asks
 for a different

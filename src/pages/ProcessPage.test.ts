@@ -15,15 +15,13 @@ describe('ProcessPage', () => {
     expect(html).toContain('Founding Site Study');
   });
 
-  it('uses five distinct selected renditions and keeps their status clear', () => {
+  it('only renders the opening image and a lazy first seasonal frame on initial load', () => {
     const sources = [...html.matchAll(/src="(\/assets\/selected\/[^" ]+\.webp)"/g)].map((match) => match[1]);
     expect(sources).toEqual([
       '/assets/selected/21-woodland-bower.webp',
       '/assets/selected/25-new-bower.webp',
-      '/assets/selected/26-growing-bower.webp',
-      '/assets/selected/27-mature-bower.webp',
-      '/assets/selected/28-winter-bower.webp',
     ]);
+    expect(html).toMatch(/src="\/assets\/selected\/25-new-bower.webp"[^>]*loading="lazy"[^>]*decoding="async"/);
     expect(new Set(sources).size).toBe(sources.length);
     expect(html).not.toContain('<figcaption');
     expect(html).not.toContain('A disciplined route');
