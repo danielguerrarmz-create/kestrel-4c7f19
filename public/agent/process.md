@@ -27,7 +27,7 @@ Ask anyone for the most beautiful place they have ever stood in and they rarely 
 finished. All of
 them alive.
 
-![Concept visualisation of a century-old flowering timber Bower beside a veteran tree](/assets/selected/30-ancient-bower.webp)
+![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
 
 The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 
@@ -68,12 +68,6 @@ Fabrication and assembly.
 Training, growth, care.
 
 ![Concept visualisation of a newly installed timber Bower with young planting](/assets/selected/25-new-bower.webp)
-
-![Concept visualisation of the same Bower garden after about twenty years of growth](/assets/selected/26-growing-bower.webp)
-
-![Concept visualisation of the same Bower garden after about sixty years of growth](/assets/selected/27-mature-bower.webp)
-
-![Concept visualisation of the mature Bower garden in winter with dormant climbers](/assets/selected/28-winter-bower.webp)
 
 ## Every
 landscape asks

@@ -4,14 +4,12 @@ import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { srcSetFor } from '../ui/responsiveImg';
 import { useReducedMotion } from '../ui/useReducedMotion';
+import { usePageSnap } from '../ui/usePageSnap';
 
 import { useMobileLayout } from '../ui/useMobileLayout';
 import { ImageViewer } from '../ui/ImageViewer';
 import { selectedImage, selectedStudy, type SelectedStudy } from '../data/selectedImages';
 import './bower-direction.css';
-
-/** Soft snapping on both layouts lets touch scrolling settle near a plate without requiring it. */
-export const GALLERY_SNAP = { strength: 'proximity', mobileStrength: 'proximity' } as const;
 
 const galleryImage = (slug: SelectedStudy['slug']) => {
   const study = selectedStudy(slug);
@@ -98,6 +96,7 @@ function ExpandingPlate({ image, eager, opening }: { image: (typeof GALLERY_IMAG
 }
 
 export function GalleryPage() {
+  usePageSnap();
   const mobile = useMobileLayout();
   const reduced = useReducedMotion();
   const [selected, setSelected] = useState<number | null>(null);
@@ -124,7 +123,7 @@ export function GalleryPage() {
             </button>
           </section>
         ) : <ExpandingPlate key={image.src} image={image} eager={index < 2} opening={index === 0} />)}
-        <section className="gallery-collection" aria-labelledby="collection-title">
+        <section data-snap-section className="gallery-collection" aria-labelledby="collection-title">
           <div className="gallery-collection-heading">
             <h2 id="collection-title">A world of Bowers.</h2>
           </div>

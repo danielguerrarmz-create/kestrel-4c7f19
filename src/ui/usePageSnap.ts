@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
 /**
- * Native section snapping for editorial pages. The browser owns the gesture:
- * there is no wheel interception or `snap-stop: always`, so tall sections remain
- * readable and the footer can still be reached as an end-aligned snap target.
+ * Opt editorial pages into native section snapping. CSS owns the snap geometry
+ * and reduced-motion override; the browser owns scrolling and input gestures.
  */
 type SnapStrength = 'mandatory' | 'proximity';
 
@@ -19,25 +18,17 @@ export function usePageSnap({
   strength = 'mandatory',
   mobileStrength,
 }: {
-  wheel?: boolean;
   strength?: SnapStrength;
   mobileStrength?: SnapStrength;
 } = {}): void {
   useEffect(() => {
     const root = document.documentElement;
-    const body = document.body;
-    const previous = {
-      rootSnap: root.style.scrollSnapType,
-      rootPadding: root.style.scrollPaddingTop,
-      bodySnap: body.style.scrollSnapType,
-    };
+    const previous = root.getAttribute('data-page-snap');
 
-    root.style.scrollPaddingTop = '0px';
     const mobile = window.matchMedia('(max-width: 767px)');
     const applyStrength = () => {
       const activeStrength = resolveSnapStrength(strength, mobileStrength, mobile.matches);
-      root.style.scrollSnapType = `y ${activeStrength}`;
-      body.style.scrollSnapType = `y ${activeStrength}`;
+      root.setAttribute('data-page-snap', activeStrength);
     };
 
     applyStrength();
@@ -47,9 +38,8 @@ export function usePageSnap({
     return () => {
       if (typeof mobile.removeEventListener === 'function') mobile.removeEventListener('change', applyStrength);
       else mobile.removeListener(applyStrength);
-      root.style.scrollSnapType = previous.rootSnap;
-      root.style.scrollPaddingTop = previous.rootPadding;
-      body.style.scrollSnapType = previous.bodySnap;
+      if (previous === null) root.removeAttribute('data-page-snap');
+      else root.setAttribute('data-page-snap', previous);
     };
   }, [mobileStrength, strength]);
 }

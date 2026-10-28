@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { COLLECTION_IMAGES, COLLECTION_SLUGS, FEATURED_SLUGS, GALLERY_IMAGES, GALLERY_SNAP } from './GalleryPage';
-import { resolveSnapStrength } from '../ui/usePageSnap';
+import { COLLECTION_IMAGES, COLLECTION_SLUGS, FEATURED_SLUGS, GALLERY_IMAGES } from './GalleryPage';
 
 describe('GalleryPage curation', () => {
   it('keeps the gallery tightly edited', () => {
@@ -40,14 +39,5 @@ describe('GalleryPage curation', () => {
       expect(image.alt.length).toBeGreaterThan(20);
       expect(image.title).not.toMatch(/^\d/);
     }
-  });
-
-  // Exercise the resolver as well as the page configuration so either can catch regressions.
-  it('never snaps a phone harder than a desktop', () => {
-    const onPhone = resolveSnapStrength(GALLERY_SNAP.strength, GALLERY_SNAP.mobileStrength, true);
-    const onDesktop = resolveSnapStrength(GALLERY_SNAP.strength, GALLERY_SNAP.mobileStrength, false);
-    expect(onPhone).toBe('proximity');
-    expect(onDesktop).toBe('proximity');
-    expect(onPhone).not.toBe('mandatory');
   });
 });

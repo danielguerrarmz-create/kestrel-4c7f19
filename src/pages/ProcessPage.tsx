@@ -4,8 +4,9 @@ import { srcSetFor } from '../ui/responsiveImg';
 import { selectedImage, selectedStudy, type SelectedStudy } from '../data/selectedImages';
 import './bower-direction.css';
 import './process-journey.css';
-import { useViewportSequence, useViewportVideo } from '../ui/useViewportPlayback';
+import { useViewportVideo } from '../ui/useViewportPlayback';
 import { usePageSnap } from '../ui/usePageSnap';
+import { SeasonalSequence } from './process/SeasonalSequence';
 
 function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   slug: SelectedStudy['slug'];
@@ -17,8 +18,6 @@ function ProcessImage({ slug, eager = false, sizes = '100vw' }: {
   return <img src={src} srcSet={srcSetFor(src)} sizes={sizes} alt={study.alt} loading={eager ? 'eager' : 'lazy'} />;
 }
 
-const closingFrames = ['25-new-bower', '26-growing-bower', '27-mature-bower', '28-winter-bower'] as const;
-
 const acts = [
   ['Conversation', 'Landscape, people, purpose.'],
   ['Founding Site Study', 'Four weeks · £65,000 GBP plus approved travel and project expenses.'],
@@ -28,13 +27,12 @@ const acts = [
 ] as const;
 
 export function ProcessPage() {
-  usePageSnap({ strength: 'proximity', mobileStrength: 'proximity' });
+  usePageSnap();
   const growthVideo = useViewportVideo();
-  const seasons = useViewportSequence<HTMLDivElement>();
   return <div className="process-editorial editorial-page">
     <EditorialHeader />
     <main>
-      <section className="process-editorial-hero" aria-labelledby="process-title">
+      <section data-snap-section className="process-editorial-hero" aria-labelledby="process-title">
         <div className="process-editorial-hero-copy">
           <h1 id="process-title">From landscape<br />to Bower.</h1>
           <p>The structure is finished once. The garden never is.</p>
@@ -42,16 +40,16 @@ export function ProcessPage() {
       </section>
 
       <section className="process-editorial-prologue" aria-labelledby="process-alive-title">
-        <div className="process-editorial-prologue-copy">
+        <div data-snap-section className="process-editorial-prologue-copy">
           <p>Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.</p>
           <h2 id="process-alive-title">None of them<br />finished. All of<br />them alive.</h2>
         </div>
         <figure data-snap-spread className="viewport-spread">
-          <ProcessImage slug="30-ancient-bower" sizes="100vw" eager />
+          <ProcessImage slug="21-woodland-bower" sizes="100vw" eager />
         </figure>
       </section>
 
-      <section className="process-editorial-evolution" aria-labelledby="process-growth-title">
+      <section data-snap-section className="process-editorial-evolution" aria-labelledby="process-growth-title">
         <div className="process-editorial-evolution-copy">
           <p>The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</p>
           <h2 id="process-growth-title">The garden continues<br />the architecture.</h2>
@@ -75,9 +73,7 @@ export function ProcessPage() {
       </section>
 
       <section id="process-transition" data-snap-spread className="process-editorial-close viewport-spread" aria-label="A Bower through four seasons">
-        <div ref={seasons.ref} className={`process-editorial-transition${seasons.active ? ' is-active' : ''}`}>
-          {closingFrames.map((slug, index) => <ProcessImage key={slug} slug={slug} sizes="100vw" eager={index === 0} />)}
-        </div>
+        <SeasonalSequence />
         <div className="process-editorial-close-copy">
           <h2>Every<br />landscape asks<br />for a different<br />answer.</h2>
           <a href="/contact">Begin with a conversation <span aria-hidden="true">→</span></a>

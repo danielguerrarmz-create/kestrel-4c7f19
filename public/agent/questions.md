@@ -134,25 +134,7 @@ Then in March it begins to disappear again.
 
 Begin by introducing the landscape.
 
-The first step is a short conversation with Clay to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.
-
-If there is, we propose a four-week Founding Site Study. The appointment begins once its scope is agreed, the agreement is signed and the first payment has been received. The study includes the property visit.
-
-It establishes:
-
-- The strongest location
-
-- One preliminary site-specific proposition
-
-- Likely planning and access constraints
-
-- Early structural and fabrication thinking
-
-- An indicative project range and programme
-
-- The recommended route into design
-
-The study concludes with a decision: proceed into Concept Design, pause, or conclude that a Bower does not belong there.
+The first step is a short conversation with Clay and Daniel to understand the property, what might happen within the Bower, who is involved in the decision and whether there is a credible fit.
 
 Clay Seifert
 

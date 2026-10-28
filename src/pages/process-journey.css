@@ -127,13 +127,6 @@
   text-transform: uppercase;
 }
 
-/* Process should settle into its full-screen frames, not trap a gesture at each
-   one. The global spread rule uses `always` for galleries; this longer narrative
-   needs the browser's gentler, velocity-aware proximity behavior. */
-.process-editorial [data-snap-spread] {
-  scroll-snap-stop: normal;
-}
-
 .process-editorial-evolution {
   display: grid;
   grid-template-columns: minmax(340px, .88fr) minmax(0, 1.12fr);
@@ -197,6 +190,9 @@
   }
 
   .process-editorial-acts.viewport-spread {
+    /* Keep every act readable on short screens and at larger text sizes. */
+    height: auto;
+    overflow: visible;
     align-items: center;
   }
 }
@@ -253,23 +249,26 @@
 }
 
 .process-editorial-transition {
-  display: grid;
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
   height: 100%;
-  background: #fff;
+  background: #354d40;
 }
 
-.process-editorial-transition img {
-  grid-area: 1 / 1;
+.process-season-frame {
+  position: absolute;
+  inset: 0;
   opacity: 0;
+}
+
+.process-season-frame.is-current { opacity: 1; }
+.process-season-frame.is-incoming {
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 1800ms cubic-bezier(.45, 0, .55, 1);
   will-change: opacity;
 }
-
-.process-editorial-transition img:first-child { opacity: 1; }
-.process-editorial-transition.is-active img { animation: process-season-transition 24s cubic-bezier(.45, 0, .55, 1) infinite; }
-.process-editorial-transition.is-active img:nth-child(1) { animation-delay: 0s; }
-.process-editorial-transition.is-active img:nth-child(2) { animation-delay: 6s; }
-.process-editorial-transition.is-active img:nth-child(3) { animation-delay: 12s; }
-.process-editorial-transition.is-active img:nth-child(4) { animation-delay: 18s; }
 
 .process-editorial-close::after {
   content: '';
@@ -312,12 +311,6 @@
 
 .process-editorial-close-copy a span { transition: transform 180ms ease; }
 .process-editorial-close-copy a:hover span { transform: translateX(6px); }
-
-@keyframes process-season-transition {
-  0%, 18% { opacity: 1; }
-  25%, 93% { opacity: 0; }
-  100% { opacity: 1; }
-}
 
 .process-editorial > footer {
   max-width: none;
@@ -415,7 +408,6 @@
   .process-editorial-acts.viewport-spread {
     height: auto;
     min-height: 0;
-    scroll-snap-align: none;
   }
 
   .process-editorial-acts > div { margin-bottom: 70px; }
@@ -448,6 +440,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .process-editorial-transition img { animation: none; }
-  .process-editorial-transition img:first-child { opacity: 1; }
+  .process-season-frame.is-incoming { transition: none; }
 }

@@ -50,7 +50,7 @@ export function QuestionsPage() {
   usePageSnap();
 
   return (
-    <div className="editorial-page min-h-screen bg-floralWhite text-[#11110e]">
+    <div className="editorial-page editorial-reading-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end px-gutter py-[clamp(5rem,10vw,10rem)]">
           <EditorialHeader />
@@ -86,18 +86,6 @@ export function QuestionsPage() {
               <div className="flex max-w-[42rem] flex-col gap-5 text-black/68">
                 <p className="font-serifDisplay text-[clamp(1.35rem,2vw,1.8rem)] leading-[1.35] text-black/88">{RING.opening}</p>
                 <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.first}</p>
-                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.appointment}</p>
-                <div className="pt-2">
-                  <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.leadIn}</p>
-                  <ul className="mt-4 border-t border-black/10">
-                    {RING.deliverables.map((deliverable) => (
-                      <li key={deliverable} className="border-b border-black/10 py-3 font-sans text-[10px] uppercase tracking-[0.12em] text-black/58">
-                        {deliverable}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <p className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62]">{RING.conclusion}</p>
               </div>
               <div className="mt-12 border-t border-black/10 pt-8">
                 <p className="font-serifDisplay text-[clamp(1.6rem,2.8vw,2.75rem)] leading-[1.08]">{CONTACT.name}</p>

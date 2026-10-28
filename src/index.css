@@ -67,13 +67,17 @@ body,
 html {
   scroll-padding-top: calc(var(--header-h) + 1rem);
 }
-html:has([data-snap-spread]) {
-  scroll-snap-type: y proximity;
+/* The page hook owns activation; snap markers never change section geometry. */
+html[data-page-snap] {
   scroll-padding-top: 0;
 }
-[data-snap-spread] {
+html[data-page-snap='mandatory'] { scroll-snap-type: y mandatory; }
+html[data-page-snap='proximity'] { scroll-snap-type: y proximity; }
+html[data-page-snap] :is([data-snap-section], [data-snap-spread]) {
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  /* Full-page sections land flush, including sections with fragment IDs. */
+  scroll-margin-block: 0;
 }
 .viewport-spread {
   width: 100%;
@@ -370,8 +374,8 @@ html.adaptive-cursor-active input[type='range'] {
   .editorial-header > div { gap: 10px; }
   .editorial-header nav { font-size: 12px; gap: 8px; letter-spacing: .09em; }
   .editorial-header a { min-height: 44px; display: flex; align-items: center; }
-  .editorial-page section[data-snap-section]:not(.home-hero):not(.home-landscape):not(.mobile-gallery-plate) { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
-  .editorial-page main > section[data-snap-section]:first-child:not(.home-hero):not(.gallery-intro) { padding-top: 190px; }
+  .editorial-reading-page section[data-snap-section] { min-height: auto; padding-top: 64px; padding-bottom: 64px; }
+  .editorial-reading-page main > section[data-snap-section]:first-child { padding-top: 190px; }
   .editorial-page .font-quote { font-size: clamp(44px, 12vw, 76px); line-height: .98; }
   .editorial-page .gallery-intro { min-height: 48svh !important; padding-top: 180px !important; padding-bottom: 40px !important; }
   .gallery-intro > div { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -449,7 +453,7 @@ html.adaptive-cursor-active input[type='range'] {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  html:has([data-snap-spread]) { scroll-snap-type: none; }
+  html[data-page-snap] { scroll-snap-type: none; }
 }
 @media (max-width: 767px) {
   .editorial-page section.mobile-material, .editorial-page .mobile-photo-story { display: block; height: auto; min-height: 0; padding: 0 !important; }

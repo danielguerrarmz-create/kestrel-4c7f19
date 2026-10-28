@@ -75,7 +75,7 @@ describe('the agent mirror is fresh', () => {
 
     // The expanded about: the founders and the work.
     const practice = practiceMirror();
-    expect(practice).toContain('A shared belief in living architecture.');
+    expect(practice).toContain('The obsession is old.');
     expect(practice).toContain('Clay Seifert');
     expect(practice).toContain('Daniel Guerra');
     expect(practice).toContain('Our mission');

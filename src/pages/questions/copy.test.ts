@@ -11,10 +11,6 @@ const allCopy = [
   RING.q,
   RING.opening,
   RING.first,
-  RING.appointment,
-  RING.leadIn,
-  ...RING.deliverables,
-  RING.conclusion,
 ].join(' ');
 
 describe('questions copy', () => {
@@ -77,10 +73,10 @@ describe('questions copy', () => {
     expect(allCopy.toLowerCase()).not.toContain('ground screw');
   });
 
-  it('provides the named domain contact and a Founding Site Study next step', () => {
+  it('provides the named domain contact and a conversation with both founders', () => {
     expect(CONTACT.email).toBe('clay@bowerbuild.org');
     expect(allCopy).toContain('four-week Founding Site Study');
-    expect(RING.deliverables).toHaveLength(6);
+    expect(RING.first).toContain('a short conversation with Clay and Daniel');
     expect(allCopy).not.toContain('gmail.com');
   });
 
