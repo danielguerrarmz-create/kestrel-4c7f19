@@ -145,6 +145,15 @@ describe('the agent mirror is fresh', () => {
     // shelved page from rotting; the second is what stops llms.txt handing out a dead link.
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(llmsTxt()).not.toContain('commissions.md');
+    const tech = techMirror();
+    expect(tech).toContain('From form');
+    expect(tech).toContain('to timber.');
+    expect(tech).toContain('None of the load cases has been solved yet.');
+    expect(tech).toContain('57 still to reconcile');
+    expect(tech).toContain('assigns no density or design mass');
+    expect(tech).toContain('not construction documents');
+    expect(tech).not.toContain('Technology at Bower');
+    expect(tech).not.toContain('Technical notes');
     expect(processMirror()).toContain('From landscape');
     expect(processMirror()).not.toContain('AI-generated material illustration');
     // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in

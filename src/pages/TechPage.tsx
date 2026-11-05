@@ -1,83 +1,278 @@
-import { useEffect, useRef, useState } from 'react';
 import { EditorialHeader } from '../ui/EditorialHeader';
 import { Footer } from '../ui/Footer';
 import { useReducedMotion } from '../ui/useReducedMotion';
 import { usePageSnap } from '../ui/usePageSnap';
-import { chapters } from './tech/content';
+import { useViewportVideo } from '../ui/useViewportPlayback';
+import { routes } from '../routing';
+import { chapters, type TechChapter, type TechImage, type TechStat, type TechTable } from './tech/content';
 import { imageSizes } from './tech/imageSizes';
 import './bower-direction.css';
 import './tech/tech.css';
 
-/** The portfolio's dated research record, presented in Bower's own editorial voice. */
+function chapter(id: string): TechChapter {
+  const found = chapters.find((item) => item.id === id);
+  if (!found) throw new Error(`Missing technology chapter ${id}`);
+  return found;
+}
+
+function stockDetail(count: string, section: string) {
+  if (section.endsWith(' long')) return `${count}. ${section.replace(/ long$/, '')} mm long`;
+  const radial = section.match(/^(\d+)\s+radial\s+x\s+(\d+)\s+normal$/);
+  if (radial) return `${count}. ${radial[1]} mm radial, ${radial[2]} mm normal`;
+  return `${count}. ${section} mm`;
+}
+
+function pairs<T>(items: readonly T[]): T[][] {
+  const rows: T[][] = [];
+  for (let i = 0; i < items.length; i += 2) rows.push(items.slice(i, i + 2));
+  return rows;
+}
+
+/** A drawing at its own size, opened at full resolution. Linework is never cropped. */
+function Plate({ image }: { image: TechImage }) {
+  const size = imageSizes[image.src];
+  return (
+    <figure>
+      <a href={image.src} target="_blank" rel="noopener" aria-label={`Open full size: ${image.alt}`}>
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={size?.[0]}
+          height={size?.[1]}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+      <figcaption>{image.caption}</figcaption>
+    </figure>
+  );
+}
+
 function AssemblyFilm() {
-  const ref = useRef<HTMLVideoElement>(null);
+  const ref = useViewportVideo();
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-  useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
-    if (reduced || paused) { video.pause(); return; }
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) void video.play().catch(() => undefined);
-      else video.pause();
-    }, { threshold: 0.2 });
-    observer.observe(video);
-    return () => { observer.disconnect(); video.pause(); };
-  }, [reduced, paused]);
-  return <figure className="tech-film">
-    {reduced ? <img src="/assets/tech/bower-assembly-sharp.webp" alt="Bower One timber assembly study" /> :
-      <video ref={ref} muted loop playsInline preload="none" poster="/assets/tech/bower-assembly-sharp.webp" aria-label="Bower One study assembling from steel feet and timber arches to its curved ribs">
-        <source src="/assets/tech/bower-assembly-480.av1.webm" media="(max-width: 640px)" type='video/webm; codecs="av01.0.04M.08"' />
-        <source src="/assets/tech/bower-assembly-480.mp4" media="(max-width: 640px)" type="video/mp4" />
-        <source src="/assets/tech/bower-assembly-720.av1.webm" type='video/webm; codecs="av01.0.05M.08"' />
-        <source src="/assets/tech/bower-assembly-720.mp4" type="video/mp4" />
-      </video>}
-    <figcaption>{!reduced && <button type="button" onClick={() => setPaused(!paused)} aria-label={paused ? 'Play assembly study' : 'Pause assembly study'}>{paused ? 'Play' : 'Pause'}</button>}</figcaption>
-  </figure>;
+  const size = imageSizes['/assets/tech/bower-assembly-sharp.webp'];
+  return (
+    <figure className="tech-film">
+      {reduced ? (
+        <img
+          src="/assets/tech/bower-assembly-sharp.webp"
+          alt="Bower One timber assembly study"
+          width={size?.[0]}
+          height={size?.[1]}
+        />
+      ) : (
+        <video
+          ref={ref}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/assets/tech/bower-assembly-sharp.webp"
+          width={size?.[0]}
+          height={size?.[1]}
+          aria-label="Bower One study assembling from steel feet and timber arches to its curved ribs"
+        >
+          <source src="/assets/tech/bower-assembly-480.av1.webm" media="(max-width: 640px)" type='video/webm; codecs="av01.0.04M.08"' />
+          <source src="/assets/tech/bower-assembly-480.mp4" media="(max-width: 640px)" type="video/mp4" />
+          <source src="/assets/tech/bower-assembly-720.av1.webm" type='video/webm; codecs="av01.0.05M.08"' />
+          <source src="/assets/tech/bower-assembly-720.mp4" type="video/mp4" />
+        </video>
+      )}
+    </figure>
+  );
+}
+
+function Facts({ stats }: { stats: readonly TechStat[] }) {
+  return (
+    <div className="tech-facts">
+      {stats.map((stat) => (
+        <p key={stat.value}>
+          {stat.value} {stat.label}.{stat.note ? ` ${stat.note}.` : ''}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function Schedules({ tables, label }: { tables: readonly TechTable[]; label: string }) {
+  return (
+    <details className="tech-schedules">
+      <summary>{label}</summary>
+      <div className="tech-table-grid">
+        {tables.map((table) => (
+          <div className="tech-table-wrap" key={table.caption} role="region" aria-label={table.caption} tabIndex={0}>
+            <table>
+              <caption>{table.caption}</caption>
+              <thead>
+                <tr>{table.columns.map((col) => <th key={col} scope="col">{col}</th>)}</tr>
+              </thead>
+              <tbody>
+                {table.rows.map((row) => (
+                  <tr key={row.cells.join('|')}>
+                    {row.cells.map((cell, index) => (
+                      index === 0 ? <th key={index} scope="row">{cell}</th> : <td key={index}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+    </details>
+  );
 }
 
 export function TechPage() {
   usePageSnap();
-  return <div className="tech-page editorial-page">
-    <EditorialHeader />
-    <main id="tech-main">
-      <section data-snap-section className="tech-opening" aria-labelledby="tech-title">
-        <div className="tech-opening-copy">
-          <h1 id="tech-title">Technology at Bower</h1>
-          <p className="tech-intro">Our design engine turns the form of a Bower into named timber parts, detailed joints and a model for engineering review.</p>
-          <a className="tech-link" href="#engine">Explore the engine <span aria-hidden="true">↓</span></a>
-        </div>
-        <AssemblyFilm />
-      </section>
-      <div className="tech-index-wrap">
-        <nav className="tech-index" aria-label="Technology chapters">{chapters.map(c => <a key={c.id} href={`#${c.id}`}>{c.kicker}</a>)}</nav>
-        <p className="tech-study-note">A record of our design studies. Model dimensions and quantities refer to the revisions shown. These are not built structures or construction documents.</p>
-      </div>
-      {chapters.map(chapter => <section data-snap-section key={chapter.id} id={chapter.id} className={`tech-chapter tech-chapter--${chapter.id}`} aria-labelledby={`tech-${chapter.id}`}>
-        <div className="tech-copy">
-          <h2 id={`tech-${chapter.id}`}>{chapter.heading}</h2>
-          <p>{chapter.summary}</p>
-          {chapter.stats && <dl className="tech-stats">{chapter.stats.map(stat => <div key={stat.value}><dt>{stat.value}</dt><dd>{stat.label}{stat.note && <small>{stat.note}</small>}</dd></div>)}</dl>}
-          {chapter.status && <p className="tech-revision">{chapter.status}</p>}
-        </div>
-        <div className="tech-evidence">
-          {chapter.images.length > 0 && <div className={`tech-images tech-images--${chapter.id}`}>
-            {chapter.images.map(img => <figure key={img.src} className={'span' in img && img.span === 'wide' ? 'tech-image-wide' : undefined}>
-              <a href={img.src} target="_blank" rel="noopener" aria-label={`Open full size: ${img.alt}`}><img src={img.src} alt={img.alt} width={imageSizes[img.src]?.[0]} height={imageSizes[img.src]?.[1]} loading="lazy" decoding="async" /></a>
-              <figcaption>{img.caption}</figcaption>
-            </figure>)}
-          </div>}
-          {chapter.tables && <details className="tech-schedules" open={chapter.id === 'stock'}><summary>Load schedules</summary><div className="tech-table-grid">{chapter.tables.map(table => <div className="tech-table-wrap" key={table.caption} role="region" aria-label={table.caption} tabIndex={0}>
-            <table><caption>{table.caption}</caption><thead><tr>{table.columns.map(col => <th key={col} scope="col">{col}</th>)}</tr></thead>
-              <tbody>{table.rows.map((row,i) => <tr key={i}>{row.cells.map((cell,j) => j === 0 ? <th key={j} scope="row">{cell}</th> : <td key={j}>{cell}</td>)}</tr>)}</tbody>
-            </table>
-          </div>)}</div></details>}
-          {chapter.study && <aside className="tech-review"><h3>{chapter.study.title}</h3><ul>{chapter.study.points.map(point => <li key={point}>{point}</li>)}</ul><p className="tech-revision">{chapter.study.source}</p></aside>}
-          {chapter.body.some(p => p !== chapter.summary) && <details className="tech-detail"><summary>Technical notes</summary>{chapter.body.filter(p => p !== chapter.summary).map(p => <p key={p}>{p}</p>)}</details>}
-        </div>
-      </section>)}
+  const engine = chapter('engine');
+  const surface = chapter('surface');
+  const stock = chapter('stock');
+  const joints = chapter('joints');
+  const checks = chapter('checks');
+  const structure = chapter('structure');
+  const stockRows = stock.tables?.flatMap((table) => table.rows) ?? [];
 
-    </main>
-    <Footer />
-  </div>;
+  return (
+    <div className="tech-editorial editorial-page">
+      <EditorialHeader />
+      <main>
+        <section data-snap-section className="tech-hero" aria-labelledby="tech-title">
+          <div className="tech-hero-copy">
+            <h1 id="tech-title">From form<br />to timber.</h1>
+            <p>A curved lattice the garden completes.</p>
+            <p className="tech-study">These pages are a record of design studies. The figures belong to the revisions shown. They are not construction documents.</p>
+          </div>
+        </section>
+
+        <section id="engine" data-snap-section className="tech-engine" aria-labelledby="tech-engine">
+          <div className="tech-engine-copy">
+            <p>{engine.summary}</p>
+            <h2 id="tech-engine">Every part<br />has a name.</h2>
+            {engine.stats && <Facts stats={engine.stats} />}
+            {engine.status && <p className="tech-status">{engine.status}</p>}
+            <p className="tech-caveat">{engine.body[2]}</p>
+            <details className="tech-notes">
+              <summary>How a part is closed</summary>
+              <p>{engine.body[0]}</p>
+              <p>{engine.body[1]}</p>
+            </details>
+          </div>
+          <AssemblyFilm />
+        </section>
+
+        <section aria-labelledby="tech-surface">
+          <div id="surface" data-snap-section className="tech-prologue">
+            <p>{surface.summary}</p>
+            <h2 id="tech-surface">Curved<br />both ways.</h2>
+          </div>
+          {surface.images[0] && (
+            <div data-snap-section className="tech-plate">
+              <Plate image={surface.images[0]} />
+            </div>
+          )}
+          <div data-snap-section className="tech-pair">
+            <div className="tech-pair-copy">
+              {surface.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {surface.status && <p className="tech-status">{surface.status}</p>}
+            </div>
+            <div className="tech-pair-grid">
+              {engine.images.map((image) => <Plate key={image.src} image={image} />)}
+            </div>
+          </div>
+        </section>
+
+        <section id="stock" data-snap-section className="tech-acts" aria-labelledby="tech-stock">
+          <div className="tech-acts-copy">
+            <h2 id="tech-stock">One section<br />to a family.</h2>
+            <p>{stock.summary}</p>
+          </div>
+          <div>
+            <ol>
+              {stockRows.map((row) => (
+                <li key={row.cells[0]}>
+                  <h3>{row.cells[0]}</h3>
+                  <p>{stockDetail(row.cells[1], row.cells[2])}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="tech-caveat">{stock.body[0]}</p>
+            {stock.tables && <Schedules tables={stock.tables} label="The measured schedule" />}
+          </div>
+        </section>
+
+        <section aria-labelledby="tech-joints">
+          <div id="joints" data-snap-section className="tech-prologue tech-prologue--text">
+            <div>
+              <p>{joints.summary}</p>
+              {joints.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
+            <h2 id="tech-joints">Measured<br />sections.</h2>
+          </div>
+          {pairs(joints.images).map((row) => (
+            <div data-snap-section className="tech-joints-row" key={row[0].src}>
+              {row.map((image) => <Plate key={image.src} image={image} />)}
+            </div>
+          ))}
+        </section>
+
+        <section id="checks" data-snap-section className="tech-acts" aria-labelledby="tech-checks">
+          <div className="tech-acts-copy">
+            <h2 id="tech-checks">What geometry<br />can prove.</h2>
+            {checks.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {checks.status && <p className="tech-status">{checks.status}</p>}
+          </div>
+          <div>
+            {checks.stats && <Facts stats={checks.stats} />}
+            {checks.study && (
+              <>
+                <h3 className="tech-review-title">{checks.study.title}</h3>
+                <ol>
+                  {checks.study.points.map((point) => {
+                    const split = point.indexOf(': ');
+                    const title = split === -1 ? point : point.slice(0, split);
+                    const rest = split === -1 ? '' : point.slice(split + 2);
+                    return (
+                      <li key={point}>
+                        <h3>{title}</h3>
+                        {rest && <p>{rest}</p>}
+                      </li>
+                    );
+                  })}
+                </ol>
+                <p className="tech-status">{checks.study.source}</p>
+              </>
+            )}
+          </div>
+        </section>
+
+        <section aria-labelledby="tech-structure">
+          <div id="structure" data-snap-section className="tech-prologue tech-prologue--text">
+            <div>
+              <p>{structure.summary}</p>
+              {structure.stats && <Facts stats={structure.stats} />}
+              {structure.status && <p className="tech-status">{structure.status}</p>}
+            </div>
+            <h2 id="tech-structure">Waiting<br />on analysis.</h2>
+          </div>
+          {structure.images[0] && (
+            <div data-snap-section className="tech-plate">
+              <Plate image={structure.images[0]} />
+            </div>
+          )}
+          <div data-snap-section className="tech-reading">
+            {structure.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {structure.tables && <Schedules tables={structure.tables} label="Load cases and combinations" />}
+          </div>
+        </section>
+
+        <section data-snap-section className="tech-close" aria-labelledby="tech-close">
+          <h2 id="tech-close">The garden<br />does the rest.</h2>
+          <a href={routes.contact}>Begin with a conversation <span aria-hidden="true">→</span></a>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
 }

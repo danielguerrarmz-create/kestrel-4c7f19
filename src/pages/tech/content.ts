@@ -1,15 +1,48 @@
 // Dated design studies, not fabrication approvals.
-export const chapters = [
+export type TechImage = {
+  src: string;
+  caption: string;
+  alt: string;
+  plate?: boolean;
+  span?: string;
+  group?: string;
+  groupLabel?: string;
+  groupCols?: number;
+};
+
+export type TechTable = {
+  caption: string;
+  columns: string[];
+  rows: { cells: string[]; highlight?: boolean }[];
+};
+
+export type TechStat = { value: string; label: string; note?: string };
+
+export type TechChapter = {
+  id: string;
+  kicker: string;
+  heading: string;
+  summary: string;
+  body: string[];
+  images: TechImage[];
+  layout?: string;
+  status?: string;
+  stats?: TechStat[];
+  tables?: TechTable[];
+  study?: { status: string; title: string; points: string[]; source: string };
+};
+
+export const chapters: TechChapter[] = [
   {
     "id": "engine",
     "kicker": "The engine",
-    "heading": "Design engine",
+    "heading": "Every part has a name",
     "layout": "system",
     "status": "Bower One at revision R13 · 15 September 2026",
-    "summary": "The engine models timber parts, joints and fasteners, measures their quantities, and prepares drawings for engineering review.",
+    "summary": "We draw the lattice. The engine names every piece for engineering review.",
     "body": [
-      "The engine starts from a relaxed, doubly curved surface and ends with named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.",
-      "Rib curves are projected onto the surface at 10 mm plan spacing; constant timber sections are lofted along each and closed as valid solids at 0.01 mm tolerance in Rhino 7; tongues, receivers, pegs, keys, knife plates, bolts and anchors each get a modeled clearance; then the model is loaded, checked and handed to an engineer with plans, elevations, measured sections and open questions.",
+      "The engine starts from a relaxed surface, curved in both directions, and ends with named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.",
+      "Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each get a modeled clearance. The model is then loaded, checked and handed to an engineer with plans, elevations, measured sections and open questions.",
       "Every dimension describes the model. Timber properties, fabrication and structural performance are left to be confirmed, and the package says so on every page."
     ],
     "stats": [
@@ -27,13 +60,13 @@ export const chapters = [
     "images": [
       {
         "src": "/assets/tech/bower-engine-one-plan.webp",
-        "caption": "Plan, R13: two families of 40 ribs between four arches",
+        "caption": "Plan, revision R13. Two families of 40 ribs between four arches.",
         "alt": "Plan view of Bower One: a square footprint with two crossing families of curved ribs around a central ring",
         "plate": true
       },
       {
         "src": "/assets/tech/bower-engine-one-elevation.webp",
-        "caption": "Elevation, R13: timber base at 250 mm, ring at 5,400 mm",
+        "caption": "Elevation, revision R13. Timber base at 250 mm. The ring sits at 5,400 mm.",
         "alt": "Elevation of Bower One showing the bowed arches, the rib lattice and the tilted ring",
         "plate": true
       }
@@ -41,9 +74,9 @@ export const chapters = [
   },
   {
     "id": "surface",
-    "kicker": "Doubly curved",
-    "heading": "Surface geometry",
-    "summary": "Two crossing rib families follow a doubly curved surface. This earlier Bower Three study tests 64 ribs across an 11.7 m canopy.",
+    "kicker": "Surface",
+    "heading": "Curved both ways",
+    "summary": "Two families of ribs follow one surface, curved in both directions.",
     "body": [
       "The ribs follow a surface that curves in both directions. In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across, with an oculus tilted 12 degrees at the crown.",
       "Bower One carries the same idea into a jointed design: four bowed arches, 40 ribs each way and a ring tilted 16 degrees, with a clear bore of 1,440 mm."
@@ -51,7 +84,7 @@ export const chapters = [
     "images": [
       {
         "src": "/assets/tech/bower-engine-three-perspective.webp",
-        "caption": "Bower Three, revision R01: a form and stock study, 64 ribs and an oculus",
+        "caption": "Bower Three, revision R01. A form and stock study: 64 ribs and an oculus.",
         "alt": "Rhino model view of Bower Three: a relaxed canopy on four feet, two crossing families of ribs and an oculus at the top",
         "plate": true,
         "span": "wide"
@@ -63,10 +96,10 @@ export const chapters = [
   {
     "id": "stock",
     "kicker": "Material",
-    "heading": "Timber and steel",
-    "summary": "Constant timber sections, with local cuts at each joint. Species, grade and moisture remain subject to engineering review.",
+    "heading": "One section to a family",
+    "summary": "Timber and steel. One constant section for each family, cut only at the joint.",
     "body": [
-      "Each family of parts has one constant section, cut locally at its joints. The model measures volumes; it leaves species, grade and moisture for the timber engineer and assigns no density or design mass."
+      "Each family of parts has one constant section, cut locally at its joints. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass."
     ],
     "images": [],
     "tables": [
@@ -152,9 +185,9 @@ export const chapters = [
   },
   {
     "id": "joints",
-    "kicker": "Joints and fasteners",
-    "heading": "Connection details",
-    "summary": "Four connection types, sectioned directly through the model. Dimensions describe the study, not an approved fabrication fit.",
+    "kicker": "Joints",
+    "heading": "Measured sections",
+    "summary": "Four connections, sectioned through the model. The dimensions describe this study, not an approved fit.",
     "body": [
       "Ribs meet the arches with a 54 x 100 mm tongue and a 20 mm peg, in a receiver 0.6 mm larger. They meet the ring with headed keys, and they cross each other on 12 x 22 mm fitted keys.",
       "Bower One carries 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit."
@@ -162,7 +195,7 @@ export const chapters = [
     "images": [
       {
         "src": "/assets/tech/bower-engine-section-foot.webp",
-        "caption": "Foot: arch heel, knife plates, M20 bolts, base plate",
+        "caption": "The foot of an arch. Heel, knife plates, M20 bolts and a base plate.",
         "alt": "Measured section through the foot of an arch, showing the timber heel, two steel knife plates with bolts, a base plate and the concrete reference",
         "plate": true,
         "group": "sections",
@@ -171,21 +204,21 @@ export const chapters = [
       },
       {
         "src": "/assets/tech/bower-engine-section-rib-to-arch.webp",
-        "caption": "Rib to arch: 54 x 100 tongue, 150 projection, 20 mm peg",
+        "caption": "A rib meeting an arch. A 54 x 100 mm tongue, 150 mm of projection, a 20 mm peg.",
         "alt": "Measured section of a rib tongue entering an arch receiver, with its peg",
         "plate": true,
         "group": "sections"
       },
       {
         "src": "/assets/tech/bower-engine-section-rib-to-ring.webp",
-        "caption": "Rib to ring: two tiers of tongues, headed keys, keepers",
+        "caption": "A rib meeting the ring. Two tiers of tongues, headed keys and keepers.",
         "alt": "Measured section through the ring at a rib station, showing ring sectors, tongues, keys and keepers",
         "plate": true,
         "group": "sections"
       },
       {
         "src": "/assets/tech/bower-engine-section-rib-crossing.webp",
-        "caption": "Rib crossing: a 12 x 22 fitted key through both ribs",
+        "caption": "Two ribs crossing. A 12 x 22 mm fitted key through both.",
         "alt": "Oblique section through a rib crossing with a timber key through both ribs",
         "plate": true,
         "group": "sections"
@@ -196,7 +229,7 @@ export const chapters = [
   {
     "id": "checks",
     "kicker": "Checks",
-    "heading": "Geometry checks",
+    "heading": "What geometry can prove",
     "layout": "system",
     "status": "A 12 page review package, 15 September 2026 · structural results pending",
     "summary": "The engine checks closed solids, measures part contact and reconciles rib crossings against the joint schedule.",
@@ -230,14 +263,14 @@ export const chapters = [
   },
   {
     "id": "structure",
-    "kicker": "Structural tests",
-    "heading": "Structural model",
+    "kicker": "Structure",
+    "heading": "Waiting on analysis",
     "layout": "system",
     "status": "Gridshell study, model export of 3 September 2026 · results pending the engineer",
     "summary": "This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 load cases. None of the load cases has been solved yet.",
     "body": [
-      "The engine also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations, each one labelled with how much is known: measured, assumed, scoping only, or pending.",
-      "It applies the grown plant cases to the model as 53,212 nodal loads over 26,606 nodes, each node carrying its share of the surface, and the totals reproduce the cases exactly. It runs 11 forming checks over 43,239 points along the laths: 7 pass, 3 fail and 1 is retired. None of the load cases has been solved; that analysis is the engineer’s, and the combinations stay pending until the dead load is fixed."
+      "The engine also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.",
+      "It applies the grown plant cases to the model as 53,212 nodal loads over 26,606 nodes. Each node carries its share of the surface, and the totals reproduce the cases exactly. It runs 11 forming checks over 43,239 points along the laths: 7 pass, 3 fail and 1 is retired. None of the load cases has been solved. That analysis is for the engineer, and the combinations stay pending until the dead load is fixed."
     ],
     "stats": [
       {
@@ -254,7 +287,7 @@ export const chapters = [
     "images": [
       {
         "src": "/assets/tech/bower-engine-gridshell-load-lc4.webp",
-        "caption": "Load case LC4, grown plant high: 44.7 kN applied to 26,606 nodes of the gridshell model; one arrow in seventy drawn, supports in black",
+        "caption": "Load case LC4, grown plant, high. 44.7 kN on 26,606 nodes of the gridshell. One arrow in seventy is drawn. Supports are black.",
         "alt": "Axonometric line drawing of the gridshell model with vertical load arrows on its nodes and four square supports",
         "plate": true
       }

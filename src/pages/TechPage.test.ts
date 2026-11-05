@@ -32,8 +32,16 @@ describe('Bower technology page', () => {
     expect(html).not.toContain('id="garden"');
     expect(html).not.toContain('What stays open for the engineer');
     expect(html).not.toContain('class="tech-label"');
-    expect(html).toContain('Technology at Bower</h1>');
-    expect(html).toContain('Pause assembly study');
+    expect(html).toContain('From form');
+    expect(html).toContain('to timber.');
+    expect(html).toContain('record of design studies');
+    expect(html).toContain('not construction documents');
+    expect(html).not.toContain('Technology at Bower');
+    expect(html).not.toContain('Technical notes');
+    expect(html).not.toContain('Pause');
+    expect(html).toContain('aria-label="Bower One study assembling from steel feet and timber arches to its curved ribs"');
     expect(html).not.toContain('autoplay=""');
+    expect(html).not.toMatch(/[—–]/);
+    expect(html).not.toMatch(/\barchitects?\b/i);
   });
 });
