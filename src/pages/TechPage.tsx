@@ -173,15 +173,15 @@ export function TechPage() {
               <Plate image={surface.images[0]} />
             </div>
           )}
-          <div data-snap-section className="tech-pair">
-            <div className="tech-pair-copy">
-              {surface.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              {surface.status && <p className="tech-status">{surface.status}</p>}
-            </div>
-            <div className="tech-pair-grid">
-              {engine.images.map((image) => <Plate key={image.src} image={image} />)}
-            </div>
+          <div data-snap-section className="tech-reading">
+            {surface.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {surface.status && <p className="tech-status">{surface.status}</p>}
           </div>
+          {engine.images.map((image) => (
+            <div data-snap-section className="tech-plate" key={image.src}>
+              <Plate image={image} />
+            </div>
+          ))}
         </section>
 
         <section id="stock" data-snap-section className="tech-acts" aria-labelledby="tech-stock">

@@ -126,7 +126,6 @@
 .tech-facts p,
 .tech-caveat,
 .tech-reading > p,
-.tech-pair-copy > p,
 .tech-acts-copy > p {
   max-width: 42ch;
   font-size: 18px;
@@ -201,31 +200,11 @@
   margin-inline: auto;
 }
 
-.tech-pair {
-  display: flex;
-  min-height: 100svh;
-  flex-direction: column;
-  justify-content: center;
-  gap: 28px;
-  padding: 56px 7vw;
-  box-sizing: border-box;
-}
-
-.tech-pair-copy { display: grid; gap: 16px; }
-
-.tech-pair-grid,
 .tech-joints-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 4vw, 64px);
   align-items: end;
-}
-
-.tech-pair img {
-  width: auto;
-  max-width: 100%;
-  max-height: min(34svh, 320px);
-  margin-inline: auto;
 }
 
 .tech-joints-row img {
@@ -453,7 +432,6 @@
   }
 
   .tech-plate,
-  .tech-pair,
   .tech-acts,
   .tech-reading,
   .tech-joints-row,
@@ -462,8 +440,6 @@
   .tech-plate { min-height: 100svh; }
   .tech-plate img { max-height: calc(100svh - 160px); }
 
-  .tech-pair { min-height: 0; gap: 28px; }
-  .tech-pair-grid,
   .tech-joints-row,
   .tech-acts ol,
   .tech-table-grid { grid-template-columns: 1fr; }
@@ -478,8 +454,7 @@
     gap: 40px;
   }
 
-  .tech-joints-row img,
-  .tech-pair img { max-height: 58svh; }
+  .tech-joints-row img { max-height: 58svh; }
 
   .tech-acts { min-height: 0; gap: 36px; }
   .tech-reading { min-height: 0; }
