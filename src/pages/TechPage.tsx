@@ -71,7 +71,7 @@ function AssemblyFilm() {
           poster="/assets/tech/bower-assembly-sharp.webp"
           width={size?.[0]}
           height={size?.[1]}
-          aria-label="Bower One study assembling from steel feet and timber arches to its curved ribs"
+          aria-label="Bower One assembly study: steel feet, timber arches, and the curved ribs"
         >
           <source src="/assets/tech/bower-assembly-480.av1.webm" media="(max-width: 640px)" type='video/webm; codecs="av01.0.04M.08"' />
           <source src="/assets/tech/bower-assembly-480.mp4" media="(max-width: 640px)" type="video/mp4" />
@@ -140,9 +140,9 @@ export function TechPage() {
       <main>
         <section data-snap-section className="tech-hero" aria-labelledby="tech-title">
           <div className="tech-hero-copy">
-            <h1 id="tech-title">From form<br />to timber.</h1>
-            <p>A curved lattice the garden completes.</p>
-            <p className="tech-study">These pages are a record of design studies. The figures belong to the revisions shown. They are not construction documents.</p>
+            <h1 id="tech-title">Technology<br />at Bower.</h1>
+            <p>We model a curved timber lattice. The garden grows through it.</p>
+            <p className="tech-study">These are design studies. The figures belong to the revisions named here. They are not construction documents.</p>
           </div>
         </section>
 
@@ -185,7 +185,7 @@ export function TechPage() {
 
         <section id="stock" data-snap-section className="tech-acts" aria-labelledby="tech-stock">
           <div className="tech-acts-copy">
-            <h2 id="tech-stock">One section<br />to a family.</h2>
+            <h2 id="tech-stock">One section<br />per family.</h2>
             <p>{stock.summary}</p>
           </div>
           <div>
@@ -254,7 +254,7 @@ export function TechPage() {
               {structure.stats && <Facts stats={structure.stats} />}
               {structure.status && <p className="tech-status">{structure.status}</p>}
             </div>
-            <h2 id="tech-structure">Waiting<br />on analysis.</h2>
+            <h2 id="tech-structure">None solved<br />yet.</h2>
           </div>
           {structure.images[0] && (
             <div data-snap-section className="tech-plate">

@@ -146,13 +146,15 @@ describe('the agent mirror is fresh', () => {
     expect(commissionsMirror()).toContain('What a Bower makes possible');
     expect(llmsTxt()).not.toContain('commissions.md');
     const tech = techMirror();
-    expect(tech).toContain('From form');
-    expect(tech).toContain('to timber.');
+    expect(tech).toContain('Technology');
+    expect(tech).toContain('at Bower.');
+    expect(tech).not.toContain('From form');
+    expect(tech).not.toContain('to timber');
+    expect(tech).not.toContain('One section to a family');
     expect(tech).toContain('None of the load cases has been solved yet.');
     expect(tech).toContain('57 still to reconcile');
     expect(tech).toContain('assigns no density or design mass');
     expect(tech).toContain('not construction documents');
-    expect(tech).not.toContain('Technology at Bower');
     expect(tech).not.toContain('Technical notes');
     expect(processMirror()).toContain('From landscape');
     expect(processMirror()).not.toContain('AI-generated material illustration');

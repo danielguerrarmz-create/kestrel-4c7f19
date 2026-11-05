@@ -39,11 +39,11 @@ export const chapters: TechChapter[] = [
     "heading": "Every part has a name",
     "layout": "system",
     "status": "Bower One at revision R13 · 15 September 2026",
-    "summary": "We draw the lattice. The engine names every piece for engineering review.",
+    "summary": "We name every timber, joint and fastener, then prepare a model for engineering review.",
     "body": [
-      "The engine starts from a relaxed surface, curved in both directions, and ends with named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.",
-      "Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each get a modeled clearance. The model is then loaded, checked and handed to an engineer with plans, elevations, measured sections and open questions.",
-      "Every dimension describes the model. Timber properties, fabrication and structural performance are left to be confirmed, and the package says so on every page."
+      "The model uses a relaxed surface, curved in both directions. It produces named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.",
+      "Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each receive a modeled clearance. We then load the model, check it, and give an engineer the plans, elevations, measured sections and open questions.",
+      "Every dimension describes the model. Timber properties, fabrication and structural performance are still to be confirmed. The package says so on every page."
     ],
     "stats": [
       {
@@ -76,15 +76,15 @@ export const chapters: TechChapter[] = [
     "id": "surface",
     "kicker": "Surface",
     "heading": "Curved both ways",
-    "summary": "Two families of ribs follow one surface, curved in both directions.",
+    "summary": "Two rib families lie on one surface. That surface curves in both directions.",
     "body": [
-      "The ribs follow a surface that curves in both directions. In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across, with an oculus tilted 12 degrees at the crown.",
-      "Bower One carries the same idea into a jointed design: four bowed arches, 40 ribs each way and a ring tilted 16 degrees, with a clear bore of 1,440 mm."
+      "In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across. An oculus at the crown tilts 12 degrees.",
+      "Bower One uses that surface in a jointed model: four bowed arches, 40 ribs each way, a ring tilted 16 degrees, and a clear bore of 1,440 mm."
     ],
     "images": [
       {
         "src": "/assets/tech/bower-engine-three-perspective.webp",
-        "caption": "Bower Three, revision R01. A form and stock study: 64 ribs and an oculus.",
+        "caption": "Bower Three, revision R01. Form and stock study. 64 ribs and an oculus.",
         "alt": "Rhino model view of Bower Three: a relaxed canopy on four feet, two crossing families of ribs and an oculus at the top",
         "plate": true,
         "span": "wide"
@@ -96,10 +96,10 @@ export const chapters: TechChapter[] = [
   {
     "id": "stock",
     "kicker": "Material",
-    "heading": "One section to a family",
-    "summary": "Timber and steel. One constant section for each family, cut only at the joint.",
+    "heading": "One section per family",
+    "summary": "Timber and steel each keep one constant section. The cut is only at the joint.",
     "body": [
-      "Each family of parts has one constant section, cut locally at its joints. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass."
+      "Each family keeps one constant section. The joint is a local cut. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass."
     ],
     "images": [],
     "tables": [
@@ -187,10 +187,10 @@ export const chapters: TechChapter[] = [
     "id": "joints",
     "kicker": "Joints",
     "heading": "Measured sections",
-    "summary": "Four connections, sectioned through the model. The dimensions describe this study, not an approved fit.",
+    "summary": "Four connections, cut as sections through the model. The sizes belong to this study. They are not an approved fit.",
     "body": [
-      "Ribs meet the arches with a 54 x 100 mm tongue and a 20 mm peg, in a receiver 0.6 mm larger. They meet the ring with headed keys, and they cross each other on 12 x 22 mm fitted keys.",
-      "Bower One carries 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit."
+      "Ribs meet the arches on a 54 x 100 mm tongue and a 20 mm peg. The receiver is 0.6 mm larger. Ribs meet the ring on headed keys. Ribs cross on 12 x 22 mm fitted keys.",
+      "Bower One has 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit."
     ],
     "images": [
       {
@@ -232,9 +232,9 @@ export const chapters: TechChapter[] = [
     "heading": "What geometry can prove",
     "layout": "system",
     "status": "A 12 page review package, 15 September 2026 · structural results pending",
-    "summary": "The engine checks closed solids, measures part contact and reconciles rib crossings against the joint schedule.",
+    "summary": "The model checks closed solids, measures contact between parts, and reconciles rib crossings against the joint schedule.",
     "body": [
-      "Before any analysis, the engine checks what geometry can prove: every solid is valid and closed, contact between parts is measured, and every rib crossing is reconciled against the joint records. What it cannot prove is written down as a question for the engineer.",
+      "Before any analysis, the model checks what geometry can prove. Every solid is valid and closed. Contact between parts is measured. Every rib crossing is reconciled against the joint records. What it cannot prove is written down as a question for the engineer.",
       "Nothing here is construction ready. The package is for design review only."
     ],
     "stats": [
@@ -264,12 +264,12 @@ export const chapters: TechChapter[] = [
   {
     "id": "structure",
     "kicker": "Structure",
-    "heading": "Waiting on analysis",
+    "heading": "None solved yet",
     "layout": "system",
     "status": "Gridshell study, model export of 3 September 2026 · results pending the engineer",
     "summary": "This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 load cases. None of the load cases has been solved yet.",
     "body": [
-      "The engine also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.",
+      "The model also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.",
       "It applies the grown plant cases to the model as 53,212 nodal loads over 26,606 nodes. Each node carries its share of the surface, and the totals reproduce the cases exactly. It runs 11 forming checks over 43,239 points along the laths: 7 pass, 3 fail and 1 is retired. None of the load cases has been solved. That analysis is for the engineer, and the combinations stay pending until the dead load is fixed."
     ],
     "stats": [

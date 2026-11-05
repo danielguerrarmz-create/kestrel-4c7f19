@@ -119,9 +119,9 @@ const META: Record<ProductionTarget, PageMeta> = {
   tech: {
     path: routes.tech,
     title: 'Bower - Technology',
-    description: 'A record of design studies, from a curved surface to named timber parts, joints, and questions still open for engineering review.',
-    ogTitle: 'From form to timber',
-    ogDescription: 'Design studies of a curved timber lattice: geometry, material, joints and the questions left open.',
+    description: 'Technology at Bower: design studies of a curved timber lattice, its joints, its material, and the questions still open for engineering review.',
+    ogTitle: 'Technology at Bower',
+    ogDescription: 'Design studies of a curved timber lattice, the joints, the material and the questions still open.',
   },
   contact: {
     path: routes.contact,

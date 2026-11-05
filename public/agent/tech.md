@@ -16,14 +16,14 @@
 
 [Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
-# From form
-to timber.
+# Technology
+at Bower.
 
-A curved lattice the garden completes.
+We model a curved timber lattice. The garden grows through it.
 
-These pages are a record of design studies. The figures belong to the revisions shown. They are not construction documents.
+These are design studies. The figures belong to the revisions named here. They are not construction documents.
 
-We draw the lattice. The engine names every piece for engineering review.
+We name every timber, joint and fastener, then prepare a model for engineering review.
 
 ## Every part
 has a name.
@@ -34,15 +34,15 @@ has a name.
 
 Bower One at revision R13 · 15 September 2026
 
-Every dimension describes the model. Timber properties, fabrication and structural performance are left to be confirmed, and the package says so on every page.
+Every dimension describes the model. Timber properties, fabrication and structural performance are still to be confirmed. The package says so on every page.
 
 How a part is closed
 
-The engine starts from a relaxed surface, curved in both directions, and ends with named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.
+The model uses a relaxed surface, curved in both directions. It produces named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.
 
-Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each get a modeled clearance. The model is then loaded, checked and handed to an engineer with plans, elevations, measured sections and open questions.
+Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each receive a modeled clearance. We then load the model, check it, and give an engineer the plans, elevations, measured sections and open questions.
 
-Two families of ribs follow one surface, curved in both directions.
+Two rib families lie on one surface. That surface curves in both directions.
 
 ## Curved
 both ways.
@@ -53,11 +53,11 @@ both ways.
 
 ](/assets/tech/bower-engine-three-perspective.webp)
 
-Bower Three, revision R01. A form and stock study: 64 ribs and an oculus.
+Bower Three, revision R01. Form and stock study. 64 ribs and an oculus.
 
-The ribs follow a surface that curves in both directions. In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across, with an oculus tilted 12 degrees at the crown.
+In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across. An oculus at the crown tilts 12 degrees.
 
-Bower One carries the same idea into a jointed design: four bowed arches, 40 ribs each way and a ring tilted 16 degrees, with a clear bore of 1,440 mm.
+Bower One uses that surface in a jointed model: four bowed arches, 40 ribs each way, a ring tilted 16 degrees, and a clear bore of 1,440 mm.
 
 Historical form studies: Bower One R13 and Bower Three R01
 
@@ -78,9 +78,9 @@ Plan, revision R13. Two families of 40 ribs between four arches.
 Elevation, revision R13. Timber base at 250 mm. The ring sits at 5,400 mm.
 
 ## One section
-to a family.
+per family.
 
-Timber and steel. One constant section for each family, cut only at the joint.
+Timber and steel each keep one constant section. The cut is only at the joint.
 
 -
 
@@ -130,7 +130,7 @@ Timber and steel. One constant section for each family, cut only at the joint.
 
 16. 890 mm long
 
-Each family of parts has one constant section, cut locally at its joints. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass.
+Each family keeps one constant section. The joint is a local cut. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass.
 
 The measured schedule
 
@@ -158,11 +158,11 @@ M20 heel bolts8478 long
 
 M24 anchors16890 long
 
-Four connections, sectioned through the model. The dimensions describe this study, not an approved fit.
+Four connections, cut as sections through the model. The sizes belong to this study. They are not an approved fit.
 
-Ribs meet the arches with a 54 x 100 mm tongue and a 20 mm peg, in a receiver 0.6 mm larger. They meet the ring with headed keys, and they cross each other on 12 x 22 mm fitted keys.
+Ribs meet the arches on a 54 x 100 mm tongue and a 20 mm peg. The receiver is 0.6 mm larger. Ribs meet the ring on headed keys. Ribs cross on 12 x 22 mm fitted keys.
 
-Bower One carries 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit.
+Bower One has 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit.
 
 ## Measured
 sections.
@@ -202,7 +202,7 @@ Two ribs crossing. A 12 x 22 mm fitted key through both.
 ## What geometry
 can prove.
 
-Before any analysis, the engine checks what geometry can prove: every solid is valid and closed, contact between parts is measured, and every rib crossing is reconciled against the joint records. What it cannot prove is written down as a question for the engineer.
+Before any analysis, the model checks what geometry can prove. Every solid is valid and closed. Contact between parts is measured. Every rib crossing is reconciled against the joint records. What it cannot prove is written down as a question for the engineer.
 
 Nothing here is construction ready. The package is for design review only.
 
@@ -248,8 +248,8 @@ This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 
 
 Gridshell study, model export of 3 September 2026 · results pending the engineer
 
-## Waiting
-on analysis.
+## None solved
+yet.
 
 [
 
@@ -259,7 +259,7 @@ on analysis.
 
 Load case LC4, grown plant, high. 44.7 kN on 26,606 nodes of the gridshell. One arrow in seventy is drawn. Supports are black.
 
-The engine also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.
+The model also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.
 
 It applies the grown plant cases to the model as 53,212 nodal loads over 26,606 nodes. Each node carries its share of the surface, and the totals reproduce the cases exactly. It runs 11 forming checks over 43,239 points along the laths: 7 pass, 3 fail and 1 is retired. None of the load cases has been solved. That analysis is for the engineer, and the combinations stay pending until the dead load is fixed.
 
