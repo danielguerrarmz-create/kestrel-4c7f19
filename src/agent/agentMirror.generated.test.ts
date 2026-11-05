@@ -11,6 +11,7 @@ import {
   llmsTxt,
   commissionsMirror,
   processMirror,
+  techMirror,
   contactMirror,
   pressMirror,
   privacyMirror,
@@ -47,6 +48,7 @@ const FILES: ReadonlyArray<{ rel: string; fresh: () => string }> = [
   // longer generated or published either; `public/agent/commissions.md` was deleted in the same
   // change. Same treatment, same reasoning as `/houses` above.
   { rel: 'agent/process.md', fresh: processMirror },
+  { rel: 'agent/tech.md', fresh: techMirror },
   { rel: 'agent/contact.md', fresh: contactMirror },
   { rel: 'agent/press.md', fresh: pressMirror },
   { rel: 'agent/privacy.md', fresh: privacyMirror },

@@ -55,6 +55,7 @@ import { PracticePage } from './pages/PracticePage';
 import { GalleryPage } from './pages/GalleryPage';
 import { QuestionsPage } from './pages/QuestionsPage';
 import { ProcessPage } from './pages/ProcessPage';
+import { TechPage } from './pages/TechPage';
 import { ContactPage } from './pages/ContactPage';
 import { PressPage } from './pages/PressPage';
 import { PrivacyPage } from './pages/PrivacyPage';
@@ -105,6 +106,7 @@ export function Root() {
   if (target === 'practice') return <PracticePage />;
   if (target === 'gallery') return <GalleryPage />;
   if (target === 'process') return <ProcessPage />;
+  if (target === 'tech') return <TechPage />;
   if (target === 'contact') return <ContactPage />;
   if (target === 'press') return <PressPage />;
   if (target === 'privacy') return <PrivacyPage />;

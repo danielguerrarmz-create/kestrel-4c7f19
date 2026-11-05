@@ -4,6 +4,7 @@
 #   /agent/home.md       home
 #   /agent/gallery.md    gallery
 #   /agent/process.md    commissioning process
+#   /agent/tech.md       curved timber technology studies
 #   /agent/contact.md    founding commission contact
 #   /agent/press.md      press and editorial enquiries
 #   /agent/privacy.md    privacy notice

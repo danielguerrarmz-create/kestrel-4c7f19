@@ -15,7 +15,7 @@ export function resolveSnapStrength(
 }
 
 export function usePageSnap({
-  strength = 'mandatory',
+  strength = 'proximity',
   mobileStrength,
 }: {
   strength?: SnapStrength;

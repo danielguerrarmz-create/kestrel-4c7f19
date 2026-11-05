@@ -75,14 +75,14 @@ html[data-page-snap='mandatory'] { scroll-snap-type: y mandatory; }
 html[data-page-snap='proximity'] { scroll-snap-type: y proximity; }
 html[data-page-snap] :is([data-snap-section], [data-snap-spread]) {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
   /* Full-page sections land flush, including sections with fragment IDs. */
   scroll-margin-block: 0;
 }
 .viewport-spread {
   width: 100%;
   height: 100svh;
-  height: 100dvh;
+  /* Stable while mobile browser controls expand and collapse. */
   min-height: 0;
   overflow: hidden;
 }

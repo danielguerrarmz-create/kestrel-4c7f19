@@ -13,7 +13,7 @@ describe('Bower homepage', () => {
     expect(html).not.toContain('Enter the world');
   });
   it('states the purpose and invites readers to commission one of the first Bowers', () => {
-    expect(html).toContain('<p>We build architecture that gives living systems agency in determining what it becomes.</p>');
+    expect(html).toContain('<p>The timber gives the garden a structure. The planting gives it a life of its own.</p>');
     expect(html).toContain('Concept visualisation');
     expect(html).toContain('<h2>Begin.</h2>');
     expect(html).toContain('These are the first Bowers. Yours could be among them.');

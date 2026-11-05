@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 ![Concept visualisation of a public exhibition arranged inside a planted garden Bower](/assets/selected/04-garden-exhibition.webp)
 
@@ -40,19 +40,19 @@ A long lunch.
 An hour alone.
 A reason to stay outside.
 
-A Bower makes room for the intimate, inhabited life of a landscape. Somewhere between the individual and the group, ordinary experience and ceremony.
+A place to gather, or to be alone. Built for the garden and the life around it.
 
 ![Concept visualisation of a family gathering beneath a planted timber Bower in summer](/assets/selected/09-summer-family.webp)
 
 ## Nature becomes one of the authors.
 
-We build architecture that gives living systems agency in determining what it becomes.
+The timber gives the garden a structure. The planting gives it a life of its own.
 
 ![Aerial concept visualisation of a timber Bower within an estate garden](/assets/selected/10-estate-aerial.webp)
 
 ## A room for the life around it.
 
-For celebrations of love, performances that linger after the final note and ideas passed from one generation to the next. A Bower gives the garden a centre, then lets life and landscape make it their own.
+For celebrations, performances and everyday gatherings. A centre for the garden, shaped by the life around it.
 
 [View the gallery](/gallery)
 

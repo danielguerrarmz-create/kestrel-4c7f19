@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 # The obsession is old.
 
@@ -45,7 +45,7 @@ Our mission
 assembled for
 one place.
 
-Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
+We lead each commission from the first conversation to long-term care, bringing together the engineering, fabrication, planning and landscape specialists the site needs.
 
 [Contact Bower](/contact)
 

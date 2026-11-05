@@ -266,6 +266,7 @@ export const routes = {
   commissions: '/commissions',
   /** The five-stage route from first conversation to long-term stewardship. */
   process: '/process',
+  tech: '/tech',
   /** Direct founding-commission enquiry. */
   contact: '/contact',
   /** A quiet, footer-only route for journalists and editors. */
@@ -316,6 +317,7 @@ export const PUBLIC_ROUTES: readonly string[] = [
   routes.home,
   routes.gallery,
   routes.process,
+  routes.tech,
   routes.about,
   routes.practice,
   routes.contact,
@@ -384,6 +386,7 @@ export type RouteTarget =
   | 'gallery'
   | 'commissions'
   | 'process'
+  | 'tech'
   | 'contact'
   | 'press'
   | 'privacy'
@@ -404,6 +407,7 @@ export function resolveRoute(path: string, dev: boolean): RouteTarget {
   if (path === routes.about) return 'about';
   if (path === routes.gallery) return 'gallery';
   if (path === routes.process) return 'process';
+  if (path === routes.tech) return 'tech';
   if (path === routes.contact) return 'contact';
   if (path === routes.press) return 'press';
   if (path === routes.privacy) return 'privacy';

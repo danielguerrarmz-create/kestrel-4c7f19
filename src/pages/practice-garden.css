@@ -463,7 +463,7 @@
   font-size: clamp(66px, 9vw, 145px);
   line-height: 1.08;
   letter-spacing: -.045em;
-  transform: translateX(clamp(12px, 1.5vw, 28px));
+  transform: none;
 }
 .practice-minimal-opening-copy {
   width: 100%;
@@ -481,13 +481,13 @@
   text-transform: uppercase;
   color: #536151;
 }
-.practice-minimal-founders { padding: 150px 8vw 170px; }
+.practice-minimal-founders { min-height: 100svh; padding: 64px 7vw; display: flex; flex-direction: column; justify-content: center; }
 .practice-minimal-founders > header {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 7vw;
   align-items: start;
-  margin-bottom: 115px;
+  margin-bottom: 48px;
 }
 .practice-minimal-founders > header h2 { grid-column: 2; }
 .practice-minimal-founders h2,
@@ -498,16 +498,18 @@
   letter-spacing: -.04em;
 }
 .practice-minimal-founder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7vw; align-items: start; }
-.practice-minimal-founder-grid article { display: grid; grid-template-columns: 210px 1fr; gap: 34px; align-items: start; }
-.practice-minimal-founder-grid img { width: 210px; aspect-ratio: 4/5; object-fit: cover; filter: grayscale(1); }
+.practice-minimal-founder-grid article { display: grid; grid-template-columns: minmax(96px, .65fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.practice-minimal-founder-grid img { width: 100%; max-width: 210px; aspect-ratio: 4/5; object-fit: cover; filter: grayscale(1); }
 .practice-minimal-founder-grid h3 { font-size: 34px; line-height: 1.08; }
 .practice-minimal-founder-bio { margin-top: 26px; max-width: 33ch; font: 19px/1.65 "Source Serif 4 Variable", Georgia, serif; }
 .practice-minimal-role { margin-top: 10px; font: 11px/1.5 Inter, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #536151; }
 .practice-minimal-mission {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(520px, .9fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  min-height: 100svh;
+  align-items: center;
   gap: 6vw;
-  padding: clamp(300px, 24vw, 380px) 4vw clamp(180px, 14vw, 240px);
+  padding: 64px 7vw;
 }
 .practice-minimal-mission h2 { max-width: none; font-size: clamp(58px, 5.6vw, 86px); line-height: .95; }
 .practice-minimal-mission .practice-minimal-kicker + h2 { margin-top: 24px; }
@@ -518,7 +520,7 @@
 }
 .practice-minimal-mission .practice-minimal-kicker { color: #2d4035; }
 .practice-minimal-mission a { display: inline-block; margin-top: 35px; padding-bottom: 8px; border-bottom: 1px solid currentColor; font: 16px/1.4 Inter, Arial, sans-serif; }
-.practice-minimal-mission-list { align-self: start; display: grid; grid-template-columns: 1fr 1fr; gap: 42px 42px; margin: clamp(225px, 21vw, 298px) 0 0; padding: 0; list-style: none; }
+.practice-minimal-mission-list { align-self: center; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin: 0; padding: 0; list-style: none; }
 .practice-minimal-mission-list li { min-width: 0; }
 .practice-minimal-mission-list p { max-width: 29ch; margin-top: 12px; font: 600 12px/1.55 Inter, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #1d2c24; }
 .practice-minimal-mission-list strong { font: 29px/1.15 "Source Serif 4 Variable", Georgia, serif; font-weight: 400; }
@@ -527,8 +529,10 @@
 .practice-minimal > footer a { color: inherit; }
 @media (max-width: 900px) {
   .practice-minimal-founder-grid { gap: 7vw; }
-  .practice-minimal-founder-grid article { grid-template-columns: 160px 1fr; gap: 24px; }
-  .practice-minimal-founder-grid img { width: 160px; }
+  .practice-minimal-founder-grid article { grid-template-columns: 96px minmax(0, 1fr); gap: 20px; }
+  .practice-minimal-founder-grid img { width: 96px; }
+  .practice-minimal-founder-grid h3 { font-size: 30px; }
+  .practice-minimal-founder-bio { font-size: 18px; }
 }
 @media (max-width: 1000px) {
   .practice-minimal-mission { grid-template-columns: 1fr; gap: 55px; }
@@ -546,23 +550,25 @@
     font-size: clamp(54px, 15vw, 76px);
     transform: none;
   }
-  .practice-minimal-founders { padding: 100px 6vw 120px; }
+  .practice-minimal-founders { padding: 64px 6vw; }
   .practice-minimal-founders > header,
   .practice-minimal-mission { grid-template-columns: 1fr; gap: 45px; }
   .practice-minimal-founders > header h2 { grid-column: 1; }
-  .practice-minimal-founders > header { margin-bottom: 80px; }
+  .practice-minimal-founders > header { margin-bottom: 40px; }
   .practice-minimal-founders h2,
   .practice-minimal-mission h2 { font-size: clamp(44px, 12vw, 64px); }
-  .practice-minimal-founder-grid { grid-template-columns: 1fr; gap: 80px; }
+  .practice-minimal-founder-grid { grid-template-columns: 1fr; gap: 40px; }
   .practice-minimal-founder-grid article { grid-template-columns: 96px 1fr; gap: 24px; }
   .practice-minimal-founder-grid img { width: 96px; }
   .practice-minimal-founder-grid h3 { font-size: 30px; }
   .practice-minimal-founder-bio { font-size: 18px; }
-  .practice-minimal-mission { padding: 220px 6vw 150px; }
+  .practice-minimal-mission { padding: 64px 6vw; }
   .practice-minimal-mission-statement > p:not(.practice-minimal-kicker) { margin-top: 32px; font-size: 20px; }
-  .practice-minimal-mission-list { grid-template-columns: 1fr; gap: 38px; }
+  .practice-minimal-mission-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
+  .practice-minimal-mission-list strong { font-size: 24px; }
+  .practice-minimal-mission-list p { font-size: 11px; letter-spacing: .03em; }
   .practice-minimal-mission-list strong,
   .practice-minimal-mission-list p {
-    color: rgba(255, 255, 255, .94);
+    color: var(--practice-ink);
   }
 }

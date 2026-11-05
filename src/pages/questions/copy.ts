@@ -124,7 +124,7 @@ export const QUESTIONS: readonly QA[] = [
     q: 'How large is a Bower?',
     a: [
       'The smallest is a room for one table. The largest can hold an audience: a reading, a concert, dinner for a house party.',
-      'Size is settled early, with the landscape, because the span of the frame and the number of people beneath it decide the structure, the planning route and the cost.',
+      'Size is settled early: the span and number of people shape the structure, planning route and cost.',
     ],
   },
   {
@@ -277,7 +277,7 @@ export const QUESTIONS: readonly QA[] = [
     a: [
       'Soil, roots, buried services and the route to the site all influence the foundations and the installation strategy, so we will not promise a method before walking the ground.',
       'The Founding Site Study assesses the likely approach. Surveys and detailed foundation design follow later if the project proceeds.',
-      'The work needs a working area and a route for deliveries, agreed beforehand and made good afterwards. The lawn is part of the project, not the price of it.',
+      'The working area and delivery route are agreed beforehand and made good afterwards.',
     ],
   },
   {
@@ -304,8 +304,8 @@ export const QUESTIONS: readonly QA[] = [
     a: [
       'The earliest founding installations are being planned for 2027, subject to site, consent and fabrication requirements.',
       'The programme includes the Founding Site Study, planning, technical design, fabrication and erection. The Founding Site Study provides a preliminary programme. The construction date is confirmed only after the planning, engineering and fabrication route is sufficiently resolved.',
-      'The structure goes up in summer, when the ground is dry enough to bring a crew across a lawn without marking it. Planting follows separately, and autumn is the best moment for it, because climbers root through the winter and come away strongly in their first spring.',
-      'You can sit in it the week it goes up. That first year it is a timber structure, and a handsome one. You won’t see the room it was drawn to be until the third summer.',
+      'Installation is planned for dry ground in summer. Planting follows separately, ideally in autumn so roots can establish through winter.',
+      'The timber room can be used from installation; the planted room develops over the first three summers.',
     ],
   },
   {
@@ -313,10 +313,9 @@ export const QUESTIONS: readonly QA[] = [
     q: 'Who prunes it?',
     a: [
       'For the first three years after planting, its growth is actively guided. Where a property has its own gardener or grounds team, we work with them and gradually hand over the routine care.',
-      'That isn’t maintenance, it’s the second half of the building work. The climbers are tied in, trained along the lattice and pruned to hold the shape. Left alone, you get a green mound. The training is what keeps the drawing.',
+      'Climbers are tied in, trained along the lattice and pruned to hold the shape.',
       'Every commission includes a separately priced three-year stewardship plan. Its cost depends on the planting, scale, location and whether care is undertaken by Bower’s landscape partner or the property’s own grounds team.',
       'After the third year, one visit annually.',
-      'And these are ordinary climbers in your own soil, not a wall on life support. If nobody comes for six months, nothing dies. It simply grows where it likes.',
     ],
   },
   {
@@ -324,10 +323,8 @@ export const QUESTIONS: readonly QA[] = [
     q: 'What does it look like in February?',
     a: [
       'Like a drawing held in the air.',
-      'The leaves fall and give you back the timber: the whole woven lattice, bare, frost along the top of every lath. That’s four months of the year, so it is designed to be worth looking at empty.',
-      'Not that it’s empty. We plant for winter deliberately: something evergreen threaded through, rose hips, clematis seedheads, the peeling bark of a honeysuckle. The timber silvers as it ages and sits better against a grey sky than any stain would.',
-      'The lattice bare and lit is a different room from the lattice in leaf, and it is a room that exists in November and January, when the garden is otherwise closed.',
-      'Then in March it begins to disappear again.',
+      'When the leaves fall, the woven timber lattice becomes visible again.',
+      'Evergreen planting, rose hips, seedheads and bark give winter its own character. The timber silvers with age.',
     ],
   },
 ];
@@ -358,5 +355,5 @@ export const INTRO = {
   eyebrow: 'Questions',
   title: 'Questions we’re asked',
   standfirst:
-    'Whether you need permission, what it does to a lawn, how long before you are sitting in it, and what a commission involves.',
+    'Planning, timing, care and what a commission involves.',
 } as const;

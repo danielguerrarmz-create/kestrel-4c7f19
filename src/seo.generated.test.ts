@@ -62,7 +62,7 @@ describe('the sitemap is fresh', () => {
     // Every published mirror is named, so adding a page cannot silently leave one unlisted.
     // `houses` left 2026-08-04 (dev-only, mirror ungenerated); `press` joined the same day.
     // `commissions` left 2026-09-03 (dev-only, same reason).
-    const PUBLISHED = ['home', 'gallery', 'process', 'contact', 'press', 'privacy', 'questions', 'about', 'practice'];
+    const PUBLISHED = ['home', 'gallery', 'process', 'tech', 'contact', 'press', 'privacy', 'questions', 'about', 'practice'];
     for (const md of PUBLISHED) {
       expect(robots).toContain(`/agent/${md}.md`);
     }

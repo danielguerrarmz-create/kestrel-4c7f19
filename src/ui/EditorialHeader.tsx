@@ -4,6 +4,7 @@ import "./EditorialHeader.css";
 const LINKS = [
   { href: routes.gallery, label: "Works", mobileLabel: "Works" },
   { href: routes.process, label: "Process", mobileLabel: "Process" },
+  { href: routes.tech, label: "Technology", mobileLabel: "Technology" },
   { href: routes.practice, label: "Practice", mobileLabel: "Practice" },
   { href: routes.contact, label: "Contact", mobileLabel: "Contact" },
 ] as const;

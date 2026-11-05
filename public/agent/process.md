@@ -14,14 +14,14 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 # From landscape
 to Bower.
 
 The structure is finished once. The garden never is.
 
-Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
+A hollow under a beech. A cave mouth above a beach. A path beneath an arch of hedge.
 
 ## None of them
 finished. All of
@@ -29,7 +29,7 @@ them alive.
 
 ![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
 
-The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
+Timber, then leaves, then a room of blossom.
 
 ## The garden continues
 the architecture.

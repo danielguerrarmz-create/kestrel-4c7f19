@@ -41,6 +41,7 @@ import { QuestionsPage } from '../pages/QuestionsPage';
 import { HousesPage } from '../pages/HousesPage';
 import { CommissionsPage } from '../pages/CommissionsPage';
 import { ProcessPage } from '../pages/ProcessPage';
+import { TechPage } from '../pages/TechPage';
 import { ContactPage } from '../pages/ContactPage';
 import { PressPage } from '../pages/PressPage';
 import { PrivacyPage } from '../pages/PrivacyPage';
@@ -283,6 +284,10 @@ export function commissionsMirror(): string {
   return PREAMBLE('the Bower commissions page (`/commissions`)', 'Bower — commissions') + render(CommissionsPage) + '\n';
 }
 
+export function techMirror(): string {
+  return PREAMBLE('the Bower technology page (`/tech`)', 'Bower - technology') + render(TechPage) + '\n';
+}
+
 export function processMirror(): string {
   return PREAMBLE('the Bower process page (`/process`)', 'Bower — process') + render(ProcessPage) + '\n';
 }
@@ -315,6 +320,7 @@ export function llmsTxt(): string {
 
 - [Home](/agent/home.md): the work in time, one concept study, evidence of making and the invitation
 - [Gallery](/agent/gallery.md): concept studies of Bowers in gardens, gatherings and cultural landscapes
+- [Technology](/agent/tech.md): curved timber geometry, joints, material and engineering studies
 - [Process](/agent/process.md): conversation, feasibility, design, making and stewardship
 - [Contact](/agent/contact.md): discuss a founding commission with Clay Seifert
 - [Press](/agent/press.md): press and editorial enquiries
@@ -332,7 +338,7 @@ export function llmsTxt(): string {
   old hash link still redirects to the new path), but each one serves the same HTML shell and
   needs JavaScript to render.
 - Images referenced in the mirrors are root-relative and fetchable directly.
-- \`/sitemap.xml\` lists the nine public URLs.
+- \`/sitemap.xml\` lists the public URLs, including the technology page.
 - The gallery images are concept studies and concept visualisations, not photographs of
   built work, and the site says so.
 - Bower has built nothing yet. Every image on the site is a rendering.

@@ -1,0 +1,34 @@
+/* Content frames may grow; image spreads keep their deliberate full-screen crop.
+   Native proximity snapping never intercepts wheel, touch or keyboard input. */
+.bower-site :is(.inhabit-copy, .bower-belief, .making-door, .founding-invitation--quiet) {
+  min-height: 100svh;
+  padding-block: clamp(56px, 8svh, 88px);
+  align-content: center;
+}
+.bower-site .founding-invitation--quiet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bower-site .making-door img { max-height: calc(100svh - 128px); }
+.questions-page .question-frame { min-height: 100svh; }
+.questions-page .question-frame h2 { font-size: clamp(36px, 4.2vw, 64px); }
+.questions-page h2 { max-width: none; overflow-wrap: anywhere; }
+.questions-page #ring h2 { font-size: clamp(36px, 4.2vw, 64px); }
+.questions-page main > section:first-child { min-height: 100svh; padding-block: 140px 64px; }
+.press-page main > section:first-child { min-height: 100svh; padding-block: 130px 64px; }
+.press-page h1 { overflow-wrap: anywhere; }
+
+@media (max-width: 767px) {
+  /* Longer forms, tables and prose remain in normal flow rather than shrinking type. */
+  .questions-page .question-frame { min-height: 0; padding-block: 56px; }
+  .questions-page .question-frame > div { gap: 28px; }
+  .questions-page #ring h2 { font-size: clamp(36px, 10vw, 48px); }
+  .bower-site .making-door { padding: 0; }
+  .bower-site .making-door img { max-height: none; }
+  .bower-site .object-in-time { min-height: 100svh; justify-content: center; padding-block: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-page-snap] { scroll-behavior: auto; scroll-snap-type: none; }
+}
