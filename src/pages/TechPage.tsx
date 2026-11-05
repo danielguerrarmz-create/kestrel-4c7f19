@@ -79,6 +79,7 @@ function AssemblyFilm() {
           <source src="/assets/tech/bower-assembly-720.mp4" type="video/mp4" />
         </video>
       )}
+      <figcaption>Bower One assembly study.</figcaption>
     </figure>
   );
 }
@@ -144,6 +145,7 @@ export function TechPage() {
             <p>We model a curved timber lattice. The garden grows through it.</p>
             <p className="tech-study">These are design studies. The figures belong to the revisions named here. They are not construction documents.</p>
           </div>
+          <AssemblyFilm />
         </section>
 
         <section id="engine" data-snap-section className="tech-engine" aria-labelledby="tech-engine">
@@ -159,7 +161,6 @@ export function TechPage() {
               <p>{engine.body[1]}</p>
             </details>
           </div>
-          <AssemblyFilm />
         </section>
 
         <section aria-labelledby="tech-surface">

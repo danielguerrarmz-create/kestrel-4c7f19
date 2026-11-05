@@ -23,6 +23,8 @@ We model a curved timber lattice. The garden grows through it.
 
 These are design studies. The figures belong to the revisions named here. They are not construction documents.
 
+Bower One assembly study.
+
 We name every timber, joint and fastener, then prepare a model for engineering review.
 
 ## Every part

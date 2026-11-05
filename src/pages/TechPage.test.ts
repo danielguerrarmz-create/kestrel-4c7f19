@@ -41,6 +41,9 @@ describe('Bower technology page', () => {
     expect(html).not.toContain('Technical notes');
     expect(html).not.toContain('Pause');
     expect(html).toContain('aria-label="Bower One assembly study: steel feet, timber arches, and the curved ribs"');
+    expect(html.indexOf('class="tech-hero"')).toBeLessThan(html.indexOf('<video '));
+    expect(html.indexOf('<video ')).toBeLessThan(html.indexOf('id="engine"'));
+    expect(html.match(/<video /g)).toHaveLength(1);
     const visible = html.replace(/<[^>]+>/g, ' ');
     expect(visible).not.toMatch(/\bfrom\b.{0,80}\bto\b/i);
     expect(html).not.toContain('autoplay=""');
