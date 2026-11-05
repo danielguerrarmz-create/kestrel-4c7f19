@@ -38,9 +38,12 @@ describe('Bower technology page', () => {
     expect(html).not.toContain('to timber');
     expect(html).not.toContain('One section to a family');
     expect(html).toContain('not construction documents');
+    expect(html).not.toContain('These are design studies.');
+    expect(html).not.toContain('Bower One assembly study');
     expect(html).not.toContain('Technical notes');
     expect(html).not.toContain('Pause');
-    expect(html).toContain('aria-label="Bower One assembly study: steel feet, timber arches, and the curved ribs"');
+    expect(html).toContain('aria-label="Steel feet, timber arches, and curved ribs in the Bower One model"');
+    expect(html.match(/data-snap-section/g)?.length).toBe(7);
     expect(html.indexOf('class="tech-hero"')).toBeLessThan(html.indexOf('<video '));
     expect(html.indexOf('<video ')).toBeLessThan(html.indexOf('id="engine"'));
     expect(html.match(/<video /g)).toHaveLength(1);

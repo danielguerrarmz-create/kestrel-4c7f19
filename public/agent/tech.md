@@ -21,14 +21,10 @@ at Bower.
 
 We model a curved timber lattice. The garden grows through it.
 
-These are design studies. The figures belong to the revisions named here. They are not construction documents.
-
-Bower One assembly study.
-
-We name every timber, joint and fastener, then prepare a model for engineering review.
-
 ## Every part
 has a name.
+
+We name every timber, joint and fastener, then prepare a model for engineering review. Every dimension describes the model. Timber properties, fabrication and structural performance are still to be confirmed. The package says so on every page. These studies are not construction documents.
 
 939 closed model parts. 92 primary timbers.
 
@@ -36,32 +32,11 @@ has a name.
 
 Bower One at revision R13 · 15 September 2026
 
-Every dimension describes the model. Timber properties, fabrication and structural performance are still to be confirmed. The package says so on every page.
-
 How a part is closed
 
 The model uses a relaxed surface, curved in both directions. It produces named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.
 
 Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each receive a modeled clearance. We then load the model, check it, and give an engineer the plans, elevations, measured sections and open questions.
-
-Two rib families lie on one surface. That surface curves in both directions.
-
-## Curved
-both ways.
-
-[
-
-![Rhino model view of Bower Three: a relaxed canopy on four feet, two crossing families of ribs and an oculus at the top](/assets/tech/bower-engine-three-perspective.webp)
-
-](/assets/tech/bower-engine-three-perspective.webp)
-
-Bower Three, revision R01. Form and stock study. 64 ribs and an oculus.
-
-In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across. An oculus at the crown tilts 12 degrees.
-
-Bower One uses that surface in a jointed model: four bowed arches, 40 ribs each way, a ring tilted 16 degrees, and a clear bore of 1,440 mm.
-
-Historical form studies: Bower One R13 and Bower Three R01
 
 [
 
@@ -79,10 +54,26 @@ Plan, revision R13. Two families of 40 ribs between four arches.
 
 Elevation, revision R13. Timber base at 250 mm. The ring sits at 5,400 mm.
 
-## One section
-per family.
+[
 
-Timber and steel each keep one constant section. The cut is only at the joint.
+![Rhino model view of Bower Three: a relaxed canopy on four feet, two crossing families of ribs and an oculus at the top](/assets/tech/bower-engine-three-perspective.webp)
+
+](/assets/tech/bower-engine-three-perspective.webp)
+
+Bower Three, revision R01. Form and stock study. 64 ribs and an oculus.
+
+## Curved
+both ways.
+
+In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across. An oculus at the crown tilts 12 degrees.
+
+Bower One uses that surface in a jointed model: four bowed arches, 40 ribs each way, a ring tilted 16 degrees, and a clear bore of 1,440 mm.
+
+Historical form studies: Bower One R13 and Bower Three R01
+
+### One section per family.
+
+Each family keeps one constant section. The joint is a local cut. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass.
 
 -
 
@@ -132,8 +123,6 @@ Timber and steel each keep one constant section. The cut is only at the joint.
 
 16. 890 mm long
 
-Each family keeps one constant section. The joint is a local cut. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass.
-
 The measured schedule
 
 Bower One, R13 stock
@@ -160,14 +149,12 @@ M20 heel bolts8478 long
 
 M24 anchors16890 long
 
-Four connections, cut as sections through the model. The sizes belong to this study. They are not an approved fit.
+## Measured
+sections.
 
 Ribs meet the arches on a 54 x 100 mm tongue and a 20 mm peg. The receiver is 0.6 mm larger. Ribs meet the ring on headed keys. Ribs cross on 12 x 22 mm fitted keys.
 
 Bower One has 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit.
-
-## Measured
-sections.
 
 [
 
@@ -214,8 +201,6 @@ A 12 page review package, 15 September 2026 · structural results pending
 
 14 contact residuals left open, and listed.
 
-### Engineering review
-
 -
 
 ### Foot
@@ -242,28 +227,16 @@ restraint, slip and rotation.
 
 Bower engineer review package D09, 15 September 2026
 
-This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 load cases. None of the load cases has been solved yet.
+## None solved
+yet.
+
+This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 load cases. None of the load cases has been solved yet. On this earlier gridshell of 263 timber laths, the model also writes 5 combinations. It runs 11 forming checks over 43,239 points: 7 pass, 3 fail and 1 is retired. The combinations stay pending until the dead load is fixed.
 
 10 load cases. 1 measured, 4 assumed, 3 scoping, 2 pending.
 
 53,212 nodal loads across two plant cases. Totals 17.9 and 44.7 kN, exactly.
 
 Gridshell study, model export of 3 September 2026 · results pending the engineer
-
-## None solved
-yet.
-
-[
-
-![Axonometric line drawing of the gridshell model with vertical load arrows on its nodes and four square supports](/assets/tech/bower-engine-gridshell-load-lc4.webp)
-
-](/assets/tech/bower-engine-gridshell-load-lc4.webp)
-
-Load case LC4, grown plant, high. 44.7 kN on 26,606 nodes of the gridshell. One arrow in seventy is drawn. Supports are black.
-
-The model also writes the structural tests. On the gridshell study, an earlier Bower design of 263 timber laths, it generates 10 load cases (dead load, the plant ungrown and grown, wind uplift bare and in leaf, snow) and 5 combinations. Each case is labeled with how much is known: measured, assumed, scoping only, or pending.
-
-It applies the grown plant cases to the model as 53,212 nodal loads over 26,606 nodes. Each node carries its share of the surface, and the totals reproduce the cases exactly. It runs 11 forming checks over 43,239 points along the laths: 7 pass, 3 fail and 1 is retired. None of the load cases has been solved. That analysis is for the engineer, and the combinations stay pending until the dead load is fixed.
 
 Load cases and combinations
 
@@ -304,6 +277,14 @@ C3, erection, year one0.9 dead + bare upliftPending
 C4, grown gravity1.35 dead + 1.5 grown plant highPending
 
 C5, creepdead + grown plant lowPending
+
+[
+
+![Axonometric line drawing of the gridshell model with vertical load arrows on its nodes and four square supports](/assets/tech/bower-engine-gridshell-load-lc4.webp)
+
+](/assets/tech/bower-engine-gridshell-load-lc4.webp)
+
+Load case LC4, grown plant, high. 44.7 kN on 26,606 nodes of the gridshell. One arrow in seventy is drawn. Supports are black.
 
 ## The garden
 does the rest.

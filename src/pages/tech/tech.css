@@ -105,19 +105,126 @@
   box-sizing: border-box;
 }
 
-.tech-engine-copy { width: min(680px, 100%); }
-
-.tech-engine-copy > p:first-child {
-  max-width: 28ch;
-  margin-bottom: 22px;
-  font-size: clamp(19px, 1.55vw, 25px);
-  line-height: 1.4;
+.tech-band,
+.tech-with,
+.tech-checks {
+  min-height: 100svh;
+  padding: 64px 6vw;
+  box-sizing: border-box;
 }
 
-.tech-engine h2,
-.tech-acts h2,
+.tech-band {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+
+.tech-band-copy {
+  display: grid;
+  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+}
+
+.tech-band-copy p + p { margin-top: 12px; }
+
+.tech-band-figures {
+  display: grid;
+  grid-template-columns: .82fr 1.18fr;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: end;
+}
+
+.tech-band-figures img,
+.tech-with img {
+  width: auto;
+  max-width: 100%;
+  max-height: min(42svh, 440px);
+  margin-inline: auto;
+}
+
+.tech-quad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px clamp(20px, 3vw, 40px);
+}
+
+.tech-quad img {
+  width: auto;
+  max-width: 100%;
+  max-height: min(30svh, 280px);
+  margin-inline: auto;
+}
+
+.tech-with {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+.tech-with--copy-first { grid-template-columns: minmax(280px, .95fr) minmax(0, 1.05fr); }
+
+.tech-with p + p,
+.tech-checks p + p { margin-top: 12px; }
+
+.tech-stock { margin-top: 28px; }
+
+.tech-stock > h3 {
+  margin-bottom: 12px;
+  font-size: clamp(28px, 2.4vw, 40px);
+  line-height: 1.05;
+}
+
+.tech-stock > p { max-width: 52ch; font-size: 17px; line-height: 1.45; }
+
+.tech-stock ol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 28px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tech-stock li h3,
+.tech-checks li h3 {
+  margin-bottom: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(17, 19, 15, .22);
+  font-size: clamp(20px, 1.6vw, 28px);
+  line-height: 1.08;
+}
+
+.tech-stock li p,
+.tech-checks li p {
+  color: rgba(17, 19, 15, .64);
+  font: 500 13px/1.45 Inter, Arial, sans-serif;
+  letter-spacing: .02em;
+}
+
+.tech-checks {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+.tech-checks ol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tech-band h2,
+.tech-with h2,
+.tech-checks h2,
 .tech-close h2 {
-  font-size: clamp(52px, 5.4vw, 92px);
+  font-size: clamp(48px, 4.6vw, 80px);
   line-height: .94;
 }
 
@@ -401,15 +508,31 @@
   .tech-hero .tech-film video,
   .tech-hero .tech-film img { max-height: 36svh; }
 
-  .tech-engine {
-    min-height: 100svh;
-    justify-content: center;
-    padding: 56px 6vw;
+  .tech-band,
+  .tech-with,
+  .tech-checks {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    align-items: stretch;
+    gap: 24px;
+    padding: 48px 6vw;
   }
 
-  .tech-engine h2,
-  .tech-acts h2,
+  .tech-band-copy,
+  .tech-band-figures,
+  .tech-quad,
+  .tech-stock ol,
+  .tech-checks ol { grid-template-columns: 1fr; }
+
+  .tech-band h2,
+  .tech-with h2,
+  .tech-checks h2,
   .tech-close h2 { font-size: clamp(44px, 12vw, 60px); }
+
+  .tech-band-figures img,
+  .tech-with img,
+  .tech-quad img { max-height: 46svh; }
 
   .tech-prologue {
     display: flex;
