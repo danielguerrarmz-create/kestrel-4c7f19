@@ -116,6 +116,13 @@ const META: Record<ProductionTarget, PageMeta> = {
     ogTitle: 'From landscape to Bower',
     ogDescription: 'A clear five-stage route from first conversation to a living pavilion maturing in its landscape.',
   },
+  tech: {
+    path: routes.tech,
+    title: 'Bower - Technology',
+    description: 'The thinking behind a living structure: Bower’s design engine connects timber geometry, fabrication screening and the decisions behind making a canopy.',
+    ogTitle: 'Technology at Bower',
+    ogDescription: 'Explore the design thinking, technical studies and current engine development behind Bower’s living timber structures.',
+  },
   contact: {
     path: routes.contact,
     title: 'Bower - Contact',

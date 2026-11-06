@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 ![Concept visualisation of a timber Bower within a mature walled garden](/assets/gallery/02-garden-pavilion.webp)
 

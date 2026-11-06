@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 ![Concept visualisation of a public exhibition arranged inside a planted garden Bower](/assets/selected/04-garden-exhibition.webp)
 

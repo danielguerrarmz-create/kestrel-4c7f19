@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>R13 timber illustration capture</title>
+<style>body{margin:0;background:white;font:16px Arial}canvas{display:block;width:1200px;height:500px}label{display:block;margin:24px}select{font:inherit;padding:8px}</style>
+<canvas id="view" width="2400" height="1000"></canvas><label>Timber <select id="part"></select></label><p id="status" role="status">Loading source meshes</p>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#view'),antialias:true,alpha:false});
+renderer.setPixelRatio(2);renderer.setSize(1200,500);renderer.setClearColor('white');
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+const scene=new THREE.Scene();scene.background=new THREE.Color('white');
+scene.add(new THREE.HemisphereLight(0xffffff,0x9e927b,2.0));
+const key=new THREE.DirectionalLight(0xffffff,2.6);key.position.set(-3,7,10);scene.add(key);
+const fill=new THREE.DirectionalLight(0xffffff,.7);fill.position.set(7,1,4);scene.add(fill);
+const camera=new THREE.OrthographicCamera(-6,6,2.5,-2.5,.1,100);camera.position.set(0,0,20);camera.lookAt(0,0,0);
+let current;
+async function draw(){const id=document.querySelector('#part').value;document.querySelector('#status').textContent='Loading '+id;
+if(current){scene.remove(current);current.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();o.material.dispose();}});}
+const gltf=await new GLTFLoader().loadAsync('./meshes/'+id+'.glb');current=gltf.scene;let mesh;
+current.traverse(o=>{if(o instanceof THREE.Mesh){o.material=new THREE.MeshStandardMaterial({color:'#bba987',roughness:.8,metalness:0,side:THREE.DoubleSide});mesh=o;}});scene.add(current);
+mesh.geometry.computeBoundingBox();const size=mesh.geometry.boundingBox.getSize(new THREE.Vector3());
+const height=Math.max(size.y,size.x/2.4)*1.12;camera.left=-height*1.2;camera.right=height*1.2;camera.top=height/2;camera.bottom=-height/2;camera.updateProjectionMatrix();
+renderer.render(scene,camera);requestAnimationFrame(()=>{document.querySelector('#status').textContent=id+' ready';});}
+const names=await (await fetch('./parts.json')).json();for(const name of names){const option=document.createElement('option');option.textContent=name;document.querySelector('#part').append(option);}draw();
+document.querySelector('#part').addEventListener('change',draw);
+</script></html>

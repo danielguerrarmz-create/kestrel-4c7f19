@@ -209,7 +209,7 @@ describe('the engine routes are dev-only in production', () => {
     // contradicted the withdrawn-budget posture of the founding-commission launch), and
     // `/commissions` was gated 2026-09-03 (Clay: "we killed it" — and it was still fully published
     // when he said so, which is what this pin exists to make impossible to miss again).
-    expect([...PUBLIC_ROUTES]).toEqual(['/', '/gallery', '/process', '/about', '/about/practice', '/contact', '/press', '/privacy', '/questions']);
+    expect([...PUBLIC_ROUTES]).toEqual(['/', '/gallery', '/process', '/tech', '/about', '/about/practice', '/contact', '/press', '/privacy', '/questions']);
     for (const path of PUBLIC_ROUTES) {
       expect(ENGINE_ROUTES).not.toContain(path);
       expect(DEV_ONLY_ROUTES).not.toContain(path);

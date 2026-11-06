@@ -14,7 +14,7 @@
 
 ](/)
 
-[Works](/gallery) [Process](/process) [Practice](/about/practice) [Contact](/contact)
+[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
 # The obsession is old.
 

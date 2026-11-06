@@ -4,6 +4,7 @@ import "./EditorialHeader.css";
 const LINKS = [
   { href: routes.gallery, label: "Works", mobileLabel: "Works" },
   { href: routes.process, label: "Process", mobileLabel: "Process" },
+  { href: routes.tech, label: "Technology", mobileLabel: "Technology" },
   { href: routes.practice, label: "Practice", mobileLabel: "Practice" },
   { href: routes.contact, label: "Contact", mobileLabel: "Contact" },
 ] as const;
@@ -55,7 +56,8 @@ export function EditorialHeader({ tone = "ink", logoSrc }: { tone?: "ink" | "whi
             <span className="menu-bars" aria-hidden="true"><span /><span /><span /></span>
           </summary>
           <nav aria-label="Mobile primary">
-            {LINKS.map((link) => <a key={link.href} href={link.href} aria-current={currentRoute === link.href ? "page" : undefined}>{link.mobileLabel}</a>)}
+            {LINKS.map((link) => <a key={link.href} href={link.href} aria-current={currentRoute === link.href ? "page" : undefined}
+              onClick={event => event.currentTarget.closest('details')?.removeAttribute('open')}>{link.mobileLabel}</a>)}
           </nav>
         </details>
       </div>
