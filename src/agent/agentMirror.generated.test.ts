@@ -148,14 +148,16 @@ describe('the agent mirror is fresh', () => {
     const tech = techMirror();
     expect(tech).toContain('Technology');
     expect(tech).toContain('at Bower.');
-    expect(tech).not.toContain('From form');
-    expect(tech).not.toContain('to timber');
-    expect(tech).not.toContain('One section to a family');
-    expect(tech).toContain('None of the load cases has been solved yet.');
-    expect(tech).toContain('57 still to reconcile');
-    expect(tech).toContain('assigns no density or design mass');
-    expect(tech).toContain('not construction documents');
-    expect(tech).not.toContain('Technical notes');
+    expect(tech).toContain('Digital Assembly Study; September 2026');
+    expect(tech).toContain('Not construction documents.');
+    expect(tech).toContain('checks how much each rib must bend and twist');
+    expect(tech).toContain('hold the crown height and entrance clearance');
+    expect(tech).toContain('forming-jig families');
+    expect(tech).toContain('current research prototype');
+    expect(tech).toContain('does not yet pass the current fabrication screen');
+    expect(tech).toContain('Fabrication screening is not structural approval.');
+    expect(tech).not.toContain('57 still to reconcile');
+    expect(tech).not.toContain('None of the load cases has been solved yet.');
     expect(processMirror()).toContain('From landscape');
     expect(processMirror()).not.toContain('AI-generated material illustration');
     // Changed 2026-08-05 with Clay's redundancy pass: the contact heading is the next step in

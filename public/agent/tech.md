@@ -8,6 +8,8 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
+[Skip to the assembly](#assembly)
+
 [
 
 ![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
@@ -16,280 +18,336 @@
 
 [Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
 
+![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
+
 # Technology
 at Bower.
 
-We model a curved timber lattice. The garden grows through it.
+A place that feels natural.
 
-## Every part
-has a name.
+Woodland Bower, concept visualisation
 
-We name every timber, joint and fastener, then prepare a model for engineering review. Every dimension describes the model. Timber properties, fabrication and structural performance are still to be confirmed. The package says so on every page. These studies are not construction documents.
+## Every piece
+has to fit.
 
-939 closed model parts. 92 primary timbers.
+A Bower is made of curves that depend on one another. Change the canopy and its ribs, crossings and connections have to change with it.
 
-12.651 m³ primary timber volume. Excludes timber keys.
+Digital Assembly Study; September 2026
 
-Bower One at revision R13 · 15 September 2026
+## We believe
+timber is limitless.
 
-How a part is closed
+Our design engine checks how much each rib must bend and twist. It identifies where a proposed form exceeds the assumptions for the timber and the forming process.
 
-The model uses a relaxed surface, curved in both directions. It produces named solid parts, their joints and fasteners, measured sections, and a package an engineer can review.
+In the current vault model, we can hold the crown height and entrance clearance while comparing different forms and groups of forming jigs. We can see what a change asks of the timber before committing to it.
 
-Rib curves are projected onto the surface at 10 mm plan spacing. Constant timber sections are lofted along each curve and closed as valid solids at 0.01 mm tolerance in Rhino 7. Tongues, receivers, pegs, keys, knife plates, bolts and anchors each receive a modeled clearance. We then load the model, check it, and give an engineer the plans, elevations, measured sections and open questions.
+## The whole
+in view.
 
-[
+The canopy curves in two directions. Two families of ribs follow that surface, meeting the arches below and the ring above. Their geometry is coordinated in one model.
 
-![Plan view of Bower One: a square footprint with two crossing families of curved ribs around a central ring](/assets/tech/bower-engine-one-plan.webp)
+![Historical Bower One R13 perspective, showing the doubly curved canopy, crossing ribs, ring and feet](/assets/tech/bower-engine-one-perspective.webp)
 
-](/assets/tech/bower-engine-one-plan.webp)
+Bower One R13, perspective. September 2026.
 
-Plan, revision R13. Two families of 40 ribs between four arches.
+![Historical section study of a timber rib meeting an arch with a tongue and peg](/assets/tech/bower-engine-section-rib-to-arch.webp)
 
-[
+A rib meets an arch. The section lets us examine the joint and its allowances.
 
-![Elevation of Bower One showing the bowed arches, the rib lattice and the tilted ring](/assets/tech/bower-engine-one-elevation.webp)
+September 2026
 
-](/assets/tech/bower-engine-one-elevation.webp)
+![Historical arch foot study with timber heel, knife plates and base plate](/assets/tech/bower-engine-section-foot.webp)
 
-Elevation, revision R13. Timber base at 250 mm. The ring sits at 5,400 mm.
+The foot study brings the timber heel, steel plates and fixings into one section for engineering review.
 
-[
+September 2026
 
-![Rhino model view of Bower Three: a relaxed canopy on four feet, two crossing families of ribs and an oculus at the top](/assets/tech/bower-engine-three-perspective.webp)
+![Section through the ring with two tiers of rib tongues, headed keys and keepers](/assets/tech/bower-engine-section-rib-to-ring.webp)
 
-](/assets/tech/bower-engine-three-perspective.webp)
+At the crown, tongues, keys and keepers connect the ribs to the ring.
 
-Bower Three, revision R01. Form and stock study. 64 ribs and an oculus.
+September 2026
 
-## Curved
-both ways.
+![Measured section of a fitted timber key passing through two crossing ribs](/assets/tech/bower-engine-section-rib-crossing.webp)
 
-In Bower Three, 32 clockwise and 32 counterclockwise ribs are projected onto a relaxed surface about 11.7 m across. An oculus at the crown tilts 12 degrees.
+Where ribs cross, a fitted timber key joins them. The connection is modelled and examined in section.
 
-Bower One uses that surface in a jointed model: four bowed arches, 40 ribs each way, a ring tilted 16 degrees, and a clear bore of 1,440 mm.
+September 2026
 
-Historical form studies: Bower One R13 and Bower Three R01
+Each curve has its own geometry. Each timber has a name, a position and connections to its neighbours.
 
-### One section per family.
+EA-01
 
-Each family keeps one constant section. The joint is a local cut. The model measures volumes. It leaves species, grade and moisture for the timber engineer and assigns no density or design mass.
+EA-02
 
--
+EA-03
 
-### Arches
+EA-04
 
-4. 300 x 400 mm
+OR-01-Q1
 
--
+OR-01-Q2
 
-### Ribs, clockwise and counterclockwise
+OR-01-Q3
 
-40 + 40. 90 x 160 mm
+OR-01-Q4
 
--
+OC-CAP-01
 
-### Ring sectors
+OC-CAP-02
 
-4. 360 mm radial, 360 mm normal
+OC-CAP-03
 
--
+OC-CAP-04
 
-### Removable caps
+CW-001
 
-4. 540 mm radial, 64 mm normal
+CW-002
 
--
+CW-003
 
-### Base plates
+CW-004
 
-4. 800 x 800 x 30 mm
+CW-005
 
--
+CW-006
 
-### Knife plates
+CW-007
 
-8. 180 x 280 x 12 mm
+CW-008
 
--
+CW-009
 
-### M20 heel bolts
+CW-010
 
-8. 478 mm long
+CW-011
 
--
+CW-012
 
-### M24 anchors
+CW-013
 
-16. 890 mm long
+CW-014
 
-The measured schedule
+CW-015
 
-Bower One, R13 stock
+CW-016
 
-PartCountSection (mm)
+CW-017
 
-Arches4300 x 400
+CW-018
 
-Ribs, clockwise and counterclockwise40 + 4090 x 160
+CW-019
 
-Ring sectors4360 radial x 360 normal
+CW-020
 
-Removable caps4540 radial x 64 normal
+CW-021
 
-Steel and base, model dimensions
+CW-022
 
-PartCountSize (mm)
+CW-023
 
-Base plates4800 x 800 x 30
+CW-024
 
-Knife plates8180 x 280 x 12
+CW-025
 
-M20 heel bolts8478 long
+CW-026
 
-M24 anchors16890 long
+CW-027
 
-## Measured
-sections.
+CW-028
 
-Ribs meet the arches on a 54 x 100 mm tongue and a 20 mm peg. The receiver is 0.6 mm larger. Ribs meet the ring on headed keys. Ribs cross on 12 x 22 mm fitted keys.
+CW-029
 
-Bower One has 80 arch joints, 40 paired ring stations and 503 keys. The clearances are modeled allowances, not an approved production fit.
+CW-030
 
-[
+CW-031
 
-![Measured section through the foot of an arch, showing the timber heel, two steel knife plates with bolts, a base plate and the concrete reference](/assets/tech/bower-engine-section-foot.webp)
+CW-032
 
-](/assets/tech/bower-engine-section-foot.webp)
+CW-033
 
-The foot of an arch. Heel, knife plates, M20 bolts and a base plate.
+CW-034
 
-[
+CW-035
 
-![Measured section of a rib tongue entering an arch receiver, with its peg](/assets/tech/bower-engine-section-rib-to-arch.webp)
+CW-036
 
-](/assets/tech/bower-engine-section-rib-to-arch.webp)
+CW-037
 
-A rib meeting an arch. A 54 x 100 mm tongue, 150 mm of projection, a 20 mm peg.
+CW-038
 
-[
+CW-039
 
-![Measured section through the ring at a rib station, showing ring sectors, tongues, keys and keepers](/assets/tech/bower-engine-section-rib-to-ring.webp)
+CW-040
 
-](/assets/tech/bower-engine-section-rib-to-ring.webp)
+CCW-001
 
-A rib meeting the ring. Two tiers of tongues, headed keys and keepers.
+CCW-002
 
-[
+CCW-003
 
-![Oblique section through a rib crossing with a timber key through both ribs](/assets/tech/bower-engine-section-rib-crossing.webp)
+CCW-004
 
-](/assets/tech/bower-engine-section-rib-crossing.webp)
+CCW-005
 
-Two ribs crossing. A 12 x 22 mm fitted key through both.
+CCW-006
 
-## What geometry
-can prove.
+CCW-007
 
-Before any analysis, the model checks what geometry can prove. Every solid is valid and closed. Contact between parts is measured. Every rib crossing is reconciled against the joint records. What it cannot prove is written down as a question for the engineer.
+CCW-008
 
-Nothing here is construction ready. The package is for design review only.
+CCW-009
 
-A 12 page review package, 15 September 2026 · structural results pending
+CCW-010
 
-503 of 560 scheduled rib crossings keyed. 57 still to reconcile.
+CCW-011
 
-14 contact residuals left open, and listed.
+CCW-012
 
--
+CCW-013
 
-### Foot
+CCW-014
 
-stiffness, uplift restraint and anchor capacity.
+CCW-015
 
--
+CCW-016
 
-### Rib to arch
+CCW-017
 
-tongue, peg and receiver capacity.
+CCW-018
 
--
+CCW-019
 
-### Rib to ring
+CCW-020
 
-net sections and cap restraint.
+CCW-021
 
--
+CCW-022
 
-### Crossings
+CCW-023
 
-restraint, slip and rotation.
+CCW-024
 
-Bower engineer review package D09, 15 September 2026
+CCW-025
 
-## None solved
-yet.
+CCW-026
 
-This earlier gridshell study assigns plant loads to 26,606 nodes and defines 10 load cases. None of the load cases has been solved yet. On this earlier gridshell of 263 timber laths, the model also writes 5 combinations. It runs 11 forming checks over 43,239 points: 7 pass, 3 fail and 1 is retired. The combinations stay pending until the dead load is fixed.
+CCW-027
 
-10 load cases. 1 measured, 4 assumed, 3 scoping, 2 pending.
+CCW-028
 
-53,212 nodal loads across two plant cases. Totals 17.9 and 44.7 kN, exactly.
+CCW-029
 
-Gridshell study, model export of 3 September 2026 · results pending the engineer
+CCW-030
 
-Load cases and combinations
+CCW-031
 
-Load cases, as the engine labels them
+CCW-032
 
-CaseLoadTotalStatus
+CCW-033
 
-LC1Dead, structurenot yet setPending
+CCW-034
 
-LC2Plant, ungrown0 kNMeasured
+CCW-035
 
-LC3Plant, grown, low (20 kg/m²)17.9 kNAssumed
+CCW-036
 
-LC4Plant, grown, high (50 kg/m²)44.7 kNAssumed
+CCW-037
 
-LC5Uplift, bare, optimistic13.9 kNAssumed
+CCW-038
 
-LC6Uplift, bare, pessimistic41.6 kNAssumed
+CCW-039
 
-LC7Uplift, in leaf, inland62.4 kNScoping only
+CCW-040
 
-LC8Uplift, in leaf, exposed site126.6 kNScoping only
+![Enlarged geometry of EA-01](/assets/tech/timbers-r13/EA-01.webp)
 
-LC9Brief’s reference figure28.3 kNScoping only
+### EA-01
 
-LC10Snow and icenot yet setPending
+Curved arch with local receivers and connections at its feet.
 
-Combinations, all pending the dead load
+In the earlier jointed model, each family of timber keeps a constant section. Its shape follows the canopy; local cuts form the connections.
 
-CombinationTermsStatus
+The model records timber volumes and steel parts. Species, grade, moisture and production tolerances are decisions to resolve with the timber engineer and fabricator.
 
-C1, governing0.9 dead + uplift in leaf, 45% on one quadrantPending
+![Arch geometry from Bower One R13](/assets/tech/timbers-r13/EA-01.webp)
 
-C2, exposed site0.9 dead + exposed uplift, 45% on one quadrantPending
+### Arch
 
-C3, erection, year one0.9 dead + bare upliftPending
+A curved member with local receivers and cuts at its feet.
 
-C4, grown gravity1.35 dead + 1.5 grown plant highPending
+![Rib geometry from Bower One R13](/assets/tech/timbers-r13/CW-014.webp)
 
-C5, creepdead + grown plant lowPending
+### Rib
 
-[
+A constant section, with its own curve and joint positions.
 
-![Axonometric line drawing of the gridshell model with vertical load arrows on its nodes and four square supports](/assets/tech/bower-engine-gridshell-load-lc4.webp)
+![Ring sector geometry from Bower One R13](/assets/tech/timbers-r13/OR-01-Q1.webp)
 
-](/assets/tech/bower-engine-gridshell-load-lc4.webp)
+### Ring sector
 
-Load case LC4, grown plant, high. 44.7 kN on 26,606 nodes of the gridshell. One arrow in seventy is drawn. Supports are black.
+Curved stock with local scarf cuts at the seams.
+
+September 2026
+
+## How we check a design
+
+We turn a design into questions that can be tested: how the timber bends, how parts meet, and what still needs to be resolved.
+
+Forming the timber
+
+The current engine screens each rib for bending and twist against material and forming assumptions. It compares alternative forms and groups ribs by their forming requirements.
+
+Assembling the geometry
+
+We checked for closed solids, contact between parts and agreement between crossing geometry and joint records. Unresolved contacts and connections were recorded for review.
+
+Testing the connections
+
+Modelled allowances give us something specific to prototype. Physical forming trials, joint testing and engineering review must establish the production fit and capacity.
+
+Plant growth changes what the structure carries. Wind acts differently on bare timber and on a canopy in leaf.
+
+In an earlier gridshell study, we set up structural load cases and combinations, and distributed plant loads across the model. That work prepared the inputs for analysis; it did not establish structural capacity.
+
+![Earlier gridshell load study with plant-load arrows distributed across the canopy and supports shown in black](/assets/tech/gridshell-c3-base.svg)
+
+Plant-load application, earlier gridshell study; 3 September 2026. Analysis inputs, not structural results.
+
+The structural test setup considers the life of the planted canopy. Its assumptions and unresolved inputs travel with the model for engineering review.
+
+Load directions, schematic
+
+Timber and planting
+
+The structure's own weight, initial planting and mature growth. Dead load remained unresolved in this study.
+
+Wind and uplift
+
+Bare and leafy canopy scenarios, including uneven loading. Wind assumptions and support restraint require engineering verification.
+
+Snow, ice and time
+
+Seasonal loads and long-term behaviour. Snow and ice were not yet quantified; load combinations awaited a confirmed dead load.
+
+## About the studies
+
+The current research prototype lays out vaulted canopies, screens ribs for bending and twist, compares alternative forms and groups ribs into forming-jig families.
+
+Rib layout and screening also extend to an oculus form. Its default study does not yet pass the current fabrication screen. Ring, edge and foot parts, and interactive steering for this form, remain to be developed.
+
+Forming trials, connection testing and project-specific structural engineering are still needed. Fabrication screening is not structural approval.
+
+Engine reviewed on 6 November 2026. The film and drawings record the earlier September work; dimensions belong to those revisions. Not construction documents.
+
+![Interior concept visualisation looking through a planted timber oculus with grape vines](/assets/selected/13-grape-oculus.webp)
 
 ## The garden
 does the rest.
 
-[Begin with a conversation](/contact)
+A framework for climbing plants, and a place for people to gather.
+
+Grape Oculus, concept visualisation
 
 [
 

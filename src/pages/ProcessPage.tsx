@@ -41,7 +41,7 @@ export function ProcessPage() {
 
       <section className="process-editorial-prologue" aria-labelledby="process-alive-title">
         <div data-snap-section className="process-editorial-prologue-copy">
-          <p>A hollow under a beech. A cave mouth above a beach. A path beneath an arch of hedge.</p>
+          <p>Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.</p>
           <h2 id="process-alive-title">None of them<br />finished. All of<br />them alive.</h2>
         </div>
         <figure data-snap-spread className="viewport-spread">
@@ -51,7 +51,7 @@ export function ProcessPage() {
 
       <section data-snap-section className="process-editorial-evolution" aria-labelledby="process-growth-title">
         <div className="process-editorial-evolution-copy">
-          <p>Timber, then leaves, then a room of blossom.</p>
+          <p>The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.</p>
           <h2 id="process-growth-title">The garden continues<br />the architecture.</h2>
         </div>
         <video ref={growthVideo} className="process-editorial-growth-video" muted loop playsInline preload="metadata" poster="/assets/process/bower-growth-transition-poster.webp" aria-label="A Bower changing as its planting becomes established">

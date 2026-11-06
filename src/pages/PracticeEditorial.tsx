@@ -45,7 +45,7 @@ export function PracticeEditorial() {
           <div className="practice-minimal-mission-statement">
             <p className="practice-minimal-kicker">Our mission</p>
             <h2 id="mission-title">One Bower team,<br />assembled for<br />one place.</h2>
-            <p>We lead each commission from the first conversation to long-term care, bringing together the engineering, fabrication, planning and landscape specialists the site needs.</p>
+            <p>Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.</p>
             <a href={routes.contact}>Contact Bower</a>
           </div>
           <ul className="practice-minimal-mission-list">

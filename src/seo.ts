@@ -119,9 +119,9 @@ const META: Record<ProductionTarget, PageMeta> = {
   tech: {
     path: routes.tech,
     title: 'Bower - Technology',
-    description: 'Technology at Bower: design studies of a curved timber lattice, its joints, its material, and the questions still open for engineering review.',
+    description: 'The thinking behind a living structure: Bower’s design engine connects timber geometry, fabrication screening and the decisions behind making a canopy.',
     ogTitle: 'Technology at Bower',
-    ogDescription: 'Design studies of a curved timber lattice, the joints, the material and the questions still open.',
+    ogDescription: 'Explore the design thinking, technical studies and current engine development behind Bower’s living timber structures.',
   },
   contact: {
     path: routes.contact,

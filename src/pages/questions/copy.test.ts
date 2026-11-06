@@ -51,7 +51,7 @@ describe('questions copy', () => {
     // Public use: the duties are named in plain words and none of them is promised.
     expect(allCopy).toContain('level ways in, safe ways out');
     // Size: still no capacity figure invented here — the range is stated as rooms, not heads.
-    expect(allCopy).toContain('shape the structure, planning route and cost');
+    expect(allCopy).toContain('decide the structure, the planning route and the cost');
     // REACH, REPINNED 2026-09-03 for the European outreach. The old literal was 'considers
     // commissions internationally', and the rewrite deleted it on purpose — "considers" was the
     // hedge that told a patron in Navarra they were the exception. Two pins now, because the

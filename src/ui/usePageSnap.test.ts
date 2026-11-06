@@ -67,7 +67,7 @@ describe('responsive page snapping', () => {
   it.each([false, true])('removes page snapping and its breakpoint listener on unmount (legacy: %s)', (legacy) => {
     const env = browser({ legacy });
     const unmount = mount();
-    expect(env.attributes.get('data-page-snap')).toBe('proximity');
+    expect(env.attributes.get('data-page-snap')).toBe('mandatory');
     expect(window.matchMedia).toHaveBeenCalledWith('(max-width: 767px)');
     expect(env.listeners.size).toBe(1);
 
@@ -91,7 +91,7 @@ describe('responsive page snapping', () => {
 
   it('restores existing state across cleanup and remount without retaining listeners', () => {
     const env = browser({ previous: 'proximity' });
-    const firstUnmount = mount({ strength: 'mandatory' });
+    const firstUnmount = mount();
     expect(env.attributes.get('data-page-snap')).toBe('mandatory');
     firstUnmount();
     expect(env.attributes.get('data-page-snap')).toBe('proximity');
@@ -104,13 +104,4 @@ describe('responsive page snapping', () => {
     env.resize(true);
     expect(env.attributes.get('data-page-snap')).toBe('proximity');
   });
-});
-
-it('defaults to gentle snapping on phones and desktops', () => {
-  const env = browser();
-  const unmount = mount();
-  expect(env.attributes.get('data-page-snap')).toBe('proximity');
-  env.resize(true);
-  expect(env.attributes.get('data-page-snap')).toBe('proximity');
-  unmount();
 });

@@ -163,6 +163,16 @@
   .editorial-mobile-nav nav a:last-child { border-bottom: 0; }
 }
 
+/* A centered, full-size menu can start behind the logo on a short landscape phone. */
+@media (max-width: 767px) and (max-height: 500px) {
+  .editorial-header .editorial-mobile-nav nav {
+    justify-content: flex-start;
+    padding-block: max(80px, calc(env(safe-area-inset-top) + 72px)) max(16px, env(safe-area-inset-bottom));
+  }
+  .editorial-mobile-nav nav::before { display: none; }
+  .editorial-mobile-nav nav a { min-height: 44px; font-size: clamp(26px, 8svh, 32px); }
+}
+
 @keyframes mobile-menu-arrive {
   from { opacity: 0; transform: translateY(-12px); }
   to { opacity: 1; transform: translateY(0); }

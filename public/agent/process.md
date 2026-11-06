@@ -21,7 +21,7 @@ to Bower.
 
 The structure is finished once. The garden never is.
 
-A hollow under a beech. A cave mouth above a beach. A path beneath an arch of hedge.
+Ask anyone for the most beautiful place they have ever stood in and they rarely name a building. They name a hollow under a beech. A cave mouth above a beach. A path where the hedge grew over into a tunnel.
 
 ## None of them
 finished. All of
@@ -29,7 +29,7 @@ them alive.
 
 ![Concept visualisation of a shaded woodland garden room within a timber lattice](/assets/selected/21-woodland-bower.webp)
 
-Timber, then leaves, then a room of blossom.
+The same Bower: a lattice, leaves in the weave, then a room of blossom and eaves.
 
 ## The garden continues
 the architecture.

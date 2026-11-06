@@ -8,13 +8,9 @@
 > from the same React components the human page renders. Image paths are root-relative
 > to this site's origin.
 
-[
+[Bower](/)
 
-![Bower](/assets/brand/bower-logo-evergreen-horizontal-transparent.png)
-
-](/)
-
-[Works](/gallery) [Process](/process) [Technology](/tech) [Practice](/about/practice) [Contact](/contact)
+[gallery](/gallery) [process](/process) [contact](/contact)
 
 # Bower
 

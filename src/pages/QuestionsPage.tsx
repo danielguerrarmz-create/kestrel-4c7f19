@@ -9,7 +9,7 @@ function Question({ n, item }: { n: number; item: (typeof QUESTIONS)[number] }) 
     <section
       id={item.id}
       data-snap-section
-      className="question-frame flex min-h-[100svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(3rem,7svh,5rem)]"
+      className="flex min-h-[76svh] snap-start items-center border-t border-black/10 px-gutter py-[clamp(6rem,12vw,11rem)]"
     >
       <div className="mx-auto grid w-full max-w-canvas gap-10 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-5">
@@ -21,7 +21,7 @@ function Question({ n, item }: { n: number; item: (typeof QUESTIONS)[number] }) 
           </h2>
         </div>
 
-        <div className="md:col-span-6 md:col-start-7">
+        <div className="md:col-span-6 md:col-start-7 md:pt-9">
           <div className="flex max-w-[42rem] flex-col gap-5">
             {item.a.map((paragraph) => (
               <p key={paragraph.slice(0, 40)} className="font-serifDisplay text-[clamp(1.1rem,1.55vw,1.35rem)] leading-[1.62] text-black/72">
@@ -50,7 +50,7 @@ export function QuestionsPage() {
   usePageSnap();
 
   return (
-    <div className="questions-page editorial-page editorial-reading-page min-h-screen bg-floralWhite text-[#11110e]">
+    <div className="editorial-page editorial-reading-page min-h-screen bg-floralWhite text-[#11110e]">
       <main>
         <section data-snap-section className="relative flex min-h-[100svh] snap-start items-end px-gutter py-[clamp(5rem,10vw,10rem)]">
           <EditorialHeader />

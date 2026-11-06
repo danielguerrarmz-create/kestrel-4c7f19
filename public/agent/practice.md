@@ -45,7 +45,7 @@ Our mission
 assembled for
 one place.
 
-We lead each commission from the first conversation to long-term care, bringing together the engineering, fabrication, planning and landscape specialists the site needs.
+Bower leads the commission from the first site conversation through design, making and stewardship. For each landscape, we assemble the appropriate engineering, fabrication, planning and landscape specialists; each role and appointment is defined around the site and the work it must support.
 
 [Contact Bower](/contact)
 

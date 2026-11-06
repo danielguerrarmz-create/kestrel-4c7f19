@@ -19,7 +19,6 @@ import '@fontsource/bodoni-moda/500-italic.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import './index.css';
-import './ui/editorialFrames.css';
 
 declare global {
   interface Window {
