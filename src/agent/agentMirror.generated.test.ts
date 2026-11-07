@@ -149,13 +149,11 @@ describe('the agent mirror is fresh', () => {
     expect(tech).toContain('Technology');
     expect(tech).toContain('at Bower.');
     expect(tech).toContain('Digital Assembly Study; September 2026');
-    expect(tech).toContain('Not construction documents.');
+    expect(tech).toContain('engineering review must establish the production fit and capacity');
     expect(tech).toContain('checks how much each rib must bend and twist');
     expect(tech).toContain('hold the crown height and entrance clearance');
-    expect(tech).toContain('forming-jig families');
-    expect(tech).toContain('current research prototype');
-    expect(tech).toContain('does not yet pass the current fabrication screen');
-    expect(tech).toContain('Fabrication screening is not structural approval.');
+    expect(tech).toContain('current demo model');
+    expect(tech).toContain('inputs for further analysis and review');
     expect(tech).not.toContain('57 still to reconcile');
     expect(tech).not.toContain('None of the load cases has been solved yet.');
     expect(processMirror()).toContain('From landscape');

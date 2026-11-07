@@ -25,7 +25,7 @@ const COLUMN = 'mx-auto w-full max-w-[58ch]';
 
 export function AboutPage() {
   return (
-    <div className="min-h-screen w-full bg-paperVellum text-inkForest">
+    <div className="about-page min-h-screen w-full bg-paperVellum text-inkForest">
       <SplashHeader transparent logoPill />
 
       <main className={`${COLUMN} px-gutter pb-24 pt-[calc(var(--header-h)+5rem)]`}>

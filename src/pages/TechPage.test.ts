@@ -27,11 +27,8 @@ describe('Bower technology page', () => {
     expect(html).toContain('concept visualisation');
     expect(html).toContain('Digital Assembly Study; September 2026');
     expect(html).toContain('September 2026');
-    expect(html).toContain('Not construction documents.');
-    expect(html).toContain('6 November 2026');
-    expect(html).toContain('current research prototype');
-    expect(html).toContain('does not yet pass the current fabrication screen');
-    expect(html).toContain('Fabrication screening is not structural approval.');
+    expect(html).toContain('current demo model');
+    expect(html).toContain('engineering review must establish the production fit and capacity');
     // Superseded quantities must not become claims about the third engine.
     for (const stale of ['939', '12.651', '57 still to reconcile', 'None of the load cases has been solved yet.']) {
       expect(html).not.toContain(stale);
@@ -79,7 +76,7 @@ describe('Bower technology page', () => {
     }
     expect(html).toContain('curves in two directions');
     expect(html).toContain('Species, grade, moisture');
-    expect(html).toContain('did not establish structural capacity');
+    expect(html).toContain('inputs for further analysis and review');
     expect(html).toContain('Wind and uplift');
     expect(html).toContain('Snow, ice and time');
     expect(html).toContain('Individual timber geometry from Bower One R13');
