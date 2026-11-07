@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shared editorial title spacing. The technology material heading is the reference;
+   extra leading clears Bodoni descenders above tall letters ("piece / fit").
+   Scope to public page shells and outrank per-page and responsive heading rules. */
+#root :is(.bower-site, .editorial-page, .about-page, .privacy-page) :is(h1, h2) {
+  line-height: 1.12;
+  letter-spacing: -.045em;
+}
+
 /* Hero display faces (self-hosted from /public/fonts). Both are dafont families:
    Realistic Nature carries the hero sentence ("Grow a living … in your garden"),
    Paperlight Script sets the one big "Eden" word. NOTE: these are free-for-personal-

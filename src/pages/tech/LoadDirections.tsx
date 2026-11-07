@@ -1,52 +1,85 @@
 import { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from '../../ui/useReducedMotion';
-import { observeIntroduction } from './introduction';
+import { observeVisibleLoop } from './visibleLoop';
 
-/** Explanatory geometry and force directions, not calculated structural behaviour. */
+const cases = [
+  { id: 'planting', label: 'Timber + planting', description: 'Timber and planting weight acts downwards across the canopy.' },
+  { id: 'wind', label: 'Wind + uplift', description: 'Wind crosses the canopy; uplift acts upwards beneath it.' },
+  { id: 'snow', label: 'Snow + ice', description: 'Seasonal accumulation adds downward load across the canopy.' },
+] as const;
+
+/** The same Bower model in every view makes the changing force directions comparable. */
 export function LoadDirections() {
+  const [selected, setSelected] = useState(0);
+  const [instant, setInstant] = useState(true);
   const ref = useRef<HTMLElement>(null);
-  const played = useRef(false);
   const reduced = useReducedMotion();
-  const [phase, setPhase] = useState('complete');
   useEffect(() => {
-    if (!ref.current || reduced || played.current) { played.current ||= reduced; setPhase('complete'); return; }
-    setPhase('ready');
-    const intro = observeIntroduction(ref.current, {
-      duration: 6600,
-      onStart: () => { played.current = true; setPhase('playing'); },
-      onFinish: () => setPhase('complete'),
-    });
-    return intro.dispose;
+    if (!ref.current || reduced) return;
+    const controller = observeVisibleLoop(ref.current, () => {
+      setInstant(false);
+      setSelected(index => (index + 1) % cases.length);
+    }, 2500);
+    return controller.dispose;
   }, [reduced]);
-  return <figure ref={ref} className="tech-load-directions" data-intro={phase}>
-    <svg viewBox="0 0 720 235" role="img" aria-labelledby="load-directions-title load-directions-desc">
-      <title id="load-directions-title">Loads on a planted canopy</title>
-      <desc id="load-directions-desc">Three schematic perspective views show planting weight descending, wind crossing the canopy with uplift underneath, and snow settling before its weight is applied. Arrows show directions only; the canopy does not deform.</desc>
+  const current = cases[selected];
+  return <figure ref={ref} className="tech-load-directions" data-case={current.id} data-instant={instant || reduced}>
+    <svg id="load-direction-view" viewBox="0 0 1212 1130" role="img" aria-labelledby="load-directions-title load-directions-desc">
+      <title id="load-directions-title">{`${current.label}: loads on a Bower`}</title>
+      <desc id="load-directions-desc">{current.description} Arrows indicate directions, not calculated magnitudes or deformation.</desc>
       <defs>
-        <marker id="load-direction-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1 7 4 1 7" fill="none" stroke="currentColor" strokeWidth="1.2" /></marker>
-        <g id="load-direction-canopy" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round">
-          <path d="M28 181 C28 116 172 116 172 181 L196 161 C196 96 52 96 52 161 Z" fill="currentColor" fillOpacity=".035" />
-          <path d="M52 199 V161 C52 96 196 96 196 161 V199 M28 219 V181 C28 116 172 116 172 181 V219 M34 219 V181 C34 124 166 124 166 181 V219" />
-          <g strokeOpacity=".5" strokeWidth="1"><path d="M28 181 52 161 M36 157 60 137 M55 142 79 122 M78 134 102 114 M100 132 124 112 M122 134 146 114 M145 142 169 122 M164 157 188 137 M172 181 196 161 M28 219 52 199 M172 219 196 199" /><path d="M40 171 C40 106 184 106 184 171" /></g>
-          <path d="M18 221 H43 M162 221 H187 M45 201 H62 M186 201 H207" />
-        </g>
-        <g id="load-leaf" fill="currentColor" stroke="currentColor" strokeWidth=".8"><path d="M0 6 Q-15 1-10-10 Q2-8 0 6 M1 3 Q12-12 16-4 Q16 6 1 3" /><path d="M0 6 0 12" fill="none" /></g>
-        <g id="load-snowflake" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M0-6V6 M-5-3 5 3 M-5 3 5-3" /></g>
+        <marker id="load-direction-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="4.5" markerHeight="4.5" orient="auto">
+          <path d="M2 2 10 6 2 10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </marker>
       </defs>
-      <g className="tech-load-canopies"><use href="#load-direction-canopy" /><use href="#load-direction-canopy" x="240" /><use href="#load-direction-canopy" x="480" /></g>
-      <g className="load-planting load-motion"><use href="#load-leaf" x="52" y="137" /><use href="#load-leaf" x="86" y="124" /><use href="#load-leaf" x="124" y="126" /><use href="#load-leaf" x="155" y="142" /></g>
-      <g className="tech-load-forces" fill="none" stroke="currentColor" strokeWidth="1.7" markerEnd="url(#load-direction-arrow)">
-        <g className="load-weight load-motion">{['M56 53 V106', 'M100 42 V93', 'M144 53 V107'].map(d => <path key={d} d={d} />)}</g>
-        <g className="load-wind load-motion">{['M245 123 C264 123 270 98 290 98', 'M249 145 C269 145 277 114 302 114', 'M256 79 C282 79 293 86 320 86'].map(d => <path key={d} d={d} />)}</g>
-        <g className="load-uplift load-motion">{['M322 195 V160', 'M363 195 V160'].map(d => <path key={d} d={d} />)}</g>
-        <g className="load-snow-weight load-motion">{['M536 53 V106', 'M580 42 V93', 'M624 53 V107'].map(d => <path key={d} d={d} />)}</g>
-      </g>
-      <g className="tech-load-season">
-        <g className="load-snowflakes"><use href="#load-snowflake" x="525" y="98" /><use href="#load-snowflake" x="558" y="80" /><use href="#load-snowflake" x="600" y="85" /><use href="#load-snowflake" x="646" y="109" /></g>
-        <path className="load-snow-cap load-motion" d="M512 165 C530 120 630 120 648 165" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+      <image href="/assets/tech/bower-engine-one-perspective.webp" x="0" y="140" width="1212" height="979" className="tech-load-model" />
+      <g key={current.id} className="tech-load-overlay" transform="translate(0 140)">
+        {current.id === 'planting' && <>
+          <g className="tech-load-foliage" fill="none" stroke="#526d45" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M190 425 Q315 340 410 238 Q450 190 496 153 M470 471 Q535 290 554 169 M758 176 Q830 300 1052 393" strokeWidth="22" strokeOpacity=".36" />
+            <path d="M190 425 Q315 340 410 238 Q450 190 496 153 M470 471 Q535 290 554 169 M758 176 Q830 300 1052 393" strokeWidth="3" />
+            {[[260,378,-35],[325,319,-35],[389,255,-30],[449,197,-28],[491,409,-60],[516,332,-65],[540,240,-65],[810,247,40],[884,315,35],[968,365,25]].map(([x,y,angle],i)=><path key={i} transform={`translate(${x} ${y}) rotate(${angle})`} d="M-12 0 Q-8-24 13-20 Q19-4-12 0 M0 0 Q13 24 31 15 Q25-5 0 0" fill="#637c4f" strokeWidth="1.5" />)}
+          </g>
+          <g className="tech-load-force tech-load-force--down">
+            <path d="M260 126 V287" />
+            <path d="M450 -33 V125" />
+            <path d="M660 -114 V17" />
+            <path d="M860 18 V177" />
+            <path d="M1040 137 V295" />
+          </g>
+        </>}
+        {current.id === 'wind' && <>
+          <g className="tech-load-force tech-load-force--wind">
+            <path d="M55 140 C200 140 248 45 410 45" />
+            <path d="M95 250 C255 250 270 136 446 136" />
+            <path d="M830 71 C950 71 996 150 1145 150" />
+          </g>
+          <g className="tech-load-force tech-load-force--up">
+            <path d="M390 720 V555" />
+            <path d="M620 688 V523" />
+            <path d="M865 710 V545" />
+          </g>
+        </>}
+        {current.id === 'snow' && <>
+          <g fill="none" stroke="#a4b6b1" strokeWidth="20" strokeLinecap="round" strokeOpacity=".7">
+            <path d="M238 242 Q367 196 454 123 M759 102 Q878 209 1026 240 M334 356 Q451 299 510 206" />
+          </g>
+          <g fill="none" stroke="#f0f4f2" strokeWidth="12" strokeLinecap="round">
+            <path d="M238 237 Q367 191 454 118 M759 97 Q878 204 1026 235 M334 351 Q451 294 510 201" />
+          </g>
+          <g className="tech-load-force tech-load-force--down">
+            <path d="M260 24 V185" />
+            <path d="M450 -93 V65" />
+            <path d="M660 -114 V17" />
+            <path d="M860 -42 V117" />
+            <path d="M1040 47 V205" />
+          </g>
+        </>}
       </g>
     </svg>
-    <div className="tech-load-labels" aria-hidden="true"><span>Timber + planting</span><span>Wind + uplift</span><span>Snow + ice</span></div>
-    <figcaption className="tech-caption">Load directions, schematic</figcaption>
+    <figcaption>
+      <p className="tech-load-explanation">{current.description}</p>
+      <p className="tech-caption"><span className="tech-force-key" aria-hidden="true">↓</span> {current.label}. Load directions, schematic.</p>
+    </figcaption>
   </figure>;
 }

@@ -25,8 +25,6 @@ at Bower.
 
 A place that feels natural.
 
-Woodland Bower, concept visualisation
-
 ## Every piece
 has to fit.
 
@@ -39,7 +37,7 @@ timber is limitless.
 
 Our design engine checks how much each rib must bend and twist. It identifies where a proposed form exceeds the assumptions for the timber and the forming process.
 
-In the current vault model, we can hold the crown height and entrance clearance while comparing different forms and groups of forming jigs. We can see what a change asks of the timber before committing to it.
+In the current demo model, we can hold the crown height and entrance clearance while comparing different forms and groups of forming jigs. We can see what a change asks of the timber before committing to it.
 
 ## The whole
 in view.
@@ -268,7 +266,7 @@ Curved arch with local receivers and connections at its feet.
 
 In the earlier jointed model, each family of timber keeps a constant section. Its shape follows the canopy; local cuts form the connections.
 
-The model records timber volumes and steel parts. Species, grade, moisture and production tolerances are decisions to resolve with the timber engineer and fabricator.
+The model records timber volumes and steel parts. Species, grade, moisture, and production tolerances are chosen for the site's rainfall, humidity, temperature range, and wind exposure. These decisions are resolved with our engineers and fabricators.
 
 ![Arch geometry from Bower One R13](/assets/tech/timbers-r13/EA-01.webp)
 
@@ -294,29 +292,45 @@ September 2026
 
 We turn a design into questions that can be tested: how the timber bends, how parts meet, and what still needs to be resolved.
 
-Forming the timber
+-
 
-The current engine screens each rib for bending and twist against material and forming assumptions. It compares alternative forms and groups ribs by their forming requirements.
+### Forming the timber
 
-Assembling the geometry
+- Our engine screens each rib for bending and twist against material and forming assumptions.
 
-We checked for closed solids, contact between parts and agreement between crossing geometry and joint records. Unresolved contacts and connections were recorded for review.
+- It compares alternative forms and groups ribs by their forming requirements.
 
-Testing the connections
+-
 
-Modelled allowances give us something specific to prototype. Physical forming trials, joint testing and engineering review must establish the production fit and capacity.
+### Assembling the geometry
+
+- We checked for closed solids, contact between parts and agreement between crossing geometry and joint records.
+
+- Unresolved contacts and connections were recorded for review.
+
+-
+
+### Testing the connections
+
+- Modelled allowances give us something specific to prototype.
+
+- Physical forming trials, joint testing and engineering review must establish the production fit and capacity.
+
+Show all
 
 Plant growth changes what the structure carries. Wind acts differently on bare timber and on a canopy in leaf.
 
-In an earlier gridshell study, we set up structural load cases and combinations, and distributed plant loads across the model. That work prepared the inputs for analysis; it did not establish structural capacity.
+We set up structural load cases and combinations, and distributed plant loads across the model. This work prepared the inputs for further analysis and review.
 
 ![Earlier gridshell load study with plant-load arrows distributed across the canopy and supports shown in black](/assets/tech/gridshell-c3-base.svg)
 
-Plant-load application, earlier gridshell study; 3 September 2026. Analysis inputs, not structural results.
+Plant-load application, earlier gridshell study; 3 September 2026.
 
 The structural test setup considers the life of the planted canopy. Its assumptions and unresolved inputs travel with the model for engineering review.
 
-Load directions, schematic
+Timber and planting weight acts downwards across the canopy.
+
+Timber + planting. Load directions, schematic.
 
 Timber and planting
 
@@ -330,24 +344,12 @@ Snow, ice and time
 
 Seasonal loads and long-term behaviour. Snow and ice were not yet quantified; load combinations awaited a confirmed dead load.
 
-## About the studies
-
-The current research prototype lays out vaulted canopies, screens ribs for bending and twist, compares alternative forms and groups ribs into forming-jig families.
-
-Rib layout and screening also extend to an oculus form. Its default study does not yet pass the current fabrication screen. Ring, edge and foot parts, and interactive steering for this form, remain to be developed.
-
-Forming trials, connection testing and project-specific structural engineering are still needed. Fabrication screening is not structural approval.
-
-Engine reviewed on 6 November 2026. The film and drawings record the earlier September work; dimensions belong to those revisions. Not construction documents.
-
 ![Interior concept visualisation looking through a planted timber oculus with grape vines](/assets/selected/13-grape-oculus.webp)
 
 ## The garden
 does the rest.
 
 A framework for climbing plants, and a place for people to gather.
-
-Grape Oculus, concept visualisation
 
 [
 

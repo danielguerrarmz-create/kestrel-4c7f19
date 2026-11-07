@@ -18,7 +18,6 @@ export function TechPage() {
           <h1 id="tech-title">Technology<br />at Bower.</h1>
           <p>A place that feels natural.</p>
         </div>
-        <p className="tech-image-note">Woodland Bower, concept visualisation</p>
       </section>
       <section data-snap-section className="tech-assembly tech-section tech-frame" id="assembly" aria-labelledby="assembly-title">
         <div className="tech-section-heading">
