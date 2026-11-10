@@ -75,7 +75,7 @@ export function PartsField() {
       <div className="tech-parts-heading">
         {instant || reduced ? <p>{introduction}</p> : <AnimatePresence initial={false} mode="popLayout">
           <motion.p key={tour ? beat : 'introduction'}
-            initial={{ opacity: 0, transform: 'translateY(4px)' }} animate={{ opacity: 1, transform: 'translateY(0)' }} exit={{ opacity: 0 }}
+            initial={{ transform: 'translateY(4px)' }} animate={{ transform: 'translateY(0)' }}
             transition={{ duration: .22, ease: [.23, 1, .32, 1] }}>{tour ? presentation[beat].text : introduction}</motion.p>
         </AnimatePresence>}
         {!complete && !reduced && <div className="tech-parts-progress" data-playing={tour} aria-hidden="true">
