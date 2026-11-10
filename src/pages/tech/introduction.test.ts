@@ -31,6 +31,17 @@ describe('one-time explanatory introductions', () => {
     intro.enter(0); intro.enter(1); vi.advanceTimersByTime(5000);
     expect(intro.onStart).toHaveBeenCalledOnce(); intro.dispose();
   });
+  it('pauses the guided intro timers and resumes from the remaining reading time', () => {
+    const intro = setup(); intro.enter(1); vi.advanceTimersByTime(500);
+    intro.setPaused(true); vi.advanceTimersByTime(20000);
+    expect(intro.onStep.mock.calls).toEqual([[0]]);
+    expect(intro.onFinish).not.toHaveBeenCalled();
+    intro.setPaused(false); vi.advanceTimersByTime(749);
+    expect(intro.onStep.mock.calls).toEqual([[0]]);
+    vi.advanceTimersByTime(1); expect(intro.onStep.mock.calls).toEqual([[0], [1]]);
+    vi.advanceTimersByTime(2650); expect(intro.onFinish).toHaveBeenCalledOnce();
+    intro.dispose();
+  });
   it('hands over immediately and never overrides a user selection after cancellation', () => {
     const intro = setup(); intro.enter(1); vi.advanceTimersByTime(500); intro.stop();
     vi.advanceTimersByTime(5000);

@@ -25,6 +25,7 @@ export function ChecksTimeline() {
   const reduced = useReducedMotion();
   const [phase, setPhase] = useState('complete');
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     if (!ref.current || reduced || played.current) {
@@ -44,7 +45,7 @@ export function ChecksTimeline() {
     return intro.dispose;
   }, [reduced]);
 
-  return <div ref={ref} className="tech-checks-guide" data-intro={phase}>
+  return <div ref={ref} className="tech-checks-guide" data-intro={phase} data-paused={paused}>
     <ol className="tech-checks-timeline" aria-label="Design review stages">
       {stages.map((stage, index) => <li key={stage.title}
         data-reached={phase === 'complete' || index <= active}
@@ -57,6 +58,10 @@ export function ChecksTimeline() {
       </li>)}
     </ol>
     <div className="tech-checks-controls">
+      {!reduced && phase === 'playing' && <button type="button" onClick={() => {
+        controller.current?.setPaused(!paused);
+        setPaused(!paused);
+      }}>{paused ? 'Play animation' : 'Pause animation'}</button>}
       <button type="button" onClick={() => controller.current?.stop()}
         tabIndex={phase === 'complete' ? -1 : 0} disabled={phase === 'complete'}>Show all</button>
     </div>

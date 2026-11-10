@@ -1,14 +1,40 @@
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { TechPage } from './TechPage';
 import { resolveRoute, PUBLIC_ROUTES } from '../routing';
 import { metaForPath } from '../seo';
 
 const html = renderToString(createElement(TechPage));
 describe('Bower technology page', () => {
+  it('offers a pause button and manual access to every load case', () => {
+    expect(html).toMatch(/<button[^>]*>Pause animation<\/button>/);
+    for (const label of ['Timber + planting', 'Wind + uplift', 'Snow + ice']) {
+      expect(html).toMatch(new RegExp(`<button[^>]*aria-pressed="(?:true|false)"[^>]*>${label.replace('+', '\\+')}</button>`));
+    }
+    // Pair the rendered control contract with the tested timer controller wiring.
+    const source = readFileSync('src/pages/tech/LoadDirections.tsx', 'utf8');
+    expect(source).toContain('controller.current?.setPaused(value)');
+    expect(source).toContain('onClick={() => pause(!paused)}');
+  });
+  it('keeps diagrams and every review stage available with reduced motion', () => {
+    vi.stubGlobal('window', { matchMedia: () => ({ matches: true }), addEventListener() {}, removeEventListener() {} });
+    try {
+      const staticHtml = renderToString(createElement(TechPage));
+      expect(staticHtml).not.toContain('Pause animation');
+      expect(staticHtml).toContain('id="load-direction-view"');
+      expect(staticHtml.match(/aria-controls="load-direction-view"/g)).toHaveLength(3);
+      expect(staticHtml.match(/data-reached="true"/g)).toHaveLength(3);
+      expect(staticHtml).not.toContain('data-revealed="false"');
+      expect(staticHtml).toContain('class="tech-load-wave"');
+      const css = readFileSync('src/pages/tech/tech.css', 'utf8');
+      expect(css).toContain('.tech-checks-guide .tech-checks-content { opacity: 1; color: #fff; }');
+      expect(css).not.toMatch(/\.tech-load-controls[^}]*visibility: hidden/);
+      expect(css).not.toMatch(/tech-checks-content[^}]*opacity: \.25/);
+    } finally { vi.unstubAllGlobals(); }
+  });
   it('ships as a public page while the interactive engine stays private', () => {
     expect(PUBLIC_ROUTES).toContain('/tech');
     expect(metaForPath('/tech').path).toBe('/tech');

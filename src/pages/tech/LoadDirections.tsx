@@ -12,18 +12,26 @@ const cases = [
 export function LoadDirections() {
   const [selected, setSelected] = useState(0);
   const [instant, setInstant] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const controller = useRef<ReturnType<typeof observeVisibleLoop>>();
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   useEffect(() => {
     if (!ref.current || reduced) return;
-    const controller = observeVisibleLoop(ref.current, () => {
+    const loop = observeVisibleLoop(ref.current, () => {
       setInstant(false);
       setSelected(index => (index + 1) % cases.length);
     }, 2500);
-    return controller.dispose;
+    controller.current = loop;
+    return () => { loop.dispose(); controller.current = undefined; };
   }, [reduced]);
+  function pause(value: boolean) {
+    controller.current?.setPaused(value);
+    setPaused(value);
+  }
+  useEffect(() => { controller.current?.setPaused(paused); }, [paused, reduced]);
   const current = cases[selected];
-  return <figure ref={ref} className="tech-load-directions" data-case={current.id} data-instant={instant || reduced}>
+  return <figure ref={ref} className="tech-load-directions" data-case={current.id} data-instant={instant || reduced || paused}>
     <svg id="load-direction-view" viewBox="0 0 1212 1130" role="img" aria-labelledby="load-directions-title load-directions-desc">
       <title id="load-directions-title">{`${current.label}: loads on a Bower`}</title>
       <desc id="load-directions-desc">{current.description} Arrows indicate directions, not calculated magnitudes or deformation.</desc>
@@ -78,6 +86,14 @@ export function LoadDirections() {
       </g>
     </svg>
     <figcaption>
+      <div className="tech-load-controls" role="group" aria-label="Load cases">
+        {cases.map((loadCase, index) => <button key={loadCase.id} type="button"
+          aria-pressed={selected === index} aria-controls="load-direction-view"
+          onClick={() => { pause(true); setInstant(true); setSelected(index); }}>{loadCase.label}</button>)}
+        {!reduced && <button type="button" onClick={() => pause(!paused)}>
+          {paused ? 'Play animation' : 'Pause animation'}
+        </button>}
+      </div>
       <p className="tech-load-explanation">{current.description}</p>
       <p className="tech-caption"><span className="tech-force-key" aria-hidden="true">↓</span> {current.label}. Load directions, schematic.</p>
     </figcaption>
