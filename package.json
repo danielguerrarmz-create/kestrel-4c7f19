@@ -13,7 +13,8 @@
     "qa:matrix": "node qa/capture-matrix.mjs",
     "qa:nav": "node qa/header-nav.mjs",
     "gen:images": "node scripts/gen-image-variants.mjs",
-    "gen:og": "node scripts/gen-og-card.mjs"
+    "gen:og": "node scripts/gen-og-card.mjs",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/source-serif-4": "^5.2.9",
@@ -32,6 +33,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
