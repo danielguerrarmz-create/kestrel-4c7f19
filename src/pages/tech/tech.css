@@ -128,7 +128,7 @@ html[data-page-snap] .technology-page [data-snap-section] { scroll-snap-stop: no
 .tech-checks-guide[data-intro="playing"] li:nth-child(2)[data-active="true"] .tech-checks-track i { animation-duration: 3800ms; }
 .tech-checks-guide[data-intro="playing"] li:nth-child(3)[data-active="true"] .tech-checks-track i { animation-duration: 4000ms; }
 .tech-checks-guide .tech-checks-content { opacity: 1; color: #fff; }
-.tech-checks-guide[data-paused="true"] .tech-checks-track i { animation-play-state: paused; }
+.tech-checks-guide[data-intro="playing"][data-paused="true"] li:nth-child(n)[data-active="true"] .tech-checks-track i { animation-play-state: paused; }
 .tech-checks-controls { height: 44px; margin-top: 20px; display: flex; justify-content: flex-end; }
 .tech-checks-controls button, .tech-load-controls button { min-height: 44px; padding: 8px 0 8px 20px; border: 0; background: none; color: inherit; text-decoration: underline; text-underline-offset: 4px; font: 13px/1.4 Arial,sans-serif; }
 .tech-checks-controls button:active { opacity: .7; }
