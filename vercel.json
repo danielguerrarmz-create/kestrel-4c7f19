@@ -10,6 +10,14 @@
       "destination": "/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf"
     },
     {
+      "source": "/designx/2",
+      "destination": "/designx/2/index.html"
+    },
+    {
+      "source": "/designx/2/",
+      "destination": "/designx/2/index.html"
+    },
+    {
       "source": "/designx",
       "destination": "/designx/index.html"
     },

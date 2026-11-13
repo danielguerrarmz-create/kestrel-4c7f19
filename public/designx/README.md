@@ -5,10 +5,15 @@ A sixteen-scene working presentation for Bower × MIT–LUMA. The website is the
 ## Routes
 
 - `/designx` and `/designx/`: interactive presentation.
+- `/designx/2` and `/designx/2/`: second visual edition, using the architectural-editorial style guide.
 - `/designx/pdf` and `/designx/pdf/`: current PDF served inline.
 - `/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf`: underlying exported file.
 
 Vite development/preview and Vercel use the same routes. Presentation code, media and PDF stay under `public/designx/`. The marketing router yields to this document. Its navigation and sitemap remain unchanged. No external fonts, analytics or runtime APIs are required. Noindex headers discourage indexing.
+
+The second edition keeps its entry point, style and interaction enhancements in `public/designx/2/`. It shares the story, scene modules and media already under `public/designx/`, avoiding duplicate copies of large assets. The original presentation and its current PDF remain available at their existing URLs.
+
+Edition 02 uses the supplied Helvetica Neue/Arial system, botanical palette and the existing Oculus emblem with a Georgia wordmark. Its `editorial.css` controls the art direction; `edition.js` adds scroll navigation, deliberate growth scrubbing and on-demand seeking through the customer film. Keyboard, touch, direct scene controls and reduced-motion alternatives remain available. The PDF link is explicitly labelled as edition 01 until a second-edition PDF is requested.
 
 Run `npm run dev`; preview at `http://localhost:5333/designx`. Deep links run from `#slide-01` to `#slide-16`. Add `?print=1` to inspect all static compositions. The file can also run offline; its PDF link uses the local exported file.
 
@@ -38,12 +43,15 @@ Private source notes are in `docs/private/designx/` and excluded from the build.
 node scripts/designx/export.mjs
 python scripts/designx/verify-pdf.py
 node scripts/designx/check.mjs
+node scripts/designx/check-2.mjs
 npm run build
 ```
 
 Export before building so production includes the latest PDF. The export writes `output/pdf/`, copies the PDF into `downloads/`, and captures review PNGs under ignored `qa-out/designx/slides/`. PDF photography is compressed in the export browser; web originals and live text/vector diagrams are retained. The verifier needs `pypdf`.
 
 The twenty-one browser checks cover navigation, scene interactions, keyboard/modal focus, five viewports, print composition, offline use, isolated resource loading and PDF route headers/byte equality. Inspect the actual rendered PDF too. Reports are under `qa-out/designx/`.
+
+The second-edition check covers ten behaviour groups, all sixteen slide compositions and four viewport sizes, including trackpad inertia, first play, seek/replay, original-route isolation and reduced motion. Its screenshots and report are under `qa-out/designx/edition-02/`.
 
 `DESIGNX_META.status` is `working-draft`. Export is enabled because the founder requested a current PDF containing the interim notes. This does not mark it ready for submission. Earlier rejected exports remain in ignored `output/designx/rejected-v1-2026-11-13/`.
 

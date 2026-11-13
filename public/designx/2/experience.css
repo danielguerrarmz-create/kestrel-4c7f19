@@ -1,0 +1,22 @@
+/* Edition-specific interaction chrome. The original presentation stays independent. */
+.designx-v2 .edition-navigation {display:flex;align-items:center;gap:19px}
+.designx-v2 .version-link,.designx-v2 .version-current {font:11px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.08em;text-decoration:none;padding:9px 0;min-width:25px;text-align:center}
+.designx-v2 .version-link {color:#B1C1B5}
+.designx-v2 .version-current {color:#B7CD7B;border-bottom:1px solid currentColor}
+.designx-v2 .brand-emblem {width:32px;height:32px;object-fit:contain;flex:none}
+.designx-v2 .viewer-brand {display:flex;align-items:center;gap:10px}
+.designx-v2 .wordmark {display:inline-flex;align-items:center;gap:20px}
+.designx-v2 .wordmark .brand-emblem {width:65px;height:65px}
+.designx-v2 .v2-scroll-hint {position:fixed;left:50%;top:19px;transform:translateX(-50%);color:#B1C1B5;font:10px/1.4 'Helvetica Neue',Arial,sans-serif;letter-spacing:.08em;pointer-events:none;z-index:10;white-space:nowrap}
+.designx-v2 .film-explore {position:absolute;left:24px;right:24px;top:78px;padding:16px 19px 12px;background:#0B1D18e8;color:#EEF3EA;border-top:1px solid #B1C1B570;z-index:4;opacity:0;transition:opacity .2s ease}
+.designx-v2 .film-explore:focus-within,.designx-v2 .buyer-triptych figure:hover .film-explore {opacity:1}
+.designx-v2 .film-explore label {display:flex;justify-content:space-between;font:11px/1.4 'Helvetica Neue',Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase;cursor:ew-resize}
+.designx-v2 .film-explore input {display:block;width:100%;height:24px;accent-color:#B7CD7B;cursor:ew-resize;margin:10px 0 3px}
+.designx-v2 .film-explore-note {display:block;font:10px/1.5 'Helvetica Neue',Arial,sans-serif;color:#B1C1B5}
+.designx-v2 .film-explore:has(input:focus-visible) {outline:1px solid #B7CD7B;outline-offset:2px}
+@media (hover:none) {.designx-v2 .film-explore {opacity:1}}
+@media (max-width:1000px) {.designx-v2 .v2-scroll-hint {display:none}.designx-v2 .edition-navigation {gap:12px}}
+@media (max-width:760px) {.designx-v2 .brand-emblem {width:25px;height:25px}.designx-v2 .viewer-brand {gap:8px}.designx-v2 .version-link,.designx-v2 .version-current {font-size:10px}}
+.designx-v2.print-mode .v2-scroll-hint {display:none}
+@media print {.designx-v2 .v2-scroll-hint {display:none}}
+@media (prefers-reduced-motion:reduce) {.designx-v2 .film-explore {transition:none}}

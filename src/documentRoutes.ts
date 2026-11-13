@@ -10,8 +10,10 @@ export function isDesignxDocumentPath(pathname: string): boolean {
 export function designxDocumentUrl(requestUrl: string): string | null {
   const queryIndex = requestUrl.indexOf('?');
   const pathname = queryIndex === -1 ? requestUrl : requestUrl.slice(0, queryIndex);
-  if (pathname !== DESIGNX_ROOT && pathname !== `${DESIGNX_ROOT}/`) return null;
-  return `${DESIGNX_ROOT}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
+  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/2`]
+    .find(root => pathname === root || pathname === `${root}/`);
+  if (!documentRoot) return null;
+  return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
 }
 
 /** The PDF alias serves a file, never the interactive document or the marketing SPA. */

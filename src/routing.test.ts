@@ -124,7 +124,7 @@ describe('the click delegate decides which links the router takes over', () => {
   });
 
   it('lets the browser open the independent DesignX presentation and its files', () => {
-    for (const href of ['/designx', '/designx/', '/designx?print=1#slide-04', '/designx/downloads/deck.pdf']) {
+    for (const href of ['/designx', '/designx/', '/designx?print=1#slide-04', '/designx/2', '/designx/2/', '/designx/2?print=1#slide-04', '/designx/downloads/deck.pdf']) {
       expect(claimsLink({ href }, here), href).toBe(false);
     }
     // Do not accidentally reserve every path that merely begins with the same word.
@@ -283,6 +283,7 @@ describe('the Vercel SPA rewrite', () => {
       '/designx/deck.js',
       '/designx/deck.css',
       '/designx/assets/cover.webp',
+      '/designx/2/editorial.css',
       '/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf',
     ]) {
       expect(re.test(path), `${path} must be served from disk, not rewritten to HTML`).toBe(false);
@@ -297,6 +298,16 @@ describe('the Vercel SPA rewrite', () => {
     }
     expect(re.test('/designx-other')).toBe(true);
     expect(cfg.headers.find((h: { source: string }) => h.source === '/designx')?.headers)
+      .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
+  });
+
+  it('serves the second edition at its own URL and retains the deck noindex header', () => {
+    for (const path of ['/designx/2', '/designx/2/']) {
+      expect(re.test(path)).toBe(false);
+      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
+        .toBe('/designx/2/index.html');
+    }
+    expect(cfg.headers.find((h: { source: string }) => h.source === '/designx/(.*)')?.headers)
       .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
   });
 });

@@ -1,0 +1,2 @@
+<!-- Reuses the locked Oculus geometry from src/ui/OculusMark.tsx. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><g stroke="#EEF3EA" stroke-width="2.8" stroke-linecap="round"><circle cx="65" cy="50" r="30"/><circle cx="60.61" cy="60.61" r="30"/><circle cx="50" cy="65" r="30"/><circle cx="39.39" cy="60.61" r="30"/><circle cx="35" cy="50" r="30"/><circle cx="39.39" cy="39.39" r="30"/><circle cx="50" cy="35" r="30"/><circle cx="60.61" cy="39.39" r="30"/></g></svg>

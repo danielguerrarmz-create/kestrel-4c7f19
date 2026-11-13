@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0B1D18">
+  <meta name="description" content="Buildings that grow. Bower's architectural proposition, technical development and first-build ambition for MIT DesignX × LUMA.">
+  <title>Buildings That Grow — Edition 02 · Bower × MIT–LUMA</title>
+  <script>
+    // Insert resource URLs after the base is known; the preload scanner must not
+    // resolve relative URLs against the extensionless /designx document.
+    const base = document.createElement('base');
+    base.href = location.protocol === 'file:' ? new URL('../', location.href).href : '/designx/';
+    document.head.append(base);
+    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css']) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet'; stylesheet.href = file;
+      document.head.append(stylesheet);
+    }
+  </script>
+</head>
+<body class="designx-v2">
+  <a class="skip-link" href="#deck">Skip to presentation</a>
+  <header class="viewer-header" aria-label="Presentation information">
+    <a href="https://www.bowerbuild.org" class="viewer-brand" target="_blank" rel="noopener"><img class="brand-emblem" data-brand-emblem alt="">bower<span>Buildings that grow</span></a>
+    <div class="edition-navigation"><span class="viewer-edition">MIT DesignX × LUMA / 2026</span><a class="version-link" href="/designx" title="Compare with the original presentation">01</a><span class="version-current" aria-label="Edition 2, current">02</span></div>
+  </header>
+  <main id="deck" class="deck-stage" aria-label="Buildings That Grow" tabindex="-1"></main>
+  <nav class="viewer-controls" aria-label="Presentation controls">
+    <div class="controls-left">
+      <button id="open-index" aria-label="Open slide index" title="Slide index (G)"><span class="grid-icon" aria-hidden="true">▦</span></button>
+      <span id="current-act"></span>
+    </div>
+    <div class="controls-centre">
+      <button id="prev-slide" aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <span id="slide-counter" aria-hidden="true"></span>
+      <button id="next-slide" aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+    <div class="controls-right">
+      <button id="show-notes" aria-label="Show speaker notes" title="Speaker notes (N)">Notes</button>
+      <a id="pdf-link" href="pdf" target="_blank" rel="noopener" title="Open the original edition PDF">PDF · 01 ↗</a>
+      <button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button>
+    </div>
+  </nav>
+  <p class="v2-scroll-hint" id="v2-scroll-hint">Scroll to explore · or use the arrows</p>
+  <div class="viewer-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  <p id="slide-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+  <dialog id="slide-index" class="index-dialog" aria-labelledby="index-title">
+    <div class="dialog-heading"><h2 id="index-title">Buildings that grow.</h2><button data-close-dialog="slide-index" aria-label="Close slide index">×</button></div>
+    <div id="index-grid"></div>
+    <p class="dialog-hint">← → Navigate · G Index · N Notes · F Fullscreen · Esc Close</p>
+  </dialog>
+  <dialog id="speaker-notes" class="notes-dialog" aria-labelledby="notes-title">
+    <div class="dialog-heading"><h2 id="notes-title">Speaker notes</h2><button data-close-dialog="speaker-notes" aria-label="Close speaker notes">×</button></div>
+    <div id="notes-content"></div>
+  </dialog>
+  <noscript><p class="no-script">This presentation needs JavaScript.</p></noscript>
+  <script>
+    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', 'deck.js']) {
+      const script = document.createElement('script');
+      script.src = file; script.async = false;
+      document.body.append(script);
+    }
+  </script>
+</body>
+</html>

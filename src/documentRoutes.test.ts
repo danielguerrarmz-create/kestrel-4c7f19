@@ -9,8 +9,16 @@ describe('the standalone presentation document', () => {
     expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/index.html?print=1');
   });
 
+  it('serves the second edition independently and preserves its query parameters', () => {
+    expect(designxDocumentUrl('/designx/2')).toBe('/designx/2/index.html');
+    expect(designxDocumentUrl('/designx/2/')).toBe('/designx/2/index.html');
+    expect(designxDocumentUrl('/designx/2?print=1&from=compare')).toBe('/designx/2/index.html?print=1&from=compare');
+    expect(designxDocumentUrl('/designx/2/?print=1')).toBe('/designx/2/index.html?print=1');
+    expect(isDesignxDocumentPath('/designx/2')).toBe(true);
+  });
+
   it('never rewrites presentation media or unrelated routes to HTML', () => {
-    for (const url of ['/designx/deck.js', '/designx/assets/cover.webp', '/designx/index.html', '/designx/pdf', '/designx/pdf/', '/designx-other', '/', '/gallery']) {
+    for (const url of ['/designx/deck.js', '/designx/assets/cover.webp', '/designx/index.html', '/designx/2/editorial.css', '/designx/2/index.html', '/designx/20', '/designx/2/pdf', '/designx/pdf', '/designx/pdf/', '/designx-other', '/', '/gallery']) {
       expect(designxDocumentUrl(url), url).toBeNull();
     }
     expect(isDesignxDocumentPath('/designx')).toBe(true);
@@ -27,7 +35,7 @@ describe('the standalone presentation document', () => {
   });
 
   it('does not turn the interactive deck, nearby paths or PDF assets into aliases', () => {
-    for (const url of ['/designx', '/designx/', '/designx/pdf-notes', '/designx/pdf/notes', DESIGNX_PDF_ASSET, '/', '/gallery']) {
+    for (const url of ['/designx', '/designx/', '/designx/2', '/designx/2/', '/designx/2/pdf', '/designx/pdf-notes', '/designx/pdf/notes', DESIGNX_PDF_ASSET, '/', '/gallery']) {
       expect(designxPdfUrl(url), url).toBeNull();
     }
   });
