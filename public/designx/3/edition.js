@@ -3,6 +3,12 @@
 (() => {
   'use strict';
   const editionTwo = window.DESIGNX_SLIDES;
+  // Use the complete supplied logo used by the current marketing site.
+  // The inherited edition-02 Oculus/Georgia construction is not this artwork.
+  const brandMarkup = '<img class="deck-brand-lockup" src="3/assets/bower-logo.png" alt="Bower">';
+  const viewerBrand = document.querySelector('.viewer-brand');
+  viewerBrand.innerHTML = brandMarkup;
+  viewerBrand.setAttribute('aria-label', 'Bower home');
   const byTheme = new Map(editionTwo.map(slide => [slide.theme.split(' ')[0], slide]));
   const editionUrl = location.protocol === 'file:' ? location.href.split('#')[0] : 'https://www.bowerbuild.org/designx/3';
   const problem = {
@@ -33,6 +39,7 @@
       .replaceAll('https://www.bowerbuild.org/designx/2', editionUrl)
       .replaceAll('bowerbuild.org/designx/2 <', 'bowerbuild.org/designx/3 <');
     const content = template.content;
+    content.querySelectorAll('.wordmark').forEach(mark => { mark.innerHTML = brandMarkup; });
     const heading = content.querySelector('.slide-heading h2, .fw-intro h2, .fw-coupled-title h2');
     if (heading && headlines[theme]) heading.innerHTML = headlines[theme];
     let title = headlines[theme]?.replaceAll('<br>', ' ') ?? slide.title;
@@ -46,9 +53,8 @@
     }
     if (theme === 'cover') {
       title = 'Bower. Buildings that grow.';
-      content.querySelector('.cover-proposition').innerHTML = '<strong>The means to make many.</strong>Bower is developing living architecture—and the computation<br>and manufacturing capability to make it repeatable.';
+      content.querySelector('.cover-proposition').textContent = 'The means to make many.';
       content.querySelector('.cover-top p').remove();
-      content.querySelector('.cover-bottom').insertAdjacentHTML('beforebegin', '<ol class="purpose-sequence" aria-label="Bower’s development path"><li><h3>One Bower.</h3><p>Prove beauty, buildability<br>and demand.</p></li><li><h3>A repeatable process.</h3><p>Turn each commission into<br>reusable production knowledge.</p></li><li><h3>Living architecture.</h3><p>Develop the capability<br>to make many.</p></li></ol>');
       notes = 'Bower is developing the architectural product and the capability to produce it together. Start with one beautiful, inhabitable Bower to test desirability and buildability. Use commissions to develop repeatable design and fabrication knowledge. A production system is the route toward wider application. This is a development path, not a claim that the first building, operating factory or lifecycle carbon case is complete. The first product combines an engineered timber structure with planting; the plants are not assumed to replace the engineered load path.';
     }
     if (theme === 'growth-slide') {

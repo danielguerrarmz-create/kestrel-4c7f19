@@ -79,7 +79,7 @@ try {
     assert.equal(await visibleText(page.locator('.closing-thesis')), closingThesis);
     await go(1);
   });
-  await check('Opening motion pauses offscreen and the three-step purpose is readable without interaction', async () => {
+  await check('Opening motion pauses on request and offscreen', async () => {
     const film = page.locator('.material-problem-slide .opening-film');
     await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationName)).not.toBe('none');
     await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
@@ -98,12 +98,6 @@ try {
     await expect.poll(() => film.evaluate(el => getComputedStyle(el).transform)).not.toBe(pausedTransform);
     await go(3);
     await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('paused');
-    const steps = page.locator('.cover .purpose-sequence li');
-    await expect(steps).toHaveCount(3);
-    for (const step of await steps.all()) {
-      await expect(step).toBeVisible();
-      assert((await step.textContent()).trim().length > 5, 'Each purpose step must make its case in visible text');
-    }
     await go(1);
     await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
   });
@@ -200,9 +194,6 @@ try {
       const style = getComputedStyle(el);
       return style.animationName === 'none' || style.animationPlayState === 'paused';
     }));
-    const steps = print.locator('.cover .purpose-sequence li');
-    await expect(steps).toHaveCount(3);
-    for (const step of await steps.all()) await expect(step).toBeVisible();
     assert.equal(await visibleText(print.locator('.variability-slide blockquote')), variabilityThesis);
     assert.equal(await visibleText(print.locator('.closing-thesis')), closingThesis);
     await print.locator('.material-problem-slide').screenshot({ path: resolve(output, 'print-opening.png') });
