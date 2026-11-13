@@ -16,6 +16,9 @@ const errors = [];
 const checks = [];
 const screenshots = [];
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+const variabilityThesis = 'Variability is the essence of nature and the enemy of industry; Bower’s bet is to make variability manufacturable.';
+const closingThesis = 'We mine, pour, and cut; we assemble inert objects that begin decaying the moment they’re complete; and we’ve quietly accepted that the largest thing our species makes — the built world — is also the most severed from the living one.';
+const visibleText = async locator => (await locator.innerText()).replace(/\s+/g, ' ').trim();
 const observe = target => {
   target.on('pageerror', error => errors.push(error.message));
   target.on('response', response => {
@@ -56,34 +59,53 @@ try {
   });
   await check('The problem has visible sources and the evidence retains its qualifications', async () => {
     const first = page.locator('.material-problem-slide');
-    await expect(first.locator('a[href*="unep.org"]')).toHaveCount(1);
-    await expect(first.locator('a[href*="iea.org"]')).toHaveCount(1);
-    await expect(first).toContainText(/material|materials/i);
-    await expect(first).toContainText(/chemistry|chemical/i);
+    await expect(first.locator('a[href*="energy-transitions.org"]')).toHaveCount(1);
+    await expect(first.locator('a[href*="globalabc.org"], a[href*="unep.org"]')).toHaveCount(1);
+    assert.match((await first.locator('h1').innerText()).replace(/\s+/g, ' '), /build the world again/i);
+    await expect(first).toContainText('55%');
+    await expect(first).toContainText('2022');
+    await expect(first).toContainText('2050');
+    await expect(first.locator('img[src$="3/assets/world-under-construction.webp"]')).toHaveCount(1);
+    await expect(page.locator('.variability-slide img[src$="3/assets/living-structure.webp"]')).toHaveCount(1);
     await expect(page.locator('.computation-slide')).toContainText(/in development/i);
     await expect(page.locator('.factory-slide')).toContainText(/in development/i);
     await expect(page.locator('.traction-slide')).toContainText(/In discussion with/i);
     for (const name of ['Eden', 'The Newt', '25hours']) await expect(page.locator('.traction-slide')).toContainText(name);
+    await go(2);
+    await expect(page.locator('.variability-slide blockquote')).toBeVisible();
+    assert.equal(await visibleText(page.locator('.variability-slide blockquote')), variabilityThesis);
+    await go(16);
+    await expect(page.locator('.closing-thesis')).toBeVisible();
+    assert.equal(await visibleText(page.locator('.closing-thesis')), closingThesis);
+    await go(1);
   });
-  await check('Cleaner-electricity interaction changes energy emissions while process emissions remain', async () => {
-    const control = page.locator('[data-material-grid]');
-    const energy = page.locator('[data-grid-carbon]');
-    const process = page.locator('[data-process-carbon]');
-    await control.fill('0');
-    await expect(page.locator('[data-grid-state]')).toHaveText('Higher-carbon electricity');
-    await expect.poll(() => energy.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
-    await expect.poll(() => process.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
-    await control.fill('100');
-    await expect(page.locator('[data-grid-state]')).toHaveText('Cleaner electricity');
-    await expect.poll(() => energy.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(0.14);
-    await expect.poll(() => process.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
-    await expect(control).toHaveAttribute('aria-valuetext', /limestone process emissions remain/);
-    await control.focus();
-    await page.keyboard.press('ArrowLeft');
-    await expect.poll(() => control.inputValue().then(Number)).toBeLessThan(100);
-    assert.equal(await page.evaluate(() => window.DESIGNX.current), 1, 'Range keyboard interaction must not navigate the deck');
-    await control.fill('100');
-    await control.blur();
+  await check('Opening motion pauses offscreen and the three-step purpose is readable without interaction', async () => {
+    const film = page.locator('.material-problem-slide .opening-film');
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationName)).not.toBe('none');
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
+    const motionButton = page.locator('.material-problem-slide [data-opening-motion]');
+    await motionButton.click();
+    await expect(motionButton).toHaveAttribute('aria-label', 'Resume image motion');
+    await expect(motionButton).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('paused');
+    const pausedTransform = await film.evaluate(el => getComputedStyle(el).transform);
+    await page.waitForTimeout(150);
+    assert.equal(await film.evaluate(el => getComputedStyle(el).transform), pausedTransform);
+    await motionButton.click();
+    await expect(motionButton).toHaveAttribute('aria-label', 'Pause image motion');
+    await expect(motionButton).toHaveAttribute('aria-pressed', 'false');
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).transform)).not.toBe(pausedTransform);
+    await go(3);
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('paused');
+    const steps = page.locator('.cover .purpose-sequence li');
+    await expect(steps).toHaveCount(3);
+    for (const step of await steps.all()) {
+      await expect(step).toBeVisible();
+      assert((await step.textContent()).trim().length > 5, 'Each purpose step must make its case in visible text');
+    }
+    await go(1);
+    await expect.poll(() => film.evaluate(el => getComputedStyle(el).animationPlayState)).toBe('running');
   });
   await check('Scroll navigation advances once and the slide index remains usable', async () => {
     await page.waitForTimeout(700);
@@ -129,10 +151,12 @@ try {
   await check('Reduced motion preserves deliberate controls and stops automatic growth', async () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await go(1);
-    await page.locator('[data-material-grid]').fill('0');
-    await expect.poll(() => page.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
-    await page.locator('[data-material-grid]').fill('100');
-    await expect.poll(() => page.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(0.14);
+    await expect.poll(() => page.locator('.material-problem-slide .opening-film').evaluate(el => {
+      const style = getComputedStyle(el);
+      return style.animationName === 'none' || style.animationPlayState === 'paused';
+    })).toBe(true);
+    await expect(page.locator('.material-problem-slide h1')).toBeVisible();
+    for (const control of await page.locator('[data-opening-motion]').all()) await expect(control).toBeHidden();
     await goTheme('growth-slide');
     await expect(page.locator('.time-scene')).toHaveAttribute('data-time-playing', 'false');
     await page.waitForTimeout(700);
@@ -172,9 +196,15 @@ try {
     assertPrintSlides(await inspectSlides(print));
     await expect(print.locator('.viewer-controls')).toBeHidden();
     await expect(print.locator('.material-problem-slide')).toBeVisible();
-    await expect(print.locator('.material-grid-control')).toBeHidden();
-    assert.equal(await print.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity)), 0.14);
-    assert.equal(await print.locator('[data-process-carbon]').evaluate(el => Number(getComputedStyle(el).opacity)), 1);
+    assert(await print.locator('.material-problem-slide .opening-film').evaluate(el => {
+      const style = getComputedStyle(el);
+      return style.animationName === 'none' || style.animationPlayState === 'paused';
+    }));
+    const steps = print.locator('.cover .purpose-sequence li');
+    await expect(steps).toHaveCount(3);
+    for (const step of await steps.all()) await expect(step).toBeVisible();
+    assert.equal(await visibleText(print.locator('.variability-slide blockquote')), variabilityThesis);
+    assert.equal(await visibleText(print.locator('.closing-thesis')), closingThesis);
     await print.locator('.material-problem-slide').screenshot({ path: resolve(output, 'print-opening.png') });
     await print.close();
   });

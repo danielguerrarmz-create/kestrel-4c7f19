@@ -1,0 +1,11 @@
+{
+  "asset": "living-structure.webp",
+  "created": "2026-11-13",
+  "method": "OpenAI built-in image_gen",
+  "status": "Generated woodland illustration; not a photograph of an actual named place.",
+  "purpose": "A visual contrast between living structural growth and repetitive concrete construction.",
+  "prompt": "Use case: photorealistic-natural.\nAsset type: cinematic architectural-editorial illustration, portrait 4:5 composition, for the left half of a 16:9 Bower presentation slide.\nPrimary request: a visceral image of nature building structure through growth, to contrast with identical concrete columns. Photograph-like image of a believable mature European woodland, eye-level with a subtle upward view.\nSubject: substantial live tree trunks and branching forks in the foreground and centre, strong organic timber structure dividing and growing in many directions. The branching should feel physically solid, varied and alive. Visible natural bark texture, imperfect forks, moss, ferns and restrained undergrowth. Layered woodland canopy behind, not a tangled visual mess.\nComposition: portrait 4:5, central and left-weighted organic trunk structure, sufficient breathing room to appreciate branch directions and strength. No man-made architecture, no fantasy treehouse, no human structure. This is a deliberately generated illustration of a generic woodland, not a real named place.\nPhotography and light: high-end architectural monograph, cinematic observational 35mm film character, natural fine grain and microtexture. Warm soft daylight and a few gentle sunlit patches through canopy. Restrained believable vegetation and deep forest shadows, botanical tones near #102820, #B1C1B5 and #B7CD7B, warm earthy bark. Not oversaturated.\nConstraints: No flowers as the main subject. No perfect symmetry. No fantasy. No icons, labels, lettering, logos or watermark. No CGI gloss, HDR look or exaggerated god-rays. The tree is a living tree, not a designed building.",
+  "processing": "WebP encoding; composition and colours unchanged.",
+  "width": 1122,
+  "height": 1402
+}

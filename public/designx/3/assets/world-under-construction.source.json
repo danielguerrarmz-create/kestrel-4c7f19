@@ -1,0 +1,11 @@
+{
+  "asset": "world-under-construction.webp",
+  "created": "2026-11-13",
+  "method": "OpenAI built-in image_gen",
+  "status": "Generated architectural illustration; not a photograph of an actual project or location.",
+  "purpose": "A visual statement about the scale of construction and the material choices made today.",
+  "prompt": "Use case: photorealistic-natural.\nAsset type: full-bleed architectural-editorial photograph for a 16:9 presentation opening.\nPrimary request: A visceral, cinematic image of the immense physical scale of urban construction still underway. This is a deliberately generated illustration of an anonymous place, not documentation of a real project.\nScene: Look from a slightly elevated unfinished concrete floor across a large ordinary urban construction district. Repetitive bare concrete building frames stretch into a hazy horizon along the right two-thirds, several structurally credible cranes, unfinished slab edges and blunt upright rebars visible in the right foreground. At most a few tiny construction workers far away provide scale.\nComposition: Landscape 16:9, wide observational architectural photography. Detailed and tangible construction mass primarily on the RIGHT 60%. The LEFT 40% is quieter and darker, with a shadowed concrete foreground and subdued empty atmosphere, designed to carry white text added later in HTML. No text in this image. Architectural scale and repeating structural bays should be emotionally arresting, without looking like a ruin.\nStyle: Architectural monograph, cinematic 35mm film character, natural microtexture, restrained fine grain. Warm overcast low-angle daylight through dusty atmospheric haze. Muted mineral grey, warm pale concrete and deep forest-dark shadow tones. Believable, expensive observational photography; not a dramatic poster.\nMeaning: We are still building the world. Material choices are being locked in now.\nConstraints: Realistic construction geometry and cranes. Contemporary generic setting. No recognizable landmark, no logo, no typography, no watermark, no diagram, no arrows, no infographic, no split-screen. No dystopian ruins, destruction, explosions, science fiction or extreme climate propaganda. No excessive HDR or glossy CGI.",
+  "processing": "Lossy WebP encoding at quality 91; composition and colours unchanged.",
+  "width": 1672,
+  "height": 941
+}
