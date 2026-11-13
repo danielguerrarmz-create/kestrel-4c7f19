@@ -4,13 +4,15 @@ import { resolve } from 'node:path';
 import sharp from 'sharp';
 import { assertPrintSlides, inspectSlides, openBrowser, printUrl, ROOT, waitForDeck } from './browser.mjs';
 
-const edition = process.argv.includes('--edition=3') ? '3' : '1';
-if (process.argv.slice(2).some(argument => argument !== '--edition=3')) throw new Error('Supported export option: --edition=3');
-const deckUrl = edition === '3' ? (process.env.DESIGNX_V3_URL ?? 'http://127.0.0.1:5333/designx/3') : undefined;
-const filename = edition === '3' ? 'Bower_DesignX_Buildings_That_Grow_03.pdf' : 'Bower_DesignX_Buildings_That_Grow.pdf';
+const args = process.argv.slice(2);
+if (args.length > 1 || args.some(argument => !/^--edition=[34]$/.test(argument))) throw new Error('Supported export options: --edition=3 or --edition=4');
+const edition = args[0]?.slice('--edition='.length) ?? '1';
+const numberedEdition = edition !== '1';
+const deckUrl = numberedEdition ? (process.env[`DESIGNX_V${edition}_URL`] ?? `http://127.0.0.1:5333/designx/${edition}`) : undefined;
+const filename = numberedEdition ? `Bower_DesignX_Buildings_That_Grow_0${edition}.pdf` : 'Bower_DesignX_Buildings_That_Grow.pdf';
 const outputDirectory = resolve(ROOT, 'output/pdf');
-const captureDirectory = resolve(ROOT, edition === '3' ? 'qa-out/designx/edition-03/print' : 'qa-out/designx/slides');
-const downloadDirectory = resolve(ROOT, edition === '3' ? 'public/designx/3/downloads' : 'public/designx/downloads');
+const captureDirectory = resolve(ROOT, numberedEdition ? `qa-out/designx/edition-0${edition}/print` : 'qa-out/designx/slides');
+const downloadDirectory = resolve(ROOT, numberedEdition ? `public/designx/${edition}/downloads` : 'public/designx/downloads');
 await Promise.all([outputDirectory, captureDirectory, downloadDirectory].map((path) => mkdir(path, { recursive: true })));
 
 const browser = await openBrowser();
@@ -20,7 +22,7 @@ try {
   // bytes to this export browser only; the website keeps its original WebP files.
   // Small technical evidence stays lossless, and slide text/diagrams stay vector.
   const photoCache = new Map();
-  await page.route(/\/designx\/(?:3\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
+  await page.route(/\/designx\/(?:[34]\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
     const filename = decodeURIComponent(new URL(route.request().url()).pathname.slice('/designx/'.length));
     if (!/^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.webp$/i.test(filename)) return route.continue();
     const bytes = await readFile(resolve(ROOT, 'public/designx', filename));
@@ -39,7 +41,7 @@ try {
   await page.emulateMedia({ media: 'print', reducedMotion: 'reduce' });
   await waitForDeck(page);
   const renderedMeta = await page.evaluate(() => window.DESIGNX_META);
-  if (!renderedMeta.exportReady || (edition === '3' && renderedMeta.edition !== 3)) throw new Error('The rendered document does not match the requested export edition.');
+  if (!renderedMeta.exportReady || (numberedEdition && renderedMeta.edition !== Number(edition))) throw new Error('The rendered document does not match the requested export edition.');
   const slides = await inspectSlides(page);
   if (slides.length !== renderedMeta.targetSlideCount) throw new Error('The rendered slide count differs from this edition’s authored target.');
   assertPrintSlides(slides);

@@ -1,0 +1,163 @@
+{
+  "source": "User-provided webfont kits in C:/BOWER/fonts",
+  "retrieved": "2026-11-13",
+  "assets": [
+    {
+      "file": "argestadisplay-regular-webfont.woff2",
+      "family": "Argesta Display",
+      "weight": 400,
+      "style": "normal",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestadisplay-regular-webfont.woff2",
+      "sha256": "7cbc316df5d34b213adae2eeb04bad704be97460bc1290a30c955d2139ff7377",
+      "bytes": 33680,
+      "glyphCoverage": 403,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestadisplay-regularitalic-webfont.woff2",
+      "family": "Argesta Display",
+      "weight": 400,
+      "style": "italic",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestadisplay-regularitalic-webfont.woff2",
+      "sha256": "37be9addd1b99f519749ff52aa1180b3d76c9334a3b236611fecc3c170c530e1",
+      "bytes": 35504,
+      "glyphCoverage": 403,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestaheadline-regular-webfont.woff2",
+      "family": "Argesta Headline",
+      "weight": 400,
+      "style": "normal",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestaheadline-regular-webfont.woff2",
+      "sha256": "d8c8833d2d97156b37e7e5eb9f8f219ad4025825924243f16f1f6a8a5257e122",
+      "bytes": 33096,
+      "glyphCoverage": 403,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestaheadline-regularitalic-webfont.woff2",
+      "family": "Argesta Headline",
+      "weight": 400,
+      "style": "italic",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestaheadline-regularitalic-webfont.woff2",
+      "sha256": "d48b309a225bf9cdaa278fa8f0aba05d18feb405d337de5dcb154aa2c553c797",
+      "bytes": 35380,
+      "glyphCoverage": 403,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestatext-bold-webfont.woff2",
+      "family": "Argesta Text",
+      "weight": 700,
+      "style": "normal",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestatext-bold-webfont.woff2",
+      "sha256": "96c15a5d0c1c8843cfe608c24d902012b4f9154b1e67f45b3a17bcd8bb137ea4",
+      "bytes": 33224,
+      "glyphCoverage": 400,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestatext-regular-webfont.woff2",
+      "family": "Argesta Text",
+      "weight": 400,
+      "style": "normal",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestatext-regular-webfont.woff2",
+      "sha256": "70df3498b869e63add78068a3c9c900d352cc58f853d8cba8d9e25816cf1edad",
+      "bytes": 33368,
+      "glyphCoverage": 400,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "argestatext-regularitalic-webfont.woff2",
+      "family": "Argesta Text",
+      "weight": 400,
+      "style": "italic",
+      "sourceArchive": "argesta_font_web.zip",
+      "sourceMember": "Argesta_Font_Web/Argesta_Webfont/argestatext-regularitalic-webfont.woff2",
+      "sha256": "64e591de3248b39bcebd5a2feafaad5f98943a0d720768a191ce380469b84167",
+      "bytes": 35684,
+      "glyphCoverage": 400,
+      "missingSampleCharacters": [
+        "→"
+      ],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "safiro-bold-webfont.woff2",
+      "family": "Safiro",
+      "weight": 700,
+      "style": "normal",
+      "sourceArchive": "safiro-roman-webfont.zip",
+      "sourceMember": "Safiro Roman Webfont/Webfont Kit/safiro-bold-webfont.woff2",
+      "sha256": "5dbe4f4e4d4c77ba877b2629dce69622ad2943cfae3b18113e59359d1d97c488",
+      "bytes": 14584,
+      "glyphCoverage": 392,
+      "missingSampleCharacters": [],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "safiro-medium-webfont.woff2",
+      "family": "Safiro",
+      "weight": 500,
+      "style": "normal",
+      "sourceArchive": "safiro-roman-webfont.zip",
+      "sourceMember": "Safiro Roman Webfont/Webfont Kit/safiro-medium-webfont.woff2",
+      "sha256": "a613bc515ba192fe296949c3abff72c8bab31108d7fa73b33c6f9b470c3eb473",
+      "bytes": 14776,
+      "glyphCoverage": 392,
+      "missingSampleCharacters": [],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "safiro-regular-webfont.woff2",
+      "family": "Safiro",
+      "weight": 400,
+      "style": "normal",
+      "sourceArchive": "safiro-roman-webfont.zip",
+      "sourceMember": "Safiro Roman Webfont/Webfont Kit/safiro-regular-webfont.woff2",
+      "sha256": "c4a61d4490cadea12bdafbeb2d9291b54228fddd3f07c81a30c0068dda2217bd",
+      "bytes": 14332,
+      "glyphCoverage": 392,
+      "missingSampleCharacters": [],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    },
+    {
+      "file": "safiro-semibold-webfont.woff2",
+      "family": "Safiro",
+      "weight": 600,
+      "style": "normal",
+      "sourceArchive": "safiro-roman-webfont.zip",
+      "sourceMember": "Safiro Roman Webfont/Webfont Kit/safiro-semibold-webfont.woff2",
+      "sha256": "23572563e618f88e5386fc785d292addd4e31002e91b0ec54e30b08667a8e674",
+      "bytes": 14812,
+      "glyphCoverage": 392,
+      "missingSampleCharacters": [],
+      "processing": "Original WOFF2 bytes copied unchanged from the user-provided webfont kit."
+    }
+  ]
+}

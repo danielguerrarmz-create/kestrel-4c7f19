@@ -1,0 +1,226 @@
+/* Two voices, one system. Real font weights only; no synthetic bold or italic. */
+body.designx-v4 {
+  --sans:'Safiro',Arial,sans-serif;
+  --serif:'Argesta Text',Georgia,serif;
+  --display:'Argesta Display',Georgia,serif;
+  --headline:'Argesta Headline',Georgia,serif;
+  --floral:#F0F2E8;
+  --leaf:#C1D98A;
+  --quiet:#4D6559;
+  font-synthesis:none;
+}
+.designx-v4 h1,.designx-v4 h2,.designx-v4 h3 {letter-spacing:-.045em}
+.designx-v4 em {font-weight:400}
+.designx-v4 .v4-editorial {font-family:var(--display);font-weight:400;letter-spacing:-.045em}
+.designx-v4 .viewer-header {border-bottom:1px solid #B1C1B51C}
+.designx-v4 .viewer-edition {letter-spacing:.08em}
+.designx-v4 .version-current {background:var(--leaf);color:var(--forest);border-color:var(--leaf)}
+.designx-v4 .viewer-progress {height:3px}
+.designx-v4 .viewer-controls {font-weight:500}
+.designx-v4 .source-note,.designx-v4 .folio,.designx-v4 .opening-sources {letter-spacing:.01em}
+.designx-v4 .slide-heading {top:76px}
+.designx-v4 .deck-brand-lockup {filter:grayscale(1) invert(1) brightness(2)}
+.designx-v4 .wordmark .deck-brand-lockup {width:250px}
+
+/* Shared ground: the industrial present, with the next world cut into it. */
+.designx-v4 .construction-copy {top:72px;width:1090px}
+.designx-v4 .construction-copy h1 {font:700 123px/.96 var(--sans);letter-spacing:-.055em}
+.designx-v4 .construction-copy h1 em {display:inline-block;font:italic 400 171px/.9 var(--display);letter-spacing:-.045em;color:var(--leaf)}
+.designx-v4 .construction-copy>p {font-size:27px;line-height:1.4;margin:29px 0 0 5px;max-width:900px}
+.designx-v4 .construction-shade {background:linear-gradient(90deg,#0B1D18D9,#0B1D1833 76%),linear-gradient(0deg,#0B1D18F2,transparent 64%)}
+.designx-v4 .construction-future {left:1110px;top:504px;right:80px;border-top:3px solid var(--leaf);padding-top:19px}
+.designx-v4 .construction-future>strong {font:700 119px/.95 var(--sans);letter-spacing:-.07em}
+.designx-v4 .construction-future>p {font-size:21px}
+.designx-v4 .construction-future>.construction-decision {font-size:18px;margin-top:20px}
+
+/* A botanical image and a precise manufacturing argument. */
+.designx-v4 .living-window {width:805px;bottom:155px}
+.designx-v4 .living-window:after {content:'';position:absolute;inset:0;background:linear-gradient(0deg,#0B1D18DF,transparent 70%)}
+.designx-v4 .living-title {position:absolute;z-index:1;left:64px;bottom:70px;font:400 112px/.93 var(--display);letter-spacing:-.045em;color:var(--floral)}
+.designx-v4 .living-title em {color:var(--leaf)}
+.designx-v4 .living-image-caption {z-index:1}
+.designx-v4 .living-copy {top:75px;left:867px;right:66px}
+.designx-v4 .living-promise {margin:0;font:400 34px/1.22 var(--serif);letter-spacing:-.025em;color:var(--evergreen)}
+.designx-v4 .living-barrier {margin-top:46px;font:700 42px/1.05 var(--sans);letter-spacing:-.045em;max-width:520px}
+.designx-v4 .living-explanation {font:400 24px/1.35 var(--sans);margin-top:17px}
+.designx-v4 .living-parts {margin-top:36px;height:167px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.designx-v4 .living-parts>img {height:155px;width:185px}
+.designx-v4 .living-parts-caption {font-size:22px;margin-top:18px}
+.designx-v4 .living-opportunity blockquote {left:0;right:0;top:745px;height:155px;padding:24px 80px 0;background:var(--leaf);font:600 31px/1.2 var(--sans);letter-spacing:-.035em}
+.designx-v4 .living-opportunity blockquote em {background:none;font-weight:700}
+.designx-v4 .living-source {bottom:19px;font-size:10px;color:var(--evergreen)}
+.designx-v4 .living-opportunity .opening-motion {z-index:2}
+
+/* The architectural promise, intentionally oversized and asymmetric. */
+.designx-v4 .cover-title {left:72px;top:242px;width:1230px}
+.designx-v4 .cover-title h1 {font:400 193px/.9 var(--display);letter-spacing:-.055em}
+.designx-v4 .cover-title h1 em {color:var(--leaf)}
+.designx-v4 .cover-proposition {font:500 34px/1.2 var(--sans);letter-spacing:-.035em;margin:43px 0 0 8px}
+.designx-v4 .cover-shade {background:linear-gradient(90deg,#0B1D18C9,transparent 87%),linear-gradient(0deg,#0B1D18AD,transparent 60%)}
+.designx-v4 .time-heading {top:78px;max-width:1000px}
+.designx-v4 .time-heading h2 {font:400 132px/.94 var(--display);letter-spacing:-.045em}
+.designx-v4 .time-heading h2 em {color:var(--leaf)}
+.designx-v4 .time-stage-title {font:400 43px/1.08 var(--headline);letter-spacing:-.03em}
+.designx-v4 .time-sticky {top:88px;width:260px;border-left:0;padding:19px 23px}
+.designx-v4 .time-sticky p {font-size:18px}
+.designx-v4 .time-controls .time-play {background:var(--leaf);color:var(--forest);border-color:var(--leaf)}
+
+/* The laboratory is a distinct visual register, using authentic model evidence. */
+.designx-v4 .slide.v4-laboratory {
+  background:var(--forest);color:var(--floral);--quiet:var(--sage-grey);--line:#B1C1B54D;
+  background-image:linear-gradient(#B1C1B509 1px,transparent 1px),linear-gradient(90deg,#B1C1B509 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.designx-v4 .v4-leaf-text {color:var(--leaf)}
+.designx-v4 .v4-laboratory .slide-heading h2 {font:700 96px/.98 var(--sans);letter-spacing:-.055em;color:var(--floral)}
+.designx-v4 .v4-laboratory .source-note,.designx-v4 .v4-laboratory>.folio {color:var(--sage-grey)}
+.designx-v4 .visual-sticky {border:0;background:var(--leaf);padding:23px 27px;color:var(--forest)}
+.designx-v4 .visual-sticky h3 {font:600 28px/1.12 var(--sans);letter-spacing:-.035em}
+.designx-v4 .visual-sticky p {font:400 18px/1.45 var(--sans);color:var(--forest)}
+.designx-v4 .anatomy-slide .slide-heading {width:900px;top:73px}
+.designx-v4 .anatomy-drawing {left:570px;top:211px;width:960px;height:640px}
+.designx-v4 .anatomy-frame {width:960px;height:640px;filter:grayscale(1) invert(1);mix-blend-mode:screen}
+.designx-v4 .anatomy-overlay {width:960px;height:640px;filter:brightness(1.8)}
+.designx-v4 .assembly-sticky {top:415px;width:340px}
+.designx-v4 .anatomy-buttons {bottom:118px;gap:0}
+.designx-v4 .anatomy-buttons button {border-color:#B1C1B580;color:var(--floral);font:500 16px/1.2 var(--sans);padding:15px 19px;background:var(--forest)}
+.designx-v4 .anatomy-buttons button[aria-pressed=true] {background:var(--leaf);border-color:var(--leaf);color:var(--forest)}
+.designx-v4 .computation-slide .slide-heading {top:73px;width:960px}
+.designx-v4 .computation-slide .slide-heading h2 {font-size:110px;line-height:.93}
+.designx-v4 .engine-purpose {top:318px;width:470px;font-size:24px;line-height:1.3;color:var(--sage-grey)}
+.designx-v4 .engine-sticky {top:483px;width:365px}
+.designx-v4 .computation-model {left:592px;top:319px;width:927px;height:437px;border:1px solid #B1C1B552;background:#B1C1B505}
+.designx-v4 .computation-model:before,.designx-v4 .factory-sheet:before {content:'';position:absolute;inset:-2px;pointer-events:none;background:linear-gradient(var(--leaf),var(--leaf)) left top/32px 2px no-repeat,linear-gradient(var(--leaf),var(--leaf)) left top/2px 32px no-repeat,linear-gradient(var(--leaf),var(--leaf)) right bottom/32px 2px no-repeat,linear-gradient(var(--leaf),var(--leaf)) right bottom/2px 32px no-repeat}
+.designx-v4 .computation-model .v4-model-assembly {padding:12px 30px;filter:grayscale(1) invert(1);mix-blend-mode:screen;transition:opacity .45s,transform .65s}
+.designx-v4 .v4-model-components {position:absolute;inset:18px 24px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;opacity:0;visibility:hidden;transform:translateY(16px);transition:opacity .45s,transform .65s,visibility .45s}
+.designx-v4 .v4-model-components figure {display:flex;flex-direction:column;justify-content:center;align-items:center}
+.designx-v4 .v4-model-components img {width:100%;height:285px;filter:grayscale(1) invert(1);mix-blend-mode:screen}
+.designx-v4 .v4-model-components figcaption {font:500 17px/1.2 var(--sans);letter-spacing:.08em;color:var(--leaf);padding-top:15px}
+.designx-v4 .computation-model[data-model-view=components] .v4-model-assembly {opacity:0;visibility:hidden;transform:scale(.94)}
+.designx-v4 .computation-model[data-model-view=components] .v4-model-components {opacity:1;visibility:visible;transform:none}
+.designx-v4 .v4-model-switch {position:absolute;left:592px;top:263px;display:flex;gap:0}
+.designx-v4 .v4-model-switch button {font:500 15px/1.2 var(--sans);letter-spacing:.01em;padding:13px 22px;border:1px solid #B1C1B552;color:var(--sage-grey);background:var(--forest)}
+.designx-v4 .v4-model-switch button span {margin-left:28px}
+.designx-v4 .v4-model-switch button[aria-pressed=true] {background:var(--leaf);color:var(--forest);border-color:var(--leaf)}
+.designx-v4 .model-ident {right:80px;top:780px}
+.designx-v4 .model-ident>p {font:500 18px/1.4 var(--sans);color:var(--sage-grey);letter-spacing:.01em}
+.designx-v4 .factory-slide .slide-heading h2 {font-size:106px;line-height:.97}
+.designx-v4 .factory-deckline {top:311px;font-size:26px;color:var(--sage-grey)}
+.designx-v4 .factory-sheet {top:402px;height:397px;background-color:#102820;background-image:linear-gradient(#B1C1B516 1px,transparent 1px),linear-gradient(90deg,#B1C1B516 1px,transparent 1px);background-size:48px 48px;border-color:#B1C1B54D}
+.designx-v4 .factory-sticky {left:510px;top:92px;width:420px;padding:27px 32px}
+.designx-v4 .factory-sticky h3 {font-size:31px}
+
+/* Existing interactive diagrams, drawn with more weight and deliberate contrast. */
+.designx-v4 .learning-slide .flywheel-scene {isolation:auto;background:transparent;color:var(--floral);--fw-ink:var(--leaf);--fw-soft:var(--sage-grey);--fw-track:#B1C1B547;--fw-paper:var(--forest)}
+.designx-v4 .learning-slide .fw-intro {width:625px;top:73px}
+.designx-v4 .learning-slide .fw-intro h2 {font:700 85px/.97 var(--sans);letter-spacing:-.05em;color:var(--floral)}
+.designx-v4 .learning-slide .fw-readout {top:411px;width:445px}
+.designx-v4 .learning-slide .fw-readout h3 {font:600 39px/1.08 var(--sans);letter-spacing:-.04em;color:var(--floral)}
+.designx-v4 .fw-node-label {font:600 27px/1.08 var(--sans);letter-spacing:-.04em}
+.designx-v4 .fw-node-dot {width:66px;height:66px;border-width:1.5px}
+.designx-v4 .fw-node-dot>span {font:500 13px/1 var(--sans)}
+.designx-v4 .fw-segment {stroke-width:4}
+.designx-v4 .fw-arrow {stroke-width:2}
+.designx-v4 .fw-detail {font-size:18px;line-height:1.4}
+.designx-v4 .learning-slide .fw-hub {mix-blend-mode:screen}
+.designx-v4 .learning-slide .fw-hub-model {filter:grayscale(1) invert(1);mix-blend-mode:normal}
+.designx-v4 .learning-slide .fw-node-label {color:var(--floral)}
+.designx-v4 .learning-slide .fw-node[aria-pressed=true] .fw-node-label {color:var(--leaf)}
+.designx-v4 .learning-slide .fw-playback button:first-child {background:var(--leaf);color:var(--forest)}
+.designx-v4 .fw-playback button {font-size:14px;padding:14px 19px}
+.designx-v4 .fw-stage,.designx-v4 .fw-play-hint,.designx-v4 .fw-qualification,.designx-v4 .fw-hub-label {font-family:var(--sans)}
+.designx-v4 .fw-stage {letter-spacing:.08em;font-size:12px}
+.designx-v4 .fw-orbit {top:139px}
+
+/* The first market returns to an architectural spread. */
+.designx-v4 .buyers-slide .slide-heading {top:63px;right:80px}
+.designx-v4 .buyers-slide h2 {font:400 121px/1 var(--display);letter-spacing:-.045em;max-width:1440px}
+.designx-v4 .buyer-triptych p {font:400 51px/1.02 var(--headline);letter-spacing:-.035em}
+.designx-v4 .buyer-triptych h3 {font:500 11px/1.3 var(--sans);letter-spacing:.12em}
+.designx-v4 .prospect-strip>p {font:500 28px/1.1 var(--sans);letter-spacing:-.03em}
+.designx-v4 .film-toggle {font-weight:500;font-size:12px}
+
+/* Product and reusable capability are visible together. */
+.designx-v4 .commercial-model-slide {background:var(--leaf)}
+.designx-v4 .commercial-model-slide .slide-heading h2 {font:700 93px/.98 var(--sans);letter-spacing:-.05em}
+.designx-v4 .commercial-model-slide .v4-editorial {font-size:107px}
+.designx-v4 .commission-purpose {top:305px;font-size:24px;max-width:1240px;color:var(--evergreen)}
+.designx-v4 .fee-sequence {top:399px}
+.designx-v4 .fee-stage,.designx-v4 .fee-stage.active {border-top:2px solid #10282088}
+.designx-v4 .fee-stage h3 {font:600 29px/1.1 var(--sans);letter-spacing:-.04em}
+.designx-v4 .fee-stage>p.fee,.designx-v4 .fee-stage>p.fee.range {font:700 61px/1 var(--sans);letter-spacing:-.055em;margin-top:27px}
+.designx-v4 .fee-stage>p:last-child:not(.fee),.designx-v4 .fee span {color:var(--evergreen)}
+.designx-v4 .fee-arrow {color:var(--evergreen)}
+.designx-v4 .capability-rail {top:707px;border-top:2px solid var(--evergreen)}
+.designx-v4 .capability-rail>span {font:600 32px/1.06 var(--sans);letter-spacing:-.04em}
+.designx-v4 .commercial-model-slide .source-note {color:var(--evergreen)}
+.designx-v4 .fw-commercial {background:var(--floral);color:var(--evergreen);--fw-ink:var(--evergreen);--fw-soft:var(--quiet);--fw-track:#B1C1B5;--fw-paper:var(--floral)}
+.designx-v4 .fw-commercial .fw-intro {top:77px;width:700px}
+.designx-v4 .fw-commercial .fw-intro h2 {font:400 100px/.95 var(--display);letter-spacing:-.045em}
+.designx-v4 .fw-commercial .fw-readout {top:405px}
+.designx-v4 .fw-commercial .fw-readout h3 {font:400 42px/1.08 var(--headline);letter-spacing:-.025em;color:var(--evergreen)}
+.designx-v4 .fw-commercial .fw-node-label {font:400 29px/1.08 var(--headline);letter-spacing:-.02em;color:var(--evergreen)}
+.designx-v4 .fw-commercial .fw-node[aria-pressed=true] .fw-node-label {color:var(--evergreen)}
+.designx-v4 .fw-commercial .fw-stage,.designx-v4 .fw-commercial .fw-hub-label {color:var(--quiet)}
+.designx-v4 .fw-commercial .fw-playback button:first-child {background:var(--evergreen);color:var(--floral)}
+.designx-v4 .commercial-loop-slide>.folio {color:var(--quiet)}
+.designx-v4 .fw-hub-place {border-radius:50%;border:1px solid var(--line)}
+
+/* Coupling makes the two typographic voices part of one causal diagram. */
+.designx-v4 .flywheel-scene .fw-coupled-title h2 {font:700 69px/.97 var(--sans);letter-spacing:-.045em}
+.designx-v4 .fw-coupled-title {top:63px;max-width:1020px}
+.designx-v4 .mission-bridge {top:194px;font-size:18px;line-height:1.3}
+.designx-v4 .fw-coupling-control {top:89px;right:80px;flex-wrap:wrap;width:280px;gap:10px}
+.designx-v4 .fw-coupling-control input {width:172px}
+.designx-v4 .fw-coupling-control button {margin-left:auto;font-size:12px}
+.designx-v4 .flywheel-scene .fw-system-technical h3 {font:600 37px/1.05 var(--sans);letter-spacing:-.04em}
+.designx-v4 .flywheel-scene .fw-system-commercial h3 {font:400 45px/1.02 var(--headline);letter-spacing:-.025em}
+.designx-v4 .fw-system-technical .fw-system-label {font:500 18px/1 var(--sans);letter-spacing:-.02em}
+.designx-v4 .fw-system-commercial .fw-system-label {font:400 24px/1 var(--headline);letter-spacing:-.025em}
+.designx-v4 .fw-system-arc {stroke-width:3.5}
+.designx-v4 .fw-bridge-resources,.designx-v4 .fw-bridge-quality {stroke-width:3}
+.designx-v4 .fw-bridge-label {font-family:var(--sans);letter-spacing:.06em}
+.designx-v4 .fw-bridge-label-top {top:280px}
+.designx-v4 .fw-coupled-hub>span {font-family:var(--sans)}
+.designx-v4 .fw-coupling-caption,.designx-v4 .fw-coupled-static {font:500 24px/1.2 var(--sans);letter-spacing:-.025em}
+
+/* People and scale return to the long, editorial view. */
+.designx-v4 .team-slide h2 {font:700 93px/.99 var(--sans);letter-spacing:-.05em}
+.designx-v4 .team-slide h2 .v4-editorial {font-size:108px}
+.designx-v4 .team-grid {top:329px;gap:58px}
+.designx-v4 .team-grid h3 {font:400 66px/.98 var(--headline);letter-spacing:-.04em}
+.designx-v4 .team-grid figcaption>p:not(.eyebrow) {font-size:22px;line-height:1.4;letter-spacing:-.015em;margin-top:27px}
+.designx-v4 .future-slide h2 {font:400 114px/.99 var(--display);letter-spacing:-.04em}
+.designx-v4 .future-standfirst {top:230px;font-size:25px}
+.designx-v4 .scale-title {font:400 26px/1.1 var(--headline);letter-spacing:-.02em}
+.designx-v4 .scale-scene:hover,.designx-v4 .scale-scene[aria-pressed=true] {background:var(--leaf)}
+.designx-v4 .closing-copy {left:73px;top:265px}
+.designx-v4 .closing-copy h2 {font:400 158px/.92 var(--display);letter-spacing:-.055em}
+.designx-v4 .closing-copy h2 em {color:var(--leaf)}
+.designx-v4 .closing-ask {font:500 27px/1.3 var(--sans);letter-spacing:-.025em;margin-top:39px}
+.designx-v4 .closing-thesis {left:953px;right:78px;top:270px;font:400 29px/1.34 var(--serif);letter-spacing:-.015em}
+.designx-v4 .closing-thesis strong {font-weight:400;color:var(--floral)}
+.designx-v4 .closing-shade {background:linear-gradient(90deg,#0B1D18DB,#0B1D18C4 95%),linear-gradient(0deg,#0B1D18C4,transparent 70%)}
+.designx-v4 .dialog-heading h2,.designx-v4 .index-item strong,.designx-v4 #notes-content h3 {font-family:var(--sans)}
+
+/* The static edition carries the same hierarchy without depending on motion. */
+.designx-v4.print-mode .time-heading h2 {font:400 113px/.94 var(--display);color:var(--evergreen)}
+.designx-v4.print-mode .time-heading h2 em {color:var(--evergreen)}
+.designx-v4.print-mode .time-print-sequence h3 {font:400 36px/1.08 var(--headline)}
+.designx-v4.print-mode .v4-model-switch {display:none}
+.designx-v4.print-mode .v4-model-components {display:none}
+.designx-v4.print-mode .computation-model .v4-model-assembly {visibility:visible;opacity:1;transform:none}
+.designx-v4.print-mode .fw-static-summary {font:400 19px/1.4 var(--sans)}
+.designx-v4.print-mode .fw-coupled-static {font:500 24px/1.2 var(--sans)}
+@media(prefers-reduced-motion:reduce) {
+  .designx-v4 *,.designx-v4 *:before,.designx-v4 *:after {animation:none!important;transition:none!important}
+}
+@media print {
+  .designx-v4 .time-heading h2 {font:400 113px/.94 var(--display);color:var(--evergreen)}
+  .designx-v4 .time-heading h2 em {color:var(--evergreen)}
+  .designx-v4 .time-print-sequence h3 {font:400 36px/1.08 var(--headline)}
+  .designx-v4 .v4-model-switch,.designx-v4 .v4-model-components {display:none!important}
+  .designx-v4 .computation-model .v4-model-assembly {visibility:visible!important;opacity:1!important;transform:none!important}
+  .designx-v4 .fw-static-summary {font:400 19px/1.4 var(--sans)}
+  .designx-v4 .fw-coupled-static {font:500 24px/1.2 var(--sans)}
+}

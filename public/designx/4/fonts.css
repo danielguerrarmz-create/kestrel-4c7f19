@@ -1,0 +1,88 @@
+/* Authentic supplied webfonts, scoped by use to edition 04. */
+@font-face {
+  font-family: 'Argesta Display';
+  src: url('assets/fonts/argestadisplay-regular-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Display';
+  src: url('assets/fonts/argestadisplay-regularitalic-webfont.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Headline';
+  src: url('assets/fonts/argestaheadline-regular-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Headline';
+  src: url('assets/fonts/argestaheadline-regularitalic-webfont.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Text';
+  src: url('assets/fonts/argestatext-bold-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Text';
+  src: url('assets/fonts/argestatext-regular-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Argesta Text';
+  src: url('assets/fonts/argestatext-regularitalic-webfont.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Safiro';
+  src: url('assets/fonts/safiro-bold-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Safiro';
+  src: url('assets/fonts/safiro-medium-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Safiro';
+  src: url('assets/fonts/safiro-regular-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Safiro';
+  src: url('assets/fonts/safiro-semibold-webfont.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
