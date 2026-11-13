@@ -8,6 +8,7 @@ import { expect } from '@playwright/test';
 import { openBrowser, waitForDeck, inspectSlides, printUrl, assertPrintSlides, ROOT } from './browser.mjs';
 
 const url = process.env.DESIGNX_V3_URL ?? 'http://127.0.0.1:5333/designx/3';
+const expectedSlideCount = 15;
 const output = resolve(ROOT, 'qa-out/designx/edition-03');
 await mkdir(output, { recursive: true });
 const browser = await openBrowser();
@@ -45,9 +46,11 @@ const check = async (name, action) => {
 try {
   await page.goto(url);
   await waitForDeck(page);
-  await check('The new route opens a three-slide argument within a sixteen-slide edition', async () => {
+  await check('The new route opens a three-slide argument within a fifteen-slide edition', async () => {
     await expect(page.locator('body')).toHaveClass(/designx-v3/);
-    assert.equal(await page.locator('.slide').count(), 16);
+    assert.equal(await page.locator('.slide').count(), expectedSlideCount);
+    assert.equal(await page.evaluate(() => window.DESIGNX_META.targetSlideCount), expectedSlideCount);
+    assert.equal(await page.locator('.traction-slide').count(), 0, 'Named prospects now belong on the first-customers slide');
     for (const [index, theme] of ['material-problem-slide', 'variability-slide', 'cover'].entries()) {
       assert.equal(await sceneNumber(theme), index + 1);
     }
@@ -69,12 +72,11 @@ try {
     await expect(page.locator('.variability-slide img[src$="3/assets/living-structure.webp"]')).toHaveCount(1);
     await expect(page.locator('.computation-slide')).toContainText(/in development/i);
     await expect(page.locator('.factory-slide')).toContainText(/in development/i);
-    await expect(page.locator('.traction-slide')).toContainText(/In discussion with/i);
-    for (const name of ['Eden', 'The Newt', '25hours']) await expect(page.locator('.traction-slide')).toContainText(name);
     await go(2);
     await expect(page.locator('.variability-slide blockquote')).toBeVisible();
     assert.equal(await visibleText(page.locator('.variability-slide blockquote')), variabilityThesis);
-    await go(16);
+    await goTheme('closing');
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), expectedSlideCount);
     await expect(page.locator('.closing-thesis')).toBeVisible();
     assert.equal(await visibleText(page.locator('.closing-thesis')), closingThesis);
     await go(1);
@@ -125,10 +127,29 @@ try {
     await expect.poll(() => page.locator('[data-time-scrub]').inputValue().then(Number)).toBeGreaterThan(0);
     assert.equal(await page.evaluate(() => window.DESIGNX.current), await sceneNumber('growth-slide'));
     await goTheme('buyers-slide');
+    const buyers = page.locator('.buyers-slide');
+    const prospects = buyers.locator('.prospect-strip');
+    assert.match(await visibleText(prospects), /In discussion with/);
+    await expect(prospects.locator('a')).toHaveCount(3);
+    for (const name of ['Eden Project', 'The Newt', '25hours']) {
+      const logo = prospects.locator(`a img[alt="${name}"]`);
+      await expect(logo).toBeVisible();
+      assert(await logo.evaluate(el => el.complete && el.naturalWidth > 0), `${name} logo must load`);
+      const link = await logo.evaluate(el => el.closest('a').href);
+      assert(new URL(link).protocol === 'https:', `${name} must link to an official website over HTTPS`);
+    }
+    await expect(buyers.locator('.buyer-triptych figure')).toHaveCount(3);
+    await expect(buyers.locator('.source-note')).toHaveText('Active conversations, not signed commissions. Images are Bower concepts, not work for these organisations.');
     const film = page.locator('[data-customer-film]');
+    assert.equal(await film.getAttribute('src'), null, 'Entering the combined customers slide must keep the film lazy');
     await page.getByRole('button', { name: 'Play resort concept film', exact: true }).click();
     await expect.poll(() => film.evaluate(el => el.currentTime), { timeout: 15000 }).toBeGreaterThan(0.2);
     assert.equal(await film.evaluate(el => el.paused), false);
+    await page.locator('#v2-film-position').fill('65');
+    await expect.poll(() => film.evaluate(el => el.currentTime)).toBeGreaterThan(4);
+    assert.equal(await film.evaluate(el => el.paused), true);
+    await page.getByRole('button', { name: 'Play resort concept film', exact: true }).click();
+    await expect.poll(() => film.evaluate(el => el.paused)).toBe(false);
     await goTheme('learning-slide');
     assert.equal(await film.evaluate(el => el.paused), true);
     const nodes = page.locator('.learning-slide .fw-node');
@@ -158,8 +179,8 @@ try {
     await page.mouse.wheel(0, 100);
     await expect.poll(() => page.evaluate(() => window.DESIGNX.current)).toBe(await sceneNumber('growth-slide') + 1);
   });
-  await check('All sixteen compositions fit their canvas and load their evidence images', async () => {
-    for (let number = 1; number <= 16; number++) {
+  await check('All fifteen compositions fit their canvas and load their evidence images', async () => {
+    for (let number = 1; number <= expectedSlideCount; number++) {
       await go(number);
       await waitForDeck(page);
       const metrics = (await inspectSlides(page)).find(s => s.id === `slide-${String(number).padStart(2, '0')}`);
@@ -180,13 +201,21 @@ try {
       const controls = await page.locator('.viewer-controls').boundingBox();
       assert(controls.y >= 0 && controls.y + controls.height <= height);
       await page.screenshot({ path: resolve(output, `viewport-${width}x${height}.png`) });
+      await goTheme('buyers-slide');
+      const deck = await page.locator('#deck').boundingBox();
+      for (const logo of await page.locator('.prospect-strip img').all()) {
+        const box = await logo.boundingBox();
+        assert(box && box.x >= deck.x - 1 && box.y >= deck.y - 1 && box.x + box.width <= deck.x + deck.width + 1 && box.y + box.height <= deck.y + deck.height + 1, 'Prospect logos must remain inside the presentation on every viewport');
+      }
+      await page.screenshot({ path: resolve(output, `viewport-${width}x${height}-customers.png`) });
     }
   });
-  await check('Print mode shows all sixteen static compositions without controls or clipped text', async () => {
+  await check('Print mode shows all fifteen static compositions and the combined customer evidence', async () => {
     const print = await browser.newPage({ viewport: { width: 1600, height: 1000 }, reducedMotion: 'reduce' });
     observe(print);
     await print.goto(printUrl(url));
     await waitForDeck(print);
+    assert.equal(await print.locator('.slide').count(), expectedSlideCount);
     assertPrintSlides(await inspectSlides(print));
     await expect(print.locator('.viewer-controls')).toBeHidden();
     await expect(print.locator('.material-problem-slide')).toBeVisible();
@@ -196,6 +225,10 @@ try {
     }));
     assert.equal(await visibleText(print.locator('.variability-slide blockquote')), variabilityThesis);
     assert.equal(await visibleText(print.locator('.closing-thesis')), closingThesis);
+    await expect(print.locator('.buyers-slide .prospect-strip')).toBeVisible();
+    for (const name of ['Eden Project', 'The Newt', '25hours']) {
+      await expect(print.locator(`.buyers-slide .prospect-strip img[alt="${name}"]`)).toBeVisible();
+    }
     await print.locator('.material-problem-slide').screenshot({ path: resolve(output, 'print-opening.png') });
     await print.close();
   });
@@ -205,6 +238,7 @@ try {
     for (const path of ['/designx', '/designx/2']) {
       await prior.goto(new URL(path, url).href);
       await waitForDeck(prior);
+      assert.equal(await prior.locator('.slide').count(), 16, 'Previous editions retain their sixteen-slide stories');
       assert.equal(await prior.locator('.designx-v3').count(), 0);
       assert.equal(await prior.locator('.material-problem-slide').count(), 0);
     }

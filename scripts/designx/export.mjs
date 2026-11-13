@@ -2,11 +2,7 @@
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import sharp from 'sharp';
-import { assertPrintSlides, DECK_META, inspectSlides, openBrowser, printUrl, ROOT, SLIDE_COUNT, waitForDeck } from './browser.mjs';
-
-if (!DECK_META.exportReady || SLIDE_COUNT !== DECK_META.targetSlideCount) {
-  throw new Error('DesignX export is disabled or its scene count differs from the authored target. Set the intended revision status and export readiness in slides.js before exporting.');
-}
+import { assertPrintSlides, inspectSlides, openBrowser, printUrl, ROOT, waitForDeck } from './browser.mjs';
 
 const edition = process.argv.includes('--edition=3') ? '3' : '1';
 if (process.argv.slice(2).some(argument => argument !== '--edition=3')) throw new Error('Supported export option: --edition=3');
@@ -45,6 +41,7 @@ try {
   const renderedMeta = await page.evaluate(() => window.DESIGNX_META);
   if (!renderedMeta.exportReady || (edition === '3' && renderedMeta.edition !== 3)) throw new Error('The rendered document does not match the requested export edition.');
   const slides = await inspectSlides(page);
+  if (slides.length !== renderedMeta.targetSlideCount) throw new Error('The rendered slide count differs from this edition’s authored target.');
   assertPrintSlides(slides);
   if (errors.length) throw new Error(errors.join('\n'));
   for (const slide of slides) {

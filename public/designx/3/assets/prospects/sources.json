@@ -1,0 +1,60 @@
+{
+  "usage": "Identification of institutions in active discussions; no signed commission, partnership or endorsement is implied.",
+  "assets": [
+    {
+      "brand": "Eden Project",
+      "file": "eden-project.svg",
+      "sourcePage": "https://www.edenproject.com/",
+      "assetUrl": "https://www.edenproject.com/sites/default/files/files/domain-logos/logo-eden_1.svg",
+      "inlineSelector": null,
+      "retrieved": "2026-11-13",
+      "sha256": "cf41afb09946e7e3d2cfac430bfc3c60973837c20230d3034669a4d3333f4f7a",
+      "viewBox": "226.57 256.39 388.3 82.16",
+      "bytes": 5985,
+      "status": 200,
+      "processing": "Original SVG downloaded unchanged from the official website. Confirmed directly rendered in its homepage header and footer with no CSS filter on 13 November 2026.",
+      "context": "The exact institutional mark currently rendered by the official homepage was selected. The official shop has a different shop-specific lockup, which is not used here."
+    },
+    {
+      "brand": "The Newt in Somerset",
+      "file": "the-newt.svg",
+      "sourcePage": "https://thenewtinsomerset.com/",
+      "assetUrl": "https://thenewtinsomerset.com/",
+      "inlineSelector": "svg.tn-logo-full",
+      "retrieved": "2026-11-13",
+      "sha256": "70b1910d1c1510f1c3ee3a4ff033e3683e30823d9327fef966f9dbca27ba5df4",
+      "viewBox": "0 0 96 130",
+      "bytes": 70921,
+      "status": 200,
+      "processing": "Exact inline SVG extracted from official homepage; paths, viewBox and colour attributes unchanged."
+    },
+    {
+      "brand": "25hours Hotels",
+      "file": "25hours.svg",
+      "sourcePage": "https://25hours-hotels.com/",
+      "assetUrl": "https://25hours-hotels.com/",
+      "inlineSelector": ".logo-svg svg[aria-labelledby=\"25hoursTitle\"]",
+      "retrieved": "2026-11-13",
+      "sha256": "6b8ce62467f59719f44df8e8560c0998bb0e63470c7505ba04e50fc08d8f969e",
+      "viewBox": "0 0 104 50",
+      "bytes": 7165,
+      "status": 200,
+      "processing": "Exact official inline SVG artwork, with path fill #000000 materialized from the official homepage computed CSS so the SVG is self-contained. Original paths and viewBox unchanged; untouched original retained alongside.",
+      "originalFile": "25hours.original.svg",
+      "originalSha256": "342a08ea5850eb0d3679015a0593b11ba9d326b5ced067fa80c9fae1198275f7"
+    },
+    {
+      "brand": "The Newt in Somerset",
+      "file": "the-newt-wordmark.svg",
+      "sourcePage": "https://thenewtinsomerset.com/",
+      "assetUrl": "https://thenewtinsomerset.com/",
+      "inlineSelector": "svg.tn-logotype",
+      "retrieved": "2026-11-13",
+      "sha256": "e365715c38eb36e6a179385fd515d5d9368abf56218e7ed24b15fe9713205208",
+      "viewBox": "0 0 333 24",
+      "bytes": 29177,
+      "status": 200,
+      "processing": "Exact inline SVG wordmark extracted from official homepage; paths, viewBox and colour attributes unchanged."
+    }
+  ]
+}

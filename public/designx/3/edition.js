@@ -20,7 +20,7 @@
     source: 'Energy Transitions Commission, Achieving Zero-Carbon Buildings: Electric, Efficient and Flexible (2025), executive summary pp. 7 and 10, 2022–2050 floor-area projection. UNEP / GlobalABC 2025–2026 report for sector context. Generated architectural illustration; sources linked on slide.'
   };
   byTheme.set('material-problem-slide', problem);
-  const order = ['material-problem-slide', 'variability-slide', 'cover', 'growth-slide', 'anatomy-slide', 'computation-slide', 'factory-slide', 'learning-slide', 'buyers-slide', 'traction-slide', 'commercial-model-slide', 'commercial-loop-slide', 'coupled-slide', 'team-slide', 'future-slide', 'closing'];
+  const order = ['material-problem-slide', 'variability-slide', 'cover', 'growth-slide', 'anatomy-slide', 'computation-slide', 'factory-slide', 'learning-slide', 'buyers-slide', 'commercial-model-slide', 'commercial-loop-slide', 'coupled-slide', 'team-slide', 'future-slide', 'closing'];
   const headlines = {
     'anatomy-slide': 'A timber structure.<br>Designed for life.',
     'computation-slide': 'From form<br>to fabrication.',
@@ -31,7 +31,7 @@
     'closing': 'Buildings<br>that grow.'
   };
 
-  window.DESIGNX_META = Object.freeze({ status: 'working-draft', edition: 3, targetSlideCount: 16, exportReady: true });
+  window.DESIGNX_META = Object.freeze({ status: 'working-draft', edition: 3, targetSlideCount: order.length, exportReady: true });
   window.DESIGNX_SLIDES = order.map(theme => {
     const slide = byTheme.get(theme);
     const template = document.createElement('template');
@@ -69,6 +69,12 @@
     }
     if (theme === 'factory-slide') {
       content.querySelector('.factory-deckline').textContent = 'The aim: repeat the method, even when the components change.';
+    }
+    if (theme === 'buyers-slide') {
+      content.querySelector('.buyer-triptych').insertAdjacentHTML('afterend', '<div class="prospect-strip" role="group" aria-label="Organisations in active discussion"><p>In discussion<br>with</p><a class="prospect-logo prospect-logo-eden" href="https://www.edenproject.com/" target="_blank" rel="noopener"><img src="3/assets/prospects/eden-project.svg" alt="Eden Project" loading="lazy"></a><a class="prospect-logo prospect-logo-newt" href="https://thenewtinsomerset.com/" target="_blank" rel="noopener"><img src="3/assets/prospects/the-newt.svg" alt="The Newt" loading="lazy"></a><a class="prospect-logo prospect-logo-25hours" href="https://25hours-hotels.com/" target="_blank" rel="noopener"><img src="3/assets/prospects/25hours.svg" alt="25hours" loading="lazy"></a></div>');
+      content.querySelector('.source-note').textContent = 'Active conversations, not signed commissions. Images are Bower concepts, not work for these organisations.';
+      notes = 'Private gardens, cultural destinations and hospitality are prospective settings for the first Bowers. In discussion with the Eden Project, The Newt and 25hours: these are active conversations, not signed commissions or endorsements. The logos sit together as customer-discovery evidence; no individual image represents a commission from, or a proposal for, any named organisation. The resort film remains a generated Bower concept. This combines the market and conversations into a single slide.';
+      source = 'Prospect naming and active-discussion status approved by the founder. Official institutional logo assets are recorded in 3/assets/prospects/sources.json. Concept images: existing Bower and founder-authorized Higgsfield library.';
     }
     if (theme === 'commercial-model-slide') {
       content.querySelector('.slide-heading').insertAdjacentHTML('afterend', '<p class="commission-purpose">Each early commission should create a place people want—and knowledge the next build can reuse.</p>');

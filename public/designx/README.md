@@ -1,6 +1,6 @@
 # Buildings That Grow
 
-A sixteen-scene working presentation for Bower × MIT–LUMA. The website is the dynamic version; its PDF is a deliberate static counterpart.
+A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen scenes; edition 03 has fifteen after combining the first market and prospect conversations. The website is the dynamic version; its PDF is a deliberate static counterpart.
 
 ## Routes
 
@@ -17,7 +17,9 @@ The second edition keeps its entry point, style and interaction enhancements in 
 
 Edition 02 uses the supplied Helvetica Neue/Arial system, botanical palette and the existing Oculus emblem with a Georgia wordmark. Its `editorial.css` controls the art direction; `edition.js` controls the edition's sequence and headline revisions, plus scroll navigation, deliberate growth scrubbing and on-demand seeking through the customer film. The invention comes before customer segmentation, and the commercial sequence shows the reusable capability commissions are intended to develop. Eyebrow headings are removed; evidence and development-status notes remain. Keyboard, touch, direct scene controls and reduced-motion alternatives remain available. The PDF link is explicitly labelled as edition 01 until a second-edition PDF is requested.
 
-Edition 03 uses that visual system and those controls, with its own story transformation and styles in `3/edition.js` and `3/editorial.css`. The first three scenes treat the material problem as shared ground for MIT–LUMA, then move directly to variability and Bower's developing production system. A cinematic construction horizon establishes the timing of material choices; living timber introduces the alternative and its production challenge; the Bower reveal holds only “Buildings that grow.” and “The means to make many.” The subsequent technical and commercial scenes develop that promise. ETC's projected 55% growth in global building floor area has its 2022–2050 baseline and visible source. The two founder theses remain on slides 2 and 16. No measured Bower carbon advantage or operational factory is claimed. Earlier editions remain independent.
+Edition 03 uses that visual system and those controls, with its own story transformation and styles in `3/edition.js` and `3/editorial.css`. The first three scenes treat the material problem as shared ground for MIT–LUMA, then move directly to variability and Bower's developing production system. A cinematic construction horizon establishes the timing of material choices; living timber introduces the alternative and its production challenge; the Bower reveal holds only “Buildings that grow.” and “The means to make many.” The subsequent technical and commercial scenes develop that promise. ETC's projected 55% growth in global building floor area has its 2022–2050 baseline and visible source. The two founder theses remain on slides 2 and 15. No measured Bower carbon advantage or operational factory is claimed. Earlier editions remain independent.
+
+The combined first-customers scene is slide 9. Private, cultural and hospitality concept imagery remains above one grouped row of official Eden Project, The Newt and 25hours logos, captioned “In discussion with.” The imagery is not work for those organisations, and the conversations are not signed commissions. Official logo provenance is stored in `3/assets/prospects/sources.json`; assets are local, without hotlinking. The resort concept film remains interactive. There is no separate prospect slide in edition 03.
 
 Edition 03 uses the supplied botanical logo as complete artwork, copied byte-for-byte from the current website's `public/assets/brand/bower-logo-evergreen-horizontal-transparent.png` into `3/assets/bower-logo.png`. The viewer, reveal and closing use the same white-on-image CSS treatment as the marketing header. The older edition-02 Oculus SVG plus Georgia reconstruction is not used in edition 03.
 
@@ -26,7 +28,7 @@ Edition 03 uses the supplied botanical logo as complete artwork, copied byte-for
 - `3/assets/world-under-construction.webp` and `3/assets/world-under-construction.source.json`.
 - `3/assets/living-structure.webp` and `3/assets/living-structure.source.json`.
 
-Run `npm run dev`; preview at `http://localhost:5333/designx`. Deep links run from `#slide-01` to `#slide-16`. Add `?print=1` to inspect all static compositions. The file can also run offline; its PDF link uses the local exported file.
+Run `npm run dev`; preview at `http://localhost:5333/designx`. Deep links run from `#slide-01` to `#slide-16` for editions 01/02 and `#slide-15` for edition 03. Add `?print=1` to inspect all static compositions. The file can also run offline; its PDF link uses the local exported file.
 
 ## Current work
 
@@ -57,7 +59,7 @@ node scripts/designx/check.mjs
 node scripts/designx/check-2.mjs
 node scripts/designx/check-3.mjs
 node scripts/designx/export.mjs --edition=3
-python scripts/designx/verify-pdf.py output/pdf/Bower_DesignX_Buildings_That_Grow_03.pdf
+python scripts/designx/verify-pdf.py output/pdf/Bower_DesignX_Buildings_That_Grow_03.pdf --expected-pages 15
 npm run build
 ```
 

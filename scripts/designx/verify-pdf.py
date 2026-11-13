@@ -1,14 +1,20 @@
 """Validate the exported PDF independently of the browser's slide count."""
 from pathlib import Path
+import argparse
 import json
-import sys
 
 from pypdf import PdfReader
 
 root = Path(__file__).resolve().parents[2]
-path = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "output/pdf/Bower_DesignX_Buildings_That_Grow.pdf"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("path", nargs="?", type=Path, default=root / "output/pdf/Bower_DesignX_Buildings_That_Grow.pdf")
+parser.add_argument("--expected-pages", type=int, default=16, help="Expected slide/page count (default: 16).")
+args = parser.parse_args()
+if args.expected_pages < 1:
+    parser.error("--expected-pages must be a positive integer")
+path = args.path
 reader = PdfReader(path)
-assert len(reader.pages) == 16, f"Expected 16 PDF pages, found {len(reader.pages)}"
+assert len(reader.pages) == args.expected_pages, f"Expected {args.expected_pages} PDF pages, found {len(reader.pages)}"
 
 report = {"path": str(path.resolve()), "page_count": len(reader.pages), "pages": [], "links": []}
 for number, page in enumerate(reader.pages, start=1):

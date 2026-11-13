@@ -9,6 +9,19 @@
 .designx-v3 .cover-shade {background:linear-gradient(90deg,#0B1D18C4,transparent 84%),linear-gradient(0deg,#0B1D189C,transparent 43%)}
 .designx-v3 .engine-purpose {position:absolute;left:80px;top:293px;max-width:735px;font:400 27px/1.4 var(--sans);letter-spacing:-.025em;color:var(--quiet)}
 .designx-v3 .factory-slide h2 {font-size:104px}
+.designx-v3 .buyers-slide .buyer-triptych {top:226px;bottom:225px}
+.designx-v3 .buyers-slide .buyer-triptych figcaption {padding:105px 31px 30px}
+.designx-v3 .buyers-slide .buyer-triptych h3 {margin-top:15px}
+.designx-v3 .prospect-strip {position:absolute;left:80px;right:80px;top:704px;height:119px;display:grid;grid-template-columns:320px 1fr 1fr 1fr;gap:42px;align-items:center}
+.designx-v3 .prospect-strip>p {font:400 30px/1.1 var(--sans);letter-spacing:-.035em;color:var(--evergreen);margin:0}
+.designx-v3 .prospect-logo {display:flex;align-items:center;justify-content:center;height:119px;text-decoration:none}
+.designx-v3 .prospect-logo>img {display:block;object-fit:contain;width:100%;height:auto;max-height:110px;filter:brightness(0);opacity:.88}
+.designx-v3 .prospect-logo-eden>img {max-width:260px;filter:none;opacity:1}
+.designx-v3 .prospect-logo-newt>img {max-height:110px;max-width:110px}
+.designx-v3 .prospect-logo-25hours>img {max-width:186px}
+.designx-v3 .prospect-logo:hover {opacity:.72}
+.designx-v3 .buyers-slide .source-note {left:80px;bottom:27px;color:var(--quiet);font-size:12px}
+.designx-v3 .buyers-slide>.folio {color:var(--quiet)}
 .designx-v3 .commission-purpose {position:absolute;left:80px;top:315px;max-width:1100px;font:400 26px/1.35 var(--sans);letter-spacing:-.025em;color:var(--quiet)}
 .designx-v3 .fee-sequence {top:426px}
 .designx-v3 .fee-stage>p.fee {font-size:55px;margin-top:23px}

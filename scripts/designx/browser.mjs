@@ -42,7 +42,7 @@ export function printUrl(url = DECK_URL) {
 
 export async function waitForDeck(page) {
   await page.waitForFunction(() => typeof window.DESIGNX_READY !== 'undefined');
-  await page.evaluate(async () => {
+  const expectedSlideCount = await page.evaluate(async () => {
     await window.DESIGNX_READY;
     await document.fonts.ready;
     const images = [...document.images];
@@ -57,9 +57,13 @@ export async function waitForDeck(page) {
       try { await image.decode(); } catch { missing.push(source); }
     }
     if (missing.length) throw new Error(`Missing presentation images: ${missing.join(', ')}`);
+    const target = window.DESIGNX_META?.targetSlideCount;
+    if (!Number.isInteger(target) || target < 1) throw new Error('The rendered presentation has no valid target slide count.');
+    if (window.DESIGNX_SLIDES?.length !== target) throw new Error(`Expected ${target} authored scenes for this edition.`);
+    return target;
   });
-  if (await page.locator('.slide').count() !== SLIDE_COUNT) {
-    throw new Error(`Expected ${SLIDE_COUNT} .slide elements.`);
+  if (await page.locator('.slide').count() !== expectedSlideCount) {
+    throw new Error(`Expected ${expectedSlideCount} .slide elements for this edition.`);
   }
 }
 
