@@ -19,6 +19,8 @@ const go = async number => {
   await page.evaluate(n => window.DESIGNX.goTo(n), number);
   await expect(page.locator(`#slide-${String(number).padStart(2, '0')}`)).toHaveAttribute('aria-hidden', 'false');
 };
+const sceneNumber = theme => page.evaluate(value => window.DESIGNX_SLIDES.findIndex(slide => slide.theme.split(' ').includes(value)) + 1, theme);
+const goTheme = async theme => go(await sceneNumber(theme));
 const check = async (name, action) => {
   await action();
   checks.push(name);
@@ -56,7 +58,7 @@ try {
   });
   await check('The first film play works before any scrubbing', async () => {
     const fresh = await browser.newPage();
-    await fresh.goto(`${url}#slide-05`);
+    await fresh.goto(`${url}#slide-${String(await sceneNumber('buyers-slide')).padStart(2, '0')}`);
     await waitForDeck(fresh);
     const film = fresh.locator('[data-customer-film]');
     assert.equal(await film.getAttribute('src'), null);
@@ -77,7 +79,7 @@ try {
     assert.equal(await page.evaluate(() => window.DESIGNX.current), 4);
   });
   await check('Film remains lazy, then supports seeking, normal play and offscreen pause', async () => {
-    await go(5);
+    await goTheme('buyers-slide');
     const film = page.locator('[data-customer-film]');
     assert.equal(await film.getAttribute('src'), null);
     await page.locator('.buyer-triptych figure').last().hover();
@@ -86,15 +88,15 @@ try {
     assert.equal(await film.evaluate(el => el.paused), true);
     await page.getByRole('button', { name: 'Play resort concept film', exact: true }).click();
     await expect.poll(() => film.evaluate(el => el.paused)).toBe(false);
-    await go(6);
+    await goTheme('variability-slide');
     assert.equal(await film.evaluate(el => el.paused), true);
-    await go(5);
+    await goTheme('buyers-slide');
     await page.waitForTimeout(700);
     await page.locator('.buyer-triptych figure').last().hover({ position: { x: 200, y: 300 } });
     const before = Number(await page.locator('#v2-film-position').inputValue());
     await page.mouse.wheel(0, -120);
     await expect.poll(() => page.locator('#v2-film-position').inputValue().then(Number)).toBeLessThan(before);
-    assert.equal(await page.evaluate(() => window.DESIGNX.current), 5);
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), await sceneNumber('buyers-slide'));
     await page.locator('#v2-film-position').fill('100');
     await expect.poll(() => film.evaluate(el => el.duration - el.currentTime)).toBeLessThan(0.1);
     await page.getByRole('button', { name: 'Play resort concept film', exact: true }).click();
@@ -102,8 +104,8 @@ try {
     assert(await film.evaluate(el => el.currentTime < 1), 'Play after the scrub endpoint must restart the film');
   });
   await check('Flywheels and coupling remain interactive', async () => {
-    await go(9);
-    const nodes = page.locator('#slide-09 .fw-node');
+    await goTheme('learning-slide');
+    const nodes = page.locator('.learning-slide .fw-node');
     await nodes.nth(2).click();
     await expect(nodes.nth(2)).toHaveAttribute('aria-pressed', 'true');
     await go(13);

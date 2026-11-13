@@ -6,13 +6,68 @@
   const originalLink = document.querySelector('.version-link');
   if (location.protocol === 'file:') originalLink.href = new URL('../index.html', location.href).href;
   const editionUrl = location.protocol === 'file:' ? location.href.split('#')[0] : 'https://www.bowerbuild.org/designx/2';
-  window.DESIGNX_SLIDES = window.DESIGNX_SLIDES.map(slide => ({
-    ...slide,
-    html: slide.html
+  const sourceSlides = window.DESIGNX_SLIDES;
+  // The invention precedes market segmentation. All sixteen scenes remain.
+  const order = [0, 1, 2, 3, 5, 6, 7, 8, 4, 9, 10, 11, 12, 13, 14, 15];
+  const headlines = {
+    'anatomy-slide': 'The Bower is<br>the first product.',
+    'computation-slide': 'The design-to-<br>manufacture engine.',
+    'factory-slide': 'A factory for<br>non-identical parts.',
+    'learning-slide': 'Turn each build into<br>better design rules.',
+    'buyers-slide': 'The first customers.',
+    'traction-slide': 'In discussion with',
+    'commercial-model-slide': 'Sell the building.<br>Develop the system.',
+    'commercial-loop-slide': 'Built proof.<br>Then demand.',
+    'coupled-slide': 'A product and a<br>production system.',
+    'team-slide': 'Architecture.<br>Software. Manufacturing.',
+  };
+  window.DESIGNX_SLIDES = order.map(index => {
+    const slide = sourceSlides[index];
+    const theme = slide.theme.split(' ')[0];
+    const template = document.createElement('template');
+    template.innerHTML = slide.html
       .replaceAll('<span class="wordmark">bower</span>', `<span class="wordmark"><img class="brand-emblem" src="${emblem}" alt="">bower</span>`)
       .replaceAll('href="https://www.bowerbuild.org/designx"', `href="${editionUrl}"`)
-      .replaceAll('bowerbuild.org/designx <', 'bowerbuild.org/designx/2 <'),
-  }));
+      .replaceAll('bowerbuild.org/designx <', 'bowerbuild.org/designx/2 <');
+    const content = template.content;
+    const heading = content.querySelector('.slide-heading h2, .fw-intro h2, .fw-coupled-title h2');
+    if (headlines[theme] && heading) heading.innerHTML = headlines[theme];
+
+    if (theme === 'cover') content.querySelector('.cover-title').insertAdjacentHTML('beforeend', '<p class="cover-proposition">Making living architecture manufacturable.</p>');
+    if (theme === 'computation-slide') {
+      content.querySelector('.source-note').textContent = 'Design-to-manufacture engine in development. Existing R13 model shown; current engine diagram to follow.';
+      content.querySelector('.model-ident>span').remove();
+      content.querySelector('.model-ident>p').textContent = 'Bower One R13 · 939 model parts · 92 primary timbers';
+    }
+    if (theme === 'learning-slide') {
+      content.querySelector('.fw-hub-label').textContent = 'REUSABLE DESIGN RULES';
+      content.querySelector('.fw-qualification').textContent = 'Intended learning system: fabrication and growth data would update design rules. Factory and garden measurement are not yet deployed.';
+    }
+    if (theme === 'commercial-model-slide') {
+      content.querySelector('.fee-sequence').insertAdjacentHTML('afterend', '<div class="capability-connector" aria-hidden="true"></div><div class="capability-rail" aria-label="Capabilities each commission is intended to develop"><span>Design rules</span><span>Fabrication workflows</span><span>Production tooling</span></div>');
+      content.querySelector('.source-note').textContent = 'Indicative proposal fees. Intended model: reinvestment depends on project economics and additional finance.';
+    }
+    if (theme === 'coupled-slide') {
+      content.querySelector('.fw-system-technical h3').innerHTML = 'Design +<br>manufacture.';
+      content.querySelector('.fw-system-commercial h3').innerHTML = 'Demand +<br>capacity.';
+    }
+    content.querySelectorAll('.visual-sticky').forEach(sticky => {
+      sticky.querySelector('p').prepend('To add: ');
+    });
+    const growthSticky = content.querySelector('.time-sticky p');
+    if (growthSticky) growthSticky.innerHTML = 'To add: Clay’s plant-growth simulation.';
+
+    // Remove headings rather than merely hiding them. Keep functional diagram
+    // labels and evidence/status footnotes; prospect status is the main heading.
+    content.querySelectorAll('.eyebrow, .fw-eyebrow, .time-heading>p, .running, .time-running, .fw-running, .fee-order, .fw-system-kicker, .visual-sticky>span, .time-sticky>span').forEach(element => element.remove());
+    return {
+      ...slide,
+      sourceIndex: index,
+      title: headlines[theme]?.replaceAll('<br>', ' ') ?? slide.title,
+      act: theme === 'buyers-slide' ? 'III · The first market' : slide.act,
+      html: template.innerHTML,
+    };
+  });
 
   (window.DESIGNX_MOUNTS ||= []).push(root => {
     const printMode = new URLSearchParams(location.search).get('print') === '1';
@@ -100,7 +155,7 @@
       } else {
         hint.textContent = 'Scroll to explore · or use the arrows';
       }
-      originalLink.hash = `slide-${String(event.detail.index + 1).padStart(2, '0')}`;
+      originalLink.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].sourceIndex + 1).padStart(2, '0')}`;
     });
 
     // Wheel navigation is an optional companion to keyboard, arrows, index and swipe.
