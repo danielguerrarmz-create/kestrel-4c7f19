@@ -36,7 +36,15 @@
     if (theme === 'learning-slide') content.querySelector('.fw-intro h2').innerHTML = 'Turn each build<br>into better<br><span class="v4-leaf-text">design rules.</span>';
     if (theme === 'buyers-slide') content.querySelector('.slide-heading h2').innerHTML = 'The first <em>customers.</em>';
     if (theme === 'commercial-model-slide') content.querySelector('.slide-heading h2').innerHTML = '<span class="v4-editorial">Sell a Bower.</span><br>Develop the system.';
-    if (theme === 'commercial-loop-slide') content.querySelector('.fw-intro h2').innerHTML = 'Built proof<br>creates <em>demand.</em>';
+    if (theme === 'commercial-loop-slide') {
+      content.querySelector('.fw-intro h2').innerHTML = 'Built proof<br>creates <em>demand.</em>';
+      const visuals = window.DESIGNX4_COMMERCIAL_VISUALS;
+      const hub = content.querySelector('.fw-hub');
+      hub.classList.add('v4-commercial-hub');
+      hub.innerHTML = visuals.map((visual, index) => `<figure class="v4-commercial-state${index === 0 ? ' is-current' : ''}" data-commercial-state="${index}" role="img" aria-label="${visual.alt}" aria-hidden="${index !== 0}"><div class="v4-commercial-canvas" aria-hidden="true">${visual.markup}</div><figcaption>${visual.caption}</figcaption></figure>`).join('');
+      content.querySelector('.fw-commercial').insertAdjacentHTML('beforeend', `<div class="v4-commercial-print" aria-label="The intended commercial cycle">${visuals.slice(0, 5).map(visual => `<figure><h3>${visual.stage}</h3><div class="v4-commercial-print-art" role="img" aria-label="${visual.alt}">${visual.markup}</div><figcaption>${visual.caption}</figcaption></figure>`).join('')}<svg class="v4-print-return" viewBox="0 0 1440 100" aria-hidden="true"><path d="M1305 5V35Q1305 60 1280 60H160Q135 60 135 35V5M127 15L135 5L143 15"/></svg><p>The next place starts with more behind it.</p></div>`);
+      content.querySelector('.fw-qualification').textContent = 'Intended commercial model. Concept imagery; no completed commission is shown. Reinvestment depends on project economics and finance.';
+    }
     if (theme === 'team-slide') content.querySelector('.slide-heading h2').innerHTML = '<span class="v4-editorial">Architecture.</span><br>Software. Manufacturing.';
     if (theme === 'closing') content.querySelector('.closing-copy h2').innerHTML = 'Buildings<br>that <em>grow.</em>';
     return { ...slide, theme: `${slide.theme}${technical.has(theme) ? ' v4-laboratory' : ''}`, html: template.innerHTML };
@@ -62,5 +70,18 @@
       components.setAttribute('aria-hidden', String(view !== 'components'));
       buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
     }));
+    // Follow the existing controller for clicks, playback, keyboard and reduced motion.
+    // The scene alone owns phase selection; the visuals never run a competing timer.
+    const commercial = root.querySelector('.fw-commercial');
+    const syncCommercial = () => {
+      const phase = commercial.dataset.fwPhase;
+      commercial.querySelectorAll('[data-commercial-state]').forEach(figure => {
+        const active = figure.dataset.commercialState === phase;
+        figure.classList.toggle('is-current', active);
+        figure.setAttribute('aria-hidden', String(!active));
+      });
+    };
+    new MutationObserver(syncCommercial).observe(commercial, { attributes: true, attributeFilter: ['data-fw-phase'] });
+    syncCommercial();
   });
 })();

@@ -166,6 +166,26 @@ body.designx-v4 {
 .designx-v4 .commercial-loop-slide>.folio {color:var(--quiet)}
 .designx-v4 .fw-hub-place {border-radius:50%;border:1px solid var(--line)}
 
+/* The commercial cycle changes its central evidence at every deliberate stage. */
+.designx-v4 .fw-commercial .fw-hub.v4-commercial-hub {left:250px;top:163px;width:400px;height:372px;display:block}
+.designx-v4 .v4-commercial-state {position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;transform:translateY(10px) scale(.97);transition:opacity .42s ease,transform .55s ease,visibility .42s}
+.designx-v4 .v4-commercial-state.is-current {opacity:1;visibility:visible;transform:none}
+.designx-v4 .v4-commercial-canvas {width:400px;height:320px}
+.designx-v4 .v4-commercial-canvas>svg {display:block;width:100%;height:100%;overflow:visible}
+.designx-v4 .v4-commercial-state figcaption {margin:13px auto 0;max-width:360px;text-align:center;font:500 15px/1.3 var(--sans);letter-spacing:-.01em;color:var(--quiet)}
+.designx-v4 .v4-commercial-print {display:none}
+.designx-v4.print-mode .commercial-loop-slide .fw-orbit,.designx-v4.print-mode .commercial-loop-slide .fw-readout,.designx-v4.print-mode .commercial-loop-slide .fw-static-summary {display:none}
+.designx-v4.print-mode .commercial-loop-slide .fw-intro {width:1440px}
+.designx-v4.print-mode .v4-commercial-print {position:absolute;display:grid;grid-template-columns:repeat(5,1fr);gap:24px;left:80px;right:80px;top:365px}
+.designx-v4 .v4-commercial-print>figure {position:relative;margin:0}
+.designx-v4 .v4-commercial-print h3 {font:400 34px/1.05 var(--headline);letter-spacing:-.025em;margin:0 0 18px}
+.designx-v4 .v4-commercial-print-art {width:100%;aspect-ratio:5/4}
+.designx-v4 .v4-commercial-print-art>svg {display:block;width:100%;height:100%}
+.designx-v4 .v4-commercial-print figcaption {margin-top:13px;font:500 17px/1.25 var(--sans);letter-spacing:-.02em;color:var(--quiet)}
+.designx-v4 .v4-commercial-print>figure:not(:nth-child(5)):after {content:'→';position:absolute;right:-12px;top:0;font:400 28px/1 var(--sans);color:var(--quiet)}
+.designx-v4 .v4-print-return {position:absolute;left:0;top:325px;width:100%;height:100px;fill:none;stroke:var(--evergreen);stroke-width:1.5}
+.designx-v4 .v4-commercial-print>p {position:absolute;top:373px;left:415px;right:415px;padding:0 16px;text-align:center;background:var(--floral);font:500 20px/1.2 var(--sans);letter-spacing:-.025em;color:var(--evergreen)}
+
 /* Coupling makes the two typographic voices part of one causal diagram. */
 .designx-v4 .flywheel-scene .fw-coupled-title h2 {font:700 69px/.97 var(--sans);letter-spacing:-.045em}
 .designx-v4 .fw-coupled-title {top:63px;max-width:1020px}
@@ -216,6 +236,9 @@ body.designx-v4 {
   .designx-v4 *,.designx-v4 *:before,.designx-v4 *:after {animation:none!important;transition:none!important}
 }
 @media print {
+  .designx-v4 .commercial-loop-slide .fw-orbit,.designx-v4 .commercial-loop-slide .fw-readout,.designx-v4 .commercial-loop-slide .fw-static-summary {display:none!important}
+  .designx-v4 .commercial-loop-slide .fw-intro {width:1440px}
+  .designx-v4 .v4-commercial-print {position:absolute;display:grid;grid-template-columns:repeat(5,1fr);gap:24px;left:80px;right:80px;top:365px}
   .designx-v4 .time-heading h2 {font:400 113px/.94 var(--display);color:var(--evergreen)}
   .designx-v4 .time-heading h2 em {color:var(--evergreen)}
   .designx-v4 .time-print-sequence h3 {font:400 36px/1.08 var(--headline)}
