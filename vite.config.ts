@@ -2,8 +2,8 @@ import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { DESIGNX_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './src/documentRoutes';
+import { basename, resolve } from 'node:path';
+import { designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './src/documentRoutes';
 
 /** Serve the independent presentation in development and production preview. */
 function designxDocument(): Plugin {
@@ -14,14 +14,15 @@ function designxDocument(): Plugin {
     }
     const pdfUrl = designxPdfUrl(requestUrl);
     if (pdfUrl) {
-      if (!existsSync(resolve(publicRoot, DESIGNX_PDF_ASSET.slice(1)))) {
+      const pdfAsset = pdfUrl.split('?')[0];
+      if (!existsSync(resolve(publicRoot, pdfAsset.slice(1)))) {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         res.end('The current presentation PDF has not been exported yet.');
         return;
       }
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'inline; filename="Bower_DesignX_Buildings_That_Grow.pdf"');
+      res.setHeader('Content-Disposition', `inline; filename="${basename(pdfAsset)}"`);
       req.url = pdfUrl;
       next();
       return;

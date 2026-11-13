@@ -1,0 +1,41 @@
+/* A material-process drawing designed as the opening editorial spread. */
+.designx-v3 .material-problem-slide {background:#0B1D18;color:#EEF3EA;}
+.designx-v3 .material-problem {position:absolute;inset:0;--grid-progress:100%;color:#EEF3EA;}
+.designx-v3 .material-problem:after {content:'';position:absolute;left:734px;top:84px;bottom:130px;width:1px;background:#B1C1B52E;}
+.designx-v3 .material-copy {position:absolute;left:80px;top:91px;width:650px;}
+.designx-v3 .material-copy h1 {font:700 86px/.98 var(--sans);letter-spacing:-.06em;color:#EEF3EA;}
+.designx-v3 .material-intro {position:absolute;left:2px;top:340px;max-width:560px;font:400 27px/1.38 var(--sans);letter-spacing:-.025em;color:#B1C1B5;}
+.designx-v3 .material-stat {position:absolute;top:494px;left:0;display:flex;align-items:center;gap:25px;}
+.designx-v3 .material-stat strong {font:700 125px/.95 var(--sans);letter-spacing:-.07em;color:#B7CD7B;white-space:nowrap;}
+.designx-v3 .material-stat strong>span {font-size:66px;letter-spacing:-.07em;}
+.designx-v3 .material-stat strong>span:first-child {font-size:44px;vertical-align:26px;margin-right:8px;font-weight:400;}
+.designx-v3 .material-stat p {font:400 21px/1.3 var(--sans);letter-spacing:-.025em;color:#B1C1B5;min-width:260px;}
+.designx-v3 .material-diagram {position:absolute;left:766px;top:91px;width:774px;height:536px;margin:0;}
+.designx-v3 .material-diagram svg {width:100%;height:100%;overflow:visible;font-family:var(--sans);}
+.designx-v3 .material-svg-label {fill:#EEF3EA;font-size:20px;font-weight:400;letter-spacing:-.02em;}
+.designx-v3 .material-svg-small {fill:#B1C1B5;font-size:15px;font-weight:400;letter-spacing:-.01em;}
+.designx-v3 .material-svg-formula {fill:#B1C1B5;font-size:22px;font-weight:400;letter-spacing:-.03em;}
+.designx-v3 .material-co2 {fill:#0B1D18;font-size:19px;font-weight:700;letter-spacing:-.04em;}
+.designx-v3 .material-svg-energy {fill:#B7CD7B;font-size:18px;}
+.designx-v3 .material-grid-carbon {opacity:var(--grid-emissions,.14);transition:opacity .18s ease-out;}
+.designx-v3 .material-grid-carbon text {fill:#B1C1B5;font:9px var(--sans);}
+.designx-v3 .material-process-carbon {opacity:1;}
+.designx-v3 .material-conclusion {position:absolute;left:793px;top:650px;width:665px;font:400 29px/1.24 var(--sans);letter-spacing:-.025em;color:#EEF3EA;}
+.designx-v3 .material-grid-control {position:absolute;left:80px;bottom:99px;width:590px;color:#B1C1B5;}
+.designx-v3 .material-grid-control label {display:flex;justify-content:space-between;gap:18px;font:400 14px/1.3 var(--sans);letter-spacing:0;color:#EEF3EA;}
+.designx-v3 .material-grid-control label span {font-size:12px;color:#B7CD7B;}
+.designx-v3 .material-grid-control input {display:block;width:100%;height:25px;margin:8px 0 0;appearance:none;-webkit-appearance:none;cursor:ew-resize;background:transparent;}
+.designx-v3 .material-grid-control input::-webkit-slider-runnable-track {height:2px;background:linear-gradient(90deg,#B7CD7B var(--grid-progress,100%),#B1C1B547 var(--grid-progress,100%));}
+.designx-v3 .material-grid-control input::-webkit-slider-thumb {appearance:none;-webkit-appearance:none;width:13px;height:13px;margin-top:-5.5px;border-radius:0;border:2px solid #B7CD7B;background:#0B1D18;}
+.designx-v3 .material-grid-control input::-moz-range-track {height:2px;background:#B1C1B547;}
+.designx-v3 .material-grid-control input::-moz-range-progress {height:2px;background:#B7CD7B;}
+.designx-v3 .material-grid-control input::-moz-range-thumb {width:10px;height:10px;border-radius:0;border:2px solid #B7CD7B;background:#0B1D18;}
+.designx-v3 .material-grid-control p {font:400 12px/1.4 var(--sans);letter-spacing:.01em;color:#B1C1B5;}
+.designx-v3 .material-sources {position:absolute;left:80px;right:80px;bottom:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;font:400 11px/1.45 var(--sans);letter-spacing:.01em;color:#B1C1B5;}
+.designx-v3 .material-sources a {text-underline-offset:3px;text-decoration-color:#B1C1B56B;}
+.designx-v3 .material-sources a:hover {color:#EEF3EA;text-decoration-color:#EEF3EA;}
+.designx-v3 .material-problem-slide .folio {color:#B1C1B5;}
+.designx-v3.print-mode .material-grid-control {display:none;}
+.designx-v3.print-mode .material-grid-carbon {opacity:.14;}
+@media (prefers-reduced-motion:reduce) {.designx-v3 .material-grid-carbon {transition:none;}}
+@media print {.designx-v3 .material-grid-control {display:none;}.designx-v3 .material-grid-carbon {opacity:.14!important;}}

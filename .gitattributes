@@ -13,3 +13,5 @@ src/pages/about/subBranches.generated.json text eol=lf
 # mismatch looks like and reads as a real drift. Adding a generated file to the
 # repo means adding it here too.
 public/sitemap.xml text eol=lf
+# Presentation exports must retain their exact bytes on Windows and in deployment.
+public/designx/**/*.pdf binary

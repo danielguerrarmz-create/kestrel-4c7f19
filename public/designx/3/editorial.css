@@ -1,0 +1,35 @@
+/* Edition 03 inherits the architectural type and colour system; its argument
+   and opening compositions are independent of the previous two editions. */
+.designx-v3 .source-note a {color:inherit;text-underline-offset:3px}
+.designx-v3 .cover-title {bottom:133px}
+.designx-v3 .cover-title h1 {font-size:172px}
+.designx-v3 .cover-proposition {font-size:29px;line-height:1.35;margin-top:31px;max-width:940px}
+.designx-v3 .cover-shade {background:linear-gradient(90deg,#0B1D18D6,transparent 90%),linear-gradient(0deg,#0B1D18B8,transparent 55%)}
+.designx-v3 .opportunity-copy {position:absolute;left:80px;top:260px;width:1320px;font:400 27px/1.35 var(--sans);letter-spacing:-.025em;color:var(--quiet)}
+.designx-v3 .variability-top {top:81px}
+.designx-v3 .variability-top h2 {font-size:81px}
+.designx-v3 .variation-fields {top:366px;height:214px}
+.designx-v3 .natural-field {height:214px}
+.designx-v3 .natural-field>div {height:200px}
+.designx-v3 .natural-field img {height:198px}
+.designx-v3 .natural-field span {top:224px}
+.designx-v3 .natural-field>div:nth-child(2) span {top:211px}
+.designx-v3 .natural-field>div:nth-child(3) span {top:198px}
+.designx-v3 .standard-field i {height:190px}
+.designx-v3 .standard-field>span {bottom:-16px}
+.designx-v3 .variability-slide blockquote {top:671px;font-size:42px}
+.designx-v3 .engine-purpose {position:absolute;left:80px;top:293px;max-width:735px;font:400 27px/1.4 var(--sans);letter-spacing:-.025em;color:var(--quiet)}
+.designx-v3 .factory-slide h2 {font-size:104px}
+.designx-v3 .commission-purpose {position:absolute;left:80px;top:315px;max-width:1100px;font:400 26px/1.35 var(--sans);letter-spacing:-.025em;color:var(--quiet)}
+.designx-v3 .fee-sequence {top:426px}
+.designx-v3 .fee-stage>p.fee {font-size:55px;margin-top:23px}
+.designx-v3 .fee-stage>p.fee.range {font-size:55px;margin-top:23px}
+.designx-v3 .fee-mark {height:83px;margin-top:13px}
+.designx-v3 .fee-mark svg {height:83px}
+.designx-v3 .capability-connector {top:667px}
+.designx-v3 .capability-rail {top:710px;padding-top:18px}
+.designx-v3 .capability-rail>span {font-size:31px;line-height:1.08}
+.designx-v3 .flywheel-scene .fw-coupled-title h2 {font-size:71px}
+.designx-v3 .fw-coupled-title {max-width:940px}
+.designx-v3 .closing-ask {font-size:31px}
+@media(max-width:760px) {.designx-v3 .edition-navigation {gap:8px}.designx-v3 .viewer-edition {display:none}}

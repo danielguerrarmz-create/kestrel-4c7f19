@@ -6,7 +6,9 @@ A sixteen-scene working presentation for Bower × MIT–LUMA. The website is the
 
 - `/designx` and `/designx/`: interactive presentation.
 - `/designx/2` and `/designx/2/`: second visual edition, using the architectural-editorial style guide.
-- `/designx/pdf` and `/designx/pdf/`: current PDF served inline.
+- `/designx/3` and `/designx/3/`: third edition, opening with the material problem and manufacturing challenge.
+- `/designx/pdf` and `/designx/pdf/`: original-edition PDF served inline.
+- `/designx/3/pdf` and `/designx/3/pdf/`: matching third-edition PDF served inline.
 - `/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf`: underlying exported file.
 
 Vite development/preview and Vercel use the same routes. Presentation code, media and PDF stay under `public/designx/`. The marketing router yields to this document. Its navigation and sitemap remain unchanged. No external fonts, analytics or runtime APIs are required. Noindex headers discourage indexing.
@@ -14,6 +16,8 @@ Vite development/preview and Vercel use the same routes. Presentation code, medi
 The second edition keeps its entry point, style and interaction enhancements in `public/designx/2/`. It reuses source scenes, scene modules and media already under `public/designx/`, avoiding duplicate copies of large assets. The original presentation and its current PDF remain available at their existing URLs.
 
 Edition 02 uses the supplied Helvetica Neue/Arial system, botanical palette and the existing Oculus emblem with a Georgia wordmark. Its `editorial.css` controls the art direction; `edition.js` controls the edition's sequence and headline revisions, plus scroll navigation, deliberate growth scrubbing and on-demand seeking through the customer film. The invention comes before customer segmentation, and the commercial sequence shows the reusable capability commissions are intended to develop. Eyebrow headings are removed; evidence and development-status notes remain. Keyboard, touch, direct scene controls and reduced-motion alternatives remain available. The PDF link is explicitly labelled as edition 01 until a second-edition PDF is requested.
+
+Edition 03 uses that visual system and those controls, with its own story transformation and styles in `3/edition.js` and `3/editorial.css`. Its first three scenes explain the material problem, variability and Bower's developing production system without narration. `3/problem.js` and `3/problem.css` draw an interactive cement-process diagram: changing the electricity input leaves limestone's process CO₂ visible. This is an explanatory schematic, not a quantitative carbon model. The 37% global CO₂ figure is sourced to UNEP's 2025–2026 report; source links are visible in both web and PDF editions. The commercial sequence explains how early commissions are intended to develop reusable capability. No measured Bower carbon advantage or operational factory is claimed. Earlier editions remain independent.
 
 Run `npm run dev`; preview at `http://localhost:5333/designx`. Deep links run from `#slide-01` to `#slide-16`. Add `?print=1` to inspect all static compositions. The file can also run offline; its PDF link uses the local exported file.
 
@@ -44,10 +48,15 @@ node scripts/designx/export.mjs
 python scripts/designx/verify-pdf.py
 node scripts/designx/check.mjs
 node scripts/designx/check-2.mjs
+node scripts/designx/check-3.mjs
+node scripts/designx/export.mjs --edition=3
+python scripts/designx/verify-pdf.py output/pdf/Bower_DesignX_Buildings_That_Grow_03.pdf
 npm run build
 ```
 
 Export before building so production includes the latest PDF. The export writes `output/pdf/`, copies the PDF into `downloads/`, and captures review PNGs under ignored `qa-out/designx/slides/`. PDF photography is compressed in the export browser; web originals and live text/vector diagrams are retained. The verifier needs `pypdf`.
+
+The `--edition=3` export instead writes its public file to `3/downloads/` and captures static compositions under `qa-out/designx/edition-03/print/`. It does not overwrite the original PDF. The third-edition browser check covers the material interaction, static opening, existing interactive scenes, mobile viewport fitting, reduced motion, and earlier-edition isolation.
 
 The twenty-one browser checks cover navigation, scene interactions, keyboard/modal focus, five viewports, print composition, offline use, isolated resource loading and PDF route headers/byte equality. Inspect the actual rendered PDF too. Reports are under `qa-out/designx/`.
 

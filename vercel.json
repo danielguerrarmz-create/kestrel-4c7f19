@@ -2,12 +2,28 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/designx/3/pdf",
+      "destination": "/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf"
+    },
+    {
+      "source": "/designx/3/pdf/",
+      "destination": "/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf"
+    },
+    {
       "source": "/designx/pdf",
       "destination": "/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf"
     },
     {
       "source": "/designx/pdf/",
       "destination": "/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf"
+    },
+    {
+      "source": "/designx/3",
+      "destination": "/designx/3/index.html"
+    },
+    {
+      "source": "/designx/3/",
+      "destination": "/designx/3/index.html"
     },
     {
       "source": "/designx/2",
@@ -31,6 +47,20 @@
     }
   ],
   "headers": [
+    {
+      "source": "/designx/3/pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_03.pdf\"" }
+      ]
+    },
+    {
+      "source": "/designx/3/pdf/",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_03.pdf\"" }
+      ]
+    },
     {
       "source": "/designx/pdf",
       "headers": [

@@ -8,10 +8,13 @@ if (!DECK_META.exportReady || SLIDE_COUNT !== DECK_META.targetSlideCount) {
   throw new Error('DesignX export is disabled or its scene count differs from the authored target. Set the intended revision status and export readiness in slides.js before exporting.');
 }
 
-const filename = 'Bower_DesignX_Buildings_That_Grow.pdf';
+const edition = process.argv.includes('--edition=3') ? '3' : '1';
+if (process.argv.slice(2).some(argument => argument !== '--edition=3')) throw new Error('Supported export option: --edition=3');
+const deckUrl = edition === '3' ? (process.env.DESIGNX_V3_URL ?? 'http://127.0.0.1:5333/designx/3') : undefined;
+const filename = edition === '3' ? 'Bower_DesignX_Buildings_That_Grow_03.pdf' : 'Bower_DesignX_Buildings_That_Grow.pdf';
 const outputDirectory = resolve(ROOT, 'output/pdf');
-const captureDirectory = resolve(ROOT, 'qa-out/designx/slides');
-const downloadDirectory = resolve(ROOT, 'public/designx/downloads');
+const captureDirectory = resolve(ROOT, edition === '3' ? 'qa-out/designx/edition-03/print' : 'qa-out/designx/slides');
+const downloadDirectory = resolve(ROOT, edition === '3' ? 'public/designx/3/downloads' : 'public/designx/downloads');
 await Promise.all([outputDirectory, captureDirectory, downloadDirectory].map((path) => mkdir(path, { recursive: true })));
 
 const browser = await openBrowser();
@@ -34,10 +37,12 @@ try {
   });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  const response = await page.goto(printUrl(), { waitUntil: 'domcontentloaded' });
+  const response = await page.goto(printUrl(deckUrl), { waitUntil: 'domcontentloaded' });
   if (response && !response.ok()) throw new Error(`Presentation returned HTTP ${response.status()}.`);
   await page.emulateMedia({ media: 'print', reducedMotion: 'reduce' });
   await waitForDeck(page);
+  const renderedMeta = await page.evaluate(() => window.DESIGNX_META);
+  if (!renderedMeta.exportReady || (edition === '3' && renderedMeta.edition !== 3)) throw new Error('The rendered document does not match the requested export edition.');
   const slides = await inspectSlides(page);
   assertPrintSlides(slides);
   if (errors.length) throw new Error(errors.join('\n'));
@@ -54,7 +59,7 @@ try {
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
   });
   await copyFile(output, resolve(downloadDirectory, filename));
-  await writeFile(resolve(captureDirectory, 'export-report.json'), JSON.stringify({ url: printUrl(), output, slides, errors }, null, 2));
+  await writeFile(resolve(captureDirectory, 'export-report.json'), JSON.stringify({ url: printUrl(deckUrl), output, slides, errors }, null, 2));
   console.log(`Exported ${slides.length} slides: ${output}`);
   console.log(`Screenshots: ${captureDirectory}`);
 } finally {

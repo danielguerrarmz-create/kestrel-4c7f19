@@ -1,0 +1,233 @@
+/** Edition 03: cold-read argument, interactive evidence and static submission layout. */
+import assert from 'node:assert/strict';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { expect } from '@playwright/test';
+import { openBrowser, waitForDeck, inspectSlides, printUrl, assertPrintSlides, ROOT } from './browser.mjs';
+
+const url = process.env.DESIGNX_V3_URL ?? 'http://127.0.0.1:5333/designx/3';
+const output = resolve(ROOT, 'qa-out/designx/edition-03');
+await mkdir(output, { recursive: true });
+const browser = await openBrowser();
+const page = await browser.newPage({ viewport: { width: 1600, height: 1020 } });
+const errors = [];
+const checks = [];
+const screenshots = [];
+const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+const observe = target => {
+  target.on('pageerror', error => errors.push(error.message));
+  target.on('response', response => {
+    if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
+  });
+};
+observe(page);
+const sceneNumber = theme => page.evaluate(value => window.DESIGNX_SLIDES.findIndex(slide => slide.theme.split(' ').includes(value)) + 1, theme);
+const go = async number => {
+  await page.evaluate(n => window.DESIGNX.goTo(n), number);
+  await expect(page.locator(`#slide-${String(number).padStart(2, '0')}`)).toHaveAttribute('aria-hidden', 'false');
+};
+const goTheme = async theme => {
+  const number = await sceneNumber(theme);
+  assert(number > 0, `Missing scene ${theme}`);
+  await go(number);
+};
+const check = async (name, action) => {
+  await action();
+  checks.push(name);
+  console.log(`PASS ${name}`);
+};
+
+try {
+  await page.goto(url);
+  await waitForDeck(page);
+  await check('The new route opens a three-slide argument within a sixteen-slide edition', async () => {
+    await expect(page.locator('body')).toHaveClass(/designx-v3/);
+    assert.equal(await page.locator('.slide').count(), 16);
+    for (const [index, theme] of ['material-problem-slide', 'variability-slide', 'cover'].entries()) {
+      assert.equal(await sceneNumber(theme), index + 1);
+    }
+    assert.equal(await page.locator('.slide .eyebrow, .slide .fw-eyebrow, .slide .running, .slide .time-running, .slide .fw-running').count(), 0);
+    const heading = await page.locator('.material-problem-slide h1').evaluate(el => ({ font: getComputedStyle(el).fontFamily, weight: Number(getComputedStyle(el).fontWeight) }));
+    assert.match(heading.font, /Helvetica Neue/);
+    assert(heading.weight >= 700);
+    assert.equal(await page.locator('[data-customer-film]').getAttribute('src'), null);
+  });
+  await check('The problem has visible sources and the evidence retains its qualifications', async () => {
+    const first = page.locator('.material-problem-slide');
+    await expect(first.locator('a[href*="unep.org"]')).toHaveCount(1);
+    await expect(first.locator('a[href*="iea.org"]')).toHaveCount(1);
+    await expect(first).toContainText(/material|materials/i);
+    await expect(first).toContainText(/chemistry|chemical/i);
+    await expect(page.locator('.computation-slide')).toContainText(/in development/i);
+    await expect(page.locator('.factory-slide')).toContainText(/in development/i);
+    await expect(page.locator('.traction-slide')).toContainText(/In discussion with/i);
+    for (const name of ['Eden', 'The Newt', '25hours']) await expect(page.locator('.traction-slide')).toContainText(name);
+  });
+  await check('Cleaner-electricity interaction changes energy emissions while process emissions remain', async () => {
+    const control = page.locator('[data-material-grid]');
+    const energy = page.locator('[data-grid-carbon]');
+    const process = page.locator('[data-process-carbon]');
+    await control.fill('0');
+    await expect(page.locator('[data-grid-state]')).toHaveText('Higher-carbon electricity');
+    await expect.poll(() => energy.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+    await expect.poll(() => process.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+    await control.fill('100');
+    await expect(page.locator('[data-grid-state]')).toHaveText('Cleaner electricity');
+    await expect.poll(() => energy.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(0.14);
+    await expect.poll(() => process.evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+    await expect(control).toHaveAttribute('aria-valuetext', /limestone process emissions remain/);
+    await control.focus();
+    await page.keyboard.press('ArrowLeft');
+    await expect.poll(() => control.inputValue().then(Number)).toBeLessThan(100);
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), 1, 'Range keyboard interaction must not navigate the deck');
+    await control.fill('100');
+    await control.blur();
+  });
+  await check('Scroll navigation advances once and the slide index remains usable', async () => {
+    await page.waitForTimeout(700);
+    await page.mouse.move(800, 450);
+    await page.mouse.wheel(0, 100);
+    await expect.poll(() => page.evaluate(() => window.DESIGNX.current)).toBe(2);
+    for (let pulse = 0; pulse < 9; pulse++) {
+      await page.waitForTimeout(100);
+      await page.mouse.wheel(0, 90);
+    }
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), 2, 'One continuous gesture must not skip the opening argument');
+    await page.getByRole('button', { name: 'Open slide index', exact: true }).click();
+    await page.mouse.wheel(0, 500);
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), 2);
+    await page.getByRole('button', { name: 'Close slide index', exact: true }).click();
+  });
+  await check('Growth, customer film and both flywheels remain interactive after reordering', async () => {
+    await goTheme('growth-slide');
+    await expect(page.locator('.time-scene')).toHaveAttribute('data-time-playing', 'false');
+    await page.waitForTimeout(700);
+    await page.mouse.move(900, 450);
+    await page.mouse.wheel(0, 240);
+    await expect.poll(() => page.locator('[data-time-scrub]').inputValue().then(Number)).toBeGreaterThan(0);
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), await sceneNumber('growth-slide'));
+    await goTheme('buyers-slide');
+    const film = page.locator('[data-customer-film]');
+    await page.getByRole('button', { name: 'Play resort concept film', exact: true }).click();
+    await expect.poll(() => film.evaluate(el => el.currentTime), { timeout: 15000 }).toBeGreaterThan(0.2);
+    assert.equal(await film.evaluate(el => el.paused), false);
+    await goTheme('learning-slide');
+    assert.equal(await film.evaluate(el => el.paused), true);
+    const nodes = page.locator('.learning-slide .fw-node');
+    await nodes.nth(2).click();
+    await expect(nodes.nth(2)).toHaveAttribute('aria-pressed', 'true');
+    await goTheme('commercial-loop-slide');
+    const commercialNodes = page.locator('.commercial-loop-slide .fw-node');
+    await commercialNodes.nth(2).click();
+    await expect(commercialNodes.nth(2)).toHaveAttribute('aria-pressed', 'true');
+    await goTheme('coupled-slide');
+    await page.locator('.coupled-slide input[type=range]').fill('100');
+    await expect(page.locator('.coupled-slide input[type=range]')).toHaveValue('100');
+  });
+  await check('Reduced motion preserves deliberate controls and stops automatic growth', async () => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await go(1);
+    await page.locator('[data-material-grid]').fill('0');
+    await expect.poll(() => page.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+    await page.locator('[data-material-grid]').fill('100');
+    await expect.poll(() => page.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(0.14);
+    await goTheme('growth-slide');
+    await expect(page.locator('.time-scene')).toHaveAttribute('data-time-playing', 'false');
+    await page.waitForTimeout(700);
+    await page.mouse.move(900, 450);
+    await page.mouse.wheel(0, 100);
+    await expect.poll(() => page.evaluate(() => window.DESIGNX.current)).toBe(await sceneNumber('growth-slide') + 1);
+  });
+  await check('All sixteen compositions fit their canvas and load their evidence images', async () => {
+    for (let number = 1; number <= 16; number++) {
+      await go(number);
+      await waitForDeck(page);
+      const metrics = (await inspectSlides(page)).find(s => s.id === `slide-${String(number).padStart(2, '0')}`);
+      assert.deepEqual(metrics.overflow, [], `${metrics.id} has clipped text`);
+      const imagePath = resolve(output, `slide-${String(number).padStart(2, '0')}.png`);
+      await page.locator('.slide.is-active').screenshot({ path: imagePath });
+      screenshots.push(imagePath);
+    }
+  });
+  await check('Phone, landscape phone, tablet and widescreen preserve the stage and controls', async () => {
+    for (const [width, height] of [[390, 844], [844, 390], [768, 1024], [1920, 1080]]) {
+      await page.setViewportSize({ width, height });
+      await go(1);
+      await expect.poll(async () => {
+        const box = await page.locator('#deck').boundingBox();
+        return box.x >= -1 && box.y >= -1 && box.x + box.width <= width + 1 && box.y + box.height <= height + 1;
+      }).toBe(true);
+      const controls = await page.locator('.viewer-controls').boundingBox();
+      assert(controls.y >= 0 && controls.y + controls.height <= height);
+      await page.screenshot({ path: resolve(output, `viewport-${width}x${height}.png`) });
+    }
+  });
+  await check('Print mode shows all sixteen static compositions without controls or clipped text', async () => {
+    const print = await browser.newPage({ viewport: { width: 1600, height: 1000 }, reducedMotion: 'reduce' });
+    observe(print);
+    await print.goto(printUrl(url));
+    await waitForDeck(print);
+    assertPrintSlides(await inspectSlides(print));
+    await expect(print.locator('.viewer-controls')).toBeHidden();
+    await expect(print.locator('.material-problem-slide')).toBeVisible();
+    await expect(print.locator('.material-grid-control')).toBeHidden();
+    assert.equal(await print.locator('[data-grid-carbon]').evaluate(el => Number(getComputedStyle(el).opacity)), 0.14);
+    assert.equal(await print.locator('[data-process-carbon]').evaluate(el => Number(getComputedStyle(el).opacity)), 1);
+    await print.locator('.material-problem-slide').screenshot({ path: resolve(output, 'print-opening.png') });
+    await print.close();
+  });
+  await check('Previous editions and the original PDF remain independent', async () => {
+    const prior = await browser.newPage();
+    observe(prior);
+    for (const path of ['/designx', '/designx/2']) {
+      await prior.goto(new URL(path, url).href);
+      await waitForDeck(prior);
+      assert.equal(await prior.locator('.designx-v3').count(), 0);
+      assert.equal(await prior.locator('.material-problem-slide').count(), 0);
+    }
+    const response = await prior.request.get(new URL('/designx/pdf', url).href);
+    assert.equal(response.headers()['content-type'], 'application/pdf');
+    assert.equal((await response.body()).subarray(0, 5).toString(), '%PDF-');
+    await prior.close();
+  });
+  await check('The third edition links to its own inline PDF submission', async () => {
+    assert.match(await page.locator('#pdf-link').evaluate(el => el.href), /\/designx\/3\/pdf$/);
+    const pdfFile = resolve(ROOT, 'public/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf');
+    const originalPdf = await readFile(resolve(ROOT, 'public/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf'));
+    const editionPdf = await readFile(pdfFile);
+    assert.notEqual(sha256(editionPdf), sha256(originalPdf), 'Edition 03 must not serve the original deck');
+    for (const path of ['/designx/3/pdf', '/designx/3/pdf/']) {
+      const response = await page.request.get(new URL(path, url).href);
+      assert.equal(response.status(), 200, path);
+      assert.equal(response.headers()['content-type'], 'application/pdf');
+      assert.match(response.headers()['content-disposition'], /^inline;.*Bower_DesignX_Buildings_That_Grow_03\.pdf/);
+      assert.match(response.headers()['x-robots-tag'], /noindex/);
+      const bytes = await response.body();
+      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+      assert(bytes.length > 1000, 'The submission must contain an exported document');
+      assert.equal(sha256(bytes), sha256(editionPdf), 'The alias must serve the matching exported edition');
+    }
+  });
+  await check('Trailing-slash deep links and the offline edition keep their own document and PDF', async () => {
+    const alternate = await browser.newPage();
+    observe(alternate);
+    await alternate.goto(new URL('/designx/3/?from=qa#slide-02', url).href);
+    await waitForDeck(alternate);
+    await expect(alternate.locator('body')).toHaveClass(/designx-v3/);
+    assert.equal(await alternate.evaluate(() => window.DESIGNX.current), 2);
+    assert.match(await alternate.locator('#pdf-link').evaluate(el => el.href), /\/designx\/3\/pdf$/);
+    const offlineUrl = pathToFileURL(resolve(ROOT, 'public/designx/3/index.html')).href;
+    await alternate.goto(offlineUrl);
+    await waitForDeck(alternate);
+    const expectedPdf = pathToFileURL(resolve(ROOT, 'public/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf')).href;
+    assert.equal(await alternate.locator('#pdf-link').evaluate(el => el.href), expectedPdf);
+    await alternate.close();
+  });
+  assert.deepEqual(errors, [], 'Browser resources and scripts must load without errors');
+  await writeFile(resolve(output, 'check.json'), JSON.stringify({ url, checks, errors, screenshots }, null, 2));
+  console.log(`${checks.length} edition checks passed.`);
+} finally {
+  await browser.close();
+}
