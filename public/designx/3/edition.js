@@ -53,7 +53,7 @@
     }
     if (theme === 'cover') {
       title = 'Bower. Buildings that grow.';
-      content.querySelector('.cover-proposition').textContent = 'The means to make many.';
+      content.querySelector('.cover-proposition').textContent = 'And the means to make many.';
       content.querySelector('.cover-top p').remove();
       notes = 'Bower is developing the architectural product and the capability to produce it together. Start with one beautiful, inhabitable Bower to test desirability and buildability. Use commissions to develop repeatable design and fabrication knowledge. A production system is the route toward wider application. This is a development path, not a claim that the first building, operating factory or lifecycle carbon case is complete. The first product combines an engineered timber structure with planting; the plants are not assumed to replace the engineered load path.';
     }
