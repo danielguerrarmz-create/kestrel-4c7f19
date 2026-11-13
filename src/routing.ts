@@ -48,6 +48,7 @@
  * below and `src/DevRoutes.tsx`. This is a gate, not a deletion.
  */
 import { useEffect, useSyncExternalStore } from 'react';
+import { isDesignxDocumentPath } from './documentRoutes';
 
 /* ------------------------------- path parsing ------------------------------ */
 
@@ -117,6 +118,8 @@ export function claimsLink(
   // `mailto:` and `tel:` have an opaque origin ("null"), so this one check covers both them
   // and every other site.
   if (url.origin !== current.origin) return false;
+  // DesignX is a self-contained document, including its downloadable PDF and media.
+  if (isDesignxDocumentPath(url.pathname)) return false;
   // An in-page anchor is the browser's job: it scrolls, and it does it without a re-render.
   if (url.pathname === current.pathname && url.hash) return false;
   return true;

@@ -1,5 +1,41 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { DESIGNX_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './src/documentRoutes';
+
+/** Serve the independent presentation in development and production preview. */
+function designxDocument(): Plugin {
+  const middleware = (publicRoot: string) => (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+    const requestUrl = req.url ?? '/';
+    if (isDesignxDocumentPath(requestUrl.split('?')[0])) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+    const pdfUrl = designxPdfUrl(requestUrl);
+    if (pdfUrl) {
+      if (!existsSync(resolve(publicRoot, DESIGNX_PDF_ASSET.slice(1)))) {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.end('The current presentation PDF has not been exported yet.');
+        return;
+      }
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'inline; filename="Bower_DesignX_Buildings_That_Grow.pdf"');
+      req.url = pdfUrl;
+      next();
+      return;
+    }
+    const documentUrl = designxDocumentUrl(requestUrl);
+    if (documentUrl) req.url = documentUrl;
+    next();
+  };
+  return {
+    name: 'bower:designx-document',
+    configureServer(server) { server.middlewares.use(middleware(server.config.publicDir)); },
+    configurePreviewServer(server) { server.middlewares.use(middleware(resolve(server.config.root, server.config.build.outDir))); },
+  };
+}
 
 /**
  * Serve `api/contact.ts` under `npm run dev`, so the contact form is testable without deploying.
@@ -60,7 +96,7 @@ function contactEndpointDev(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), contactEndpointDev()],
+  plugins: [react(), contactEndpointDev(), designxDocument()],
   // Dedicated dev port. strictPort: fail loudly instead of drifting onto a
   // neighbour's port (5173 portfolio, 5188 LSSC, 8787 Axon also run locally).
   server: { port: 5333, strictPort: true, open: true },

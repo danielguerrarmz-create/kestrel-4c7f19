@@ -64,3 +64,6 @@ qa/shots/
 # Playwright generated results
 /test-results/
 /playwright-report/
+
+# Local exports and private agent handoff bundles. The deck's public PDF lives in public/designx/downloads/.
+/output/

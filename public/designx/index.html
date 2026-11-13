@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#102c22">
+  <meta name="description" content="Buildings that grow. Bower's architectural proposition, technical development and first-build ambition for MIT DesignX × LUMA.">
+  <title>Buildings That Grow — Bower × MIT–LUMA</title>
+  <script>
+    // Insert resource URLs after the base is known; the preload scanner must not
+    // resolve relative URLs against the extensionless /designx document.
+    const base = document.createElement('base');
+    base.href = location.protocol === 'file:' ? new URL('./', location.href).href : '/designx/';
+    document.head.append(base);
+    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css']) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet'; stylesheet.href = file;
+      document.head.append(stylesheet);
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#deck">Skip to presentation</a>
+  <header class="viewer-header" aria-label="Presentation information">
+    <a href="https://www.bowerbuild.org" class="viewer-brand" target="_blank" rel="noopener">bower<span>Buildings that grow</span></a>
+    <span class="viewer-edition">MIT DesignX × LUMA / 2026</span>
+  </header>
+  <main id="deck" class="deck-stage" aria-label="Buildings That Grow" tabindex="-1"></main>
+  <nav class="viewer-controls" aria-label="Presentation controls">
+    <div class="controls-left">
+      <button id="open-index" aria-label="Open slide index" title="Slide index (G)"><span class="grid-icon" aria-hidden="true">▦</span></button>
+      <span id="current-act"></span>
+    </div>
+    <div class="controls-centre">
+      <button id="prev-slide" aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <span id="slide-counter" aria-hidden="true"></span>
+      <button id="next-slide" aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+    <div class="controls-right">
+      <button id="show-notes" aria-label="Show speaker notes" title="Speaker notes (N)">Notes</button>
+      <a id="pdf-link" href="pdf" target="_blank" rel="noopener" title="Open the working PDF">PDF ↗</a>
+      <button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button>
+    </div>
+  </nav>
+  <div class="viewer-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  <p id="slide-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+  <dialog id="slide-index" class="index-dialog" aria-labelledby="index-title">
+    <div class="dialog-heading"><h2 id="index-title">Buildings that grow.</h2><button data-close-dialog="slide-index" aria-label="Close slide index">×</button></div>
+    <div id="index-grid"></div>
+    <p class="dialog-hint">← → Navigate · G Index · N Notes · F Fullscreen · Esc Close</p>
+  </dialog>
+  <dialog id="speaker-notes" class="notes-dialog" aria-labelledby="notes-title">
+    <div class="dialog-heading"><h2 id="notes-title">Speaker notes</h2><button data-close-dialog="speaker-notes" aria-label="Close speaker notes">×</button></div>
+    <div id="notes-content"></div>
+  </dialog>
+  <noscript><p class="no-script">This presentation needs JavaScript.</p></noscript>
+  <script>
+    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', 'deck.js']) {
+      const script = document.createElement('script');
+      script.src = file; script.async = false;
+      document.body.append(script);
+    }
+  </script>
+</body>
+</html>

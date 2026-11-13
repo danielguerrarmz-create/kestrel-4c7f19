@@ -1,0 +1,36 @@
+[
+  {
+    "file": "resort-hospitality.webp",
+    "kind": "generated-concept-image",
+    "caption": "Mediterranean resort Bower concept, with a planted timber canopy beside the sea.",
+    "width": 1920,
+    "height": 1072,
+    "bytes": 509556,
+    "sha256": "32e783c8f1f7dada19f7344c36340562b7d291cc91a2c915685ea6d34b37a526",
+    "source": "Existing user-authorized Higgsfield library",
+    "created": "2026-11-12"
+  },
+  {
+    "file": "cultural-destination.webp",
+    "kind": "generated-concept-image",
+    "caption": "Botanical destination Bower concept, with visitors and interpretive garden paths.",
+    "width": 1920,
+    "height": 1072,
+    "bytes": 796910,
+    "sha256": "019d623b753f0fc1dda7788203e9d05296e5fa813e7e0e183b8633d09d307a26",
+    "source": "Existing user-authorized Higgsfield library",
+    "created": "2026-11-12"
+  },
+  {
+    "file": "resort-hospitality.mp4",
+    "kind": "generated-concept-video",
+    "caption": "Generated camera move through the Mediterranean resort Bower concept.",
+    "width": 1920,
+    "height": 1080,
+    "duration": 8.041667,
+    "bytes": 9341564,
+    "sha256": "adac28a7eff97c2a466348714d2fef4bb0efcefcc47064e61d91b739ff7ef1bb",
+    "source": "Existing user-authorized Higgsfield library",
+    "created": "2026-11-12"
+  }
+]

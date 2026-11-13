@@ -122,6 +122,14 @@ describe('the click delegate decides which links the router takes over', () => {
     // A fragment on a DIFFERENT page is a real navigation and is ours.
     expect(claimsLink({ href: '/questions#cost' }, here)).toBe(true);
   });
+
+  it('lets the browser open the independent DesignX presentation and its files', () => {
+    for (const href of ['/designx', '/designx/', '/designx?print=1#slide-04', '/designx/downloads/deck.pdf']) {
+      expect(claimsLink({ href }, here), href).toBe(false);
+    }
+    // Do not accidentally reserve every path that merely begins with the same word.
+    expect(claimsLink({ href: '/designx-other' }, here)).toBe(true);
+  });
 });
 
 /**
@@ -232,7 +240,7 @@ describe('the engine routes are dev-only in production', () => {
  */
 describe('the Vercel SPA rewrite', () => {
   const cfg = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
-  const rule = cfg.rewrites[0];
+  const rule = cfg.rewrites.find((r: { destination: string }) => r.destination === '/index.html');
   const re = new RegExp('^' + rule.source + '$');
 
   it('sends every app route to index.html', () => {
@@ -272,9 +280,24 @@ describe('the Vercel SPA rewrite', () => {
       '/hero/v3/pavilion.jpg',
       '/fonts/x.woff2',
       '/bimi/bower.svg',
+      '/designx/deck.js',
+      '/designx/deck.css',
+      '/designx/assets/cover.webp',
+      '/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf',
     ]) {
       expect(re.test(path), `${path} must be served from disk, not rewritten to HTML`).toBe(false);
     }
+  });
+
+  it('serves the DesignX document at both route spellings without entering the SPA', () => {
+    for (const path of ['/designx', '/designx/']) {
+      expect(re.test(path)).toBe(false);
+      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
+        .toBe('/designx/index.html');
+    }
+    expect(re.test('/designx-other')).toBe(true);
+    expect(cfg.headers.find((h: { source: string }) => h.source === '/designx')?.headers)
+      .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
   });
 });
 
