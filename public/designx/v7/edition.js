@@ -86,10 +86,21 @@
 
   const factoryIndex = window.DESIGNX_SLIDES.findIndex(slide => slide.theme.includes('v5-factory-overview'));
   window.DESIGNX_SLIDES.splice(factoryIndex + 1, 0, { ...window.DESIGNX_SLIDES[factoryIndex], title: 'Form. Measure. Machine.', theme: 'factory-focus-slide v5-factory-focus', html: heroes, notes: 'These source studies show the fabrication side: robotic pin setting, scanning against a target, and machining joints. Geometry, measurement and manufacture have to agree. The proposed biological extension adds another source of design requirements while retaining these engineering checks. Pin-bed forming and robot milling are established techniques; Bower is developing their geometry control and feedback. Scan deviations are schematic, not measured outcomes. The line has not been built.' });
-  // Keep comparison links tied to the existing scenes when this edition adds one.
+  // Keep comparison links tied to the existing scenes when this edition adds scenes.
   window.DESIGNX_SLIDES.forEach((slide, index) => { slide.comparisonIndex = index; });
   const learningIndex = window.DESIGNX_SLIDES.findIndex(slide => slide.theme === 'v7-learning-slide');
+  const learningOverview = priorSlides.find(slide => slide.theme.split(' ')[0] === 'learning-slide');
+  const learningTemplate = document.createElement('template');
+  learningTemplate.innerHTML = learningOverview.html;
+  learningTemplate.content.querySelector('.fw-intro h2').innerHTML = 'Turn each build<br>into better<br><span class="v4-leaf-text">design rules.</span>';
   window.DESIGNX_SLIDES.splice(learningIndex + 1, 0, {
+    ...learningOverview,
+    comparisonIndex: window.DESIGNX_SLIDES[learningIndex].comparisonIndex,
+    title: 'Turn each build into better design rules.',
+    theme: 'learning-slide v4-laboratory v7-learning-overview',
+    html: learningTemplate.innerHTML,
+    notes: 'The project cycle in one view: Design, Make, Grow, Measure, Learn. This is the purpose of the learning system; the following flowchart explains the information and decisions behind it. These are not isolated phases: fabrication, planting and budget inform the initial geometry together, and measurement takes place during making and growth. Quotes and actual costs can join fabrication and plant observations as evidence. That evidence must be checked before it becomes a reusable design rule. The full measurement and feedback system is an intended capability, not an operating or validated system.',
+  }, {
     ...window.DESIGNX_SLIDES[learningIndex],
     ...window.DESIGNX_V7_FLOW,
     theme: 'v7-learning-flow-slide',
