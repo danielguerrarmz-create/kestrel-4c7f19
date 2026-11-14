@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0B1D18">
+  <meta name="description" content="Buildings that grow. Geometry shaped by the conditions for life, alongside the means to make it.">
+  <title>Buildings That Grow — Edition 07 · Bower × MIT–LUMA</title>
+  <script>
+    // Insert resource URLs after the base is known; the preload scanner must not
+    // resolve relative URLs against the extensionless /designx document.
+    const base = document.createElement('base');
+    base.href = location.protocol === 'file:' ? new URL('../', location.href).href : '/designx/';
+    document.head.append(base);
+    for (const file of ['safiro-regular-webfont.woff2', 'argestadisplay-regular-webfont.woff2']) {
+      const font = document.createElement('link');
+      font.rel = 'preload'; font.as = 'font'; font.type = 'font/woff2';
+      font.crossOrigin = 'anonymous'; font.href = `4/assets/fonts/${file}`;
+      document.head.append(font);
+    }
+    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css', '3/problem.css', '3/editorial.css', '4/fonts.css', '4/editorial.css', '5/editorial.css', 'v7/living.css', 'v7/editorial.css']) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet'; stylesheet.href = file;
+      document.head.append(stylesheet);
+    }
+  </script>
+</head>
+<body class="designx-v2 designx-v3 designx-v4 designx-v5 designx-v7">
+  <a class="skip-link" href="#deck">Skip to presentation</a>
+  <header class="viewer-header" aria-label="Presentation information">
+    <a href="https://www.bowerbuild.org" class="viewer-brand" target="_blank" rel="noopener"><img class="brand-emblem" data-brand-emblem alt="">bower<span>Buildings that grow</span></a>
+    <div class="edition-navigation"><span class="viewer-edition">MIT DesignX × LUMA / 2026</span><a class="version-link" href="/designx" title="Compare with the original presentation">01</a><a class="version-link" data-edition-two href="/designx/2" title="Compare with edition 2">02</a><a class="version-link" data-edition-three href="/designx/3" title="Compare with edition 3">03</a><a class="version-link" data-edition-four href="/designx/4" title="Compare with edition 4">04</a><a class="version-link" data-edition-five href="/designx/5" title="Compare with edition 5">05</a><a class="version-link" data-edition-six href="/designx/6" title="Compare with edition 6">06</a><span class="version-current" aria-label="Edition 7, current">07</span></div>
+  </header>
+  <main id="deck" class="deck-stage" aria-label="Buildings That Grow" tabindex="-1"></main>
+  <nav class="viewer-controls" aria-label="Presentation controls">
+    <div class="controls-left">
+      <button id="open-index" aria-label="Open slide index" title="Slide index (G)"><span class="grid-icon" aria-hidden="true">▦</span></button>
+      <span id="current-act"></span>
+    </div>
+    <div class="controls-centre">
+      <button id="prev-slide" aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <span id="slide-counter" aria-hidden="true"></span>
+      <button id="next-slide" aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+    <div class="controls-right">
+      <button id="show-notes" aria-label="Show speaker notes" title="Speaker notes (N)">Notes</button>
+      <a id="pdf-link" href="v7/pdf" target="_blank" rel="noopener" title="Open this edition as a PDF">PDF · 07 ↗</a>
+      <button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button>
+    </div>
+  </nav>
+  <p class="v2-scroll-hint" id="v2-scroll-hint">Scroll to explore · or use the arrows</p>
+  <div class="viewer-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  <p id="slide-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+  <dialog id="slide-index" class="index-dialog" aria-labelledby="index-title">
+    <div class="dialog-heading"><h2 id="index-title">Buildings that grow.</h2><button data-close-dialog="slide-index" aria-label="Close slide index">×</button></div>
+    <div id="index-grid"></div>
+    <p class="dialog-hint">← → Navigate · G Index · N Notes · F Fullscreen · Esc Close</p>
+  </dialog>
+  <dialog id="speaker-notes" class="notes-dialog" aria-labelledby="notes-title">
+    <div class="dialog-heading"><h2 id="notes-title">Speaker notes</h2><button data-close-dialog="speaker-notes" aria-label="Close speaker notes">×</button></div>
+    <div id="notes-content"></div>
+  </dialog>
+  <noscript><p class="no-script">This presentation needs JavaScript.</p></noscript>
+  <script>
+    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', '3/problem.js', '3/edition.js', '5/factory/catalog.js', 'v7/living.js', 'v7/edition.js', '5/factory.js', 'deck.js']) {
+      const script = document.createElement('script');
+      script.src = file; script.async = false;
+      document.body.append(script);
+    }
+  </script>
+</body>
+</html>

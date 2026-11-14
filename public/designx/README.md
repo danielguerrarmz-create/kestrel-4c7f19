@@ -10,6 +10,7 @@ A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen 
 - `/designx/4` and `/designx/4/`: fourth edition, pairing Argesta architectural typography with Safiro technical diagrams and a dark laboratory sequence.
 - `/designx/5` and `/designx/5/`: fifth edition, integrating Daniel’s animated factory drawings and a second manufacturing scene.
 - `/designx/6` and `/designx/6/`: unchanged edition-05 baseline, with its own entry point, story file and stylesheet for the next round of work. Shared media and factory interactions remain under their existing routes. Its PDF button explicitly links to the existing edition-05 PDF; no edition-06 PDF has been exported yet.
+- `/designx/v7` and `/designx/v7/`: seventh edition, scripting how intended living conditions and proposed plantability checks influence geometry alongside fabricatability. `/designx/v7/pdf` serves its matching static PDF.
 - `/designx/pdf` and `/designx/pdf/`: original-edition PDF served inline.
 - `/designx/3/pdf` and `/designx/3/pdf/`: matching third-edition PDF served inline.
 - `/designx/4/pdf` and `/designx/4/pdf/`: matching fourth-edition PDF served inline.
@@ -44,6 +45,8 @@ Edition 05 preserves the Argesta/Safiro system and uses Daniel’s source factor
 The fifth edition removes edition 04’s invented commercial-stage illustrations. Slide 12 instead carries a short implementation note for Clay and Daniel: supply one coherent Bower across Commission, Bower, Reference, Demand and Reinvest, changing the central visual with the selected stage. Earlier versions remain available. The first-customers scene is now slide 10, the team is slide 14 and the closing is slide 16.
 
 ## Current work
+
+Edition 07 keeps sixteen slides and the existing factory explorer. `v7/living.js` and `v7/living.css` own four new story scenes: the architectural conditions plants could create (4), growth requirements changing geometry (5), parallel fabrication and proposed plantability checks (6), and a learning system connecting geometry, fabrication and biology (9). Small drawing notes reserve the actual building and growth illustrations for Clay. The conceptual controls select scripted explanations; they do not run a biological evaluator or produce design scores. Plantability is a proposed extension to the developing engine. The existing digital assembly study remains linked from slide 6. The commercial and future scenes carry the same living-building thread; both founder theses remain. Earlier editions are unchanged. Export with `node scripts/designx/export.mjs --edition=7` and check with `node scripts/designx/check-7.mjs`.
 
 The founder explicitly authorized simple sticky notes for central visuals being supplied later. Assembly animation, engine diagram and Clay's plant-growth simulation still have visible notes. Edition 05 replaces the factory placeholder with supplied drawings and leaves commercial stage artwork to Clay and Daniel. These notes appear in the working PDF too. The current growth playback crossfades illustrative concepts; it is not a botanical simulation.
 

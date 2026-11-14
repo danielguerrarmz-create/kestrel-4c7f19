@@ -5,14 +5,15 @@ import sharp from 'sharp';
 import { assertPrintSlides, inspectSlides, openBrowser, printUrl, ROOT, waitForDeck } from './browser.mjs';
 
 const args = process.argv.slice(2);
-if (args.length > 1 || args.some(argument => !/^--edition=[345]$/.test(argument))) throw new Error('Supported export options: --edition=3, --edition=4 or --edition=5');
+if (args.length > 1 || args.some(argument => !/^--edition=[3457]$/.test(argument))) throw new Error('Supported export options: --edition=3, --edition=4, --edition=5 or --edition=7');
 const edition = args[0]?.slice('--edition='.length) ?? '1';
 const numberedEdition = edition !== '1';
-const deckUrl = numberedEdition ? (process.env[`DESIGNX_V${edition}_URL`] ?? `http://127.0.0.1:5333/designx/${edition}`) : undefined;
+const editionDirectory = edition === '7' ? 'v7' : edition;
+const deckUrl = numberedEdition ? (process.env[`DESIGNX_V${edition}_URL`] ?? `http://127.0.0.1:5333/designx/${editionDirectory}`) : undefined;
 const filename = numberedEdition ? `Bower_DesignX_Buildings_That_Grow_0${edition}.pdf` : 'Bower_DesignX_Buildings_That_Grow.pdf';
 const outputDirectory = resolve(ROOT, 'output/pdf');
 const captureDirectory = resolve(ROOT, numberedEdition ? `qa-out/designx/edition-0${edition}/print` : 'qa-out/designx/slides');
-const downloadDirectory = resolve(ROOT, numberedEdition ? `public/designx/${edition}/downloads` : 'public/designx/downloads');
+const downloadDirectory = resolve(ROOT, numberedEdition ? `public/designx/${editionDirectory}/downloads` : 'public/designx/downloads');
 await Promise.all([outputDirectory, captureDirectory, downloadDirectory].map((path) => mkdir(path, { recursive: true })));
 
 const browser = await openBrowser();
@@ -40,7 +41,7 @@ try {
   if (response && !response.ok()) throw new Error(`Presentation returned HTTP ${response.status()}.`);
   await page.emulateMedia({ media: 'print', reducedMotion: 'reduce' });
   await waitForDeck(page);
-  if (edition === '5') {
+  if (edition === '5' || edition === '7') {
     await page.waitForFunction(() => typeof window.DESIGNX_FACTORY_READY !== 'undefined');
     await page.evaluate(async () => {
       await window.DESIGNX_FACTORY_READY;

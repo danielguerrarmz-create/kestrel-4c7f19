@@ -1,0 +1,7 @@
+/* Edition 07 keeps the earlier visual system; living.css owns the new scenes. */
+.designx-v7 .flywheel-scene .fw-system-technical h3 {font-size:40px;line-height:1.08}
+.designx-v7 .coupled-slide .fw-coupled-title h2 {font-size:64px;line-height:.97}
+.designx-v7 .coupled-slide .fw-coupled-title h2 em {font:italic 400 1.08em/1 var(--display)}
+.designx-v7 .mission-bridge {top:211px}
+.designx-v7 .viewer-header .edition-navigation {gap:10px}
+@media(max-width:1000px) {.designx-v7 .viewer-edition {display:none}}
