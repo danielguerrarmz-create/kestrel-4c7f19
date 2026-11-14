@@ -108,7 +108,7 @@ try {
     await expect(page.locator('#slide-09 .v7-learning-bower')).toHaveCount(1);
     const initialBox = await flow.boundingBox();
     const explanations = new Set();
-    for (const mode of ['design', 'making', 'growing', 'all']) {
+    for (const mode of ['design', 'making', 'growing', 'cost', 'all']) {
       const button = page.locator(`[data-v7flow-select="${mode}"]`);
       await button.click();
       await expect(button).toHaveAttribute('aria-pressed', 'true');
@@ -121,7 +121,8 @@ try {
       for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(box[key] - initialBox[key]) < 1, `Flow mode moved ${key}`);
       await screenshot(`flow-${mode}.png`);
     }
-    assert.equal(explanations.size, 4, 'Each path must explain its distinct information flow');
+    assert.equal(explanations.size, 5, 'Each path must explain its distinct information flow');
+    await expect(page.locator('[data-v7flow-node="cost"]')).toBeVisible();
     await expect(page.locator('[data-v7flow-select][aria-pressed="true"]')).toHaveCount(1);
     await expect(page.locator('[data-edition-six]')).toHaveAttribute('href', new URL('/designx/6#slide-09', url).href);
     await go(11);
@@ -175,6 +176,8 @@ try {
     await go(9); await clickChoice('[data-v7-intelligence-select="biology"]', '[data-v7-learning-detail]', 'first geometry');
     await go(10); await page.locator('[data-v7flow-select="growing"]').click();
     await expect(page.locator('[data-v7-flow]')).toHaveAttribute('data-v7flow-mode', 'growing');
+    await page.locator('[data-v7flow-select="cost"]').click();
+    await expect(page.locator('[data-v7-flow]')).toHaveAttribute('data-v7flow-mode', 'cost');
   });
   await check('Version 6 still loads its original scenes and factory integration', async () => {
     const previous = await browser.newPage(); observe(previous);

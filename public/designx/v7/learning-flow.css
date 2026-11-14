@@ -1,9 +1,9 @@
 /* A diagram of decisions and evidence. Coordinates stay fixed with the deck’s 16:9 stage. */
-.designx-v7 .v7flow-scene {position:absolute;inset:0;background:#EEF3EA;color:#102820;font-family:var(--sans);--v7flow-ink:#102820;--v7flow-rust:#9D573C;--v7flow-leaf:#57763C;--v7flow-muted:#4D6559}
+.designx-v7 .v7flow-scene {position:absolute;inset:0;background:#EEF3EA;color:#102820;font-family:var(--sans);--v7flow-ink:#102820;--v7flow-rust:#9D573C;--v7flow-leaf:#57763C;--v7flow-ochre:#8A6A2C;--v7flow-muted:#4D6559}
 .designx-v7 .v7flow-title {position:absolute;top:54px;left:75px;margin:0;font:400 92px/1.02 var(--display);letter-spacing:-.045em;z-index:1}
 .designx-v7 .v7flow-title em {font:inherit;font-style:italic}
-.designx-v7 .v7flow-controls {position:absolute;right:75px;top:103px;display:flex;gap:20px;z-index:2}
-.designx-v7 .v7flow-controls button {padding:0 0 9px;border:0;border-bottom:1px solid #B1C1B5;background:none;color:#4D6559;font:400 21px/1.2 var(--sans);letter-spacing:-.015em;cursor:pointer}
+.designx-v7 .v7flow-controls {position:absolute;right:75px;top:103px;display:flex;gap:17px;z-index:2}
+.designx-v7 .v7flow-controls button {padding:0 0 9px;border:0;border-bottom:1px solid #B1C1B5;background:none;color:#4D6559;font:400 20px/1.2 var(--sans);letter-spacing:-.015em;cursor:pointer}
 .designx-v7 .v7flow-controls button[aria-pressed="true"] {border-bottom:3px solid #102820;padding-bottom:7px;background:none;color:#102820}
 .designx-v7 .v7flow-controls button:hover {background:none;color:#102820;border-bottom-color:#102820}
 .designx-v7 .v7flow-controls button:focus-visible {outline:3px solid #57763C;outline-offset:7px}
@@ -14,9 +14,11 @@
 .designx-v7 .v7flow-link>path {fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .designx-v7 .v7flow-rust {color:var(--v7flow-rust)}
 .designx-v7 .v7flow-leaf {color:var(--v7flow-leaf)}
+.designx-v7 .v7flow-ochre {color:var(--v7flow-ochre)}
 .designx-v7 .v7flow-marker-ink path {stroke:#102820}
 .designx-v7 .v7flow-marker-rust path {stroke:#9D573C}
 .designx-v7 .v7flow-marker-leaf path {stroke:#57763C}
+.designx-v7 .v7flow-marker-ochre path {stroke:#8A6A2C}
 .designx-v7 .v7flow-edge-label {font-size:17px;fill:currentColor;paint-order:stroke;stroke:#EEF3EA;stroke-width:5px;stroke-linejoin:round}
 .designx-v7 .v7flow-node rect,.designx-v7 .v7flow-decision>path {stroke:#A0B0A4;stroke-width:1.3;fill:#EEF3EA}
 .designx-v7 .v7flow-node-title {font:400 31px var(--sans);letter-spacing:-.035em;fill:#102820}
@@ -30,6 +32,8 @@
 .designx-v7 .v7flow-geometry .v7flow-node-copy {fill:#D2DFD1;font-size:21px}
 .designx-v7 .v7flow-node.v7flow-rust rect {stroke:#9D573C;fill:#ECEBE2}
 .designx-v7 .v7flow-node.v7flow-leaf rect {stroke:#78935E;fill:#E5EDD9}
+.designx-v7 .v7flow-node.v7flow-ochre rect {stroke:#A38A52;fill:#EEE8D5}
+.designx-v7 .v7flow-node.v7flow-ochre .v7flow-node-status {fill:#8A6A2C}
 .designx-v7 .v7flow-decision>path {stroke:#102820;stroke-width:1.8}
 .designx-v7 .v7flow-decision-title {font:400 34px var(--sans);letter-spacing:-.035em;fill:#102820}
 .designx-v7 .v7flow-decision-copy {font:400 17px var(--sans);letter-spacing:-.015em;fill:#4D6559}

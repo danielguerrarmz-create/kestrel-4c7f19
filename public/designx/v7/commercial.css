@@ -1,18 +1,28 @@
-/* Three plain financial headlines; one fixed composition for the screen and PDF. */
+/* One transaction: the commission is included in the build; care recurs separately. */
 .designx-v7 .v7commercial-scene {position:absolute;inset:0;background:#0B1D18;color:#EEF3EA;font-family:var(--sans)}
-.designx-v7 .v7commercial-title {position:absolute;left:80px;right:80px;top:57px;margin:0;letter-spacing:-.045em}
-.designx-v7 .v7commercial-title>span {display:block;font:400 94px/.99 var(--display);letter-spacing:-.045em}
-.designx-v7 .v7commercial-title>strong {display:block;margin-top:13px;font:500 83px/1.02 var(--sans);letter-spacing:-.055em}
-.designx-v7 .v7commercial-intro {position:absolute;left:80px;right:80px;top:282px;font:400 27px/1.2 var(--sans);letter-spacing:-.015em;color:#B1C1B5}
-.designx-v7 .v7commercial-budget {position:absolute;left:80px;right:80px;top:351px;font:400 31px/1.2 var(--sans);letter-spacing:-.025em;color:#B7CD7B}
-.designx-v7 .v7commercial-budget em {font-style:normal;border-bottom:1px solid #B7CD7B;padding-bottom:3px}
-.designx-v7 .v7commercial-stages {position:absolute;left:80px;right:80px;top:419px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:42px;border-top:1px solid #B1C1B566}
-.designx-v7 .v7commercial-stage {position:relative;padding-top:26px;min-height:403px}
-.designx-v7 .v7commercial-stage h3 {margin:0;font:500 27px/1.2 var(--sans);letter-spacing:-.02em}
-.designx-v7 .v7commercial-stage h3>span {display:inline-block;margin-right:16px;font:400 20px/1 var(--sans);letter-spacing:0;color:#B1C1B5}
-.designx-v7 .v7commercial-price {height:169px;margin:25px 0 0;font:500 78px/.96 var(--sans);letter-spacing:-.055em;color:#EEF3EA}
-.designx-v7 .v7commercial-deposit {padding-top:3px;font-size:101px;line-height:1;color:#B7CD7B;letter-spacing:-.065em}
-.designx-v7 .v7commercial-terms {min-height:62px;margin:0;font:400 23px/1.26 var(--sans);letter-spacing:-.02em;color:#EEF3EA}
-.designx-v7 .v7commercial-scope {margin-top:13px;max-width:405px;font:400 24px/1.32 var(--sans);letter-spacing:-.015em;color:#B1C1B5}
+.designx-v7 .v7commercial-title {position:absolute;left:80px;right:80px;top:67px;margin:0;font:400 116px/1.03 var(--display);letter-spacing:-.045em}
+.designx-v7 .v7commercial-title em {font:inherit;font-style:italic}
+.designx-v7 .v7commercial-budget {position:absolute;left:80px;top:259px;margin:0;padding-left:21px;border-left:3px solid #B7CD7B;font:400 32px/1.2 var(--sans);letter-spacing:-.025em;color:#B7CD7B}
+.designx-v7 .v7commercial-connections {position:absolute;inset:0;width:1600px;height:900px;overflow:visible;z-index:2;pointer-events:none}
+.designx-v7 .v7commercial-connections>path {fill:none;stroke:#B7CD7B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.designx-v7 .v7commercial-connections marker path {fill:none;stroke:#B7CD7B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.designx-v7 .v7commercial-connections .v7commercial-delivery-path {stroke:#B1C1B5}
+.designx-v7 .v7commercial-step {margin:0;font:500 30px/1.2 var(--sans);letter-spacing:-.025em;color:#EEF3EA}
+.designx-v7 .v7commercial-step>span {display:inline-block;margin-right:17px;font:400 21px/1 var(--sans);letter-spacing:0;color:#B1C1B5}
+.designx-v7 .v7commercial-commission {position:absolute;left:80px;top:354px;width:330px}
+.designx-v7 .v7commercial-payment {margin-top:42px;height:189px;background:#B7CD7B;display:flex;align-items:center;justify-content:center;color:#0B1D18}
+.designx-v7 .v7commercial-payment p {font:500 87px/1 var(--sans);letter-spacing:-.065em}
+.designx-v7 .v7commercial-credit-label {position:absolute;left:430px;top:449px;width:84px;font:400 22px/1.18 var(--sans);letter-spacing:-.02em;color:#B7CD7B}
+.designx-v7 .v7commercial-build {position:absolute;left:520px;top:354px;width:640px}
+.designx-v7 .v7commercial-purchase {position:relative;margin-top:14px;height:300px;background:#102820;border:1.5px solid #B1C1B5}
+.designx-v7 .v7commercial-total {position:absolute;left:42px;top:30px;font:500 78px/.97 var(--sans);letter-spacing:-.055em;color:#EEF3EA}
+.designx-v7 .v7commercial-included {position:absolute;left:42px;bottom:27px;min-width:239px;height:54px;padding:0 16px;display:flex;align-items:center;gap:9px;background:#B7CD7B;font:400 23px/1 var(--sans);letter-spacing:-.025em;color:#0B1D18}
+.designx-v7 .v7commercial-included>span {font-weight:500}
+.designx-v7 .v7commercial-price-timing {margin-top:22px;font:400 25px/1.2 var(--sans);letter-spacing:-.02em;color:#B1C1B5}
+.designx-v7 .v7commercial-grow {position:absolute;left:1248px;top:354px;width:272px}
+.designx-v7 .v7commercial-care {margin-top:85px;text-align:center;color:#EEF3EA}
+.designx-v7 .v7commercial-care p {font:400 49px/1.02 var(--sans);letter-spacing:-.045em}
+.designx-v7 .v7commercial-care strong {display:block;font:500 72px/1.08 var(--sans);letter-spacing:-.055em}
+.designx-v7 .v7commercial-care>span {position:absolute;left:0;right:0;top:372px;display:block;margin:0;font:400 19px/1.2 var(--sans);letter-spacing:-.02em;color:#B1C1B5}
 .designx-v7 .v7commercial-status {position:absolute;left:80px;right:115px;bottom:28px;margin:0;font:400 13px/1.3 var(--sans);color:#B1C1B5}
 .designx-v7 .v7commercial-scene~.folio {color:#B1C1B5}
