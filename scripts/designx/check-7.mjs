@@ -83,10 +83,18 @@ try {
     await clickChoice('[data-v7-nudge="fabrication:1"]', '[data-v7-nudge-text]', 'connection can be made and checked');
     await expect(page.locator('[data-v7-nudge][aria-pressed="true"]')).toHaveCount(1);
     await go(9);
+    const assembly = page.locator('.v7-learning-bower img');
+    await expect(assembly).toBeVisible();
+    await expect(assembly).toHaveAttribute('src', 'assets/assembly.webp');
+    const assemblyBox = await assembly.boundingBox();
     await clickChoice('[data-v7-intelligence-select="biology"]', '[data-v7-learning-detail]', 'first geometry');
     await expect(page.locator('.v7-learning')).toHaveAttribute('data-v7-intelligence', 'biology');
-    await expect(page.locator('.v7-connection[marker-start][marker-end]')).toHaveCount(3);
+    await expect(page.locator('[data-v7-model-layer="biology"]')).toBeVisible();
+    await expect(page.locator('[data-v7-model-layer="geometry"]')).toBeHidden();
     await clickChoice('[data-v7-intelligence-select="fabrication"]', '[data-v7-learning-detail]', 'test new forms');
+    await expect(page.locator('[data-v7-model-layer="fabrication"]')).toBeVisible();
+    const fabricationBox = await assembly.boundingBox();
+    for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(fabricationBox[key] - assemblyBox[key]) < 1, `Changing design concerns moved the model's ${key}`);
     await expect(page.locator('[data-v7-intelligence-select][aria-pressed="true"]')).toHaveCount(1);
     await page.locator('#show-notes').click();
     await expect(page.locator('#notes-content')).toContainText('not a one-way sequence');
@@ -156,6 +164,7 @@ try {
     await page.evaluate(async () => { await window.DESIGNX_FACTORY_READY; await window.DESIGNX_FACTORY.preparePrint(); });
     const slides = await inspectSlides(page); assert.equal(slides.length, 16); assertPrintSlides(slides);
     for (const scene of ['growth', 'anatomy', 'computation', 'learning']) await expect(page.locator(`[data-v7-scene="${scene}"] .v7-print-summary`)).toBeVisible();
+    for (const layer of ['geometry', 'fabrication', 'biology']) await expect(page.locator(`[data-v7-model-layer="${layer}"]`)).toBeVisible();
     for (const number of [4, 5, 6, 9, 13]) {
       const path = resolve(output, `print-${number}.png`); await page.locator(`#slide-${String(number).padStart(2, '0')}`).screenshot({ path, animations: 'disabled' }); screenshots.push(path);
     }
