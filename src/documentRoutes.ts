@@ -13,7 +13,7 @@ export function isDesignxDocumentPath(pathname: string): boolean {
 export function designxDocumentUrl(requestUrl: string): string | null {
   const queryIndex = requestUrl.indexOf('?');
   const pathname = queryIndex === -1 ? requestUrl : requestUrl.slice(0, queryIndex);
-  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`]
+  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`, `${DESIGNX_ROOT}/6`]
     .find(root => pathname === root || pathname === `${root}/`);
   if (!documentRoot) return null;
   return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;

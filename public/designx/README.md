@@ -9,6 +9,7 @@ A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen 
 - `/designx/3` and `/designx/3/`: third edition, opening with the material problem and manufacturing challenge.
 - `/designx/4` and `/designx/4/`: fourth edition, pairing Argesta architectural typography with Safiro technical diagrams and a dark laboratory sequence.
 - `/designx/5` and `/designx/5/`: fifth edition, integrating Daniel’s animated factory drawings and a second manufacturing scene.
+- `/designx/6` and `/designx/6/`: unchanged edition-05 baseline, with its own entry point, story file and stylesheet for the next round of work. Shared media and factory interactions remain under their existing routes. Its PDF button explicitly links to the existing edition-05 PDF; no edition-06 PDF has been exported yet.
 - `/designx/pdf` and `/designx/pdf/`: original-edition PDF served inline.
 - `/designx/3/pdf` and `/designx/3/pdf/`: matching third-edition PDF served inline.
 - `/designx/4/pdf` and `/designx/4/pdf/`: matching fourth-edition PDF served inline.
