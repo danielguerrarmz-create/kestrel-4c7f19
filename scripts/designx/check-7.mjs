@@ -12,6 +12,7 @@ if (process.argv.slice(2).some(argument => argument !== '--before-export')) thro
 const output = resolve(ROOT, 'qa-out/designx/edition-07');
 await mkdir(output, { recursive: true });
 const errors = [], checks = [], screenshots = [];
+const futureAssets = ['garden-room', 'cultural-pavilion', 'living-building', 'planted-street', 'urban-fabric'];
 const browser = await openBrowser();
 const page = await browser.newPage({ viewport: { width: 1600, height: 1020 } });
 const observe = target => {
@@ -170,6 +171,38 @@ try {
       await page.keyboard.press('Escape'); await expect(dialog).toHaveCount(0);
     }
   });
+  await check('Future gallery shows each supplied image with stable framing and keyboard controls', async () => {
+    await go(17);
+    const gallery = page.locator('[data-v7future]');
+    await expect(gallery).toHaveAttribute('data-v7future-active', 'garden-room');
+    await expect(gallery.locator('[data-v7future-select]')).toHaveCount(5);
+    await expect(gallery.locator('[data-v7future-image]')).toHaveCount(5);
+    const initialBox = await gallery.locator('.v7future-images').boundingBox();
+    for (const id of futureAssets) {
+      const button = gallery.locator(`[data-v7future-select="${id}"]`);
+      const image = gallery.locator(`[data-v7future-image="${id}"]`);
+      await button.click();
+      await expect(gallery).toHaveAttribute('data-v7future-active', id);
+      await expect(button).toHaveAttribute('aria-pressed', 'true');
+      await expect(gallery.locator('[data-v7future-select][aria-pressed="true"]')).toHaveCount(1);
+      await expect(gallery.locator('[data-v7future-image][aria-hidden="false"]')).toHaveCount(1);
+      await expect(image).toHaveAttribute('aria-hidden', 'false');
+      await expect(image).toHaveCSS('opacity', '1');
+      await expect(image.locator('img')).toHaveAttribute('src', `v7/assets/future/${id}.webp`);
+      assert(await image.locator('img').evaluate(element => element.complete && element.naturalWidth > 0));
+      const box = await gallery.locator('.v7future-images').boundingBox();
+      for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(box[key] - initialBox[key]) < 1, `Future image ${id} moved the frame's ${key}`);
+      await button.blur(); await screenshot(`future-${id}.png`);
+    }
+    await gallery.locator('[data-v7future-select="urban-fabric"]').focus();
+    for (const [key, id] of [['Home', 'garden-room'], ['ArrowRight', 'cultural-pavilion'], ['End', 'urban-fabric'], ['ArrowLeft', 'planted-street']]) {
+      await page.keyboard.press(key);
+      assert.equal(await page.evaluate(() => window.DESIGNX.current), 17, 'Gallery keyboard controls must not navigate the deck');
+      await expect(gallery).toHaveAttribute('data-v7future-active', id);
+      await expect(gallery.locator(`[data-v7future-select="${id}"]`)).toBeFocused();
+    }
+    await expect(page.locator('[data-edition-six]')).toHaveAttribute('href', new URL('/designx/6#slide-15', url).href);
+  });
   await check('Desktop and mobile keep every slide inside the fixed frame', async () => {
     for (const viewport of [{ width: 1600, height: 1020 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
       await page.setViewportSize(viewport);
@@ -186,7 +219,7 @@ try {
           const bridge = await page.locator('.mission-bridge').boundingBox();
           assert(title.y + title.height <= bridge.y + 1, `${viewport.width}x${viewport.height}: coupled title overlaps its bridge copy`);
         }
-        if ([4, 5, 6, 9, 10, 11, 13, 15].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
+        if ([4, 5, 6, 9, 10, 11, 13, 15, 17].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
       }
     }
   });
@@ -208,6 +241,14 @@ try {
     await expect(page.locator('[data-v7-flow]')).toHaveAttribute('data-v7flow-mode', 'growing');
     await page.locator('[data-v7flow-select="cost"]').click();
     await expect(page.locator('[data-v7-flow]')).toHaveAttribute('data-v7flow-mode', 'cost');
+    await go(17);
+    const gallery = page.locator('[data-v7future]');
+    await gallery.locator('[data-v7future-select="urban-fabric"]').click();
+    await expect(gallery).toHaveAttribute('data-v7future-active', 'urban-fabric');
+    await expect(gallery.locator('[data-v7future-image="urban-fabric"]')).toHaveCSS('transition-duration', '0s');
+    assert.equal(await gallery.evaluate(element => element.getAnimations({ subtree: true }).filter(animation => animation.playState === 'running').length), 0);
+    await go(18); await go(17);
+    await expect(gallery).toHaveAttribute('data-v7future-active', 'urban-fabric');
   });
   await check('Version 6 still loads its original scenes and factory integration', async () => {
     const previous = await browser.newPage(); observe(previous);
@@ -237,7 +278,18 @@ try {
     await page.locator('[data-v7flow-select="growing"]').evaluate(button => button.click());
     const printedLayers = await page.locator('[data-v7flow-in]').evaluateAll(layers => layers.map(layer => getComputedStyle(layer).opacity));
     assert(printedLayers.every(opacity => opacity === '1'), 'Printing a selected path must retain the entire flow');
-    for (const number of [4, 5, 6, 9, 10, 11, 13, 15]) {
+    const futurePrint = page.locator('.v7future-print');
+    await expect(futurePrint).toBeVisible();
+    await expect(futurePrint.locator('figure')).toHaveCount(5);
+    for (const [index, id] of futureAssets.entries()) {
+      const figure = futurePrint.locator('figure').nth(index);
+      await expect(figure.locator('img')).toBeVisible();
+      await expect(figure.locator('img')).toHaveAttribute('src', `v7/assets/future/${id}.webp`);
+      await expect(figure.locator('figcaption')).toBeVisible();
+    }
+    await expect(page.locator('.v7future-images')).toBeHidden();
+    await expect(page.locator('.v7future-choices')).toBeHidden();
+    for (const number of [4, 5, 6, 9, 10, 11, 13, 15, 17]) {
       const path = resolve(output, `print-${number}.png`); await page.locator(`#slide-${String(number).padStart(2, '0')}`).screenshot({ path, animations: 'disabled' }); screenshots.push(path);
     }
   });

@@ -1,0 +1,86 @@
+{
+  "provided": "2026-11-14",
+  "purpose": "Edition 07: A room is the beginning.",
+  "images": [
+    {
+      "sourceFilename": "Golden-Hour Wisteria Pavilion Conversation.png",
+      "outputFilename": "garden-room.webp",
+      "status": "User-supplied architectural concept image",
+      "source": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3264175
+      },
+      "output": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 553510
+      },
+      "processing": "WebP encoding at quality 90; proportionate resize to at most 2200 pixels wide; no crop or retouching."
+    },
+    {
+      "sourceFilename": "Wisteria Garden String Quartet Concert.png",
+      "outputFilename": "cultural-pavilion.webp",
+      "status": "User-supplied architectural concept image",
+      "source": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3157388
+      },
+      "output": {
+        "width": 1536,
+        "height": 1024,
+        "bytes": 514602
+      },
+      "processing": "WebP encoding at quality 90; proportionate resize to at most 2200 pixels wide; no crop or retouching."
+    },
+    {
+      "sourceFilename": "Bower_04_living_building_35mm.png",
+      "outputFilename": "living-building.webp",
+      "status": "User-supplied architectural concept image",
+      "source": {
+        "width": 2220,
+        "height": 1876,
+        "bytes": 6741089
+      },
+      "output": {
+        "width": 2200,
+        "height": 1859,
+        "bytes": 759168
+      },
+      "processing": "WebP encoding at quality 90; proportionate resize to at most 2200 pixels wide; no crop or retouching."
+    },
+    {
+      "sourceFilename": "Bower_05_planted_street_35mm.png",
+      "outputFilename": "planted-street.webp",
+      "status": "User-supplied architectural concept image",
+      "source": {
+        "width": 2216,
+        "height": 1876,
+        "bytes": 6852442
+      },
+      "output": {
+        "width": 2200,
+        "height": 1862,
+        "bytes": 795174
+      },
+      "processing": "WebP encoding at quality 90; proportionate resize to at most 2200 pixels wide; no crop or retouching."
+    },
+    {
+      "sourceFilename": "Bower_06_urban_fabric_35mm.png",
+      "outputFilename": "urban-fabric.webp",
+      "status": "User-supplied architectural concept image",
+      "source": {
+        "width": 2220,
+        "height": 1876,
+        "bytes": 6324176
+      },
+      "output": {
+        "width": 2200,
+        "height": 1859,
+        "bytes": 711322
+      },
+      "processing": "WebP encoding at quality 90; proportionate resize to at most 2200 pixels wide; no crop or retouching."
+    }
+  ]
+}

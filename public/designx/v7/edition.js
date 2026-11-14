@@ -35,6 +35,7 @@
     const theme = slide.theme.split(' ')[0];
     if (replacements[theme]) return { ...slide, ...window.DESIGNX_V7_SCENES[replacements[theme]], theme: `v7-${theme}`, act: theme === 'anatomy-slide' ? 'II · The invention' : slide.act };
     if (theme === 'commercial-model-slide') return { ...slide, ...window.DESIGNX_V7_COMMERCIAL, theme: 'v7-commercial-model-slide' };
+    if (theme === 'future-slide') return { ...slide, ...window.DESIGNX_V7_FUTURE, theme: 'v7-future-slide' };
     const template = document.createElement('template');
     template.innerHTML = slide.html.replaceAll('https://www.bowerbuild.org/designx/3', editionUrl).replaceAll('bowerbuild.org/designx/3 <', 'bowerbuild.org/designx/v7 <');
     let notes = slide.notes;
@@ -72,10 +73,6 @@
       content.querySelector('.fw-bridge-label-bottom').textContent = 'BETTER DESIGN RULES';
       content.querySelector('.fw-qualification').textContent = 'Intended learning and commercial systems. Plantability rules require validation; further development depends on project economics and finance.';
       notes = 'A commission provides a real setting in which architecture, fabrication and plant establishment can be evaluated together. Biology should influence initial geometry through proposed plantability checks. Observations after installation could then test and improve those rules. The commercial loop supports this work through projects, references and possible reinvestment. Early commissions do not automatically finance a factory or a complete biological research programme. Both loops remain development objectives.';
-    }
-    if (theme === 'future-slide') {
-      content.querySelector('.future-standfirst').textContent = 'Learn in a room. Explore what that knowledge could make possible.';
-      notes = 'The first inhabitable room is a manageable place to test how structure and planting develop together. The repeatable capability concerns designing and making conditions for living architecture. Larger buildings, streets and urban applications are research possibilities, not an engineered delivery roadmap. Their feasibility, maintenance needs and lifecycle performance remain to be demonstrated.';
     }
     if (theme === 'closing') {
       content.querySelector('.closing-copy h2').innerHTML = 'Buildings<br>that <em>grow.</em>';

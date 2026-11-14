@@ -23,12 +23,12 @@ try {
   // bytes to this export browser only; the website keeps its original WebP files.
   // Small technical evidence stays lossless, and slide text/diagrams stay vector.
   const photoCache = new Map();
-  await page.route(/\/designx\/(?:[345]\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
+  await page.route(/\/designx\/(?:(?:[345]|v7)\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
     const filename = decodeURIComponent(new URL(route.request().url()).pathname.slice('/designx/'.length));
     if (!/^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.webp$/i.test(filename)) return route.continue();
     const bytes = await readFile(resolve(ROOT, 'public/designx', filename));
     const metadata = await sharp(bytes).metadata();
-    const editionPhoto = /^3\/assets\/(?:world-under-construction|living-structure)\.webp$/.test(filename);
+    const editionPhoto = /^3\/assets\/(?:world-under-construction|living-structure)\.webp$/.test(filename) || /^v7\/assets\/future\/[a-z-]+\.webp$/.test(filename);
     if (metadata.width < 1800 && !editionPhoto) return route.continue();
     if (!photoCache.has(filename)) {
       photoCache.set(filename, await sharp(bytes).resize({ width: 2000, withoutEnlargement: true }).jpeg({ quality: 88, chromaSubsampling: '4:4:4' }).toBuffer());
