@@ -1223,8 +1223,9 @@ function fit(){
   // Centre the shell itself. The exterior trailer must not move its centre.
   // Keep the departure union inside that centred view, with a small ink clearance.
   const cx=home.x+home.width/2,cy=home.y+home.height/2;
+  const paper=stage.width<1000||stage.height<500?2*Math.min(41,stage.width*.02,stage.height*.04):82;
   const scale=Math.min(
-    (stage.width-82)/home.width,(stage.height-82)/home.height,
+    (stage.width-paper)/home.width,(stage.height-paper)/home.height,
     (stage.width-12)/(2*Math.max(x1-cx,cx-x0)),
     (stage.height-12)/(2*Math.max(y1-cy,cy-y0)));
   const w=stage.width/scale,h=stage.height/scale;
@@ -1335,6 +1336,9 @@ window.addEventListener('message',async event=>{
     const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
     parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
   }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+window.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&parent!==window)parent.postMessage({type:'bower-factory:escape'},'*');
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
 factoryMedia.addEventListener('change',()=>{

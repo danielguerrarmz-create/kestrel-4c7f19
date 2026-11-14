@@ -23,7 +23,6 @@
   };
   const controllers = new Set();
   const viewers = [];
-  const stationStates = new Map();
   const exploredStations = new Set();
   const stationIds = [...catalog.keys()].filter(id => id !== 'overview');
   let requestSerial = 0;
@@ -40,6 +39,7 @@
     for (const control of controllers) {
       if (event.source !== control.frame.contentWindow) continue;
       const data = event.data;
+      if (data.type === 'bower-factory:escape' && enlarged?.control === control) enlarged.dialog.close();
       if (data.type === 'bower-factory:select' && control.id === 'overview' && control.desiredActive && stationIds.includes(data.id)) control.onStationSelect?.(data.id);
       if (data.type === 'bower-factory:reply') {
         const pending = control.pending.get(data.requestId);
@@ -90,6 +90,7 @@
   }
 
   function updateControls(element, state) {
+    if (element.dataset.factoryViewer === 'overview') return;
     const play = element.querySelector('[data-factory-play]');
     if (!play) return;
     play.textContent = state.playing ? 'Pause' : 'Play';
@@ -114,6 +115,9 @@
   }
 
   function syncActivity() {
+    if (enlarged?.inline && (printing || !enlarged.viewer.element.closest('.slide').classList.contains('is-active'))) {
+      enlarged.dialog.close();
+    }
     if (mobileLaunch) mobileLaunch.hidden = printing || !!enlarged || !viewers[0]?.element.closest('.slide').classList.contains('is-active');
     for (const viewer of viewers) {
       const control = viewer.control;
@@ -172,7 +176,8 @@
     const base = viewer.control;
     const priorState = { ...base.state };
     const isExplorer = !!stationId || exploreMap;
-    const dialog = makeDialog('factory-enlarged', `factory-enlarged-dialog${isExplorer ? ' factory-station-dialog' : ''}`, '');
+    const inline = !!stationId;
+    const dialog = makeDialog('factory-enlarged', `factory-enlarged-dialog${isExplorer ? ' factory-station-dialog' : ''}${inline ? ' factory-inline' : ''}`, '');
     const close = dialog.querySelector('.factory-dialog-heading button');
     if (isExplorer) { close.textContent = '← Whole factory'; close.setAttribute('aria-label', 'Back to the whole factory'); }
     const surface = document.createElement('div'); surface.className = 'factory-dialog-surface'; dialog.append(surface);
@@ -193,15 +198,21 @@
         });
       }
     }
-    const session = { dialog, control: null, closed: false, lastStation: stationId };
-    enlarged = session; syncActivity(); dialog.showModal();
+    const session = { dialog, control: null, closed: false, lastStation: stationId, inline, viewer };
+    const background = inline ? [...viewer.element.children].map(element => ({ element, inert: element.inert })) : [];
+    if (inline) {
+      background.forEach(({ element }) => { element.inert = true; });
+      viewer.element.append(dialog);
+      dialog.addEventListener('keydown', event => {
+        if (event.key === 'Escape') { event.preventDefault(); dialog.close(); }
+      }, { capture: true });
+    }
+    enlarged = session; syncActivity();
+    if (inline) dialog.show(); else dialog.showModal();
     wireControls(controls, () => session.control);
     controls.querySelector('[data-factory-notes]').addEventListener('click', () => showNotes(session.control.id));
-    function remember(control) {
-      if (isExplorer && control?.state && control.id !== 'overview') stationStates.set(control.id, { time: control.state.time, playing: control.state.playing });
-    }
     async function loadStation(id) {
-      remember(session.control); session.control?.destroy(); surface.replaceChildren();
+      session.control?.destroy(); surface.replaceChildren();
       const item = catalog.get(id);
       const mapView = id === 'overview';
       dialog.classList.toggle('factory-map-view', mapView);
@@ -226,6 +237,7 @@
         if (session.control !== control || session.closed) return;
         updateControls(controls, state);
       });
+      control.frame.style.visibility = 'hidden';
       session.control = control;
       if (mapView) {
         control.frame.tabIndex = 0;
@@ -234,7 +246,7 @@
       try {
         const ready = await control.ready;
         if (!ready || session.closed || session.control !== control) return;
-        const restore = mapView ? priorState : isExplorer ? stationStates.get(id) : priorState;
+        const restore = mapView ? priorState : { time: 0, playing: true };
         if (restore) {
           await control.call('seek', restore.time);
           if (session.closed || session.control !== control) return;
@@ -248,18 +260,21 @@
         }
         if (session.closed || session.control !== control) return;
         controls.querySelectorAll('button,input').forEach(element => { element.disabled = false; });
+        control.frame.style.visibility = 'visible';
         updateControls(controls, control.state); syncActivity();
       } catch (error) { if (!session.closed && session.control === control) showError(surface, error); }
     }
     dialog.addEventListener('close', async () => {
       session.closed = true;
       const control = session.control, finalState = control?.state, finalId = session.lastStation || control?.id;
-      remember(control); control?.destroy(); enlarged = null; dialog.remove();
+      control?.destroy(); enlarged = null; dialog.remove();
+      background.forEach(({ element, inert }) => { element.inert = inert; });
       if (!isExplorer && viewer.control === base && finalState) {
         await base.call('seek', finalState.time);
         if (finalState.playing) await base.call('play');
       }
       syncActivity();
+      if (!viewer.element.closest('.slide').classList.contains('is-active')) return;
       if (isExplorer && viewer.control === base) {
         if (stationIds.includes(finalId)) { base.frame.focus(); await base.call('focusStation', finalId); }
         else viewer.element.querySelector('[data-factory-focus]')?.focus();
@@ -276,6 +291,7 @@
     viewer.control?.destroy();
     const surface = viewer.element.querySelector('[data-factory-surface]'); surface.replaceChildren();
     const control = createFrame(surface, id, state => updateControls(viewer.element, state)); viewer.control = control;
+    control.frame.style.visibility = 'hidden';
     if (viewer.element.dataset.factoryViewer === 'overview') {
       control.frame.tabIndex = 0;
       control.onStationSelect = selected => { enlarge(viewer, selected).catch(console.error); };
@@ -283,9 +299,17 @@
     viewer.element.querySelectorAll('[data-factory-id]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.factoryId === id)));
     viewer.element.querySelector('[data-factory-caption]').textContent = captions[id];
     try {
-      await control.ready;
+      const ready = await control.ready;
+      if (!ready) return;
       if (viewer.control === control) {
         if (id === 'overview' && !printing) await control.call('setExplore', true);
+        if (id !== 'overview' && !printing) {
+          await control.call('seek', 0);
+          if (viewer.control !== control) return;
+          await control.call('play');
+        }
+        if (viewer.control !== control) return;
+        control.frame.style.visibility = 'visible';
         syncActivity();
       }
     }
@@ -296,7 +320,7 @@
     for (const poster of root.querySelectorAll('[data-factory-poster]')) {
       const surface = document.createElement('div');
       const overview = poster.dataset.factoryPoster === 'overview';
-      Object.assign(surface.style, { position: 'fixed', left: '-10000px', top: '0', width: overview ? '1480px' : '450px', height: overview ? '570px' : '430px' });
+      Object.assign(surface.style, { position: 'fixed', left: '-10000px', top: '0', width: overview ? '1552px' : '450px', height: overview ? '750px' : '430px' });
       surface.className = 'factory-capture-surface'; surface.setAttribute('aria-hidden', 'true'); document.body.append(surface);
       const control = createFrame(surface, poster.dataset.factoryPoster);
       try {
@@ -332,7 +356,7 @@
     });
     mobileLaunch = document.createElement('button'); mobileLaunch.type = 'button'; mobileLaunch.hidden = true;
     mobileLaunch.className = 'factory-mobile-launch'; mobileLaunch.textContent = 'Explore factory ↗';
-    mobileLaunch.setAttribute('aria-label', 'Open the enlarged interactive factory map');
+    mobileLaunch.setAttribute('aria-label', 'Open the factory focus view');
     mobileLaunch.addEventListener('click', () => enlarge(viewers[0], null, true)); document.body.append(mobileLaunch);
     Promise.all([...viewers.map(viewer => select(viewer, viewer.element.dataset.factoryViewer === 'overview' ? 'overview' : '05-press')), preparePosters(root)])
       .then(() => { syncActivity(); readyResolve(true); }).catch(readyReject);

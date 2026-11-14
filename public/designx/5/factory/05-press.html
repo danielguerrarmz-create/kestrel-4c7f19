@@ -826,6 +826,9 @@ window.addEventListener('message',async event=>{
     parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
   }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
 });
+window.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&parent!==window)parent.postMessage({type:'bower-factory:escape'},'*');
+});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
 factoryMedia.addEventListener('change',()=>{
   factoryStop();factoryStatic=factoryMedia.matches;

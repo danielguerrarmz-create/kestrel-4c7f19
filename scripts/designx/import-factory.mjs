@@ -25,7 +25,11 @@ const stationShell = read('engine/page.js').split('const caps=')[0]
   // The source page lift assumed its taller reference layout. In a presentation
   // viewport it clips the exploded lamellae; keep the same geometry centred instead.
   .replace("const lift={'05':.065,'07':.095,'11':.05}[station]||0;", 'const lift=0;');
-const overviewShell = read('engine/page-overview.js').split('let paused=false')[0];
+const overviewShell = read('engine/page-overview.js').split('let paused=false')[0]
+  // Keep the full source timeline/departure bounds, but scale the blank paper
+  // inset in compact focus views so labels do not crowd a shrunken factory.
+  .replace('const scale=Math.min(', 'const paper=stage.width<1000||stage.height<500?2*Math.min(41,stage.width*.02,stage.height*.04):82;\n  const scale=Math.min(')
+  .replace('(stage.width-82)/home.width,(stage.height-82)/home.height,', '(stage.width-paper)/home.width,(stage.height-paper)/home.height,');
 
 // This adapter replaces only the source page controls and animation scheduler.
 // The source drawing/fit functions, scene timings, labels and colours are retained.
@@ -129,6 +133,9 @@ window.addEventListener('message',async event=>{
     const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
     parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
   }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+window.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&parent!==window)parent.postMessage({type:'bower-factory:escape'},'*');
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
 factoryMedia.addEventListener('change',()=>{

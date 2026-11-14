@@ -47,7 +47,7 @@ const check = async (name, action) => {
 };
 const factoryState = async viewer => {
   try {
-    const element = await viewer.locator('iframe').elementHandle();
+    const element = await viewer.locator('iframe').first().elementHandle();
     const frame = await element?.contentFrame();
     return frame ? await frame.evaluate(() => window.BOWER_FACTORY?.getState()) : null;
   } catch { return null; }
@@ -58,12 +58,16 @@ const selectDrawing = async (viewer, id) => {
   await expect.poll(async () => (await factoryState(viewer))?.ready).toBe(true);
 };
 const openStation = async (target, viewer, id) => {
-  await viewer.frameLocator('iframe').locator(`[data-factory-station="${id}"]`).click();
+  await viewer.frameLocator('[data-factory-surface] > iframe').locator(`[data-factory-station="${id}"]`).click();
   const dialog = target.locator('#factory-enlarged');
   await expect(dialog).toBeVisible();
   await expect.poll(async () => (await factoryState(dialog))?.id).toBe(id);
   await expect.poll(async () => (await factoryState(dialog))?.ready).toBe(true);
+  await expect(dialog.locator('iframe')).toBeVisible();
   return dialog;
+};
+const assertSameBox = (actual, expected, label) => {
+  for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(actual[key] - expected[key]) < 1.5, `${label}: ${key} changed from ${expected[key]} to ${actual[key]}`);
 };
 
 try {
@@ -119,7 +123,7 @@ try {
     }
     await writeFile(resolve(output, 'factory-drawings.json'), JSON.stringify(drawings, null, 2));
   });
-  await check('Factory explorer opens all fourteen spatial stations and restores the same map', async () => {
+  await check('Factory explorer restarts fourteen stations inside the same drawing frame', async () => {
     const overview = page.locator('[data-factory-viewer="overview"]');
     const focus = page.locator('[data-factory-viewer="focus"]');
     await expect(overview.locator('.factory-station-picker')).toHaveCount(0);
@@ -127,13 +131,30 @@ try {
     assert.equal((await factoryState(overview)).active, false);
     assert.equal((await factoryState(focus)).active, false);
     await go(7);
+    await page.evaluate(() => {
+      const seen = new WeakSet(); window.__factoryVisibleStarts = [];
+      window.addEventListener('message', event => {
+        if (event.data?.type !== 'bower-factory:state' || !event.data.state?.ready) return;
+        const iframe = document.querySelector('#factory-enlarged iframe');
+        if (!iframe || iframe.contentWindow !== event.source || seen.has(event.source)) return;
+        const style = getComputedStyle(iframe), bounds = iframe.getBoundingClientRect();
+        if (style.visibility === 'hidden' || style.opacity === '0' || !bounds.width || !bounds.height) return;
+        seen.add(event.source); window.__factoryVisibleStarts.push({ id: event.data.state.id, time: event.data.state.time });
+      });
+    });
     await expect.poll(async () => (await factoryState(overview))?.playing).toBe(true);
     assert.equal((await factoryState(focus)).playing, false);
     const mapFrame = await (await overview.locator('iframe').elementHandle()).contentFrame();
+    const mapBox = await overview.locator('[data-factory-surface]').boundingBox();
+    const slideBox = await page.locator('#slide-07').boundingBox();
     const ids = await page.evaluate(() => window.DESIGNX_FACTORY_CATALOG.slice(1).map(item => item.id));
     await expect(mapFrame.locator('[data-factory-station]')).toHaveCount(14);
     for (const id of ids) {
       const dialog = await openStation(page, overview, id);
+      await expect(dialog).toHaveClass(/factory-inline/);
+      assertSameBox(await dialog.boundingBox(), slideBox, `${id} presentation frame`);
+      assertSameBox(await dialog.locator('.factory-dialog-surface').boundingBox(), mapBox, `${id} drawing viewport`);
+      assert((await factoryState(dialog)).time < 1.5, `${id} must begin at the start, not its static poster pose`);
       await expect.poll(async () => (await factoryState(overview))?.active).toBe(false);
       const frozen = await factoryState(overview);
       await expect.poll(async () => (await factoryState(dialog))?.playing).toBe(true);
@@ -147,7 +168,8 @@ try {
       await page.keyboard.press('Escape');
       await expect(dialog).toHaveCount(0);
       await expect.poll(async () => (await factoryState(overview))?.active).toBe(true);
-      assert.equal(await (await overview.locator('iframe').elementHandle()).contentFrame(), mapFrame, 'Opening a station must preserve the original map frame');
+      assert.equal(await (await overview.locator('iframe').first().elementHandle()).contentFrame(), mapFrame, 'Opening a station must preserve the original map frame');
+      assertSameBox(await overview.locator('[data-factory-surface]').boundingBox(), mapBox, `${id} return to map`);
       await expect.poll(() => mapFrame.evaluate(() => document.activeElement?.dataset.factoryStation)).toBe(id);
     }
     await mapFrame.locator('[data-factory-station="05-press"]').focus();
@@ -155,15 +177,23 @@ try {
     const enlarged = page.locator('#factory-enlarged');
     await expect(enlarged).toBeVisible();
     await expect.poll(async () => (await factoryState(enlarged))?.ready).toBe(true);
+    await expect(enlarged.locator('iframe')).toBeVisible();
+    assert((await factoryState(enlarged)).time < 1.5, 'Reopening a previously scrubbed station must restart it');
     await enlarged.locator('[data-factory-next]').click();
     await expect.poll(async () => (await factoryState(enlarged))?.id).toBe('06-cure');
     await enlarged.locator('[data-factory-previous]').click();
     await expect.poll(async () => (await factoryState(enlarged))?.id).toBe('05-press');
     await expect.poll(async () => (await factoryState(enlarged))?.ready).toBe(true);
+    await expect(enlarged.locator('iframe')).toBeVisible();
+    assert((await factoryState(enlarged)).time < 1.5, 'Previous/next navigation must restart the selected station');
+    assertSameBox(await enlarged.locator('.factory-dialog-surface').boundingBox(), mapBox, 'Station navigation drawing viewport');
     assert.equal(await page.evaluate(() => window.DESIGNX.current), 7);
     await page.screenshot({ path: resolve(output, 'factory-enlarged.png') });
     await page.keyboard.press('Escape');
     await expect(enlarged).toHaveCount(0);
+    const visibleStarts = await page.evaluate(() => window.__factoryVisibleStarts);
+    assert(visibleStarts.length >= 14, 'The first visible state must be observed for every station');
+    for (const state of visibleStarts) assert(state.time < 1.5, `${state.id} flashed its ${state.time}s static pose before restart`);
     await overview.locator('[data-factory-notes]').click();
     await expect(page.locator('.factory-notes-dialog')).toBeVisible();
     await expect(page.locator('.factory-notes-dialog')).toContainText(/testing|test|assumed|proposed/i);
@@ -184,6 +214,24 @@ try {
     await go(1);
     await expect.poll(async () => (await factoryState(focus))?.active).toBe(false);
     assert.equal((await factoryState(focus)).playing, false);
+  });
+  await check('Factory entry restarts at zero with reduced motion and no autoplay', async () => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await go(7);
+    const overview = page.locator('[data-factory-viewer="overview"]');
+    const dialog = await openStation(page, overview, '05-press');
+    await expect.poll(async () => (await factoryState(dialog))?.time).toBe(0);
+    assert.equal((await factoryState(dialog)).playing, false);
+    await dialog.locator('[data-factory-seek]').fill('80');
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    const reopened = await openStation(page, overview, '05-press');
+    await expect.poll(async () => (await factoryState(reopened))?.time).toBe(0);
+    assert.equal((await factoryState(reopened)).playing, false);
+    await page.keyboard.press('Escape');
+    await expect(reopened).toHaveCount(0);
+    await go(1);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
   });
   await check('Slide navigation, the model, growth and both flywheels remain interactive', async () => {
     await go(1);

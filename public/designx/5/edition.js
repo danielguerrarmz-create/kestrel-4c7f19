@@ -11,13 +11,13 @@
     <input data-factory-seek type="range" min="0" max="100" step="0.1" value="0" aria-label="Position in factory drawing">
     <span data-factory-phase>Process overview</span>
     <button type="button" data-factory-notes>Drawing notes ↗</button>
-    <button type="button" data-factory-focus>Enlarge ↗</button></div>`;
+    <button type="button" data-factory-focus>Focus view ↗</button></div>`;
   const overview = `<section class="factory-exhibit factory-overview-exhibit" data-factory-viewer="overview">
     <header class="slide-heading"><h2>Different parts. A repeatable process.</h2></header>
-    <p class="factory-caption" data-factory-caption>Fourteen connected operations, from timber preparation to a finished rib.</p>
+    <p class="factory-caption" data-factory-caption hidden>Fourteen connected operations, from timber preparation to a finished rib.</p>
     <div class="factory-surface" data-factory-surface></div>
     <div class="factory-print-overview" data-factory-poster="overview"></div>
-    <div class="factory-explore-controls slide-interaction"><p>Click a station. See how it works.</p><span data-factory-explored>0 / 14 explored</span><button type="button" data-factory-notes>Drawing notes ↗</button><button type="button" data-factory-focus>Enlarge ↗</button></div>
+    <div class="factory-explore-controls slide-interaction"><p>Explore a station ↗</p><span data-factory-explored>0 / 14 explored</span><button type="button" data-factory-notes>Drawing notes ↗</button><button type="button" data-factory-focus>Focus view ↗</button></div>
     <p class="source-note">Factory development study. Process arrangement, not a validated floor plan. Proposed line; performance and process assumptions require testing.</p>
     </section>`;
   const heroIds = ['05-press', '07-scan', '11-cut'];
