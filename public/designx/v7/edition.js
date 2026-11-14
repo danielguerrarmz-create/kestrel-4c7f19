@@ -90,6 +90,14 @@
 
   const factoryIndex = window.DESIGNX_SLIDES.findIndex(slide => slide.theme.includes('v5-factory-overview'));
   window.DESIGNX_SLIDES.splice(factoryIndex + 1, 0, { ...window.DESIGNX_SLIDES[factoryIndex], title: 'Form. Measure. Machine.', theme: 'factory-focus-slide v5-factory-focus', html: heroes, notes: 'These source studies show the fabrication side: robotic pin setting, scanning against a target, and machining joints. Geometry, measurement and manufacture have to agree. The proposed biological extension adds another source of design requirements while retaining these engineering checks. Pin-bed forming and robot milling are established techniques; Bower is developing their geometry control and feedback. Scan deviations are schematic, not measured outcomes. The line has not been built.' });
+  // Keep comparison links tied to the existing scenes when this edition adds one.
+  window.DESIGNX_SLIDES.forEach((slide, index) => { slide.comparisonIndex = index; });
+  const learningIndex = window.DESIGNX_SLIDES.findIndex(slide => slide.theme === 'v7-learning-slide');
+  window.DESIGNX_SLIDES.splice(learningIndex + 1, 0, {
+    ...window.DESIGNX_SLIDES[learningIndex],
+    ...window.DESIGNX_V7_FLOW,
+    theme: 'v7-learning-flow-slide',
+  });
   window.DESIGNX_META = Object.freeze({ ...window.DESIGNX_META, edition: 7, targetSlideCount: window.DESIGNX_SLIDES.length });
 
   (window.DESIGNX_MOUNTS ||= []).push(root => {
@@ -108,7 +116,7 @@
       const selected = window.DESIGNX_SLIDES[event.detail.index];
       const priorIndex = priorSlides.findIndex(slide => slide.sourceIndex === selected.sourceIndex);
       thirdLink.hash = fourthLink.hash = `slide-${String(Math.max(0, priorIndex) + 1).padStart(2, '0')}`;
-      fifthLink.hash = sixthLink.hash = `slide-${String(event.detail.index + 1).padStart(2, '0')}`;
+      fifthLink.hash = sixthLink.hash = `slide-${String(selected.comparisonIndex + 1).padStart(2, '0')}`;
     });
   });
 })();

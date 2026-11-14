@@ -44,9 +44,9 @@ try {
   const response = await page.goto(url); assert.equal(response.status(), 200);
   await waitForDeck(page);
   await page.evaluate(() => window.DESIGNX_FACTORY_READY);
-  await check('Sixteen scenes preserve the founder theses, evidence and honest development status', async () => {
+  await check('Seventeen scenes preserve the founder theses, evidence and honest development status', async () => {
     assert.equal(await page.evaluate(() => window.DESIGNX_META.edition), 7);
-    await expect(page.locator('.slide')).toHaveCount(16);
+    await expect(page.locator('.slide')).toHaveCount(17);
     await expect(page.locator('[data-v7-scene]')).toHaveCount(4);
     await expect(page.locator('.slide .eyebrow, .slide .fw-eyebrow, .slide .running, .slide .time-running, .slide .fw-running')).toHaveCount(0);
     await expect(page.locator('.variability-slide blockquote')).toContainText('Variability is the essence of nature and the enemy of industry');
@@ -101,6 +101,33 @@ try {
     await page.locator('[data-close-dialog="speaker-notes"]').click();
     await expect(page.locator('[data-edition-six]')).toHaveAttribute('href', new URL('/designx/6#slide-09', url).href);
   });
+  await check('Companion flow keeps both feedback timescales and the previous assembly scene', async () => {
+    await go(10);
+    const flow = page.locator('[data-v7-flow]');
+    await expect(flow).toHaveAttribute('data-v7flow-mode', 'all');
+    await expect(page.locator('#slide-09 .v7-learning-bower')).toHaveCount(1);
+    const initialBox = await flow.boundingBox();
+    const explanations = new Set();
+    for (const mode of ['design', 'making', 'growing', 'all']) {
+      const button = page.locator(`[data-v7flow-select="${mode}"]`);
+      await button.click();
+      await expect(button).toHaveAttribute('aria-pressed', 'true');
+      await expect(flow).toHaveAttribute('data-v7flow-mode', mode);
+      explanations.add(await page.locator('[data-v7flow-readout]').textContent());
+      await button.focus(); await page.keyboard.press('ArrowRight');
+      assert.equal(await page.evaluate(() => window.DESIGNX.current), 10, 'Flow controls must not advance the deck');
+      await button.click(); await button.blur();
+      const box = await flow.boundingBox();
+      for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(box[key] - initialBox[key]) < 1, `Flow mode moved ${key}`);
+      await screenshot(`flow-${mode}.png`);
+    }
+    assert.equal(explanations.size, 4, 'Each path must explain its distinct information flow');
+    await expect(page.locator('[data-v7flow-select][aria-pressed="true"]')).toHaveCount(1);
+    await expect(page.locator('[data-edition-six]')).toHaveAttribute('href', new URL('/designx/6#slide-09', url).href);
+    await go(11);
+    await expect(page.locator('#slide-11')).toHaveClass(/buyers-slide/);
+    await expect(page.locator('[data-edition-six]')).toHaveAttribute('href', new URL('/designx/6#slide-10', url).href);
+  });
   await check('Factory station entry and re-entry restart inside the unchanged drawing frame', async () => {
     await go(7);
     const overview = page.locator('[data-factory-viewer="overview"]');
@@ -124,19 +151,19 @@ try {
     for (const viewport of [{ width: 1600, height: 1020 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
       await page.setViewportSize(viewport);
       await page.waitForFunction(() => document.querySelector('.deck-stage').getBoundingClientRect().width <= innerWidth);
-      for (let number = 1; number <= 16; number++) {
+      for (let number = 1; number <= 17; number++) {
         await go(number);
         const slide = (await inspectSlides(page))[number - 1];
         assert.equal(slide.overflow.length, 0, `${viewport.width}x${viewport.height} ${slide.id}: ${slide.overflow.join(' / ')}`);
         assert(Math.abs(slide.width / slide.height - 16 / 9) < .01, `${slide.id} aspect ratio changed`);
         const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
         assert(scrollWidth <= viewport.width + 1, `${viewport.width}x${viewport.height} ${slide.id}: horizontal browser overflow to ${scrollWidth}px`);
-        if (number === 13) {
+        if (number === 14) {
           const title = await page.locator('.fw-coupled-title h2').boundingBox();
           const bridge = await page.locator('.mission-bridge').boundingBox();
           assert(title.y + title.height <= bridge.y + 1, `${viewport.width}x${viewport.height}: coupled title overlaps its bridge copy`);
         }
-        if ([4, 5, 6, 9, 13].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
+        if ([4, 5, 6, 9, 10, 14].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
       }
     }
   });
@@ -146,6 +173,8 @@ try {
     await expect(page.locator('body')).toHaveClass(/reduced-motion/);
     await go(4); await clickChoice('[data-v7-growth="1"]', '[data-v7-growth-line]', 'light we inhabit');
     await go(9); await clickChoice('[data-v7-intelligence-select="biology"]', '[data-v7-learning-detail]', 'first geometry');
+    await go(10); await page.locator('[data-v7flow-select="growing"]').click();
+    await expect(page.locator('[data-v7-flow]')).toHaveAttribute('data-v7flow-mode', 'growing');
   });
   await check('Version 6 still loads its original scenes and factory integration', async () => {
     const previous = await browser.newPage(); observe(previous);
@@ -157,15 +186,20 @@ try {
     await expect(previous.locator('#v4-model-view')).toHaveCount(1);
     await previous.close();
   });
-  await check('Print mode retains all sixteen compositions and a complete static argument', async () => {
+  await check('Print mode retains all seventeen compositions and a complete static argument', async () => {
     await page.setViewportSize({ width: 1600, height: 900 });
     await page.goto(printUrl(url)); await page.emulateMedia({ media: 'print', reducedMotion: 'reduce' });
     await waitForDeck(page);
     await page.evaluate(async () => { await window.DESIGNX_FACTORY_READY; await window.DESIGNX_FACTORY.preparePrint(); });
-    const slides = await inspectSlides(page); assert.equal(slides.length, 16); assertPrintSlides(slides);
+    const slides = await inspectSlides(page); assert.equal(slides.length, 17); assertPrintSlides(slides);
     for (const scene of ['growth', 'anatomy', 'computation', 'learning']) await expect(page.locator(`[data-v7-scene="${scene}"] .v7-print-summary`)).toBeVisible();
     for (const layer of ['geometry', 'fabrication', 'biology']) await expect(page.locator(`[data-v7-model-layer="${layer}"]`)).toBeVisible();
-    for (const number of [4, 5, 6, 9, 13]) {
+    await expect(page.locator('[data-v7-flow]')).toBeVisible();
+    await expect(page.locator('[data-v7flow-select="all"]')).toBeHidden();
+    await page.locator('[data-v7flow-select="growing"]').evaluate(button => button.click());
+    const printedLayers = await page.locator('[data-v7flow-in]').evaluateAll(layers => layers.map(layer => getComputedStyle(layer).opacity));
+    assert(printedLayers.every(opacity => opacity === '1'), 'Printing a selected path must retain the entire flow');
+    for (const number of [4, 5, 6, 9, 10, 14]) {
       const path = resolve(output, `print-${number}.png`); await page.locator(`#slide-${String(number).padStart(2, '0')}`).screenshot({ path, animations: 'disabled' }); screenshots.push(path);
     }
   });
