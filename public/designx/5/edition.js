@@ -5,7 +5,6 @@
   const priorSlides = window.DESIGNX_SLIDES;
   const editionUrl = location.protocol === 'file:' ? location.href.split('#')[0] : 'https://www.bowerbuild.org/designx/5';
   const technical = new Set(['anatomy-slide', 'computation-slide', 'learning-slide']);
-  const catalog = window.DESIGNX_FACTORY_CATALOG;
   const controls = () => `<div class="factory-controls slide-interaction">
     <button type="button" data-factory-play aria-label="Play factory drawing">Play</button>
     <button type="button" data-factory-reset aria-label="Restart factory drawing">Restart</button>
@@ -18,8 +17,7 @@
     <p class="factory-caption" data-factory-caption>Fourteen connected operations, from timber preparation to a finished rib.</p>
     <div class="factory-surface" data-factory-surface></div>
     <div class="factory-print-overview" data-factory-poster="overview"></div>
-    ${controls()}
-    <div class="factory-station-picker slide-interaction" role="group" aria-label="Factory stations">${catalog.map(item => `<button type="button" data-factory-id="${item.id}" aria-pressed="${item.id === 'overview'}"><span>${item.number || '↗'}</span>${item.number ? item.title : 'Overview'}</button>`).join('')}</div>
+    <div class="factory-explore-controls slide-interaction"><p>Click a station. See how it works.</p><span data-factory-explored>0 / 14 explored</span><button type="button" data-factory-notes>Drawing notes ↗</button><button type="button" data-factory-focus>Enlarge ↗</button></div>
     <p class="source-note">Factory development study. Process arrangement, not a validated floor plan. Proposed line; performance and process assumptions require testing.</p>
     </section>`;
   const heroIds = ['05-press', '07-scan', '11-cut'];

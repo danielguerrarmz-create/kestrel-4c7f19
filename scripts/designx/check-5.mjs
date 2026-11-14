@@ -12,7 +12,8 @@ const output = resolve(ROOT, 'qa-out/designx/edition-05');
 const expectedCount = 16;
 const beforeExport = process.argv.includes('--before-export');
 const printOnly = process.argv.includes('--print-only');
-if (process.argv.slice(2).some(argument => !['--before-export', '--print-only'].includes(argument))) throw new Error('Supported QA options: --before-export, --print-only');
+const explorerOnly = process.argv.includes('--explorer-only');
+if (process.argv.slice(2).some(argument => !['--before-export', '--print-only', '--explorer-only'].includes(argument))) throw new Error('Supported QA options: --before-export, --print-only, --explorer-only');
 const errors = [];
 const checks = [];
 const screenshots = [];
@@ -41,6 +42,7 @@ const goTheme = async theme => {
 };
 const check = async (name, action) => {
   if (printOnly && !name.startsWith('Print mode')) return;
+  if (explorerOnly && !/^(Factory|Print mode|PDF aliases)/.test(name)) return;
   await action(); checks.push(name); console.log(`PASS ${name}`);
 };
 const factoryState = async viewer => {
@@ -54,6 +56,14 @@ const selectDrawing = async (viewer, id) => {
   await viewer.locator(`[data-factory-id="${id}"]`).click();
   await expect.poll(async () => (await factoryState(viewer))?.id).toBe(id);
   await expect.poll(async () => (await factoryState(viewer))?.ready).toBe(true);
+};
+const openStation = async (target, viewer, id) => {
+  await viewer.frameLocator('iframe').locator(`[data-factory-station="${id}"]`).click();
+  const dialog = target.locator('#factory-enlarged');
+  await expect(dialog).toBeVisible();
+  await expect.poll(async () => (await factoryState(dialog))?.id).toBe(id);
+  await expect.poll(async () => (await factoryState(dialog))?.ready).toBe(true);
+  return dialog;
 };
 
 try {
@@ -109,37 +119,57 @@ try {
     }
     await writeFile(resolve(output, 'factory-drawings.json'), JSON.stringify(drawings, null, 2));
   });
-  await check('Factory controls switch drawings, scrub the process and freeze inactive slides', async () => {
+  await check('Factory explorer opens all fourteen spatial stations and restores the same map', async () => {
     const overview = page.locator('[data-factory-viewer="overview"]');
     const focus = page.locator('[data-factory-viewer="focus"]');
-    await expect(overview.locator('[data-factory-id]')).toHaveCount(15);
+    await expect(overview.locator('.factory-station-picker')).toHaveCount(0);
     await expect(focus.locator('[data-factory-id]')).toHaveCount(3);
     assert.equal((await factoryState(overview)).active, false);
     assert.equal((await factoryState(focus)).active, false);
     await go(7);
     await expect.poll(async () => (await factoryState(overview))?.playing).toBe(true);
     assert.equal((await factoryState(focus)).playing, false);
-    await overview.locator('[data-factory-play]').click();
-    await expect.poll(async () => (await factoryState(overview))?.playing).toBe(false);
-    await overview.locator('[data-factory-seek]').fill('65');
-    await expect.poll(async () => {
-      const state = await factoryState(overview);
-      return Math.abs(state.time / state.duration - 0.65);
-    }).toBeLessThan(0.01);
-    for (const id of ['01-condition', '05-press', '07-scan', '11-cut', '14-ship']) await selectDrawing(overview, id);
+    const mapFrame = await (await overview.locator('iframe').elementHandle()).contentFrame();
+    const ids = await page.evaluate(() => window.DESIGNX_FACTORY_CATALOG.slice(1).map(item => item.id));
+    await expect(mapFrame.locator('[data-factory-station]')).toHaveCount(14);
+    for (const id of ids) {
+      const dialog = await openStation(page, overview, id);
+      await expect.poll(async () => (await factoryState(overview))?.active).toBe(false);
+      const frozen = await factoryState(overview);
+      await expect.poll(async () => (await factoryState(dialog))?.playing).toBe(true);
+      await dialog.locator('[data-factory-seek]').fill('65');
+      await expect.poll(async () => {
+        const state = await factoryState(dialog);
+        return Math.abs(state.time / state.duration - 0.65);
+      }).toBeLessThan(0.01);
+      assert.equal((await factoryState(dialog)).playing, false);
+      assert.equal((await factoryState(overview)).renderCount, frozen.renderCount);
+      await page.keyboard.press('Escape');
+      await expect(dialog).toHaveCount(0);
+      await expect.poll(async () => (await factoryState(overview))?.active).toBe(true);
+      assert.equal(await (await overview.locator('iframe').elementHandle()).contentFrame(), mapFrame, 'Opening a station must preserve the original map frame');
+      await expect.poll(() => mapFrame.evaluate(() => document.activeElement?.dataset.factoryStation)).toBe(id);
+    }
+    await mapFrame.locator('[data-factory-station="05-press"]').focus();
+    await page.keyboard.press('Enter');
+    const enlarged = page.locator('#factory-enlarged');
+    await expect(enlarged).toBeVisible();
+    await expect.poll(async () => (await factoryState(enlarged))?.ready).toBe(true);
+    await enlarged.locator('[data-factory-next]').click();
+    await expect.poll(async () => (await factoryState(enlarged))?.id).toBe('06-cure');
+    await enlarged.locator('[data-factory-previous]').click();
+    await expect.poll(async () => (await factoryState(enlarged))?.id).toBe('05-press');
+    await expect.poll(async () => (await factoryState(enlarged))?.ready).toBe(true);
+    assert.equal(await page.evaluate(() => window.DESIGNX.current), 7);
+    await page.screenshot({ path: resolve(output, 'factory-enlarged.png') });
+    await page.keyboard.press('Escape');
+    await expect(enlarged).toHaveCount(0);
     await overview.locator('[data-factory-notes]').click();
     await expect(page.locator('.factory-notes-dialog')).toBeVisible();
     await expect(page.locator('.factory-notes-dialog')).toContainText(/testing|test|assumed|proposed/i);
     await page.keyboard.press('Escape');
     await expect(page.locator('.factory-notes-dialog')).toBeHidden();
-    await selectDrawing(overview, 'overview');
-    await overview.locator('[data-factory-focus]').click();
-    const enlarged = page.locator('.factory-dialog[open]');
-    await expect(enlarged).toBeVisible();
-    await expect(enlarged.locator('iframe')).toHaveCount(1);
-    await page.screenshot({ path: resolve(output, 'factory-enlarged.png') });
-    await page.keyboard.press('Escape');
-    await expect(enlarged).toHaveCount(0);
+    await page.locator('.slide.is-active').screenshot({ path: resolve(output, 'factory-explorer.png') });
     await go(8);
     await expect.poll(async () => (await factoryState(overview))?.playing).toBe(false);
     const stopped = await factoryState(overview);
@@ -239,6 +269,7 @@ try {
     await print.evaluate(() => window.DESIGNX_FACTORY.preparePrint());
     assert.equal(await print.locator('.slide').count(), expectedCount);
     await expect(print.locator('[data-factory-poster] > svg')).toHaveCount(4);
+    await expect(print.locator('[data-factory-poster] [data-factory-explore], [data-factory-poster] [data-factory-station]')).toHaveCount(0);
     for (const id of ['overview', '05-press', '07-scan', '11-cut']) {
       const poster = print.locator(`[data-factory-poster="${id}"]`);
       await expect(poster).toBeVisible();
@@ -296,17 +327,19 @@ try {
     assert.equal(await alternate.locator('#pdf-link').evaluate(el => el.href), pathToFileURL(resolve(ROOT, 'public/designx/5/downloads/Bower_DesignX_Buildings_That_Grow_05.pdf')).href);
     await alternate.evaluate(() => window.DESIGNX.goTo(7));
     const offlineViewer = alternate.locator('[data-factory-viewer="overview"]');
-    await selectDrawing(offlineViewer, '11-cut');
-    await offlineViewer.locator('[data-factory-seek]').fill('40');
+    const offlineDialog = await openStation(alternate, offlineViewer, '11-cut');
+    await offlineDialog.locator('[data-factory-seek]').fill('40');
     await expect.poll(async () => {
-      const state = await factoryState(offlineViewer);
+      const state = await factoryState(offlineDialog);
       return Math.abs(state.time / state.duration - 0.4);
     }).toBeLessThan(0.01);
-    assert((await text(offlineViewer.locator('[data-factory-phase]'))).length > 0);
+    assert((await text(offlineDialog.locator('[data-factory-phase]'))).length > 0);
+    await alternate.keyboard.press('Escape');
+    await expect(offlineDialog).toHaveCount(0);
     await expect(alternate.locator('[data-factory-poster] > svg')).toHaveCount(4);
     await alternate.close();
   });
   assert.deepEqual(errors, [], 'All presentation scripts, drawings, images and fonts must load without errors');
-  await writeFile(resolve(output, printOnly ? 'check-print.json' : 'check.json'), JSON.stringify({ url, beforeExport, printOnly, checks, errors, screenshots }, null, 2));
+  await writeFile(resolve(output, printOnly ? 'check-print.json' : explorerOnly ? 'check-explorer.json' : 'check.json'), JSON.stringify({ url, beforeExport, printOnly, explorerOnly, checks, errors, screenshots }, null, 2));
   console.log(`${checks.length} edition 05 checks passed.`);
 } finally { await browser.close(); }

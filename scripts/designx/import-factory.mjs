@@ -155,6 +155,76 @@ window.BOWER_FACTORY_READY=(async()=>{
 })();
 `;
 
+// Spatial navigation follows the earlier Making Line explorer: choose the
+// actual station in the whole factory, inspect it, then return to the same map.
+// These are UI hit areas in the source overview's schematic coordinate system,
+// not physical dimensions or changes to the authored machine geometry.
+const overviewExplore = String.raw`
+let factoryExplore=false, factoryExploreLayer=null;
+const EXPLORE_STATIONS=[
+  ['01-condition','01 Condition',[-2.8,Y1-4,9.4,Y1+3,4.8],[2,Y1-1,5.4],[-14,-8]],
+  ['02-grade','02 Grade',[11.8,Y1-3.4,22.4,Y1+2.6,4.8],[17,Y1,5.2],[0,5]],
+  ['03-join','03 Join',[23.8,Y1-2.4,33.7,Y1+2.4,3.2],[29,Y1,3.8],[0,-6]],
+  ['04-plane','04 Plane',[34.6,Y1-2.8,42.5,Y1+2.4,5.6],[38.5,Y1,6.2],[10,-4]],
+  ['05-press','05 Press',[62.2,Y2-7,84.5,Y2+8,5.5],[76,Y2,6.2],[0,-2]],
+  ['06-cure','06 Cure',[43,Y2-3.3,61,Y2+4,3.4],[51.5,Y2,4.6],[0,-2]],
+  ['07-scan','07 Scan',[18.2,Y2-4,41.5,Y2+8,5.2],[30,Y2,5.8],[0,-2]],
+  ['08-slice','08 Slice',[-8.5,Y2-4,17,Y2+4,4.4],[7.5,Y2,4.8],[0,-2]],
+  ['09-press','09 Press',[-1,Y3-5.5,17,Y3+5,4.8],[8,Y3,5.4],[0,-2]],
+  ['10-scan','10 Scan',[18.5,Y3-5,40.5,Y3+8,5],[30,Y3,5.5],[0,-2]],
+  ['11-cut','11 Cut',[41.5,Y3-5,63,Y3+8,5],[52,Y3,5.5],[0,-2]],
+  ['12-finish','12 Finish',[64,Y3-5,85,Y3+8,5.2],[75,Y3,5.8],[0,-2]],
+  ['13-test','13 Test',[23,Y4-3,34,Y4+4,5.2],[28,Y4,5.7],[0,-2]],
+  ['14-ship','14 Ship',[43,Y4-4,62,Y4+5,3.8],[52,Y4,4.5],[0,-2]]
+];
+function factoryExploreSelect(id){
+  if(!factoryExplore||!EXPLORE_STATIONS.some(item=>item[0]===id))return;
+  if(parent!==window)parent.postMessage({type:'bower-factory:select',id},'*');
+  window.dispatchEvent(new CustomEvent('bower:factory-select',{detail:{id}}));
+}
+function factoryExploreDraw(){
+  if(!factoryExplore||!factoryReady()||!VB)return;
+  const NS='http://www.w3.org/2000/svg';
+  const previous=document.activeElement?.getAttribute('data-factory-station');
+  if(!factoryExploreLayer){factoryExploreLayer=document.createElementNS(NS,'g');factoryExploreLayer.setAttribute('data-factory-explore','');svg.append(factoryExploreLayer);}
+  factoryExploreLayer.replaceChildren();
+  const unit=Math.max(VB[2]/Math.max(1,svg.clientWidth),VB[3]/Math.max(1,svg.clientHeight));
+  const compact=svg.clientWidth<1000||svg.clientHeight<500;
+  const project=(x,y,z)=>mainC.P(x+LINE_SHIFT.x,y+LINE_SHIFT.y,z);
+  const make=(tag,attrs,text)=>{const node=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))node.setAttribute(k,v);if(text)node.textContent=text;return node;};
+  factoryExploreLayer.append(make('style',{},'.factory-station{cursor:pointer;outline:none}.factory-station-hit{fill:#b4492f;fill-opacity:0;stroke:#b4492f;stroke-opacity:0;stroke-width:1.3;vector-effect:non-scaling-stroke;stroke-linejoin:round}.factory-station-label{fill:#fdfcf9;stroke:#b1c1b5;stroke-width:1;vector-effect:non-scaling-stroke}.factory-station-text{fill:#102820;font-family:Safiro,Arial,sans-serif;font-weight:500;pointer-events:none}.factory-station:hover .factory-station-hit,.factory-station:focus .factory-station-hit{fill-opacity:.055;stroke-opacity:.7}.factory-station:hover .factory-station-label,.factory-station:focus .factory-station-label{fill:#102820;stroke:#102820}.factory-station:hover .factory-station-text,.factory-station:focus .factory-station-text{fill:#fdfcf9}.factory-station:focus-visible .factory-station-label{stroke:#b4492f;stroke-width:2}'));
+  for(const[id,label,box,anchor,offset]of EXPLORE_STATIONS){
+    const [x0,y0,x1,y1,z1]=box;
+    const corners=[0,z1].flatMap(z=>[[x0,y0,z],[x1,y0,z],[x1,y1,z],[x0,y1,z]].map(p=>project(...p)));
+    const button=make('g',{'class':'factory-station','data-factory-station':id,role:'button',tabindex:'0','aria-label':label+' station. Open drawing.'});
+    button.append(make('title',{},label+' station'));
+    button.append(make('path',{'class':'factory-station-hit',d:pd(hull(corners))}));
+    const compactShift=compact?({'02-grade':[-1,0],'03-join':[4,0],'07-scan':[0,8]}[id]||[0,0]):[0,0];
+    const point=project(...anchor),lx=point[0]+(offset[0]+compactShift[0])*unit,ly=point[1]+(offset[1]+compactShift[1])*unit;
+    const text=make('text',{'class':'factory-station-text',x:lx,y:ly,'font-size':(compact?11:12)*unit,'text-anchor':'middle','dominant-baseline':'central'},compact?label.slice(0,2):label);
+    button.append(text);factoryExploreLayer.append(button);
+    const bounds=text.getBBox(),padX=7*unit,padY=5*unit;
+    const plate=make('rect',compact?{'class':'factory-station-label',x:lx-11*unit,y:ly-11*unit,width:22*unit,height:22*unit,rx:11*unit}:{'class':'factory-station-label',x:bounds.x-padX,y:bounds.y-padY,width:bounds.width+2*padX,height:bounds.height+2*padY,rx:2*unit});
+    button.insertBefore(plate,text);
+    button.addEventListener('click',()=>factoryExploreSelect(id));
+    button.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();factoryExploreSelect(id);}});
+  }
+  if(previous)factoryFocusStation(previous);
+}
+function factorySetExplore(value){
+  factoryExplore=!!value;
+  svg.setAttribute('role',factoryExplore?'group':'img');
+  svg.setAttribute('aria-label',factoryExplore?'Factory explorer. Choose one of fourteen stations.':DRAWING_META.title);
+  if(factoryExplore)factoryExploreDraw();else{factoryExploreLayer?.remove();factoryExploreLayer=null;}
+  return factoryState();
+}
+function factoryFocusStation(id){
+  if(!EXPLORE_STATIONS.some(item=>item[0]===id))return factoryState();
+  const target=factoryExploreLayer?.querySelector('[data-factory-station="'+id+'"]');
+  target?.focus({preventScroll:true});return factoryState();
+}
+`;
+
 const catalog = [{
   id:'overview', number:null, title:'Process overview', stage:'Factory',
   whatHappens:'Fourteen connected operations, from timber preparation to a finished rib.',
@@ -177,7 +247,14 @@ const annotationCss='.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;fon
 for(const entry of catalog){
   const isOverview=entry.id==='overview';
   const scene=read(isOverview?'overview/scene.js':`stations/${entry.id}/scene.js`);
-  const script=`const DRAWING_META=${data(entry)};\nconst S={};\n${engine}\n${scene}\n${isOverview?overviewShell:stationShell}\n${lifecycle}`;
+  const sceneLifecycle=isOverview?lifecycle
+    .replace("await document.fonts.load('11.5px Safiro');", "await Promise.all([document.fonts.load('11.5px Safiro'),document.fonts.load('500 12px Safiro')]);")
+    .replace('stepIndex:index,static:factoryStatic','explore:factoryExplore,stepIndex:index,static:factoryStatic')
+    .replace('setActive(value){','setExplore:factorySetExplore,focusStation:factoryFocusStation,\n  setActive(value){')
+    .replace("const copy=svg.cloneNode(true);", "const copy=svg.cloneNode(true);copy.querySelector('[data-factory-explore]')?.remove();copy.setAttribute('role','img');")
+    .replace("state:'getState',getState:'getState',", "setExplore:'setExplore',focusStation:'focusStation',state:'getState',getState:'getState',")
+    .replace('factoryFit();factoryRender();','factoryFit();factoryRender();factoryExploreDraw();'):lifecycle;
+  const script=`const DRAWING_META=${data(entry)};\nconst S={};\n${engine}\n${scene}\n${isOverview?overviewExplore+'\n':''}${isOverview?overviewShell:stationShell}\n${sceneLifecycle}`;
   const title=isOverview?'Bower manufacturing process overview':`Bower station ${entry.number}: ${entry.title}`;
   const html=`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
