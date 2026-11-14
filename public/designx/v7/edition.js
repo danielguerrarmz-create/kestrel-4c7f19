@@ -34,6 +34,7 @@
   window.DESIGNX_SLIDES = priorSlides.map(slide => {
     const theme = slide.theme.split(' ')[0];
     if (replacements[theme]) return { ...slide, ...window.DESIGNX_V7_SCENES[replacements[theme]], theme: `v7-${theme}`, act: theme === 'anatomy-slide' ? 'II · The invention' : slide.act };
+    if (theme === 'commercial-model-slide') return { ...slide, ...window.DESIGNX_V7_COMMERCIAL, theme: 'v7-commercial-model-slide' };
     const template = document.createElement('template');
     template.innerHTML = slide.html.replaceAll('https://www.bowerbuild.org/designx/3', editionUrl).replaceAll('bowerbuild.org/designx/3 <', 'bowerbuild.org/designx/v7 <');
     let notes = slide.notes;
@@ -54,11 +55,6 @@
     }
     if (theme === 'factory-slide') return { ...slide, title: 'Different parts. A repeatable process.', theme: 'factory-slide v5-factory-overview', html: overview, notes: 'Geometry needs a route into material. These are Daniel’s actual factory development drawings, exploring how to fabricate varied components reliably. Proposed plantability checks would influence the geometry upstream; the resulting form still needs parts, joints and an assembly process. Select any station to explore it. This is a process arrangement, not a validated floor plan. The line is proposed, not operating; source notes distinguish established methods and assumptions requiring tests.' };
     if (theme === 'buyers-slide') content.querySelector('.slide-heading h2').innerHTML = 'The first <em>customers.</em>';
-    if (theme === 'commercial-model-slide') {
-      content.querySelector('.slide-heading h2').innerHTML = '<span class="v4-editorial">Sell a Bower.</span><br>Develop the system.';
-      content.querySelector('.capability-rail').innerHTML = '<span>Design and<br>planting rules</span><span>Fabrication<br>workflows</span><span>Evidence from<br>living buildings</span>';
-      notes += ' The intended reusable capability includes planting knowledge and observations of the living place, alongside fabrication workflows. These are development aims, not evidence already collected.';
-    }
     if (theme === 'commercial-loop-slide') {
       content.querySelector('.fw-intro h2').innerHTML = 'Built proof<br>creates <em>demand.</em>';
       content.querySelector('.fw-hub').innerHTML = `<aside class="commercial-visual-note"><h3>Stage visuals to add</h3><p>Clay + Daniel</p><ol>

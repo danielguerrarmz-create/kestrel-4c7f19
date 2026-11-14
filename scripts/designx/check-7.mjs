@@ -163,7 +163,7 @@ try {
           const bridge = await page.locator('.mission-bridge').boundingBox();
           assert(title.y + title.height <= bridge.y + 1, `${viewport.width}x${viewport.height}: coupled title overlaps its bridge copy`);
         }
-        if ([4, 5, 6, 9, 10, 14].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
+        if ([4, 5, 6, 9, 10, 12, 14].includes(number)) await screenshot(`viewport-${viewport.width}-${number}.png`);
       }
     }
   });
@@ -199,7 +199,7 @@ try {
     await page.locator('[data-v7flow-select="growing"]').evaluate(button => button.click());
     const printedLayers = await page.locator('[data-v7flow-in]').evaluateAll(layers => layers.map(layer => getComputedStyle(layer).opacity));
     assert(printedLayers.every(opacity => opacity === '1'), 'Printing a selected path must retain the entire flow');
-    for (const number of [4, 5, 6, 9, 10, 14]) {
+    for (const number of [4, 5, 6, 9, 10, 12, 14]) {
       const path = resolve(output, `print-${number}.png`); await page.locator(`#slide-${String(number).padStart(2, '0')}`).screenshot({ path, animations: 'disabled' }); screenshots.push(path);
     }
   });

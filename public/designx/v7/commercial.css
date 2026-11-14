@@ -1,0 +1,18 @@
+/* Three plain financial headlines; one fixed composition for the screen and PDF. */
+.designx-v7 .v7commercial-scene {position:absolute;inset:0;background:#0B1D18;color:#EEF3EA;font-family:var(--sans)}
+.designx-v7 .v7commercial-title {position:absolute;left:80px;right:80px;top:57px;margin:0;letter-spacing:-.045em}
+.designx-v7 .v7commercial-title>span {display:block;font:400 94px/.99 var(--display);letter-spacing:-.045em}
+.designx-v7 .v7commercial-title>strong {display:block;margin-top:13px;font:500 83px/1.02 var(--sans);letter-spacing:-.055em}
+.designx-v7 .v7commercial-intro {position:absolute;left:80px;right:80px;top:282px;font:400 27px/1.2 var(--sans);letter-spacing:-.015em;color:#B1C1B5}
+.designx-v7 .v7commercial-budget {position:absolute;left:80px;right:80px;top:351px;font:400 31px/1.2 var(--sans);letter-spacing:-.025em;color:#B7CD7B}
+.designx-v7 .v7commercial-budget em {font-style:normal;border-bottom:1px solid #B7CD7B;padding-bottom:3px}
+.designx-v7 .v7commercial-stages {position:absolute;left:80px;right:80px;top:419px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:42px;border-top:1px solid #B1C1B566}
+.designx-v7 .v7commercial-stage {position:relative;padding-top:26px;min-height:403px}
+.designx-v7 .v7commercial-stage h3 {margin:0;font:500 27px/1.2 var(--sans);letter-spacing:-.02em}
+.designx-v7 .v7commercial-stage h3>span {display:inline-block;margin-right:16px;font:400 20px/1 var(--sans);letter-spacing:0;color:#B1C1B5}
+.designx-v7 .v7commercial-price {height:169px;margin:25px 0 0;font:500 78px/.96 var(--sans);letter-spacing:-.055em;color:#EEF3EA}
+.designx-v7 .v7commercial-deposit {padding-top:3px;font-size:101px;line-height:1;color:#B7CD7B;letter-spacing:-.065em}
+.designx-v7 .v7commercial-terms {min-height:62px;margin:0;font:400 23px/1.26 var(--sans);letter-spacing:-.02em;color:#EEF3EA}
+.designx-v7 .v7commercial-scope {margin-top:13px;max-width:405px;font:400 24px/1.32 var(--sans);letter-spacing:-.015em;color:#B1C1B5}
+.designx-v7 .v7commercial-status {position:absolute;left:80px;right:115px;bottom:28px;margin:0;font:400 13px/1.3 var(--sans);color:#B1C1B5}
+.designx-v7 .v7commercial-scene~.folio {color:#B1C1B5}

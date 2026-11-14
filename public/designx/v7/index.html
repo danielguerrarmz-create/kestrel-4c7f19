@@ -19,7 +19,7 @@
       font.crossOrigin = 'anonymous'; font.href = `4/assets/fonts/${file}`;
       document.head.append(font);
     }
-    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css', '3/problem.css', '3/editorial.css', '4/fonts.css', '4/editorial.css', '5/editorial.css', 'v7/living.css', 'v7/learning-flow.css', 'v7/editorial.css']) {
+    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css', '3/problem.css', '3/editorial.css', '4/fonts.css', '4/editorial.css', '5/editorial.css', 'v7/living.css', 'v7/learning-flow.css', 'v7/commercial.css', 'v7/editorial.css']) {
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet'; stylesheet.href = file;
       document.head.append(stylesheet);
@@ -63,7 +63,7 @@
   </dialog>
   <noscript><p class="no-script">This presentation needs JavaScript.</p></noscript>
   <script>
-    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', '3/problem.js', '3/edition.js', '5/factory/catalog.js', 'v7/living.js', 'v7/learning-flow.js', 'v7/edition.js', '5/factory.js', 'deck.js']) {
+    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', '3/problem.js', '3/edition.js', '5/factory/catalog.js', 'v7/living.js', 'v7/learning-flow.js', 'v7/commercial.js', 'v7/edition.js', '5/factory.js', 'deck.js']) {
       const script = document.createElement('script');
       script.src = file; script.async = false;
       document.body.append(script);
