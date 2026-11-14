@@ -1,0 +1,90 @@
+/* Daniel's original drawing paper and line colours remain intact. */
+.designx-v5 .slide.v5-factory-overview,.designx-v5 .slide.v5-factory-focus {background:#fdfcf9;color:#102820;--quiet:#4D6559;--line:#B1C1B580}
+.designx-v5 .factory-exhibit {position:absolute;inset:0}
+.designx-v5 .factory-exhibit .slide-heading {top:55px;left:80px;right:70px}
+.designx-v5 .factory-exhibit .slide-heading h2 {font:600 65px/1.04 var(--sans);letter-spacing:-.055em;color:#102820}
+.designx-v5 .factory-caption {position:absolute;left:80px;right:80px;top:135px;font:400 22px/1.35 var(--sans);color:#4D6559;margin:0}
+.designx-v5 .factory-surface {position:absolute;left:60px;top:179px;width:1480px;height:530px;background:#fdfcf9}
+.factory-surface iframe,.factory-dialog-surface iframe,.factory-capture-surface iframe {display:block;width:100%;height:100%;border:0;background:#fdfcf9}
+.designx-v5 .factory-controls {position:absolute;left:80px;right:80px;top:722px;height:40px;display:flex;gap:12px;align-items:center;font:500 14px/1.2 var(--sans);color:#4D6559}
+.factory-controls button {background:transparent;border:1px solid #B1C1B5;padding:11px 15px;font:500 14px/1.2 var(--sans);color:#102820;white-space:nowrap}
+.factory-controls [data-factory-play] {background:#102820;border-color:#102820;color:#fdfcf9;min-width:75px}
+.factory-controls input {width:245px;min-width:80px;accent-color:#b4492f;cursor:pointer}
+.factory-controls [data-factory-phase] {flex:1;font-size:14px}
+.factory-controls button:hover {background:#C1D98A;color:#102820}
+.factory-controls button:focus-visible,.factory-station-picker button:focus-visible,.factory-hero-picker button:focus-visible {outline:3px solid #b4492f;outline-offset:3px}
+.designx-v5 .factory-station-picker {position:absolute;left:80px;right:80px;top:786px;display:grid;grid-template-columns:repeat(15,minmax(0,1fr));border-top:1px solid #B1C1B5}
+.designx-v5 .factory-station-picker button {display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:13px 10px 10px;border:0;border-right:1px solid #B1C1B555;background:transparent;font:500 14px/1 var(--sans);color:#4D6559;white-space:nowrap}
+.designx-v5 .factory-station-picker button span {font-size:12px;color:#b4492f}
+.designx-v5 .factory-station-picker button[aria-pressed=true] {background:#102820;color:#fdfcf9}
+.designx-v5 .factory-station-picker button[aria-pressed=true] span {color:#C1D98A}
+.designx-v5 .factory-exhibit .source-note {left:80px;right:80px;bottom:18px;font-size:11px;line-height:1.3;color:#4D6559}
+.designx-v5 .factory-focus-exhibit .slide-heading {top:85px;right:auto;width:375px}
+.designx-v5 .factory-focus-exhibit .slide-heading h2 {font-size:96px;line-height:.98}
+.designx-v5 .factory-focus-exhibit .factory-surface {left:450px;top:65px;width:1070px;height:650px}
+.designx-v5 .factory-focus-exhibit .factory-controls {left:450px;top:737px}
+.designx-v5 .factory-focus-exhibit .factory-controls input {width:150px}
+.designx-v5 .factory-focus-exhibit .factory-caption {left:450px;top:797px;right:90px;font-size:21px}
+.designx-v5 .factory-hero-picker {position:absolute;left:80px;top:445px;width:310px;display:grid}
+.designx-v5 .factory-hero-picker button {display:flex;gap:24px;align-items:center;border:0;border-top:1px solid #B1C1B5;background:transparent;padding:21px 10px;font:500 26px/1.1 var(--sans);letter-spacing:-.03em;color:#102820;text-align:left}
+.designx-v5 .factory-hero-picker button span {font-size:13px;color:#b4492f;letter-spacing:0}
+.designx-v5 .factory-hero-picker button b {margin-left:auto;font-weight:400}
+.designx-v5 .factory-hero-picker button[aria-pressed=true] {background:#C1D98A;color:#102820}
+.factory-print-overview,.factory-print-heroes {display:none}
+.factory-error {padding:30px;font:400 18px/1.5 var(--sans);color:#b4492f}
+
+/* This is an implementation note, deliberately not invented project imagery. */
+.designx-v5 .fw-commercial .fw-hub {left:250px;top:165px;width:400px;height:365px;display:block}
+.designx-v5 .commercial-visual-note {background:#DCE6B7;padding:22px 26px;color:#102820;text-align:left;transform:rotate(-2deg)}
+.designx-v5 .commercial-visual-note h3 {font:600 25px/1.1 var(--sans);letter-spacing:-.025em;margin:0}
+.designx-v5 .commercial-visual-note>p {font:400 15px/1.3 var(--sans);margin:6px 0 0}
+.designx-v5 .commercial-visual-note ol {padding-left:18px;margin:17px 0;display:grid;gap:9px;font:400 16px/1.25 var(--sans)}
+.designx-v5 .commercial-visual-note strong {font-weight:600}
+.designx-v5 .commercial-visual-note .implementation-note {padding-top:12px;border-top:1px solid #10282040;font-size:15px}
+
+/* Dialogs sit outside the scaled slide so drawings can use the full viewport. */
+.factory-dialog {width:min(1500px,96vw);max-width:96vw;max-height:94vh;padding:26px 32px;background:#fdfcf9;color:#102820;border:1px solid #B1C1B5;overflow:auto;font-family:var(--sans)}
+.factory-dialog::backdrop {background:#0B1D18D9}
+.factory-dialog-heading {display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:1px solid #B1C1B5;padding-bottom:15px}
+.factory-dialog-heading h2 {font:500 30px/1.1 var(--sans);letter-spacing:-.035em;margin:0}
+.factory-dialog-heading button {border:1px solid #B1C1B5;background:transparent;color:#102820;font:500 17px/1 var(--sans);padding:10px 15px}
+.factory-dialog-surface {height:min(66vh,850px);min-height:240px;background:#fdfcf9}
+.factory-dialog .factory-controls {display:flex;gap:12px;align-items:center;padding-top:10px}
+.factory-dialog .factory-controls input {flex:1;width:auto}
+.factory-dialog .factory-controls [data-factory-phase] {flex:1}
+.factory-notes-dialog {max-width:760px}
+.factory-drawing-notes {font:400 17px/1.5 var(--sans);padding:5px 0 10px}
+.factory-drawing-notes h3 {font:600 20px/1.2 var(--sans);margin:24px 0 8px;letter-spacing:-.02em}
+.factory-drawing-notes p {margin:0;white-space:pre-line}
+.factory-drawing-notes a {color:#102820;text-underline-offset:3px}
+.factory-drawing-notes li {margin:8px 0}
+@media(max-width:650px) {.factory-dialog {padding:16px}.factory-dialog-heading h2 {font-size:22px}.factory-dialog .factory-controls {flex-wrap:wrap}.factory-dialog .factory-controls [data-factory-phase] {flex-basis:100%}.factory-dialog-surface {height:58vh}}
+
+/* Source SVGs are captured at their authored static poses, preserving vectors. */
+.designx-v5.print-mode .factory-surface,.designx-v5.print-mode .factory-controls,.designx-v5.print-mode .factory-station-picker,.designx-v5.print-mode .factory-hero-picker {display:none}
+.designx-v5.print-mode .factory-print-overview {display:block;position:absolute;left:60px;top:205px;width:1480px;height:570px}
+.designx-v5 [data-factory-poster]>svg {display:block;width:100%;height:100%}
+.designx-v5.print-mode .factory-focus-exhibit .slide-heading {left:80px;top:70px;width:1440px}
+.designx-v5.print-mode .factory-focus-exhibit .slide-heading h2 {font-size:90px}
+.designx-v5.print-mode .factory-focus-exhibit .slide-heading br {display:none}
+.designx-v5.print-mode .factory-focus-exhibit .slide-heading br:after {content:' '}
+.designx-v5.print-mode .factory-focus-exhibit .factory-caption {display:none}
+.designx-v5.print-mode .factory-print-heroes {position:absolute;display:grid;grid-template-columns:repeat(3,1fr);gap:30px;left:80px;right:80px;top:245px}
+.designx-v5 .factory-print-heroes figure {margin:0;min-width:0;border-top:1px solid #B1C1B5;padding-top:18px}
+.designx-v5 .factory-print-heroes h3 {font:500 31px/1.1 var(--sans);margin:0;letter-spacing:-.035em}
+.designx-v5 .factory-print-heroes [data-factory-poster] {height:430px;margin:12px -5px}
+.designx-v5 .factory-print-heroes figcaption {font:400 20px/1.35 var(--sans);color:#4D6559;max-width:420px}
+.designx-v5.print-mode .commercial-loop-slide .fw-orbit,.designx-v5.print-mode .commercial-loop-slide .fw-readout {display:block}
+.designx-v5.print-mode .commercial-loop-slide .fw-static-summary {display:block}
+.designx-v5.print-mode .commercial-loop-slide .fw-intro {width:700px}
+@media print {
+  .designx-v5 .factory-surface,.designx-v5 .factory-controls,.designx-v5 .factory-station-picker,.designx-v5 .factory-hero-picker,.factory-dialog {display:none!important}
+  .designx-v5 .factory-print-overview {display:block;position:absolute;left:60px;top:205px;width:1480px;height:570px}
+  .designx-v5 .factory-focus-exhibit .slide-heading {left:80px;top:70px;width:1440px}
+  .designx-v5 .factory-focus-exhibit .slide-heading h2 {font-size:90px}
+  .designx-v5 .factory-focus-exhibit .slide-heading br {display:none}
+  .designx-v5 .factory-focus-exhibit .factory-caption {display:none}
+  .designx-v5 .factory-print-heroes {position:absolute;display:grid;grid-template-columns:repeat(3,1fr);gap:30px;left:80px;right:80px;top:245px}
+  .designx-v5 .commercial-loop-slide .fw-orbit,.designx-v5 .commercial-loop-slide .fw-readout,.designx-v5 .commercial-loop-slide .fw-static-summary {display:block!important}
+  .designx-v5 .commercial-loop-slide .fw-intro {width:700px}
+}

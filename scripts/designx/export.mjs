@@ -5,7 +5,7 @@ import sharp from 'sharp';
 import { assertPrintSlides, inspectSlides, openBrowser, printUrl, ROOT, waitForDeck } from './browser.mjs';
 
 const args = process.argv.slice(2);
-if (args.length > 1 || args.some(argument => !/^--edition=[34]$/.test(argument))) throw new Error('Supported export options: --edition=3 or --edition=4');
+if (args.length > 1 || args.some(argument => !/^--edition=[345]$/.test(argument))) throw new Error('Supported export options: --edition=3, --edition=4 or --edition=5');
 const edition = args[0]?.slice('--edition='.length) ?? '1';
 const numberedEdition = edition !== '1';
 const deckUrl = numberedEdition ? (process.env[`DESIGNX_V${edition}_URL`] ?? `http://127.0.0.1:5333/designx/${edition}`) : undefined;
@@ -22,7 +22,7 @@ try {
   // bytes to this export browser only; the website keeps its original WebP files.
   // Small technical evidence stays lossless, and slide text/diagrams stay vector.
   const photoCache = new Map();
-  await page.route(/\/designx\/(?:[34]\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
+  await page.route(/\/designx\/(?:[345]\/)?assets\/.*\.webp(?:\?.*)?$/, async route => {
     const filename = decodeURIComponent(new URL(route.request().url()).pathname.slice('/designx/'.length));
     if (!/^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.webp$/i.test(filename)) return route.continue();
     const bytes = await readFile(resolve(ROOT, 'public/designx', filename));
@@ -40,6 +40,15 @@ try {
   if (response && !response.ok()) throw new Error(`Presentation returned HTTP ${response.status()}.`);
   await page.emulateMedia({ media: 'print', reducedMotion: 'reduce' });
   await waitForDeck(page);
+  if (edition === '5') {
+    await page.waitForFunction(() => typeof window.DESIGNX_FACTORY_READY !== 'undefined');
+    await page.evaluate(async () => {
+      await window.DESIGNX_FACTORY_READY;
+      if (typeof window.DESIGNX_FACTORY?.preparePrint !== 'function') throw new Error('The factory print preparation hook is unavailable.');
+      await window.DESIGNX_FACTORY.preparePrint();
+      await document.fonts.ready;
+    });
+  }
   const renderedMeta = await page.evaluate(() => window.DESIGNX_META);
   if (!renderedMeta.exportReady || (numberedEdition && renderedMeta.edition !== Number(edition))) throw new Error('The rendered document does not match the requested export edition.');
   const slides = await inspectSlides(page);

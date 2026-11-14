@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bower station 13: Test</title><link rel="stylesheet" href="../../4/fonts.css">
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fdfcf9}svg{display:block;width:100%;height:100%;max-height:none}body{font-family:Safiro,Arial,sans-serif}.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style>
+</head><body><svg id="s" role="img" aria-label="Bower station 13: Test"><style>.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style><g id="g"></g></svg>
+<script>(()=>{const DRAWING_META={"id":"13-test","number":"13","title":"Test","stage":"Prove","whatHappens":"Samples from each day's run are soaked or sheared on purpose to prove the glue lines hold. Results join the run record, an outside body audits it, and each rib is marked.","bower":"Nothing new here. Factory production control under EN 14080 (daily delamination and shear tests, run records, an outside audit and marking) is industry practice. Without it the glulam is not certified, and no engineer will sign the structure. This station has no Bower-specific machine.","testing":"Test frequencies were not found (open), so no daily count is drawn. The curvature clause I.5.1 is paywalled and was not read. The delamination and shear methods are outlined, not read: no soak time, soak pressure, shear load or pass value is drawn or printed. The finger-joint bending test belongs to the same control; its rig is not drawn. Fees for factory production control and marking: not found (register Q6).","sourceLinks":[{"title":"EN 14080:2013, glued laminated timber requirements. Its annexes C, D, E, G and I cover testing; factory production control is the plant's own testing and records, audited by an outside body. Industry practice. Contents page, iTeh sample (read); the test methods are outlined, not read.","url":"https://iteh.es/catalog/standards/cen/f5a36e99-021d-44cb-8dec-9e41df42d7a5/en-14080-2013"},{"title":"Hasslacher Nordlam: an example UKCA certificate for EN 14080 glulam, issued after factory production control is checked by an outside body. Industry practice. Certificate (snippet).","url":"https://www.hasslacher.com/data/_dateimanager/zertifikate/en/Glued_laminated_timber/UKCA-Certificate_Block_glued_glulam_EN_14080-2013_NORDLAM_GmbH_NL1_en.pdf"},{"title":"EN 302-2, adhesives for load-bearing timber structures: determination of resistance to delamination. Delamination testing under EN 302-2 / EN 391 is used to assess glue lines. Industry practice. Standards listing (snippet, title only; the standard is paywalled).","url":"https://www.evs.ee/en/evs-en-302-2-2023"}]};
+const S={};
+const SQ=Math.sqrt(3)/2, TAU=Math.PI*2;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const CP=Math.cos(.575),SP=Math.sin(.575);
+const mkP=(ox,oy,s)=>(x,y,z)=>[ox+(x*CP-y*SP)*s, oy+((x*SP+y*CP)*.5-z)*s];
+const n1=v=>v.toFixed(1);
+const pd=(pts,close=true)=>'M'+pts.map(p=>n1(p[0])+' '+n1(p[1])).join('L')+(close?'Z':'');
+function hull(pts){pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[];for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}const up=[];for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}up.pop();lo.pop();return lo.concat(up);}
+function circ(cx,cy,r,n=16){const a=[];for(let i=0;i<n;i++){const t=i/n*TAU+.3;a.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return a;}
+function rr(u0,v0,u1,v1,r){r=r||0;if(r<.005)return[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];r=Math.min(r,(u1-u0)/2,(v1-v0)/2);const o=[];for(const[cx,cy,a0]of[[u1-r,v0+r,-90],[u1-r,v1-r,0],[u0+r,v1-r,90],[u0+r,v0+r,180]])for(let k=0;k<=3;k++){const a=(a0+k*30)*Math.PI/180;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}return o;}
+const cap2=(p,q,r0,r1)=>hull(circ(p[0],p[1],r0,14).concat(circ(q[0],q[1],r1,14)));
+const mixHex=(a,b,k)=>{const h=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=h(a),B=h(b);return'#'+A.map((v,i)=>Math.round(lerp(v,B[i],clamp(k))).toString(16).padStart(2,'0')).join('');};
+
+const sst=t=>{t=clamp(t);return t*t*(3-2*t)};
+const ease=t=>{t=clamp(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eout=t=>1-Math.pow(1-clamp(t),3);
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+
+const stepIndex=(t,bounds)=>{for(let i=0;i<bounds.length-1;i++)if(t<bounds[i+1])return i;return bounds.length-2;};
+
+function ext(c,plane,poly,a0,a1,o){o=o||{};const P=c.P;
+  const q=(p,a)=>plane==='yz'?P(a,p[0],p[1]):plane==='xz'?P(p[0],a,p[1]):P(p[0],p[1],a);
+  const p0=poly.map(p=>q(p,a0)),p1=poly.map(p=>q(p,a1));
+  return S.solid(hull(p0.concat(p1)),p1,o,c);}
+const ln=(c,pts,cls,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(p[0],p[1],p[2])),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.6}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${o.op!=null?`opacity="${n1(o.op)}"`:''}/>`;};
+
+function hatchRect(P,x,y0,y1,z0,z1,step,dir){ // hatch inside a rectangle of the plane x=const
+  let d='';const h=z1-z0,w=y1-y0;
+  for(let k=-h;k<w;k+=step){ // line z = z0 + dir*(y-y0-k)
+    let ya=y0+Math.max(0,k),yb=y0+Math.min(w,k+h);if(yb<=ya)continue;
+    const f=y=>dir>0?z0+(y-y0-k):z1-(y-y0-k);
+    const a=P(x,ya,f(ya)),b=P(x,yb,f(yb));d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+  return d;}
+
+/* ---- machine parts: frames, fasteners, hoses, linear track, cable chain, six-axis arm ---- */
+// Frames wrap a context so any extrusion can be drawn in a moved or rotated local system.
+// c.ax holds the world direction of each local axis; it decides which end cap faces the viewer.
+const AX0=[[1,0,0],[0,1,0],[0,0,1]];
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+ cr:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ nz:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}};
+function frameC(c,o,ex,ey,ez){const A=c.ax||AX0,w=e=>[0,1,2].map(i=>e[0]*A[0][i]+e[1]*A[1][i]+e[2]*A[2][i]);
+ return{P:(a,b,d)=>c.P(o[0]+a*ex[0]+b*ey[0]+d*ez[0],o[1]+a*ex[1]+b*ey[1]+d*ez[1],o[2]+a*ex[2]+b*ey[2]+d*ez[2]),ax:[w(ex),w(ey),w(ez)]};}
+// Local z runs along d from o.
+function alongC(c,o,d){const z=v3.nz(d),r=Math.abs(z[0])<.9?[1,0,0]:[0,1,0];const x=v3.nz(v3.add(r,v3.sc(z,-v3.dot(r,z))));return frameC(c,o,x,v3.cr(z,x),z);}
+const facing=(c,k)=>{const v=(c.ax||AX0)[k];return v[0]*SP+v[1]*CP+v[2]*.5>=0;};
+// Extrusion with its outlined cap always on the end nearest the viewer.
+function xt(c,plane,poly,a0,a1,o){const k=plane==='yz'?0:plane==='xz'?1:2;return facing(c,k)===(a1>=a0)?ext(c,plane,poly,a0,a1,o||{}):ext(c,plane,poly,a1,a0,o||{});}
+// Cylinder along a local axis; (u,v) is the centre in the other two axes, in xyz order.
+function cyl(c,axis,u,v,r,a0,a1,o,n){const p=circ(u,v,r,n||14);return xt(c,axis==='z'?'xy':axis==='y'?'xz':'yz',p,a0,a1,o);}
+const q3=(plane,u,v,a)=>plane==='yz'?[a,u,v]:plane==='xz'?[u,a,v]:[u,v,a];
+const matFill=()=>typeof MAT!=='undefined'&&MAT?MAT.steel:S.paper;
+// Hex heads or nuts lying on a face, one path.
+function hexes(c,plane,pts,at,r){let d='';for(const[u,v]of pts){const h=[];for(let k=0;k<6;k++){const a=k*Math.PI/3+.26;h.push(c.P(...q3(plane,u+r*Math.cos(a),v+r*Math.sin(a),at)));}d+=pd(h);}
+ return`<path d="${d}" fill="${matFill()}" stroke="${S.ink}" stroke-width=".5"/>`;}
+// Circles on a face (bores, bolt holes, lenses), one path.
+function rings(c,plane,pts,at,r,o){o=o||{};let d='';for(const[u,v]of pts)d+=pd(circ(u,v,r,o.n||12).map(p=>c.P(...q3(plane,p[0],p[1],at))));
+ return`<path d="${d}" fill="${o.fill||'none'}" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''}/>`;}
+// Inner edges on a face as one path of polylines.
+function edges(c,lines,o){o=o||{};let d='';for(const l of lines)d+=pd(l.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round"/>`;}
+const bez=(a,b,c2,d,n)=>Array.from({length:n+1},(_,k)=>{const u=k/n,p=(1-u)**3,q=3*u*(1-u)**2,r=3*u*u*(1-u),s=u**3;return[0,1,2].map(i=>p*a[i]+q*b[i]+r*c2[i]+s*d[i]);});
+// A hose or cable: an outlined tube of width w drawing units in pixels.
+function hose(c,pts,w,o){o=o||{};const d=pd(pts.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${n1(w+1.1)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${S.paper}" stroke-width="${n1(Math.max(.4,w-.1))}" stroke-linecap="round" stroke-linejoin="round"/>`;}
+
+/* Linear track, KUKA KL 4000 class: feet, box beam, two profile rails, rack, end stops, trough. */
+function trackBase(c,{x0,x1,y}){let s='';
+ for(let x=x0+.7;x<x1-.3;x+=3.4){
+  s+=xt(c,'xy',rr(x-.42,y-.82,x+.42,y+.82),0,.06,{m:'dark'});
+  s+=hexes(c,'xy',[[x-.3,y-.68],[x+.3,y-.68],[x-.3,y+.68],[x+.3,y+.68]],.06,.07);
+  s+=xt(c,'yz',[[y-.55,.06],[y+.55,.06],[y+.42,.2],[y-.42,.2]],x-.2,x+.2,{m:'dark'});
+ }
+ s+=xt(c,'yz',rr(y-.6,.2,y+.6,.5),x0,x1,{m:'steel'});
+ s+=edges(c,[[[x0,y+.6,.27],[x1,y+.6,.27]],[[x0,y+.6,.43],[x1,y+.6,.43]]]);
+ const rail=[[-.1,0],[.1,0],[.1,.05],[.06,.08],[.09,.1],[.09,.15],[-.09,.15],[-.09,.1],[-.06,.08],[-.1,.05]];
+ for(const ry of[y-.36,y+.36])s+=xt(c,'yz',rail.map(p=>[ry+p[0],.5+p[1]]),x0+.15,x1-.15,{m:'steel'});
+ let holes=[];for(let x=x0+.4;x<x1-.2;x+=.6)holes.push([x,y-.36],[x,y+.36]);s+=rings(c,'xy',holes,.65,.035,{n:6});
+ // Rack on the front face; teeth as ticks
+ s+=xt(c,'yz',rr(y+.6,.29,y+.68,.44),x0+.1,x1-.1,{m:'steel'});
+ let d='';for(let x=x0+.16;x<x1-.12;x+=.11){const a=c.P(x,y+.68,.29),b=c.P(x,y+.68,.37);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;
+ for(const xe of[x0,x1-.3]){s+=xt(c,'xy',rr(xe,y-.5,xe+.3,y+.5),.5,.85,{m:'dark'});s+=cyl(c,'x',y-.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10)+cyl(c,'x',y+.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10);}
+ return s;}
+// Cable trough in front of the track, drawn after the carriage.
+function trackTrough(c,{x0,x1,y}){const U=[[y+.8,0],[y+1.3,0],[y+1.3,.42],[y+1.26,.42],[y+1.26,.04],[y+.84,.04],[y+.84,.42],[y+.8,.42]];
+ return xt(c,'yz',U,x0+.2,x1-.2,{m:'dark'})+edges(c,[[[x0+.2,y+.84,.42],[x1-.2,y+.84,.42]]]);}
+// Energy chain: fixed end xf on the trough floor, moving end on the carriage bracket at xc.
+function cableChain(c,{xf,xc,xb,y}){const yf=y+1.22,yb=y+.88,z0=.05,h=.12,R=.19,zc=z0+R,P=c.P;
+ const lo=[[xf,z0],[xb,z0]],arcO=[],arcI=[];for(let k=0;k<=10;k++){const a=-Math.PI/2+k/10*Math.PI;arcO.push([xb+R*Math.cos(a),zc+R*Math.sin(a)]);arcI.push([xb+(R-h)*Math.cos(a),zc+(R-h)*Math.sin(a)]);}
+ const out=lo.concat(arcO,[[xc,zc+R]],[[xc,zc+R-h]],arcI.slice().reverse(),[[xf,z0+h]]);
+ let s=`<path d="${pd(out.map(p=>P(p[0],yf,p[1])))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9" stroke-linejoin="round"/>`;
+ s+=`<path d="${pd([P(xc,yb,zc+R),P(xb,yb,zc+R),P(xb,yf,zc+R),P(xc,yf,zc+R)])}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".6"/>`;
+ let d='';const tick=(x,za,zb2,yy)=>{const a=P(x,yy,za),b=P(x,yy,zb2);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;};
+ for(let x=xf+.22;x<xb;x+=.22)tick(x,z0,z0+h,yf);
+ for(let x=xc+.22;x<xb;x+=.22){tick(x,zc+R-h,zc+R,yf);const a=P(x,yb,zc+R),b=P(x,yf,zc+R);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ return s+`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;}
+// Carriage on four bearing blocks, rack drive motor, chain bracket, robot riser.
+function trackCarriage(c,{cx,y,mv,riser}){let s='';const o={m:'steel',mv};
+ for(const bx of[cx-.62,cx+.62])for(const by of[y-.36,y+.36]){s+=xt(c,'xy',rr(bx-.3,by-.17,bx+.3,by+.17),.56,.76,{m:'dark'});s+=xt(c,'yz',rr(by-.15,.58,by+.15,.74),bx+.3,bx+.34,{m:'dark'});}
+ s+=xt(c,'xy',rr(cx-.48,y+.6,cx+.08,y+.9),.3,.76,{m:'dark'});
+ s+=xt(c,'xy',rr(cx-1.02,y-.78,cx+1.02,y+.78),.76,.88,o);
+ s+=hexes(c,'xy',[[cx-.85,y-.62],[cx+.85,y-.62],[cx-.85,y+.62],[cx+.85,y+.62]],.88,.06);
+ s+=xt(c,'yz',[[y+.78,.88],[y+1.08,.88],[y+1.08,.43],[y+1.0,.43],[y+1.0,.82],[y+.78,.82]],cx+.82,cx+1.0,{m:'dark'});
+ // Drive motor with cooling rings and connector
+ const mx=cx-.2,my=y+.6;s+=cyl(c,'z',mx,my,.17,.88,1.38,o,14);
+ s+=edges(c,[1.0,1.1,1.2].map(z=>circ(mx,my,.17,14).slice(0,9).map(p=>[p[0],p[1],z])));
+ s+=xt(c,'xy',rr(mx-.07,my+.1,mx+.07,my+.24),1.24,1.36,{m:'dark'});
+ if(riser){const h=riser;s+=xt(c,'xy',rr(cx-.48,y-.48,cx+.48,y+.48),.88,.88+h,{m:'steel'});
+  s+=xt(c,'xz',[[cx+.48,.88],[cx+.48,.88+h*.6],[cx+.86,.88]],y-.03,y+.03,{m:'dark'});
+  s+=xt(c,'yz',[[y+.48,.88],[y+.48,.88+h*.6],[y+.8,.88]],cx+.27,cx+.33,{m:'dark'});
+  s+=xt(c,'xy',rr(cx-.7,y-.7,cx+.7,y+.7),.88+h,.98+h,{m:'steel'});}
+ return s;}
+
+/* Crane spreader beam: I-section beam, two lifting lugs with a bridle to a hook block and hoist
+   ropes (the crane itself stays off the drawing), and webbing slings at each pick point down to
+   the load. slings: [{x, top, bot}] where the load's top edge is at z = top and its front face
+   runs down to bot; w is the load's half width in y. Back legs draw first, front legs last. */
+function spreaderBeam(c,{x0,x1,y=0,z,w,slings,lift=1.3,rope=2.2}){let s='';const P=c.P,xm=(x0+x1)/2,zt=z+.3;
+ const L=(pts,wd)=>`<path d="${pd(pts.map(q=>P(...q)),false)}" fill="none" stroke="${S.ink}" stroke-width="${wd}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ for(const g of slings)s+=L([[g.x,y,z],[g.x,y-w,g.top]],1.5);
+ const I=[[-.16,0],[.16,0],[.16,.05],[.035,.05],[.035,.25],[.16,.25],[.16,.3],[-.16,.3],[-.16,.25],[-.035,.25],[-.035,.05],[-.16,.05]];
+ s+=xt(c,'yz',I.map(q=>[y+q[0],z+q[1]]),x0,x1,{m:'steel'});
+ for(const xe of[x0,x1])s+=xt(c,'yz',rr(y-.18,z-.02,y+.18,z+.32),xe-.03,xe+.03,{m:'dark'});
+ const H=[xm,y,zt+lift],lugs=[x0+(x1-x0)*.28,x1-(x1-x0)*.28];
+ for(const xl of lugs){s+=xt(c,'xz',[[xl-.14,zt],[xl+.14,zt],[xl+.07,zt+.22],[xl-.07,zt+.22]],y-.02,y+.02,{m:'dark'});s+=L([[xl,y,zt+.16],H],.9);}
+ // Hook block: sheave between side plates, hook below, two hoist ropes leaving upward
+ s+=L([H,[xm,y,H[2]+.18]],1.1);
+ s+=xt(c,'xz',rr(xm-.24,H[2]+.18,xm+.24,H[2]+.78,.08),y-.13,y+.13,{m:'dark'});
+ s+=cyl(c,'y',xm,H[2]+.48,.17,y+.13,y+.17,{m:'steel'},12);
+ s+=L([[xm-.15,y,H[2]+.7],[xm-.15,y,H[2]+.78+rope]],.7)+L([[xm+.15,y,H[2]+.7],[xm+.15,y,H[2]+.78+rope]],.7);
+ for(const g of slings){s+=cyl(c,'y',g.x,z-.07,.06,y-.03,y+.03,{m:'dark'},8);s+=L([[g.x,y,z-.1],[g.x,y+w,g.top],[g.x,y+w,g.bot]],1.5);}
+ return s;}
+
+/* Six-axis industrial arm, KUKA QUANTEC class. All joints lie in the plane x = const of the
+   context c. Sh, El, Wr are shoulder (A2), elbow (A3) and wrist (A5) centres as [y,z].
+   fd is the flange direction [dy,dz]. tool(ff) draws in the flange frame from z = 0.
+   Base sits at [x,y,zb]; the column is fixed for a robot that faces -y. */
+// halo: a paper gap of about 2.5 px round the arm's silhouette, so the jacks and yokes it stands
+// in front of stop short of its outline instead of tangling with it. The arm is always nearer the
+// viewer than the pin row, so it needs a gap, not hidden lines.
+function robot6(c,o){const s=robot6Lines(c,o);if(!o.halo)return s;
+ return`<defs><filter id="arm-halo" x="-5%" y="-5%" width="110%" height="110%"><feMorphology in="SourceAlpha" operator="dilate" radius="${n1(2.5*Math.max(.6,kk()))}" result="d"/><feFlood flood-color="${S.paper}"/><feComposite in2="d" operator="in"/></filter></defs><use href="#arm" filter="url(#arm-halo)"/><g id="arm">${s}</g>`;}
+function robot6Lines(c,{x,y,zb,Sh,El,Wr,fd,tool,mv}){let s='';const P=c.P;
+ const st={m:'steel'},dk={m:'dark'};
+ // Base frame with fixing bolts, A1 gear housing and slewing ring
+ const oct=[[-.72,-.45],[-.45,-.72],[.45,-.72],[.72,-.45],[.72,.45],[.45,.72],[-.45,.72],[-.72,.45]].map(p=>[x+p[0],y+p[1]]);
+ s+=xt(c,'xy',oct,zb,zb+.12,dk);
+ s+=hexes(c,'xy',[[x-.56,y-.3],[x-.56,y+.3],[x+.56,y-.3],[x+.56,y+.3],[x-.3,y+.56],[x+.3,y+.56]],zb+.12,.055);
+ s+=cyl(c,'z',x,y,.56,zb+.12,zb+.5,st,20)+cyl(c,'z',x,y,.6,zb+.5,zb+.58,dk,20);
+ // A1 motor at the back of the column
+ s+=cyl(c,'z',x-.24,y+.62,.15,zb+.58,zb+1.16,st,12)+xt(c,'xy',rr(x-.3,y+.74,x-.18,y+.86),zb+1.0,zb+1.12,dk);
+ // Rotating column, cast, carrying the A2 axis forward of A1
+ const z1=zb+.58,col=[[y+.62,z1],[y-.62,z1],[Sh[0]-.45,Sh[1]-.55],[Sh[0]-.35,Sh[1]+.3],[Sh[0]+.2,Sh[1]+.56],[y+.5,Sh[1]+.1]];
+ s+=xt(c,'yz',col,x-.46,x+.46,st);
+ s+=edges(c,[[[x+.46,y+.45,z1+.12],[x+.46,Sh[0]-.3,Sh[1]-.45]]]);
+ // Lower arm with recessed panel and hub bolt circle
+ const len=Math.hypot(El[0]-Sh[0],El[1]-Sh[1]);
+ s+=xt(c,'yz',cap2(Sh,El,.46,.34),x-.32,x+.32,{m:'steel',mv});
+ const inner=hull(circ(Sh[0]+(El[0]-Sh[0])*.2,Sh[1]+(El[1]-Sh[1])*.2,.26,10).concat(circ(Sh[0]+(El[0]-Sh[0])*.82,Sh[1]+(El[1]-Sh[1])*.82,.19,10)));
+ s+=edges(c,[inner.concat([inner[0]]).map(p=>[x+.32,p[0],p[1]])]);
+ // A2 gearbox and motor on the near side
+ s+=cyl(c,'x',Sh[0],Sh[1],.52,x+.46,x+.6,st,20);
+ s+=rings(c,'yz',circ(Sh[0],Sh[1],.4,8),x+.6,.04,{n:6});
+ s+=cyl(c,'x',Sh[0],Sh[1],.18,x+.6,x+.7,dk,12);
+ s+=cyl(c,'x',Sh[0]+.62,Sh[1]-.42,.2,x+.42,x+.98,st,14)+xt(c,'xy',rr(x+.6,Sh[0]+.52,x+.78,Sh[0]+.72),Sh[1]-.24,Sh[1]-.12,dk);
+ // Counterbalance cylinder: barrel pivots on the column, rod on the lower arm
+ const ua=[(El[0]-Sh[0])/len,(El[1]-Sh[1])/len],cb0=[Sh[0]+.95,Sh[1]-.05],cb1=[Sh[0]+ua[0]*.95-ua[1]*.3,Sh[1]+ua[1]*.95+ua[0]*.3];
+ const cbm=[lerp(cb0[0],cb1[0],.58),lerp(cb0[1],cb1[1],.58)];
+ s+=xt(c,'yz',cap2(cbm,cb1,.07,.07),x+.62,x+.72,{m:'steel',mv});
+ s+=xt(c,'yz',cap2(cb0,cbm,.17,.15),x+.58,x+.76,{m:'steel'});
+ s+=cyl(c,'x',cb0[0],cb0[1],.09,x+.76,x+.82,dk,10)+cyl(c,'x',cb1[0],cb1[1],.08,x+.72,x+.8,dk,10);
+ // Arm frame: b along the forearm toward the wrist, d its upward normal
+ const L2=Math.hypot(Wr[0]-El[0],Wr[1]-El[1]),u=[(Wr[0]-El[0])/L2,(Wr[1]-El[1])/L2];let nrm=[-u[1],u[0]];if(nrm[1]<0)nrm=[-nrm[0],-nrm[1]];
+ const fa=frameC(c,[x,El[0],El[1]],[1,0,0],[0,u[0],u[1]],[0,nrm[0],nrm[1]]);
+ // Forearm tube with A4 bearing ring, wrist with A5 axis, A6 flange
+ s+=xt(fa,'xz',circ(0,0,.22,14),.42,L2-.3,{m:'steel',mv});
+ s+=xt(fa,'xz',circ(0,0,.26,14),.42,.6,st);
+ s+=xt(fa,'yz',cap2([L2-.36,0],[L2,0],.22,.25),-.2,.2,st);
+ s+=xt(fa,'yz',circ(L2,0,.18,12),.2,.27,dk);
+ const ff=alongC(c,[x,Wr[0],Wr[1]],[0,fd[0],fd[1]]);
+ s+=xt(ff,'xy',circ(0,0,.17,14),.12,.3,st)+xt(ff,'xy',circ(0,0,.24,16),.3,.36,st);
+ s+=rings(ff,'xy',circ(0,0,.17,6),.36,.025,{n:6});
+ // Arm housing round the elbow with the A3 drive and the A4 to A6 motors at the back
+ s+=xt(fa,'yz',rr(-.95,-.36,.48,.36,.1),-.36,.36,{m:'steel',mv});
+ s+=cyl(fa,'x',0,0,.44,.36,.46,st,18)+rings(fa,'yz',circ(0,0,.32,8),.46,.035,{n:6});
+ for(const[a,d]of[[-.17,-.14],[.17,-.14],[0,.15]])s+=xt(fa,'xz',circ(a,d,.12,10),-.95,-1.42,dk);
+ // Cable dress: base to column back, along the lower arm, to the motors at the back of the arm
+ const back=[El[0]-u[0]*1.2,El[1]-u[1]*1.2];
+ const cp=[[x+.2,y+.75,zb+.35],[x+.2,y+.8,z1+.9],[x+.36,Sh[0]+.6,Sh[1]+.65],[x+.36,Sh[0]+ua[0]*1.6-ua[1]*.55,Sh[1]+ua[1]*1.6+ua[0]*.55],[x+.36,El[0]-ua[0]*.7-ua[1]*.5,El[1]-ua[1]*.7+ua[0]*.5],[x+.2,back[0],back[1]]];
+ const pts=bez(cp[0],cp[1],cp[1],cp[2],5).concat(bez(cp[2],cp[3],cp[4],cp[5],10).slice(1));
+ s+=hose(c,pts,2.4);
+ for(const k of[6,10,13]){const p=pts[k];s+=edges(c,[[[p[0]-.06,p[1],p[2]-.08],[p[0]-.06,p[1],p[2]+.08]]],{w:1.1});}
+ s+=hose(c,bez([x+.2,back[0],back[1]],[x+.3,back[0]+u[0]*.2,back[1]+.6],[x+.3,Wr[0]-u[0]*.9,Wr[1]+.45],[x+.24,Wr[0]-u[0]*.3,Wr[1]+.28],8),1.4);
+ // Tool in the flange frame, starting at the flange face
+ s+=tool(frameC(ff,[0,0,.36],[1,0,0],[0,1,0],[0,0,1]));
+ return s;}
+// Planar two-link solution with the elbow up. Returns the elbow [y,z].
+function elbowUp(Sh,Wr,L1,L2){let dy=Wr[0]-Sh[0],dz=Wr[1]-Sh[1],d=Math.hypot(dy,dz);const mx=L1+L2-.02;if(d>mx){dy*=mx/d;dz*=mx/d;d=mx;}
+ const a=(L1*L1-L2*L2+d*d)/(2*d),h=Math.sqrt(Math.max(0,L1*L1-a*a));let ny=-dz/d,nz=dy/d;if(nz<0){ny=-ny;nz=-nz;}
+ return[Sh[0]+dy*a/d+ny*h,Sh[1]+dz*a/d+nz*h];}
+
+// Labels stay 11.5 px on screen. The svg scales its viewBox with "meet", so the larger ratio wins.
+const fsz=()=>11.5*(typeof VB!=='undefined'&&VB?Math.max(VB[2]/Math.max(280,svg.clientWidth||900),VB[3]/Math.max(1,svg.clientHeight||VB[3])):1.3);
+const kk=()=>fsz()/11.5;
+/* Placement rule for every station: put the white box in free paper first. Overlap the drawing
+   only where no free paper is left, and then never over a loaded (red) part or another label.
+   Leaders never cross each other or a moving machine on their way to the box. dx, dy are screen
+   pixels from the anchor to the elbow, so the box can be steered into the free area.
+   o.at (a world point) pins the elbow in place, so a label on a moving part keeps its box still
+   in the free area while its leader follows the part. o.side (-1 or 1) fixes the text side.
+   Text is always horizontal: no label, tag or dimension text is ever rotated (dimLine follows). */
+function lead(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk();const id=o.id||txt;const p=c.P(anc[0],anc[1],anc[2]);dx*=k;dy*=k;
+  if(o.at){const q=c.P(...o.at);dx=q[0]-p[0];dy=q[1]-p[1];}
+  const bx=p[0]+dx,by=p[1]+dy,sd=o.side||(dx<0?-1:1),col=S.ink;
+  const L=Math.hypot(dx,dy),ux=-dx/L,uy=-dy/L,ah=5*k; // arrowhead at anchor
+  const tip=p,b1=[tip[0]-ux*(-ah)+(-uy)*ah*.35,tip[1]-uy*(-ah)+ux*ah*.35],b2=[tip[0]-ux*(-ah)-(-uy)*ah*.35,tip[1]-uy*(-ah)-ux*ah*.35];
+  const hd=`<path d="${pd([tip,b1,b2])}" fill="${col}"/>`;
+  // Bower-specific mark: a small green filled square tag.
+  const tag=o.bower?`<tspan style="fill:${S.bower||'#2a6a50'};font-size:.62em">\u25A0</tspan>\u00A0`:'';
+  return`<g data-label="${id}" data-white="${o.box!==false && S.labelBoxes!==false}"${o.bower?' data-bower="true"':''} opacity="${n1(a)}"><path d="M${n1(p[0])} ${n1(p[1])}L${n1(bx)} ${n1(by)}L${n1(bx+sd*12*k)} ${n1(by)}" fill="none" stroke="${col}" stroke-width=".6"/>${hd}<text x="${n1(bx+sd*16*k)}" y="${n1(by+3.6*k)}" text-anchor="${sd<0?'end':'start'}" class="lb" style="font-size:${fsz()}px;fill:${col}">${tag}${txt}</text></g>`;}
+
+// A leaderless label: a paper-boxed note set next to its part, such as a value beside a jack.
+// It counts as a label for overlap and visibility, and not as a leader. dx, dy are screen pixels.
+// Every value sits directly above its part or gets a 4 px tick, so the part is never in doubt:
+// o.above centres the box just above the anchor, no tick. o.tick draws a 4 px tick from the anchor
+// toward (dx, dy) and sets the box against the tick's end (right, left, above or below by the
+// larger of dx and dy), so only the direction of dx, dy matters. Ticks are not leaders.
+function tag(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk(),p=c.P(anc[0],anc[1],anc[2]),col=S.ink,fs=fsz()*(o.size||1);
+  let x=p[0]+dx*k,y=p[1]+dy*k+3.6*k,an=o.anchor||'start',tk='';
+  if(o.above){x=p[0];y=p[1]-6*k;an='middle';}
+  else if(o.tick){const L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,e=[p[0]+ux*4*k,p[1]+uy*4*k];
+   tk=`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(e[0])} ${n1(e[1])}" stroke="${col}" stroke-width=".75" fill="none"/>`;
+   if(Math.abs(dx)>=Math.abs(dy)){an=dx<0?'end':'start';x=e[0]+(dx<0?-2.5:2.5)*k;y=e[1]+fs*.35;}
+   else{an='middle';x=e[0];y=dy<0?e[1]-2.5*k-fs*.22:e[1]+2.5*k+fs*.78;}}
+  return`<g data-label="${o.id||txt}" data-white="true" data-leaderless="true" opacity="${n1(a)}">${tk}<text x="${n1(x)}" y="${n1(y)}" text-anchor="${an}" class="lb" style="font-size:${fs}px;fill:${col}">${txt}</text></g>`;}
+
+// Called after insertion so boxes use the browser's actual font metrics.
+function collectAnnotations(){
+ const labels=[],leaders=[],dimensions=[];
+ for(const g of root.querySelectorAll('[data-label]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  g.dataset.annotationId=g.dataset.label;
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=g.dataset.white==='true';
+  const box={x:b.x-2*k,y:b.y-2*k,w:b.width+4*k,h:b.height+4*k};
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,fill:S.paper||'#fdfcf9'}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);text.style.stroke='none';}
+  labels.push({id:g.dataset.label,text:text.textContent,box,white});
+  if(g.dataset.leaderless==='true')continue;
+  const p=g.querySelector('path');const nums=p.getAttribute('d').match(/-?\d+(?:\.\d+)?/g).map(Number);
+  leaders.push({id:g.dataset.label,segments:[[nums.slice(0,2),nums.slice(2,4)],[nums.slice(2,4),nums.slice(4,6)]]});
+ }
+ for(const g of root.querySelectorAll('[data-dimension]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  dimensions.push({segments:JSON.parse(g.dataset.dimension)});
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=S.labelBoxes!==false;
+  const matrix=text.transform.baseVal.consolidate()?.matrix;
+  const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>matrix?new DOMPoint(x,y).matrixTransform(matrix):{x,y});
+  const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y);
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:b.x-2*k,y:b.y-2*k,width:b.width+4*k,height:b.height+4*k,fill:S.paper||'#fdfcf9',stroke:'none',transform:text.getAttribute('transform')||''}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);}
+  g.dataset.annotationId='dimension:'+text.textContent;
+  labels.push({id:g.dataset.annotationId,text:text.textContent,white,box:{x:Math.min(...xs)-2*k,y:Math.min(...ys)-2*k,w:Math.max(...xs)-Math.min(...xs)+4*k,h:Math.max(...ys)-Math.min(...ys)+4*k}});
+ }
+ window.__annotations={labels,leaders,dimensions};
+}
+
+function dimLine(c,A,B,off,txt,a,o){if(a<.02||kk()>1.5)return'';const k=kk();const P=c.P;
+  const a2=[A[0]+off[0],A[1]+off[1],A[2]+off[2]],b2=[B[0]+off[0],B[1]+off[1],B[2]+off[2]];
+  const ov=.25,e=off.map(v=>v?Math.sign(v)*ov:0);
+  const p=P(...a2),q=P(...b2);
+  let s=`<g opacity="${n1(a)}" stroke="${S.ink}" fill="none" stroke-width=".5">`;
+  const ea=P(A[0]+off[0]*.08,A[1]+off[1]*.08,A[2]+off[2]*.08),eb=P(B[0]+off[0]*.08,B[1]+off[1]*.08,B[2]+off[2]*.08);
+  const ea2=P(a2[0]+e[0],a2[1]+e[1],a2[2]+e[2]),eb2=P(b2[0]+e[0],b2[1]+e[1],b2[2]+e[2]);
+  s+=`<path d="M${n1(ea[0])} ${n1(ea[1])}L${n1(ea2[0])} ${n1(ea2[1])}M${n1(eb[0])} ${n1(eb[1])}L${n1(eb2[0])} ${n1(eb2[1])}M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}"/>`;
+  const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,tk=4*k;
+  for(const m of[p,q])s+=`<path d="M${n1(m[0]-(ux-uy)*tk)} ${n1(m[1]-(uy+ux)*tk)}L${n1(m[0]+(ux-uy)*tk)} ${n1(m[1]+(uy+ux)*tk)}" stroke-width="1"/>`;
+  // Text is always horizontal, whatever the direction of the dimension line: rotated labels are
+  // slow to read. The box is set clear of the line on its upper side (or past the end tick at B
+  // with o.beyond), using an estimate of the text width.
+  const fs=fsz(),tw=txt.length*fs*.56,th=fs*1.25,gap=5*k;
+  let nx=-uy,ny=ux;if(ny>0||(Math.abs(ny)<1e-6&&nx<0)){nx=-nx;ny=-ny;}
+  const sup=(dx_,dy_)=>(Math.abs(dx_)*tw+Math.abs(dy_)*th)/2;
+  const cx_=o&&o.beyond?q[0]+ux*(sup(ux,uy)+gap):(p[0]+q[0])/2+nx*(sup(nx,ny)+gap),cy_=o&&o.beyond?q[1]+uy*(sup(ux,uy)+gap):(p[1]+q[1])/2+ny*(sup(nx,ny)+gap);
+  s+=`<text x="${n1(cx_)}" y="${n1(cy_+fs*.35)}" text-anchor="middle" class="lb" style="font-size:${n1(fs)}px;fill:${S.ink};stroke:none">${txt}</text></g>`;
+  return s.replace('<g ',`<g data-dimension='${JSON.stringify([[p,q],[ea,ea2],[eb,eb2]])}' `);}
+
+// Deterministic surface samples. Progress leaves all earlier samples visible.
+function pointCloud(c,{surface,target,progress,count=480,tolerance=.05}){
+ let s='',stripe=[];
+ for(let i=0;i<count;i++){
+  const u=i/(count-1),v=((i*73)%count)/(count-1);
+  if(u>progress)continue;
+  const p=surface(u,v),noise=Math.sin(i*127.1)*.012;
+  const q=[p[0],p[1],p[2]+noise],xy=c.P(...q);
+  const error=Math.hypot(...q.map((value,axis)=>value-target(u,v)[axis]));
+  s+=`<circle cx="${n1(xy[0])}" cy="${n1(xy[1])}" r=".65" fill="${error>tolerance?'#b4492f':S.ink}"/>`;
+ }
+ const outline=[];
+ for(let i=0;i<=40;i++)outline.push(c.P(...target(i/40,.5)));
+ for(let i=0;i<=20;i++)stripe.push(c.P(...surface(clamp(progress),i/20)));
+ return s+`<path d="${pd(outline,false)}" fill="none" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="2 2"/><path d="${pd(stripe,false)}" fill="none" stroke="#b4492f" stroke-width="1.3"/>`;
+}
+// Scan points drawn as two paths, so several hundred points stay cheap. Noise is deterministic.
+// Points behind progress persist. compare (0 to 1) brings in the comparison: a point further
+// than tolerance from the target turns full red and grows to 1.5 times the on-target size.
+// On-target points stay ink at the normal size, so the error reads at a glance.
+function scanCloud(c,{surface,target,progress,count=600,noise=.03,compare=0,tolerance=.15,r=.75}){
+ let on='',off='';const k=clamp(compare);
+ for(let i=0;i<count;i++){
+  const u=i/(count-1);if(u>progress)break;
+  const v=((i*73)%count)/(count-1),p=surface(u,v),q=target(u,v);
+  const xy=c.P(p[0]+Math.sin(i*91.3)*noise*.4,p[1]+Math.sin(i*311.7)*noise,p[2]+Math.sin(i*127.1)*noise);
+  const d=`M${n1(xy[0])} ${n1(xy[1])}h.01`;
+  if(k>.01&&Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])>tolerance)off+=d;else on+=d;
+ }
+ const red=mixHex(S.ink,'#b4492f',k);
+ return(on?`<path d="${on}" fill="none" stroke="${S.ink}" stroke-width="${n1(2*r)}" stroke-linecap="round"/>`:'')
+  +(off?`<path d="${off}" fill="none" stroke="${red}" stroke-width="${n1(2*r*(1+.5*k))}" stroke-linecap="round"/>`:'');
+}
+// The target the scan is compared with: 0.75 px dashed ink lines along chosen edges of the
+// target surface (v values of the same surface callback), sampled at n steps along u.
+function targetOutline(c,{target,edges,n=48,alpha=1}){if(alpha<.01)return'';let d='';
+ for(const v of edges){const l=[];for(let i=0;i<=n;i++)l.push(c.P(...target(i/n,v)));d+=pd(l,false);}
+ return`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".75" stroke-dasharray="5 3" stroke-linecap="butt" opacity="${n1(alpha)}"/>`;}
+
+// Axis of separation: a dashed ink line from the slot a part leaves to where it is now. It is
+// darker than the floor lines so it reads, and it always starts at the slot on the machine.
+function explodeAxis(c,a,b,o){o=o||{};const p=c.P(...a),q=c.P(...b);if(Math.hypot(p[0]-q[0],p[1]-q[1])<1)return'';
+ return`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}" fill="none" stroke="${S.ink}" stroke-width="${o.w||.5}" stroke-dasharray="4 2.5" opacity="${o.op||.85}"/>`;}
+// Exploded parts keep clear space: choose offsets so a clear paper gap reads all along each part's
+// length at full hold, from every neighbour, the machine it left and the other parts. A near miss
+// (a part that almost touches another) reads as a collision, so open the gap or change the axis.
+// Component render callbacks receive their separated context and moment palette.
+// Optional: assembled(c) draws the closed assembly in true depth order; part.annotate({P},amount)
+// replaces the default label so a station can sequence labels or use a dimension.
+function explodedView(c,t,{start=0,open=1,hold=4,close=1,components,assembled}){
+ const amount=ease(seg(t,start,start+open))*(1-ease(seg(t,start+open+hold,start+open+hold+close)));
+ if(t<start||t>start+open+hold+close)return '';
+ if(amount<=.01&&assembled)return assembled(c);
+ let s='';
+ for(const part of components){
+  const delta=part.offset.map(v=>v*amount),P=(x,y,z)=>c.P(x+delta[0],y+delta[1],z+delta[2]);
+  const anchor=part.anchor||[0,0,0];
+  if(amount>.01)s+=explodeAxis(c,anchor,anchor.map((v,i)=>v+delta[i]));
+  s+=part.draw({P},amount?{steel:'#e8ecee',grain:'#a2845a'}:null);
+  if(part.annotate)s+=part.annotate({P},amount);
+ else if(amount>.99)s+=lead({P},anchor,...(part.labelOffset||[20,-20]),part.label,1,{id:part.id});
+ }
+ return s;
+}
+
+/* ---- screen-space overlay: title block and flat instruments ----
+   These draw in viewBox coordinates after fit(), not in the isometric world, so a timer reads
+   as a timer and not as a disc lying on the floor. Sizes are screen pixels times kk(). */
+// A point at fractions (fx, fy) of the fitted viewBox, moved by dx, dy screen pixels.
+const hudAt=(fx,fy,dx,dy)=>VB?[VB[0]+fx*VB[2]+(dx||0)*kk(),VB[1]+fy*VB[3]+(dy||0)*kk()]:null;
+const HUD={P:(x,y)=>[x,y]};
+// The title block note sits in the drawing's bottom-left corner, muted, and never fades.
+function titleBlock(text){const p=hudAt(0,1,10,-10);if(!p)return'';
+ return`<text x="${n1(p[0])}" y="${n1(p[1])}" class="lb tb" style="font-size:${n1(fsz()*.92)}px;fill:${S.mut||S.hid||'#6b7178'}">${text}</text>`;}
+// A flat dial: ring, twelve ticks, progress arc p (0 to 1) and hand. at is the centre.
+function hudDial(at,p,a,o){if(!at||a<.01)return'';o=o||{};const k=kk(),r=(o.r||22)*k,[cx,cy]=at;
+ const pt=(ang,rr)=>[cx+rr*Math.sin(ang),cy-rr*Math.cos(ang)];const ring=[],arc=[];
+ for(let i=0;i<=48;i++)ring.push(pt(i/48*TAU,r));
+ const m=Math.max(1,Math.round(48*p));for(let i=0;i<=m;i++)arc.push(pt(i/m*TAU*p,r));
+ let d='';for(let i=0;i<12;i++){const A=pt(i/12*TAU,r*.82),B=pt(i/12*TAU,r);d+=`M${n1(A[0])} ${n1(A[1])}L${n1(B[0])} ${n1(B[1])}`;}
+ const h=pt(p*TAU,r*.7);
+ return`<g opacity="${n1(a)}"><path d="${pd(ring)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/><path d="${d}" stroke="${S.ink}" stroke-width=".5"/>`
+  +`<path d="${pd(arc,false)}" fill="none" stroke="${S.ink}" stroke-width="2" stroke-linecap="butt"/><path d="M${n1(cx)} ${n1(cy)}L${n1(h[0])} ${n1(h[1])}" stroke="${S.ink}" stroke-width="1" stroke-linecap="round"/><circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(1.6*k)}" fill="${S.ink}"/></g>`;}
+
+/* Station 13 Test. The quality lab of factory production control under EN 14080: industry
+   practice, no Bower-specific machine. Test pieces cut from the day's production arrive on a lab
+   trolley, tagged with their run. Slices soak under pressure in a vessel fed by a pump, then dry in
+   a drying cabinet. A hydraulic test frame shears a block along its glue line between a stepped
+   lower tool and an upper shear tool. Results join the run record at the bench, which an outside
+   body audits, and each rib is marked. One person runs the lab. The test methods are outlined, not
+   read: no soak time, pressure, load or pass value is drawn. Drawing units are schematic. */
+const DUR=34, BND=[0,5.4,14.4,23.6,28.6,34];
+const FIT_TIMES=[.2,2,4.6,7.4,10,12.4,14.2,16.4,17.4,18.4,21.6,25,29.8,32,33.8], STATIC_T=21.6;
+// Review frames: arrival, the soak, pressure, the exploded shear tool, the shear, record, marking.
+const REVIEW_TIMES=[1.8,7.4,10.4,14.6,17.4,21.6,25.8,30.6,24.9], VIEWPORT_T=17.4;
+/* ---- scene constants (metres, schematic) ---- */
+const SC=110;
+const mainC={P:mkP(0,0,SC)};
+const VX=.3,VY=-.75,VR=.33;                 // pressure vessel
+const OX0=1.1,OX1=1.9,OY0=-1.13,OY1=-.47;   // drying cabinet
+const QX=2.95,QY=-.75,QB=.98,BS=.1;         // shear press; block bottom; block size
+const BX0=3.9,BX1=5.1,BY0=-1.15,BY1=-.45;   // records bench
+const CY=.5;                                // trolley path
+const RX0=4.0,RX1=6.2,RY0=1.9,RY1=2.0,RZ0=.42,RZ1=.62; // rib end, 100 x 200 mm
+const FX0=-1.05,FX1=6.55,FY0=-1.4,FY1=2.35;
+let MAT=null;
+const dk={m:'dark'},st={m:'steel'},tw={tw:1};
+const box=(c,x0,x1,y0,y1,z0,z1,o)=>xt(c,'xy',rr(x0,y0,x1,y1),z0,z1,o||st);
+const pl=(c,pts,w,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(...p)),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${w||.6}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${o.op!=null?`opacity="${n1(o.op)}"`:''}/>`;};
+const scl=c=>{const a=c.P(0,0,0),b=c.P(0,0,1);return Math.hypot(a[0]-b[0],a[1]-b[1]);};
+const MEMO=new Map();
+const memo=(key,fn)=>{if(MAT)key+='|m';let v=MEMO.get(key);if(v===undefined){if(MEMO.size>3000)MEMO.clear();v=fn();MEMO.set(key,v);}return v;};
+const f3=v=>v.toFixed(3);
+
+/* ---- timeline ---- */
+const stepOf=t=>stepIndex(((t%DUR)+DUR)%DUR,BND);
+const win=(t,a,b,r=.5)=>seg(t,a,a+r)*(1-seg(t,b-r,b));
+// Vessel: lid closes after the basket goes in, bolts swing up, pressure, then the reverse.
+const lidTh=t=>1.75*(1-ease(seg(t,8.1,8.8))+ease(seg(t,12.0,12.6)));
+const boltA=t=>1-ease(seg(t,8.85,9.2))+ease(seg(t,11.65,11.95));
+const pres=t=>ease(seg(t,9.3,10.6))*(1-ease(seg(t,11.2,11.6)));
+const presOn=t=>t>9.25&&t<11.6;
+const doorPh=t=>1.75*(ease(seg(t,13.7,14.2))-ease(seg(t,14.9,15.4)));
+// Shear: the ram comes down, loads the block, the block breaks in the wood, the ram returns.
+const SH0=20.4,SHC=21.0,SHB=21.9,SHR0=22.5,SHR1=23.3,UP=.16;
+const plungerZ=t=>{if(t<SH0||t>SHR1)return BS+UP;if(t<SHC)return BS+UP*(1-ease(seg(t,SH0,SHC)));if(t<SHB)return BS-.004*seg(t,SHC,SHB);if(t<SHR0)return BS-.004-.031*ease(seg(t,SHB,SHB+.2));return lerp(BS-.035,BS+UP,ease(seg(t,SHR0,SHR1)));};
+const loaded=t=>t>SHC-.05&&t<SHB;
+const breakDz=t=>t<SHC?0:t<SHB?-.004*seg(t,SHC,SHB):-.004-.031*ease(seg(t,SHB,SHB+.2));
+// Exploded shear tool during the Shear step, before the test runs.
+const EX0=14.7,EXO=.6,EXH=4.4,EXC=.5;
+const exAmt=t=>ease(seg(t,EX0,EX0+EXO))*(1-ease(seg(t,EX0+EXO+EXH,EX0+EXO+EXH+EXC)));
+// Record and mark.
+const REC0=23.9,AUD=25.6,LBL0=27.6,LBL1=28.0,MARK=30.3;
+
+/* ---- the one person: path, heading, hands ---- */
+const D2R=Math.PI/180;
+const PK=[[0,6.12,.5,180],[.3,6.12,.5,180],[3.5,3.12,.5,180],[4.3,2.42,0,90],[5.2,2.42,0,90],[6.8,.9,-.6,180],[13.0,.9,-.6,180],
+ [14.0,2.04,-.3,-140],[15.5,2.04,-.3,-140],[16.3,2.1,0,90],[16.9,2.1,0,90],[17.7,QX,-.2,-90],[22.7,QX,-.2,-90],[24.0,4.45,-.2,-90],
+ [27.3,4.45,-.2,-90],[27.9,4.55,-.22,-60],[28.2,4.55,-.22,-60],[29.6,5.15,1.56,90],[31.0,5.15,1.56,90],[33.3,6.12,.5,180],[34,6.12,.5,180]];
+function pathAt(t){let i=0;while(i<PK.length-2&&t>PK[i+1][0])i++;const a=PK[i],b=PK[i+1],k=sst(seg(t,a[0],b[0]));
+ return{x:lerp(a[1],b[1],k),y:lerp(a[2],b[2],k),h:lerp(a[3],b[3],k)*D2R};}
+const STRIDE=(()=>{const n=Math.round(DUR*50),d=[0];let p=pathAt(0);for(let i=1;i<=n;i++){const q=pathAt(i/50);d.push(d[i-1]+Math.hypot(q.x-p.x,q.y-p.y));p=q;}return d;})();
+function strideAt(t){const i=clamp(Math.round(t*50),1,STRIDE.length-1),v=(STRIDE[i]-STRIDE[i-1])*50;return Math.sin(Math.PI*STRIDE[i]/.7)*clamp(v/.9);}
+// Trolley: pushed in from the right, parked in front of the bench row.
+const cartX=t=>{const p=pathAt(Math.min(t,3.5));return t<3.5?p.x-.82:2.3;};
+const handleAt=t=>[cartX(t)+.42,CY,1.0];
+const basketCart=t=>[cartX(t)+.12,CY,.85];
+const blockCart=k=>[2.3-.3+k*.11,CY,.88];
+const pend=[QX+.42,QY+.44,1.08];
+// Hand tracks: [t0, t1, target(t)], ramps of 0.35 s at each end; overlapping tracks cross-fade.
+const NEAR=[[-1,.35,t=>{const h=t<1?handleAt(0):handleAt(t);return[h[0],h[1]+.15,h[2]];}],[.0,3.6,t=>{const h=handleAt(t);return[h[0],h[1]+.15,h[2]];}],
+ [4.4,7.9,t=>basketHand(t)],[7.6,8.9,t=>lidHandle(t)],[11.8,12.7,t=>lidHandle(t)],[12.4,14.6,t=>basketHand(t)],[14.4,15.5,t=>doorHandle(t)],
+ [16.3,18.6,t=>blockHand(t)],[18.4,22.6,()=>pend],[24.0,27.4,()=>[4.4,-.68,.93]],[27.2,30.6,t=>labelHand(t)],[33.4,35,()=>{const h=handleAt(0);return[h[0],h[1]+.15,h[2]];}]];
+const FAR=[[-1,.35,()=>{const h=handleAt(0);return[h[0],h[1]-.15,h[2]];}],[.0,3.6,t=>{const h=handleAt(t);return[h[0],h[1]-.15,h[2]];}],
+ [9.0,11.4,()=>[.66,-.68,1.12]],[24.4,27.1,()=>[4.58,-.7,.93]],[33.4,35,()=>{const h=handleAt(0);return[h[0],h[1]-.15,h[2]];}]];
+function trackW(tr,t){let out=null,wsum=0;for(const[a,b,fn]of tr){if(t<a||t>b)continue;const w=sst(Math.min(seg(t,a,a+.35),1-seg(t,b-.35,b)));if(w<=0)continue;const p=fn(t);out=out?out.map((v,i)=>v+p[i]*w):p.map(v=>v*w);wsum+=w;}
+ return wsum>0?{p:out.map(v=>v/wsum),w:Math.min(1,wsum)}:null;}
+// Basket: on the trolley, in the hand, in the vessel, in the hand, on the cabinet shelf.
+const BIN=[VX,VY,.55],BSHELF=[1.52,-.82,.83];
+function basketBase(t){
+ if(t<5.0)return basketCart(t);
+ if(t<7.5){const h=handPt(t,'near');return[h[0],h[1],h[2]-.32];}
+ if(t<8.0){const h=handPt(7.5,'near'),k=sst(seg(t,7.5,8.0));return[lerp(h[0],BIN[0],k),lerp(h[1],BIN[1],k),lerp(h[2]-.32,BIN[2],k)];}
+ if(t<12.6)return BIN;
+ if(t<13.0){const k=sst(seg(t,12.6,13.0)),h=handPt(13.0,'near');return[lerp(BIN[0],h[0],k),lerp(BIN[1],h[1],k),lerp(BIN[2],h[2]-.32,k)];}
+ if(t<14.6){const h=handPt(t,'near');return[h[0],h[1],h[2]-.32];}
+ if(t<14.9){const h=handPt(14.6,'near'),k=sst(seg(t,14.6,14.9));return[lerp(h[0],BSHELF[0],k),lerp(h[1],BSHELF[1],k),lerp(h[2]-.32,BSHELF[2],k)];}
+ return BSHELF;}
+function basketHand(t){const b=t<5.0||t>=12.4&&t<13.0?(t<5.0?basketCart(t):BIN):t<7.6?null:t<12.4?BIN:null;
+ if(b)return[b[0],b[1],b[2]+.32];const pp=pathAt(t),f=[Math.cos(pp.h),Math.sin(pp.h)];
+ if(t>=14.2)return[BSHELF[0],BSHELF[1],BSHELF[2]+.32];
+ if(t>=7.0&&t<7.6)return[VX+.12,VY+.12,1.32];
+ return[pp.x+f[0]*.38-f[1]*.2,pp.y+f[1]*.38+f[0]*.2,1.0];}
+function lidHandle(t){const th=lidTh(t),H=[VX,VY-.42,1.2];return[VX,H[1]+.86*Math.cos(th),H[2]+.86*Math.sin(th)+.04];}
+function doorHandle(t){const ph=doorPh(t);return[OX0+.76*Math.cos(ph)-.06*Math.sin(ph),OY1+.76*Math.sin(ph)+.06*Math.cos(ph),.8];}
+const SEATP=[QX,QY,QB];
+function blockPos(t){if(t<16.9)return blockCart(0);if(t<18.2){const h=handPt(t,'near');return[h[0],h[1],h[2]-.06];}
+ if(t<18.5){const h=handPt(18.2,'near'),k=sst(seg(t,18.2,18.5));return[lerp(h[0],QX,k),lerp(h[1],QY,k),lerp(h[2]-.06,QB,k)];}return SEATP;}
+function blockHand(t){if(t<16.9)return[blockCart(0)[0],CY,.98];if(t>=17.7)return[QX,QY+.12,QB+.16];const pp=pathAt(t),f=[Math.cos(pp.h),Math.sin(pp.h)];return[pp.x+f[0]*.35-f[1]*.2,pp.y+f[1]*.35+f[0]*.2,1.0];}
+const PRINTER=[4.95,-.62,1.0],MARKP=[5.15,RY1,.52];
+function labelHand(t){if(t<LBL1+.2)return PRINTER;if(t>=29.4)return[MARKP[0],MARKP[1]+.02,MARKP[2]];const pp=pathAt(t),f=[Math.cos(pp.h),Math.sin(pp.h)];return[pp.x+f[0]*.35-f[1]*.2,pp.y+f[1]*.35+f[0]*.2,1.0];}
+function labelPos(t){if(t<LBL0)return null;if(t<LBL1)return PRINTER;if(t<MARK){const h=handPt(t,'near');return[h[0],h[1],h[2]];}return MARKP;}
+// World position of a hand at time t (rest pose when no track is active).
+function restHand(pp,side){const f=[Math.cos(pp.h),Math.sin(pp.h)],e=[-f[1],f[0]],sy=side==='near'?.23:-.22;return[pp.x+e[0]*sy+f[0]*.02,pp.y+e[1]*sy+f[1]*.02,.86];}
+function handPt(t,side){const pp=pathAt(t),r=restHand(pp,side),tr=trackW(side==='near'?NEAR:FAR,t);if(!tr)return r;return r.map((v,i)=>lerp(v,tr.p[i],tr.w));}
+
+/* ---- the person: same figure language as stations 02 and 10, with a lab coat and glasses ---- */
+function ik(Sh,H,l1,l2,hint){let d=[H[0]-Sh[0],H[1]-Sh[1],H[2]-Sh[2]],D=Math.hypot(...d);const mx=l1+l2-.01;if(D>mx){d=d.map(v=>v*mx/D);H=[Sh[0]+d[0],Sh[1]+d[1],Sh[2]+d[2]];D=mx;}
+ const u=d.map(v=>v/D),a=(l1*l1-l2*l2+D*D)/(2*D),hh=Math.sqrt(Math.max(0,l1*l1-a*a));
+ let p=hint;const dp=p[0]*u[0]+p[1]*u[1]+p[2]*u[2];p=[p[0]-dp*u[0],p[1]-dp*u[1],p[2]-dp*u[2]];const q=Math.hypot(...p)||1;p=p.map(v=>v/q);
+ return[[Sh[0]+u[0]*a+p[0]*hh,Sh[1]+u[1]*a+p[1]*hh,Sh[2]+u[2]*a+p[2]*hh],H];}
+function person(c,t){const pp=pathAt(t),f=[Math.cos(pp.h),Math.sin(pp.h)],e=[-f[1],f[0]];
+ const F=frameC(c,[pp.x,pp.y,0],[-f[0],-f[1],0],[e[0],e[1],0],[0,0,1]),P=F.P,k=scl(F);let s='';
+ const toL=w=>{const d=[w[0]-pp.x,w[1]-pp.y];return[-(d[0]*f[0]+d[1]*f[1]),d[0]*e[0]+d[1]*e[1],w[2]];};
+ const body=pts=>`<path d="${pd(hull(pts))}" fill="${S.paper}" stroke="${S.ink}" stroke-width="1.1" stroke-linejoin="round"/>`;
+ const cp=(a,b,ra,rb)=>body(circ(...P(...a),ra*k,12).concat(circ(...P(...b),rb*k,12)));
+ const limb=(pts,r)=>{let o='';for(let i=0;i<pts.length-1;i++)o+=cp(pts[i],pts[i+1],r[i],r[i+1]);return o;};
+ const L=(pts,w)=>`<path d="${pd(pts.map(p=>P(...p)),false)}" fill="none" stroke="${S.ink}" stroke-width="${w||.6}" stroke-linecap="round"/>`;
+ const sd=strideAt(t),leg=(y,sg)=>{const a=-sg*sd*.17,lift=Math.max(0,sg*sd)*.06;
+  return cp([a+.08,y,.035+lift],[a-.14,y+.01,.035+lift],.045,.04)+limb([[0,y,.9],[a*.55-.04,y+.01,.5],[a+.01,y+.01,.1+lift]],[.085,.065,.05]);};
+ const nearArm=()=>{const[E,H]=ik([0,.18,1.4],toL(handPt(t,'near')),.3,.32,[.3,.5,-1]);return limb([[0,.18,1.4],E,H],[.065,.052,.042])+cp(H,[H[0]-.05,H[1],H[2]-.03],.045,.035);};
+ const farArm=()=>{const[E,H]=ik([0,-.19,1.4],toL(handPt(t,'far')),.3,.32,[.3,-.5,-1]);return limb([[0,-.19,1.4],E,H],[.06,.05,.04])+cp(H,[H[0]-.04,H[1],H[2]-.03],.042,.035);};
+ // The far side draws first: far arm and leg, then coat, head, near leg and arm.
+ s+=farArm()+leg(-.11,1);
+ s+=body([[.02,-.15,.62],[.02,.15,.62],[0,-.1,.93],[0,.1,.93],[0,-.17,1.42],[0,.17,1.42],[-.04,0,1.3]].flatMap(p=>circ(...P(...p),.11*k,12)));
+ s+=L([[-.1,.0,1.38],[-.12,.0,.68]],.6)+L([[-.1,-.05,1.12],[-.1,-.13,1.06]],.6)+L([[-.1,.05,1.12],[-.1,.13,1.06]],.6);
+ s+=L([[.06,-.08,1.49],[.08,0,1.45],[.06,.08,1.49]],.6);
+ s+=cp([0,0,1.47],[-.01,0,1.56],.05,.048);
+ s+=body(circ(...P(-.02,0,1.62),.098*k,16).concat(circ(...P(-.03,0,1.69),.09*k,16)));
+ s+=L([[-.1,-.07,1.66],[-.12,0,1.66],[-.1,.07,1.66]],1.4);
+ s+=L([[-.02,-.1,1.67],[.05,-.08,1.66]],.6)+L([[-.02,.1,1.67],[.05,.08,1.66]],.6);
+ s+=leg(.11,-1)+nearArm();
+ return s;}
+
+/* ---- floor, with a keep-clear line round the press and a floor gully by the vessel ---- */
+function floor(c){const P=c.P;let s='';const r=[P(FX0,FY0,0),P(FX1,FY0,0),P(FX1,FY1,0),P(FX0,FY1,0)];
+ s+=`<path d="${pd(r)}" fill="none" stroke="${S.dim}" stroke-width=".5"/>`;
+ let d='';for(let x=-1;x<=6.6;x+=.5){const a=P(x,FY1,0),b=P(x,FY1-.08,0);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.dim}" stroke-width=".5"/>`;
+ s+=`<path d="${pd([P(2.45,-1.25,0),P(3.6,-1.25,0),P(3.6,-.1,0),P(2.45,-.1,0)])}" fill="none" stroke="${S.dim}" stroke-width=".6" stroke-dasharray="6 3"/>`;
+ s+=`<path d="${pd([P(FX0,CY,0),P(FX1,CY,0)],false)}" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="14 3 2 3" fill="none"/>`;
+ s+=`<path d="${pd([P(.75,-.3,0),P(1.0,-.3,0),P(1.0,-.18,0),P(.75,-.18,0)])}" fill="none" stroke="${S.ink}" stroke-width=".6"/>`;
+ s+=edges(c,[.8,.85,.9,.95].map(x=>[[x,-.29,0],[x,-.19,0]]),{w:.4});
+ return s;}
+
+/* ---- pump unit: channel base on feet, motor with fins and fan cowl, coupling guard, pump head ---- */
+function pump(c,on){let s='';const x0=-.82,x1=-.08,y0=-1.05,y1=-.68;
+ for(const[x,y]of[[x0+.06,y0+.05],[x1-.06,y0+.05],[x0+.06,y1-.05],[x1-.06,y1-.05]])s+=box(c,x-.04,x+.04,y-.04,y+.04,0,.03,dk)+hexes(c,'xy',[[x,y]],.03,.018);
+ s+=box(c,x0,x1,y0,y1,.03,.09,dk)+edges(c,[[[x0,y1,.055],[x1,y1,.055]]],{w:.4});
+ s+=box(c,-.7,-.42,-.95,-.79,.09,.13,dk)+hexes(c,'xy',[[-.66,-.91],[-.46,-.91],[-.66,-.83],[-.46,-.83]],.13,.016);
+ s+=cyl(c,'x',-.87,.25,.11,-.8,-.74,dk,16);
+ s+=cyl(c,'x',-.87,.25,.1,-.74,-.4,{m:'steel',mv:on},16);
+ s+=edges(c,[-.7,-.65,-.6,-.55,-.5,-.45].map(x=>circ(-.87,.25,.104,16).slice(1,10).map(p=>[x,p[0],p[1]])),{w:.4});
+ s+=box(c,-.62,-.5,-.93,-.81,.33,.41,dk)+hexes(c,'xy',[[-.6,-.91],[-.52,-.83]],.41,.012);
+ s+=cyl(c,'x',-.87,.25,.065,-.4,-.32,dk,12);
+ s+=box(c,-.32,-.14,-.96,-.78,.11,.36,st)+hexes(c,'yz',[[-.93,.15],[-.81,.15],[-.93,.32],[-.81,.32]],-.14,.016);
+ s+=cyl(c,'z',-.23,-.87,.028,.36,.47,dk,10)+xt(c,'xy',circ(-.23,-.87,.045,6),.42,.45,dk);
+ return s;}
+function pumpHose(c,on){return hose(c,bez([-.23,-.87,.47],[-.23,-.87,.75],[-.25,-.75,.92],[-.1,VY,.92],8),2.4,{col:on?S.acc:S.ink});}
+
+/* ---- pressure vessel for the delamination test: legs, dished bottom, shell, flanges, swing bolts,
+   hinged lid with safety valve, gauge, inlet valve with handwheel, drain valve ---- */
+const LEGA=[1.25,-.55,3.35];
+const depth=a=>Math.sin(a+.575);
+function vLeg(c,a){const x=VX+.37*Math.cos(a),y=VY+.37*Math.sin(a);let s='';
+ s+=box(c,x-.06,x+.06,y-.06,y+.06,0,.02,dk)+hexes(c,'xy',[[x-.035,y-.035],[x+.035,y+.035]],.02,.014);
+ s+=xt(c,'xy',circ(x,y,.03,4),.02,.62,st);
+ const xi=VX+.33*Math.cos(a),yi=VY+.33*Math.sin(a);s+=xt(c,'xz',[[Math.min(x,xi)-.005,.55],[Math.max(x,xi)+.005,.55],[Math.max(x,xi)+.005,.68]],y-.006,y+.006,dk);
+ return s;}
+function frontHalf(c,cx,cy,r,z0,z1,o){const P=c.P,a0=-.575,a1=Math.PI-.575,n=18,top=[],bot=[];
+ for(let k=0;k<=n;k++){const a=a0+(a1-a0)*k/n;top.push(P(cx+r*Math.cos(a),cy+r*Math.sin(a),z1));bot.push(P(cx+r*Math.cos(a),cy+r*Math.sin(a),z0));}
+ const mv=o&&o.mv;return`<path d="${pd(top.concat(bot.reverse()))}" fill="${MAT?MAT.steel:S.paper}" stroke="${mv?S.acc:S.ink}" stroke-width="${mv?1.5:1.25}" stroke-linejoin="round"/>`;}
+function swingBolt(c,a,b){const pr=[VX+.405*Math.cos(a),VY+.405*Math.sin(a),1.13],out=[Math.cos(a),Math.sin(a)];const ang=b*2.0;
+ const dir=[out[0]*Math.sin(ang),out[1]*Math.sin(ang),Math.cos(ang)],f=alongC(c,pr,dir);
+ return box(c,pr[0]-.018,pr[0]+.018,pr[1]-.018,pr[1]+.018,1.09,1.14,dk)+xt(f,'xy',circ(0,0,.011,8),0,.15,st)+xt(f,'xy',circ(0,0,.022,6),.115,.145,dk);}
+function lid(c,th){const H=[VX,VY-.42,1.2],co=Math.cos(th),si=Math.sin(th),f=frameC(c,H,[1,0,0],[0,co,si],[0,-si,co]);let s='';
+ s+=cyl(f,'x',0,.02,.032,-.12,.12,dk,10);
+ s+=xt(f,'xy',circ(0,.42,.38,28),0,.05,st)+xt(f,'xy',circ(0,.42,.33,24),.05,.1,st)+xt(f,'xy',circ(0,.42,.25,20),.1,.14,st)+xt(f,'xy',circ(0,.42,.14,16),.14,.16,st);
+ s+=xt(f,'xy',circ(.12,.36,.025,8),.13,.25,dk)+xt(f,'xy',rr(.08,.33,.2,.39),.25,.27,dk);
+ s+=xt(f,'xy',circ(-.1,.5,.03,6),.12,.16,dk)+xt(f,'xy',circ(-.1,.5,.018,8),.16,.22,st);
+ s+=xt(f,'yz',[[.8,.02],[.86,.02],[.86,.07],[.8,.07]],-.07,-.05,dk)+xt(f,'yz',[[.8,.02],[.86,.02],[.86,.07],[.8,.07]],.05,.07,dk)+cyl(f,'x',.86,.06,.012,-.07,.07,dk,8);
+ return s;}
+function gauge(c,p,on){const a=1.0,base=[VX+.33*Math.cos(a),VY+.33*Math.sin(a),.98],f=alongC(c,base,[Math.cos(a),Math.sin(a),0]);let s='';
+ s+=xt(f,'xy',circ(0,0,.016,8),0,.08,dk)+xt(f,'xy',circ(0,0,.07,20),.08,.11,st);
+ s+=rings(f,'xy',[[0,0]],.111,.058,{n:20});
+ let d='';for(let i=0;i<=8;i++){const q=(-135+i*33.75)*D2R,A=f.P(.058*Math.sin(q),.058*Math.cos(q),.111),B=f.P(.048*Math.sin(q),.048*Math.cos(q),.111);d+=`M${n1(A[0])} ${n1(A[1])}L${n1(B[0])} ${n1(B[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width=".5"/>`;
+ const q=(-135+200*p)*D2R,N=f.P(.045*Math.sin(q),.045*Math.cos(q),.112),O=f.P(0,0,.112);
+ s+=`<path d="M${n1(O[0])} ${n1(O[1])}L${n1(N[0])} ${n1(N[1])}" stroke="${on?S.acc:S.ink}" stroke-width="1.1" stroke-linecap="round"/>`;
+ return s;}
+function vesselBack(c,on){let s='';
+ for(const a of LEGA)if(depth(a)<.3)s+=vLeg(c,a);
+ s+=box(c,-.12,-.03,VY-.03,VY+.03,.89,.95,dk)+cyl(c,'x',VY,.92,.035,-.2,-.12,dk,10)+cyl(c,'z',-.16,VY,.01,.95,1.06,dk,6)+rings(c,'xy',[[-.16,VY]],1.06,.055,{n:14,w:1})+rings(c,'xy',[[-.16,VY]],1.06,.008,{n:6});
+ s+=cyl(c,'z',VX,VY,.28,.38,.45,{m:'steel',mv:on},22);
+ s+=cyl(c,'z',VX,VY,.33,.45,1.15,{m:'steel',mv:on},28);
+ s+=cyl(c,'z',VX,VY,.38,1.15,1.2,st,30);
+ s+=rings(c,'xy',[[VX,VY]],1.2,.3,{n:26});
+ return s;}
+function vesselFront(c,on,b){let s='';
+ s+=frontHalf(c,VX,VY,.33,.45,1.15,{mv:on})+frontHalf(c,VX,VY,.38,1.15,1.2,{});
+ s+=edges(c,[circ(VX,VY,.33,28).filter(p=>depth(Math.atan2(p[1]-VY,p[0]-VX))>-.05).map(p=>[p[0],p[1],.8])],{w:.4});
+ s+=cyl(c,'z',VX,VY+.1,.02,.28,.38,dk,8)+cyl(c,'y',VX,.24,.03,VY+.1,VY+.2,dk,10)+xt(c,'xz',rr(VX-.012,.27,VX+.012,.33),VY+.2,VY+.26,dk);
+ for(const a of LEGA)if(depth(a)>=.3)s+=vLeg(c,a);
+ return s;}
+function bolts(c,b,front){let s='';for(let i=0;i<8;i++){const a=i*Math.PI/4+Math.PI/8;if((depth(a)>=0)===front)s+=swingBolt(c,a,b);}return s;}
+
+/* ---- wire basket with three glulam slices for the delamination test ---- */
+function slices(c,o){let s='';for(const dx of[-.06,0,.06]){const x=o[0]+dx,y=o[1],z=o[2]+.015;
+ s+=xt(c,'yz',rr(y-.08,z,y+.08,z+.16),x-.012,x+.012,tw);
+ s+=edges(c,[[[x+.012,y-.08,z+.053],[x+.012,y+.08,z+.053]],[[x+.012,y-.08,z+.107],[x+.012,y+.08,z+.107]]],{w:.5});}
+ return s;}
+function basket(c,o){const[x,y,z]=o,X=[x-.11,x+.11],Y=[y-.1,y+.1],Z=[z,z+.2];let s='';
+ const W=(pts,w)=>pl(c,pts,w||.6);
+ s+=W([[X[0],Y[0],Z[0]],[X[1],Y[0],Z[0]],[X[1],Y[0],Z[1]],[X[0],Y[0],Z[1]],[X[0],Y[0],Z[0]]])+W([[X[0],Y[0],Z[0]],[X[0],Y[1],Z[0]]])+W([[X[0],Y[0],Z[1]],[X[0],Y[1],Z[1]]]);
+ s+=slices(c,o);
+ s+=W([[X[0],Y[1],Z[0]],[X[1],Y[1],Z[0]],[X[1],Y[1],Z[1]],[X[0],Y[1],Z[1]],[X[0],Y[1],Z[0]]],.9)+W([[X[1],Y[0],Z[0]],[X[1],Y[1],Z[0]]],.9)+W([[X[1],Y[0],Z[1]],[X[1],Y[1],Z[1]]],.9);
+ s+=edges(c,[-.055,0,.055].map(d=>[[x+d,Y[1],Z[0]],[x+d,Y[1],Z[1]]]).concat([[[X[0],Y[1],z+.1],[X[1],Y[1],z+.1]]]),{w:.4});
+ s+=W(bez([x,Y[0],Z[1]],[x,Y[0],z+.36],[x,Y[1],z+.36],[x,Y[1],Z[1]],8).map(p=>[p[0],p[1],p[2]]),.9);
+ return s;}
+
+/* ---- drying cabinet: plinth, insulated body, hinged door with gasket and handle, control panel,
+   vent stack, side louvres, three wire shelves inside ---- */
+function oven(c){let s='';
+ s+=box(c,OX0+.04,OX1-.04,OY0+.04,OY1-.03,0,.06,dk);
+ s+=box(c,OX0,OX1,OY0,OY1,.06,1.55,st);
+ s+=edges(c,[[[OX0,OY1,1.33],[OX1,OY1,1.33]]],{w:.5});
+ s+=xt(c,'xz',rr(OX0+.06,1.37,OX1-.06,1.5),OY1,OY1+.006,{});
+ s+=rings(c,'xz',[[OX0+.2,1.435]],OY1+.006,.035,{n:14,w:.6})+rings(c,'xz',[[OX0+.36,1.435],[OX0+.44,1.435]],OY1+.006,.014,{n:8});
+ s+=xt(c,'xz',rr(OX1-.32,1.4,OX1-.12,1.47),OY1+.006,OY1+.01,dk);
+ s+=cyl(c,'z',OX1-.2,OY0+.15,.04,1.55,1.68,st,12)+cyl(c,'z',OX1-.2,OY0+.15,.065,1.68,1.71,dk,14);
+ s+=edges(c,[0,1,2,3,4,5,6].map(i=>[[OX1,OY0+.1,.9+i*.05],[OX1,OY1-.1,.9+i*.05]]),{w:.45});
+ s+=hexes(c,'yz',[[OY0+.06,.12],[OY1-.06,.12],[OY0+.06,1.48],[OY1-.06,1.48]],OX1,.014);
+ return s;}
+function ovenInside(c){let s='';const P=c.P,X0=OX0+.05,X1=OX1-.05,Z0=.14,Z1=1.29,D=.55;
+ const o=[P(X0,OY1,Z0),P(X1,OY1,Z0),P(X1,OY1,Z1),P(X0,OY1,Z1)];
+ s+=`<path d="${pd(o)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/>`;
+ s+=edges(c,[[[X0,OY1-D,Z0],[X0,OY1-D,Z1],[X1,OY1-D,Z1]],[[X0,OY1,Z1],[X0,OY1-D,Z1]],[[X0,OY1,Z0],[X0,OY1-D,Z0]]],{w:.5});
+ for(const z of[.48,.82,1.12])s+=edges(c,[[[X0,OY1-.02,z],[X1,OY1-.02,z]],[[X0,OY1-.02,z],[X0,OY1-D,z]]],{w:.6});
+ return s;}
+function ovenDoor(c,ph){const f=frameC(c,[OX0,OY1,0],[Math.cos(ph),Math.sin(ph),0],[-Math.sin(ph),Math.cos(ph),0],[0,0,1]);let s='';
+ s+=cyl(f,'z',0,.02,.018,.2,.36,dk,8)+cyl(f,'z',0,.02,.018,1.06,1.22,dk,8);
+ s+=box(f,.02,.79,0,.045,.12,1.31,st);
+ s+=edges(f,[[[.08,.045,.18],[.73,.045,.18],[.73,.045,1.25],[.08,.045,1.25],[.08,.045,.18]]],{w:.45});
+ s+=box(f,.735,.755,.045,.08,.62,.66,dk)+box(f,.735,.755,.045,.08,.98,1.02,dk)+box(f,.73,.76,.08,.1,.6,1.04,st);
+ return s;}
+
+/* ---- shear press: base cabinet with the hydraulic power unit, platen, two columns, crosshead,
+   cylinder, ram and load cell, upper shear tool, stepped lower tool, pendant ---- */
+// Parts in press-local coordinates: origin at the block's underside, z up along the press axis.
+const SH={
+ platen:f=>{let s=box(f,-.12,.12,-.1,.1,-.18,-.12,st);s+=edges(f,[[[-.15,-.04,-.12],[.15,-.04,-.12]],[[-.15,.04,-.12],[.15,.04,-.12]]],{w:.45});s+=rings(f,'xy',[[-.08,-.065],[.08,-.065],[-.08,.065],[.08,.065]],-.12,.012,{n:8});return s;},
+ seat:(f,mv)=>{const pr=[[-.1,-.12],[.1,-.12],[.1,.05],[.06,.05],[.06,0],[-.003,0],[-.003,-.05],[-.1,-.05]];
+  let s=xt(f,'xz',pr,-.07,.07,{m:'steel',mv});s+=hexes(f,'xy',[[-.07,-.045],[-.07,.045]],-.05,.016)+hexes(f,'xy',[[.08,-.045],[.08,.045]],.05,.014);return s;},
+ blockL:(f,dz,mv)=>{let s=xt(f,'yz',rr(-BS/2,dz,BS/2,BS+dz),-BS/2,-.0015,{tw:1,mv});
+  if(MAT)s+=edges(f,[.2,.45,.7].map(v=>[[-BS/2+.005,BS/2,dz+BS*v],[-.006,BS/2,dz+BS*v+.004]]),{w:.4,col:MAT.grain});return s;},
+ blockR:(f,mv)=>{let s=xt(f,'yz',rr(-BS/2,0,BS/2,BS),.0015,BS/2,{tw:1,mv});
+  if(MAT)s+=edges(f,[.25,.55,.8].map(v=>[[.006,BS/2,BS*v],[BS/2-.005,BS/2,BS*v-.004]]),{w:.4,col:MAT.grain});return s;},
+ glue:(f,dz,on)=>pl(f,[[0,-BS/2,BS],[0,BS/2,BS],[0,BS/2,Math.min(0,dz)]],on?1.1:.8,{col:on?S.acc:S.ink}),
+ upper:(f,pz,mv)=>{let s=box(f,-.05,-.003,-.055,.055,pz,pz+.04,{m:'steel',mv});s+=box(f,-.1,.04,-.065,.065,pz+.04,pz+.12,{m:'steel',mv});
+  s+=hexes(f,'xy',[[-.08,-.04],[-.08,.04],[.02,-.04],[.02,.04]],pz+.12,.013);return s;},
+ ram:(f,pz,mv,top)=>{let s=cyl(f,'z',-.03,0,.055,pz+.12,pz+.17,{m:'steel',mv},16)+hexes(f,'xy',[[-.06,-.03],[0,.03]],pz+.17,.01);
+  s+=cyl(f,'z',-.03,0,.028,pz+.17,top,{m:'steel',mv},12);return s;},
+ cylinder:f=>{let s=cyl(f,'z',-.03,0,.12,.94,.99,st,22)+hexes(f,'xy',circ(-.03,0,.095,6),.99,.014);
+  s+=cyl(f,'z',-.03,0,.09,.99,1.32,st,20)+edges(f,[circ(-.03,0,.09,20).slice(2,12).map(p=>[p[0],p[1],1.05])],{w:.4});
+  s+=cyl(f,'z',-.03,0,.1,1.32,1.36,dk,20)+hexes(f,'xy',circ(-.03,0,.07,4),1.36,.012);
+  s+=cyl(f,'x',0,1.22,.022,.06,.12,dk,10)+xt(f,'yz',circ(0,1.22,.03,6),.12,.14,dk);return s;}};
+const PL=frameC(mainC,[QX,QY,QB],[1,0,0],[0,1,0],[0,0,1]);
+function pressBase(c){let s='';
+ for(const[x,y]of[[QX-.3,QY-.25],[QX+.3,QY-.25],[QX-.3,QY+.25],[QX+.3,QY+.25]])s+=cyl(c,'z',x,y,.035,0,.03,dk,10)+xt(c,'xy',circ(x,y,.03,6),.03,.06,dk);
+ s+=box(c,QX-.36,QX+.36,QY-.31,QY+.31,.06,.8,st);
+ s+=edges(c,[[[QX-.33,QY+.31,.1],[QX+.33,QY+.31,.1],[QX+.33,QY+.31,.76],[QX-.33,QY+.31,.76],[QX-.33,QY+.31,.1]]],{w:.45});
+ s+=edges(c,[0,1,2,3,4,5,6,7].map(i=>[[QX-.26,QY+.31,.2+i*.04],[QX+.02,QY+.31,.2+i*.04]]),{w:.45});
+ s+=box(c,QX+.22,QX+.24,QY+.31,QY+.34,.36,.52,dk);
+ s+=xt(c,'yz',rr(QY-.2,.48,QY+.15,.72),QX+.36,QX+.37,{});
+ s+=rings(c,'yz',[[QY-.08,.6]],QX+.37,.07,{n:18,w:.7})+rings(c,'yz',[[QY+.08,.66],[QY+.08,.56]],QX+.37,.018,{n:8});
+ s+=box(c,QX-.3,QX+.3,QY-.2,QY+.2,.8,.86,st)+edges(c,[[[QX-.3,QY-.06,.86],[QX+.3,QY-.06,.86]],[[QX-.3,QY+.06,.86],[QX+.3,QY+.06,.86]]],{w:.45});
+ for(const x of[QX-.24,QX+.24])s+=xt(c,'xy',circ(x,QY,.05,6),.86,.89,dk);
+ return s;}
+function pressFrame(c,side){let s='';const x=side<0?QX-.24:QX+.24;
+ s+=cyl(c,'z',x,QY,.03,.89,1.77,st,12)+xt(c,'xy',circ(x,QY,.05,6),1.77,1.8,dk);
+ return s;}
+function pressTop(c){let s='';
+ s+=box(c,QX-.32,QX+.32,QY-.12,QY+.12,1.8,1.92,st)+edges(c,[[[QX-.32,QY+.12,1.86],[QX+.32,QY+.12,1.86]]],{w:.4});
+ for(const x of[QX-.24,QX+.24])s+=xt(c,'xy',circ(x,QY,.05,6),1.92,1.96,dk)+cyl(c,'z',x,QY,.025,1.96,1.99,st,10);
+ s+=SH.cylinder(PL);
+ s+=hose(c,bez([QX+.11,QY,2.2],[QX+.42,QY,2.2],[QX+.44,QY-.1,1.3],[QX+.3,QY-.22,.86],10),2.2);
+ return s;}
+function pendant(c){let s='';const x=QX+.34,y=QY+.26;
+ s+=cyl(c,'z',x,y,.022,.86,1.0,st,10)+box(c,x-.02,x+.1,y-.02,y+.13,.98,1.0,dk);
+ s+=box(c,QX+.36,QX+.48,QY+.33,QY+.43,.96,1.18,dk);
+ s+=rings(c,'xz',[[QX+.395,1.12],[QX+.445,1.12]],QY+.43,.014,{n:8})+cyl(c,'y',QX+.42,1.03,.022,QY+.43,QY+.46,st,12);
+ return s;}
+
+/* ---- records bench: frame, drawer unit, top, terminal, keyboard, binders, label printer ---- */
+function bench(c){let s='';
+ for(const[x,y]of[[BX0+.05,BY0+.05],[BX1-.05,BY0+.05],[BX0+.05,BY1-.05],[BX1-.05,BY1-.05]])s+=box(c,x-.02,x+.02,y-.02,y+.02,.03,.86,st)+cyl(c,'z',x,y,.025,0,.03,dk,8);
+ s+=box(c,BX0+.07,BX1-.07,BY0+.03,BY0+.07,.12,.16,st)+box(c,BX0+.07,BX1-.07,BY1-.07,BY1-.03,.12,.16,st);
+ s+=box(c,BX1-.5,BX1-.08,BY0+.06,BY1-.06,.3,.86,st);
+ for(const[z0,z1]of[[.32,.5],[.52,.68],[.7,.84]]){s+=edges(c,[[[BX1-.48,BY1-.06,z0],[BX1-.1,BY1-.06,z0],[BX1-.1,BY1-.06,z1],[BX1-.48,BY1-.06,z1],[BX1-.48,BY1-.06,z0]]],{w:.45});s+=box(c,BX1-.34,BX1-.24,BY1-.06,BY1-.04,(z0+z1)/2-.01,(z0+z1)/2+.01,dk);}
+ s+=box(c,BX0,BX1,BY0,BY1,.86,.9,st);
+ s+=box(c,4.4,4.6,-1.02,-.9,.9,.91,dk)+box(c,4.48,4.52,-.98,-.95,.91,1.02,dk);
+ s+=box(c,4.22,4.78,-.98,-.93,1.0,1.34,st)+edges(c,[[[4.25,-.93,1.03],[4.75,-.93,1.03],[4.75,-.93,1.31],[4.25,-.93,1.31],[4.25,-.93,1.03]]],{w:.5});
+ s+=box(c,4.25,4.62,-.76,-.62,.9,.92,dk)+edges(c,[0,1,2].map(i=>[[4.28,-.73+i*.04,.92],[4.59,-.73+i*.04,.92]]),{w:.35});
+ for(const x of[3.95,4.02,4.09])s+=box(c,x,x+.06,-1.1,-.84,.9,1.2,st)+box(c,x+.012,x+.048,-.84,-.835,1.06,1.12,{});
+ s+=box(c,4.85,5.05,-.95,-.7,.9,1.02,dk)+edges(c,[[[4.88,-.7,.98],[5.02,-.7,.98]]],{w:.6});
+ s+=box(c,BX0+.2,BX1-.2,BY0+.01,BY0+.05,.9,.94,dk);
+ return s;}
+function screenRows(c,t){const a=seamA(t,{})*win(t,REC0-.2,BND[4]+.2,.3);if(a<.01)return'';let s='';
+ for(let i=0;i<6;i++){const z=1.27-i*.04,on=t>REC0+.3+i*.25;s+=pl(c,[[4.3,-.929,z],[on?4.62:4.4,-.929,z]],on?1.2:.5,{col:on?S.ink:S.dim});}
+ return`<g opacity="${n1(a)}">${s}</g>`;}
+
+/* ---- lab trolley: castors, legs, two shelves with lips, push handle, tray of blocks, run tag ---- */
+function trolley(c,cx,t){let s='';
+ for(const[x,y]of[[cx-.33,CY-.2],[cx+.33,CY-.2],[cx-.33,CY+.2],[cx+.33,CY+.2]]){
+  s+=box(c,x-.03,x+.03,y-.03,y+.03,.1,.12,dk)+xt(c,'xz',[[x-.02,.1],[x+.02,.1],[x+.02,.06],[x-.02,.06]],y-.02,y+.02,dk)+cyl(c,'y',x,.05,.045,y-.012,y+.012,dk,12);}
+ for(const[x,y]of[[cx-.37,CY-.22],[cx+.37,CY-.22],[cx-.37,CY+.22],[cx+.37,CY+.22]])s+=box(c,x-.015,x+.015,y-.015,y+.015,.12,.88,st);
+ s+=box(c,cx-.4,cx+.4,CY-.25,CY+.25,.26,.29,st)+box(c,cx-.4,cx+.4,CY-.25,CY+.25,.82,.85,st);
+ s+=box(c,cx-.4,cx+.4,CY+.24,CY+.25,.85,.88,st)+box(c,cx-.4,cx-.39,CY-.24,CY+.24,.85,.88,st);
+ for(const y of[CY-.18,CY+.18])s+=cyl(c,'z',cx+.42,y,.014,.85,1.0,st,8);
+ s+=cyl(c,'y',cx+.42,1.0,.018,CY-.21,CY+.21,st,10);
+ // Tray of shear blocks with its run tag.
+ s+=box(c,cx-.39,cx-.01,CY-.09,CY+.09,.85,.88,dk);
+ for(let k=0;k<3;k++){if(k===0&&t>=16.9)continue;const x=cx-.3+k*.11;s+=blockSolid(c,[x,CY,.88],0);}
+ s+=xt(c,'xz',rr(cx-.32,.78,cx-.2,.84),CY+.25,CY+.255,{})+edges(c,[[[cx-.31,CY+.255,.825],[cx-.24,CY+.255,.825]],[[cx-.31,CY+.255,.805],[cx-.27,CY+.255,.805]]],{w:.5});
+ return s;}
+// A whole shear block: two lamellae and one glue line, x across the glue line.
+function blockSolid(c,o,dz){const f=frameC(c,o,[1,0,0],[0,1,0],[0,0,1]);return SH.blockL(f,dz||0,false)+SH.blockR(f,false)+SH.glue(f,dz||0,false);}
+
+/* ---- rib end on two trestles, drawn broken; its glue lines and hatched end ---- */
+function trestle(c,x){let s='';const yc=(RY0+RY1)/2,zt=RZ0-.06;
+ for(const[y0,y1]of[[yc-.15,yc-.32],[yc+.15,yc+.32]]){const f=alongC(c,[x,y0,zt],[0,y1-y0,-zt]),L=Math.hypot(y1-y0,zt);s+=xt(f,'xy',rr(-.02,-.02,.02,.02),0,L,st);s+=box(c,x-.04,x+.04,y1-.04,y1+.04,0,.02,dk);}
+ s+=box(c,x-.015,x+.015,yc-.24,yc+.24,.16,.19,st);
+ s+=box(c,x-.05,x+.05,yc-.22,yc+.22,zt,RZ0,st)+hexes(c,'xy',[[x,yc-.18],[x,yc+.18]],RZ0,.014);
+ return s;}
+function rib(c){const P=c.P;let s='';const zz=[RZ0,RZ1],brk=(y,z0,z1)=>{const n=6,pts=[];for(let k=0;k<=n;k++)pts.push([RX0+(k%2?.025:-.025)*(k>0&&k<n?1:0),y,lerp(z0,z1,k/n)]);return pts;};
+ const front=[[RX1,RY1,RZ0],[RX1,RY1,RZ1]].concat(brk(RY1,RZ1,RZ0).map(p=>p));
+ const top=[[RX1,RY0,RZ1],[RX1,RY1,RZ1]].concat([[RX0,RY1,RZ1],[RX0-.02,(RY0+RY1)/2,RZ1],[RX0,RY0,RZ1]]);
+ const poly=(pts,w)=>`<path d="${pd(pts.map(p=>P(...p)))}" fill="${S.paper}" stroke="${S.ink}" stroke-width="${w}" stroke-linejoin="round"/>`;
+ s+=poly(top,1.5)+poly(front,1.5);
+ s+=edges(c,[1,2,3,4].map(k=>[[RX0+.03,RY1,RZ0+k*.04],[RX1,RY1,RZ0+k*.04]]),{w:.5});
+ const end=[[RX1,RY0,RZ0],[RX1,RY1,RZ0],[RX1,RY1,RZ1],[RX1,RY0,RZ1]];
+ s+=poly(end,1.5)+`<path d="${hatchRect(P,RX1,RY0,RY1,RZ0,RZ1,.03,1)}" stroke="${S.ink}" stroke-width=".35" fill="none"/>`;
+ s+=edges(c,[1,2,3,4].map(k=>[[RX1,RY0,RZ0+k*.04],[RX1,RY1,RZ0+k*.04]]),{w:.6});
+ return s;}
+function markPlate(c,o,a){if(!o||a<.01)return'';const[x,y,z]=o;let s=xt(c,'xz',rr(x-.09,z-.055,x+.09,z+.055),y,y+.006,{});
+ s+=edges(c,[[[x-.07,y+.007,z+.025],[x+.05,y+.007,z+.025]],[[x-.07,y+.007,z],[x+.02,y+.007,z]],[[x-.07,y+.007,z-.025],[x+.04,y+.007,z-.025]]],{w:.5});
+ return`<g opacity="${n1(a)}">${s}</g>`;}
+
+/* ---- scene ---- */
+const MOMENT={steel:'#e8ecee',wood:'#fbf6ec',grain:'#a2845a'};
+function drawScene(c,t,flags){let s='';const sa=seamA(t,flags),on=presOn(t),th=lidTh(t),bb=boltA(t),ph=doorPh(t);
+ s+=memo('floor',()=>floor(c));
+ s+=memo('pump|'+on,()=>pump(c,on));
+ s+=memo('vb|'+on,()=>vesselBack(c,on));
+ s+=memo('bb|'+f3(bb),()=>bolts(c,bb,false));
+ const bk=basketBase(t),inV=t>=7.5&&t<13.0,onShelf=t>=14.6;
+ if(th>.6)s+=memo('lid|'+f3(th),()=>lid(c,th));
+ if(inV&&sa>.005)s+=`<g opacity="${n1(sa)}">${basket(c,bk)}</g>`;
+ s+=memo('vf|'+on,()=>vesselFront(c,on));
+ s+=memo('bf|'+f3(bb),()=>bolts(c,bb,true));
+ if(th<=.6)s+=memo('lid|'+f3(th),()=>lid(c,th));
+ s+=memo('gauge|'+f3(pres(t))+on,()=>gauge(c,pres(t),on));
+ s+=pumpHose(c,on);
+ // Drying cabinet: interior and basket only while the door stands open.
+ s+=memo('oven',()=>oven(c));
+ if(ph>.05){s+=memo('oin',()=>ovenInside(c));if(onShelf&&sa>.005)s+=`<g opacity="${n1(sa)}">${basket(c,bk)}</g>`;}
+ s+=memo('door|'+f3(ph),()=>ovenDoor(c,ph));
+ // Shear press
+ const pz=plungerZ(t),ld=loaded(t),dz=breakDz(t),mvRam=t>SH0&&t<SHR1;
+ s+=memo('pbase',()=>pressBase(c)+pressFrame(c,-1));
+ s+=memo('seat|'+ld,()=>SH.seat(PL,false));
+ const inSeat=t>=18.5;
+ if(inSeat&&sa>.005)s+=`<g opacity="${n1(sa)}">${SH.blockL(PL,dz,ld)+SH.blockR(PL,ld)+SH.glue(PL,dz,false)}</g>`;
+ s+=memo('ram|'+f3(pz)+(ld||mvRam&&t<SHB),()=>SH.upper(PL,pz,ld)+SH.ram(PL,pz,ld||mvRam&&t<SHB,.82));
+ s+=memo('pframe2',()=>pressFrame(c,1)+pressTop(c)+pendant(c));
+ s+=memo('bench',()=>bench(c));
+ s+=screenRows(c,t);
+ // Trolley, carried pieces and the person, in depth order.
+ const cx=cartX(t),items=[];
+ items.push({d:cx*SP+CY*CP,f:()=>sa>.005?`<g opacity="${n1(sa)}">${trolley(c,cx,t)}${t<5.0?basket(c,bk):''}</g>`:''});
+ const pp=pathAt(t);
+ items.push({d:pp.x*SP+pp.y*CP+.05,f:()=>{let q=person(c,t);if(sa>.005){
+  if(!inV&&!onShelf&&t>=5.0)q+=`<g opacity="${n1(sa)}">${basket(c,bk)}</g>`;
+  if(t>=16.9&&t<18.5)q+=`<g opacity="${n1(sa)}">${blockSolid(c,blockPos(t),0)}</g>`;
+  const lp=labelPos(t);if(lp&&t<MARK)q+=markPlate(c,lp,sa);}return q;}});
+ items.sort((a,b)=>a.d-b.d);for(const it of items)s+=it.f();
+ s+=memo('rib',()=>trestle(c,4.5)+trestle(c,5.85)+rib(c));
+ if(t>=MARK)s+=markPlate(c,MARKP,sa);
+ return s;}
+
+/* ===== Style B: drafted ===== */
+S.bower='#2a6a50';
+S.ink='#22262a';S.dim='#9aa0a6';S.hid='#80868c';S.acc='#b4492f';S.paper='#fdfcf9';S.mut='#6b7178';
+S.solid=(h,cap,o)=>{const f=MAT?(o.tw?MAT.wood:MAT.steel):S.paper,col=o.mv?S.acc:S.ink,w=o.mv||o.tw?1.5:1.25;return`<path d="${pd(h)}" fill="${f}" stroke="${col}" stroke-width="${w}" stroke-linejoin="round"/><path d="${pd(cap)}" fill="none" stroke="${S.ink}" stroke-width=".5" stroke-linejoin="round"/>`;};
+S.note='Drawing units are schematic. Test methods outlined, not read.';
+
+/* ---- exploded shear tool: laid along its axis in free paper above the press ---- */
+const DSC=260,DET=[330,-310];
+// Press axis (local z) runs along world -x, so the parts read left (cylinder) to right (platen).
+const detC=()=>frameC({P:mkP(DET[0],DET[1],DSC)},[0,0,0],[0,0,1],[0,1,0],[-1,0,0]);
+const XPS=[
+ {id:'cyl',off:.3,slot:[-.03,0,.94],lab:'hydraulic cylinder',top:[.12,0,1.15],dir:[0,-1]},
+ {id:'ram',off:.38,slot:[-.03,0,.22],lab:'ram and load cell',top:[.025,0,.45],dir:[0,-1]},
+ {id:'upper',off:.20,slot:[-.03,0,.1],lab:'upper shear tool',top:[.04,0,.18],dir:[0,-1]},
+ {id:'block',off:0,slot:[0,0,0],lab:'test block, one glue line',top:[-.05,.05,0],dir:[-1,0]},
+ {id:'seat',off:-.24,slot:[0,0,-.12],lab:'stepped lower tool',top:[.1,0,-.04],dir:[0,-1]},
+ {id:'platen',off:-.44,slot:[0,0,-.18],lab:'platen, cap screws',top:[-.12,0,-.15],dir:[0,1]}];
+function detail(t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';const f=detC();
+ const sh=o=>frameC(f,[0,0,o*ex],[1,0,0],[0,1,0],[0,0,1]);
+ MAT=MOMENT;
+ const s=memo('xd|'+f3(ex),()=>{let q='';
+  for(const p of XPS)if(p.off)q+=explodeAxis(f,p.slot,[p.slot[0],p.slot[1],p.slot[2]+p.off*ex],{w:.6,op:.9});
+  q+=SH.platen(sh(-.44))+SH.seat(sh(-.24),false);
+  const b=sh(0);q+=SH.blockL(b,0,false)+SH.blockR(b,false)+SH.glue(b,0,false);
+  q+=SH.upper(sh(.20),BS,false)+SH.ram(sh(.38),BS,false,.6)+SH.cylinder(sh(.3));
+  return q;});
+ MAT=null;
+ return`<g opacity="${n1(seg(ex,0,.2))}">${s}</g>`;}
+function detailLabels(t,fl){const la=fl.static?0:seg(t,EX0+EXO+.15,EX0+EXO+.4)*(1-seg(t,EX0+EXO+EXH-.05,EX0+EXO+EXH+.15));if(la<.02)return'';
+ const f=detC();let s='';for(const p of XPS)s+=tag(f,[p.top[0],p.top[1],p.top[2]+p.off],p.dir[0],p.dir[1],p.lab,la,{id:'x-'+p.id,tick:1});return s;}
+function detailRing(c,t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';
+ const p=c.P(QX,QY,QB+.12),r=34*kk(),q=detC().P(-.1,0,-.2);const d=Math.hypot(q[0]-p[0],q[1]-p[1]),u=[(q[0]-p[0])/d,(q[1]-p[1])/d];
+ return`<g opacity="${n1(seg(ex,0,.3))}"><circle cx="${n1(p[0])}" cy="${n1(p[1])}" r="${n1(r)}" fill="none" stroke="${S.ink}" stroke-width=".6"/><path d="M${n1(p[0]+u[0]*r)} ${n1(p[1]+u[1]*r)}L${n1(q[0])} ${n1(q[1])}" stroke="${S.ink}" stroke-width=".5" stroke-dasharray="10 3 2 3" fill="none"/></g>`;}
+
+/* ---- shear inset: a flat side view of the tool while the test runs ---- */
+function shearInset(t,fl){const a=fl.static?1:win(t,SH0-.6,26.8,.3);if(a<.01||!VB)return'';const k=kk(),hp=mainC.P(QX,QY,QB+.12);
+ const R=58*k,cx=hp[0]-175*k,cy=hp[1]-275*k,isc=420*k,tt=fl.static?21.6:t;
+ const X=x=>cx+x*isc,Y=z=>cy-(z-.06)*isc,pz=plungerZ(tt),dz=breakDz(tt),ld=!fl.static&&loaded(tt),brk=tt>=SHB;
+ const poly=(pts,col,w,fill)=>`<path d="${pd(pts.map(p=>[X(p[0]),Y(p[1])]))}" fill="${fill||S.paper}" stroke="${col||S.ink}" stroke-width="${w||1.25}" stroke-linejoin="round"/>`;
+ let s=`<defs><clipPath id="ins"><circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(R)}"/></clipPath></defs>`;
+ s+=`<circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(R)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/><g clip-path="url(#ins)">`;
+ const seatP=[[-.1,-.12],[.1,-.12],[.1,.05],[.06,.05],[.06,0],[-.003,0],[-.003,-.05],[-.1,-.05]];
+ s+=poly(seatP);
+ let hd='';for(let u=-.2;u<.2;u+=.012){hd+=`M${n1(X(u))} ${n1(Y(-.12))}L${n1(X(u+.17))} ${n1(Y(.05))}`;}
+ s+=`<clipPath id="sp"><path d="${pd(seatP.map(p=>[X(p[0]),Y(p[1])]))}"/></clipPath><path d="${hd}" clip-path="url(#sp)" stroke="${S.ink}" stroke-width=".35" fill="none"/>`;
+ // Block: right lamella on the seat, left lamella pushed down; after the break a sliver of wood
+ // stays glued to the right lamella (the fracture runs in the wood, not in the glue line).
+ const jag=[[-.008,BS],[-.012,.082],[-.006,.064],[-.013,.046],[-.007,.028],[-.012,.012],[-.008,0]];
+ const col=ld?S.acc:S.ink;
+ if(!brk){s+=poly([[-.05,dz],[-.0015,dz],[-.0015,BS+dz],[-.05,BS+dz]],col,1.5);s+=poly([[.0015,0],[.05,0],[.05,BS],[.0015,BS]],col,1.5);}
+ else{s+=poly([[-.05,dz]].concat(jag.slice().reverse().map(p=>[p[0],p[1]+dz])).concat([[-.05,BS+dz]]),S.ink,1.5);
+  s+=poly([[.05,0],[.05,BS]].concat(jag),S.ink,1.5);}
+ s+=`<path d="M${n1(X(0))} ${n1(Y(0))}L${n1(X(0))} ${n1(Y(BS))}" stroke="${S.ink}" stroke-width=".9"/>`;
+ s+=poly([[-.05,pz],[-.003,pz],[-.003,pz+.04],[.04,pz+.04],[.04,pz+.12],[-.1,pz+.12],[-.1,pz+.04],[-.05,pz+.04]],ld?S.acc:S.ink,ld?1.5:1.25);
+ s+=poly([[-.058,pz+.12],[-.002,pz+.12],[-.002,pz+.3],[-.058,pz+.3]],ld?S.acc:S.ink,ld?1.5:1.25);
+ if(ld){const ax=X(-.026),ay=Y(pz+.2);s+=`<path d="M${n1(ax)} ${n1(ay-14*k)}L${n1(ax)} ${n1(ay+6*k)}" stroke="${S.acc}" stroke-width="1.2"/><path d="${pd([[ax,ay+11*k],[ax-3.5*k,ay+3*k],[ax+3.5*k,ay+3*k]])}" fill="${S.acc}"/>`;}
+ s+='</g>';
+ // Dashed tie to the press head.
+ const d=Math.hypot(hp[0]-cx,hp[1]-cy),u=[(hp[0]-cx)/d,(hp[1]-cy)/d];
+ s+=`<path d="M${n1(cx+u[0]*R)} ${n1(cy+u[1]*R)}L${n1(hp[0])} ${n1(hp[1])}" stroke="${S.ink}" stroke-width=".5" stroke-dasharray="10 3 2 3" fill="none"/>`;
+ s+=`<circle cx="${n1(hp[0])}" cy="${n1(hp[1])}" r="${n1(16*k)}" fill="none" stroke="${S.ink}" stroke-width=".6"/>`;
+ let out=`<g opacity="${n1(a)}">${s}</g>`;
+ if(!fl.static){const la=win(t,SH0-.4,26.6);
+  out+=tag(HUD,[cx-R*.8,cy-R*.6],-1,0,'shear test, side view',la,{id:'inset',tick:1});
+  out+=tag(HUD,[cx-R*.8,cy+R*.6],-1,0,'good glue line: breaks in the wood around it',win(t,SHB-.1,26.6),{id:'wood',tick:1});}
+ return out;}
+
+/* ---- run record: a sheet tied to the terminal; results arrive from the cabinet and the press ---- */
+function recordSheet(t,fl){if(fl.static)return'';const a=win(t,REC0-.1,30.8,.3);if(a<.01||!VB)return'';const k=kk();
+ const tp=mainC.P(4.5,-.93,1.34),x=tp[0]+28*k,y=tp[1]-345*k,w=78*k,h=104*k,fo=10*k;let s='';
+ s+=`<g opacity="${n1(a)}"><path d="M${n1(tp[0])} ${n1(tp[1])}L${n1(x+w*.35)} ${n1(y+h)}" stroke="${S.ink}" stroke-width=".5" stroke-dasharray="2 2" fill="none"/>`;
+ s+=`<path d="M${n1(x)} ${n1(y)}H${n1(x+w-fo)}L${n1(x+w)} ${n1(y+fo)}V${n1(y+h)}H${n1(x)}Z" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9"/><path d="M${n1(x+w-fo)} ${n1(y)}V${n1(y+fo)}H${n1(x+w)}" fill="none" stroke="${S.ink}" stroke-width=".5"/>`;
+ s+=`<path d="M${n1(x+7*k)} ${n1(y+11*k)}H${n1(x+40*k)}M${n1(x+7*k)} ${n1(y+18*k)}H${n1(x+28*k)}" stroke="${S.ink}" stroke-width="1.6"/>`;
+ // Four run settings, then the two results.
+ for(let i=0;i<6;i++){const yy=y+(30+i*10)*k,res=i>=4,on=!res||t>REC0+1.3+.3*(i-4);
+  s+=`<path d="M${n1(x+7*k)} ${n1(yy)}H${n1(x+22*k)}" stroke="${S.dim}" stroke-width=".6"/><path d="M${n1(x+26*k)} ${n1(yy)}H${n1(x+(res?50:58)*k)}" stroke="${on?S.ink:S.dim}" stroke-width="${on?1.6:.6}"/>`;}
+ const sa=seg(t,AUD,AUD+.4);if(sa>0)s+=`<g opacity="${n1(sa)}"><circle cx="${n1(x+w-16*k)}" cy="${n1(y+h-15*k)}" r="${n1(9*k)}" fill="none" stroke="${S.ink}" stroke-width="1"/><circle cx="${n1(x+w-16*k)}" cy="${n1(y+h-15*k)}" r="${n1(6*k)}" fill="none" stroke="${S.ink}" stroke-width=".5"/></g>`;
+ s+='</g>';
+ [[OX1-.2,OY0+.15,1.71],[QX-.03,QY,QB+1.36]].forEach((src,i)=>{const k2=ease(seg(t,REC0+.2+.3*i,REC0+1.3+.3*i));if(k2<=0||k2>=1)return;const p=mainC.P(...src),q=[x+30*k,y+(70+i*10)*k],via=i?[p[0]+20*k,p[1]-65*k]:p,split=i?.3:0,part=k2<split?k2/split:(k2-split)/(1-split),start=k2<split?p:via,end=k2<split?via:q,m=[lerp(start[0],end[0],part),lerp(start[1],end[1],part)],r=2.2;
+  s+=`<path d="M${n1(m[0]-r)} ${n1(m[1]-r)}h${2*r}v${2*r}h${-2*r}Z" fill="${S.acc}"/><path d="M${n1(p[0])} ${n1(p[1])}${i&&k2>=split?`L${n1(via[0])} ${n1(via[1])}`:''}L${n1(m[0])} ${n1(m[1])}" stroke="${S.acc}" stroke-width=".5" stroke-dasharray="2 2" fill="none"/>`;});
+ s+=tag(HUD,[x,y+40*k],-1,0,'run record: moisture, open time, pressure, glue spread',win(t,REC0+.1,30.4),{id:'record',tick:1});
+ s+=tag(HUD,[x+w-16*k,y+h],0,1,'an outside body audits it (EN 14080)',win(t,AUD,30.6),{id:'audit',tick:1});
+ return s;}
+
+/* ---- overlay: annotations per step ---- */
+function overlay(c,t,fl){let s=detailRing(c,t,fl)+detail(t,fl)+detailLabels(t,fl)+shearInset(t,fl);
+ if(fl.static)return s;
+ const w=(a,b)=>win(t,a,b),cx=cartX(t);
+ // Sample
+ s+=lead(c,[cx-.27,CY+.255,.81],0,0,"test pieces from today's run, tagged with the run",w(.4,5.4),{id:'sample',at:[2.6,2.3,0],side:-1});
+ // Delamination
+ const pp=pathAt(t);
+ s+=lead(c,[pp.x,pp.y,1.65],0,0,'one person runs the lab',w(5.5,10.3),{id:'person',at:[1.8,-1.6,1.95],side:1});
+ s+=lead(c,[VX+.33*Math.cos(2.6),VY+.33*Math.sin(2.6),.8],0,0,'pressure vessel: delamination soak',w(6.6,11.9),{id:'vessel',at:[-2.2,-1.0,1.6],side:1});
+ s+=tag(c,[-.82,-.68,.05],-1,0,'soak method: outlined, not read',w(9.0,13.6),{id:'soak',tick:1});
+ s+=lead(c,[OX1,OY1,1.2],0,0,'drying cabinet: the slices dry',win(t,10.4,14.4,.25),{id:'dry',at:[1.0,-2.8,2.6],side:-1});
+ // Shear
+ s+=lead(c,[QX-.03,QY,QB+1.36],0,0,'shear press: the block sheared along its glue line',w(19.9,24.6),{id:'press',at:[3.9,-.3,2.4],side:1});
+ // Mark
+ s+=lead(c,[MARKP[0]+.04,MARKP[1],MARKP[2]],0,0,'each rib is marked: CE, UKCA optional in Great Britain',w(28.8,33.6),{id:'mark',at:[5.75,2.75,0],side:-1});
+ return s;}
+// The exploded detail widens the fit upward. Outside the hold, lift the drawing to sit centred.
+const LIFT=.1;
+function labLift(t){return VB?-VB[3]*LIFT*(1-ease(seg(t,EX0-.3,EX0+.3))+ease(seg(t,24.7,25.3))):0;}
+const STEPS=[
+ ["Sample","Test pieces from today's run arrive, logged with that run."],
+ ["Delamination","Slices soak under pressure, then dry. Open glue lines fail the batch."],
+ ["Shear","The press shears a block along a glue line."],
+ ["Record","Results join the run record, which an outside body audits."],
+ ["Mark","Each rib is marked before it leaves."]];
+const labScene=drawScene;
+drawScene=(c,t,fl)=>`<g transform="translate(0 ${n1(labLift(t))})">${labScene(c,t,fl)}</g>`;
+S.overlay=(c,t,fl)=>`<g transform="translate(0 ${n1(labLift(t))})">${overlay(c,t,fl)}${recordSheet(t,fl)}</g>`;
+
+/* ---- page plumbing ---- */
+const $=id=>document.getElementById(id);
+const svg=$('s'),root=$('g');
+let VB=null;
+// Loop seam: only transient parts fade, over 0.5 s at each end. The shop (bed, pins, yokes,
+// track, robot) stays at full strength. Overlays always fade; a station wraps its own transient
+// geometry (the rib) in seamA(t, flags) inside drawScene.
+const seamA=(t,flags)=>flags&&flags.static?1:Math.min(seg(t,0,.5),1-seg(t,DUR-.5,DUR));
+function frame(t,flags){
+  const started=performance.now();flags=flags||{};
+  const a=seamA(t,flags);
+  let inner=drawScene(mainC,t,flags);
+  const over=S.overlay?S.overlay(mainC,t,flags):'';
+  if(over&&a>.005)inner+=`<g opacity="${n1(a)}">${over}</g>`;
+  root.innerHTML=inner;
+  collectAnnotations();window.__frameMS=performance.now()-started;
+}
+// Fit the viewBox tightly to the drawing over FIT_TIMES. The svg fills the stage and scales
+// with "meet", centred, so the machine is as large as the free stage allows.
+function fit(){
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  // Geometry only: labels are placed inside the fitted area, so they must not widen it.
+  for(const t of FIT_TIMES){root.innerHTML=drawScene(mainC,t,{})+(S.overlay?S.overlay(mainC,t,{}):'');for(const e of root.querySelectorAll('[data-label],[data-dimension]'))e.style.display='none';const b=root.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);}
+  const pad=24;VB=[x0-pad,y0-pad,x1-x0+2*pad,y1-y0+2*pad];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  // A constant whole-drawing lift balances the main machine when exploded details leave.
+  // Keep each station's scale fixed across every step. Offsets are viewBox fractions.
+  const station=DRAWING_META.number;
+  const lift=0;
+  root.setAttribute('transform',`translate(0 ${n1(-VB[3]*lift)})`);
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+}
+
+
+const factoryMedia = matchMedia('(prefers-reduced-motion: reduce)');
+let factoryActive=false, factoryIntent=true, factoryRaf=0, factoryLast=0, factoryEmit=0;
+let factoryTime=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:STATIC_T;
+let factoryStatic=factoryMedia.matches;
+let factoryDraws=0;
+const factoryReady = () => window.__ready===true;
+function factoryState(){
+  const index=typeof stepOf==='function'?stepOf(factoryTime):0;
+  const item=typeof STEPS!=='undefined'?STEPS[index]:null;
+  return {id:DRAWING_META.id,title:DRAWING_META.title,duration:DUR,time:factoryTime,
+    playing:!!factoryRaf,active:factoryActive,reducedMotion:factoryMedia.matches,
+    step:item?item[0]:'Process overview',caption:item?item[1]:DRAWING_META.whatHappens,
+    stepIndex:index,static:factoryStatic,ready:factoryReady(),renderCount:factoryDraws};
+}
+function factoryNotify(){
+  const state=factoryState();
+  window.dispatchEvent(new CustomEvent('bower:factory-state',{detail:state}));
+  if(parent!==window)parent.postMessage({type:'bower-factory:state',state},'*');
+}
+function factoryRender(){frame(factoryTime,{static:factoryStatic});factoryDraws++;}
+function factoryFit(){
+  // Some scenes place insets after the initial viewBox is known. Reconcile their
+  // full timeline with the compact deck viewport, retaining one stable camera.
+  VB=null;root.removeAttribute('transform');fit();
+  if(DRAWING_META.id==='overview')return;
+  const times=[...new Set([...FIT_TIMES,...(typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:[]),STATIC_T])];
+  for(let pass=0;pass<8;pass++){
+    let x0=VB[0],y0=VB[1],x1=x0+VB[2],y1=y0+VB[3];
+    const pad=8*Math.max(VB[2]/Math.max(1,svg.clientWidth),VB[3]/Math.max(1,svg.clientHeight));
+    for(const value of times){
+      frame(value,{});
+      // SVG getBBox includes geometry outside clip paths. The visible inset
+      // outlines already bound those details; invisible shearing tools must
+      // not enlarge the camera by several metres as they leave the inset.
+      for(const clipped of root.querySelectorAll('[clip-path]'))clipped.style.display='none';
+      const b=root.getBBox();
+      x0=Math.min(x0,b.x-pad);y0=Math.min(y0,b.y-pad);
+      x1=Math.max(x1,b.x+b.width+pad);y1=Math.max(y1,b.y+b.height+pad);
+    }
+    if(Math.abs(x0-VB[0])+Math.abs(y0-VB[1])+Math.abs(x1-VB[0]-VB[2])+Math.abs(y1-VB[1]-VB[3])<.5)break;
+    VB=[x0,y0,x1-x0,y1-y0];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  }
+}
+function factoryStop(){
+  if(factoryRaf)cancelAnimationFrame(factoryRaf);
+  factoryRaf=0;factoryLast=0;
+}
+function factoryTick(now){
+  factoryRaf=0;
+  if(!factoryActive||!factoryIntent||document.hidden||factoryMedia.matches)return;
+  if(factoryLast)factoryTime=(factoryTime+(now-factoryLast)/1000)%DUR;
+  factoryLast=now;factoryStatic=false;factoryRender();
+  factoryRaf=requestAnimationFrame(factoryTick);
+  if(now-factoryEmit>120){factoryEmit=now;factoryNotify();}
+}
+function factoryStart(){
+  if(factoryReady()&&factoryActive&&factoryIntent&&!document.hidden&&!factoryMedia.matches&&!factoryRaf){
+    factoryLast=0;factoryRaf=requestAnimationFrame(factoryTick);
+  }
+}
+function factorySeek(value){
+  const parsed=Number(value);if(!Number.isFinite(parsed))return factoryState();
+  factoryStop();factoryIntent=false;factoryStatic=false;
+  factoryTime=Math.max(0,Math.min(DUR,parsed));
+  if(factoryReady())factoryRender();factoryNotify();return factoryState();
+}
+window.__ready=false;
+window.__duration=DUR;
+window.__reviewTimes=typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:null;
+window.__viewportT=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:null;
+window.__setT=factorySeek;
+window.BOWER_FACTORY=Object.freeze({
+  setActive(value){factoryActive=!!value;if(factoryActive)factoryStart();else factoryStop();factoryNotify();return factoryState();},
+  play(){factoryIntent=true;factoryStatic=false;factoryStart();factoryNotify();return factoryState();},
+  pause(){factoryIntent=false;factoryStop();factoryNotify();return factoryState();},
+  seek:factorySeek,
+  renderStatic(){factoryIntent=false;factoryStop();factoryStatic=true;factoryTime=STATIC_T;
+    if(factoryReady())factoryRender();factoryNotify();return factoryState();},
+  getState:factoryState,
+  exportSvg(){
+    const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    copy.setAttribute('width',svg.clientWidth);copy.setAttribute('height',svg.clientHeight);
+    copy.setAttribute('style','background:#fdfcf9;color:#23272b');
+    return new XMLSerializer().serializeToString(copy);
+  }
+});
+// The file:// preview has opaque origins. Only its actual parent may issue the small
+// public drawing API; no arbitrary code, URLs, storage or DOM commands are accepted.
+window.addEventListener('message',async event=>{
+  if(event.source!==parent||parent===window||event.data?.type!=='bower-factory:command')return;
+  const {requestId,action,args}=event.data;
+  const allowed={state:'getState',getState:'getState',setActive:'setActive',play:'play',pause:'pause',seek:'seek',renderStatic:'renderStatic',exportSvg:'exportSvg'};
+  const method=Object.hasOwn(allowed,action)?allowed[action]:null;
+  if(!method)return;
+  try{
+    await window.BOWER_FACTORY_READY;
+    const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
+    parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
+  }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
+factoryMedia.addEventListener('change',()=>{
+  factoryStop();factoryStatic=factoryMedia.matches;
+  if(factoryStatic){factoryTime=STATIC_T;if(factoryReady())factoryRender();}
+  else factoryStart();factoryNotify();
+});
+let factoryWidth=0,factoryHeight=0;
+const factoryResize=new ResizeObserver(()=>{
+  if(!factoryReady()||!svg.clientWidth||!svg.clientHeight)return;
+  if(svg.clientWidth===factoryWidth&&svg.clientHeight===factoryHeight)return;
+  factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  factoryFit();factoryRender();
+});
+factoryResize.observe(svg);
+window.BOWER_FACTORY_READY=(async()=>{
+  await document.fonts.load('11.5px Safiro');await document.fonts.ready;
+  S.fontSize=DRAWING_META.id==='overview'?11:11.5;
+  factoryFit();factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  if(factoryStatic)factoryTime=STATIC_T;
+  factoryRender();window.__ready=true;factoryNotify();factoryStart();
+  if(parent!==window)parent.postMessage({type:'bower-factory:ready',state:factoryState()},'*');
+  return window.BOWER_FACTORY;
+})();
+
+})();</script></body></html>

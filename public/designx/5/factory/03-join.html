@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bower station 03: Join</title><link rel="stylesheet" href="../../4/fonts.css">
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fdfcf9}svg{display:block;width:100%;height:100%;max-height:none}body{font-family:Safiro,Arial,sans-serif}.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style>
+</head><body><svg id="s" role="img" aria-label="Bower station 03: Join"><style>.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style><g id="g"></g></svg>
+<script>(()=>{const DRAWING_META={"id":"03-join","number":"03","title":"Join","stage":"Prepare","whatHappens":"A shaper mills fingers into both ends of each clean piece, glue goes on the teeth, and an end press joins the pieces into one lamella that rests in a rack.","bower":"Nothing new here. The finger-joint shaper, the glue applicator, the end press and the rest rack are industry practice of the Weinig Grecon ProfiJoint class. Bower keeps the standard machine, or buys lamellae already jointed. This station has no Bower-specific machine. A robot is not proposed here: it would be slower, and no robotic finger-jointing of glulam lamellae was found.","testing":"Finger length, end pressure and rest time before planing (register T1): no sourced figure exists, so none is drawn or printed; assumed, to be tested. The rest time comes from the adhesive datasheet, which was not read.","sourceLinks":[{"title":"Weinig Solid Joint PS 2000, the current short-timber finger-jointing line: a modular entry model for vertical and horizontal joints, with finger lengths of 4 mm, 10/11 mm and 15/16.5 mm. Industry practice. Official Weinig product page (read). The 2010 Grecon ProfiJoint brochure (shaper, flank-jet glue, press at 2 to 6 cycles a minute) was read earlier; its file host no longer serves the PDF.","url":"https://www.weinig.co.uk/en/products/finger-jointing-lines/short-wood-lines/solid-joint-ps-2000.html"},{"title":"Weinig, finger-jointing for glulam lamellae: lamellae pressed on an endless assembly, continuous, cycle or front-end press; horizontal jointing avoids mismatch; a flying saw trims to length at the exit. Industry practice. Vendor page (read, no numbers on the page).","url":"https://www.weinig.com/en/system-solutions/examples-of-applications-uses/glulam-duo-and-trio-beams/5-finger-jointing.html"}]};
+const S={};
+const SQ=Math.sqrt(3)/2, TAU=Math.PI*2;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const CP=Math.cos(.575),SP=Math.sin(.575);
+const mkP=(ox,oy,s)=>(x,y,z)=>[ox+(x*CP-y*SP)*s, oy+((x*SP+y*CP)*.5-z)*s];
+const n1=v=>v.toFixed(1);
+const pd=(pts,close=true)=>'M'+pts.map(p=>n1(p[0])+' '+n1(p[1])).join('L')+(close?'Z':'');
+function hull(pts){pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[];for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}const up=[];for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}up.pop();lo.pop();return lo.concat(up);}
+function circ(cx,cy,r,n=16){const a=[];for(let i=0;i<n;i++){const t=i/n*TAU+.3;a.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return a;}
+function rr(u0,v0,u1,v1,r){r=r||0;if(r<.005)return[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];r=Math.min(r,(u1-u0)/2,(v1-v0)/2);const o=[];for(const[cx,cy,a0]of[[u1-r,v0+r,-90],[u1-r,v1-r,0],[u0+r,v1-r,90],[u0+r,v0+r,180]])for(let k=0;k<=3;k++){const a=(a0+k*30)*Math.PI/180;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}return o;}
+const cap2=(p,q,r0,r1)=>hull(circ(p[0],p[1],r0,14).concat(circ(q[0],q[1],r1,14)));
+const mixHex=(a,b,k)=>{const h=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=h(a),B=h(b);return'#'+A.map((v,i)=>Math.round(lerp(v,B[i],clamp(k))).toString(16).padStart(2,'0')).join('');};
+
+const sst=t=>{t=clamp(t);return t*t*(3-2*t)};
+const ease=t=>{t=clamp(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eout=t=>1-Math.pow(1-clamp(t),3);
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+
+const stepIndex=(t,bounds)=>{for(let i=0;i<bounds.length-1;i++)if(t<bounds[i+1])return i;return bounds.length-2;};
+
+function ext(c,plane,poly,a0,a1,o){o=o||{};const P=c.P;
+  const q=(p,a)=>plane==='yz'?P(a,p[0],p[1]):plane==='xz'?P(p[0],a,p[1]):P(p[0],p[1],a);
+  const p0=poly.map(p=>q(p,a0)),p1=poly.map(p=>q(p,a1));
+  return S.solid(hull(p0.concat(p1)),p1,o,c);}
+const ln=(c,pts,cls,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(p[0],p[1],p[2])),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.6}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${o.op!=null?`opacity="${n1(o.op)}"`:''}/>`;};
+
+function hatchRect(P,x,y0,y1,z0,z1,step,dir){ // hatch inside a rectangle of the plane x=const
+  let d='';const h=z1-z0,w=y1-y0;
+  for(let k=-h;k<w;k+=step){ // line z = z0 + dir*(y-y0-k)
+    let ya=y0+Math.max(0,k),yb=y0+Math.min(w,k+h);if(yb<=ya)continue;
+    const f=y=>dir>0?z0+(y-y0-k):z1-(y-y0-k);
+    const a=P(x,ya,f(ya)),b=P(x,yb,f(yb));d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+  return d;}
+
+/* ---- machine parts: frames, fasteners, hoses, linear track, cable chain, six-axis arm ---- */
+// Frames wrap a context so any extrusion can be drawn in a moved or rotated local system.
+// c.ax holds the world direction of each local axis; it decides which end cap faces the viewer.
+const AX0=[[1,0,0],[0,1,0],[0,0,1]];
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+ cr:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ nz:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}};
+function frameC(c,o,ex,ey,ez){const A=c.ax||AX0,w=e=>[0,1,2].map(i=>e[0]*A[0][i]+e[1]*A[1][i]+e[2]*A[2][i]);
+ return{P:(a,b,d)=>c.P(o[0]+a*ex[0]+b*ey[0]+d*ez[0],o[1]+a*ex[1]+b*ey[1]+d*ez[1],o[2]+a*ex[2]+b*ey[2]+d*ez[2]),ax:[w(ex),w(ey),w(ez)]};}
+// Local z runs along d from o.
+function alongC(c,o,d){const z=v3.nz(d),r=Math.abs(z[0])<.9?[1,0,0]:[0,1,0];const x=v3.nz(v3.add(r,v3.sc(z,-v3.dot(r,z))));return frameC(c,o,x,v3.cr(z,x),z);}
+const facing=(c,k)=>{const v=(c.ax||AX0)[k];return v[0]*SP+v[1]*CP+v[2]*.5>=0;};
+// Extrusion with its outlined cap always on the end nearest the viewer.
+function xt(c,plane,poly,a0,a1,o){const k=plane==='yz'?0:plane==='xz'?1:2;return facing(c,k)===(a1>=a0)?ext(c,plane,poly,a0,a1,o||{}):ext(c,plane,poly,a1,a0,o||{});}
+// Cylinder along a local axis; (u,v) is the centre in the other two axes, in xyz order.
+function cyl(c,axis,u,v,r,a0,a1,o,n){const p=circ(u,v,r,n||14);return xt(c,axis==='z'?'xy':axis==='y'?'xz':'yz',p,a0,a1,o);}
+const q3=(plane,u,v,a)=>plane==='yz'?[a,u,v]:plane==='xz'?[u,a,v]:[u,v,a];
+const matFill=()=>typeof MAT!=='undefined'&&MAT?MAT.steel:S.paper;
+// Hex heads or nuts lying on a face, one path.
+function hexes(c,plane,pts,at,r){let d='';for(const[u,v]of pts){const h=[];for(let k=0;k<6;k++){const a=k*Math.PI/3+.26;h.push(c.P(...q3(plane,u+r*Math.cos(a),v+r*Math.sin(a),at)));}d+=pd(h);}
+ return`<path d="${d}" fill="${matFill()}" stroke="${S.ink}" stroke-width=".5"/>`;}
+// Circles on a face (bores, bolt holes, lenses), one path.
+function rings(c,plane,pts,at,r,o){o=o||{};let d='';for(const[u,v]of pts)d+=pd(circ(u,v,r,o.n||12).map(p=>c.P(...q3(plane,p[0],p[1],at))));
+ return`<path d="${d}" fill="${o.fill||'none'}" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''}/>`;}
+// Inner edges on a face as one path of polylines.
+function edges(c,lines,o){o=o||{};let d='';for(const l of lines)d+=pd(l.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round"/>`;}
+const bez=(a,b,c2,d,n)=>Array.from({length:n+1},(_,k)=>{const u=k/n,p=(1-u)**3,q=3*u*(1-u)**2,r=3*u*u*(1-u),s=u**3;return[0,1,2].map(i=>p*a[i]+q*b[i]+r*c2[i]+s*d[i]);});
+// A hose or cable: an outlined tube of width w drawing units in pixels.
+function hose(c,pts,w,o){o=o||{};const d=pd(pts.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${n1(w+1.1)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${S.paper}" stroke-width="${n1(Math.max(.4,w-.1))}" stroke-linecap="round" stroke-linejoin="round"/>`;}
+
+/* Linear track, KUKA KL 4000 class: feet, box beam, two profile rails, rack, end stops, trough. */
+function trackBase(c,{x0,x1,y}){let s='';
+ for(let x=x0+.7;x<x1-.3;x+=3.4){
+  s+=xt(c,'xy',rr(x-.42,y-.82,x+.42,y+.82),0,.06,{m:'dark'});
+  s+=hexes(c,'xy',[[x-.3,y-.68],[x+.3,y-.68],[x-.3,y+.68],[x+.3,y+.68]],.06,.07);
+  s+=xt(c,'yz',[[y-.55,.06],[y+.55,.06],[y+.42,.2],[y-.42,.2]],x-.2,x+.2,{m:'dark'});
+ }
+ s+=xt(c,'yz',rr(y-.6,.2,y+.6,.5),x0,x1,{m:'steel'});
+ s+=edges(c,[[[x0,y+.6,.27],[x1,y+.6,.27]],[[x0,y+.6,.43],[x1,y+.6,.43]]]);
+ const rail=[[-.1,0],[.1,0],[.1,.05],[.06,.08],[.09,.1],[.09,.15],[-.09,.15],[-.09,.1],[-.06,.08],[-.1,.05]];
+ for(const ry of[y-.36,y+.36])s+=xt(c,'yz',rail.map(p=>[ry+p[0],.5+p[1]]),x0+.15,x1-.15,{m:'steel'});
+ let holes=[];for(let x=x0+.4;x<x1-.2;x+=.6)holes.push([x,y-.36],[x,y+.36]);s+=rings(c,'xy',holes,.65,.035,{n:6});
+ // Rack on the front face; teeth as ticks
+ s+=xt(c,'yz',rr(y+.6,.29,y+.68,.44),x0+.1,x1-.1,{m:'steel'});
+ let d='';for(let x=x0+.16;x<x1-.12;x+=.11){const a=c.P(x,y+.68,.29),b=c.P(x,y+.68,.37);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;
+ for(const xe of[x0,x1-.3]){s+=xt(c,'xy',rr(xe,y-.5,xe+.3,y+.5),.5,.85,{m:'dark'});s+=cyl(c,'x',y-.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10)+cyl(c,'x',y+.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10);}
+ return s;}
+// Cable trough in front of the track, drawn after the carriage.
+function trackTrough(c,{x0,x1,y}){const U=[[y+.8,0],[y+1.3,0],[y+1.3,.42],[y+1.26,.42],[y+1.26,.04],[y+.84,.04],[y+.84,.42],[y+.8,.42]];
+ return xt(c,'yz',U,x0+.2,x1-.2,{m:'dark'})+edges(c,[[[x0+.2,y+.84,.42],[x1-.2,y+.84,.42]]]);}
+// Energy chain: fixed end xf on the trough floor, moving end on the carriage bracket at xc.
+function cableChain(c,{xf,xc,xb,y}){const yf=y+1.22,yb=y+.88,z0=.05,h=.12,R=.19,zc=z0+R,P=c.P;
+ const lo=[[xf,z0],[xb,z0]],arcO=[],arcI=[];for(let k=0;k<=10;k++){const a=-Math.PI/2+k/10*Math.PI;arcO.push([xb+R*Math.cos(a),zc+R*Math.sin(a)]);arcI.push([xb+(R-h)*Math.cos(a),zc+(R-h)*Math.sin(a)]);}
+ const out=lo.concat(arcO,[[xc,zc+R]],[[xc,zc+R-h]],arcI.slice().reverse(),[[xf,z0+h]]);
+ let s=`<path d="${pd(out.map(p=>P(p[0],yf,p[1])))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9" stroke-linejoin="round"/>`;
+ s+=`<path d="${pd([P(xc,yb,zc+R),P(xb,yb,zc+R),P(xb,yf,zc+R),P(xc,yf,zc+R)])}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".6"/>`;
+ let d='';const tick=(x,za,zb2,yy)=>{const a=P(x,yy,za),b=P(x,yy,zb2);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;};
+ for(let x=xf+.22;x<xb;x+=.22)tick(x,z0,z0+h,yf);
+ for(let x=xc+.22;x<xb;x+=.22){tick(x,zc+R-h,zc+R,yf);const a=P(x,yb,zc+R),b=P(x,yf,zc+R);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ return s+`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;}
+// Carriage on four bearing blocks, rack drive motor, chain bracket, robot riser.
+function trackCarriage(c,{cx,y,mv,riser}){let s='';const o={m:'steel',mv};
+ for(const bx of[cx-.62,cx+.62])for(const by of[y-.36,y+.36]){s+=xt(c,'xy',rr(bx-.3,by-.17,bx+.3,by+.17),.56,.76,{m:'dark'});s+=xt(c,'yz',rr(by-.15,.58,by+.15,.74),bx+.3,bx+.34,{m:'dark'});}
+ s+=xt(c,'xy',rr(cx-.48,y+.6,cx+.08,y+.9),.3,.76,{m:'dark'});
+ s+=xt(c,'xy',rr(cx-1.02,y-.78,cx+1.02,y+.78),.76,.88,o);
+ s+=hexes(c,'xy',[[cx-.85,y-.62],[cx+.85,y-.62],[cx-.85,y+.62],[cx+.85,y+.62]],.88,.06);
+ s+=xt(c,'yz',[[y+.78,.88],[y+1.08,.88],[y+1.08,.43],[y+1.0,.43],[y+1.0,.82],[y+.78,.82]],cx+.82,cx+1.0,{m:'dark'});
+ // Drive motor with cooling rings and connector
+ const mx=cx-.2,my=y+.6;s+=cyl(c,'z',mx,my,.17,.88,1.38,o,14);
+ s+=edges(c,[1.0,1.1,1.2].map(z=>circ(mx,my,.17,14).slice(0,9).map(p=>[p[0],p[1],z])));
+ s+=xt(c,'xy',rr(mx-.07,my+.1,mx+.07,my+.24),1.24,1.36,{m:'dark'});
+ if(riser){const h=riser;s+=xt(c,'xy',rr(cx-.48,y-.48,cx+.48,y+.48),.88,.88+h,{m:'steel'});
+  s+=xt(c,'xz',[[cx+.48,.88],[cx+.48,.88+h*.6],[cx+.86,.88]],y-.03,y+.03,{m:'dark'});
+  s+=xt(c,'yz',[[y+.48,.88],[y+.48,.88+h*.6],[y+.8,.88]],cx+.27,cx+.33,{m:'dark'});
+  s+=xt(c,'xy',rr(cx-.7,y-.7,cx+.7,y+.7),.88+h,.98+h,{m:'steel'});}
+ return s;}
+
+/* Crane spreader beam: I-section beam, two lifting lugs with a bridle to a hook block and hoist
+   ropes (the crane itself stays off the drawing), and webbing slings at each pick point down to
+   the load. slings: [{x, top, bot}] where the load's top edge is at z = top and its front face
+   runs down to bot; w is the load's half width in y. Back legs draw first, front legs last. */
+function spreaderBeam(c,{x0,x1,y=0,z,w,slings,lift=1.3,rope=2.2}){let s='';const P=c.P,xm=(x0+x1)/2,zt=z+.3;
+ const L=(pts,wd)=>`<path d="${pd(pts.map(q=>P(...q)),false)}" fill="none" stroke="${S.ink}" stroke-width="${wd}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ for(const g of slings)s+=L([[g.x,y,z],[g.x,y-w,g.top]],1.5);
+ const I=[[-.16,0],[.16,0],[.16,.05],[.035,.05],[.035,.25],[.16,.25],[.16,.3],[-.16,.3],[-.16,.25],[-.035,.25],[-.035,.05],[-.16,.05]];
+ s+=xt(c,'yz',I.map(q=>[y+q[0],z+q[1]]),x0,x1,{m:'steel'});
+ for(const xe of[x0,x1])s+=xt(c,'yz',rr(y-.18,z-.02,y+.18,z+.32),xe-.03,xe+.03,{m:'dark'});
+ const H=[xm,y,zt+lift],lugs=[x0+(x1-x0)*.28,x1-(x1-x0)*.28];
+ for(const xl of lugs){s+=xt(c,'xz',[[xl-.14,zt],[xl+.14,zt],[xl+.07,zt+.22],[xl-.07,zt+.22]],y-.02,y+.02,{m:'dark'});s+=L([[xl,y,zt+.16],H],.9);}
+ // Hook block: sheave between side plates, hook below, two hoist ropes leaving upward
+ s+=L([H,[xm,y,H[2]+.18]],1.1);
+ s+=xt(c,'xz',rr(xm-.24,H[2]+.18,xm+.24,H[2]+.78,.08),y-.13,y+.13,{m:'dark'});
+ s+=cyl(c,'y',xm,H[2]+.48,.17,y+.13,y+.17,{m:'steel'},12);
+ s+=L([[xm-.15,y,H[2]+.7],[xm-.15,y,H[2]+.78+rope]],.7)+L([[xm+.15,y,H[2]+.7],[xm+.15,y,H[2]+.78+rope]],.7);
+ for(const g of slings){s+=cyl(c,'y',g.x,z-.07,.06,y-.03,y+.03,{m:'dark'},8);s+=L([[g.x,y,z-.1],[g.x,y+w,g.top],[g.x,y+w,g.bot]],1.5);}
+ return s;}
+
+/* Six-axis industrial arm, KUKA QUANTEC class. All joints lie in the plane x = const of the
+   context c. Sh, El, Wr are shoulder (A2), elbow (A3) and wrist (A5) centres as [y,z].
+   fd is the flange direction [dy,dz]. tool(ff) draws in the flange frame from z = 0.
+   Base sits at [x,y,zb]; the column is fixed for a robot that faces -y. */
+// halo: a paper gap of about 2.5 px round the arm's silhouette, so the jacks and yokes it stands
+// in front of stop short of its outline instead of tangling with it. The arm is always nearer the
+// viewer than the pin row, so it needs a gap, not hidden lines.
+function robot6(c,o){const s=robot6Lines(c,o);if(!o.halo)return s;
+ return`<defs><filter id="arm-halo" x="-5%" y="-5%" width="110%" height="110%"><feMorphology in="SourceAlpha" operator="dilate" radius="${n1(2.5*Math.max(.6,kk()))}" result="d"/><feFlood flood-color="${S.paper}"/><feComposite in2="d" operator="in"/></filter></defs><use href="#arm" filter="url(#arm-halo)"/><g id="arm">${s}</g>`;}
+function robot6Lines(c,{x,y,zb,Sh,El,Wr,fd,tool,mv}){let s='';const P=c.P;
+ const st={m:'steel'},dk={m:'dark'};
+ // Base frame with fixing bolts, A1 gear housing and slewing ring
+ const oct=[[-.72,-.45],[-.45,-.72],[.45,-.72],[.72,-.45],[.72,.45],[.45,.72],[-.45,.72],[-.72,.45]].map(p=>[x+p[0],y+p[1]]);
+ s+=xt(c,'xy',oct,zb,zb+.12,dk);
+ s+=hexes(c,'xy',[[x-.56,y-.3],[x-.56,y+.3],[x+.56,y-.3],[x+.56,y+.3],[x-.3,y+.56],[x+.3,y+.56]],zb+.12,.055);
+ s+=cyl(c,'z',x,y,.56,zb+.12,zb+.5,st,20)+cyl(c,'z',x,y,.6,zb+.5,zb+.58,dk,20);
+ // A1 motor at the back of the column
+ s+=cyl(c,'z',x-.24,y+.62,.15,zb+.58,zb+1.16,st,12)+xt(c,'xy',rr(x-.3,y+.74,x-.18,y+.86),zb+1.0,zb+1.12,dk);
+ // Rotating column, cast, carrying the A2 axis forward of A1
+ const z1=zb+.58,col=[[y+.62,z1],[y-.62,z1],[Sh[0]-.45,Sh[1]-.55],[Sh[0]-.35,Sh[1]+.3],[Sh[0]+.2,Sh[1]+.56],[y+.5,Sh[1]+.1]];
+ s+=xt(c,'yz',col,x-.46,x+.46,st);
+ s+=edges(c,[[[x+.46,y+.45,z1+.12],[x+.46,Sh[0]-.3,Sh[1]-.45]]]);
+ // Lower arm with recessed panel and hub bolt circle
+ const len=Math.hypot(El[0]-Sh[0],El[1]-Sh[1]);
+ s+=xt(c,'yz',cap2(Sh,El,.46,.34),x-.32,x+.32,{m:'steel',mv});
+ const inner=hull(circ(Sh[0]+(El[0]-Sh[0])*.2,Sh[1]+(El[1]-Sh[1])*.2,.26,10).concat(circ(Sh[0]+(El[0]-Sh[0])*.82,Sh[1]+(El[1]-Sh[1])*.82,.19,10)));
+ s+=edges(c,[inner.concat([inner[0]]).map(p=>[x+.32,p[0],p[1]])]);
+ // A2 gearbox and motor on the near side
+ s+=cyl(c,'x',Sh[0],Sh[1],.52,x+.46,x+.6,st,20);
+ s+=rings(c,'yz',circ(Sh[0],Sh[1],.4,8),x+.6,.04,{n:6});
+ s+=cyl(c,'x',Sh[0],Sh[1],.18,x+.6,x+.7,dk,12);
+ s+=cyl(c,'x',Sh[0]+.62,Sh[1]-.42,.2,x+.42,x+.98,st,14)+xt(c,'xy',rr(x+.6,Sh[0]+.52,x+.78,Sh[0]+.72),Sh[1]-.24,Sh[1]-.12,dk);
+ // Counterbalance cylinder: barrel pivots on the column, rod on the lower arm
+ const ua=[(El[0]-Sh[0])/len,(El[1]-Sh[1])/len],cb0=[Sh[0]+.95,Sh[1]-.05],cb1=[Sh[0]+ua[0]*.95-ua[1]*.3,Sh[1]+ua[1]*.95+ua[0]*.3];
+ const cbm=[lerp(cb0[0],cb1[0],.58),lerp(cb0[1],cb1[1],.58)];
+ s+=xt(c,'yz',cap2(cbm,cb1,.07,.07),x+.62,x+.72,{m:'steel',mv});
+ s+=xt(c,'yz',cap2(cb0,cbm,.17,.15),x+.58,x+.76,{m:'steel'});
+ s+=cyl(c,'x',cb0[0],cb0[1],.09,x+.76,x+.82,dk,10)+cyl(c,'x',cb1[0],cb1[1],.08,x+.72,x+.8,dk,10);
+ // Arm frame: b along the forearm toward the wrist, d its upward normal
+ const L2=Math.hypot(Wr[0]-El[0],Wr[1]-El[1]),u=[(Wr[0]-El[0])/L2,(Wr[1]-El[1])/L2];let nrm=[-u[1],u[0]];if(nrm[1]<0)nrm=[-nrm[0],-nrm[1]];
+ const fa=frameC(c,[x,El[0],El[1]],[1,0,0],[0,u[0],u[1]],[0,nrm[0],nrm[1]]);
+ // Forearm tube with A4 bearing ring, wrist with A5 axis, A6 flange
+ s+=xt(fa,'xz',circ(0,0,.22,14),.42,L2-.3,{m:'steel',mv});
+ s+=xt(fa,'xz',circ(0,0,.26,14),.42,.6,st);
+ s+=xt(fa,'yz',cap2([L2-.36,0],[L2,0],.22,.25),-.2,.2,st);
+ s+=xt(fa,'yz',circ(L2,0,.18,12),.2,.27,dk);
+ const ff=alongC(c,[x,Wr[0],Wr[1]],[0,fd[0],fd[1]]);
+ s+=xt(ff,'xy',circ(0,0,.17,14),.12,.3,st)+xt(ff,'xy',circ(0,0,.24,16),.3,.36,st);
+ s+=rings(ff,'xy',circ(0,0,.17,6),.36,.025,{n:6});
+ // Arm housing round the elbow with the A3 drive and the A4 to A6 motors at the back
+ s+=xt(fa,'yz',rr(-.95,-.36,.48,.36,.1),-.36,.36,{m:'steel',mv});
+ s+=cyl(fa,'x',0,0,.44,.36,.46,st,18)+rings(fa,'yz',circ(0,0,.32,8),.46,.035,{n:6});
+ for(const[a,d]of[[-.17,-.14],[.17,-.14],[0,.15]])s+=xt(fa,'xz',circ(a,d,.12,10),-.95,-1.42,dk);
+ // Cable dress: base to column back, along the lower arm, to the motors at the back of the arm
+ const back=[El[0]-u[0]*1.2,El[1]-u[1]*1.2];
+ const cp=[[x+.2,y+.75,zb+.35],[x+.2,y+.8,z1+.9],[x+.36,Sh[0]+.6,Sh[1]+.65],[x+.36,Sh[0]+ua[0]*1.6-ua[1]*.55,Sh[1]+ua[1]*1.6+ua[0]*.55],[x+.36,El[0]-ua[0]*.7-ua[1]*.5,El[1]-ua[1]*.7+ua[0]*.5],[x+.2,back[0],back[1]]];
+ const pts=bez(cp[0],cp[1],cp[1],cp[2],5).concat(bez(cp[2],cp[3],cp[4],cp[5],10).slice(1));
+ s+=hose(c,pts,2.4);
+ for(const k of[6,10,13]){const p=pts[k];s+=edges(c,[[[p[0]-.06,p[1],p[2]-.08],[p[0]-.06,p[1],p[2]+.08]]],{w:1.1});}
+ s+=hose(c,bez([x+.2,back[0],back[1]],[x+.3,back[0]+u[0]*.2,back[1]+.6],[x+.3,Wr[0]-u[0]*.9,Wr[1]+.45],[x+.24,Wr[0]-u[0]*.3,Wr[1]+.28],8),1.4);
+ // Tool in the flange frame, starting at the flange face
+ s+=tool(frameC(ff,[0,0,.36],[1,0,0],[0,1,0],[0,0,1]));
+ return s;}
+// Planar two-link solution with the elbow up. Returns the elbow [y,z].
+function elbowUp(Sh,Wr,L1,L2){let dy=Wr[0]-Sh[0],dz=Wr[1]-Sh[1],d=Math.hypot(dy,dz);const mx=L1+L2-.02;if(d>mx){dy*=mx/d;dz*=mx/d;d=mx;}
+ const a=(L1*L1-L2*L2+d*d)/(2*d),h=Math.sqrt(Math.max(0,L1*L1-a*a));let ny=-dz/d,nz=dy/d;if(nz<0){ny=-ny;nz=-nz;}
+ return[Sh[0]+dy*a/d+ny*h,Sh[1]+dz*a/d+nz*h];}
+
+// Labels stay 11.5 px on screen. The svg scales its viewBox with "meet", so the larger ratio wins.
+const fsz=()=>11.5*(typeof VB!=='undefined'&&VB?Math.max(VB[2]/Math.max(280,svg.clientWidth||900),VB[3]/Math.max(1,svg.clientHeight||VB[3])):1.3);
+const kk=()=>fsz()/11.5;
+/* Placement rule for every station: put the white box in free paper first. Overlap the drawing
+   only where no free paper is left, and then never over a loaded (red) part or another label.
+   Leaders never cross each other or a moving machine on their way to the box. dx, dy are screen
+   pixels from the anchor to the elbow, so the box can be steered into the free area.
+   o.at (a world point) pins the elbow in place, so a label on a moving part keeps its box still
+   in the free area while its leader follows the part. o.side (-1 or 1) fixes the text side.
+   Text is always horizontal: no label, tag or dimension text is ever rotated (dimLine follows). */
+function lead(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk();const id=o.id||txt;const p=c.P(anc[0],anc[1],anc[2]);dx*=k;dy*=k;
+  if(o.at){const q=c.P(...o.at);dx=q[0]-p[0];dy=q[1]-p[1];}
+  const bx=p[0]+dx,by=p[1]+dy,sd=o.side||(dx<0?-1:1),col=S.ink;
+  const L=Math.hypot(dx,dy),ux=-dx/L,uy=-dy/L,ah=5*k; // arrowhead at anchor
+  const tip=p,b1=[tip[0]-ux*(-ah)+(-uy)*ah*.35,tip[1]-uy*(-ah)+ux*ah*.35],b2=[tip[0]-ux*(-ah)-(-uy)*ah*.35,tip[1]-uy*(-ah)-ux*ah*.35];
+  const hd=`<path d="${pd([tip,b1,b2])}" fill="${col}"/>`;
+  // Bower-specific mark: a small green filled square tag.
+  const tag=o.bower?`<tspan style="fill:${S.bower||'#2a6a50'};font-size:.62em">\u25A0</tspan>\u00A0`:'';
+  return`<g data-label="${id}" data-white="${o.box!==false && S.labelBoxes!==false}"${o.bower?' data-bower="true"':''} opacity="${n1(a)}"><path d="M${n1(p[0])} ${n1(p[1])}L${n1(bx)} ${n1(by)}L${n1(bx+sd*12*k)} ${n1(by)}" fill="none" stroke="${col}" stroke-width=".6"/>${hd}<text x="${n1(bx+sd*16*k)}" y="${n1(by+3.6*k)}" text-anchor="${sd<0?'end':'start'}" class="lb" style="font-size:${fsz()}px;fill:${col}">${tag}${txt}</text></g>`;}
+
+// A leaderless label: a paper-boxed note set next to its part, such as a value beside a jack.
+// It counts as a label for overlap and visibility, and not as a leader. dx, dy are screen pixels.
+// Every value sits directly above its part or gets a 4 px tick, so the part is never in doubt:
+// o.above centres the box just above the anchor, no tick. o.tick draws a 4 px tick from the anchor
+// toward (dx, dy) and sets the box against the tick's end (right, left, above or below by the
+// larger of dx and dy), so only the direction of dx, dy matters. Ticks are not leaders.
+function tag(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk(),p=c.P(anc[0],anc[1],anc[2]),col=S.ink,fs=fsz()*(o.size||1);
+  let x=p[0]+dx*k,y=p[1]+dy*k+3.6*k,an=o.anchor||'start',tk='';
+  if(o.above){x=p[0];y=p[1]-6*k;an='middle';}
+  else if(o.tick){const L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,e=[p[0]+ux*4*k,p[1]+uy*4*k];
+   tk=`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(e[0])} ${n1(e[1])}" stroke="${col}" stroke-width=".75" fill="none"/>`;
+   if(Math.abs(dx)>=Math.abs(dy)){an=dx<0?'end':'start';x=e[0]+(dx<0?-2.5:2.5)*k;y=e[1]+fs*.35;}
+   else{an='middle';x=e[0];y=dy<0?e[1]-2.5*k-fs*.22:e[1]+2.5*k+fs*.78;}}
+  return`<g data-label="${o.id||txt}" data-white="true" data-leaderless="true" opacity="${n1(a)}">${tk}<text x="${n1(x)}" y="${n1(y)}" text-anchor="${an}" class="lb" style="font-size:${fs}px;fill:${col}">${txt}</text></g>`;}
+
+// Called after insertion so boxes use the browser's actual font metrics.
+function collectAnnotations(){
+ const labels=[],leaders=[],dimensions=[];
+ for(const g of root.querySelectorAll('[data-label]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  g.dataset.annotationId=g.dataset.label;
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=g.dataset.white==='true';
+  const box={x:b.x-2*k,y:b.y-2*k,w:b.width+4*k,h:b.height+4*k};
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,fill:S.paper||'#fdfcf9'}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);text.style.stroke='none';}
+  labels.push({id:g.dataset.label,text:text.textContent,box,white});
+  if(g.dataset.leaderless==='true')continue;
+  const p=g.querySelector('path');const nums=p.getAttribute('d').match(/-?\d+(?:\.\d+)?/g).map(Number);
+  leaders.push({id:g.dataset.label,segments:[[nums.slice(0,2),nums.slice(2,4)],[nums.slice(2,4),nums.slice(4,6)]]});
+ }
+ for(const g of root.querySelectorAll('[data-dimension]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  dimensions.push({segments:JSON.parse(g.dataset.dimension)});
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=S.labelBoxes!==false;
+  const matrix=text.transform.baseVal.consolidate()?.matrix;
+  const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>matrix?new DOMPoint(x,y).matrixTransform(matrix):{x,y});
+  const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y);
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:b.x-2*k,y:b.y-2*k,width:b.width+4*k,height:b.height+4*k,fill:S.paper||'#fdfcf9',stroke:'none',transform:text.getAttribute('transform')||''}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);}
+  g.dataset.annotationId='dimension:'+text.textContent;
+  labels.push({id:g.dataset.annotationId,text:text.textContent,white,box:{x:Math.min(...xs)-2*k,y:Math.min(...ys)-2*k,w:Math.max(...xs)-Math.min(...xs)+4*k,h:Math.max(...ys)-Math.min(...ys)+4*k}});
+ }
+ window.__annotations={labels,leaders,dimensions};
+}
+
+function dimLine(c,A,B,off,txt,a,o){if(a<.02||kk()>1.5)return'';const k=kk();const P=c.P;
+  const a2=[A[0]+off[0],A[1]+off[1],A[2]+off[2]],b2=[B[0]+off[0],B[1]+off[1],B[2]+off[2]];
+  const ov=.25,e=off.map(v=>v?Math.sign(v)*ov:0);
+  const p=P(...a2),q=P(...b2);
+  let s=`<g opacity="${n1(a)}" stroke="${S.ink}" fill="none" stroke-width=".5">`;
+  const ea=P(A[0]+off[0]*.08,A[1]+off[1]*.08,A[2]+off[2]*.08),eb=P(B[0]+off[0]*.08,B[1]+off[1]*.08,B[2]+off[2]*.08);
+  const ea2=P(a2[0]+e[0],a2[1]+e[1],a2[2]+e[2]),eb2=P(b2[0]+e[0],b2[1]+e[1],b2[2]+e[2]);
+  s+=`<path d="M${n1(ea[0])} ${n1(ea[1])}L${n1(ea2[0])} ${n1(ea2[1])}M${n1(eb[0])} ${n1(eb[1])}L${n1(eb2[0])} ${n1(eb2[1])}M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}"/>`;
+  const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,tk=4*k;
+  for(const m of[p,q])s+=`<path d="M${n1(m[0]-(ux-uy)*tk)} ${n1(m[1]-(uy+ux)*tk)}L${n1(m[0]+(ux-uy)*tk)} ${n1(m[1]+(uy+ux)*tk)}" stroke-width="1"/>`;
+  // Text is always horizontal, whatever the direction of the dimension line: rotated labels are
+  // slow to read. The box is set clear of the line on its upper side (or past the end tick at B
+  // with o.beyond), using an estimate of the text width.
+  const fs=fsz(),tw=txt.length*fs*.56,th=fs*1.25,gap=5*k;
+  let nx=-uy,ny=ux;if(ny>0||(Math.abs(ny)<1e-6&&nx<0)){nx=-nx;ny=-ny;}
+  const sup=(dx_,dy_)=>(Math.abs(dx_)*tw+Math.abs(dy_)*th)/2;
+  const cx_=o&&o.beyond?q[0]+ux*(sup(ux,uy)+gap):(p[0]+q[0])/2+nx*(sup(nx,ny)+gap),cy_=o&&o.beyond?q[1]+uy*(sup(ux,uy)+gap):(p[1]+q[1])/2+ny*(sup(nx,ny)+gap);
+  s+=`<text x="${n1(cx_)}" y="${n1(cy_+fs*.35)}" text-anchor="middle" class="lb" style="font-size:${n1(fs)}px;fill:${S.ink};stroke:none">${txt}</text></g>`;
+  return s.replace('<g ',`<g data-dimension='${JSON.stringify([[p,q],[ea,ea2],[eb,eb2]])}' `);}
+
+// Deterministic surface samples. Progress leaves all earlier samples visible.
+function pointCloud(c,{surface,target,progress,count=480,tolerance=.05}){
+ let s='',stripe=[];
+ for(let i=0;i<count;i++){
+  const u=i/(count-1),v=((i*73)%count)/(count-1);
+  if(u>progress)continue;
+  const p=surface(u,v),noise=Math.sin(i*127.1)*.012;
+  const q=[p[0],p[1],p[2]+noise],xy=c.P(...q);
+  const error=Math.hypot(...q.map((value,axis)=>value-target(u,v)[axis]));
+  s+=`<circle cx="${n1(xy[0])}" cy="${n1(xy[1])}" r=".65" fill="${error>tolerance?'#b4492f':S.ink}"/>`;
+ }
+ const outline=[];
+ for(let i=0;i<=40;i++)outline.push(c.P(...target(i/40,.5)));
+ for(let i=0;i<=20;i++)stripe.push(c.P(...surface(clamp(progress),i/20)));
+ return s+`<path d="${pd(outline,false)}" fill="none" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="2 2"/><path d="${pd(stripe,false)}" fill="none" stroke="#b4492f" stroke-width="1.3"/>`;
+}
+// Scan points drawn as two paths, so several hundred points stay cheap. Noise is deterministic.
+// Points behind progress persist. compare (0 to 1) brings in the comparison: a point further
+// than tolerance from the target turns full red and grows to 1.5 times the on-target size.
+// On-target points stay ink at the normal size, so the error reads at a glance.
+function scanCloud(c,{surface,target,progress,count=600,noise=.03,compare=0,tolerance=.15,r=.75}){
+ let on='',off='';const k=clamp(compare);
+ for(let i=0;i<count;i++){
+  const u=i/(count-1);if(u>progress)break;
+  const v=((i*73)%count)/(count-1),p=surface(u,v),q=target(u,v);
+  const xy=c.P(p[0]+Math.sin(i*91.3)*noise*.4,p[1]+Math.sin(i*311.7)*noise,p[2]+Math.sin(i*127.1)*noise);
+  const d=`M${n1(xy[0])} ${n1(xy[1])}h.01`;
+  if(k>.01&&Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])>tolerance)off+=d;else on+=d;
+ }
+ const red=mixHex(S.ink,'#b4492f',k);
+ return(on?`<path d="${on}" fill="none" stroke="${S.ink}" stroke-width="${n1(2*r)}" stroke-linecap="round"/>`:'')
+  +(off?`<path d="${off}" fill="none" stroke="${red}" stroke-width="${n1(2*r*(1+.5*k))}" stroke-linecap="round"/>`:'');
+}
+// The target the scan is compared with: 0.75 px dashed ink lines along chosen edges of the
+// target surface (v values of the same surface callback), sampled at n steps along u.
+function targetOutline(c,{target,edges,n=48,alpha=1}){if(alpha<.01)return'';let d='';
+ for(const v of edges){const l=[];for(let i=0;i<=n;i++)l.push(c.P(...target(i/n,v)));d+=pd(l,false);}
+ return`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".75" stroke-dasharray="5 3" stroke-linecap="butt" opacity="${n1(alpha)}"/>`;}
+
+// Axis of separation: a dashed ink line from the slot a part leaves to where it is now. It is
+// darker than the floor lines so it reads, and it always starts at the slot on the machine.
+function explodeAxis(c,a,b,o){o=o||{};const p=c.P(...a),q=c.P(...b);if(Math.hypot(p[0]-q[0],p[1]-q[1])<1)return'';
+ return`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}" fill="none" stroke="${S.ink}" stroke-width="${o.w||.5}" stroke-dasharray="4 2.5" opacity="${o.op||.85}"/>`;}
+// Exploded parts keep clear space: choose offsets so a clear paper gap reads all along each part's
+// length at full hold, from every neighbour, the machine it left and the other parts. A near miss
+// (a part that almost touches another) reads as a collision, so open the gap or change the axis.
+// Component render callbacks receive their separated context and moment palette.
+// Optional: assembled(c) draws the closed assembly in true depth order; part.annotate({P},amount)
+// replaces the default label so a station can sequence labels or use a dimension.
+function explodedView(c,t,{start=0,open=1,hold=4,close=1,components,assembled}){
+ const amount=ease(seg(t,start,start+open))*(1-ease(seg(t,start+open+hold,start+open+hold+close)));
+ if(t<start||t>start+open+hold+close)return '';
+ if(amount<=.01&&assembled)return assembled(c);
+ let s='';
+ for(const part of components){
+  const delta=part.offset.map(v=>v*amount),P=(x,y,z)=>c.P(x+delta[0],y+delta[1],z+delta[2]);
+  const anchor=part.anchor||[0,0,0];
+  if(amount>.01)s+=explodeAxis(c,anchor,anchor.map((v,i)=>v+delta[i]));
+  s+=part.draw({P},amount?{steel:'#e8ecee',grain:'#a2845a'}:null);
+  if(part.annotate)s+=part.annotate({P},amount);
+ else if(amount>.99)s+=lead({P},anchor,...(part.labelOffset||[20,-20]),part.label,1,{id:part.id});
+ }
+ return s;
+}
+
+/* ---- screen-space overlay: title block and flat instruments ----
+   These draw in viewBox coordinates after fit(), not in the isometric world, so a timer reads
+   as a timer and not as a disc lying on the floor. Sizes are screen pixels times kk(). */
+// A point at fractions (fx, fy) of the fitted viewBox, moved by dx, dy screen pixels.
+const hudAt=(fx,fy,dx,dy)=>VB?[VB[0]+fx*VB[2]+(dx||0)*kk(),VB[1]+fy*VB[3]+(dy||0)*kk()]:null;
+const HUD={P:(x,y)=>[x,y]};
+// The title block note sits in the drawing's bottom-left corner, muted, and never fades.
+function titleBlock(text){const p=hudAt(0,1,10,-10);if(!p)return'';
+ return`<text x="${n1(p[0])}" y="${n1(p[1])}" class="lb tb" style="font-size:${n1(fsz()*.92)}px;fill:${S.mut||S.hid||'#6b7178'}">${text}</text>`;}
+// A flat dial: ring, twelve ticks, progress arc p (0 to 1) and hand. at is the centre.
+function hudDial(at,p,a,o){if(!at||a<.01)return'';o=o||{};const k=kk(),r=(o.r||22)*k,[cx,cy]=at;
+ const pt=(ang,rr)=>[cx+rr*Math.sin(ang),cy-rr*Math.cos(ang)];const ring=[],arc=[];
+ for(let i=0;i<=48;i++)ring.push(pt(i/48*TAU,r));
+ const m=Math.max(1,Math.round(48*p));for(let i=0;i<=m;i++)arc.push(pt(i/m*TAU*p,r));
+ let d='';for(let i=0;i<12;i++){const A=pt(i/12*TAU,r*.82),B=pt(i/12*TAU,r);d+=`M${n1(A[0])} ${n1(A[1])}L${n1(B[0])} ${n1(B[1])}`;}
+ const h=pt(p*TAU,r*.7);
+ return`<g opacity="${n1(a)}"><path d="${pd(ring)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/><path d="${d}" stroke="${S.ink}" stroke-width=".5"/>`
+  +`<path d="${pd(arc,false)}" fill="none" stroke="${S.ink}" stroke-width="2" stroke-linecap="butt"/><path d="M${n1(cx)} ${n1(cy)}L${n1(h[0])} ${n1(h[1])}" stroke="${S.ink}" stroke-width="1" stroke-linecap="round"/><circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(1.6*k)}" fill="${S.ink}"/></g>`;}
+
+/* Station 03 Join. A finger-jointing line of the Weinig Grecon ProfiJoint class: industry
+   practice, nothing Bower-specific and no robot. A clean, graded piece from station 02 runs in
+   on a roller table; chain dogs carry it crosswise through a shaper with a hogger and a finger
+   spindle at each end (slitting saws top and bottom, finger cutters, sheet guards, extraction).
+   A flank-jet applicator puts glue on the teeth at one end, lift arms transfer the piece to the
+   end press, and a pusher drives it into the growing lamella between hold-downs and a counter-
+   holder. The finished lamella is pushed onto a rest rack until the joint glue has cured; it is
+   planed later, at station 04. Finger length, end pressure and rest time are not drawn as
+   values (register T1). Drawing units are schematic. */
+const DUR=32, BND=[0,5.5,12.5,17.5,25.2,32];
+const FIT_TIMES=[.6,2,8.8,14,18.5,21.5,24.5,26,29,31], STATIC_T=21.5;
+// Review frames: infeed, exploded finger spindle, milling, glue, press, outfeed, rest rack.
+const REVIEW_TIMES=[2.6,8.8,10.6,14.6,21.4,24.6,27.4,30.2], VIEWPORT_T=8.8;
+/* ---- scene constants (drawing units; 1 unit is not a real length) ---- */
+const BZ=.9, BT=.24, BW=.3, BL=2.6, FL=.2, NT=3, TZ0=.86, TH=.48;
+const RF=.42, RS=.47, RH=.36; // finger cutter, slitting saw and hogger radii
+const YL=-6.0, YH=-3.95, YS=-2.9, YG=-1.9; // infeed lane, hogger and finger spindles, glue
+const XB=3.2+RF-FL, XA=.6-RF+FL, XBH=3.2+RH-.02, XAH=.6-RH+.02; // spindle axes, near and far end
+const CY0=-6.6, CY1=-1.45, XC=[1.0,1.9,2.8]; // chain run and chain beams
+const XJ=5.2; // the lamella's tail, where the next joint is pressed
+const ADV=5.4; // the finished lamella runs out this far before it goes to the rack
+const RACKX=[8.7,10.9,13.1,15.1], RY=-3.7, RL=[.52,1.12,1.72], LY=-2.4;
+let MAT=null; // material palette, set only while the exploded moment draws
+
+/* ---- timeline ---- */
+const stepOf=t=>stepIndex(((t%DUR)+DUR)%DUR,BND);
+const win=(t,a,b,r=.5)=>seg(t,a,a+r)*(1-seg(t,b-r,b));
+const f3=v=>v.toFixed(3);
+// The piece: rolls in along x on the lane, chain dogs carry it along y through the hogger and
+// finger spindles, it waits under the glue nozzles, lift arms move it onto the press line.
+const IN0=.4,IN1=3.0, IX0=-2.4, IX1=.6;
+const MI0=5.6,MI1=12.0, MY0=-5.0;
+const GL0=12.9,GL1=15.3; // glue jets on
+const TR0=15.7,TR1=16.1,TR2=16.9,TR3=17.2; // lift, carry, lower
+function pieceY(t){if(t<3.3)return YL;if(t<5.1)return lerp(YL,MY0,ease(seg(t,3.3,5.1)));if(t<MI1)return lerp(MY0,YG,seg(t,MI0,MI1));
+ if(t<TR1)return YG;return lerp(YG,0,ease(seg(t,TR1,TR2)));}
+const liftZ=t=>.1*sst(seg(t,TR0,TR1))*(1-sst(seg(t,TR2,TR3)));
+const chainOff=t=>pieceY(Math.min(t,TR0))-YL; // chain travel: 4.1 over the loop, two dog pitches
+const DOGP=2.05;
+// Press: push to touch, hold-downs drop, press closes the joint, release, run out.
+const PU0=17.6,PU1=19.4,HD0=19.5,HD1=20.0,PR0=20.3,PR1=21.8,PR2=22.6,RL0=22.7,RL1=23.1,OUT0=23.2,OUT1=25.0;
+const pressK=t=>ease(seg(t,PR0,PR1));
+function pTail(t){if(t<PU0)return IX1;if(t<PU1+.01)return lerp(IX1,XJ-BL,ease(seg(t,PU0,PU1)));return XJ-BL+FL*pressK(t);}
+const holdDown=t=>sst(seg(t,HD0,HD1))*(1-sst(seg(t,RL0,RL1)));
+const pressing=t=>t>=PR0&&t<PR2;
+const pusherX=t=>t<OUT0?pTail(t)-.06:lerp(XJ-BL+FL,IX1,ease(seg(t,OUT0,OUT1+.2)))-.06;
+const runOut=t=>ADV*ease(seg(t,OUT0,OUT1));
+// Rest: kickers push the lamella off the outfeed; it slides down the skids onto the rack arms.
+const KI0=25.3,KI1=26.8;
+function rackPath(k){if(k<.3)return[lerp(0,-.62,k/.3),BZ];if(k<.6){const u=(k-.3)/.3;return[lerp(-.62,-1.3,u),lerp(BZ,RL[0]+.08,u)];}
+ return[lerp(-1.3,LY,(k-.6)/.4),RL[0]+.06+.02*(1-(k-.6)/.4)];}
+const kickAmt=t=>seg(t,KI0,KI1);
+const kickY=t=>{const a=sst(seg(t,KI0,KI0+.45)),r=sst(seg(t,26.4,27.2));return lerp(.42,-.32,a)*(1-r)+.42*r;};
+// The next piece rolls in on the lane while the lamella rests.
+const NX=t=>lerp(IX0,IX1,ease(seg(t,27.6,30.6)));
+// Exploded finger spindle during milling: opens, holds 4.4 s, closes.
+const EX0=6.0,EXO=.6,EXH=4.4,EXC=.5;
+const exAmt=t=>ease(seg(t,EX0,EX0+EXO))*(1-ease(seg(t,EX0+EXO+EXH,EX0+EXO+EXH+EXC)));
+
+/* ---- memo: identical machine states reuse their markup ---- */
+const MEMO=new Map();
+const memo=(key,fn)=>{if(MAT)key+='|m';let v=MEMO.get(key);if(v===undefined){if(MEMO.size>4000)MEMO.clear();v=fn();MEMO.set(key,v);}return v;};
+const st={m:'steel'},dk={m:'dark'};
+const tr=(c,x,y,z)=>frameC(c,[x,y,z||0],[1,0,0],[0,1,0],[0,0,1]);
+const sp=(pts,col,w,dash,op)=>`<path d="${pd(pts,false)}" fill="none" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${op!=null?`opacity="${n1(op)}"`:''}/>`;
+const hexP=(r,a0)=>Array.from({length:6},(_,k)=>[r*Math.cos(k*Math.PI/3+(a0||0)),r*Math.sin(k*Math.PI/3+(a0||0))]);
+
+/* ---- roller tables along x (from station 02): legs with feet, channels, rollers, drive ---- */
+const CH=(y0,s)=>[[y0,TZ0-.22],[y0+s*.1,TZ0-.22],[y0+s*.1,TZ0-.19],[y0+s*.04,TZ0-.19],[y0+s*.04,TZ0-.03],[y0+s*.1,TZ0-.03],[y0+s*.1,TZ0],[y0,TZ0]];
+function legs(c,x0,x1,y,n){let s='';n=n||Math.max(2,Math.round((x1-x0)/2.1)+1);
+ for(let k=0;k<n;k++){const x=lerp(x0+.25,x1-.25,k/(n-1));
+  s+=xt(c,'xy',rr(x-.12,y-.12,x+.12,y+.12),0,.035,dk)+hexes(c,'xy',[[x-.08,y-.08],[x+.08,y+.08]],.035,.025);
+  s+=xt(c,'xy',rr(x-.04,y-.04,x+.04,y+.04),.035,TZ0-.22,st);}
+ return s;}
+function tableBack(c,x0,x1,o){o=o||{};let s='';
+ s+=legs(c,x0,x1,-TH-.04);
+ s+=xt(c,'yz',CH(-TH-.06,1),x0,x1,st);
+ if(o.fence){s+=xt(c,'yz',[[-BW-.07,TZ0],[-BW-.03,TZ0],[-BW-.03,BZ+.22],[-BW-.07,BZ+.22]],x0+.1,x1-.1,st);
+  for(let x=x0+.5;x<x1-.3;x+=1.5)s+=xt(c,'yz',[[-TH-.06,TZ0],[-BW-.03,TZ0],[-BW-.03,TZ0+.1],[-TH,TZ0+.04]],x-.05,x+.05,dk);}
+ const n=Math.max(2,Math.round((x1-x0)/2.1)+1);
+ for(let k=0;k<n;k++){const x=lerp(x0+.25,x1-.25,k/(n-1));s+=xt(c,'yz',rr(-TH,.28,TH,.33),x-.025,x+.025,dk);}
+ for(let x=x0+.22;x<x1-.1;x+=.45)s+=cyl(c,'y',x,BZ-.055,.055,-TH+.04,TH-.04,st,10);
+ return s;}
+function tableFront(c,x0,x1,o){o=o||{};let s='';
+ s+=legs(c,x0,x1,TH+.04);
+ s+=xt(c,'yz',CH(TH+.06,-1),x0,x1,st);
+ let nuts=[];for(let x=x0+.22;x<x1-.1;x+=.45)nuts.push([x,BZ-.055]);s+=hexes(c,'xz',nuts,TH+.06,.03);
+ if(o.drive){s+=xt(c,'yz',rr(TH+.07,TZ0-.2,TH+.13,TZ0-.05),x0+.1,x1-.1,dk);
+  let b=[];for(let x=x0+.4;x<x1-.2;x+=1.0)b.push([x,TZ0-.125]);s+=hexes(c,'xz',b,TH+.13,.025);
+  const mx=o.drive===2?x1-.6:x0+.6;s+=xt(c,'xy',rr(mx-.2,TH+.13,mx+.2,TH+.42,.02),.36,.62,st);
+  s+=cyl(c,'y',mx,.49,.12,TH+.42,TH+.86,st,14)+edges(c,[TH+.52,TH+.62,TH+.72].map(y=>circ(mx,.49,.12,14).slice(0,8).map(p=>[p[0],y,p[1]])),{w:.4});
+  s+=xt(c,'xy',rr(mx-.07,TH+.5,mx+.07,TH+.66),.61,.68,dk);}
+ return s;}
+
+/* ---- the timber: pieces with finger ends, the lamella with its joints ---- */
+// Finger profile on the near face: teeth across the thickness, root at xr, tips at xt_.
+function zig(xr,xt_,z,tail){const q=BT/NT,e=q*.17,pts=[];
+ if(!tail){for(let i=0;i<NT;i++){const z0=z+BT-i*q,z1=z0-q;pts.push([xr,z0],[xt_,z0-e],[xt_,z1+e]);}pts.push([xr,z]);}
+ else{pts.push([xt_,z+BT]);for(let j=0;j<NT;j++){const top=z+BT-j*q;pts.push([xt_,top-e],[xr,top-q/2],[xt_,top-q+e]);}pts.push([xt_,z]);}
+ return pts;}
+function fingerMarks(c,xr,xt_,y,z,o){o=o||{};const P=c.P;const pts=zig(xr,xt_,z,o.tail).map(p=>P(p[0],y+BW,p[1]));
+ let s=sp(pts,o.col||S.ink,o.w||.6);
+ s+=edges(c,[[[xr,y-BW,z+BT],[xr,y+BW,z+BT]]],{w:.5});
+ return s;}
+const GLUE=g=>g===2?{col:S.acc,w:1.5}:g===1?{col:S.ink,w:1.3}:{w:.6};
+// Grain on the top face: a few long thin lines, so timber never reads as steel.
+function grain(c,x0,x1,y,z){const P=c.P;let d='';
+ for(const[dy,ph]of[[-.17,.0],[-.04,1.3],[.11,2.1],[.21,.7]]){const pts=[];for(let x=x0+.12;x<=x1-.12+1e-6;x+=.3)pts.push(P(x,y+dy+.025*Math.sin(x*2.1+ph),z+BT));if(pts.length>1)d+=pd(pts,false);}
+ return`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".4" stroke-linecap="round"/>`;}
+// A piece from x0 to x0+BL. a, b: tail and head fingers milled. g: glue on the head teeth.
+function piece(c,x0,y,z,o){o=o||{};const x1=x0+BL;let s='';
+ s+=xt(c,'yz',rr(y-BW,z,y+BW,z+BT),x0,x1,{timber:1})+grain(c,x0+(o.a?FL:0),x1-(o.b?FL:0),y,z);
+ if(!o.b)s+=`<path d="${hatchRect(c.P,x1,y-BW,y+BW,z,z+BT,.07,1)}" stroke="${S.ink}" stroke-width=".6" fill="none"/>`;
+ else{s+=fingerMarks(c,x1-FL,x1,y,z,GLUE(o.g||0));
+  s+=edges(c,[1,2].map(i=>[[x1,y-BW,z+BT-i*BT/NT],[x1,y+BW,z+BT-i*BT/NT]]),{w:.45});}
+ if(o.a)s+=fingerMarks(c,x0+FL,x0,y,z,{tail:1});
+ return s;}
+// The lamella: n pieces joined, tail at x0. Joint glue: wet under pressure (red) or set (ink).
+// The lamella: n pieces joined, tail at x0. With o.brk it is drawn broken at that x, as a drawing
+// break: the lamella runs on, up to 22 m.
+function lamella(c,x0,n,y,z,o){o=o||{};const len=o.len||n*BL-(n-1)*FL,x1=x0+len;let s='';
+ const box=(a,b,hatch)=>xt(c,'yz',rr(y-BW,z,y+BW,z+BT),a,b,{timber:1})+grain(c,a,b,y,z)+(hatch?`<path d="${hatchRect(c.P,b,y-BW,y+BW,z,z+BT,.07,1)}" stroke="${S.ink}" stroke-width=".6" fill="none"/>`:'');
+ const bk=o.brk,g=.32;
+ const brkLine=xb=>{const P=c.P,pts=[[xb,y-BW,z+BT],[xb+.05,y-BW*.4,z+BT],[xb-.05,y+BW*.3,z+BT],[xb,y+BW,z+BT],[xb,y+BW,z]];return sp(pts.map(p=>P(...p)),S.ink,1.1);};
+ if(bk){s+=box(x0,bk,0)+brkLine(bk)+box(bk+g,x1,1)+brkLine(bk+g);}
+ else s+=box(x0,x1,1);
+ if(o.tail)s+=fingerMarks(c,x0+FL,x0,y,z,{tail:1});
+ for(let k=0;k<n-1;k++){const xr=x0+(k+1)*(BL-FL);if(xr>x1-.3)break;if(bk&&xr>bk-.2&&xr-FL<bk+g+.1)continue;s+=fingerMarks(c,xr-FL,xr,y,z,{w:.6});}
+ return s;}
+
+/* ---- chain table: three chain beams with dogs, legs, sprockets, drive shaft and geared motor ---- */
+function chainTable(c,off){let s='';
+ for(const x of XC){
+  for(const y of[CY0+.35,(CY0+CY1)/2,CY1-.35]){s+=xt(c,'xy',rr(x-.12,y-.12,x+.12,y+.12),0,.035,dk)+hexes(c,'xy',[[x-.08,y-.08],[x+.08,y+.08]],.035,.025)+xt(c,'xy',rr(x-.04,y-.04,x+.04,y+.04),.035,.64,st);}
+  s+=xt(c,'xz',[[x-.08,.64],[x+.08,.64],[x+.08,.67],[x+.03,.67],[x+.03,.81],[x+.08,.81],[x+.08,.84],[x-.08,.84]],CY0,CY1,st);
+  s+=cyl(c,'x',CY0,.84,.09,x-.05,x+.05,dk,14)+cyl(c,'x',CY1,.84,.09,x-.05,x+.05,dk,14);
+  s+=xt(c,'xz',rr(x-.035,.84,x+.035,BZ),CY0+.05,CY1-.05,dk);
+  let d=[];for(let y=CY0+.12;y<CY1-.05;y+=.1)d.push([[x+.035,y,.85],[x+.035,y,.89]]);s+=edges(c,d,{w:.35});
+  // Dogs: lugs riding on the chain, one behind each piece
+  for(let y0=YL-BW-.06+off%DOGP-2*DOGP;y0<CY1-.1;y0+=DOGP){if(y0<CY0+.1)continue;
+   s+=xt(c,'yz',[[y0-.07,BZ],[y0+.01,BZ],[y0+.01,BZ+.12],[y0-.03,BZ+.12]],x-.03,x+.03,dk);}}
+ // Cross ties, drive shaft at the far end, geared motor on its bracket
+ for(const y of[CY0+.35,CY1-.35])s+=xt(c,'yz',rr(y-.03,.3,y+.03,.35),XC[0],XC[2],dk);
+ s+=cyl(c,'x',CY0,.84,.03,XC[0]-.1,XC[2]+.12,st,8);
+ s+=xt(c,'xy',rr(XC[2]+.12,CY0-.18,XC[2]+.4,CY0+.18),.42,.48,dk)+xt(c,'xy',rr(XC[2]+.2,CY0-.04,XC[2]+.3,CY0+.04),0,.42,dk);
+ s+=xt(c,'xz',rr(XC[2]+.12,.48,XC[2]+.38,.98),CY0-.16,CY0+.12,st)+cyl(c,'y',XC[2]+.25,.73,.12,CY0-.62,CY0-.16,st,14);
+ s+=edges(c,[CY0-.5,CY0-.4,CY0-.3].map(y=>circ(XC[2]+.25,.73,.12,14).slice(0,8).map(p=>[p[0],y,p[1]])),{w:.4});
+ // Lane rollers between the chains, where a piece runs in from the infeed table
+ for(const x of[.62,1.45,2.35])s+=cyl(c,'y',x,BZ-.055,.055,YL-.3,YL+.3,st,10)+xt(c,'xz',rr(x-.03,.5,x+.03,BZ-.08),YL-.34,YL-.3,dk)+xt(c,'xz',rr(x-.03,.5,x+.03,BZ-.08),YL+.3,YL+.34,dk);
+ return s;}
+
+/* ---- shaper: base, hogger and finger spindles at each end, sheet guards, extraction ---- */
+// Spindle parts draw in a local frame f: z is the spindle axis (world up in the line), origin on
+// the axis at floor level, local +x away from the piece. The exploded detail reuses them turned.
+function disc(f,r,z0,z1,mv,n,teeth,tl){let s=cyl(f,'z',0,0,r,z0,z1,{m:'steel',mv},n);
+ let d=[];for(let k=0;k<teeth;k++){const a=k/teeth*TAU+.2,b=a+(tl||.1);d.push([[r*Math.cos(a),r*Math.sin(a),z1],[(r-.05)*Math.cos(b),(r-.05)*Math.sin(b),z1]]);}
+ s+=edges(f,d,{w:.45,col:mv?S.acc:S.ink});
+ return s+rings(f,'xy',[[0,0]],z1,.07);}
+const HD={
+ // Under the table: motor, then the spindle housing through the top plate
+ motor:f=>{let s=cyl(f,'z',0,0,.19,.06,.12,dk,18)+rings(f,'xy',[[0,0]],.06,.1)+cyl(f,'z',0,0,.21,.12,.5,st,20);
+  s+=edges(f,[.2,.28,.36,.44].map(z=>circ(0,0,.21,20).slice(0,11).map(p=>[p[0],p[1],z])),{w:.4});
+  s+=xt(f,'xy',rr(-.09,.19,.09,.34,.02),.22,.42,st)+cyl(f,'y',0,.28,.03,.34,.42,dk,8);
+  return s+cyl(f,'z',0,0,.25,.5,.54,dk,20);},
+ housing:(f,full)=>{let s=cyl(f,'z',0,0,.16,full?.54:.64,.84,st,18)+cyl(f,'z',0,0,.24,.64,.68,dk,20);
+  s+=hexes(f,'xy',circ(0,0,.2,6).map(p=>[p[0],p[1]]),.68,.024);
+  return s+cyl(f,'x',0,.78,.022,.16,.24,dk,8);},
+ arbor:f=>cyl(f,'z',0,0,.13,.84,.88,dk,16)+cyl(f,'z',0,0,.055,.88,1.3,st,10)+edges(f,[[[.055,0,1.18],[.055,0,1.28]]],{w:.5}),
+ sawB:(f,mv)=>disc(f,RS,.885,.9,mv,40,36,.12),
+ cutters:(f,mv)=>{let s='';for(let k=0;k<4;k++){const z0=.925+k*.055;s+=cyl(f,'z',0,0,.15,z0-.027,z0,dk,14)+disc(f,RF,z0,z0+.027,mv,32,10,.22);}return s;},
+ sawT:(f,mv)=>disc(f,RS,1.14,1.155,mv,40,36,.12),
+ nut:f=>cyl(f,'z',0,0,.12,1.155,1.17,st,16)+xt(f,'xy',hexP(.1,.2),1.17,1.24,dk)+rings(f,'xy',[[0,0]],1.24,.045),
+ hogger:(f,mv)=>{let s=cyl(f,'z',0,0,RH,.92,1.12,{m:'steel',mv},28);let d=[];
+  for(let k=0;k<6;k++){const a=k/6*TAU+.3;d.push([[RH*Math.cos(a),RH*Math.sin(a),.92],[RH*Math.cos(a),RH*Math.sin(a),1.12],[RH*Math.cos(a+.18),RH*Math.sin(a+.18),1.12]]);}
+  return s+edges(f,d,{w:.6,col:mv?S.acc:S.ink})+cyl(f,'z',0,0,.12,1.12,1.135,st,16)+xt(f,'xy',hexP(.1,.2),1.135,1.2,dk);},
+ // Sheet guard over the tool, open on the piece side, with a bristle strip and an extraction stub
+ // out of its back wall. Split so the tool shows between its walls.
+ hoodBack:(f,far)=>{let s=xt(f,'xz',rr(-.2,.72,.6,1.32),-.6,-.575,st);
+  if(far)s+=xt(f,'yz',rr(-.6,.72,.6,1.32),.575,.6,st)+cyl(f,'x',0,1.02,.1,.6,.84,st,14)+cyl(f,'x',0,1.02,.12,.84,.88,dk,14);return s;},
+ hoodFront:(f,far)=>{let s=xt(f,'xz',rr(-.2,.72,.6,1.32),.575,.6,st);
+  if(!far)s+=xt(f,'yz',rr(-.6,.72,.6,1.32),.575,.6,st)+cyl(f,'x',0,1.02,.1,.6,.84,st,14)+cyl(f,'x',0,1.02,.12,.84,.88,dk,14);
+  s+=hexes(f,'xz',[[.48,.8],[.48,1.24]],.6,.022);
+  s+=xt(f,'xy',rr(-.5,-.62,.62,.62,.03),1.32,1.35,st);
+  s+=hexes(f,'xy',[[-.42,-.54],[-.42,.54],[.54,-.54],[.54,.54]],1.35,.025);
+  const ys=[-.5,-.35,-.2,-.05,.1,.25,.4,.55];
+  s+=edges(f,[ys.map(y=>[-.49,y,1.32]),...ys.map(y=>[[-.49,y,1.32],[-.49,y,1.2]])],{w:.35});
+  return s;}};
+HD.hood=f=>HD.hoodBack(f,1)+HD.hoodFront(f,1);
+// Shaper base: an open welded frame so the spindle motors under the table stay in view.
+function baseLow(c,x0,x1){let s='';const y0=-4.62,y1=-2.2,ym=(y0+y1)/2;
+ for(const[x,y]of[[x0+.08,y0+.08],[x1-.08,y0+.08],[x0+.08,ym]]){s+=xt(c,'xy',rr(x-.13,y-.13,x+.13,y+.13),0,.04,dk)+hexes(c,'xy',[[x-.08,y-.08],[x+.08,y+.08]],.04,.022);
+  s+=xt(c,'xy',rr(x-.06,y-.06,x+.06,y+.06),.04,.56,st);}
+ s+=xt(c,'yz',rr(y0,.1,y1,.17),x0+.02,x0+.14,st)+xt(c,'xz',rr(x0,.1,x1,.17),y0+.02,y0+.14,st);
+ return s;}
+function baseTop(c,x0,x1){let s='';const y0=-4.62,y1=-2.2,ym=(y0+y1)/2;
+ for(const[x,y]of[[x1-.08,y1-.08],[x0+.08,y1-.08],[x1-.08,ym]]){s+=xt(c,'xy',rr(x-.13,y-.13,x+.13,y+.13),0,.04,dk)+hexes(c,'xy',[[x-.08,y-.08],[x+.08,y+.08]],.04,.022);
+  s+=xt(c,'xy',rr(x-.06,y-.06,x+.06,y+.06),.04,.56,st);}
+ s+=xt(c,'yz',rr(y0,.1,y1,.17),x1-.14,x1-.02,st)+xt(c,'xz',rr(x0,.1,x1,.17),y1-.14,y1-.02,st);
+ s+=xt(c,'xy',rr(x0-.03,y0-.03,x1+.03,y1+.03,.02),.56,.64,st);
+ s+=hexes(c,'xy',[[x0+.1,y0+.1],[x1-.1,y0+.1],[x0+.1,y1-.1],[x1-.1,y1-.1],[x0+.1,ym],[x1-.1,ym]],.64,.025);
+ return s;}
+const spF=(c,x,y,far)=>frameC(c,[x,y,0],[far?-1:1,0,0],[0,1,0],[0,0,1]);
+const UNITS=far=>[[far?XAH:XBH,YH,'h'],[far?XA:XB,YS,'f']];
+const BX=far=>far?[-.95,.72]:[3.05,4.62];
+// Everything that sits behind the pieces, then the tools, then everything in front of them.
+function shaperBack(c,far){let s='';const[x0,x1]=BX(far);
+ s+=baseLow(c,x0,x1);
+ for(const[x,y]of UNITS(far))s+=HD.motor(spF(c,x,y,far));
+ s+=baseTop(c,x0,x1);
+ for(const[x,y]of UNITS(far)){const f=spF(c,x,y,far);s+=HD.housing(f)+HD.hoodBack(f,far);}
+ // Control box on the outer face of the base
+ const xo=far?x0:x1,sg=far?-1:1;s+=xt(c,'yz',rr(-3.9,.22,-3.3,.5,.02),xo+sg*.02,xo+sg*.12,st)+hexes(c,'yz',[[-3.82,.44],[-3.38,.44]],xo+sg*.12,.02);
+ return s;}
+function shaperTools(c,far,mvH,mvF){const fh=spF(c,far?XAH:XBH,YH,far),ff=spF(c,far?XA:XB,YS,far);
+ return HD.arbor(fh)+HD.hogger(fh,mvH)+HD.arbor(ff)+HD.sawB(ff,mvF)+HD.cutters(ff,mvF)+HD.sawT(ff,mvF)+HD.nut(ff);}
+function shaperFront(c,far){let s='';for(const[x,y]of UNITS(far))s+=HD.hoodFront(spF(c,x,y,far),far);return s;}
+// Extraction: a hose from every guard to a duct beside each shaper, risers at the back, joined
+// overhead behind the chain table, one riser to the extraction main.
+const XD=far=>far?XA-1.05:XB+1.05, ZD=1.02, YR=-5.5, ZT=2.7;
+function extraction(c){let s='';
+ for(const far of[1,0]){const xd=XD(far),sg=far?-1:1;
+  for(const[x,y]of UNITS(far))s+=hose(c,bez([x+sg*.88,y,ZD],[x+sg*.98,y,ZD],[xd,y+.05,ZD],[xd,y+.25,ZD],6),3.6);
+  s+=cyl(c,'y',xd,ZD,.13,YR,YS+.3,st,16)+cyl(c,'y',xd,ZD,.15,YS+.24,YS+.3,dk,16);
+  for(const y of[YR+.8,YH-.2])s+=cyl(c,'y',xd,ZD,.15,y,y+.05,dk,16)+edges(c,[[[xd,y+.02,ZD-.15],[xd,y+.02,0]]],{w:.7});
+  s+=cyl(c,'z',xd,YR,.15,ZD-.15,ZT,st,16)+cyl(c,'z',xd,YR,.17,ZT-.4,ZT-.35,dk,16);}
+ s+=cyl(c,'x',YR,ZT,.17,XD(1)-.15,XD(0)+.15,st,16);
+ s+=cyl(c,'z',1.9,YR,.2,ZT+.1,3.5,st,16)+cyl(c,'z',1.9,YR,.24,3.5,3.56,dk,16);
+ return s;}
+
+/* ---- glue: flank-jet head at the near end, pump unit with container and hose ---- */
+const NZX=3.28;
+function glueHead(c){let s='';const z=BZ+BT/2;
+ s+=xt(c,'xy',rr(3.6-.12,YG-.12,3.6+.12,YG+.12),0,.04,dk)+xt(c,'xy',rr(3.6-.04,YG-.04,3.6+.04,YG+.04),.04,z+.36,st);
+ s+=xt(c,'xz',rr(NZX+.02,z+.28,3.66,z+.4),YG-.05,YG+.05,st);
+ s+=xt(c,'xy',rr(NZX,YG-.2,NZX+.14,YG+.2,.02),z-.14,z+.28,st);
+ s+=hexes(c,'xz',[[NZX+.07,z+.2],[NZX+.07,z-.06]],YG+.2,.02);
+ let d=[];for(let i=0;i<NT;i++){const zz=z+BT/2-(i+.5)*BT/NT;d.push([[NZX,YG-.12,zz],[NZX,YG+.12,zz]]);}s+=edges(c,d,{w:.9});
+ return s;}
+function glueJets(c){const z=BZ+BT/2;let j=[];for(let i=0;i<NT;i++){const zz=z+BT/2-(i+.5)*BT/NT;for(const y of[-.1,0,.1])j.push([[NZX,YG+y,zz],[3.2-FL*.5,YG+y,zz]]);}return edges(c,j,{col:S.acc,w:.8});}
+function glueUnit(c){let s='';const x0=4.0,x1=4.8,y0=1.4,y1=2.15;
+ s+=xt(c,'xy',rr(x0,y0,x1,y1,.02),0,.08,dk);
+ s+=cyl(c,'z',x0+.28,y0+.36,.25,.08,.86,st,20)+cyl(c,'z',x0+.28,y0+.36,.26,.86,.92,dk,20)+edges(c,[.3,.6].map(z=>circ(x0+.28,y0+.36,.25,20).slice(0,11).map(p=>[p[0],p[1],z])),{w:.45});
+ s+=cyl(c,'z',x0+.28,y0+.36,.04,.92,1.0,dk,8);
+ s+=xt(c,'xy',rr(x1-.3,y0+.12,x1-.08,y1-.12),.08,.34,st)+cyl(c,'x',(y0+y1)/2,.22,.09,x1-.08,x1+.18,st,12);
+ s+=xt(c,'xz',rr(x1-.3,.5,x1-.04,.92),y1-.04,y1,st)+edges(c,[[[x1-.26,y1,.82],[x1-.08,y1,.82]]],{w:.6});
+ s+=hose(c,bez([x0+.28,y0+.36,1.0],[x0+.2,y0+.4,1.45],[3.8,YG,1.6],[3.65,YG,BZ+BT/2+.34],10),1.3);
+ s+=hose(c,bez([x1-.18,(y0+y1)/2,.34],[x1-.6,(y0+y1)/2,.3],[x0+.6,y0+.6,.15],[x0+.48,y0+.4,.2],6),1.0);
+ return s;}
+
+/* ---- lift-and-carry transfer from the chain table to the press line ---- */
+const TX=[1.65,2.55];
+function transferBack(c){let s='';for(const x of TX){
+ for(const y of[YG-.3,.32])s+=xt(c,'xy',rr(x-.1,y-.1,x+.1,y+.1),0,.03,dk)+xt(c,'xy',rr(x-.035,y-.035,x+.035,y+.035),.03,.42,st);
+ s+=xt(c,'yz',rr(YG-.4,.42,.42,.5),x-.06,x+.06,st);}return s;}
+function transferCarriage(c,y,z){let s='';for(const x of TX){
+ s+=xt(c,'xy',rr(x-.09,y-.12,x+.09,y+.12),.5,.6,dk)+cyl(c,'z',x,y,.05,.6,.72,st,10)+cyl(c,'z',x,y,.02,.72,z-.03,dk,8);
+ s+=xt(c,'xy',rr(x-.08,y-.22,x+.08,y+.22),z-.03,z,st);}return s;}
+
+/* ---- end press: pusher, press bed with fence, hold-downs, counter-holder, hydraulic unit ---- */
+const PB0=3.8,PB1=8.0,HDX=[4.5,6.0],CHX=7.45;
+function pusherBack(c){let s='';const y=.66;
+ for(const x of[-2.7,-1.0])s+=xt(c,'xy',rr(x-.12,y-.14,x+.12,y+.14),0,.04,dk)+xt(c,'xy',rr(x-.05,y-.05,x+.05,y+.05),.04,.86,st);
+ s+=xt(c,'yz',rr(y-.12,.86,y+.12,.92),-2.9,3.7,st);
+ s+=xt(c,'yz',[[y-.06,.92],[y+.06,.92],[y+.04,.98],[y-.04,.98]],-.2,3.6,st);
+ for(const x of[.6,2.0,3.3])s+=xt(c,'xy',rr(x-.06,y-.06,x+.06,y+.06),.04,.86,st)+xt(c,'xy',rr(x-.1,y-.1,x+.1,y+.1),0,.04,dk);
+ return s;}
+function pusher(c,xp,mv){let s='';const y=.66,z=1.12,o={m:'steel',mv};
+ s+=cyl(c,'x',y,z,.13,-2.9,-.3,st,16)+cyl(c,'x',y,z,.16,-3.0,-2.9,dk,16)+cyl(c,'x',y,z,.16,-.3,-.22,dk,16);
+ s+=hexes(c,'yz',[[y-.1,z-.1],[y+.1,z+.1],[y+.1,z-.1],[y-.1,z+.1]],-.22,.022);
+ s+=cyl(c,'x',y,z,.045,-.22,xp-.12,o,10);
+ s+=xt(c,'xy',rr(xp-.32,y-.1,xp-.04,y+.1),.98,1.24,o);
+ s+=xt(c,'yz',rr(-.34,.93,y+.02,1.22),xp-.06,xp,o);
+ s+=hose(c,bez([-2.82,y,z+.15],[-2.8,y,z+.5],[-2.4,-.6,1.0],[-2.4,-1.15,.95],6),1.2)+hose(c,bez([-.4,y,z+.15],[-.5,y,z+.55],[-2.1,-.6,1.15],[-2.15,-1.15,.95],8),1.2);
+ return s;}
+function hpu(c){let s='';const x0=-3.1,x1=-1.8,y0=-2.1,y1=-1.15;
+ s+=xt(c,'xy',rr(x0,y0,x1,y1,.02),0,.06,dk)+xt(c,'xy',rr(x0+.05,y0+.05,x1-.05,y1-.05,.02),.06,.7,st);
+ s+=edges(c,[0,1,2,3,4,5,6].map(k=>[[x0+.15+k*.15,y1-.05,.15],[x0+.15+k*.15,y1-.05,.6]]),{w:.35});
+ s+=xt(c,'xy',rr(x0,y0,x1,y1,.02),.7,.76,dk);
+ s+=cyl(c,'z',x0+.4,(y0+y1)/2,.16,.76,1.3,st,16)+cyl(c,'z',x0+.4,(y0+y1)/2,.14,1.3,1.38,dk,14);
+ s+=xt(c,'xy',rr(x0+.75,y0+.2,x1-.15,y1-.2),.76,1.0,st)+cyl(c,'z',x1-.3,y0+.25,.06,1.0,1.18,dk,10);
+ return s;}
+function pressBack(c){let s='';const y=-.62;
+ for(const x of[...HDX,CHX]){const r=x===CHX?.11:.08;s+=xt(c,'xy',rr(x-.2,y-.16,x+.2,y+.16),0,.04,dk)+hexes(c,'xy',[[x-.14,y-.1],[x+.14,y+.1]],.04,.022);
+  s+=xt(c,'xy',rr(x-r,y-r,x+r,y+r),.04,2.05,st);}
+ return s;}
+function pressFrontPosts(c){let s='';const y=.62;
+ for(const x of[...HDX,CHX]){const r=x===CHX?.11:.08;s+=xt(c,'xy',rr(x-.2,y-.16,x+.2,y+.16),0,.04,dk)+hexes(c,'xy',[[x-.14,y-.1],[x+.14,y+.1]],.04,.022);
+  s+=xt(c,'xy',rr(x-r,y-r,x+r,y+r),.04,2.05,st);}
+ return s;}
+// Crossbeam, cylinder, rod and pad of a hold-down (or, heavier, the counter-holder).
+function holdTop(c,x,k,mv,heavy){let s='';const zp=lerp(BZ+BT+.22,BZ+BT,k),r=heavy?.14:.09,o={m:'steel',mv};
+ s+=xt(c,'yz',rr(-.78,2.05,.78,2.3),x-(heavy?.14:.1),x+(heavy?.14:.1),st);
+ s+=hexes(c,'xz',[[x-.05,2.12],[x+.05,2.22]],.78,.022);
+ s+=cyl(c,'z',x,0,r,1.55,2.05,st,16)+cyl(c,'z',x,0,r+.03,1.5,1.55,dk,16);
+ s+=cyl(c,'z',x,0,.035,zp+.05,1.5,o,8);
+ s+=xt(c,'xy',rr(x-(heavy?.3:.2),-.26,x+(heavy?.3:.2),.26,.02),zp,zp+.05,o);
+ s+=hose(c,bez([x+r,0,1.95],[x+r+.2,0,2.1],[x+.2,.3,2.45],[x+.2,.7,2.35],6),.9);
+ return s;}
+function pressBed(c){let s='';
+ s+=tableBack(c,PB0,PB1,{fence:1});
+ // Anvil under the counter-holder
+ s+=xt(c,'xy',rr(CHX-.3,-.3,CHX+.3,.3),TZ0-.06,BZ-.005,dk);
+ return s;}
+
+/* ---- rest rack: cantilever columns, arms on three levels, end stops, older lamellae ---- */
+function rackColumn(c,x){let s='';
+ s+=xt(c,'xy',rr(x-.3,RY-.35,x+.3,RY+.35),0,.05,dk)+hexes(c,'xy',[[x-.22,RY-.27],[x+.22,RY-.27],[x-.22,RY+.27],[x+.22,RY+.27]],.05,.025);
+ s+=xt(c,'xy',[[x-.1,RY-.12],[x+.1,RY-.12],[x+.1,RY-.09],[x+.025,RY-.09],[x+.025,RY+.09],[x+.1,RY+.09],[x+.1,RY+.12],[x-.1,RY+.12],[x-.1,RY+.09],[x-.025,RY+.09],[x-.025,RY-.09],[x-.1,RY-.09]],.05,2.3,st);
+ s+=xt(c,'xz',[[x-.1,.05],[x+.1,.05],[x+.1,.4]],RY+.12,RY+.32,dk);
+ return s;}
+function rackArm(c,x,z){return xt(c,'yz',[[RY+.12,z-.16],[RY+.12,z+.06],[-1.2,z+.06],[-1.2,z-.02],[RY+.5,z-.16]],x-.05,x+.05,st)+xt(c,'yz',rr(-1.26,z-.02,-1.2,z+.16),x-.05,x+.05,dk)+hexes(c,'yz',[[RY+.2,z-.06]],x+.05,.022);}
+function skids(c){let s='';for(const x of RACKX){
+ s+=xt(c,'yz',[[-.56,BZ-.005],[-1.24,RL[0]+.065],[-1.24,RL[0]+.02],[-.56,BZ-.05]],x-.04,x+.04,st);
+ s+=xt(c,'xy',rr(x-.03,-.66,x+.03,-.6),0,BZ-.05,dk)+xt(c,'xy',rr(x-.08,-.71,x+.08,-.55),0,.03,dk);}return s;}
+const OLD=[[8.55,1,6.8],[8.65,2,6.6]]; // older lamellae resting on the upper levels: tail x, level
+function rack(c,mid){let s='';
+ for(const x of RACKX)s+=rackColumn(c,x)+rackArm(c,x,RL[0]);
+ s+=mid||'';
+ for(const[x0,lv,len]of OLD){for(const x of RACKX)s+=rackArm(c,x,RL[lv]);s+=lamella(c,x0,3,LY,RL[lv]+.06,{tail:1,len,brk:x0+3.6});}
+ return s;}
+function kickers(c,py){let s='';for(const x of[9.5,12.0,14.6]){
+ s+=xt(c,'xz',rr(x-.12,.2,x+.12,BZ+.04),TH+.14,TH+.2,dk)+hexes(c,'xz',[[x,.3]],TH+.2,.025);
+ s+=cyl(c,'y',x,BZ+.12,.07,.66,1.3,st,12)+cyl(c,'y',x,BZ+.12,.085,1.3,1.36,dk,12);
+ s+=cyl(c,'y',x,BZ+.12,.025,py+.04,.66,dk,8);
+ s+=xt(c,'xz',rr(x-.3,BZ+.02,x+.3,BZ+.22),py,py+.04,st);}
+ return s;}
+
+/* ---- scene ---- */
+const MOMENT={steel:'#e8ecee',wood:'#fbf6ec',grain:'#a2845a'};
+function drawScene(c,t,flags){let s='';const ra=seamA(t,flags);
+ const sub=x=>ra>.995?x:`<g opacity="${n1(ra)}">${x}</g>`;
+ const py=pieceY(t),onChain=t<TR0,milled=py>YS||t>=TR0,hogZone=Math.abs(py-YH)<RH+BW&&t>3.3&&t<TR0,finZone=Math.abs(py-YS)<RF+BW&&t<TR0;
+ const g=t<GL0+.4?0:(t>=PR0&&t<PR2)?2:1;
+ const merged=t>=PR2, lamX=(merged?XJ-BL+FL:XJ)+runOut(t), lamN=merged?3:2;
+ const rk=kickAmt(t),[ly,lz]=rackPath(rk),onRack=ly<-.66;
+ const lamS=ra>.005?memo('lam|'+f3(lamX)+'|'+f3(ly)+'|'+f3(lz)+'|'+(pressing(t)?2:0),()=>lamella(c,lamX,lamN,ly,lz,{tail:1,brk:lamX+lamN*(BL-FL)-1.0})):'';
+ s+=memo('floor',()=>S.floor(c));
+ s+=memo('rack|'+(onRack&&ra>.005?f3(ly)+f3(lamX):'-')+'|'+(ra>.995?1:f3(ra)),()=>rack(c,onRack&&lamS?sub(lamS):''));
+ s+=memo('skids',()=>skids(c));
+ // Infeed lane: the piece runs in, the next one follows while the lamella rests
+ s+=memo('laneB',()=>tableBack(tr(c,0,YL),-2.8,.45));
+ if(ra>.005&&t<3.3)s+=sub(memo('pin|'+f3(t<3.3?lerp(IX0,IX1,ease(seg(t,IN0,IN1))):0),()=>piece(c,lerp(IX0,IX1,ease(seg(t,IN0,IN1))),YL,BZ,{})));
+ if(ra>.005&&t>27.5)s+=sub(memo('next|'+f3(NX(t)),()=>piece(c,NX(t),YL,BZ,{})));
+ s+=memo('laneF',()=>tableFront(tr(c,0,YL),-2.8,.45,{drive:1}));
+ s+=memo('hpu',()=>hpu(c));
+ s+=memo('shB',()=>shaperBack(c,1)+shaperBack(c,0));
+ s+=memo('chain|'+f3(chainOff(t)),()=>chainTable(c,chainOff(t)));
+ s+=memo('trB',()=>transferBack(c));
+ const pc=()=>piece(c,IX1,py,BZ+liftZ(t),{a:milled,b:milled,g});
+ if(ra>.005&&t>=3.3&&t<TR0&&py<-2.5)s+=sub(memo('pc|'+f3(py)+milled+g,pc));
+ s+=memo('tools|'+(hogZone?1:0)+(finZone?1:0),()=>shaperTools(c,1,hogZone,finZone)+shaperTools(c,0,hogZone,finZone));
+ s+=memo('shF',()=>shaperFront(c,1)+shaperFront(c,0));
+ s+=memo('extr',()=>extraction(c));
+ if(ra>.005&&t>=3.3&&t<TR0&&py>=-2.5)s+=sub(memo('pc|'+f3(py)+milled+g,pc));
+ const ty=t<TR0?YG:t<TR3?py:lerp(0,YG,ease(seg(t,17.4,18.4))),tz=.84+.06*sst(seg(t,TR0-.3,TR0))*(1-sst(seg(t,TR3,TR3+.2)))+liftZ(t);
+ s+=memo('trC|'+f3(ty)+f3(tz),()=>transferCarriage(c,ty,tz));
+ // Press line, far to near
+ s+=memo('pressB',()=>pressBack(c)+pusherBack(c)+tableBack(c,-.6,PB0)+pressBed(c)+tableBack(c,PB1,15.9));
+ if(!onRack&&lamS)s+=sub(lamS);
+ if(ra>.005&&t>=TR0&&t<PR2)s+=sub(memo('pp|'+f3(t<TR3?py:0)+f3(pTail(t))+f3(liftZ(t))+g,()=>piece(c,t<TR3?IX1:pTail(t),t<TR3?py:0,BZ+liftZ(t),{a:1,b:1,g})));
+ s+=memo('glueH',()=>glueHead(c));
+ const xp=pusherX(t),pmv=(t>=PU0&&t<PU1)||pressing(t);
+ s+=memo('push|'+f3(xp)+pmv,()=>pusher(c,xp,pmv));
+ const hk=holdDown(t),hmv=pressing(t);
+ s+=memo('hold|'+f3(hk)+hmv,()=>HDX.map(x=>holdTop(c,x,hk,hmv)).join('')+holdTop(c,CHX,hk,hmv,1));
+ s+=memo('pressF',()=>pressFrontPosts(c)+tableFront(c,-.6,PB0,{drive:1})+tableFront(c,PB0,PB1)+tableFront(c,PB1,15.9,{drive:2}));
+ s+=memo('kick|'+f3(kickY(t)),()=>kickers(c,kickY(t)));
+ // The pump stands in front of the press, with its supply hose back to the head.
+ s+=memo('glueU',()=>glueUnit(c));
+ // The live jets remain legible in front of the transfer and press linework.
+ if(t>GL0&&t<GL1)s+=glueJets(c);
+ return s;}
+
+/* ===== Style B: drafted ===== */
+S.hiddenLines=true;S.bower='#2a6a50';
+S.ink='#22262a';S.dim='#9aa0a6';S.hid='#80868c';S.acc='#b4492f';S.paper='#fdfcf9';S.mut='#6b7178';
+S.solid=(h,cap,o)=>{const f=MAT?MAT.steel:S.paper;return`<path d="${pd(h)}" fill="${f}" stroke="${o.mv?S.acc:S.ink}" stroke-width="${o.timber?1.5:o.mv?1.5:1.25}" stroke-linejoin="round"/><path d="${pd(cap)}" fill="none" stroke="${S.ink}" stroke-width="${o.timber?1.5:.5}" stroke-linejoin="round"/>`;};
+S.floor=c=>{const P=c.P;let s='';const r=[P(-3.4,-7.0,0),P(5.6,-7.0,0),P(5.6,-4.6,0),P(16.4,-4.6,0),P(16.4,1.6,0),P(-3.4,1.6,0)];
+ s+=`<path d="${pd(r)}" fill="none" stroke="${S.dim}" stroke-width=".5"/>`;
+ let d='';for(let x=-2;x<=16;x+=2){const a=P(x,1.6,0),b=P(x,1.3,0);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.dim}" stroke-width=".5"/>`;
+ for(const cl of[[P(-3.4,0,0),P(16.4,0,0)],[P(-3.4,YL,0),P(4.2,YL,0)],[P(1.9,-7.0,0),P(1.9,-1.0,0)]])s+=`<path d="${pd(cl,false)}" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="14 3 2 3" fill="none"/>`;
+ return s;};
+
+/* ---- exploded finger spindle, turned on its side, at a larger scale in free paper ---- */
+const DET={sc:50,at:[8.4,-4.0,7.6]};
+// The spindle axis (local z) runs along world x: motor on the left, the tools slide off the arbor
+// to the right, the guard lifts straight up.
+const detC=()=>{const a=mainC.P(...DET.at);return frameC({P:mkP(a[0],a[1],DET.sc)},[-1.0,0,0],[0,0,1],[0,1,0],[1,0,0]);};
+const XPS=[
+ {id:'motor',off:[0,0,-1.9],slot:[0,0,.3],lab:'motor',top:[-.21,0,.3],dir:[0,1]},
+ {id:'housing',off:[0,0,-1.0],slot:[0,0,.7],lab:'spindle housing',top:[.24,0,.66],dir:[0,-1]},
+ {id:'arbor',off:[0,0,0],slot:[0,0,1.08],lab:'arbor',top:[-.13,0,.86],dir:[0,1],fixed:1},
+ {id:'hood',off:[1.3,0,0],slot:[.62,0,1.02],lab:'guard and extraction hood',top:[.88,0,1.02],dir:[0,-1]},
+ {id:'sawB',off:[0,0,1.4],slot:[0,0,.89],lab:'bottom slitting saw',top:[RS,0,.89],dir:[0,-1]},
+ {id:'cutters',off:[0,0,2.4],slot:[0,0,1.02],lab:'finger cutters',top:[-RF,0,1.02],dir:[0,1]},
+ {id:'sawT',off:[0,0,3.4],slot:[0,0,1.15],lab:'top slitting saw',top:[RS,0,1.15],dir:[0,-1]},
+ {id:'nut',off:[0,0,4.2],slot:[0,0,1.2],lab:'arbor nut',top:[-.1,0,1.2],dir:[0,1]}];
+const XP=Object.fromEntries(XPS.map(p=>[p.id,p]));
+function detail(t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';const f=detC();
+ const sh=id=>frameC(f,XP[id].off.map(v=>v*ex),[1,0,0],[0,1,0],[0,0,1]);
+ MAT=MOMENT;
+ const s=memo('xd|'+f3(ex),()=>{let q='';
+  // Spindle centre line, dash-dot, through every part
+  q+=edges(f,[[[0,0,.06-1.9*ex-.2],[0,0,1.24+4.2*ex+.2]]],{w:.5,dash:'10 3 2 3',col:S.hid});
+  for(const p of XPS)if(!p.fixed)q+=explodeAxis(f,p.slot,p.slot.map((v,i)=>v+p.off[i]*ex),{w:.6,op:.9});
+  q+=HD.motor(sh('motor'))+HD.housing(sh('housing'),1)+HD.arbor(sh('arbor'))+HD.hood(sh('hood'));
+  q+=HD.sawB(sh('sawB'))+HD.cutters(sh('cutters'))+HD.sawT(sh('sawT'))+HD.nut(sh('nut'));
+  return q;});
+ MAT=null;
+ return`<g opacity="${n1(seg(ex,0,.2))}">${s}</g>`;}
+function detailLabels(t,fl){const la=fl.static?0:seg(t,EX0+EXO+.15,EX0+EXO+.4)*(1-seg(t,EX0+EXO+EXH-.05,EX0+EXO+EXH+.15));if(la<.02)return'';
+ const f=detC();let s='';
+ for(const p of XPS)s+=tag(f,p.top.map((v,i)=>v+p.off[i]),p.dir[0],p.dir[1],p.lab,la,{id:'x-'+p.id,tick:1});
+ return s;}
+// Detail circle round the near finger spindle while the exploded detail is open.
+function detailRing(c,t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';
+ const p=c.P(XB,YS,1.0),r=34*kk(),q=detC().P(-.25,0,.06-1.9*ex);const d=Math.hypot(q[0]-p[0],q[1]-p[1]),u=[(q[0]-p[0])/d,(q[1]-p[1])/d];
+ return`<g opacity="${n1(seg(ex,0,.3))}"><circle cx="${n1(p[0])}" cy="${n1(p[1])}" r="${n1(r)}" fill="none" stroke="${S.ink}" stroke-width=".6"/><path d="M${n1(p[0]+u[0]*r)} ${n1(p[1]+u[1]*r)}L${n1(q[0]-u[0]*20*kk())} ${n1(q[1]-u[1]*20*kk())}" stroke="${S.ink}" stroke-width=".5" stroke-dasharray="10 3 2 3" fill="none"/></g>`;}
+
+/* ---- finger joint seen from the side: a flat inset in screen space during the press ---- */
+const JA=(t,fl)=>fl.static?1:win(t,19.0,25.0,.4);
+function jointInset(t,fl){const a=JA(t,fl);if(a<.01||!VB)return'';const k=kk(),at=hudAt(0,1,24,-200);if(!at)return'';
+ const[x,y]=at,w=250*k,h=96*k,fo=10*k,H=44*k,F=30*k,ym=y+h/2+6*k,z0=ym-H/2,xm=x+w/2;let s='';
+ s+=`<path d="M${n1(x)} ${n1(y)}H${n1(x+w-fo)}L${n1(x+w)} ${n1(y+fo)}V${n1(y+h)}H${n1(x)}Z" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9"/>`;
+ s+=`<path d="M${n1(x+w-fo)} ${n1(y)}V${n1(y+fo)}H${n1(x+w)}" fill="none" stroke="${S.ink}" stroke-width=".5"/>`;
+ const close=fl.static?1:t<PR0?0:pressK(t),gap=(1-close)*F*.9+(fl.static?0:(1-ease(seg(t,19.0,19.6)))*F*.6);
+ const q=H/NT,e=q*.17,ra=xm-F/2-gap,lb=xm+F/2; // A root x, B root x
+ // Piece A (left, head fingers) and piece B (right, the lamella's tail)
+ const A=[[x+12*k,z0]];for(let i=0;i<NT;i++){const za=z0+i*q,zb=za+q;A.push([ra,za],[ra+F,za+e],[ra+F,zb-e]);}A.push([ra,z0+H],[x+12*k,z0+H]);
+ const B2=[[x+w-12*k,z0]];B2.push([lb-F,z0]);for(let i=0;i<NT;i++){const zc=z0+(i+.5)*q;B2.push([lb-F,zc-q/2+e],[lb,zc],[lb-F,zc+q/2-e]);}B2.push([lb-F,z0+H],[x+w-12*k,z0+H]);
+ s+=`<path d="${pd(A,false)}" fill="${S.paper}" stroke="${S.ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
+ s+=`<path d="${pd(B2,false)}" fill="${S.paper}" stroke="${S.ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
+ // Glue on the flanks of A's teeth: wet ink, red while it is pressed, thin ink when closed
+ const gl=fl.static||pressing(t)?{c:S.acc,w:1.6}:t>=PR2?{c:S.ink,w:.6}:{c:S.ink,w:1.3};
+ let d='';for(let i=0;i<NT;i++){const za=z0+i*q,zb=za+q;d+=`M${n1(ra+1.5*k)} ${n1(za+1.2*k)}L${n1(ra+F)} ${n1(za+e)}M${n1(ra+1.5*k)} ${n1(zb-1.2*k)}L${n1(ra+F)} ${n1(zb-e)}`;}
+ s+=`<path d="${d}" stroke="${gl.c}" stroke-width="${gl.w}" fill="none" stroke-linecap="round"/>`;
+ // End-grain hatch at the cut-off ends and the push arrow
+ s+=sp([[x+12*k,z0],[x+12*k,z0+H]],S.ink,.6,'2 2')+sp([[x+w-12*k,z0],[x+w-12*k,z0+H]],S.ink,.6,'2 2');
+ const ac=pressing(t)||fl.static?S.acc:S.ink,ay=z0-10*k,ax=x+34*k;
+ s+=`<path d="M${n1(ax)} ${n1(ay)}H${n1(ax+34*k)}" stroke="${ac}" stroke-width="1.1"/><path d="${pd([[ax+38*k,ay],[ax+31*k,ay-3*k],[ax+31*k,ay+3*k]])}" fill="${ac}"/>`;
+ s=`<g opacity="${n1(a)}">${s}</g>`;
+ const la=fl.static?1:win(t,19.2,24.9,.3);
+ s+=tag(HUD,[x+w/2,y],0,-1,'finger joint, seen from the side',la,{id:'side',tick:1});
+ s+=lead(HUD,[xm,z0+H],60,40,'finger length and end pressure: assumed, to be tested',la,{id:'t1'});
+ return s;}
+// Rest: a flat dial, no duration drawn.
+function restDial(t,fl){const a=fl.static?0:win(t,27.0,31.7);if(a<.01)return'';
+ const at=hudAt(0,1,48,-100),p=ease(seg(t,27.0,31.4));if(!at)return'';
+ return hudDial(at,p,a,{r:22})+tag(HUD,at,32,0,'rest time: assumed, to be tested',a,{id:'rest-time'});}
+
+/* ---- overlay: exploded spindle, inset, labels ---- */
+function overlay(c,t,fl){let s=detailRing(c,t,fl)+detail(t,fl)+detailLabels(t,fl);
+ const w=(a,b)=>win(t,a,b);
+ // Line up
+ s+=lead(c,[Math.max(.15,lerp(IX0,IX1,ease(seg(t,IN0,IN1)))+.02),YL-.3,BZ+BT],0,0,'clean, graded pieces from station 02, one at a time',w(.5,5.4),{id:'infeed',at:[4.05,-6.9,1.8],side:1});
+ s+=lead(c,[XB+.3,YS,1.35],70,-60,'finger-joint shaper, Weinig Grecon ProfiJoint class',w(.8,5.6),{id:'shaper'});
+ // Mill fingers
+ s+=lead(c,[XAH,YH,1.72],0,0,'hogger, then slitting saws and finger cutters',w(5.8,12.4),{id:'hogger',at:[XAH-2.15,YH-1.55,2.35],side:-1});
+ // Glue
+ s+=lead(c,[4.28,1.76,.92],150,150,'glue on the tooth flanks, flank-jet applicator',w(12.6,17.4),{id:'glue'});
+ s+=lead(c,[2.1,-5.45,3.9],-40,-40,'extraction from every guard',w(12.8,17.4),{id:'extract',side:-1});
+ // Press
+ s+=lead(c,[CHX,.78,2.3],130,-130,'end press, 2 to 6 cycles a minute',w(17.6,25.0),{id:'press'});
+ // Rest
+ s+=lead(c,[RACKX[3],RY,2.3],-10,-150,'rest rack: the joint glue cures before planing at 04',w(25.3,31.7),{id:'rack',side:-1});
+ if(t>26.8&&!fl.static)s+=dimLine(c,[XJ-BL+FL+ADV,LY,RL[0]+.06+BT],[XJ-BL+FL+ADV+3*BL-2*FL,LY,RL[0]+.06+BT],[0,0,2.45],'lamella up to 22 m',w(26.9,31.7),{});
+ return s;}
+const STEPS=[
+ ['Line up','A clean, graded piece from station 02 runs in, one at a time.'],
+ ['Mill fingers','The shaper mills interlocking fingers into both ends of the piece.'],
+ ['Glue','A flank-jet applicator puts glue on the tooth flanks.'],
+ ['Press','The end press pushes the piece on; the fingers lock into one lamella.'],
+ ['Rest','The lamella rests in a rack until the joint glue has cured.']];
+const mainC={P:mkP(0,0,30)};
+// The exploded detail sits above the shaper and widens the fit upward. Outside the hold, lift the
+// whole drawing so it sits centred; translation keeps the fitted scale (as stations 06 and 08 do).
+const LIFT=.13;
+function joinLift(t){return VB?-VB[3]*LIFT*(1-ease(seg(t,EX0-.6,EX0))+ease(seg(t,EX0+EXO+EXH+EXC,EX0+EXO+EXH+EXC+.6))):0;}
+const joinScene=drawScene;
+drawScene=(c,t,fl)=>`<g transform="translate(0 ${n1(joinLift(t))})">${joinScene(c,t,fl)}</g>`;
+S.overlay=(c,t,fl)=>`<g transform="translate(0 ${n1(joinLift(t))})">${overlay(c,t,fl)}</g>`+jointInset(t,fl)+restDial(t,fl);
+
+/* ---- page plumbing ---- */
+const $=id=>document.getElementById(id);
+const svg=$('s'),root=$('g');
+let VB=null;
+// Loop seam: only transient parts fade, over 0.5 s at each end. The shop (bed, pins, yokes,
+// track, robot) stays at full strength. Overlays always fade; a station wraps its own transient
+// geometry (the rib) in seamA(t, flags) inside drawScene.
+const seamA=(t,flags)=>flags&&flags.static?1:Math.min(seg(t,0,.5),1-seg(t,DUR-.5,DUR));
+function frame(t,flags){
+  const started=performance.now();flags=flags||{};
+  const a=seamA(t,flags);
+  let inner=drawScene(mainC,t,flags);
+  const over=S.overlay?S.overlay(mainC,t,flags):'';
+  if(over&&a>.005)inner+=`<g opacity="${n1(a)}">${over}</g>`;
+  root.innerHTML=inner;
+  collectAnnotations();window.__frameMS=performance.now()-started;
+}
+// Fit the viewBox tightly to the drawing over FIT_TIMES. The svg fills the stage and scales
+// with "meet", centred, so the machine is as large as the free stage allows.
+function fit(){
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  // Geometry only: labels are placed inside the fitted area, so they must not widen it.
+  for(const t of FIT_TIMES){root.innerHTML=drawScene(mainC,t,{})+(S.overlay?S.overlay(mainC,t,{}):'');for(const e of root.querySelectorAll('[data-label],[data-dimension]'))e.style.display='none';const b=root.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);}
+  const pad=24;VB=[x0-pad,y0-pad,x1-x0+2*pad,y1-y0+2*pad];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  // A constant whole-drawing lift balances the main machine when exploded details leave.
+  // Keep each station's scale fixed across every step. Offsets are viewBox fractions.
+  const station=DRAWING_META.number;
+  const lift=0;
+  root.setAttribute('transform',`translate(0 ${n1(-VB[3]*lift)})`);
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+}
+
+
+const factoryMedia = matchMedia('(prefers-reduced-motion: reduce)');
+let factoryActive=false, factoryIntent=true, factoryRaf=0, factoryLast=0, factoryEmit=0;
+let factoryTime=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:STATIC_T;
+let factoryStatic=factoryMedia.matches;
+let factoryDraws=0;
+const factoryReady = () => window.__ready===true;
+function factoryState(){
+  const index=typeof stepOf==='function'?stepOf(factoryTime):0;
+  const item=typeof STEPS!=='undefined'?STEPS[index]:null;
+  return {id:DRAWING_META.id,title:DRAWING_META.title,duration:DUR,time:factoryTime,
+    playing:!!factoryRaf,active:factoryActive,reducedMotion:factoryMedia.matches,
+    step:item?item[0]:'Process overview',caption:item?item[1]:DRAWING_META.whatHappens,
+    stepIndex:index,static:factoryStatic,ready:factoryReady(),renderCount:factoryDraws};
+}
+function factoryNotify(){
+  const state=factoryState();
+  window.dispatchEvent(new CustomEvent('bower:factory-state',{detail:state}));
+  if(parent!==window)parent.postMessage({type:'bower-factory:state',state},'*');
+}
+function factoryRender(){frame(factoryTime,{static:factoryStatic});factoryDraws++;}
+function factoryFit(){
+  // Some scenes place insets after the initial viewBox is known. Reconcile their
+  // full timeline with the compact deck viewport, retaining one stable camera.
+  VB=null;root.removeAttribute('transform');fit();
+  if(DRAWING_META.id==='overview')return;
+  const times=[...new Set([...FIT_TIMES,...(typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:[]),STATIC_T])];
+  for(let pass=0;pass<8;pass++){
+    let x0=VB[0],y0=VB[1],x1=x0+VB[2],y1=y0+VB[3];
+    const pad=8*Math.max(VB[2]/Math.max(1,svg.clientWidth),VB[3]/Math.max(1,svg.clientHeight));
+    for(const value of times){
+      frame(value,{});
+      // SVG getBBox includes geometry outside clip paths. The visible inset
+      // outlines already bound those details; invisible shearing tools must
+      // not enlarge the camera by several metres as they leave the inset.
+      for(const clipped of root.querySelectorAll('[clip-path]'))clipped.style.display='none';
+      const b=root.getBBox();
+      x0=Math.min(x0,b.x-pad);y0=Math.min(y0,b.y-pad);
+      x1=Math.max(x1,b.x+b.width+pad);y1=Math.max(y1,b.y+b.height+pad);
+    }
+    if(Math.abs(x0-VB[0])+Math.abs(y0-VB[1])+Math.abs(x1-VB[0]-VB[2])+Math.abs(y1-VB[1]-VB[3])<.5)break;
+    VB=[x0,y0,x1-x0,y1-y0];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  }
+}
+function factoryStop(){
+  if(factoryRaf)cancelAnimationFrame(factoryRaf);
+  factoryRaf=0;factoryLast=0;
+}
+function factoryTick(now){
+  factoryRaf=0;
+  if(!factoryActive||!factoryIntent||document.hidden||factoryMedia.matches)return;
+  if(factoryLast)factoryTime=(factoryTime+(now-factoryLast)/1000)%DUR;
+  factoryLast=now;factoryStatic=false;factoryRender();
+  factoryRaf=requestAnimationFrame(factoryTick);
+  if(now-factoryEmit>120){factoryEmit=now;factoryNotify();}
+}
+function factoryStart(){
+  if(factoryReady()&&factoryActive&&factoryIntent&&!document.hidden&&!factoryMedia.matches&&!factoryRaf){
+    factoryLast=0;factoryRaf=requestAnimationFrame(factoryTick);
+  }
+}
+function factorySeek(value){
+  const parsed=Number(value);if(!Number.isFinite(parsed))return factoryState();
+  factoryStop();factoryIntent=false;factoryStatic=false;
+  factoryTime=Math.max(0,Math.min(DUR,parsed));
+  if(factoryReady())factoryRender();factoryNotify();return factoryState();
+}
+window.__ready=false;
+window.__duration=DUR;
+window.__reviewTimes=typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:null;
+window.__viewportT=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:null;
+window.__setT=factorySeek;
+window.BOWER_FACTORY=Object.freeze({
+  setActive(value){factoryActive=!!value;if(factoryActive)factoryStart();else factoryStop();factoryNotify();return factoryState();},
+  play(){factoryIntent=true;factoryStatic=false;factoryStart();factoryNotify();return factoryState();},
+  pause(){factoryIntent=false;factoryStop();factoryNotify();return factoryState();},
+  seek:factorySeek,
+  renderStatic(){factoryIntent=false;factoryStop();factoryStatic=true;factoryTime=STATIC_T;
+    if(factoryReady())factoryRender();factoryNotify();return factoryState();},
+  getState:factoryState,
+  exportSvg(){
+    const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    copy.setAttribute('width',svg.clientWidth);copy.setAttribute('height',svg.clientHeight);
+    copy.setAttribute('style','background:#fdfcf9;color:#23272b');
+    return new XMLSerializer().serializeToString(copy);
+  }
+});
+// The file:// preview has opaque origins. Only its actual parent may issue the small
+// public drawing API; no arbitrary code, URLs, storage or DOM commands are accepted.
+window.addEventListener('message',async event=>{
+  if(event.source!==parent||parent===window||event.data?.type!=='bower-factory:command')return;
+  const {requestId,action,args}=event.data;
+  const allowed={state:'getState',getState:'getState',setActive:'setActive',play:'play',pause:'pause',seek:'seek',renderStatic:'renderStatic',exportSvg:'exportSvg'};
+  const method=Object.hasOwn(allowed,action)?allowed[action]:null;
+  if(!method)return;
+  try{
+    await window.BOWER_FACTORY_READY;
+    const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
+    parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
+  }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
+factoryMedia.addEventListener('change',()=>{
+  factoryStop();factoryStatic=factoryMedia.matches;
+  if(factoryStatic){factoryTime=STATIC_T;if(factoryReady())factoryRender();}
+  else factoryStart();factoryNotify();
+});
+let factoryWidth=0,factoryHeight=0;
+const factoryResize=new ResizeObserver(()=>{
+  if(!factoryReady()||!svg.clientWidth||!svg.clientHeight)return;
+  if(svg.clientWidth===factoryWidth&&svg.clientHeight===factoryHeight)return;
+  factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  factoryFit();factoryRender();
+});
+factoryResize.observe(svg);
+window.BOWER_FACTORY_READY=(async()=>{
+  await document.fonts.load('11.5px Safiro');await document.fonts.ready;
+  S.fontSize=DRAWING_META.id==='overview'?11:11.5;
+  factoryFit();factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  if(factoryStatic)factoryTime=STATIC_T;
+  factoryRender();window.__ready=true;factoryNotify();factoryStart();
+  if(parent!==window)parent.postMessage({type:'bower-factory:ready',state:factoryState()},'*');
+  return window.BOWER_FACTORY;
+})();
+
+})();</script></body></html>

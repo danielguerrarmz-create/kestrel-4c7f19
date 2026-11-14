@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bower manufacturing process overview</title><link rel="stylesheet" href="../../4/fonts.css">
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fdfcf9}svg{display:block;width:100%;height:100%;max-height:none}body{font-family:Safiro,Arial,sans-serif}.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style>
+</head><body><svg id="s" role="img" aria-label="Bower manufacturing process overview"><style>.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style><g id="g"></g></svg>
+<script>(()=>{const DRAWING_META={"id":"overview","number":null,"title":"Process overview","stage":"Factory","whatHappens":"Fourteen connected operations, from timber preparation to a finished rib.","bower":"Proposed manufacturing process. This arrangement explains the sequence; it is not a verified factory floor plan.","testing":"Engineering drawings in development. Equipment, process performance and the proposed tower clamps still require validation.","sourceLinks":[]};
+const S={};
+const SQ=Math.sqrt(3)/2, TAU=Math.PI*2;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const CP=Math.cos(.575),SP=Math.sin(.575);
+const mkP=(ox,oy,s)=>(x,y,z)=>[ox+(x*CP-y*SP)*s, oy+((x*SP+y*CP)*.5-z)*s];
+const n1=v=>v.toFixed(1);
+const pd=(pts,close=true)=>'M'+pts.map(p=>n1(p[0])+' '+n1(p[1])).join('L')+(close?'Z':'');
+function hull(pts){pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[];for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}const up=[];for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}up.pop();lo.pop();return lo.concat(up);}
+function circ(cx,cy,r,n=16){const a=[];for(let i=0;i<n;i++){const t=i/n*TAU+.3;a.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return a;}
+function rr(u0,v0,u1,v1,r){r=r||0;if(r<.005)return[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];r=Math.min(r,(u1-u0)/2,(v1-v0)/2);const o=[];for(const[cx,cy,a0]of[[u1-r,v0+r,-90],[u1-r,v1-r,0],[u0+r,v1-r,90],[u0+r,v0+r,180]])for(let k=0;k<=3;k++){const a=(a0+k*30)*Math.PI/180;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}return o;}
+const cap2=(p,q,r0,r1)=>hull(circ(p[0],p[1],r0,14).concat(circ(q[0],q[1],r1,14)));
+const mixHex=(a,b,k)=>{const h=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=h(a),B=h(b);return'#'+A.map((v,i)=>Math.round(lerp(v,B[i],clamp(k))).toString(16).padStart(2,'0')).join('');};
+
+const sst=t=>{t=clamp(t);return t*t*(3-2*t)};
+const ease=t=>{t=clamp(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eout=t=>1-Math.pow(1-clamp(t),3);
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+
+const stepIndex=(t,bounds)=>{for(let i=0;i<bounds.length-1;i++)if(t<bounds[i+1])return i;return bounds.length-2;};
+
+function ext(c,plane,poly,a0,a1,o){o=o||{};const P=c.P;
+  const q=(p,a)=>plane==='yz'?P(a,p[0],p[1]):plane==='xz'?P(p[0],a,p[1]):P(p[0],p[1],a);
+  const p0=poly.map(p=>q(p,a0)),p1=poly.map(p=>q(p,a1));
+  return S.solid(hull(p0.concat(p1)),p1,o,c);}
+const ln=(c,pts,cls,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(p[0],p[1],p[2])),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.6}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${o.op!=null?`opacity="${n1(o.op)}"`:''}/>`;};
+
+function hatchRect(P,x,y0,y1,z0,z1,step,dir){ // hatch inside a rectangle of the plane x=const
+  let d='';const h=z1-z0,w=y1-y0;
+  for(let k=-h;k<w;k+=step){ // line z = z0 + dir*(y-y0-k)
+    let ya=y0+Math.max(0,k),yb=y0+Math.min(w,k+h);if(yb<=ya)continue;
+    const f=y=>dir>0?z0+(y-y0-k):z1-(y-y0-k);
+    const a=P(x,ya,f(ya)),b=P(x,yb,f(yb));d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+  return d;}
+
+/* ---- machine parts: frames, fasteners, hoses, linear track, cable chain, six-axis arm ---- */
+// Frames wrap a context so any extrusion can be drawn in a moved or rotated local system.
+// c.ax holds the world direction of each local axis; it decides which end cap faces the viewer.
+const AX0=[[1,0,0],[0,1,0],[0,0,1]];
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+ cr:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ nz:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}};
+function frameC(c,o,ex,ey,ez){const A=c.ax||AX0,w=e=>[0,1,2].map(i=>e[0]*A[0][i]+e[1]*A[1][i]+e[2]*A[2][i]);
+ return{P:(a,b,d)=>c.P(o[0]+a*ex[0]+b*ey[0]+d*ez[0],o[1]+a*ex[1]+b*ey[1]+d*ez[1],o[2]+a*ex[2]+b*ey[2]+d*ez[2]),ax:[w(ex),w(ey),w(ez)]};}
+// Local z runs along d from o.
+function alongC(c,o,d){const z=v3.nz(d),r=Math.abs(z[0])<.9?[1,0,0]:[0,1,0];const x=v3.nz(v3.add(r,v3.sc(z,-v3.dot(r,z))));return frameC(c,o,x,v3.cr(z,x),z);}
+const facing=(c,k)=>{const v=(c.ax||AX0)[k];return v[0]*SP+v[1]*CP+v[2]*.5>=0;};
+// Extrusion with its outlined cap always on the end nearest the viewer.
+function xt(c,plane,poly,a0,a1,o){const k=plane==='yz'?0:plane==='xz'?1:2;return facing(c,k)===(a1>=a0)?ext(c,plane,poly,a0,a1,o||{}):ext(c,plane,poly,a1,a0,o||{});}
+// Cylinder along a local axis; (u,v) is the centre in the other two axes, in xyz order.
+function cyl(c,axis,u,v,r,a0,a1,o,n){const p=circ(u,v,r,n||14);return xt(c,axis==='z'?'xy':axis==='y'?'xz':'yz',p,a0,a1,o);}
+const q3=(plane,u,v,a)=>plane==='yz'?[a,u,v]:plane==='xz'?[u,a,v]:[u,v,a];
+const matFill=()=>typeof MAT!=='undefined'&&MAT?MAT.steel:S.paper;
+// Hex heads or nuts lying on a face, one path.
+function hexes(c,plane,pts,at,r){let d='';for(const[u,v]of pts){const h=[];for(let k=0;k<6;k++){const a=k*Math.PI/3+.26;h.push(c.P(...q3(plane,u+r*Math.cos(a),v+r*Math.sin(a),at)));}d+=pd(h);}
+ return`<path d="${d}" fill="${matFill()}" stroke="${S.ink}" stroke-width=".5"/>`;}
+// Circles on a face (bores, bolt holes, lenses), one path.
+function rings(c,plane,pts,at,r,o){o=o||{};let d='';for(const[u,v]of pts)d+=pd(circ(u,v,r,o.n||12).map(p=>c.P(...q3(plane,p[0],p[1],at))));
+ return`<path d="${d}" fill="${o.fill||'none'}" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''}/>`;}
+// Inner edges on a face as one path of polylines.
+function edges(c,lines,o){o=o||{};let d='';for(const l of lines)d+=pd(l.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round"/>`;}
+const bez=(a,b,c2,d,n)=>Array.from({length:n+1},(_,k)=>{const u=k/n,p=(1-u)**3,q=3*u*(1-u)**2,r=3*u*u*(1-u),s=u**3;return[0,1,2].map(i=>p*a[i]+q*b[i]+r*c2[i]+s*d[i]);});
+// A hose or cable: an outlined tube of width w drawing units in pixels.
+function hose(c,pts,w,o){o=o||{};const d=pd(pts.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${n1(w+1.1)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${S.paper}" stroke-width="${n1(Math.max(.4,w-.1))}" stroke-linecap="round" stroke-linejoin="round"/>`;}
+
+/* Linear track, KUKA KL 4000 class: feet, box beam, two profile rails, rack, end stops, trough. */
+function trackBase(c,{x0,x1,y}){let s='';
+ for(let x=x0+.7;x<x1-.3;x+=3.4){
+  s+=xt(c,'xy',rr(x-.42,y-.82,x+.42,y+.82),0,.06,{m:'dark'});
+  s+=hexes(c,'xy',[[x-.3,y-.68],[x+.3,y-.68],[x-.3,y+.68],[x+.3,y+.68]],.06,.07);
+  s+=xt(c,'yz',[[y-.55,.06],[y+.55,.06],[y+.42,.2],[y-.42,.2]],x-.2,x+.2,{m:'dark'});
+ }
+ s+=xt(c,'yz',rr(y-.6,.2,y+.6,.5),x0,x1,{m:'steel'});
+ s+=edges(c,[[[x0,y+.6,.27],[x1,y+.6,.27]],[[x0,y+.6,.43],[x1,y+.6,.43]]]);
+ const rail=[[-.1,0],[.1,0],[.1,.05],[.06,.08],[.09,.1],[.09,.15],[-.09,.15],[-.09,.1],[-.06,.08],[-.1,.05]];
+ for(const ry of[y-.36,y+.36])s+=xt(c,'yz',rail.map(p=>[ry+p[0],.5+p[1]]),x0+.15,x1-.15,{m:'steel'});
+ let holes=[];for(let x=x0+.4;x<x1-.2;x+=.6)holes.push([x,y-.36],[x,y+.36]);s+=rings(c,'xy',holes,.65,.035,{n:6});
+ // Rack on the front face; teeth as ticks
+ s+=xt(c,'yz',rr(y+.6,.29,y+.68,.44),x0+.1,x1-.1,{m:'steel'});
+ let d='';for(let x=x0+.16;x<x1-.12;x+=.11){const a=c.P(x,y+.68,.29),b=c.P(x,y+.68,.37);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;
+ for(const xe of[x0,x1-.3]){s+=xt(c,'xy',rr(xe,y-.5,xe+.3,y+.5),.5,.85,{m:'dark'});s+=cyl(c,'x',y-.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10)+cyl(c,'x',y+.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10);}
+ return s;}
+// Cable trough in front of the track, drawn after the carriage.
+function trackTrough(c,{x0,x1,y}){const U=[[y+.8,0],[y+1.3,0],[y+1.3,.42],[y+1.26,.42],[y+1.26,.04],[y+.84,.04],[y+.84,.42],[y+.8,.42]];
+ return xt(c,'yz',U,x0+.2,x1-.2,{m:'dark'})+edges(c,[[[x0+.2,y+.84,.42],[x1-.2,y+.84,.42]]]);}
+// Energy chain: fixed end xf on the trough floor, moving end on the carriage bracket at xc.
+function cableChain(c,{xf,xc,xb,y}){const yf=y+1.22,yb=y+.88,z0=.05,h=.12,R=.19,zc=z0+R,P=c.P;
+ const lo=[[xf,z0],[xb,z0]],arcO=[],arcI=[];for(let k=0;k<=10;k++){const a=-Math.PI/2+k/10*Math.PI;arcO.push([xb+R*Math.cos(a),zc+R*Math.sin(a)]);arcI.push([xb+(R-h)*Math.cos(a),zc+(R-h)*Math.sin(a)]);}
+ const out=lo.concat(arcO,[[xc,zc+R]],[[xc,zc+R-h]],arcI.slice().reverse(),[[xf,z0+h]]);
+ let s=`<path d="${pd(out.map(p=>P(p[0],yf,p[1])))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9" stroke-linejoin="round"/>`;
+ s+=`<path d="${pd([P(xc,yb,zc+R),P(xb,yb,zc+R),P(xb,yf,zc+R),P(xc,yf,zc+R)])}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".6"/>`;
+ let d='';const tick=(x,za,zb2,yy)=>{const a=P(x,yy,za),b=P(x,yy,zb2);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;};
+ for(let x=xf+.22;x<xb;x+=.22)tick(x,z0,z0+h,yf);
+ for(let x=xc+.22;x<xb;x+=.22){tick(x,zc+R-h,zc+R,yf);const a=P(x,yb,zc+R),b=P(x,yf,zc+R);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ return s+`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;}
+// Carriage on four bearing blocks, rack drive motor, chain bracket, robot riser.
+function trackCarriage(c,{cx,y,mv,riser}){let s='';const o={m:'steel',mv};
+ for(const bx of[cx-.62,cx+.62])for(const by of[y-.36,y+.36]){s+=xt(c,'xy',rr(bx-.3,by-.17,bx+.3,by+.17),.56,.76,{m:'dark'});s+=xt(c,'yz',rr(by-.15,.58,by+.15,.74),bx+.3,bx+.34,{m:'dark'});}
+ s+=xt(c,'xy',rr(cx-.48,y+.6,cx+.08,y+.9),.3,.76,{m:'dark'});
+ s+=xt(c,'xy',rr(cx-1.02,y-.78,cx+1.02,y+.78),.76,.88,o);
+ s+=hexes(c,'xy',[[cx-.85,y-.62],[cx+.85,y-.62],[cx-.85,y+.62],[cx+.85,y+.62]],.88,.06);
+ s+=xt(c,'yz',[[y+.78,.88],[y+1.08,.88],[y+1.08,.43],[y+1.0,.43],[y+1.0,.82],[y+.78,.82]],cx+.82,cx+1.0,{m:'dark'});
+ // Drive motor with cooling rings and connector
+ const mx=cx-.2,my=y+.6;s+=cyl(c,'z',mx,my,.17,.88,1.38,o,14);
+ s+=edges(c,[1.0,1.1,1.2].map(z=>circ(mx,my,.17,14).slice(0,9).map(p=>[p[0],p[1],z])));
+ s+=xt(c,'xy',rr(mx-.07,my+.1,mx+.07,my+.24),1.24,1.36,{m:'dark'});
+ if(riser){const h=riser;s+=xt(c,'xy',rr(cx-.48,y-.48,cx+.48,y+.48),.88,.88+h,{m:'steel'});
+  s+=xt(c,'xz',[[cx+.48,.88],[cx+.48,.88+h*.6],[cx+.86,.88]],y-.03,y+.03,{m:'dark'});
+  s+=xt(c,'yz',[[y+.48,.88],[y+.48,.88+h*.6],[y+.8,.88]],cx+.27,cx+.33,{m:'dark'});
+  s+=xt(c,'xy',rr(cx-.7,y-.7,cx+.7,y+.7),.88+h,.98+h,{m:'steel'});}
+ return s;}
+
+/* Crane spreader beam: I-section beam, two lifting lugs with a bridle to a hook block and hoist
+   ropes (the crane itself stays off the drawing), and webbing slings at each pick point down to
+   the load. slings: [{x, top, bot}] where the load's top edge is at z = top and its front face
+   runs down to bot; w is the load's half width in y. Back legs draw first, front legs last. */
+function spreaderBeam(c,{x0,x1,y=0,z,w,slings,lift=1.3,rope=2.2}){let s='';const P=c.P,xm=(x0+x1)/2,zt=z+.3;
+ const L=(pts,wd)=>`<path d="${pd(pts.map(q=>P(...q)),false)}" fill="none" stroke="${S.ink}" stroke-width="${wd}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ for(const g of slings)s+=L([[g.x,y,z],[g.x,y-w,g.top]],1.5);
+ const I=[[-.16,0],[.16,0],[.16,.05],[.035,.05],[.035,.25],[.16,.25],[.16,.3],[-.16,.3],[-.16,.25],[-.035,.25],[-.035,.05],[-.16,.05]];
+ s+=xt(c,'yz',I.map(q=>[y+q[0],z+q[1]]),x0,x1,{m:'steel'});
+ for(const xe of[x0,x1])s+=xt(c,'yz',rr(y-.18,z-.02,y+.18,z+.32),xe-.03,xe+.03,{m:'dark'});
+ const H=[xm,y,zt+lift],lugs=[x0+(x1-x0)*.28,x1-(x1-x0)*.28];
+ for(const xl of lugs){s+=xt(c,'xz',[[xl-.14,zt],[xl+.14,zt],[xl+.07,zt+.22],[xl-.07,zt+.22]],y-.02,y+.02,{m:'dark'});s+=L([[xl,y,zt+.16],H],.9);}
+ // Hook block: sheave between side plates, hook below, two hoist ropes leaving upward
+ s+=L([H,[xm,y,H[2]+.18]],1.1);
+ s+=xt(c,'xz',rr(xm-.24,H[2]+.18,xm+.24,H[2]+.78,.08),y-.13,y+.13,{m:'dark'});
+ s+=cyl(c,'y',xm,H[2]+.48,.17,y+.13,y+.17,{m:'steel'},12);
+ s+=L([[xm-.15,y,H[2]+.7],[xm-.15,y,H[2]+.78+rope]],.7)+L([[xm+.15,y,H[2]+.7],[xm+.15,y,H[2]+.78+rope]],.7);
+ for(const g of slings){s+=cyl(c,'y',g.x,z-.07,.06,y-.03,y+.03,{m:'dark'},8);s+=L([[g.x,y,z-.1],[g.x,y+w,g.top],[g.x,y+w,g.bot]],1.5);}
+ return s;}
+
+/* Six-axis industrial arm, KUKA QUANTEC class. All joints lie in the plane x = const of the
+   context c. Sh, El, Wr are shoulder (A2), elbow (A3) and wrist (A5) centres as [y,z].
+   fd is the flange direction [dy,dz]. tool(ff) draws in the flange frame from z = 0.
+   Base sits at [x,y,zb]; the column is fixed for a robot that faces -y. */
+// halo: a paper gap of about 2.5 px round the arm's silhouette, so the jacks and yokes it stands
+// in front of stop short of its outline instead of tangling with it. The arm is always nearer the
+// viewer than the pin row, so it needs a gap, not hidden lines.
+function robot6(c,o){const s=robot6Lines(c,o);if(!o.halo)return s;
+ return`<defs><filter id="arm-halo" x="-5%" y="-5%" width="110%" height="110%"><feMorphology in="SourceAlpha" operator="dilate" radius="${n1(2.5*Math.max(.6,kk()))}" result="d"/><feFlood flood-color="${S.paper}"/><feComposite in2="d" operator="in"/></filter></defs><use href="#arm" filter="url(#arm-halo)"/><g id="arm">${s}</g>`;}
+function robot6Lines(c,{x,y,zb,Sh,El,Wr,fd,tool,mv}){let s='';const P=c.P;
+ const st={m:'steel'},dk={m:'dark'};
+ // Base frame with fixing bolts, A1 gear housing and slewing ring
+ const oct=[[-.72,-.45],[-.45,-.72],[.45,-.72],[.72,-.45],[.72,.45],[.45,.72],[-.45,.72],[-.72,.45]].map(p=>[x+p[0],y+p[1]]);
+ s+=xt(c,'xy',oct,zb,zb+.12,dk);
+ s+=hexes(c,'xy',[[x-.56,y-.3],[x-.56,y+.3],[x+.56,y-.3],[x+.56,y+.3],[x-.3,y+.56],[x+.3,y+.56]],zb+.12,.055);
+ s+=cyl(c,'z',x,y,.56,zb+.12,zb+.5,st,20)+cyl(c,'z',x,y,.6,zb+.5,zb+.58,dk,20);
+ // A1 motor at the back of the column
+ s+=cyl(c,'z',x-.24,y+.62,.15,zb+.58,zb+1.16,st,12)+xt(c,'xy',rr(x-.3,y+.74,x-.18,y+.86),zb+1.0,zb+1.12,dk);
+ // Rotating column, cast, carrying the A2 axis forward of A1
+ const z1=zb+.58,col=[[y+.62,z1],[y-.62,z1],[Sh[0]-.45,Sh[1]-.55],[Sh[0]-.35,Sh[1]+.3],[Sh[0]+.2,Sh[1]+.56],[y+.5,Sh[1]+.1]];
+ s+=xt(c,'yz',col,x-.46,x+.46,st);
+ s+=edges(c,[[[x+.46,y+.45,z1+.12],[x+.46,Sh[0]-.3,Sh[1]-.45]]]);
+ // Lower arm with recessed panel and hub bolt circle
+ const len=Math.hypot(El[0]-Sh[0],El[1]-Sh[1]);
+ s+=xt(c,'yz',cap2(Sh,El,.46,.34),x-.32,x+.32,{m:'steel',mv});
+ const inner=hull(circ(Sh[0]+(El[0]-Sh[0])*.2,Sh[1]+(El[1]-Sh[1])*.2,.26,10).concat(circ(Sh[0]+(El[0]-Sh[0])*.82,Sh[1]+(El[1]-Sh[1])*.82,.19,10)));
+ s+=edges(c,[inner.concat([inner[0]]).map(p=>[x+.32,p[0],p[1]])]);
+ // A2 gearbox and motor on the near side
+ s+=cyl(c,'x',Sh[0],Sh[1],.52,x+.46,x+.6,st,20);
+ s+=rings(c,'yz',circ(Sh[0],Sh[1],.4,8),x+.6,.04,{n:6});
+ s+=cyl(c,'x',Sh[0],Sh[1],.18,x+.6,x+.7,dk,12);
+ s+=cyl(c,'x',Sh[0]+.62,Sh[1]-.42,.2,x+.42,x+.98,st,14)+xt(c,'xy',rr(x+.6,Sh[0]+.52,x+.78,Sh[0]+.72),Sh[1]-.24,Sh[1]-.12,dk);
+ // Counterbalance cylinder: barrel pivots on the column, rod on the lower arm
+ const ua=[(El[0]-Sh[0])/len,(El[1]-Sh[1])/len],cb0=[Sh[0]+.95,Sh[1]-.05],cb1=[Sh[0]+ua[0]*.95-ua[1]*.3,Sh[1]+ua[1]*.95+ua[0]*.3];
+ const cbm=[lerp(cb0[0],cb1[0],.58),lerp(cb0[1],cb1[1],.58)];
+ s+=xt(c,'yz',cap2(cbm,cb1,.07,.07),x+.62,x+.72,{m:'steel',mv});
+ s+=xt(c,'yz',cap2(cb0,cbm,.17,.15),x+.58,x+.76,{m:'steel'});
+ s+=cyl(c,'x',cb0[0],cb0[1],.09,x+.76,x+.82,dk,10)+cyl(c,'x',cb1[0],cb1[1],.08,x+.72,x+.8,dk,10);
+ // Arm frame: b along the forearm toward the wrist, d its upward normal
+ const L2=Math.hypot(Wr[0]-El[0],Wr[1]-El[1]),u=[(Wr[0]-El[0])/L2,(Wr[1]-El[1])/L2];let nrm=[-u[1],u[0]];if(nrm[1]<0)nrm=[-nrm[0],-nrm[1]];
+ const fa=frameC(c,[x,El[0],El[1]],[1,0,0],[0,u[0],u[1]],[0,nrm[0],nrm[1]]);
+ // Forearm tube with A4 bearing ring, wrist with A5 axis, A6 flange
+ s+=xt(fa,'xz',circ(0,0,.22,14),.42,L2-.3,{m:'steel',mv});
+ s+=xt(fa,'xz',circ(0,0,.26,14),.42,.6,st);
+ s+=xt(fa,'yz',cap2([L2-.36,0],[L2,0],.22,.25),-.2,.2,st);
+ s+=xt(fa,'yz',circ(L2,0,.18,12),.2,.27,dk);
+ const ff=alongC(c,[x,Wr[0],Wr[1]],[0,fd[0],fd[1]]);
+ s+=xt(ff,'xy',circ(0,0,.17,14),.12,.3,st)+xt(ff,'xy',circ(0,0,.24,16),.3,.36,st);
+ s+=rings(ff,'xy',circ(0,0,.17,6),.36,.025,{n:6});
+ // Arm housing round the elbow with the A3 drive and the A4 to A6 motors at the back
+ s+=xt(fa,'yz',rr(-.95,-.36,.48,.36,.1),-.36,.36,{m:'steel',mv});
+ s+=cyl(fa,'x',0,0,.44,.36,.46,st,18)+rings(fa,'yz',circ(0,0,.32,8),.46,.035,{n:6});
+ for(const[a,d]of[[-.17,-.14],[.17,-.14],[0,.15]])s+=xt(fa,'xz',circ(a,d,.12,10),-.95,-1.42,dk);
+ // Cable dress: base to column back, along the lower arm, to the motors at the back of the arm
+ const back=[El[0]-u[0]*1.2,El[1]-u[1]*1.2];
+ const cp=[[x+.2,y+.75,zb+.35],[x+.2,y+.8,z1+.9],[x+.36,Sh[0]+.6,Sh[1]+.65],[x+.36,Sh[0]+ua[0]*1.6-ua[1]*.55,Sh[1]+ua[1]*1.6+ua[0]*.55],[x+.36,El[0]-ua[0]*.7-ua[1]*.5,El[1]-ua[1]*.7+ua[0]*.5],[x+.2,back[0],back[1]]];
+ const pts=bez(cp[0],cp[1],cp[1],cp[2],5).concat(bez(cp[2],cp[3],cp[4],cp[5],10).slice(1));
+ s+=hose(c,pts,2.4);
+ for(const k of[6,10,13]){const p=pts[k];s+=edges(c,[[[p[0]-.06,p[1],p[2]-.08],[p[0]-.06,p[1],p[2]+.08]]],{w:1.1});}
+ s+=hose(c,bez([x+.2,back[0],back[1]],[x+.3,back[0]+u[0]*.2,back[1]+.6],[x+.3,Wr[0]-u[0]*.9,Wr[1]+.45],[x+.24,Wr[0]-u[0]*.3,Wr[1]+.28],8),1.4);
+ // Tool in the flange frame, starting at the flange face
+ s+=tool(frameC(ff,[0,0,.36],[1,0,0],[0,1,0],[0,0,1]));
+ return s;}
+// Planar two-link solution with the elbow up. Returns the elbow [y,z].
+function elbowUp(Sh,Wr,L1,L2){let dy=Wr[0]-Sh[0],dz=Wr[1]-Sh[1],d=Math.hypot(dy,dz);const mx=L1+L2-.02;if(d>mx){dy*=mx/d;dz*=mx/d;d=mx;}
+ const a=(L1*L1-L2*L2+d*d)/(2*d),h=Math.sqrt(Math.max(0,L1*L1-a*a));let ny=-dz/d,nz=dy/d;if(nz<0){ny=-ny;nz=-nz;}
+ return[Sh[0]+dy*a/d+ny*h,Sh[1]+dz*a/d+nz*h];}
+
+// Labels stay 11.5 px on screen. The svg scales its viewBox with "meet", so the larger ratio wins.
+const fsz=()=>11.5*(typeof VB!=='undefined'&&VB?Math.max(VB[2]/Math.max(280,svg.clientWidth||900),VB[3]/Math.max(1,svg.clientHeight||VB[3])):1.3);
+const kk=()=>fsz()/11.5;
+/* Placement rule for every station: put the white box in free paper first. Overlap the drawing
+   only where no free paper is left, and then never over a loaded (red) part or another label.
+   Leaders never cross each other or a moving machine on their way to the box. dx, dy are screen
+   pixels from the anchor to the elbow, so the box can be steered into the free area.
+   o.at (a world point) pins the elbow in place, so a label on a moving part keeps its box still
+   in the free area while its leader follows the part. o.side (-1 or 1) fixes the text side.
+   Text is always horizontal: no label, tag or dimension text is ever rotated (dimLine follows). */
+function lead(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk();const id=o.id||txt;const p=c.P(anc[0],anc[1],anc[2]);dx*=k;dy*=k;
+  if(o.at){const q=c.P(...o.at);dx=q[0]-p[0];dy=q[1]-p[1];}
+  const bx=p[0]+dx,by=p[1]+dy,sd=o.side||(dx<0?-1:1),col=S.ink;
+  const L=Math.hypot(dx,dy),ux=-dx/L,uy=-dy/L,ah=5*k; // arrowhead at anchor
+  const tip=p,b1=[tip[0]-ux*(-ah)+(-uy)*ah*.35,tip[1]-uy*(-ah)+ux*ah*.35],b2=[tip[0]-ux*(-ah)-(-uy)*ah*.35,tip[1]-uy*(-ah)-ux*ah*.35];
+  const hd=`<path d="${pd([tip,b1,b2])}" fill="${col}"/>`;
+  // Bower-specific mark: a small green filled square tag.
+  const tag=o.bower?`<tspan style="fill:${S.bower||'#2a6a50'};font-size:.62em">\u25A0</tspan>\u00A0`:'';
+  return`<g data-label="${id}" data-white="${o.box!==false && S.labelBoxes!==false}"${o.bower?' data-bower="true"':''} opacity="${n1(a)}"><path d="M${n1(p[0])} ${n1(p[1])}L${n1(bx)} ${n1(by)}L${n1(bx+sd*12*k)} ${n1(by)}" fill="none" stroke="${col}" stroke-width=".6"/>${hd}<text x="${n1(bx+sd*16*k)}" y="${n1(by+3.6*k)}" text-anchor="${sd<0?'end':'start'}" class="lb" style="font-size:${fsz()}px;fill:${col}">${tag}${txt}</text></g>`;}
+
+// A leaderless label: a paper-boxed note set next to its part, such as a value beside a jack.
+// It counts as a label for overlap and visibility, and not as a leader. dx, dy are screen pixels.
+// Every value sits directly above its part or gets a 4 px tick, so the part is never in doubt:
+// o.above centres the box just above the anchor, no tick. o.tick draws a 4 px tick from the anchor
+// toward (dx, dy) and sets the box against the tick's end (right, left, above or below by the
+// larger of dx and dy), so only the direction of dx, dy matters. Ticks are not leaders.
+function tag(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk(),p=c.P(anc[0],anc[1],anc[2]),col=S.ink,fs=fsz()*(o.size||1);
+  let x=p[0]+dx*k,y=p[1]+dy*k+3.6*k,an=o.anchor||'start',tk='';
+  if(o.above){x=p[0];y=p[1]-6*k;an='middle';}
+  else if(o.tick){const L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,e=[p[0]+ux*4*k,p[1]+uy*4*k];
+   tk=`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(e[0])} ${n1(e[1])}" stroke="${col}" stroke-width=".75" fill="none"/>`;
+   if(Math.abs(dx)>=Math.abs(dy)){an=dx<0?'end':'start';x=e[0]+(dx<0?-2.5:2.5)*k;y=e[1]+fs*.35;}
+   else{an='middle';x=e[0];y=dy<0?e[1]-2.5*k-fs*.22:e[1]+2.5*k+fs*.78;}}
+  return`<g data-label="${o.id||txt}" data-white="true" data-leaderless="true" opacity="${n1(a)}">${tk}<text x="${n1(x)}" y="${n1(y)}" text-anchor="${an}" class="lb" style="font-size:${fs}px;fill:${col}">${txt}</text></g>`;}
+
+// Called after insertion so boxes use the browser's actual font metrics.
+function collectAnnotations(){
+ const labels=[],leaders=[],dimensions=[];
+ for(const g of root.querySelectorAll('[data-label]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  g.dataset.annotationId=g.dataset.label;
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=g.dataset.white==='true';
+  const box={x:b.x-2*k,y:b.y-2*k,w:b.width+4*k,h:b.height+4*k};
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,fill:S.paper||'#fdfcf9'}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);text.style.stroke='none';}
+  labels.push({id:g.dataset.label,text:text.textContent,box,white});
+  if(g.dataset.leaderless==='true')continue;
+  const p=g.querySelector('path');const nums=p.getAttribute('d').match(/-?\d+(?:\.\d+)?/g).map(Number);
+  leaders.push({id:g.dataset.label,segments:[[nums.slice(0,2),nums.slice(2,4)],[nums.slice(2,4),nums.slice(4,6)]]});
+ }
+ for(const g of root.querySelectorAll('[data-dimension]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  dimensions.push({segments:JSON.parse(g.dataset.dimension)});
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=S.labelBoxes!==false;
+  const matrix=text.transform.baseVal.consolidate()?.matrix;
+  const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>matrix?new DOMPoint(x,y).matrixTransform(matrix):{x,y});
+  const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y);
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:b.x-2*k,y:b.y-2*k,width:b.width+4*k,height:b.height+4*k,fill:S.paper||'#fdfcf9',stroke:'none',transform:text.getAttribute('transform')||''}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);}
+  g.dataset.annotationId='dimension:'+text.textContent;
+  labels.push({id:g.dataset.annotationId,text:text.textContent,white,box:{x:Math.min(...xs)-2*k,y:Math.min(...ys)-2*k,w:Math.max(...xs)-Math.min(...xs)+4*k,h:Math.max(...ys)-Math.min(...ys)+4*k}});
+ }
+ window.__annotations={labels,leaders,dimensions};
+}
+
+function dimLine(c,A,B,off,txt,a,o){if(a<.02||kk()>1.5)return'';const k=kk();const P=c.P;
+  const a2=[A[0]+off[0],A[1]+off[1],A[2]+off[2]],b2=[B[0]+off[0],B[1]+off[1],B[2]+off[2]];
+  const ov=.25,e=off.map(v=>v?Math.sign(v)*ov:0);
+  const p=P(...a2),q=P(...b2);
+  let s=`<g opacity="${n1(a)}" stroke="${S.ink}" fill="none" stroke-width=".5">`;
+  const ea=P(A[0]+off[0]*.08,A[1]+off[1]*.08,A[2]+off[2]*.08),eb=P(B[0]+off[0]*.08,B[1]+off[1]*.08,B[2]+off[2]*.08);
+  const ea2=P(a2[0]+e[0],a2[1]+e[1],a2[2]+e[2]),eb2=P(b2[0]+e[0],b2[1]+e[1],b2[2]+e[2]);
+  s+=`<path d="M${n1(ea[0])} ${n1(ea[1])}L${n1(ea2[0])} ${n1(ea2[1])}M${n1(eb[0])} ${n1(eb[1])}L${n1(eb2[0])} ${n1(eb2[1])}M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}"/>`;
+  const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,tk=4*k;
+  for(const m of[p,q])s+=`<path d="M${n1(m[0]-(ux-uy)*tk)} ${n1(m[1]-(uy+ux)*tk)}L${n1(m[0]+(ux-uy)*tk)} ${n1(m[1]+(uy+ux)*tk)}" stroke-width="1"/>`;
+  // Text is always horizontal, whatever the direction of the dimension line: rotated labels are
+  // slow to read. The box is set clear of the line on its upper side (or past the end tick at B
+  // with o.beyond), using an estimate of the text width.
+  const fs=fsz(),tw=txt.length*fs*.56,th=fs*1.25,gap=5*k;
+  let nx=-uy,ny=ux;if(ny>0||(Math.abs(ny)<1e-6&&nx<0)){nx=-nx;ny=-ny;}
+  const sup=(dx_,dy_)=>(Math.abs(dx_)*tw+Math.abs(dy_)*th)/2;
+  const cx_=o&&o.beyond?q[0]+ux*(sup(ux,uy)+gap):(p[0]+q[0])/2+nx*(sup(nx,ny)+gap),cy_=o&&o.beyond?q[1]+uy*(sup(ux,uy)+gap):(p[1]+q[1])/2+ny*(sup(nx,ny)+gap);
+  s+=`<text x="${n1(cx_)}" y="${n1(cy_+fs*.35)}" text-anchor="middle" class="lb" style="font-size:${n1(fs)}px;fill:${S.ink};stroke:none">${txt}</text></g>`;
+  return s.replace('<g ',`<g data-dimension='${JSON.stringify([[p,q],[ea,ea2],[eb,eb2]])}' `);}
+
+// Deterministic surface samples. Progress leaves all earlier samples visible.
+function pointCloud(c,{surface,target,progress,count=480,tolerance=.05}){
+ let s='',stripe=[];
+ for(let i=0;i<count;i++){
+  const u=i/(count-1),v=((i*73)%count)/(count-1);
+  if(u>progress)continue;
+  const p=surface(u,v),noise=Math.sin(i*127.1)*.012;
+  const q=[p[0],p[1],p[2]+noise],xy=c.P(...q);
+  const error=Math.hypot(...q.map((value,axis)=>value-target(u,v)[axis]));
+  s+=`<circle cx="${n1(xy[0])}" cy="${n1(xy[1])}" r=".65" fill="${error>tolerance?'#b4492f':S.ink}"/>`;
+ }
+ const outline=[];
+ for(let i=0;i<=40;i++)outline.push(c.P(...target(i/40,.5)));
+ for(let i=0;i<=20;i++)stripe.push(c.P(...surface(clamp(progress),i/20)));
+ return s+`<path d="${pd(outline,false)}" fill="none" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="2 2"/><path d="${pd(stripe,false)}" fill="none" stroke="#b4492f" stroke-width="1.3"/>`;
+}
+// Scan points drawn as two paths, so several hundred points stay cheap. Noise is deterministic.
+// Points behind progress persist. compare (0 to 1) brings in the comparison: a point further
+// than tolerance from the target turns full red and grows to 1.5 times the on-target size.
+// On-target points stay ink at the normal size, so the error reads at a glance.
+function scanCloud(c,{surface,target,progress,count=600,noise=.03,compare=0,tolerance=.15,r=.75}){
+ let on='',off='';const k=clamp(compare);
+ for(let i=0;i<count;i++){
+  const u=i/(count-1);if(u>progress)break;
+  const v=((i*73)%count)/(count-1),p=surface(u,v),q=target(u,v);
+  const xy=c.P(p[0]+Math.sin(i*91.3)*noise*.4,p[1]+Math.sin(i*311.7)*noise,p[2]+Math.sin(i*127.1)*noise);
+  const d=`M${n1(xy[0])} ${n1(xy[1])}h.01`;
+  if(k>.01&&Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])>tolerance)off+=d;else on+=d;
+ }
+ const red=mixHex(S.ink,'#b4492f',k);
+ return(on?`<path d="${on}" fill="none" stroke="${S.ink}" stroke-width="${n1(2*r)}" stroke-linecap="round"/>`:'')
+  +(off?`<path d="${off}" fill="none" stroke="${red}" stroke-width="${n1(2*r*(1+.5*k))}" stroke-linecap="round"/>`:'');
+}
+// The target the scan is compared with: 0.75 px dashed ink lines along chosen edges of the
+// target surface (v values of the same surface callback), sampled at n steps along u.
+function targetOutline(c,{target,edges,n=48,alpha=1}){if(alpha<.01)return'';let d='';
+ for(const v of edges){const l=[];for(let i=0;i<=n;i++)l.push(c.P(...target(i/n,v)));d+=pd(l,false);}
+ return`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".75" stroke-dasharray="5 3" stroke-linecap="butt" opacity="${n1(alpha)}"/>`;}
+
+// Axis of separation: a dashed ink line from the slot a part leaves to where it is now. It is
+// darker than the floor lines so it reads, and it always starts at the slot on the machine.
+function explodeAxis(c,a,b,o){o=o||{};const p=c.P(...a),q=c.P(...b);if(Math.hypot(p[0]-q[0],p[1]-q[1])<1)return'';
+ return`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}" fill="none" stroke="${S.ink}" stroke-width="${o.w||.5}" stroke-dasharray="4 2.5" opacity="${o.op||.85}"/>`;}
+// Exploded parts keep clear space: choose offsets so a clear paper gap reads all along each part's
+// length at full hold, from every neighbour, the machine it left and the other parts. A near miss
+// (a part that almost touches another) reads as a collision, so open the gap or change the axis.
+// Component render callbacks receive their separated context and moment palette.
+// Optional: assembled(c) draws the closed assembly in true depth order; part.annotate({P},amount)
+// replaces the default label so a station can sequence labels or use a dimension.
+function explodedView(c,t,{start=0,open=1,hold=4,close=1,components,assembled}){
+ const amount=ease(seg(t,start,start+open))*(1-ease(seg(t,start+open+hold,start+open+hold+close)));
+ if(t<start||t>start+open+hold+close)return '';
+ if(amount<=.01&&assembled)return assembled(c);
+ let s='';
+ for(const part of components){
+  const delta=part.offset.map(v=>v*amount),P=(x,y,z)=>c.P(x+delta[0],y+delta[1],z+delta[2]);
+  const anchor=part.anchor||[0,0,0];
+  if(amount>.01)s+=explodeAxis(c,anchor,anchor.map((v,i)=>v+delta[i]));
+  s+=part.draw({P},amount?{steel:'#e8ecee',grain:'#a2845a'}:null);
+  if(part.annotate)s+=part.annotate({P},amount);
+ else if(amount>.99)s+=lead({P},anchor,...(part.labelOffset||[20,-20]),part.label,1,{id:part.id});
+ }
+ return s;
+}
+
+/* ---- screen-space overlay: title block and flat instruments ----
+   These draw in viewBox coordinates after fit(), not in the isometric world, so a timer reads
+   as a timer and not as a disc lying on the floor. Sizes are screen pixels times kk(). */
+// A point at fractions (fx, fy) of the fitted viewBox, moved by dx, dy screen pixels.
+const hudAt=(fx,fy,dx,dy)=>VB?[VB[0]+fx*VB[2]+(dx||0)*kk(),VB[1]+fy*VB[3]+(dy||0)*kk()]:null;
+const HUD={P:(x,y)=>[x,y]};
+// The title block note sits in the drawing's bottom-left corner, muted, and never fades.
+function titleBlock(text){const p=hudAt(0,1,10,-10);if(!p)return'';
+ return`<text x="${n1(p[0])}" y="${n1(p[1])}" class="lb tb" style="font-size:${n1(fsz()*.92)}px;fill:${S.mut||S.hid||'#6b7178'}">${text}</text>`;}
+// A flat dial: ring, twelve ticks, progress arc p (0 to 1) and hand. at is the centre.
+function hudDial(at,p,a,o){if(!at||a<.01)return'';o=o||{};const k=kk(),r=(o.r||22)*k,[cx,cy]=at;
+ const pt=(ang,rr)=>[cx+rr*Math.sin(ang),cy-rr*Math.cos(ang)];const ring=[],arc=[];
+ for(let i=0;i<=48;i++)ring.push(pt(i/48*TAU,r));
+ const m=Math.max(1,Math.round(48*p));for(let i=0;i<=m;i++)arc.push(pt(i/m*TAU*p,r));
+ let d='';for(let i=0;i<12;i++){const A=pt(i/12*TAU,r*.82),B=pt(i/12*TAU,r);d+=`M${n1(A[0])} ${n1(A[1])}L${n1(B[0])} ${n1(B[1])}`;}
+ const h=pt(p*TAU,r*.7);
+ return`<g opacity="${n1(a)}"><path d="${pd(ring)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/><path d="${d}" stroke="${S.ink}" stroke-width=".5"/>`
+  +`<path d="${pd(arc,false)}" fill="none" stroke="${S.ink}" stroke-width="2" stroke-linecap="butt"/><path d="M${n1(cx)} ${n1(cy)}L${n1(h[0])} ${n1(h[1])}" stroke="${S.ink}" stroke-width="1" stroke-linecap="round"/><circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(1.6*k)}" fill="${S.ink}"/></g>`;}
+
+/* Factory overview. All 14 stations at reduced detail, working together as one endless loop.
+   Stations are arranged for clarity in four rows by stage, not as a floor plan. No text, no
+   annotations: the loop explains itself by motion and machine shape. Every workpiece cycles with
+   the loop, so each loop every rib moves on one station and the next is already behind it.
+   Drawing units are schematic (a rib is 16 units long, as at the hero stations). */
+const DUR=72;
+const FIT_TIMES=[0,4,9,14,20,30,40,47,52,58,63,68], STATIC_T=58.6;
+// Review frames: boards in, a rib going out, the 07 scan, yokes closing at the press, the resaw,
+// a crane hop from 05 to 06 in yokes, the cut at 11, then the 14 rib loaded onto the
+// trailer while the lab bends a sample.
+const REVIEW_TIMES=[0.5,4,9.5,11.2,56,58.6,63,67], VIEWPORT_T=58.6;
+
+/* ---- layout (rows by stage; x along the line) ---- */
+const RL=16, Y1=-34, Y2=-16, Y3=4, Y4=22, TY2=Y2+6.4, TY3=Y3+6.4;
+const X05=66, X06=44, X07=22, X08=0, X09=0, X10=22, X11=44, X12=66, X14=44;
+const TRX=[1.6,4.8,8,11.2,14.4];
+const NP=7, PXL=i=>1+14/6*i;              // pins along a bed, local x
+const RW=.4, RH=1.6, NLAM=8, LT=RH/NLAM;   // rib half width across, depth, lamellae
+const F=u=>1.35*Math.sin(Math.PI*Math.pow(clamp(u),.9))+.3*Math.sin(TAU*u); // first curve
+const G=u=>.9*Math.sin(Math.PI*clamp(u))-.18*Math.sin(TAU*clamp(u));          // second curve
+const PB=2.3, RHO=.25;                     // pin base height, springback share
+const V=4/3, BLEN=3;                       // board and lamella speed (units per s), board pitch
+
+/* ---- small utilities ---- */
+const md=t=>((t%DUR)+DUR)%DUR;
+const win=(t,a,b,r=.4)=>seg(t,a,a+r)*(1-seg(t,b-r,b));
+// Wrapped window: a to b may cross the loop seam.
+const inW=(t,a,b)=>{t=md(t);a=md(a);b=md(b);return a<=b?t>=a&&t<b:t>=a||t<b;};
+const sinceW=(t,a)=>md(t-a);
+const DIAG=[-Math.SQRT1_2,-Math.SQRT1_2], DOWN=[0,-1];
+const mixP=(a,b,k)=>[lerp(a[0],b[0],k),lerp(a[1],b[1],k)];
+const mixD=(a,b,k)=>{const r=Math.atan2(a[1],a[0]),q=Math.atan2(b[1],b[0]);const v=lerp(r,q,k);return[Math.cos(v),Math.sin(v)];};
+const box=(c,x0,y0,z0,x1,y1,z1,o)=>xt(c,'xy',rr(x0,y0,x1,y1,o&&o.r),z0,z1,o||{});
+const timber=(c,...args)=>box(c,...args,{workpiece:true});
+const L3=(c,pts,w,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(...p)),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${w||.5}"${o.screen?' vector-effect="non-scaling-stroke"':''}${o.dash?` stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round"${o.op!=null?` opacity="${n1(o.op)}"`:''}/>`;};
+// Bolt heads as dots, one path.
+const dots=(c,pts,w,col)=>{let d='';for(const p of pts){const q=c.P(...p);d+=`M${n1(q[0])} ${n1(q[1])}h.01`;}return`<path d="${d}" stroke="${col||S.ink}" stroke-width="${w||1.4}" stroke-linecap="round" fill="none"/>`;};
+
+/* ---- memo for moving machine states, and a once-only layer for the still shop ---- */
+const MEMO=new Map();
+const memo=(key,fn)=>{let v=MEMO.get(key);if(v===undefined){if(MEMO.size>6000)MEMO.clear();v=fn();MEMO.set(key,v);}return v;};
+// Still machines are drawn once into <defs> beside the redrawn group and placed with <use>.
+const STILL=new Set();
+function still(id,fn){if(!STILL.has(id)){const NS='http://www.w3.org/2000/svg',sv=document.getElementById('s');
+  let d=document.getElementById('ov-defs');if(!d){d=document.createElementNS(NS,'defs');d.id='ov-defs';sv.insertBefore(d,sv.firstChild);}
+  const g=document.createElementNS(NS,'g');g.id='ov-'+id;g.innerHTML=fn();d.appendChild(g);STILL.add(id);}
+ return`<use href="#ov-${id}"/>`;}
+
+/* ---- rib: a swept section along x, with a first curve (c1, along "up") and a second (c2,
+   along "across"). th rolls the section: 0 lies flat (up = z), pi/2 on its side (up = -y). ---- */
+const ribAx=th=>({up:[0,-Math.sin(th),Math.cos(th)],ac:[0,Math.cos(th),Math.sin(th)]});
+function ribPt3(R,u,a,h){const{up,ac}=ribAx(R.th),H1=h+R.c1(u),A1=a+(R.c2?R.c2(u):0);
+ return[R.x0+R.L*u,R.y0+H1*up[1]+A1*ac[1],R.z0+H1*up[2]+A1*ac[2]];}
+const faces=v=>v[0]*SP+v[1]*CP+v[2]*.5>0;
+// Intersect each cut wall plane with the swept rib. The plane normal is the
+// derivative of the curved top edge, so the walls follow the local rib frame.
+function notchFrame(R){const H=R.H==null?RH:R.H,Q=R.notch;
+ if(!Q||Q.d<.01)return null;
+ const a0=R.a0==null?-RW:R.a0,a1=R.a1==null?RW:R.a1,d=Math.min(H,Q.d),floor=H-d;
+ const walls=[Q.u-Q.w/2/R.L,Q.u+Q.w/2/R.L].map(u=>{
+  const e=.00001,b=ribPt3(R,u,0,H),lo=ribPt3(R,u-e,0,H),hi=ribPt3(R,u+e,0,H),t=hi.map((v,i)=>(v-lo[i])/(2*e));
+  const at=(a,h)=>{let v=u;for(let k=0;k<5;k++){const p=ribPt3(R,v,a,h),l=ribPt3(R,v-e,a,h),r=ribPt3(R,v+e,a,h);
+   const f=p.reduce((z,x,i)=>z+(x-b[i])*t[i],0),df=r.reduce((z,x,i)=>z+(x-l[i])/(2*e)*t[i],0);v-=f/df;}return v;};
+  return{u,at};});
+ return{H,floor,a0,a1,walls};}
+function rib(c,R){const P=c.P,N=R.N||26,a0=R.a0==null?-RW:R.a0,a1=R.a1==null?RW:R.a1,H=R.H==null?RH:R.H,{up,ac}=ribAx(R.th);
+ const U0=R.u0||0,U1=R.u1==null?1:R.u1,pt=(u,a,h)=>P(...ribPt3(R,u,a,h)),Q=notchFrame(R);
+ const curve=(a,h,l=U0,r=U1)=>Array.from({length:N+1},(_,k)=>pt(lerp(l,r,k/N),a,h));
+ const runs=(a,h)=>Q&&h>Q.floor?[[U0,Q.walls[0].at(a,h)],[Q.walls[1].at(a,h),U1]]:[[U0,U1]];
+ const cs=[[a0,0],[a1,0],[a1,H],[a0,H]],nr=[up.map(v=>-v),ac,up,ac.map(v=>-v)];
+ let fill='',ink='',thin='';
+ for(const i of [0,1,2,3].filter(i=>faces(nr[i]))){const j=(i+1)%4;
+  if(i===2&&Q){for(let k=0;k<2;k++){const edge=(a)=>curve(a,H,...runs(a,H)[k]);const poly=edge(a1).concat(edge(a0).reverse());fill+=pd(poly);ink+=pd(poly);}}
+  else if((i===1||i===3)&&Q){const a=i===1?a1:a0,[wa,wb]=Q.walls,fa=wa.at(a,Q.floor),fb=wb.at(a,Q.floor);
+   const poly=curve(a,0).concat(curve(a,H,wb.at(a,H),U1).reverse(),[pt(fb,a,Q.floor)],curve(a,Q.floor,fa,fb).reverse(),[pt(wa.at(a,H),a,H)],curve(a,H,U0,wa.at(a,H)).reverse());
+   fill+=pd(poly);ink+=pd(poly);
+  }else{const poly=curve(...cs[i]).concat(curve(...cs[j]).reverse());fill+=pd(poly);ink+=pd(curve(...cs[i]),false)+pd(curve(...cs[j]),false)+pd([pt(U0,...cs[i]),pt(U0,...cs[j])],false);}
+  if((i===1||i===3)&&R.n>1){const a=i===1?a1:a0;for(let k=1;k<R.n;k++){const h=H*k/R.n;for(const[l,r]of runs(a,h))thin+=pd(curve(a,h,l,r),false);}}
+  if((i===0||i===2)&&R.layers){const h=i===0?0:H;for(let k=1;k<R.layers;k++){const a=lerp(a0,a1,k/R.layers);for(const[l,r]of runs(a,h))thin+=pd(curve(a,h,l,r),false);}}
+ }
+ const end=cs.map(([a,h])=>pt(U1,a,h));let hd='';
+ if(R.n>1)for(let k=1;k<R.n;k++)hd+=pd([pt(U1,a0,H*k/R.n),pt(U1,a1,H*k/R.n)],false);
+ if(R.hatch!==false){const wa=a1-a0,st=Math.min(wa,H)/4;for(let v=st;v<wa+H;v+=st){const p0=v<=wa?[a0+v,0]:[a1,v-wa],p1=v<=H?[a0,v]:[a0+v-H,H];hd+=pd([pt(U1,...p0),pt(U1,...p1)],false);}}
+ if(R.cutFace!=null){const i=R.cutFace,j=(i+1)%4;for(let k=1;k<N*2;k++){const u=U0+(U1-U0)*k/(N*2);hd+=pd([pt(u,...cs[i]),pt(Math.min(U1,u+.018),...cs[j])],false);}}
+ let s=`<path d="${fill}${pd(end)}" fill="${S.paper}" stroke="none"/><path d="${thin}${hd}" fill="none" stroke="${S.ink}" stroke-width=".3"/><path d="${ink}${pd(end)}" fill="none" stroke="${S.ink}" stroke-width="1.12" stroke-linejoin="round"/>`;
+ if(Q)s+=notch(c,R,Q);
+ return R.a!=null&&R.a<.999?`<g opacity="${n1(R.a)}">${s}</g>`:s;}
+// The floor follows the curved sweep. Both walls are cut faces in local normal planes.
+function notch(c,R,Q){const{H,floor,a0,a1,walls}=Q,p=(wall,a,h)=>c.P(...ribPt3(R,wall.at(a,h),a,h));
+ const edge=a=>Array.from({length:9},(_,k)=>c.P(...ribPt3(R,lerp(walls[0].at(a,floor),walls[1].at(a,floor),k/8),a,floor)));
+ let fill=pd(edge(a0).concat(edge(a1).reverse())),ink=pd(edge(a0),false)+pd(edge(a1),false),hatch='';
+ for(const wall of walls){const poly=[p(wall,a0,H),p(wall,a1,H),p(wall,a1,floor),p(wall,a0,floor)];fill+=pd(poly);ink+=pd(poly);
+  // Diagonal hatch clipped analytically to the rectangular wall section.
+  const width=a1-a0,depth=H-floor,step=Math.min(width,depth)/4;
+  for(let v=step;v<width+depth;v+=step){const aa=Math.max(0,v-depth),ab=Math.min(width,v);hatch+=pd([p(wall,a0+aa,H-(v-aa)),p(wall,a0+ab,H-(v-ab))],false);}}
+ return`<path d="${fill}" fill="${S.paper}" stroke="none"/><path d="${hatch}" fill="none" stroke="${S.ink}" stroke-width=".3"/><path d="${ink}" fill="none" stroke="${S.ink}" stroke-width="1.12" stroke-linejoin="round"/>`;}
+// Interpolate two rib poses (k from 0 to 1); curves blend pointwise.
+function ribMix(A,B,k){if(k<=0)return A;if(k>=1)return B;const o=Object.assign({},A);
+ for(const f of['x0','y0','z0','th','a0','a1','H'])if(A[f]!=null||B[f]!=null)o[f]=lerp(A[f]==null?(f==='a0'?-RW:f==='a1'?RW:f==='H'?RH:0):A[f],B[f]==null?(f==='a0'?-RW:f==='a1'?RW:f==='H'?RH:0):B[f],k);
+ o.c1=u=>lerp(A.c1(u),B.c1(u),k);o.c2=u=>lerp(A.c2?A.c2(u):0,B.c2?B.c2(u):0,k);return o;}
+// Bounds of a rib section at u: top z, low z and centre y, for slings.
+function ribSpan(R,u){let zt=-1e9,zb=1e9,ys=0;for(const[a,h]of[[R.a0==null?-RW:R.a0,0],[R.a1==null?RW:R.a1,0],[R.a1==null?RW:R.a1,R.H==null?RH:R.H],[R.a0==null?-RW:R.a0,R.H==null?RH:R.H]]){const q=ribPt3(R,u,a,h);zt=Math.max(zt,q[2]);zb=Math.min(zb,q[2]);ys+=q[1]/4;}return{zt,zb,y:ys};}
+
+/* ---- crane hop with the spreader beam: hook down, slings on, lift, travel, land, slings off ---- */
+const XD=6.4;
+function hopK(t,t0){const u=md(t-t0);if(u>XD)return null;
+ return{u,k:ease(seg(u,2.4,4.0)),dz:1.6*(ease(seg(u,1.5,2.4))-ease(seg(u,4.0,4.9))),held:u>1.0&&u<5.4,grip:seg(u,1.0,1.4)*(1-seg(u,4.9,5.3)),
+  hook:2.6*(1-ease(seg(u,0,1)))+2.6*ease(seg(u,5.4,6.4)),a:seg(u,0,.4)*(1-seg(u,6.0,6.4))};}
+// Shipping alone travels early enough to cross the threshold at the review moment.
+function shippingHopK(t,t0){const h=hopK(t,t0);if(!h)return null;
+ h.k=ease(seg(h.u,1.4,2.5));
+ h.dz=2.1*(ease(seg(h.u,1.0,1.4))-ease(seg(h.u,4.0,4.9)));
+ return h;}
+// pose: rib (or rib list) at k; returns the load pose for drawing and the spreader markup.
+function hop(c,t,t0,A,B,o){o=o||{};const h=(o.profile||hopK)(t,t0);if(!h)return null;
+ const k=h.u<1.0?0:h.u>5.4?1:h.k;const R=ribMix(A,B,k);R.z0+=h.dz;
+ const xs=[.2,.8],sp=xs.map(u=>ribSpan(R,u)),zt=Math.max(sp[0].zt,sp[1].zt);
+ const yb=(sp[0].y+sp[1].y)/2;
+ const slings=h.grip>.5?xs.map((u,i)=>({x:R.x0+R.L*u,top:sp[i].zt,bot:sp[i].zb})):[];
+ const beam=spreaderBeam(c,{x0:R.x0+1.6,x1:R.x0+R.L-1.6,y:yb,z:zt+1.0+h.hook,w:o.w||.55,slings,rope:3.2});
+ let clampB='',clampF='';
+ if(o.clamps&&h.grip>.05)for(let i=0;i<2;i++){const x=R.x0+R.L*xs[i]+.35;clampB+=cClamp(c,x,yb,sp[i].zt,sp[i].zb,0,h.grip);clampF+=cClamp(c,x,yb,sp[i].zt,sp[i].zb,1,h.grip);}
+ return{R,held:h.held,k,beam:`<g opacity="${n1(h.a)}">${beam}</g>`,clampB,clampF};}
+// Clamp yoke hung from the beam for the 05 to 06 hop, so the rib never leaves its yokes.
+// Back half draws before the rib, front half after it.
+function cClamp(c,x,y,zt,zb,front,g){let s='';const w=RW+.3,dk={m:'dark'},st={m:'steel'};
+ if(!front){s+=box(c,x-.12,y-w-.16,zb-.3,x+.12,y-w,zt+.45,dk);s+=box(c,x-.12,y-w,zt+.3,x+.12,y+w,zt+.45,dk);return s;}
+ s+=box(c,x-.12,y+w,zb-.3,x+.12,y+w+.16,zt+.45,dk)+box(c,x-.12,y-w,zb-.3,x+.12,y+w,zb-.18,dk);
+ s+=cyl(c,'z',x,y,.13,zt+.45,zt+.85,{m:'steel'},12)+dots(c,[[x,y+w+.08,zt+.3],[x,y+w+.08,zb-.1]],1.2);
+ return s;}
+
+/* ---- people: simple, real figures in work clothes and a hard hat ---- */
+// Joints in a local frame: r to the right, f forward, z up. Height about 1.3 units (1.75 m).
+function person(c,at,o){const P=c.P,a=o.face,f=[Math.cos(a),Math.sin(a)],r=[Math.sin(a),-Math.cos(a)];
+ const W=(rr2,ff,z)=>[at[0]+rr2*r[0]+ff*f[0],at[1]+rr2*r[1]+ff*f[1],at[2]+z];
+ const sc=Math.hypot(...[0,1].map(i=>P(0,0,1)[i]-P(0,0,0)[i]));
+ const lean=o.lean||0,sh=1.04,hip=.64;
+ const J={hipL:W(-.08,0,hip),hipR:W(.08,0,hip),kneeL:W(-.09,o.stepL||0,.34),kneeR:W(.09,o.stepR||0,.34),ftL:W(-.1,(o.stepL||0)*.6,.05),ftR:W(.1,(o.stepR||0)*.6,.05),
+  shL:W(-.17,lean,sh),shR:W(.17,lean,sh),neck:W(0,lean*1.1,1.1),head:W(0,lean*1.25,1.2)};
+ const arm=(side,[ex,ey,ez],[hx,hy,hz])=>[W(side*.2+ex,lean+ey,ez),W(side*.2+hx,lean+hy,hz)];
+ const [elL,haL]=arm(-1,...o.armL),[elR,haR]=arm(1,...o.armR);
+ const S2=p=>P(...p),dep=p=>p[0]*SP+p[1]*CP+p[2]*.5;
+ const capsule=(p,q,r0,r1)=>`<path d="${pd(cap2(S2(p),S2(q),r0*sc,r1*sc))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75" stroke-linejoin="round"/>`;
+ const toe=(ft,side)=>W(side*.1,(side<0?o.stepL||0:o.stepR||0)*.6+.12,.04);
+ const leg=(h,k,ft,side)=>({d:dep(k),s:capsule(ft,toe(ft,side),.045,.04)+capsule(k,ft,.055,.045)+capsule(h,k,.07,.058)});
+ const limb=(s0,e,hnd)=>({d:dep(e),s:capsule(s0,e,.05,.045)+capsule(e,hnd,.045,.035)+`<circle cx="${n1(S2(hnd)[0])}" cy="${n1(S2(hnd)[1])}" r="${n1(.04*sc)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".7"/>`});
+ const torso={d:dep(W(0,lean,.85)),s:`<path d="${pd(hull([S2(J.shL),S2(J.shR),S2(J.hipL),S2(J.hipR)].flatMap(p=>circ(p[0],p[1],.075*sc,10))))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".8" stroke-linejoin="round"/>`
+  +`<path d="${pd([S2(W(-.13,lean*.3,.72)),S2(W(.13,lean*.3,.72))],false)}" stroke="${S.ink}" stroke-width=".5" fill="none"/>`};
+ const parts=[leg(J.hipL,J.kneeL,J.ftL,-1),leg(J.hipR,J.kneeR,J.ftR,1),limb(J.shL,elL,haL),limb(J.shR,elR,haR)];
+ // Limbs on the far side of the torso draw before it, near ones after it.
+ const far=parts.filter(p=>p.d<torso.d),near=parts.filter(p=>p.d>=torso.d);
+ const hd=S2(J.head),nk=S2(J.neck),hr=.085*sc;
+ const head=`<path d="${pd(cap2(nk,S2(W(0,lean*1.15,1.14)),.035*sc,.035*sc))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".7"/>`
+  +`<circle cx="${n1(hd[0])}" cy="${n1(hd[1])}" r="${n1(hr)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".8"/>`
+  +`<path d="M${n1(hd[0]-hr*1.25)} ${n1(hd[1]-hr*.35)}L${n1(hd[0]+hr*1.25)} ${n1(hd[1]-hr*.35)}M${n1(hd[0]-hr*.95)} ${n1(hd[1]-hr*.4)}A${n1(hr*.95)} ${n1(hr*.95)} 0 0 1 ${n1(hd[0]+hr*.95)} ${n1(hd[1]-hr*.4)}Z" fill="${S.paper}" stroke="${S.ink}" stroke-width=".8" stroke-linejoin="round"/>`;
+ return far.map(p=>p.s).join('')+torso.s+near.map(p=>p.s).join('')+head;}
+
+/* ===== Prepare row (01 to 04), boards one at a time on a roller conveyor ===== */
+const CZ=.9, BW=.4, BT=.2;   // conveyor roller top, board half width and thickness
+// Roller conveyor: channel side rails on legs with feet, rollers, a geared drive motor.
+function conveyor(c,x0,x1,y){let s='';const dk={m:'dark'},st={m:'steel'};
+ for(let x=x0+.4;x<x1;x+=3.2){for(const yy of[y-.6,y+.6]){s+=box(c,x-.07,yy-.07,0,x+.07,yy+.07,CZ-.12,dk);s+=box(c,x-.18,yy-.15,0,x+.18,yy+.15,.04,dk);}
+  s+=L3(c,[[x,y-.6,.35],[x,y+.6,.35]],.5);}
+ s+=box(c,x0,y-.68,CZ-.3,x1,y-.56,CZ-.02,st);
+ let d='';for(let x=x0+.2;x<x1;x+=.5){const a=c.P(x,y-.56,CZ-.06),b=c.P(x,y+.56,CZ-.06);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width="1.6" stroke-linecap="butt" fill="none"/><path d="${d}" stroke="${S.paper}" stroke-width=".7" fill="none"/>`;
+ s+=box(c,x0,y+.56,CZ-.3,x1,y+.68,CZ-.02,st)+dots(c,Array.from({length:Math.floor((x1-x0)/.5)},(_,k)=>[x0+.2+k*.5,y+.68,CZ-.1]),1);
+ return s;}
+function conveyorDrive(c,x,y){return box(c,x-.3,y+.7,.3,x+.3,y+1.05,.75,{m:'dark'})+cyl(c,'y',x,.52,.2,y+1.05,y+1.6,{m:'steel'},12)+edges(c,[1.2,1.35,1.5].map(yy=>circ(x,.52,.2,12).slice(0,7).map(p=>[p[0],yy,p[1]])))+box(c,x-.18,y+.7,.75,x+.18,y+.9,CZ-.05,{m:'dark'});}
+// 01 Condition: a store with racked board packs on stickers, an axial fan and a moisture meter.
+function store(c){let s='';const x0=-2,x1=8.6,y0=Y1-3.2,y1=Y1+2,H=4.2,st={m:'steel'},dk={m:'dark'};
+ for(const[x,y]of[[x0,y0],[x1,y0]])s+=box(c,x-.12,y-.12,0,x+.12,y+.12,H,st);
+ s+=box(c,x0,y0-.1,H-.25,x1,y0+.1,H,st)+box(c,x0-.1,y0,H-.25,x0+.1,y1,H,st);
+ s+=L3(c,[[x0,y0,.2],[x1,y0,H-.3]],.5)+L3(c,[[x1,y0,.2],[x0,y0,H-.3]],.5);
+ // Fan in the back wall: square frame, guard rings, motor; blades turn (drawn per frame).
+ s+=xt(c,'xz',rr(2.2,.6,4.6,3.0,.08),y0-.05,y0+.15,dk)+rings(c,'xz',[[3.4,1.8],[3.4,1.8],[3.4,1.8]],y0+.15,1.0,{n:24})+rings(c,'xz',[[3.4,1.8]],y0+.15,.65,{n:20})+cyl(c,'y',3.4,1.8,.22,y0+.15,y0+.5,st,12);
+ // Two board packs on bearers with sticker rows between layers.
+ for(const px of[-1.2,4.2]){s+=box(c,px,Y1-1.6,0,px+.3,Y1+1.4,.25,dk)+box(c,px+3.4,Y1-1.6,0,px+3.7,Y1+1.4,.25,dk);
+  s+=timber(c,px-.2,Y1-1.5,.25,px+3.9,Y1+1.3,2.35);
+  for(let k=1;k<7;k++){const z=.25+k*.3;s+=L3(c,[[px+3.9,Y1+1.3,z],[px+3.9,Y1-1.5,z]],.4)+L3(c,[[px+3.9,Y1+1.3,z],[px-.2,Y1+1.3,z]],.4);}
+  for(let k=0;k<7;k++){const z=.4+k*.3;s+=L3(c,[[px+3.9,Y1+1.3,z],[px+3.9,Y1-1.5,z]],.3,{dash:'1 1.6'});}
+  const ends=[];for(let k=0;k<7;k++)for(let m=0;m<6;m++)ends.push([px+3.9,Y1-1.25+m*.46,.38+k*.3]);
+  s+=edges(c,[[[px+.7,Y1+1.3,.25],[px+.7,Y1+1.3,2.35]],[[px+2.9,Y1+1.3,.25],[px+2.9,Y1+1.3,2.35]]],{w:.4});}
+ // Moisture meter: a box on the post, a cable down to two pins in a board end.
+ s+=box(c,x1-.05,y1-.5,1.6,x1+.25,y1-.1,2.1,dk)+hose(c,bez([x1+.1,y1-.3,1.6],[x1+.1,y1-.3,1.0],[7.3,Y1+1.4,1.6],[7.7,Y1+1.35,1.3],8),.6);
+ s+=L3(c,[[7.7,Y1+1.3,1.32],[7.8,Y1+1.3,1.22]],.8)+L3(c,[[7.6,Y1+1.3,1.28],[7.7,Y1+1.3,1.18]],.8);
+ s+=box(c,x1-.12,y1-.12,0,x1+.12,y1+.12,H,st)+box(c,x0,y1-.1,H-.25,x1,y1+.1,H,st)+box(c,x1-.1,y0,H-.25,x1+.1,y1,H,st);
+ s+=box(c,x0-.12,y1-.12,0,x0+.12,y1+.12,H,st);
+ return s;}
+const fanBlades=(c,t)=>{const y=Y1-3.05,a0=t*TAU*1.5;let d='';for(let k=0;k<5;k++){const a=a0+k*TAU/5,p=c.P(3.4+.25*Math.cos(a),y,1.8+.25*Math.sin(a)),q=c.P(3.4+.9*Math.cos(a+.35),y,1.8+.9*Math.sin(a+.35));d+=`M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}`;}
+ return`<path d="${d}" stroke="${S.ink}" stroke-width="1.6" stroke-linecap="round" fill="none"/>`;};
+// 02 Grade: grading scanner of the Microtec Goldeneye class, a portal over the conveyor with
+// a service cabinet, a stack light and a cable duct; then a defect saw with its guard and chute.
+function grader(c){let s='';const x0=12.6,x1=16.8,y=Y1,st={m:'steel'},dk={m:'dark'};
+ s+=box(c,x0+.2,y-1.6,0,x1-.2,y-1.0,.2,dk);
+ s+=xt(c,'yz',[[y-1.4,0],[y+1.4,0],[y+1.4,3.0],[y+.9,3.5],[y-.9,3.5],[y-1.4,3.0]],x0,x1,st);
+ s+=xt(c,'yz',rr(y-.75,CZ-.1,y+.75,CZ+.75,.06),x1,x1+.08,dk);
+ s+=edges(c,[[[x0+.6,y+1.4,.3],[x0+.6,y+1.4,2.9]],[[x1-.6,y+1.4,.3],[x1-.6,y+1.4,2.9]],[[x0+.6,y+1.4,2.9],[x1-.6,y+1.4,2.9]]]);
+ s+=dots(c,[[x0+.3,y+1.4,.3],[x1-.3,y+1.4,.3],[x0+.3,y+1.4,2.85],[x1-.3,y+1.4,2.85]],1.2);
+ s+=edges(c,Array.from({length:6},(_,k)=>[[x0+1.2,y+1.4,1.3+k*.18],[x1-1.2,y+1.4,1.3+k*.18]]),{w:.4});
+ s+=box(c,x1-1.2,y-2.6,0,x1,y-1.6,2.4,st)+edges(c,[[[x1,y-2.5,1.2],[x1,y-1.7,1.2]]])+dots(c,[[x1,y-1.8,1.9]],1.6);
+ s+=cyl(c,'z',x0+.4,y-1.2,.06,3.5,4.4,dk,8);for(let k=0;k<3;k++)s+=cyl(c,'z',x0+.4,y-1.2,.14,4.4+k*.22,4.6+k*.22,st,12);
+ s+=xt(c,'xz',rr(x0+.8,3.5,x1-.8,3.75),y-.2,y+.2,dk)+hose(c,[[x0+2,y,3.75],[x0+2,y,4.6]],3);
+ return s;}
+function defectSaw(c){let s='';const x=21,y=Y1,st={m:'steel'},dk={m:'dark'};
+ s+=box(c,x-.9,y-1.3,0,x+.9,y-.75,2.4,st)+box(c,x-.9,y-1.3,2.4,x+.9,y+1.0,2.7,st);
+ s+=cyl(c,'y',x,2.1,.28,y-1.7,y-1.3,st,14)+edges(c,[y-1.6,y-1.5].map(yy=>circ(x,2.1,.28,14).slice(0,8).map(p=>[p[0],yy,p[1]])));
+ s+=xt(c,'xz',[[x-.75,1.3],[x+.75,1.3],[x+.6,2.4],[x-.6,2.4]],y-.75,y+.85,dk);
+ s+=box(c,x-.4,y+.6,0,x+.4,y+1.4,.7,dk);
+ return s;}
+const sawBlade=(c,on)=>rings(c,'xz',[[21,1.45]],Y1+.86,.42,{n:20,col:on?S.acc:S.ink,w:on?1.1:.6});
+// 03 Join: finger-joint line of the Weinig Grecon ProfiJoint class. Shaper with two vertical
+// spindle motors, glue nozzle, then the end press with its hydraulic cylinder.
+function jointer(c){let s='';const x0=24.6,y=Y1,st={m:'steel'},dk={m:'dark'};
+ s+=box(c,x0,y-1.3,0,x0+3,y+1.3,1.6,st)+edges(c,[[[x0+3,y-1.1,1.4],[x0+3,y+1.1,1.4]],[[x0+.2,y+1.3,1.4],[x0+2.8,y+1.3,1.4]]]);
+ s+=dots(c,[[x0+.2,y+1.3,.2],[x0+2.8,y+1.3,.2],[x0+.2,y+1.3,1.2],[x0+2.8,y+1.3,1.2]],1.2);
+ for(const yy of[y-.75,y+.75]){s+=cyl(c,'z',x0+1.5,yy,.34,1.6,2.4,st,14)+edges(c,[1.8,2.0,2.2].map(z=>circ(x0+1.5,yy,.34,14).slice(0,8).map(p=>[p[0],p[1],z])))+cyl(c,'z',x0+1.5,yy,.2,2.4,2.55,dk,10);}
+ s+=hose(c,bez([x0+2.6,y-.3,1.6],[x0+2.6,y-.3,2.4],[x0+3.2,y-1.6,2.6],[x0+3.4,y-1.8,3.4],8),1);
+ s+=box(c,x0+3,y-.9,0,x0+8.4,y-.6,1.0,dk)+box(c,x0+3,y+.6,0,x0+8.4,y+.9,1.0,dk);
+ for(const x of[x0+3.3,x0+8.1])s+=box(c,x-.2,y-.9,0,x+.2,y+.9,.15,dk);
+ s+=box(c,x0+3,y-.9,1.0,x0+3.5,y+.9,1.9,st)+cyl(c,'x',y,1.45,.22,x0+1.7,x0+3,st,12)+cyl(c,'x',y,1.45,.08,x0+3.5,x0+4.0,{m:'steel'},8);
+ s+=box(c,x0+7.9,y-.9,1.0,x0+8.4,y+.9,1.9,st)+dots(c,[[x0+8.4,y-.6,1.7],[x0+8.4,y+.6,1.7],[x0+8.4,y-.6,1.2],[x0+8.4,y+.6,1.2]],1.2);
+ return s;}
+// 04 Plane: four-sided planer. Cast body on feet, feed rollers under a hood, four spindle
+// motors (top, bottom, both sides), shavings hoods with ducts up to extraction.
+function planer(c){let s='';const x0=35.4,x1=41,y=Y1,st={m:'steel'},dk={m:'dark'};
+ for(const x of[x0+.4,x1-.4])for(const yy of[y-1.1,y+1.1])s+=box(c,x-.25,yy-.25,0,x+.25,yy+.25,.08,dk);
+ s+=box(c,x0,y-1.25,.08,x1,y+1.25,CZ-.1,st)+edges(c,[[[x0+.3,y+1.25,.25],[x1-.3,y+1.25,.25]]]);
+ s+=box(c,x0+.3,y-1.0,CZ+.3,x0+1.6,y+1.0,CZ+.75,dk);
+ for(const x of[x0+.6,x0+1.3])s+=cyl(c,'y',x,CZ+.45,.13,y-.9,y+.9,{m:'steel'},10);
+ s+=xt(c,'yz',[[y-1.3,CZ+.25],[y+1.3,CZ+.25],[y+1.1,CZ+1.4],[y-1.1,CZ+1.4]],x0+1.8,x1-.3,st);
+ s+=cyl(c,'z',x0+3.0,y,.35,CZ+1.4,CZ+2.2,st,14)+edges(c,[CZ+1.6,CZ+1.8,CZ+2.0].map(z=>circ(x0+3.0,y,.35,14).slice(0,8).map(p=>[p[0],p[1],z])));
+ for(const sy of[-1,1])s+=cyl(c,'y',x0+2.3+(sy>0?1.5:0),CZ+.6,.3,y+sy*1.3,y+sy*2.0,st,14);
+ s+=cyl(c,'y',x0+4.6,.45,.25,y+1.25,y+1.8,st,12);
+ for(const x of[x0+2.4,x1-.9]){s+=xt(c,'xy',rr(x-.3,y-.3,x+.3,y+.3,.1),CZ+1.4,CZ+1.7,{m:'dark'});s+=hose(c,[[x,y,CZ+1.7],[x,y,CZ+2.4],[x,y-.6,CZ+3.4],[x,y-.6,CZ+5.6]],4.2);}
+ s+=box(c,x1,y-.7,CZ-.05,x1+.6,y+.7,CZ+.6,dk);
+ return s;}
+// Outfeed: cut-off saw, rollers, a stop, and the pack cradle beside them.
+function outfeed(c){let s='';const st={m:'steel'},dk={m:'dark'},y=Y1;
+ s+=box(c,41.6,y-1.0,CZ+.2,42.2,y+1.0,CZ+1.0,st)+cyl(c,'y',41.9,CZ+1.25,.22,y-1.0,y-.5,st,12);
+ s+=box(c,57.6,y-.7,0,57.9,y+.7,CZ+.6,dk);
+ for(const x of[42.5,50,57])s+=box(c,x-.1,y+2.6,0,x+.1,y+4.4,.15,dk)+box(c,x-.3,y+2.6,.15,x+.3,y+2.8,.9,dk)+box(c,x-.3,y+4.2,.15,x+.3,y+4.4,.9,dk);
+ return s;}
+const PACKY=Y1+3.5;
+// Board and lamella flow. Boards are spaced at the board pitch and move at V. They join into an
+// endless lamella; the planed lamella is cut every 16 units and slides onto the pack.
+function boards(c,t){let s='';const ph=(V*t)%BLEN,y=Y1,z=CZ;
+ for(let b=ph-BLEN;b<25;b+=BLEN){const xa=Math.max(b,8.6),xb=Math.min(b+BLEN-.35,24.6);if(xb-xa<.05)continue;
+  s+=timber(c,xa,y-BW,z,xb,y+BW,z+BT);
+  if(xb<24.55)s+=L3(c,[[xb,y-BW,z+BT],[xb,y+BW,z]],.3);}
+ return s;}
+const headX=t=>41.6+V*md(t-6)%16;
+const fingerMarks=(c,x0,x1,t,z,y=Y1)=>{let d='';for(let x=x0+((V*t-x0)%BLEN+BLEN)%BLEN;x<x1;x+=BLEN){const pts=[];for(let k=0;k<=6;k++)pts.push(c.P(x+(k%2?.12:0),y-BW+k*2*BW/6,z));d+=pd(pts,false);}return`<path d="${d}" stroke="${S.ink}" stroke-width=".35" fill="none"/>`;};
+function strip(c,t){const h=Math.max(headX(t),42.2),z=CZ;let s=timber(c,32.9,Y1-BW,z,h,Y1+BW,z+BT);
+ s+=fingerMarks(c,33,h,t,z+BT);
+ // The piece just cut slides sideways onto the pack.
+ const u=md(t-6);if(u<1.4){const k=ease(seg(u,0,1.2));s+=timber(c,41.6,Y1-BW+k*3.5,z+.02-k*(z-packTop(t)),57.6,Y1+BW+k*3.5,z+BT+.02-k*(z-packTop(t)));}
+ return s;}
+// Pack on the cradle: lamellae drop at 6 + 12k s; the crane lifts all six at 12 s.
+const DROPS=[18,30,42,54,66,78];
+const packN=t=>{const r=12+md(t-12);return DROPS.filter(d=>d+1.2<=r).length;};
+const packTop=t=>.9+packN(t)*LT;
+function pack(c,n,x0,y,z){if(n<1)return'';let s=timber(c,x0,y-BW,z,x0+16,y+BW,z+n*LT);
+ const l=[];for(let k=1;k<n;k++)l.push([[x0+16,y-BW,z+k*LT],[x0+16,y+BW,z+k*LT]],[[x0+16,y+BW,z+k*LT],[x0,y+BW,z+k*LT]]);
+ return s+edges(c,l,{w:.35})+fingerMarks(c,x0,x0+16,0,z+n*LT,y);}
+
+/* ===== Form row: glue applicator, press bed (05), cure bed (06), scan trestles (07) ===== */
+// Glue applicator beside the 05 bed: a table on legs and a gantry with a spreader roller head.
+const GY=Y2-5.6, GZ=1.0;
+function glueTable(c){let s='';const dk={m:'dark'},st={m:'steel'},x0=X05,x1=X05+16;
+ for(let x=x0+.5;x<x1;x+=3.75)for(const y of[GY-.7,GY+.7])s+=box(c,x-.1,y-.1,0,x+.1,y+.1,GZ-.1,dk)+box(c,x-.22,y-.22,0,x+.22,y+.22,.04,dk);
+ s+=box(c,x0,GY-.8,GZ-.12,x1,GY+.8,GZ,st);
+ for(const y of[GY-1.0,GY+1.0])s+=box(c,x0-.4,y-.06,GZ-.3,x1+.4,y+.06,GZ-.15,{m:'steel'});
+ return s;}
+function glueHead(c,x,on){let s='';const dk={m:'dark'},st={m:'steel'};
+ for(const y of[GY-1.15,GY+1.0])s+=box(c,x-.25,y,GZ-.35,x+.25,y+.15,GZ+1.7,st);
+ s+=box(c,x-.3,GY-1.15,GZ+1.7,x+.3,GY+1.15,GZ+2.0,st)+cyl(c,'y',x,GZ+1.85,.18,GY+1.15,GY+1.5,st,12);
+ s+=box(c,x-.18,GY-.6,GZ+1.2,x+.18,GY+.6,GZ+1.7,dk)+cyl(c,'y',x,GZ+1.1,.13,GY-.5,GY+.5,{m:'steel'},12);
+ s+=hose(c,bez([x,GY+1.5,GZ+2.0],[x,GY+1.8,GZ+2.6],[x-1,GY+1.8,GZ+2.8],[x-1.6,GY+1.4,GZ+3.6],8),1);
+ return s;}
+// Bed after the Minda adjustable press class: I-beam on pedestals, supply pipe.
+function bedBeam(c,x0){let s='';const dk={m:'dark'},st={m:'steel'},x1=x0+16.8,xa=x0-.8;
+ for(const x of[xa+1.4,(xa+x1)/2,x1-1.4]){s+=box(c,x-.5,Y2-.8,0,x+.5,Y2+.8,.06,dk)+dots(c,[[x-.38,Y2+.68,.06],[x+.38,Y2+.68,.06],[x-.38,Y2-.68,.06],[x+.38,Y2-.68,.06]],1.2);
+  s+=xt(c,'yz',[[Y2-.6,.06],[Y2+.6,.06],[Y2+.4,.45],[Y2-.4,.45]],x-.22,x+.22,dk);}
+ s+=box(c,xa,Y2-.7,.45,x1,Y2+.7,.51,st)+xt(c,'yz',rr(Y2-.08,.51,Y2+.08,.84),xa,x1,st)+box(c,xa,Y2-.7,.84,x1,Y2+.7,.9,st);
+ for(let i=0;i<NP;i++)s+=xt(c,'yz',[[Y2+.08,.51],[Y2+.66,.51],[Y2+.66,.6],[Y2+.08,.84]],x0+PXL(i)-.03,x0+PXL(i)+.03,dk);
+ s+=cyl(c,'x',Y2+.9,.62,.06,xa,x1,st,8);
+ return s;}
+// Screw jack pin: plate, worm box with input shaft, screw, nut, saddle.
+function jack(c,x,h,mv){let s='';const dk={m:'dark'},st={m:'steel'},y=Y2;
+ s+=box(c,x-.42,y-.42,.9,x+.42,y+.42,.96,dk)+dots(c,[[x-.32,y+.32,.96],[x+.32,y+.32,.96]],1.1);
+ s+=xt(c,'xy',[[-.3,-.17],[-.17,-.28],[.17,-.28],[.3,-.17],[.3,.17],[.17,.28],[-.17,.28],[-.3,.17]].map(p=>[x+p[0],y+p[1]]),.96,1.45,st);
+ s+=cyl(c,'y',x,1.2,.08,y+.28,y+.55,{m:'steel'},8);
+ s+=cyl(c,'z',x,y,.1,1.45,h-.15,{m:'steel'},10);
+ s+=xt(c,'xy',circ(x,y,.18,6),1.5,1.66,st);
+ s+=box(c,x-.35,y-.75,h-.15,x+.35,y+.75,h,st);
+ return s;}
+// Yoke: back post, front post, hinged bar with cylinder and pad. th opens the bar (0 closed).
+const YK=RW+.32;
+function yokeBack(c,x,h,th){let s='';const dk={m:'dark'},st={m:'steel'},y=Y2,zt=h+RH+.35;
+ s+=box(c,x-.16,y-YK-.28,h-.4,x+.16,y-YK,zt+.3,dk)+edges(c,[[[x+.16,y-YK-.2,h-.2],[x+.16,y-YK-.2,zt+.15]]],{w:.4});
+ s+=cyl(c,'x',y-YK-.14,zt+.15,.17,x-.2,x+.2,st,12);
+ if(th>.9)s+=yokeBar(c,x,h,th);return s;}
+function yokeBar(c,x,h,th){const y=Y2,zt=h+RH+.35,pv=[y-YK-.14,zt+.15],co=Math.cos(th),si=Math.sin(th);
+ const fb=frameC(c,[x,pv[0],pv[1]],[1,0,0],[0,co,si],[0,-si,co]),L=2*YK+.3,e=th<.05;
+ let s=xt(fb,'yz',rr(0,-.13,L,.13),-.15,.15,{m:'dark'});
+ s+=cyl(fb,'z',0,L/2,.17,.13,.6,{m:'steel'},12)+xt(fb,'xy',rr(-.2,L/2-.25,.2,L/2+.25),-.25,-.13,{m:'steel'});
+ s+=hose(c,bez(fb.P?[x,pv[0]+(L/2)*co-.6*si,pv[1]+(L/2)*si+.6*co]:[0,0,0],[x+.3,pv[0],pv[1]+.8],[x+.3,y-YK-.3,h+.6],[x+.15,y-YK-.3,h+.2],8),.8);
+ return s;}
+function yokeFront(c,x,h,th){const y=Y2,zt=h+RH+.35;let s=box(c,x-.16,y+YK,h-.4,x+.16,y+YK+.28,zt+.05,{m:'dark'});
+ if(th<=.9)s+=yokeBar(c,x,h,th);return s;}
+// Pin heights on a bed: neutral, or set to the rib's curve.
+const pinTop=i=>PB+F(PXL(i)/16);
+const NEUT=PB+.55;
+// Steel A-frame trestle (as at 07 and 11): feet, legs with height holes, brace, beam and pad.
+function aFrame(c,x,y){let s='';const lg=sx=>{const a=[x+sx*.16,1.5],b=[x+sx*.82,.06],d=[b[0]-a[0],b[1]-a[1]],L=Math.hypot(...d),n=[-d[1]/L*.07,d[0]/L*.07];
+  return[[a[0]+n[0],a[1]+n[1]],[b[0]+n[0],b[1]+n[1]],[b[0]-n[0],b[1]-n[1]],[a[0]-n[0],a[1]-n[1]]];};
+ for(const sx of[-1,1]){const xf=x+sx*.82;s+=box(c,xf-.2,y-.18,0,xf+.2,y+.18,.05,{m:'dark'});s+=xt(c,'xz',lg(sx),y-.07,y+.07,{m:'steel'});
+  s+=rings(c,'xz',[.4,.55,.7].map(f=>[lerp(x+sx*.16,x+sx*.82,f),lerp(1.5,.06,f)]),y+.07,.025,{n:6});}
+ s+=xt(c,'xz',rr(x-.6,.5,x+.6,.58),y-.04,y+.04,{m:'dark'})+xt(c,'xz',[[x-.32,1.7],[x+.32,1.7],[x+.2,1.36],[x-.2,1.36]],y-.05,y+.05,{m:'dark'});
+ return s;}
+// Trestle pair with a cross beam; top is the pad height (an extension post above 2.0).
+function trestle(c,x,yc,top,half){half=half||1.3;let s='';
+ const back=aFrame(c,x,yc-half);s+=back;
+ s+=xt(c,'xz',rr(x-.17,1.7,x+.17,2.0),yc-half-.25,yc+half+.25,{m:'steel'});
+ if(top>2.05)s+=xt(c,'xy',rr(x-.1,yc-.1,x+.1,yc+.1),2.0,top-.12,{m:'steel'})+rings(c,'xz',[[x,(2+top)/2]],yc+.1,.03,{n:6});
+ s+=xt(c,'xz',rr(x-.2,top-.12,x+.2,top),yc-.7,yc+.7,{m:'dark'});
+ return s;}
+const trestleFront=(c,x,yc,half)=>aFrame(c,x,yc+(half||1.3));
+// 08 resaw: horizontal band resaw of the industry type. Two wheel housings either side of the
+// rib, the band across between them at mid height, a feed roller pressure frame, motor, extraction.
+const RSX=7.6;
+function resawBack(c){let s='';const st={m:'steel'},dk={m:'dark'},x=RSX,y=Y2-1.4;
+ s+=box(c,x-1.2,y-3.4,0,x+1.2,y-1.6,.3,dk)+xt(c,'yz',rr(y-3.3,.3,y-1.7,3.6,.5),x-1.0,x+1.0,st);
+ s+=rings(c,'yz',[[y-2.5,2.0]],x+1.0,.55,{n:16})+cyl(c,'x',y-2.5,2.0,.3,x+1.0,x+1.6,st,14);
+ s+=box(c,x-.6,y-1.7,1.6,x+.6,y+2.0,1.75,st)+hose(c,[[x-.4,y-2.5,3.6],[x-.4,y-2.5,5.2]],3);
+ return s;}
+function resawFront(c,on){let s='';const st={m:'steel'},dk={m:'dark'},x=RSX,y=Y2-1.4;
+ s+=box(c,x-1.2,y+1.9,0,x+1.2,y+3.0,.3,dk)+xt(c,'yz',rr(y+2.0,.3,y+2.9,3.6,.3),x-1.0,x+1.0,st);
+ s+=rings(c,'yz',[[y+2.45,2.0]],x+1.0,.35,{n:14})+dots(c,[[x+1.0,y+2.1,.5],[x+1.0,y+2.8,.5],[x+1.0,y+2.1,3.4],[x+1.0,y+2.8,3.4]],1.2);
+ s+=L3(c,[[x+.15,y-1.7,1.75],[x+.15,y+2.0,1.75]],on?1.4:.9,{col:on?S.acc:S.ink});
+ s+=box(c,x-.9,y-.9,3.0,x+.9,y+1.6,3.25,dk)+cyl(c,'y',x-.5,2.75,.14,y-.6,y+1.4,st,10)+cyl(c,'y',x+.5,2.75,.14,y-.6,y+1.4,st,10);
+ return s;}
+// Roller stand: post with base plate, yoke and a free roller across y.
+function rollerStand(c,x,y,z){const dk={m:'dark'},st={m:'steel'};return box(c,x-.3,y-.6,0,x+.3,y+.6,.06,dk)+box(c,x-.09,y-.09,.06,x+.09,y+.09,z-.25,st)
+ +box(c,x-.08,y-.9,z-.3,x+.08,y+.9,z-.2,dk)+cyl(c,'y',x,z-.1,.1,y-.85,y+.85,st,10);}
+
+/* ===== Reform, Detail and Prove machines ===== */
+// 09 towers: a row of steel columns on bolted base plates, a screw lift and a head. The clamp
+// at the head is undesigned, so it is drawn as a proposal: a dashed outline only.
+const TWX=[1.2,3.5,5.8,8,10.2,12.5,14.8];
+function tower(c,x,y,top){let s='';const dk={m:'dark'},st={m:'steel'};
+ s+=box(c,x-.45,y-.45,0,x+.45,y+.45,.08,dk)+dots(c,[[x-.33,y+.33,.08],[x+.33,y+.33,.08],[x+.33,y-.33,.08]],1.2);
+ s+=xt(c,'xy',[[-.2,-.2],[.2,-.2],[.2,-.12],[.05,-.12],[.05,.12],[.2,.12],[.2,.2],[-.2,.2],[-.2,.12],[-.05,.12],[-.05,-.12],[-.2,-.12]].map(p=>[x+p[0],y+p[1]]),.08,1.6,st);
+ s+=xt(c,'xz',[[x+.2,.08],[x+.55,.08],[x+.2,.6]],y-.03,y+.03,dk)+xt(c,'xz',[[x-.2,.08],[x-.55,.08],[x-.2,.6]],y-.03,y+.03,dk);
+ s+=box(c,x-.25,y-.25,1.6,x+.25,y+.25,1.85,dk)+cyl(c,'y',x,1.72,.07,y+.25,y+.5,st,8);
+ s+=cyl(c,'z',x,y,.09,1.85,top-.15,st,10)+box(c,x-.3,y-.45,top-.15,x+.3,y+.45,top,st);
+ return s;}
+const towerClamp=(c,x,y,top)=>{const o=(z0,z1,y0,y1)=>[[x-.28,y0,z0],[x+.28,y0,z0],[x+.28,y0,z1],[x-.28,y0,z1],[x-.28,y0,z0]];
+ return L3(c,o(top,top+1.1,y-.65,0),.6,{dash:'2 1.6'})+L3(c,o(top,top+1.1,y+.65,0),.6,{dash:'2 1.6'})+L3(c,[[x-.28,y-.65,top+1.1],[x-.28,y+.65,top+1.1],[x+.28,y+.65,top+1.1],[x+.28,y-.65,top+1.1]],.6,{dash:'2 1.6'});};
+// Laser line scan head (as at 07) on the flange: adapter, housing, window with emitter and camera.
+const EMIT=[0,-.18,.86],CAM=[.42,.12,.86];
+function scanHead(f){let s=xt(f,'xy',rr(-.27,-.27,.27,.27,.04),0,.08,{m:'dark'});
+ s+=xt(f,'xy',rr(-.22,-.34,.66,.34,.04),.08,.86,{m:'steel'})+edges(f,[-.08,.16,.4].map(a=>[[a,.34,.2],[a,.34,.74]]),{w:.4});
+ s+=rings(f,'xy',[[EMIT[0],EMIT[1]],[CAM[0],CAM[1]]],.86,.08)+hose(f,bez([.36,.4,.48],[.36,.85,.48],[.2,.95,-.2],[.05,.7,-.5],6),1.2);
+ return s;}
+// Spindle of the HSD ES929 class with an end mill, and its laser line sensor (as at 11).
+function spindle(f,mv){let s='';const st={m:'steel'},dk={m:'dark'};
+ s+=xt(f,'xy',rr(-.3,-.3,.3,.3,.03),0,.07,dk)+cyl(f,'z',0,0,.2,.07,.2,st,14);
+ s+=xt(f,'xy',rr(-.24,-.24,.24,.24,.05),.2,.88,st)+edges(f,[-.12,0,.12].map(u=>[[.24,u,.26],[.24,u,.82]]),{w:.4});
+ s+=xt(f,'yz',rr(-.15,.46,.12,.86,.02),.24,.46,st)+hose(f,bez([-.24,0,.34],[-.5,0,.2],[-.5,-.1,-.3],[-.3,-.1,-.7],6),1.4);
+ s+=cyl(f,'z',0,0,.17,.88,1.03,st,14)+cyl(f,'z',0,0,.13,1.03,1.2,dk,12);
+ s+=cyl(f,'z',0,0,.05,1.2,2.4,{m:'steel',mv},10);
+ const fl=[];for(let z=1.45;z<2.32;z+=.14)fl.push([[.05*Math.cos(-.4),.05*Math.sin(-.4),z],[.05*Math.cos(1.4),.05*Math.sin(1.4),z+.12]]);
+ return s+edges(f,fl,{w:.45,col:mv?S.acc:S.ink});}
+// Robot track and robot: KL 4000 class unit and QUANTEC class arm, as at 05, 07 and 11.
+const RZB=.98+.74;
+const trackStill=(id,c,x0,x1,TY)=>still(id,()=>trackBase(c,{x0,x1,y:TY}));
+function robotOn(c,TY,x0,x1,p,tool){const Sh=[TY-1,RZB+2],El=elbowUp(Sh,p.W,3.5,3.6);
+ return trackCarriage(c,{cx:p.cx,y:TY,riser:.74})+robot6(c,{x:p.cx,y:TY,zb:RZB,Sh,El,Wr:p.W,fd:p.fd,tool})
+  +memo('trough'+TY+x0,()=>trackTrough(c,{x0,x1,y:TY}))+cableChain(c,{xf:x0+.5,xc:p.cx+1.0,xb:Math.max(p.cx+1.2,(p.cx+x0+.5)/2+(x1-x0)*.47),y:TY});}
+const restP=(TY,cx)=>({cx,W:[TY-1.7,3.0],fd:DIAG});
+// 12 Finish: portal gantry on floor rails with a sanding head and a spray head that ride on the
+// rib; an end-trim column saw at the rib's far end; a cantilever drying rack in front, on the aisle.
+const GRY0=Y3-3.4,GRY1=Y3+2.8;
+function finishRails(c){let s='';const dk={m:'dark'},st={m:'steel'};
+ for(const y of[GRY0,GRY1]){s+=box(c,X12-1.5,y-.2,0,X12+17.5,y+.2,.12,dk)+box(c,X12-1.5,y-.06,.12,X12+17.5,y+.06,.25,st);
+  s+=dots(c,Array.from({length:10},(_,k)=>[X12-1+k*2,y+.2,.12]),1.1);}
+ return s;}
+// Where the working rib's top face is under the gantry: centre across, and height.
+const ribTop12=x=>{const R=PD(X12),u=clamp((x-X12)/RL);return{y:R.y0-R.c1(u)-RH/2,z:R.z0+RW+G(u)};};
+// Portal on two rails. A carriage on the beam follows the rib's plan curve; it carries a disc
+// sander on the near side and a spray nozzle on the far side, each lowered onto the rib in turn.
+function gantry(c,x,act){let s='';const dk={m:'dark'},st={m:'steel'},rt=ribTop12(x),yc=rt.y;
+ for(const y of[GRY0,GRY1]){s+=box(c,x-.6,y-.3,.25,x+.6,y+.3,.6,dk)+cyl(c,'y',x-.35,.4,.13,y+.3,y+.38,st,10)+cyl(c,'y',x+.35,.4,.13,y+.3,y+.38,st,10);
+  s+=xt(c,'xz',[[x-.45,.6],[x+.45,.6],[x+.15,4.6],[x-.15,4.6]],y-.12,y+.12,st);}
+ s+=box(c,x-.25,GRY0,4.6,x+.25,GRY1,5.05,st)+cyl(c,'y',x+.45,4.8,.2,GRY1-.5,GRY1,st,12);
+ s+=box(c,x-.75,yc-.4,4.15,x+.75,yc+.4,4.6,dk);
+ // Sander: motor, spindle, a wide pad on the rib's top face while sanding.
+ const zs=rt.z+(act===1?0:.8),xs=x-.42;
+ s+=cyl(c,'z',xs,yc,.07,zs+.55,4.15,st,8)+cyl(c,'z',xs,yc,.24,zs+.2,zs+.55,st,12)+xt(c,'xy',circ(xs,yc,.5,18),zs,zs+.2,dk);
+ // Sprayer: nozzle body and tip.
+ const zn=rt.z+(act===2?.7:1.3),xn=x+.42;
+ s+=cyl(c,'z',xn,yc,.07,zn+.5,4.15,st,8)+box(c,xn-.2,yc-.2,zn+.15,xn+.2,yc+.2,zn+.5,st)+cyl(c,'z',xn,yc,.08,zn,zn+.15,dk,8);
+ s+=hose(c,bez([xn,yc,4.6],[xn,yc,5.4],[x+.8,GRY1,5.4],[x+.8,GRY1,5.0],6),.8);
+ return s;}
+const spray=(c,x)=>{const rt=ribTop12(x);let d='';for(let k=0;k<16;k++){const a=-.7+1.4*((k*37)%16)/16,r=.1+.55*((k*53)%16)/16,p=c.P(x+.42+r*Math.sin(a),rt.y+.3*Math.cos(k*2.1)*r,rt.z+.7-r);d+=`M${n1(p[0])} ${n1(p[1])}h.01`;}return`<path d="${d}" stroke="${S.ink}" stroke-width="1" stroke-linecap="round" fill="none"/>`;};
+// Cantilever drying rack on the aisle in front of 12: three columns on long feet, arms at three
+// levels that follow the rib's second curve. The crane loads and unloads the top level.
+const RKY=12.9, RKZ=[.25,1.75,3.25], RKU=[.1,.5,.9];
+const PRK=k=>({x0:X12,y0:RKY+2.75,z0:RKZ[k]+RW,th:Math.PI/2,c1:u=>F1(u)+DEV(u),c2:G,L:RL,n:NLAM,layers:2,notch:NOTCH});
+function rackFrame(c){let s='';const dk={m:'dark'},st={m:'steel'},y=RKY,xs=RKU.map(u=>X12+RL*u),top=RKZ[2]+1.35;
+ s+=box(c,xs[0],y-.25,.6,xs[2],y-.12,.75,dk)+box(c,xs[0],y-.25,top-.4,xs[2],y-.12,top-.25,dk);
+ for(let i=0;i<2;i++)s+=L3(c,[[xs[i],y-.2,.75],[xs[i+1],y-.2,top-.4]],.5)+L3(c,[[xs[i],y-.2,top-.4],[xs[i+1],y-.2,.75]],.5);
+ for(const x of xs){s+=box(c,x-.3,y-.6,0,x+.3,y+2.95,.16,dk)+box(c,x-.18,y-.15,.16,x+.18,y+.15,top,st);
+  s+=xt(c,'yz',[[y+.15,.16],[y+.9,.16],[y+.15,.9]],x-.06,x+.06,dk);}
+ return s;}
+function rackArms(c,k){let s='';const dk={m:'dark'};
+ for(const u of RKU){const x=X12+RL*u,z=RKZ[k]+G(u);
+  s+=xt(c,'yz',[[RKY+.15,z-.3],[RKY+2.9,z-.12],[RKY+2.9,z],[RKY+.15,z]],x-.1,x+.1,dk)+box(c,x-.1,RKY+2.75,z,x+.1,RKY+2.9,z+.18,dk);}
+ return s;}
+const rackStill=c=>rackFrame(c)+rackArms(c,0)+rib(c,PRK(0))+rackArms(c,1)+rib(c,PRK(1))+rackArms(c,2);
+// End-trim saw: a column saw of the same family as the defect saw at 02. Column on a base, arm
+// over the rib's end, a slide with the motor and a large blade across the rib. p plunges it.
+const TSX=X12+RL, TSY=Y3+1.2-RH/2;
+function trimSaw(c,p,on){let s='';const dk={m:'dark'},st={m:'steel'},x=TSX,y=TSY,xc=x+1.7,zc=lerp(3.95,2.45,p);
+ s+=box(c,xc-.45,y-.45,0,xc+.45,y+.45,.1,dk)+box(c,xc-.17,y-.17,.1,xc+.17,y+.17,5.0,st);
+ s+=box(c,x+.25,y-.2,4.65,xc+.17,y+.2,4.95,st)+box(c,x+.3,y-.3,zc+.1,x+.75,y+.3,4.65,dk);
+ s+=cyl(c,'x',y,zc,.3,x+.12,x+.75,st,12);
+ s+=xt(c,'yz',[[y-1.05,zc],[y+1.05,zc],[y+.75,zc+.75],[y-.75,zc+.75]],x+.04,x+.12,dk);
+ s+=rings(c,'yz',[[y,zc]],x,.95,{n:28,col:on?S.acc:S.ink,w:on?1.2:.7})+rings(c,'yz',[[y,zc]],x,.2,{n:10});
+ return s;}
+// 13 Test: bench, a universal testing machine with a bending fixture, a delamination vessel.
+const LX=24, LY=Y4;
+function labBack(c){let s='';const dk={m:'dark'},st={m:'steel'};
+ // Vessel with bolted lid, gauge and legs
+ for(const x of[LX+.8,LX+2.6])s+=xt(c,'xz',[[x-.4,0],[x+.4,0],[x+.2,.8],[x-.2,.8]],LY-1.8,LY-1.6,dk);
+ s+=cyl(c,'x',LY-1.3,1.6,.9,LX,LX+3.2,st,20)+cyl(c,'x',LY-1.3,1.6,1.02,LX+3.2,LX+3.4,dk,22)+rings(c,'yz',circ(LY-1.3,1.6,.9,12),LX+3.4,.05,{n:6});
+ s+=cyl(c,'z',LX+1.6,LY-1.3,.08,2.5,2.9,st,8)+xt(c,'xz',circ(LX+1.6,3.15,.25,14),LY-1.32,LY-1.22,st);
+ // Universal testing machine: base, two screw columns, crosshead (drawn per frame), control box
+ const ux=LX+6.5,uy=LY-1.0;s+=box(c,ux-1.2,uy-.6,0,ux+1.2,uy+.6,1.1,st)+edges(c,[[[ux-1.0,uy+.6,.9],[ux+1.0,uy+.6,.9]]]);
+ for(const x of[ux-.85,ux+.85])s+=cyl(c,'z',x,uy,.1,1.1,4.0,st,10);
+ s+=box(c,ux-1.2,uy-.5,4.0,ux+1.2,uy+.5,4.4,st)+cyl(c,'z',ux,uy,.25,4.4,5.0,st,12);
+ s+=box(c,ux-.9,uy-.25,1.1,ux+.9,uy+.25,1.3,dk);for(const x of[ux-.6,ux+.6])s+=cyl(c,'y',x,1.45,.13,uy-.25,uy+.25,st,10);
+ s+=box(c,ux+1.6,uy-.3,0,ux+2.2,uy+.3,1.6,dk)+xt(c,'yz',rr(uy-.25,1.0,uy+.25,1.45),ux+2.2,ux+2.26,st)+dots(c,[[ux+2.27,uy-.1,1.3],[ux+2.27,uy+.1,1.3]],1.6);
+ return s;}
+function labFront(c){let s='';const dk={m:'dark'},st={m:'steel'},x0=LX+.5,x1=LX+4.6,y=LY+1.6;
+ for(const x of[x0+.2,x1-.2])for(const yy of[y-.5,y+.5])s+=box(c,x-.06,yy-.06,0,x+.06,yy+.06,1.15,dk);
+ s+=box(c,x0,y-.6,1.15,x1,y+.6,1.25,st)+box(c,x0,y-.6,.3,x1,y+.6,.35,dk);
+ // Glue line shear blocks and a marked sample on the bench
+ for(let k=0;k<4;k++)s+=timber(c,x0+.4+k*.45,y-.3,1.25,x0+.7+k*.45,y-.05,1.5);
+ s+=timber(c,x0+2.4,y-.2,1.25,x0+3.9,y+.2,1.4)+L3(c,[[x0+3.0,y+.2,1.25],[x0+3.0,y+.2,1.4]],.4);
+ return s;}
+// Bending test. The sample is placed at 61.5 s; the crosshead comes down onto it, loads it until
+// it bends and breaks, then rises. The broken sample stays in until the next one.
+function utmLive(c,t){const ux=LX+6.5,uy=LY-1.0,u=md(t-61.5),has=md(t-58)>3.5;
+ const sag=has?(u<8?.38*ease(seg(u,1.6,5.6)):.38):0,zs=1.58,zt=zs+.3,za=Math.max(0,1-ease(seg(u,.3,1.6)))+ease(seg(u,6.4,7.6));
+ const zn=zt-sag+.1+1.0*Math.min(1,za),z=zn+.6;let s='';
+ if(has){const zf=x=>{const a=Math.abs(x-ux);return a<.6?zs-sag*(1-a*a/.36):zs+.5*sag*(a-.6)/.6;},xs=Array.from({length:13},(_,k)=>ux-1.2+.2*k),P=c.P;
+  const fr=xs.map(x=>P(x,uy+.2,zf(x))).concat(xs.slice().reverse().map(x=>P(x,uy+.2,zf(x)+.3)));
+  const tp=xs.map(x=>P(x,uy+.2,zf(x)+.3)).concat(xs.slice().reverse().map(x=>P(x,uy-.2,zf(x)+.3)));
+  s+=`<path d="${pd(tp)}${pd(fr)}" fill="${S.paper}" stroke="${S.ink}" stroke-width="1.12" stroke-linejoin="round"/>`;}
+ s+=box(c,ux-1.2,uy-.45,z,ux+1.2,uy+.45,z+.35,{m:'steel'});
+ return s+box(c,ux-.08,uy-.08,zn+.1,ux+.08,uy+.08,z,{m:'steel'})+cyl(c,'y',ux,zn,.12,uy-.35,uy+.35,{m:'steel'},12);}
+// 14 Ship: storage cradle stands; rigid long-load trailer and its tractor unit.
+function cradle(c,x,y,top){const dk={m:'dark'},st={m:'steel'};let s=box(c,x-.6,y-1.2,0,x+.6,y+1.2,.1,dk);
+ const pz=top-.15;s+=xt(c,'xz',[[x-.15,.1],[x+.15,.1],[x+.15,pz],[x-.15,pz]],y-.9,y-.6,st)+xt(c,'xz',[[x-.15,.1],[x+.15,.1],[x+.15,pz],[x-.15,pz]],y+.6,y+.9,st);
+ s+=xt(c,'yz',[[y-1.0,pz],[y+1.0,pz],[y+1.0,top+.25],[y+.8,top+.25],[y+.5,top],[y-.5,top],[y-.8,top+.25],[y-1.0,top+.25]],x-.2,x+.2,dk);return s;}
+// Compensate the indoor shift so the exterior follows the near wall by -5 units.
+const TRY4=Y4+12.44;
+function wheel(c,x,y0,y1,r){return cyl(c,'y',x,r,r,y0,y1,{m:'dark'},16)+rings(c,'xz',[[x,r]],Math.max(y0,y1),r*.55,{n:14})+dots(c,[[x,Math.max(y0,y1),r]],2);}
+function trailer(c,dx){let s='';const dk={m:'dark'},st={m:'steel'},x0=63.5+dx,x1=84+dx,y=TRY4;
+ // wheels on the far side first
+ for(const x of[x1-3.4,x1-2.3,x1-1.2])s+=wheel(c,x,y-1.25,y-.75,.55);
+ for(const x of[x1+3.0,x1+5.2])s+=wheel(c,x,y-1.25,y-.75,.55);
+ s+=box(c,x0,y-.75,1.1,x1+1.5,y+.75,1.45,st)+edges(c,[[[x0,y+.75,1.27],[x1+1.5,y+.75,1.27]]]);
+ for(let x=x0+.8;x<x1;x+=3.1)s+=box(c,x-.15,y-1.25,1.45,x+.15,y+1.25,1.65,dk)+box(c,x-.08,y+1.1,1.65,x+.08,y+1.25,2.3,dk);
+ s+=box(c,x1-6.2,y-.6,0,x1-5.9,y-.3,1.1,dk)+box(c,x1-6.2,y+.3,0,x1-5.9,y+.6,1.1,dk);
+ // Tractor unit: chassis, fifth wheel, cab with windows, tank, exhaust stack
+ s+=box(c,x1,y-.6,.75,x1+5.4,y+.6,1.05,dk)+cyl(c,'z',x1+1.2,y,.55,1.05,1.12,st,16);
+ s+=xt(c,'xz',[[x1+3.2,1.05],[x1+5.6,1.05],[x1+5.6,2.5],[x1+5.3,3.5],[x1+3.2,3.5]],y-1.2,y+1.2,st);
+ s+=edges(c,[[[x1+3.5,y+1.2,2.3],[x1+5.1,y+1.2,2.3],[x1+5.1,y+1.2,3.2],[x1+3.5,y+1.2,3.2],[x1+3.5,y+1.2,2.3]],[[x1+5.6,y-1.0,2.4],[x1+5.6,y+1.0,2.4]]]);
+ s+=cyl(c,'x',y+.95,.95,.3,x1+1.8,x1+2.9,st,12)+cyl(c,'z',x1+3.05,y-1.05,.08,1.1,4.0,st,8);
+ for(const x of[x1-3.4,x1-2.3,x1-1.2,x1+3.0,x1+5.2])s+=wheel(c,x,y+.75,y+1.25,.55);
+ return s;}
+// Record of the rib's scan, shown as a sheet in a holder at its end: a dashed target, points.
+function recordSheet(c,x,y,z){const P=c.P;let s=xt(c,'yz',rr(y-.05,z,y+.85,z+1.1),x,x+.04,{m:'dark'});
+ let d='';for(let k=0;k<26;k++){const u=k/25,p=P(x+.05,y+.08+.7*u,z+.3+.5*Math.sin(Math.PI*u)+.04*Math.sin(k*91.3));d+=`M${n1(p[0])} ${n1(p[1])}h.01`;}
+ const tg=[];for(let k=0;k<=12;k++){const u=k/12;tg.push(P(x+.05,y+.08+.7*u,z+.3+.5*Math.sin(Math.PI*u)));}
+ return s+`<path d="${pd(tg,false)}" fill="none" stroke="${S.ink}" stroke-width=".4" stroke-dasharray="1.5 1"/><path d="${d}" stroke="${S.ink}" stroke-width="1.1" stroke-linecap="round" fill="none"/>`;}
+// Trolley: deck on four castors with a push handle.
+function trolley(c,x,y,load){const dk={m:'dark'},st={m:'steel'};let s='';
+ for(const[a,b]of[[-.5,-.35],[.5,-.35],[-.5,.35],[.5,.35]])s+=cyl(c,'y',x+a,.12,.12,y+b-.04,y+b+.04,dk,10);
+ s+=box(c,x-.65,y-.45,.25,x+.65,y+.45,.38,st)+box(c,x-.7,y-.4,.38,x-.62,y+.4,1.2,dk)+cyl(c,'y',x-.66,1.2,.04,y-.4,y+.4,dk,6);
+ if(load)s+=timber(c,x-.3,y-.2,.38,x+.4,y+.2,.6);return s;}
+// Scan screen on a pedestal for the person at 07: monitor face toward +x, points and target.
+function monitor(c,x,y,p,cmp){const dk={m:'dark'},st={m:'steel'},P=c.P;let s=box(c,x-.4,y-.4,0,x+.4,y+.4,.06,dk)+box(c,x-.07,y-.07,.06,x+.07,y+.07,1.3,st);
+ s+=xt(c,'yz',rr(y-.75,1.3,y+.75,2.25,.04),x-.08,x+.06,st);
+ let on='',off='';for(let k=0;k<40;k++){const u=k/39;if(u>p)break;const v=y-.6+1.2*u,w=1.62+.35*Math.sin(Math.PI*u)*(1-.4*cmp*(k%5===0?1:0))+.03*Math.sin(k*77.1);const q=P(x+.07,v,w);const d=`M${n1(q[0])} ${n1(q[1])}h.01`;if(cmp>.05&&k%5===0)off+=d;else on+=d;}
+ const tg=[];for(let k=0;k<=12;k++){const u=k/12;tg.push(P(x+.07,y-.6+1.2*u,1.62+.35*Math.sin(Math.PI*u)));}
+ if(cmp>.05)s+=`<path d="${pd(tg,false)}" fill="none" stroke="${S.ink}" stroke-width=".4" stroke-dasharray="1.5 1"/>`;
+ return s+`<path d="${on}" stroke="${S.ink}" stroke-width="1.1" stroke-linecap="round" fill="none"/>`+(off?`<path d="${off}" stroke="${S.acc}" stroke-width="1.4" stroke-linecap="round" fill="none"/>`:'');}
+
+/* ===== the workpieces through one loop =====
+   The trailer ships first, the cradle refills early, and its rib waits for the late load.
+   Other transfers ripple back up the line. Hop start times in seconds: */
+const H14=65, H12=19, H11=22.5, H10=28, H09=33.5, H08=39, H07=44.5, H06=50, H05=55.5, HPK=12;
+// 12 hands its rib to the top of the drying rack at H12; the rack hands its driest rib to the
+// 14 cradle at HRK, after the cradle has shipped.
+const HRK=11.5;
+const LAYS=[65,68,71,74,77,80], LAYD=2.4;
+const F1=u=>F(u)*(1-RHO);                     // plan curve after springback
+const DEV=u=>.09*Math.sin(TAU*1.5*u+.4);         // what the second scan finds off target
+const TZ=2.0, TZ09=2.2;
+const P05=n=>({x0:X05,y0:Y2,z0:PB,th:0,c1:F,L:RL,n:Math.max(1,n),H:n*LT});
+const P06={x0:X06,y0:Y2,z0:PB,th:0,c1:F,L:RL,n:NLAM};
+const P07=k=>({x0:X07,y0:Y2+1.4,z0:TZ+RW,th:Math.PI/2,c1:u=>F(u)*(1-RHO*k),L:RL,n:NLAM});
+const P08=x0=>({x0:x0+9,y0:Y2+.6,z0:1.35+RW,th:Math.PI/2,c1:F1,L:RL,n:NLAM});
+const P09=k=>({x0:X09,y0:Y3+1.2,z0:TZ09+RW,th:Math.PI/2,c1:F1,c2:u=>G(u)*k,L:RL,n:NLAM,layers:2});
+const PD=x0=>({x0,y0:Y3+1.2,z0:TZ+RW,th:Math.PI/2,c1:u=>F1(u)+DEV(u),c2:G,L:RL,n:NLAM,layers:2});
+const NOTCH={u:.4,w:1.0,d:RH/2};
+const P14={x0:X14,y0:Y4+1.2,z0:1.2+RW,th:Math.PI/2,c1:u=>F1(u)+DEV(u),c2:G,L:RL,n:NLAM,layers:2,notch:NOTCH};
+const PTR=dx=>({x0:65.5+dx,y0:TRY4+1.0,z0:1.65+RW,th:Math.PI/2,c1:u=>F1(u)+DEV(u),c2:G,L:RL,n:NLAM,layers:2,notch:NOTCH});
+const PPK=(x0,y0,z0,n)=>({x0,y0,z0,th:0,c1:()=>0,L:16,n,H:n*LT,a0:-BW,a1:BW,hatch:false});
+const lower=R=>Object.assign({},R,{a0:-RW,a1:0,cutFace:1});
+const upper=(R,g)=>Object.assign({},R,{a0:0,a1:RW,z0:R.z0+g,n:NLAM});
+const resawX=t=>-18*seg(md(t-52),0,12);
+const sawOn=t=>md(t-52)<12;
+const bend09=t=>ease(seg(md(t-46),0,4));
+const cutD=t=>inW(t,34.4,58)?0:RH/2*seg(md(t-58),.6,7.4);
+const gantryX=t=>{const u=md(t-30);return u<7?lerp(X12-1,X12+14.8,sst(u/7)):u<14?lerp(X12+14.8,X12-1,sst((u-7)/7)):X12-1;};
+const gantryAct=t=>{const u=md(t-30);return u>.5&&u<6.5?1:u>7.5&&u<13.5?2:0;};
+// End trim at 45 s: the blade plunges, cuts, rises; the offcut drops to the floor.
+const trimP=t=>{const u=md(t-45);return ease(seg(u,0,.8))*(1-ease(seg(u,1.4,2.2)));};
+const trimOn=t=>{const u=md(t-45);return u>.3&&u<1.5;};
+// Trolley: offcut sample from the trim saw to the lab along the aisle, then back.
+const TROL=[[X12+18.6,Y3+3.6],[X12+20.6,RKY+4.2],[LX+16,RKY+4.6],[LX+8.8,Y4+1.6]];
+const TROLD=TROL.slice(1).map((p,i)=>Math.hypot(p[0]-TROL[i][0],p[1]-TROL[i][1]));
+function trolleyAt(t){const u=md(t-49),k=u<10?sst(u/10):u<13?1:u<21?1-sst((u-13)/8):0;
+ let d=k*TROLD.reduce((a,b)=>a+b,0),i=0;while(i<TROLD.length-1&&d>TROLD[i]){d-=TROLD[i];i++;}
+ const w=clamp(d/TROLD[i]),a=TROL[i],b=TROL[i+1];return{x:lerp(a[0],b[0],w),y:lerp(a[1],b[1],w),load:u<11.5};}
+// People: one small action per loop. pulse rises over r at a, holds, falls over r at b.
+const pulse=(t,a,b,r=.6)=>{const u=md(t-a),D=md(b-a);return u<r?sst(u/r):u<D?1:u<D+r?1-sst((u-D)/r):0;};
+const swing=(t,a,b,r=.6)=>{const u=md(t-a),D=md(b-a);return u<r?Math.sin(Math.PI*u/r):u>=D&&u<D+r?Math.sin(Math.PI*(u-D)/r):0;};
+
+/* ---- robots ---- */
+const SCANW=(R,u)=>{const q=ribPt3(R,u,RW,0);return[q[1]+.8+.84*Math.SQRT1_2,q[2]+.8+.84*Math.SQRT1_2];};
+function robot05(t){const home=X05-2.4,u=md(t-61.9);if(u>5)return restP(TY2,home);
+ const p0=PXL(0)+X05,act=u>.8&&u<4.1,i=clamp(Math.floor((u-.8)/.47),0,NP-1),cx=u<.8?lerp(home,p0,sst(u/.8)):u<4.1?X05+PXL(i)+(PXL(Math.min(NP-1,i+1))-PXL(i))*sst(seg((u-.8)/.47-i,.75,1)):lerp(X05+PXL(NP-1),home,sst(seg(u,4.1,5)));
+ const eng=[Y2+1.85,1.3],k=u<.8?sst(u/.8):u>4.1?1-sst(seg(u,4.1,5)):1;
+ return{cx,W:mixP([TY2-1.7,3.0],eng,k),fd:mixD(DIAG,[-1,0],k),act};}
+function robot07(t){const home=X07-2.6,u=md(t-1);const R=P07(1);
+ if(u<3){const k=sst(u/3);return{cx:lerp(home,X07+16,k),W:mixP([TY2-1.7,3.0],SCANW(R,1),k),fd:DIAG};}
+ if(u<11){const x=1-seg(u,3,11);return{cx:X07+16*x,W:SCANW(R,x),fd:DIAG,scan:x};}
+ if(u<14){const k=sst((u-11)/3);return{cx:lerp(X07,home,k),W:mixP(SCANW(R,0),[TY2-1.7,3.0],k),fd:DIAG};}
+ return restP(TY2,home);}
+function robot1011(t){const home=X10+18.6,u=md(t-38),R=PD(X10),R11=PD(X11),xn=X11+RL*NOTCH.u;
+ const rest=[TY3-1.7,3.0],q=ribPt3(R11,NOTCH.u,RW,0),cutW=pl=>[q[1]-RH/4,q[2]+.36+2.4+.9*(1-pl)];
+ if(u<4){const k=sst(u/4);return{cx:lerp(home,X10+16,k),W:mixP(rest,SCANW(R,1),k),fd:DIAG};}
+ if(u<12){const x=1-seg(u,4,12);return{cx:X10+16*x,W:SCANW(R,x),fd:DIAG,scan:x};}
+ if(u<15){const k=sst((u-12)/3);return{cx:lerp(X10,home,k),W:mixP(SCANW(R,0),rest,k),fd:DIAG};}
+ if(u<20){const k=sst((u-15)/5);return{cx:lerp(home,xn,k),W:mixP(rest,cutW(0),k),fd:mixD(DIAG,DOWN,k)};}
+ if(u<28){const v=u-20,pl=sst(seg(v,0,.6))*(1-sst(seg(v,7.4,8)));return{cx:xn,W:cutW(pl),fd:DOWN,cut:v>.6&&v<7.4};}
+ if(u<31){const k=sst((u-28)/3);return{cx:lerp(xn,home,k),W:mixP(cutW(0),rest,k),fd:mixD(DOWN,DIAG,k)};}
+ return restP(TY3,home);}
+function nutRunner(f,act){return xt(f,'xy',rr(-.26,-.2,.26,.2),0,.08,{m:'dark'})+xt(f,'xy',circ(0,0,.19,12),.08,.63,{m:'steel'})+xt(f,'xy',circ(0,0,.12,6),.63,1.0,{m:'steel'});}
+// Scan: stripe across the rib at u, persisting points behind it, then the dashed target.
+function scanLayer(c,R,T,x,cmp,p,count){const surf=(Rr)=>(u,v)=>v<.6?ribPt3(Rr,u,RW,RH*v/.6):ribPt3(Rr,u,RW-2*RW*(v-.6)/.4,0);
+ let s=targetOutline(c,{target:surf(T),edges:[0,.6,1],alpha:cmp,n:30});
+ s+=scanCloud(c,{surface:(u,v)=>surf(R)(1-u,v),target:(u,v)=>surf(T)(1-u,v),progress:p,count,noise:.03,compare:cmp,tolerance:.12,r:.6});
+ if(x!=null){const a=ribPt3(R,x,RW,RH),b=ribPt3(R,x,RW,0),d=ribPt3(R,x,-RW,0);s+=L3(c,[a,b,d],1.3,{col:S.acc});}
+ return s;}
+const emitAt=(rp,TY)=>[rp.cx,rp.W[0]+rp.fd[0]*1.25,rp.W[1]+rp.fd[1]*1.25];
+
+/* ===== scene ===== */
+const pinH05=(i,t)=>{const set=62.75+.47*i,r=md(t-57.6),tg=pinTop(i);
+ if(r<md(set-57.6))return lerp(tg,NEUT,ease(seg(r,0,.6)));return lerp(NEUT,tg,ease(seg(md(t-set),0,.3)));};
+const pinMv05=(i,t)=>{const v=md(t-(62.75+.47*i));return v<.3||md(t-57.6)<.6;};
+const yoke05=t=>{const c0=md(t-10.6),o=1.92;if(inW(t,10.6,56.6))return lerp(o,0,ease(seg(c0,0,1.2)));return lerp(0,o,ease(seg(md(t-56.6),0,.5)));};
+const yoke06=t=>{const o=1.92;if(inW(t,60.4,50.4))return lerp(o,0,ease(seg(md(t-60.4),0,.5)));return lerp(0,o,ease(seg(md(t-50.4),0,.6)));};
+function bedSet(c,x0,hs,ths,mv,ribS){let back='',front='';
+ for(let i=0;i<NP;i++){const x=x0+PXL(i),h=hs[i],th=ths;
+  back+=memo(`jb${x0}|${i}|${h.toFixed(3)}|${th.toFixed(3)}|${mv[i]}`,()=>jack(c,x,h,mv[i])+yokeBack(c,x,h,th));
+  front+=memo(`jf${x0}|${i}|${h.toFixed(3)}|${th.toFixed(3)}`,()=>yokeFront(c,x,h,th));}
+ return back+ribS+front;}
+// One regular rectangular slab enclosing every indoor station.
+// Standing envelope: x -4 to 84.15, y -37.32 to 25.2 drawing units.
+// Equal 5-unit margins keep slab depth below its previous 73 drawing units.
+// Transient feed does not set the shell.
+// One projection-space rigid translation carries every indoor object and transfer.
+const LINE_SHIFT={x:0,y:-5.2};
+const SLAB={x0:-9,y0:-47.52,x1:89.15,y1:25};
+function floors(c){let s='<g id="overview-shell">';const {x0:A,y0:B,x1:C,y1:D}=SLAB;
+ const rim=[[A,B],[C,B],[C,D],[A,D]];
+ // One outer silhouette. Sparse hairline cut hatch, without a second edge band.
+ s+=L3(c,[[A,D,0],[A,B,0],[C,B,0],[C,D,0],[82,D,0]],1.0);
+ s+=L3(c,[[44,D,0],[A,D,0]],1.0);
+ for(let i=0;i<rim.length;i++){const a=rim[i],b=rim[(i+1)%rim.length],dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy);
+  // Only the two exposed near faces show the slab cut.
+  if(i===0||i===3)continue;
+  for(let d=.2;d<len-.3;d+=.85){const x=a[0]+dx*d/len,y=a[1]+dy*d/len;
+   if(i===2&&x>44&&x<82)continue;
+   s+=L3(c,[[x,y,-.1],[x+dx*.32/len,y+dy*.32/len,-1.25]],.40,{col:S.dim});
+  }
+ }
+ // Two straight far walls, opaque paper infill, no roof plane.
+ const wall=[[[A,D],[A,B]],[[A,B],[C,B]]],H=8.4;
+ for(const[a,b]of wall){const len=Math.hypot(b[0]-a[0],b[1]-a[1]),N=Math.ceil(len/16);
+  s+=`<path d="${pd([[...a,0],[...b,0],[...b,H],[...a,H]].map(p=>c.P(...p)))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".44" stroke-linejoin="round"/>`;
+  s+=L3(c,[[...a,H],[...b,H]],1,{screen:true})+L3(c,[[...a,H+.3],[...b,H+.3]],1,{screen:true});
+  for(let k=0;k<=N;k++){const u=k/N,x=lerp(a[0],b[0],u),y=lerp(a[1],b[1],u);s+=L3(c,[[x,y,0],[x,y,H]],.35,{col:S.dim});}
+ }
+ s+='</g>';
+ // Quiet aisle bands and apron road. The shipping bay has just jambs and a lintel.
+ for(const[x0,x1,y]of[[-3,61,-26.7],[-3,C-.35,-5.1],[22,62,17.3]])for(const d of[-.4,.4])s+=L3(c,[[x0,y+d+LINE_SHIFT.y,.01],[x1,y+d+LINE_SHIFT.y,.01]],.25,{col:S.dim});
+ s+=L3(c,[[62,D+.15,0],[92,D+.15,0],[92,32.64,0],[62,32.64,0]],.3,{col:S.dim});
+ for(const y of[D+.35,32.34])s+=L3(c,[[62,y,0],[92,y,0]],.35,{col:S.dim});
+ s+=L3(c,[[44,D,0],[44,D,5.9],[82,D,5.9],[82,D,0]],.4);
+ s+=L3(c,[[43.7,D,0],[43.7,D,6.15],[82.3,D,6.15],[82.3,D,0]],.4);
+ // Wall-mounted services follow the shell; machine drops follow the line.
+ for(const z of[3.7,4.15,4.6])s+=L3(c,[[-3,B+.3,z],[57,B+.3,z]],.32);
+ for(let x=0;x<60;x+=8)s+=L3(c,[[x,B+.1,3.3],[x,B+.6,3.3],[x,B+.6,4.9]],.3);
+ for(const d of[-.28,.28]){
+  s+=L3(c,[[1,B+.9+d,6.1],[43,B+.9+d,6.1]],.80);
+  for(const[x,y,z]of[[21.3,Y1+LINE_SHIFT.y,2.9],[38,Y1+LINE_SHIFT.y,3.4]])s+=L3(c,[[x,B+.9+d,6.1],[x,y+d,6.1],[x,y+d,z]],.80);
+  s+=L3(c,[[1,B+.9+d,6.1],[-2.6+d,B+.9,6.1],[-2.6+d,-25.8+LINE_SHIFT.y,6.1],[-2.6+d,Y2-1.4+LINE_SHIFT.y,6.1],[-1.4+d,Y2-1.4+LINE_SHIFT.y,6.1],[-1.4+d,Y2-1.4+LINE_SHIFT.y,3.8]],.80);
+ }
+ for(const[x,y,z]of[[21.3,Y1+LINE_SHIFT.y,2.9],[38,Y1+LINE_SHIFT.y,3.4],[-1.4,Y2-1.4+LINE_SHIFT.y,3.8]])
+  s+=L3(c,[[x-.28,y-.28,z],[x+.28,y-.28,z],[x+.28,y+.28,z],[x-.28,y+.28,z],[x-.28,y-.28,z]],.80);
+
+ return s;}
+function floorProps(c){let s='';
+ const zone=(x0,x1,y0,y1)=>{let q=L3(c,[[x0,y0,.02],[x1,y0,.02],[x1,y1,.02],[x0,y1,.02],[x0,y0,.02]],.4);
+  for(let x=x0;x<x1-.4;x+=.8)for(const y of[y0,y1-.4])q+=L3(c,[[x,y,.02],[x+.4,y+.4,.02]],.5);return q;};
+ s+=zone(64.5,83,-20.2,-12.8)+zone(-4,3.3,-11.5,-7);
+ for(const[x,y]of[[60,-22],[62,-22],[60,-20]]){s+=cyl(c,'z',x,y,.70,0,1.85,{m:'steel'},16);for(const z of[.2,1.6])s+=L3(c,circ(x,y,.71,16).concat([circ(x,y,.71,16)[0]]).map(p=>[...p,z]),.65);}
+ for(const[x,y,L,W]of[[5,-25.3,6.8,2.6],[7,8.5,10,3.6]]){
+  for(const d of[0,L/2,L-.4])s+=box(c,x+d,y,0,x+d+.4,y+W,.4,{});
+  for(let k=0;k<6;k++)s+=timber(c,x-.2,y+k*W/6,.4,x+L+.2,y+k*W/6+W/8,.8);
+  for(let j=0;j<3;j++)for(let k=0;k<4;k++)s+=timber(c,x,y+k*W/4,.85+j*.36,x+L,y+k*W/4+W/5,1.15+j*.36);
+ }
+
+ return s;}
+function drawHop(c,t,t0,A,B,o){const h=hop(c,t,t0,A,B,o);if(!h)return'';return h.clampB+(o&&o.draw?o.draw(h.R,h.k):rib(c,h.R))+h.clampF+h.beam;}
+const inHop=(t,t0)=>md(t-t0)<=XD;
+function drawScene(c,t,flags){t=md(t);let s='';
+ s+=still('floors',()=>floors(c));
+ const baseP=c.P;c={...c,P:(x,y,z)=>baseP(x+LINE_SHIFT.x,y+LINE_SHIFT.y,z)};
+ const P=c.P;
+ s+=still('floor-props',()=>floorProps(c));
+ /* -- Prepare row -- */
+ s+=still('store',()=>store(c))+fanBlades(c,t);
+ s+=still('conv',()=>conveyor(c,8.6,58,Y1)+conveyorDrive(c,11,Y1)+conveyorDrive(c,46,Y1));
+ s+=boards(c,t)+strip(c,t);
+ const sawCut=md(t-.6)%9<.5;
+ s+=still('prep',()=>grader(c)+defectSaw(c)+jointer(c)+planer(c)+outfeed(c))+sawBlade(c,sawCut);
+ if(sawCut){const u=md(t-.6)%9,p=P(21.3,Y1+.9,CZ-u*1.2);s+=box(c,21.2,Y1+.7,CZ-u*1.4,21.6,Y1+1.1,CZ-u*1.4+.2,{});}
+ if(!inHop(t,HPK)||md(t-HPK)>5.4)s+=pack(c,inHop(t,HPK)?0:packN(t),41.6,PACKY,.9);
+ // Grader operator on the aisle, clear of the line; turns to the board entering the saw at 9.6 s.
+ {const k=pulse(t,8.6,11.6);s+=person(c,[19.3,Y1+4.6,0],{face:lerp(-2.0,-1.05,k),armL:[[0,.05,.8],[0,.15,.58]],armR:[[.02,.25,.86],[.05,.5+.05*Math.sin(TAU*t*8/DUR),.98]],lean:.04,stepR:.12*swing(t,8.6,11.6)});}
+ /* -- Form row -- */
+ s+=still('glue',()=>glueTable(c));
+ const picked=LAYS.filter(L=>md(t-16.9)>=md(L+.3-16.9)).length,nt=inHop(t,HPK)&&md(t-HPK)<4.9?0:6-picked;
+ if(nt>0)s+=pack(c,nt,X05,GY,GZ);
+ const gj=LAYS.findIndex(L=>md(t-(L-1.6))<1.4),gx=gj<0?X05-.8:lerp(X05+16.6,X05-.8,sst(seg(md(t-(LAYS[gj]-1.6)),0,1.4)));
+ s+=glueHead(c,gx,gj>=0);
+ s+=still('beds',()=>bedBeam(c,X05)+bedBeam(c,X06));
+ // 05: pins, lamellae laid one at a time, yokes
+ const h05=Array.from({length:NP},(_,i)=>pinH05(i,t)),m05=Array.from({length:NP},(_,i)=>pinMv05(i,t));
+ const nBed=LAYS.filter(L=>inW(t,L+LAYD,H05+1.5)).length;
+ s+=bedSet(c,X05,h05,yoke05(t),m05,nBed>0&&!(inHop(t,H05)&&md(t-H05)>=1.0)?memo('r05|'+nBed,()=>rib(c,P05(nBed))):'');
+ // 06
+ const r06=inW(t,H05+XD-1.5,H06+1.0)&&!inHop(t,H05);
+ s+=bedSet(c,X06,Array.from({length:NP},(_,i)=>pinTop(i)),yoke06(t),Array(NP).fill(false),r06?memo('r06',()=>rib(c,P06)):'');
+ // 07: trestles, rib with springback, scan
+ const R07=P07(1),spr=ease(seg(md(t-56.4),.5,3));
+ s+=still('t07b',()=>TRX.map(x=>trestle(c,X07+x,R07.y0-F(x/RL)*(1-RHO/2)-RH/2,TZ)).join(''));
+ if(inW(t,H06+XD-1.4,H07+1.0)&&!inHop(t,H06))s+=memo('r07|'+spr.toFixed(3),()=>rib(c,P07(spr)));
+ const rp07=robot07(t),sc07=md(t-4);
+ if(inW(t,4,H07+1.5)){const p=seg(sc07,0,8),cmp=ease(seg(sc07,8.2,9));s+=memo('sc07|'+p.toFixed(3)+'|'+cmp.toFixed(2)+'|'+(rp07.scan!=null),()=>scanLayer(c,R07,P07(0),rp07.scan,cmp,p,300));
+  if(rp07.scan!=null){const e=P(...emitAt(rp07)),a=P(...ribPt3(R07,rp07.scan,RW,RH)),b=P(...ribPt3(R07,rp07.scan,-RW,0));s+=`<path d="M${n1(e[0])} ${n1(e[1])}L${n1(a[0])} ${n1(a[1])}M${n1(e[0])} ${n1(e[1])}L${n1(b[0])} ${n1(b[1])}" stroke="${S.acc}" stroke-width=".45" fill="none"/>`;}}
+ s+=still('t07f',()=>TRX.map(x=>trestleFront(c,X07+x,R07.y0-F(x/RL)*(1-RHO/2)-RH/2)).join(''));
+ // 08: roller stands, resaw, rib passing through and splitting
+ s+=still('rs08',()=>[-17,-9,-5.2].map(x=>rollerStand(c,x+9,Y2-.4,1.35+.55)+rollerStand(c,x+9,Y2-.4,1.35)).join('')+[2,6,10,14].map(x=>rollerStand(c,x+9,Y2-.4,1.35)).join('')+resawBack(c));
+ if(inW(t,H07+XD-1.4,H08+1.0)&&!inHop(t,H07)){const x0=resawX(t),R=P08(x0),us=clamp((RSX-R.x0)/RL);
+  s+=memo('r08|'+x0.toFixed(2),()=>(us>0?rib(c,Object.assign(lower(R),{u1:us,hatch:true}))+rib(c,Object.assign(upper(R,.55),{u1:us})):'')+(us<1?rib(c,Object.assign({},R,{u0:us})):''));}
+ s+=resawFront(c,sawOn(t));
+ // Robots on their tracks
+ s+=trackStill('tr05',c,X05-3.6,X05+17.9,TY2)+trackStill('tr07',c,X07-3.6,X07+17.9,TY2);
+ const rp05=robot05(t);
+ s+=robotOn(c,TY2,X05-3.6,X05+17.9,rp05,f=>nutRunner(f,!!rp05.act));
+ s+=robotOn(c,TY2,X07-3.6,X07+17.9,rp07,f=>scanHead(f));
+ s+=monitor(c,41.4,TY2+.4,seg(sc07,0,8),inW(t,4,H07+1.5)?ease(seg(sc07,8.2,9)):0);
+ // Scan operator steps up to the screen when the comparison hold begins.
+ {const k=pulse(t,10.8,16.0);s+=person(c,[42.6-.35*k,TY2+.5,0],{face:Math.PI,armL:[[0,.1,.8],[0,.25,.7]],armR:[[0,.05,.79],[0,.08+.3*k,.56+.3*k]],lean:.05+.04*k,stepL:.14*swing(t,10.8,16.0)});}
+ // Form row hops: pack to the glue table, lamellae to the bed, 05 to 06 in yokes, 06 to 07
+ s+=drawHop(c,t,HPK,PPK(41.6,PACKY,.9,6),PPK(X05,GY,GZ,6),{w:.5});
+ for(let j=0;j<6;j++){const u=md(t-LAYS[j]);if(u>LAYD)continue;
+  const A=PPK(X05,GY,GZ+(5-j)*LT,1),B={x0:X05,y0:Y2,z0:PB+j*LT,th:0,c1:F,L:RL,n:1,H:LT};
+  const R=ribMix(A,B,ease(seg(u,.5,1.6)));R.z0+=1.2*(ease(seg(u,.1,.5))-ease(seg(u,1.6,2.1)));
+  const sp2=[.2,.8].map(v=>ribSpan(R,v)),held=u<2.1;
+  s+=rib(c,R)+`<g opacity="${n1(seg(u,0,.15)*(1-seg(u,2.2,2.4)))}">${spreaderBeam(c,{x0:X05+1.6,x1:X05+14.4,y:sp2[0].y,z:Math.max(sp2[0].zt,sp2[1].zt)+1.0,w:.5,slings:held?[.2,.8].map((v,i)=>({x:X05+RL*v,top:sp2[i].zt,bot:sp2[i].zb})):[],rope:3.2})}</g>`;}
+ s+=drawHop(c,t,H05,P05(NLAM),Object.assign({},P05(NLAM),{x0:X06}),{clamps:1});
+ s+=drawHop(c,t,H06,P06,P07(0));
+ s+=drawHop(c,t,H07,P07(1),P08(0));
+ /* -- Reform and Detail row -- */
+ s+=still('rails',()=>finishRails(c));
+ const k09=bend09(t),R09=P09(inW(t,H08+XD-1.4,46)?0:k09),tops=TWX.map(x=>TZ09+G(x/RL)*R09.c2(x/RL)/Math.max(.001,G(x/RL))),tyy=TWX.map(x=>R09.y0-F1(x/RL)-RH/2);
+ const kk9=inW(t,H08+XD-1.4,46)?0:k09;
+ s+=memo('tw|'+kk9.toFixed(3),()=>TWX.map((x,i)=>tower(c,X09+x,tyy[i],TZ09+G(x/RL)*kk9)).join(''));
+ if(inW(t,H08+XD-1.4,H09+1.0)&&!inHop(t,H08))s+=memo('r09|'+kk9.toFixed(3),()=>rib(c,P09(kk9)));
+ s+=memo('twc|'+kk9.toFixed(3),()=>TWX.map((x,i)=>towerClamp(c,X09+x,tyy[i],TZ09+G(x/RL)*kk9+RW*2)).join(''));
+ const trs=(x0)=>{const R=PD(x0);return TRX.map(x=>({x:x0+x,yc:R.y0-R.c1(x/RL)-RH/2,top:TZ+G(x/RL)}));};
+ for(const x0 of[X10,X11,X12])s+=still('tb'+x0,()=>trs(x0).map(q=>trestle(c,q.x,q.yc,q.top)).join(''));
+ if(inW(t,H09+XD-1.4,H10+1.0)&&!inHop(t,H09))s+=memo('r10',()=>rib(c,PD(X10)));
+ const rp11=robot1011(t),sc10=md(t-42);
+ if(inW(t,42,H10+1.5)){const p=seg(sc10,0,8),cmp=ease(seg(sc10,8.2,9));s+=memo('sc10|'+p.toFixed(3)+'|'+cmp.toFixed(2)+'|'+(rp11.scan!=null),()=>scanLayer(c,PD(X10),Object.assign(PD(X10),{c1:F1}),rp11.scan,cmp,p,300));
+  if(rp11.scan!=null){const e=P(...emitAt(rp11)),R=PD(X10),a=P(...ribPt3(R,rp11.scan,RW,RH)),b=P(...ribPt3(R,rp11.scan,-RW,0));s+=`<path d="M${n1(e[0])} ${n1(e[1])}L${n1(a[0])} ${n1(a[1])}M${n1(e[0])} ${n1(e[1])}L${n1(b[0])} ${n1(b[1])}" stroke="${S.acc}" stroke-width=".45" fill="none"/>`;}}
+ const d11=cutD(t);
+ if(inW(t,H10+XD-1.4,H11+1.0)&&!inHop(t,H10))s+=memo('r11|'+d11.toFixed(3),()=>rib(c,Object.assign(PD(X11),{notch:Object.assign({},NOTCH,{d:d11})})));
+ if(inW(t,H11+XD-1.4,H12+1.0)&&!inHop(t,H11))s+=memo('r12',()=>rib(c,Object.assign(PD(X12),{notch:NOTCH})));
+ for(const x0 of[X10,X11,X12])s+=still('tf'+x0,()=>trs(x0).map(q=>trestleFront(c,q.x,q.yc)).join(''));
+ {const u=md(t-45);if(u<4){const dz=2.0*ease(seg(u,1.0,1.5));s+=timber(c,TSX+.02,TSY-RH/2,TZ-dz,TSX+.42,TSY+RH/2,TZ+2*RW-dz);}}
+ const tp=trimP(t);s+=memo('trim|'+tp.toFixed(3)+'|'+trimOn(t),()=>trimSaw(c,tp,trimOn(t)));
+ const gx2=gantryX(t),ga=gantryAct(t);s+=memo('gan|'+gx2.toFixed(2)+'|'+ga,()=>gantry(c,gx2,ga));
+ if(ga===2)s+=spray(c,gx2);
+ s+=trackStill('tr10',c,X10-3.6,X11+18,TY3);
+ s+=robotOn(c,TY3,X10-3.6,X11+18,rp11,f=>spindle(f,!!rp11.cut));
+ // Drying rack: two ribs stay on the lower arms; the top arms take 12's rib and give one to 14.
+ s+=still('rack',()=>rackStill(c));
+ if(inW(t,H12+XD-1.4,HRK+1.0)&&!inHop(t,H12))s+=memo('rk2',()=>rib(c,PRK(2)));
+ const tr=trolleyAt(t);s+=trolley(c,tr.x,tr.y,tr.load&&md(t-47)<14);
+ s+=drawHop(c,t,H12,Object.assign(PD(X12),{notch:NOTCH}),PRK(2));
+ s+=drawHop(c,t,H08,Object.assign(P08(-18),{z0:P08(0).z0+.55}),P09(0),{draw:(R,k)=>rib(c,Object.assign(lower(R),{z0:R.z0-.55*(1-k)}))+rib(c,upper(R,0))});
+ s+=drawHop(c,t,H09,P09(1),PD(X10));
+ s+=drawHop(c,t,H10,PD(X10),PD(X11));
+ s+=drawHop(c,t,H11,Object.assign(PD(X11),{notch:NOTCH}),Object.assign(PD(X12),{notch:NOTCH}));
+ /* -- Prove row -- */
+ s+=still('labb',()=>labBack(c))+utmLive(c,t);
+ s+=still('labf',()=>labFront(c));
+ // Lab technician in front of the test frame, with a clear gap; steps up when the sample goes in.
+ {const k=pulse(t,61.5,68.6);s+=person(c,[LX+6.75,LY+3.0-.3*k,0],{face:-1.62,armL:[[0,.2,.85],[.05,.45,.95]],armR:[[0,.2,.85],[0,.42+.05*Math.sin(TAU*t*6/DUR),.92]],lean:.04+.05*k,stepL:.14*swing(t,61.5,68.6)});}
+ s+=still('cradle',()=>[.15,.5,.85].map(u=>cradle(c,X14+RL*u,P14.y0-P14.c1(u)-RH/2,1.2+G(u))).join(''));
+ if(inW(t,HRK+XD-1.4,H14+1.0)&&!inHop(t,HRK))s+=memo('r14',()=>rib(c,P14)+recordSheet(c,X14+RL+.1,P14.y0-P14.c1(1)-RH,1.2+RW));
+ // Trailer: loaded and waiting, then it leaves and an empty one backs in.
+ const ud=md(t-1),dx=ud<6?24*ease(seg(ud,0,6)):ud<10?24*(1-ease(seg(ud,6,10))):0,ta=ud<6?1-seg(ud,3.5,6):ud<10?seg(ud,6,7.5):1;
+ const loaded=inW(t,H14+XD,7);
+ let trl=memo('trl|'+dx.toFixed(2),()=>trailer(c,dx));
+ if(loaded&&!inHop(t,H14))trl+=memo('trr|'+dx.toFixed(2),()=>rib(c,PTR(dx))+recordSheet(c,65.5+dx+RL+.1,TRY4+1.0-PTR(0).c1(1)-RH,1.65+RW));
+ s+=ta<.999?`<g opacity="${n1(ta)}">${trl}</g>`:trl;
+ s+=drawHop(c,t,HRK,PRK(2),P14);
+ s+=drawHop(c,t,H14,P14,PTR(0),{profile:shippingHopK});
+ return s;}
+
+/* ===== Style B: drafted, at overview weights ===== */
+S.ink='#22262a';S.dim='#9aa0a6';S.hid='#80868c';S.acc='#b4492f';S.paper='#fdfcf9';S.mut='#6b7178';
+S.solid=(h,cap,o)=>`<path d="${pd(h)}" fill="${S.paper}" stroke="${o.mv?S.acc:S.ink}" stroke-width="${o.workpiece?1.12:o.mv?1.1:.8}" stroke-linejoin="round"/><path d="${pd(cap)}" fill="none" stroke="${S.ink}" stroke-width=".35" stroke-linejoin="round"/>`;
+const mainC={P:mkP(0,0,11)};
+
+/* Textless overview shell. No station captions, steps or title block. */
+const svg=document.getElementById('s'),root=document.getElementById('g');
+let VB=null;
+const seamA=(t,flags)=>flags&&flags.static?1:Math.min(seg(t,0,.5),1-seg(t,DUR-.5,DUR));
+function frame(t,flags={}){
+  const started=performance.now();
+  root.innerHTML=drawScene(mainC,t,flags)+(S.overlay?S.overlay(mainC,t,flags):'');
+  window.__annotations={labels:[],leaders:[],dimensions:[]};
+  window.__frameMS=performance.now()-started;
+}
+function fit(){
+  let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+  const times=typeof FIT_TIMES!=='undefined'?FIT_TIMES:Array.from({length:8},(_,i)=>DUR*i/8);
+  for(const t of times){frame(t);const b=root.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);}
+  // Overview-only paper margin. Fit the building at home, retaining the departure union.
+  svg.style.maxHeight='none';
+  const stage=svg.getBoundingClientRect();
+  frame(VIEWPORT_T);const home=document.getElementById('overview-shell').getBBox();
+  // Centre the shell itself. The exterior trailer must not move its centre.
+  // Keep the departure union inside that centred view, with a small ink clearance.
+  const cx=home.x+home.width/2,cy=home.y+home.height/2;
+  const scale=Math.min(
+    (stage.width-82)/home.width,(stage.height-82)/home.height,
+    (stage.width-12)/(2*Math.max(x1-cx,cx-x0)),
+    (stage.height-12)/(2*Math.max(y1-cy,cy-y0)));
+  const w=stage.width/scale,h=stage.height/scale;
+  const x=cx-w/2,y=cy-h/2;
+  VB=[x,y,w,h];
+  svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+}
+
+
+const factoryMedia = matchMedia('(prefers-reduced-motion: reduce)');
+let factoryActive=false, factoryIntent=true, factoryRaf=0, factoryLast=0, factoryEmit=0;
+let factoryTime=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:STATIC_T;
+let factoryStatic=factoryMedia.matches;
+let factoryDraws=0;
+const factoryReady = () => window.__ready===true;
+function factoryState(){
+  const index=typeof stepOf==='function'?stepOf(factoryTime):0;
+  const item=typeof STEPS!=='undefined'?STEPS[index]:null;
+  return {id:DRAWING_META.id,title:DRAWING_META.title,duration:DUR,time:factoryTime,
+    playing:!!factoryRaf,active:factoryActive,reducedMotion:factoryMedia.matches,
+    step:item?item[0]:'Process overview',caption:item?item[1]:DRAWING_META.whatHappens,
+    stepIndex:index,static:factoryStatic,ready:factoryReady(),renderCount:factoryDraws};
+}
+function factoryNotify(){
+  const state=factoryState();
+  window.dispatchEvent(new CustomEvent('bower:factory-state',{detail:state}));
+  if(parent!==window)parent.postMessage({type:'bower-factory:state',state},'*');
+}
+function factoryRender(){frame(factoryTime,{static:factoryStatic});factoryDraws++;}
+function factoryFit(){
+  // Some scenes place insets after the initial viewBox is known. Reconcile their
+  // full timeline with the compact deck viewport, retaining one stable camera.
+  VB=null;root.removeAttribute('transform');fit();
+  if(DRAWING_META.id==='overview')return;
+  const times=[...new Set([...FIT_TIMES,...(typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:[]),STATIC_T])];
+  for(let pass=0;pass<8;pass++){
+    let x0=VB[0],y0=VB[1],x1=x0+VB[2],y1=y0+VB[3];
+    const pad=8*Math.max(VB[2]/Math.max(1,svg.clientWidth),VB[3]/Math.max(1,svg.clientHeight));
+    for(const value of times){
+      frame(value,{});
+      // SVG getBBox includes geometry outside clip paths. The visible inset
+      // outlines already bound those details; invisible shearing tools must
+      // not enlarge the camera by several metres as they leave the inset.
+      for(const clipped of root.querySelectorAll('[clip-path]'))clipped.style.display='none';
+      const b=root.getBBox();
+      x0=Math.min(x0,b.x-pad);y0=Math.min(y0,b.y-pad);
+      x1=Math.max(x1,b.x+b.width+pad);y1=Math.max(y1,b.y+b.height+pad);
+    }
+    if(Math.abs(x0-VB[0])+Math.abs(y0-VB[1])+Math.abs(x1-VB[0]-VB[2])+Math.abs(y1-VB[1]-VB[3])<.5)break;
+    VB=[x0,y0,x1-x0,y1-y0];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  }
+}
+function factoryStop(){
+  if(factoryRaf)cancelAnimationFrame(factoryRaf);
+  factoryRaf=0;factoryLast=0;
+}
+function factoryTick(now){
+  factoryRaf=0;
+  if(!factoryActive||!factoryIntent||document.hidden||factoryMedia.matches)return;
+  if(factoryLast)factoryTime=(factoryTime+(now-factoryLast)/1000)%DUR;
+  factoryLast=now;factoryStatic=false;factoryRender();
+  factoryRaf=requestAnimationFrame(factoryTick);
+  if(now-factoryEmit>120){factoryEmit=now;factoryNotify();}
+}
+function factoryStart(){
+  if(factoryReady()&&factoryActive&&factoryIntent&&!document.hidden&&!factoryMedia.matches&&!factoryRaf){
+    factoryLast=0;factoryRaf=requestAnimationFrame(factoryTick);
+  }
+}
+function factorySeek(value){
+  const parsed=Number(value);if(!Number.isFinite(parsed))return factoryState();
+  factoryStop();factoryIntent=false;factoryStatic=false;
+  factoryTime=Math.max(0,Math.min(DUR,parsed));
+  if(factoryReady())factoryRender();factoryNotify();return factoryState();
+}
+window.__ready=false;
+window.__duration=DUR;
+window.__reviewTimes=typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:null;
+window.__viewportT=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:null;
+window.__setT=factorySeek;
+window.BOWER_FACTORY=Object.freeze({
+  setActive(value){factoryActive=!!value;if(factoryActive)factoryStart();else factoryStop();factoryNotify();return factoryState();},
+  play(){factoryIntent=true;factoryStatic=false;factoryStart();factoryNotify();return factoryState();},
+  pause(){factoryIntent=false;factoryStop();factoryNotify();return factoryState();},
+  seek:factorySeek,
+  renderStatic(){factoryIntent=false;factoryStop();factoryStatic=true;factoryTime=STATIC_T;
+    if(factoryReady())factoryRender();factoryNotify();return factoryState();},
+  getState:factoryState,
+  exportSvg(){
+    const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    copy.setAttribute('width',svg.clientWidth);copy.setAttribute('height',svg.clientHeight);
+    copy.setAttribute('style','background:#fdfcf9;color:#23272b');
+    return new XMLSerializer().serializeToString(copy);
+  }
+});
+// The file:// preview has opaque origins. Only its actual parent may issue the small
+// public drawing API; no arbitrary code, URLs, storage or DOM commands are accepted.
+window.addEventListener('message',async event=>{
+  if(event.source!==parent||parent===window||event.data?.type!=='bower-factory:command')return;
+  const {requestId,action,args}=event.data;
+  const allowed={state:'getState',getState:'getState',setActive:'setActive',play:'play',pause:'pause',seek:'seek',renderStatic:'renderStatic',exportSvg:'exportSvg'};
+  const method=Object.hasOwn(allowed,action)?allowed[action]:null;
+  if(!method)return;
+  try{
+    await window.BOWER_FACTORY_READY;
+    const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
+    parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
+  }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
+factoryMedia.addEventListener('change',()=>{
+  factoryStop();factoryStatic=factoryMedia.matches;
+  if(factoryStatic){factoryTime=STATIC_T;if(factoryReady())factoryRender();}
+  else factoryStart();factoryNotify();
+});
+let factoryWidth=0,factoryHeight=0;
+const factoryResize=new ResizeObserver(()=>{
+  if(!factoryReady()||!svg.clientWidth||!svg.clientHeight)return;
+  if(svg.clientWidth===factoryWidth&&svg.clientHeight===factoryHeight)return;
+  factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  factoryFit();factoryRender();
+});
+factoryResize.observe(svg);
+window.BOWER_FACTORY_READY=(async()=>{
+  await document.fonts.load('11.5px Safiro');await document.fonts.ready;
+  S.fontSize=DRAWING_META.id==='overview'?11:11.5;
+  factoryFit();factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  if(factoryStatic)factoryTime=STATIC_T;
+  factoryRender();window.__ready=true;factoryNotify();factoryStart();
+  if(parent!==window)parent.postMessage({type:'bower-factory:ready',state:factoryState()},'*');
+  return window.BOWER_FACTORY;
+})();
+
+})();</script></body></html>

@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bower station 12: Finish</title><link rel="stylesheet" href="../../4/fonts.css">
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fdfcf9}svg{display:block;width:100%;height:100%;max-height:none}body{font-family:Safiro,Arial,sans-serif}.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style>
+</head><body><svg id="s" role="img" aria-label="Bower station 12: Finish"><style>.lb{font-family:Safiro,Arial,sans-serif;font-weight:400;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fdfcf9;stroke-width:3px;stroke-linejoin:round}</style><g id="g"></g></svg>
+<script>(()=>{const DRAWING_META={"id":"12-finish","number":"12","title":"Finish","stage":"Detail","whatHappens":"The rib from 11 is trimmed to length at both ends, sanded, coated and set on a drying rack.","bower":"Industry practice. Trimming, sanding, coating and a drying rack after gluing are standard finishing practice. This station has no Bower-specific machine. Ornament is cut one station back, at 11, so the finish covers the carved surface.","testing":"Durability classes under the current EN 350 were not read, so no class is given for larch, Douglas fir or oak (open). The coating product, its build and its dry time have no source, so none is drawn or given. Treatment after gluing only reaches the surface, so species choice and detailing carry durability.","sourceLinks":[{"title":"Buckland Timber, a UK maker of curved glulam in Devon: its technical guide is the making line's read source for this station. Industry practice (read).","url":"https://www.bucklandtimber.co.uk/wp-content/uploads/2024/02/technical-guide_022024.pdf"},{"title":"IAAC, Learning Smooth: supervised learning for hardwood sanding with a 6-axis robot. A research precedent for automated sanding, not a production line (snippet).","url":"https://www.iaacblog.com/programs/learning-smooth/"}]};
+const S={};
+const SQ=Math.sqrt(3)/2, TAU=Math.PI*2;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const CP=Math.cos(.575),SP=Math.sin(.575);
+const mkP=(ox,oy,s)=>(x,y,z)=>[ox+(x*CP-y*SP)*s, oy+((x*SP+y*CP)*.5-z)*s];
+const n1=v=>v.toFixed(1);
+const pd=(pts,close=true)=>'M'+pts.map(p=>n1(p[0])+' '+n1(p[1])).join('L')+(close?'Z':'');
+function hull(pts){pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[];for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}const up=[];for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}up.pop();lo.pop();return lo.concat(up);}
+function circ(cx,cy,r,n=16){const a=[];for(let i=0;i<n;i++){const t=i/n*TAU+.3;a.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return a;}
+function rr(u0,v0,u1,v1,r){r=r||0;if(r<.005)return[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];r=Math.min(r,(u1-u0)/2,(v1-v0)/2);const o=[];for(const[cx,cy,a0]of[[u1-r,v0+r,-90],[u1-r,v1-r,0],[u0+r,v1-r,90],[u0+r,v0+r,180]])for(let k=0;k<=3;k++){const a=(a0+k*30)*Math.PI/180;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]);}return o;}
+const cap2=(p,q,r0,r1)=>hull(circ(p[0],p[1],r0,14).concat(circ(q[0],q[1],r1,14)));
+const mixHex=(a,b,k)=>{const h=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=h(a),B=h(b);return'#'+A.map((v,i)=>Math.round(lerp(v,B[i],clamp(k))).toString(16).padStart(2,'0')).join('');};
+
+const sst=t=>{t=clamp(t);return t*t*(3-2*t)};
+const ease=t=>{t=clamp(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eout=t=>1-Math.pow(1-clamp(t),3);
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+
+const stepIndex=(t,bounds)=>{for(let i=0;i<bounds.length-1;i++)if(t<bounds[i+1])return i;return bounds.length-2;};
+
+function ext(c,plane,poly,a0,a1,o){o=o||{};const P=c.P;
+  const q=(p,a)=>plane==='yz'?P(a,p[0],p[1]):plane==='xz'?P(p[0],a,p[1]):P(p[0],p[1],a);
+  const p0=poly.map(p=>q(p,a0)),p1=poly.map(p=>q(p,a1));
+  return S.solid(hull(p0.concat(p1)),p1,o,c);}
+const ln=(c,pts,cls,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(p[0],p[1],p[2])),false)}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.6}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${o.op!=null?`opacity="${n1(o.op)}"`:''}/>`;};
+
+function hatchRect(P,x,y0,y1,z0,z1,step,dir){ // hatch inside a rectangle of the plane x=const
+  let d='';const h=z1-z0,w=y1-y0;
+  for(let k=-h;k<w;k+=step){ // line z = z0 + dir*(y-y0-k)
+    let ya=y0+Math.max(0,k),yb=y0+Math.min(w,k+h);if(yb<=ya)continue;
+    const f=y=>dir>0?z0+(y-y0-k):z1-(y-y0-k);
+    const a=P(x,ya,f(ya)),b=P(x,yb,f(yb));d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+  return d;}
+
+/* ---- machine parts: frames, fasteners, hoses, linear track, cable chain, six-axis arm ---- */
+// Frames wrap a context so any extrusion can be drawn in a moved or rotated local system.
+// c.ax holds the world direction of each local axis; it decides which end cap faces the viewer.
+const AX0=[[1,0,0],[0,1,0],[0,0,1]];
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+ cr:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ nz:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}};
+function frameC(c,o,ex,ey,ez){const A=c.ax||AX0,w=e=>[0,1,2].map(i=>e[0]*A[0][i]+e[1]*A[1][i]+e[2]*A[2][i]);
+ return{P:(a,b,d)=>c.P(o[0]+a*ex[0]+b*ey[0]+d*ez[0],o[1]+a*ex[1]+b*ey[1]+d*ez[1],o[2]+a*ex[2]+b*ey[2]+d*ez[2]),ax:[w(ex),w(ey),w(ez)]};}
+// Local z runs along d from o.
+function alongC(c,o,d){const z=v3.nz(d),r=Math.abs(z[0])<.9?[1,0,0]:[0,1,0];const x=v3.nz(v3.add(r,v3.sc(z,-v3.dot(r,z))));return frameC(c,o,x,v3.cr(z,x),z);}
+const facing=(c,k)=>{const v=(c.ax||AX0)[k];return v[0]*SP+v[1]*CP+v[2]*.5>=0;};
+// Extrusion with its outlined cap always on the end nearest the viewer.
+function xt(c,plane,poly,a0,a1,o){const k=plane==='yz'?0:plane==='xz'?1:2;return facing(c,k)===(a1>=a0)?ext(c,plane,poly,a0,a1,o||{}):ext(c,plane,poly,a1,a0,o||{});}
+// Cylinder along a local axis; (u,v) is the centre in the other two axes, in xyz order.
+function cyl(c,axis,u,v,r,a0,a1,o,n){const p=circ(u,v,r,n||14);return xt(c,axis==='z'?'xy':axis==='y'?'xz':'yz',p,a0,a1,o);}
+const q3=(plane,u,v,a)=>plane==='yz'?[a,u,v]:plane==='xz'?[u,a,v]:[u,v,a];
+const matFill=()=>typeof MAT!=='undefined'&&MAT?MAT.steel:S.paper;
+// Hex heads or nuts lying on a face, one path.
+function hexes(c,plane,pts,at,r){let d='';for(const[u,v]of pts){const h=[];for(let k=0;k<6;k++){const a=k*Math.PI/3+.26;h.push(c.P(...q3(plane,u+r*Math.cos(a),v+r*Math.sin(a),at)));}d+=pd(h);}
+ return`<path d="${d}" fill="${matFill()}" stroke="${S.ink}" stroke-width=".5"/>`;}
+// Circles on a face (bores, bolt holes, lenses), one path.
+function rings(c,plane,pts,at,r,o){o=o||{};let d='';for(const[u,v]of pts)d+=pd(circ(u,v,r,o.n||12).map(p=>c.P(...q3(plane,p[0],p[1],at))));
+ return`<path d="${d}" fill="${o.fill||'none'}" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''}/>`;}
+// Inner edges on a face as one path of polylines.
+function edges(c,lines,o){o=o||{};let d='';for(const l of lines)d+=pd(l.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${o.w||.5}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round"/>`;}
+const bez=(a,b,c2,d,n)=>Array.from({length:n+1},(_,k)=>{const u=k/n,p=(1-u)**3,q=3*u*(1-u)**2,r=3*u*u*(1-u),s=u**3;return[0,1,2].map(i=>p*a[i]+q*b[i]+r*c2[i]+s*d[i]);});
+// A hose or cable: an outlined tube of width w drawing units in pixels.
+function hose(c,pts,w,o){o=o||{};const d=pd(pts.map(p=>c.P(...p)),false);
+ return`<path d="${d}" fill="none" stroke="${o.col||S.ink}" stroke-width="${n1(w+1.1)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${S.paper}" stroke-width="${n1(Math.max(.4,w-.1))}" stroke-linecap="round" stroke-linejoin="round"/>`;}
+
+/* Linear track, KUKA KL 4000 class: feet, box beam, two profile rails, rack, end stops, trough. */
+function trackBase(c,{x0,x1,y}){let s='';
+ for(let x=x0+.7;x<x1-.3;x+=3.4){
+  s+=xt(c,'xy',rr(x-.42,y-.82,x+.42,y+.82),0,.06,{m:'dark'});
+  s+=hexes(c,'xy',[[x-.3,y-.68],[x+.3,y-.68],[x-.3,y+.68],[x+.3,y+.68]],.06,.07);
+  s+=xt(c,'yz',[[y-.55,.06],[y+.55,.06],[y+.42,.2],[y-.42,.2]],x-.2,x+.2,{m:'dark'});
+ }
+ s+=xt(c,'yz',rr(y-.6,.2,y+.6,.5),x0,x1,{m:'steel'});
+ s+=edges(c,[[[x0,y+.6,.27],[x1,y+.6,.27]],[[x0,y+.6,.43],[x1,y+.6,.43]]]);
+ const rail=[[-.1,0],[.1,0],[.1,.05],[.06,.08],[.09,.1],[.09,.15],[-.09,.15],[-.09,.1],[-.06,.08],[-.1,.05]];
+ for(const ry of[y-.36,y+.36])s+=xt(c,'yz',rail.map(p=>[ry+p[0],.5+p[1]]),x0+.15,x1-.15,{m:'steel'});
+ let holes=[];for(let x=x0+.4;x<x1-.2;x+=.6)holes.push([x,y-.36],[x,y+.36]);s+=rings(c,'xy',holes,.65,.035,{n:6});
+ // Rack on the front face; teeth as ticks
+ s+=xt(c,'yz',rr(y+.6,.29,y+.68,.44),x0+.1,x1-.1,{m:'steel'});
+ let d='';for(let x=x0+.16;x<x1-.12;x+=.11){const a=c.P(x,y+.68,.29),b=c.P(x,y+.68,.37);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;
+ for(const xe of[x0,x1-.3]){s+=xt(c,'xy',rr(xe,y-.5,xe+.3,y+.5),.5,.85,{m:'dark'});s+=cyl(c,'x',y-.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10)+cyl(c,'x',y+.25,.72,.09,xe<x0+1?xe+.3:xe,xe<x0+1?xe+.45:xe-.15,{},10);}
+ return s;}
+// Cable trough in front of the track, drawn after the carriage.
+function trackTrough(c,{x0,x1,y}){const U=[[y+.8,0],[y+1.3,0],[y+1.3,.42],[y+1.26,.42],[y+1.26,.04],[y+.84,.04],[y+.84,.42],[y+.8,.42]];
+ return xt(c,'yz',U,x0+.2,x1-.2,{m:'dark'})+edges(c,[[[x0+.2,y+.84,.42],[x1-.2,y+.84,.42]]]);}
+// Energy chain: fixed end xf on the trough floor, moving end on the carriage bracket at xc.
+function cableChain(c,{xf,xc,xb,y}){const yf=y+1.22,yb=y+.88,z0=.05,h=.12,R=.19,zc=z0+R,P=c.P;
+ const lo=[[xf,z0],[xb,z0]],arcO=[],arcI=[];for(let k=0;k<=10;k++){const a=-Math.PI/2+k/10*Math.PI;arcO.push([xb+R*Math.cos(a),zc+R*Math.sin(a)]);arcI.push([xb+(R-h)*Math.cos(a),zc+(R-h)*Math.sin(a)]);}
+ const out=lo.concat(arcO,[[xc,zc+R]],[[xc,zc+R-h]],arcI.slice().reverse(),[[xf,z0+h]]);
+ let s=`<path d="${pd(out.map(p=>P(p[0],yf,p[1])))}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".9" stroke-linejoin="round"/>`;
+ s+=`<path d="${pd([P(xc,yb,zc+R),P(xb,yb,zc+R),P(xb,yf,zc+R),P(xc,yf,zc+R)])}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".6"/>`;
+ let d='';const tick=(x,za,zb2,yy)=>{const a=P(x,yy,za),b=P(x,yy,zb2);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;};
+ for(let x=xf+.22;x<xb;x+=.22)tick(x,z0,z0+h,yf);
+ for(let x=xc+.22;x<xb;x+=.22){tick(x,zc+R-h,zc+R,yf);const a=P(x,yb,zc+R),b=P(x,yf,zc+R);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ return s+`<path d="${d}" stroke="${S.ink}" stroke-width=".4" fill="none"/>`;}
+// Carriage on four bearing blocks, rack drive motor, chain bracket, robot riser.
+function trackCarriage(c,{cx,y,mv,riser}){let s='';const o={m:'steel',mv};
+ for(const bx of[cx-.62,cx+.62])for(const by of[y-.36,y+.36]){s+=xt(c,'xy',rr(bx-.3,by-.17,bx+.3,by+.17),.56,.76,{m:'dark'});s+=xt(c,'yz',rr(by-.15,.58,by+.15,.74),bx+.3,bx+.34,{m:'dark'});}
+ s+=xt(c,'xy',rr(cx-.48,y+.6,cx+.08,y+.9),.3,.76,{m:'dark'});
+ s+=xt(c,'xy',rr(cx-1.02,y-.78,cx+1.02,y+.78),.76,.88,o);
+ s+=hexes(c,'xy',[[cx-.85,y-.62],[cx+.85,y-.62],[cx-.85,y+.62],[cx+.85,y+.62]],.88,.06);
+ s+=xt(c,'yz',[[y+.78,.88],[y+1.08,.88],[y+1.08,.43],[y+1.0,.43],[y+1.0,.82],[y+.78,.82]],cx+.82,cx+1.0,{m:'dark'});
+ // Drive motor with cooling rings and connector
+ const mx=cx-.2,my=y+.6;s+=cyl(c,'z',mx,my,.17,.88,1.38,o,14);
+ s+=edges(c,[1.0,1.1,1.2].map(z=>circ(mx,my,.17,14).slice(0,9).map(p=>[p[0],p[1],z])));
+ s+=xt(c,'xy',rr(mx-.07,my+.1,mx+.07,my+.24),1.24,1.36,{m:'dark'});
+ if(riser){const h=riser;s+=xt(c,'xy',rr(cx-.48,y-.48,cx+.48,y+.48),.88,.88+h,{m:'steel'});
+  s+=xt(c,'xz',[[cx+.48,.88],[cx+.48,.88+h*.6],[cx+.86,.88]],y-.03,y+.03,{m:'dark'});
+  s+=xt(c,'yz',[[y+.48,.88],[y+.48,.88+h*.6],[y+.8,.88]],cx+.27,cx+.33,{m:'dark'});
+  s+=xt(c,'xy',rr(cx-.7,y-.7,cx+.7,y+.7),.88+h,.98+h,{m:'steel'});}
+ return s;}
+
+/* Crane spreader beam: I-section beam, two lifting lugs with a bridle to a hook block and hoist
+   ropes (the crane itself stays off the drawing), and webbing slings at each pick point down to
+   the load. slings: [{x, top, bot}] where the load's top edge is at z = top and its front face
+   runs down to bot; w is the load's half width in y. Back legs draw first, front legs last. */
+function spreaderBeam(c,{x0,x1,y=0,z,w,slings,lift=1.3,rope=2.2}){let s='';const P=c.P,xm=(x0+x1)/2,zt=z+.3;
+ const L=(pts,wd)=>`<path d="${pd(pts.map(q=>P(...q)),false)}" fill="none" stroke="${S.ink}" stroke-width="${wd}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ for(const g of slings)s+=L([[g.x,y,z],[g.x,y-w,g.top]],1.5);
+ const I=[[-.16,0],[.16,0],[.16,.05],[.035,.05],[.035,.25],[.16,.25],[.16,.3],[-.16,.3],[-.16,.25],[-.035,.25],[-.035,.05],[-.16,.05]];
+ s+=xt(c,'yz',I.map(q=>[y+q[0],z+q[1]]),x0,x1,{m:'steel'});
+ for(const xe of[x0,x1])s+=xt(c,'yz',rr(y-.18,z-.02,y+.18,z+.32),xe-.03,xe+.03,{m:'dark'});
+ const H=[xm,y,zt+lift],lugs=[x0+(x1-x0)*.28,x1-(x1-x0)*.28];
+ for(const xl of lugs){s+=xt(c,'xz',[[xl-.14,zt],[xl+.14,zt],[xl+.07,zt+.22],[xl-.07,zt+.22]],y-.02,y+.02,{m:'dark'});s+=L([[xl,y,zt+.16],H],.9);}
+ // Hook block: sheave between side plates, hook below, two hoist ropes leaving upward
+ s+=L([H,[xm,y,H[2]+.18]],1.1);
+ s+=xt(c,'xz',rr(xm-.24,H[2]+.18,xm+.24,H[2]+.78,.08),y-.13,y+.13,{m:'dark'});
+ s+=cyl(c,'y',xm,H[2]+.48,.17,y+.13,y+.17,{m:'steel'},12);
+ s+=L([[xm-.15,y,H[2]+.7],[xm-.15,y,H[2]+.78+rope]],.7)+L([[xm+.15,y,H[2]+.7],[xm+.15,y,H[2]+.78+rope]],.7);
+ for(const g of slings){s+=cyl(c,'y',g.x,z-.07,.06,y-.03,y+.03,{m:'dark'},8);s+=L([[g.x,y,z-.1],[g.x,y+w,g.top],[g.x,y+w,g.bot]],1.5);}
+ return s;}
+
+/* Six-axis industrial arm, KUKA QUANTEC class. All joints lie in the plane x = const of the
+   context c. Sh, El, Wr are shoulder (A2), elbow (A3) and wrist (A5) centres as [y,z].
+   fd is the flange direction [dy,dz]. tool(ff) draws in the flange frame from z = 0.
+   Base sits at [x,y,zb]; the column is fixed for a robot that faces -y. */
+// halo: a paper gap of about 2.5 px round the arm's silhouette, so the jacks and yokes it stands
+// in front of stop short of its outline instead of tangling with it. The arm is always nearer the
+// viewer than the pin row, so it needs a gap, not hidden lines.
+function robot6(c,o){const s=robot6Lines(c,o);if(!o.halo)return s;
+ return`<defs><filter id="arm-halo" x="-5%" y="-5%" width="110%" height="110%"><feMorphology in="SourceAlpha" operator="dilate" radius="${n1(2.5*Math.max(.6,kk()))}" result="d"/><feFlood flood-color="${S.paper}"/><feComposite in2="d" operator="in"/></filter></defs><use href="#arm" filter="url(#arm-halo)"/><g id="arm">${s}</g>`;}
+function robot6Lines(c,{x,y,zb,Sh,El,Wr,fd,tool,mv}){let s='';const P=c.P;
+ const st={m:'steel'},dk={m:'dark'};
+ // Base frame with fixing bolts, A1 gear housing and slewing ring
+ const oct=[[-.72,-.45],[-.45,-.72],[.45,-.72],[.72,-.45],[.72,.45],[.45,.72],[-.45,.72],[-.72,.45]].map(p=>[x+p[0],y+p[1]]);
+ s+=xt(c,'xy',oct,zb,zb+.12,dk);
+ s+=hexes(c,'xy',[[x-.56,y-.3],[x-.56,y+.3],[x+.56,y-.3],[x+.56,y+.3],[x-.3,y+.56],[x+.3,y+.56]],zb+.12,.055);
+ s+=cyl(c,'z',x,y,.56,zb+.12,zb+.5,st,20)+cyl(c,'z',x,y,.6,zb+.5,zb+.58,dk,20);
+ // A1 motor at the back of the column
+ s+=cyl(c,'z',x-.24,y+.62,.15,zb+.58,zb+1.16,st,12)+xt(c,'xy',rr(x-.3,y+.74,x-.18,y+.86),zb+1.0,zb+1.12,dk);
+ // Rotating column, cast, carrying the A2 axis forward of A1
+ const z1=zb+.58,col=[[y+.62,z1],[y-.62,z1],[Sh[0]-.45,Sh[1]-.55],[Sh[0]-.35,Sh[1]+.3],[Sh[0]+.2,Sh[1]+.56],[y+.5,Sh[1]+.1]];
+ s+=xt(c,'yz',col,x-.46,x+.46,st);
+ s+=edges(c,[[[x+.46,y+.45,z1+.12],[x+.46,Sh[0]-.3,Sh[1]-.45]]]);
+ // Lower arm with recessed panel and hub bolt circle
+ const len=Math.hypot(El[0]-Sh[0],El[1]-Sh[1]);
+ s+=xt(c,'yz',cap2(Sh,El,.46,.34),x-.32,x+.32,{m:'steel',mv});
+ const inner=hull(circ(Sh[0]+(El[0]-Sh[0])*.2,Sh[1]+(El[1]-Sh[1])*.2,.26,10).concat(circ(Sh[0]+(El[0]-Sh[0])*.82,Sh[1]+(El[1]-Sh[1])*.82,.19,10)));
+ s+=edges(c,[inner.concat([inner[0]]).map(p=>[x+.32,p[0],p[1]])]);
+ // A2 gearbox and motor on the near side
+ s+=cyl(c,'x',Sh[0],Sh[1],.52,x+.46,x+.6,st,20);
+ s+=rings(c,'yz',circ(Sh[0],Sh[1],.4,8),x+.6,.04,{n:6});
+ s+=cyl(c,'x',Sh[0],Sh[1],.18,x+.6,x+.7,dk,12);
+ s+=cyl(c,'x',Sh[0]+.62,Sh[1]-.42,.2,x+.42,x+.98,st,14)+xt(c,'xy',rr(x+.6,Sh[0]+.52,x+.78,Sh[0]+.72),Sh[1]-.24,Sh[1]-.12,dk);
+ // Counterbalance cylinder: barrel pivots on the column, rod on the lower arm
+ const ua=[(El[0]-Sh[0])/len,(El[1]-Sh[1])/len],cb0=[Sh[0]+.95,Sh[1]-.05],cb1=[Sh[0]+ua[0]*.95-ua[1]*.3,Sh[1]+ua[1]*.95+ua[0]*.3];
+ const cbm=[lerp(cb0[0],cb1[0],.58),lerp(cb0[1],cb1[1],.58)];
+ s+=xt(c,'yz',cap2(cbm,cb1,.07,.07),x+.62,x+.72,{m:'steel',mv});
+ s+=xt(c,'yz',cap2(cb0,cbm,.17,.15),x+.58,x+.76,{m:'steel'});
+ s+=cyl(c,'x',cb0[0],cb0[1],.09,x+.76,x+.82,dk,10)+cyl(c,'x',cb1[0],cb1[1],.08,x+.72,x+.8,dk,10);
+ // Arm frame: b along the forearm toward the wrist, d its upward normal
+ const L2=Math.hypot(Wr[0]-El[0],Wr[1]-El[1]),u=[(Wr[0]-El[0])/L2,(Wr[1]-El[1])/L2];let nrm=[-u[1],u[0]];if(nrm[1]<0)nrm=[-nrm[0],-nrm[1]];
+ const fa=frameC(c,[x,El[0],El[1]],[1,0,0],[0,u[0],u[1]],[0,nrm[0],nrm[1]]);
+ // Forearm tube with A4 bearing ring, wrist with A5 axis, A6 flange
+ s+=xt(fa,'xz',circ(0,0,.22,14),.42,L2-.3,{m:'steel',mv});
+ s+=xt(fa,'xz',circ(0,0,.26,14),.42,.6,st);
+ s+=xt(fa,'yz',cap2([L2-.36,0],[L2,0],.22,.25),-.2,.2,st);
+ s+=xt(fa,'yz',circ(L2,0,.18,12),.2,.27,dk);
+ const ff=alongC(c,[x,Wr[0],Wr[1]],[0,fd[0],fd[1]]);
+ s+=xt(ff,'xy',circ(0,0,.17,14),.12,.3,st)+xt(ff,'xy',circ(0,0,.24,16),.3,.36,st);
+ s+=rings(ff,'xy',circ(0,0,.17,6),.36,.025,{n:6});
+ // Arm housing round the elbow with the A3 drive and the A4 to A6 motors at the back
+ s+=xt(fa,'yz',rr(-.95,-.36,.48,.36,.1),-.36,.36,{m:'steel',mv});
+ s+=cyl(fa,'x',0,0,.44,.36,.46,st,18)+rings(fa,'yz',circ(0,0,.32,8),.46,.035,{n:6});
+ for(const[a,d]of[[-.17,-.14],[.17,-.14],[0,.15]])s+=xt(fa,'xz',circ(a,d,.12,10),-.95,-1.42,dk);
+ // Cable dress: base to column back, along the lower arm, to the motors at the back of the arm
+ const back=[El[0]-u[0]*1.2,El[1]-u[1]*1.2];
+ const cp=[[x+.2,y+.75,zb+.35],[x+.2,y+.8,z1+.9],[x+.36,Sh[0]+.6,Sh[1]+.65],[x+.36,Sh[0]+ua[0]*1.6-ua[1]*.55,Sh[1]+ua[1]*1.6+ua[0]*.55],[x+.36,El[0]-ua[0]*.7-ua[1]*.5,El[1]-ua[1]*.7+ua[0]*.5],[x+.2,back[0],back[1]]];
+ const pts=bez(cp[0],cp[1],cp[1],cp[2],5).concat(bez(cp[2],cp[3],cp[4],cp[5],10).slice(1));
+ s+=hose(c,pts,2.4);
+ for(const k of[6,10,13]){const p=pts[k];s+=edges(c,[[[p[0]-.06,p[1],p[2]-.08],[p[0]-.06,p[1],p[2]+.08]]],{w:1.1});}
+ s+=hose(c,bez([x+.2,back[0],back[1]],[x+.3,back[0]+u[0]*.2,back[1]+.6],[x+.3,Wr[0]-u[0]*.9,Wr[1]+.45],[x+.24,Wr[0]-u[0]*.3,Wr[1]+.28],8),1.4);
+ // Tool in the flange frame, starting at the flange face
+ s+=tool(frameC(ff,[0,0,.36],[1,0,0],[0,1,0],[0,0,1]));
+ return s;}
+// Planar two-link solution with the elbow up. Returns the elbow [y,z].
+function elbowUp(Sh,Wr,L1,L2){let dy=Wr[0]-Sh[0],dz=Wr[1]-Sh[1],d=Math.hypot(dy,dz);const mx=L1+L2-.02;if(d>mx){dy*=mx/d;dz*=mx/d;d=mx;}
+ const a=(L1*L1-L2*L2+d*d)/(2*d),h=Math.sqrt(Math.max(0,L1*L1-a*a));let ny=-dz/d,nz=dy/d;if(nz<0){ny=-ny;nz=-nz;}
+ return[Sh[0]+dy*a/d+ny*h,Sh[1]+dz*a/d+nz*h];}
+
+// Labels stay 11.5 px on screen. The svg scales its viewBox with "meet", so the larger ratio wins.
+const fsz=()=>11.5*(typeof VB!=='undefined'&&VB?Math.max(VB[2]/Math.max(280,svg.clientWidth||900),VB[3]/Math.max(1,svg.clientHeight||VB[3])):1.3);
+const kk=()=>fsz()/11.5;
+/* Placement rule for every station: put the white box in free paper first. Overlap the drawing
+   only where no free paper is left, and then never over a loaded (red) part or another label.
+   Leaders never cross each other or a moving machine on their way to the box. dx, dy are screen
+   pixels from the anchor to the elbow, so the box can be steered into the free area.
+   o.at (a world point) pins the elbow in place, so a label on a moving part keeps its box still
+   in the free area while its leader follows the part. o.side (-1 or 1) fixes the text side.
+   Text is always horizontal: no label, tag or dimension text is ever rotated (dimLine follows). */
+function lead(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk();const id=o.id||txt;const p=c.P(anc[0],anc[1],anc[2]);dx*=k;dy*=k;
+  if(o.at){const q=c.P(...o.at);dx=q[0]-p[0];dy=q[1]-p[1];}
+  const bx=p[0]+dx,by=p[1]+dy,sd=o.side||(dx<0?-1:1),col=S.ink;
+  const L=Math.hypot(dx,dy),ux=-dx/L,uy=-dy/L,ah=5*k; // arrowhead at anchor
+  const tip=p,b1=[tip[0]-ux*(-ah)+(-uy)*ah*.35,tip[1]-uy*(-ah)+ux*ah*.35],b2=[tip[0]-ux*(-ah)-(-uy)*ah*.35,tip[1]-uy*(-ah)-ux*ah*.35];
+  const hd=`<path d="${pd([tip,b1,b2])}" fill="${col}"/>`;
+  // Bower-specific mark: a small green filled square tag.
+  const tag=o.bower?`<tspan style="fill:${S.bower||'#2a6a50'};font-size:.62em">\u25A0</tspan>\u00A0`:'';
+  return`<g data-label="${id}" data-white="${o.box!==false && S.labelBoxes!==false}"${o.bower?' data-bower="true"':''} opacity="${n1(a)}"><path d="M${n1(p[0])} ${n1(p[1])}L${n1(bx)} ${n1(by)}L${n1(bx+sd*12*k)} ${n1(by)}" fill="none" stroke="${col}" stroke-width=".6"/>${hd}<text x="${n1(bx+sd*16*k)}" y="${n1(by+3.6*k)}" text-anchor="${sd<0?'end':'start'}" class="lb" style="font-size:${fsz()}px;fill:${col}">${tag}${txt}</text></g>`;}
+
+// A leaderless label: a paper-boxed note set next to its part, such as a value beside a jack.
+// It counts as a label for overlap and visibility, and not as a leader. dx, dy are screen pixels.
+// Every value sits directly above its part or gets a 4 px tick, so the part is never in doubt:
+// o.above centres the box just above the anchor, no tick. o.tick draws a 4 px tick from the anchor
+// toward (dx, dy) and sets the box against the tick's end (right, left, above or below by the
+// larger of dx and dy), so only the direction of dx, dy matters. Ticks are not leaders.
+function tag(c,anc,dx,dy,txt,a,o){o=o||{};if(a<.02||kk()>1.5)return'';const k=kk(),p=c.P(anc[0],anc[1],anc[2]),col=S.ink,fs=fsz()*(o.size||1);
+  let x=p[0]+dx*k,y=p[1]+dy*k+3.6*k,an=o.anchor||'start',tk='';
+  if(o.above){x=p[0];y=p[1]-6*k;an='middle';}
+  else if(o.tick){const L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,e=[p[0]+ux*4*k,p[1]+uy*4*k];
+   tk=`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(e[0])} ${n1(e[1])}" stroke="${col}" stroke-width=".75" fill="none"/>`;
+   if(Math.abs(dx)>=Math.abs(dy)){an=dx<0?'end':'start';x=e[0]+(dx<0?-2.5:2.5)*k;y=e[1]+fs*.35;}
+   else{an='middle';x=e[0];y=dy<0?e[1]-2.5*k-fs*.22:e[1]+2.5*k+fs*.78;}}
+  return`<g data-label="${o.id||txt}" data-white="true" data-leaderless="true" opacity="${n1(a)}">${tk}<text x="${n1(x)}" y="${n1(y)}" text-anchor="${an}" class="lb" style="font-size:${fs}px;fill:${col}">${txt}</text></g>`;}
+
+// Called after insertion so boxes use the browser's actual font metrics.
+function collectAnnotations(){
+ const labels=[],leaders=[],dimensions=[];
+ for(const g of root.querySelectorAll('[data-label]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  g.dataset.annotationId=g.dataset.label;
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=g.dataset.white==='true';
+  const box={x:b.x-2*k,y:b.y-2*k,w:b.width+4*k,h:b.height+4*k};
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,fill:S.paper||'#fdfcf9'}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);text.style.stroke='none';}
+  labels.push({id:g.dataset.label,text:text.textContent,box,white});
+  if(g.dataset.leaderless==='true')continue;
+  const p=g.querySelector('path');const nums=p.getAttribute('d').match(/-?\d+(?:\.\d+)?/g).map(Number);
+  leaders.push({id:g.dataset.label,segments:[[nums.slice(0,2),nums.slice(2,4)],[nums.slice(2,4),nums.slice(4,6)]]});
+ }
+ for(const g of root.querySelectorAll('[data-dimension]')){
+  if(Number(g.getAttribute('opacity'))<.02)continue;
+  dimensions.push({segments:JSON.parse(g.dataset.dimension)});
+  const text=g.querySelector('text'),b=text.getBBox(),k=kk(),white=S.labelBoxes!==false;
+  const matrix=text.transform.baseVal.consolidate()?.matrix;
+  const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>matrix?new DOMPoint(x,y).matrixTransform(matrix):{x,y});
+  const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y);
+  if(white){const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+   for(const [key,value] of Object.entries({x:b.x-2*k,y:b.y-2*k,width:b.width+4*k,height:b.height+4*k,fill:S.paper||'#fdfcf9',stroke:'none',transform:text.getAttribute('transform')||''}))rect.setAttribute(key,value);
+   g.insertBefore(rect,text);}
+  g.dataset.annotationId='dimension:'+text.textContent;
+  labels.push({id:g.dataset.annotationId,text:text.textContent,white,box:{x:Math.min(...xs)-2*k,y:Math.min(...ys)-2*k,w:Math.max(...xs)-Math.min(...xs)+4*k,h:Math.max(...ys)-Math.min(...ys)+4*k}});
+ }
+ window.__annotations={labels,leaders,dimensions};
+}
+
+function dimLine(c,A,B,off,txt,a,o){if(a<.02||kk()>1.5)return'';const k=kk();const P=c.P;
+  const a2=[A[0]+off[0],A[1]+off[1],A[2]+off[2]],b2=[B[0]+off[0],B[1]+off[1],B[2]+off[2]];
+  const ov=.25,e=off.map(v=>v?Math.sign(v)*ov:0);
+  const p=P(...a2),q=P(...b2);
+  let s=`<g opacity="${n1(a)}" stroke="${S.ink}" fill="none" stroke-width=".5">`;
+  const ea=P(A[0]+off[0]*.08,A[1]+off[1]*.08,A[2]+off[2]*.08),eb=P(B[0]+off[0]*.08,B[1]+off[1]*.08,B[2]+off[2]*.08);
+  const ea2=P(a2[0]+e[0],a2[1]+e[1],a2[2]+e[2]),eb2=P(b2[0]+e[0],b2[1]+e[1],b2[2]+e[2]);
+  s+=`<path d="M${n1(ea[0])} ${n1(ea[1])}L${n1(ea2[0])} ${n1(ea2[1])}M${n1(eb[0])} ${n1(eb[1])}L${n1(eb2[0])} ${n1(eb2[1])}M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}"/>`;
+  const dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,tk=4*k;
+  for(const m of[p,q])s+=`<path d="M${n1(m[0]-(ux-uy)*tk)} ${n1(m[1]-(uy+ux)*tk)}L${n1(m[0]+(ux-uy)*tk)} ${n1(m[1]+(uy+ux)*tk)}" stroke-width="1"/>`;
+  // Text is always horizontal, whatever the direction of the dimension line: rotated labels are
+  // slow to read. The box is set clear of the line on its upper side (or past the end tick at B
+  // with o.beyond), using an estimate of the text width.
+  const fs=fsz(),tw=txt.length*fs*.56,th=fs*1.25,gap=5*k;
+  let nx=-uy,ny=ux;if(ny>0||(Math.abs(ny)<1e-6&&nx<0)){nx=-nx;ny=-ny;}
+  const sup=(dx_,dy_)=>(Math.abs(dx_)*tw+Math.abs(dy_)*th)/2;
+  const cx_=o&&o.beyond?q[0]+ux*(sup(ux,uy)+gap):(p[0]+q[0])/2+nx*(sup(nx,ny)+gap),cy_=o&&o.beyond?q[1]+uy*(sup(ux,uy)+gap):(p[1]+q[1])/2+ny*(sup(nx,ny)+gap);
+  s+=`<text x="${n1(cx_)}" y="${n1(cy_+fs*.35)}" text-anchor="middle" class="lb" style="font-size:${n1(fs)}px;fill:${S.ink};stroke:none">${txt}</text></g>`;
+  return s.replace('<g ',`<g data-dimension='${JSON.stringify([[p,q],[ea,ea2],[eb,eb2]])}' `);}
+
+// Deterministic surface samples. Progress leaves all earlier samples visible.
+function pointCloud(c,{surface,target,progress,count=480,tolerance=.05}){
+ let s='',stripe=[];
+ for(let i=0;i<count;i++){
+  const u=i/(count-1),v=((i*73)%count)/(count-1);
+  if(u>progress)continue;
+  const p=surface(u,v),noise=Math.sin(i*127.1)*.012;
+  const q=[p[0],p[1],p[2]+noise],xy=c.P(...q);
+  const error=Math.hypot(...q.map((value,axis)=>value-target(u,v)[axis]));
+  s+=`<circle cx="${n1(xy[0])}" cy="${n1(xy[1])}" r=".65" fill="${error>tolerance?'#b4492f':S.ink}"/>`;
+ }
+ const outline=[];
+ for(let i=0;i<=40;i++)outline.push(c.P(...target(i/40,.5)));
+ for(let i=0;i<=20;i++)stripe.push(c.P(...surface(clamp(progress),i/20)));
+ return s+`<path d="${pd(outline,false)}" fill="none" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="2 2"/><path d="${pd(stripe,false)}" fill="none" stroke="#b4492f" stroke-width="1.3"/>`;
+}
+// Scan points drawn as two paths, so several hundred points stay cheap. Noise is deterministic.
+// Points behind progress persist. compare (0 to 1) brings in the comparison: a point further
+// than tolerance from the target turns full red and grows to 1.5 times the on-target size.
+// On-target points stay ink at the normal size, so the error reads at a glance.
+function scanCloud(c,{surface,target,progress,count=600,noise=.03,compare=0,tolerance=.15,r=.75}){
+ let on='',off='';const k=clamp(compare);
+ for(let i=0;i<count;i++){
+  const u=i/(count-1);if(u>progress)break;
+  const v=((i*73)%count)/(count-1),p=surface(u,v),q=target(u,v);
+  const xy=c.P(p[0]+Math.sin(i*91.3)*noise*.4,p[1]+Math.sin(i*311.7)*noise,p[2]+Math.sin(i*127.1)*noise);
+  const d=`M${n1(xy[0])} ${n1(xy[1])}h.01`;
+  if(k>.01&&Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])>tolerance)off+=d;else on+=d;
+ }
+ const red=mixHex(S.ink,'#b4492f',k);
+ return(on?`<path d="${on}" fill="none" stroke="${S.ink}" stroke-width="${n1(2*r)}" stroke-linecap="round"/>`:'')
+  +(off?`<path d="${off}" fill="none" stroke="${red}" stroke-width="${n1(2*r*(1+.5*k))}" stroke-linecap="round"/>`:'');
+}
+// The target the scan is compared with: 0.75 px dashed ink lines along chosen edges of the
+// target surface (v values of the same surface callback), sampled at n steps along u.
+function targetOutline(c,{target,edges,n=48,alpha=1}){if(alpha<.01)return'';let d='';
+ for(const v of edges){const l=[];for(let i=0;i<=n;i++)l.push(c.P(...target(i/n,v)));d+=pd(l,false);}
+ return`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".75" stroke-dasharray="5 3" stroke-linecap="butt" opacity="${n1(alpha)}"/>`;}
+
+// Axis of separation: a dashed ink line from the slot a part leaves to where it is now. It is
+// darker than the floor lines so it reads, and it always starts at the slot on the machine.
+function explodeAxis(c,a,b,o){o=o||{};const p=c.P(...a),q=c.P(...b);if(Math.hypot(p[0]-q[0],p[1]-q[1])<1)return'';
+ return`<path d="M${n1(p[0])} ${n1(p[1])}L${n1(q[0])} ${n1(q[1])}" fill="none" stroke="${S.ink}" stroke-width="${o.w||.5}" stroke-dasharray="4 2.5" opacity="${o.op||.85}"/>`;}
+// Exploded parts keep clear space: choose offsets so a clear paper gap reads all along each part's
+// length at full hold, from every neighbour, the machine it left and the other parts. A near miss
+// (a part that almost touches another) reads as a collision, so open the gap or change the axis.
+// Component render callbacks receive their separated context and moment palette.
+// Optional: assembled(c) draws the closed assembly in true depth order; part.annotate({P},amount)
+// replaces the default label so a station can sequence labels or use a dimension.
+function explodedView(c,t,{start=0,open=1,hold=4,close=1,components,assembled}){
+ const amount=ease(seg(t,start,start+open))*(1-ease(seg(t,start+open+hold,start+open+hold+close)));
+ if(t<start||t>start+open+hold+close)return '';
+ if(amount<=.01&&assembled)return assembled(c);
+ let s='';
+ for(const part of components){
+  const delta=part.offset.map(v=>v*amount),P=(x,y,z)=>c.P(x+delta[0],y+delta[1],z+delta[2]);
+  const anchor=part.anchor||[0,0,0];
+  if(amount>.01)s+=explodeAxis(c,anchor,anchor.map((v,i)=>v+delta[i]));
+  s+=part.draw({P},amount?{steel:'#e8ecee',grain:'#a2845a'}:null);
+  if(part.annotate)s+=part.annotate({P},amount);
+ else if(amount>.99)s+=lead({P},anchor,...(part.labelOffset||[20,-20]),part.label,1,{id:part.id});
+ }
+ return s;
+}
+
+/* ---- screen-space overlay: title block and flat instruments ----
+   These draw in viewBox coordinates after fit(), not in the isometric world, so a timer reads
+   as a timer and not as a disc lying on the floor. Sizes are screen pixels times kk(). */
+// A point at fractions (fx, fy) of the fitted viewBox, moved by dx, dy screen pixels.
+const hudAt=(fx,fy,dx,dy)=>VB?[VB[0]+fx*VB[2]+(dx||0)*kk(),VB[1]+fy*VB[3]+(dy||0)*kk()]:null;
+const HUD={P:(x,y)=>[x,y]};
+// The title block note sits in the drawing's bottom-left corner, muted, and never fades.
+function titleBlock(text){const p=hudAt(0,1,10,-10);if(!p)return'';
+ return`<text x="${n1(p[0])}" y="${n1(p[1])}" class="lb tb" style="font-size:${n1(fsz()*.92)}px;fill:${S.mut||S.hid||'#6b7178'}">${text}</text>`;}
+// A flat dial: ring, twelve ticks, progress arc p (0 to 1) and hand. at is the centre.
+function hudDial(at,p,a,o){if(!at||a<.01)return'';o=o||{};const k=kk(),r=(o.r||22)*k,[cx,cy]=at;
+ const pt=(ang,rr)=>[cx+rr*Math.sin(ang),cy-rr*Math.cos(ang)];const ring=[],arc=[];
+ for(let i=0;i<=48;i++)ring.push(pt(i/48*TAU,r));
+ const m=Math.max(1,Math.round(48*p));for(let i=0;i<=m;i++)arc.push(pt(i/m*TAU*p,r));
+ let d='';for(let i=0;i<12;i++){const A=pt(i/12*TAU,r*.82),B=pt(i/12*TAU,r);d+=`M${n1(A[0])} ${n1(A[1])}L${n1(B[0])} ${n1(B[1])}`;}
+ const h=pt(p*TAU,r*.7);
+ return`<g opacity="${n1(a)}"><path d="${pd(ring)}" fill="${S.paper}" stroke="${S.ink}" stroke-width=".75"/><path d="${d}" stroke="${S.ink}" stroke-width=".5"/>`
+  +`<path d="${pd(arc,false)}" fill="none" stroke="${S.ink}" stroke-width="2" stroke-linecap="butt"/><path d="M${n1(cx)} ${n1(cy)}L${n1(h[0])} ${n1(h[1])}" stroke="${S.ink}" stroke-width="1" stroke-linecap="round"/><circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(1.6*k)}" fill="${S.ink}"/></g>`;}
+
+/* Station 12 Finish. The finishing booth after ornament at 11: the rib slides in on driven rollers,
+   overlong at both ends. Up-cut trim saws rise under each end and traverse across it to the length
+   and angle from the engine; the offcuts drop on hinged flaps into bins. A travelling column on a
+   linear track carries a cantilever arm with a sanding head (flap drum, edge brushes, hood to
+   extraction) and a spray bar that coats the top and both sides. Downdraft extraction runs under
+   the line to a fan. The crane sets the coated rib on a cantilever drying rack. Trimming, sanding,
+   coating and drying racks are standard finishing practice: nothing here is a Bower-specific
+   proposal. No coating product, film or dry time is drawn. Drawing units are schematic. */
+const DUR=32, BND=[0,5.5,11.5,19.5,26.5,32];
+const FIT_TIMES=[.6,2,4,7.5,10,13,14.5,16,20,23,27,28.6,29.5,31], STATIC_T=22.4;
+// Review frames: arrival, the saws in the cut, offcut drop, the exploded sanding head, sanding,
+// coating, the crane lift and the drying rack.
+const REVIEW_TIMES=[2.4,7.8,10.2,14.6,18.2,22.4,28.6,30.9,.6,10.6], VIEWPORT_T=14.6;
+
+/* ---- scene constants (drawing units; 1 unit is not a real length) ---- */
+const RL=16, OV=.4, HW=.9, TL=.3, NL=6, RB=1.8, RT=RB+1.0, BOW=1.2, YOFF=.63;
+const bowF=u=>Math.sin(Math.PI*Math.pow(clamp(u),.9))+.23*Math.sin(TAU*u);
+const Yt=u=>YOFF-BOW*bowF(u/RL);
+// Ornament and the half-lap, already cut at station 11; the middle of the rib is drawn broken.
+const XN=6.4, X0=XN-.5, X1=XN+.5, XO0=10.2, XO1=12.9, OW=.38, B0=8.35, B1=8.95;
+const stemY=x=>Yt(x)+OW*Math.sin(TAU*(x-XO0)/1.3);
+const TRY=3.7, ZA=RT+2.6, PK=19.4, XBRK=-2.7;
+const RACKY=-7.4, RZ0=1.25, RZ1=3.15;
+let MAT=null; // material palette, set only while the exploded moment draws
+const st={m:'steel'},dk={m:'dark'};
+const f3=v=>v.toFixed(3);
+
+/* ---- timeline ---- */
+const stepOf=t=>stepIndex(((t%DUR)+DUR)%DUR,BND);
+const win=(t,a,b,r=.25)=>seg(t,a,a+r)*(1-seg(t,b-r,b));
+// Arrive: the rib slides in from station 11 on driven rollers.
+const ribDx=t=>-11*(1-ease(seg(t,.2,4.8)));
+// Trim: both saws rise at the back, traverse to the front through the rib, drop and return.
+const SR0=6.0,SR1=6.7,ST1=9.0,SD1=9.5,SB1=10.6;
+const sawZ=t=>t<SR0||t>SB1?0:t<SR1?ease(seg(t,SR0,SR1)):t<ST1?1:1-ease(seg(t,ST1,SD1));
+const sawY=(t,y0)=>{const yb=y0-HW-.95,yf=y0+HW+.95;return t<SR1?yb:t<ST1?lerp(yb,yf,sst(seg(t,SR1+.1,ST1))):t<SD1?yf:lerp(yf,yb,sst(seg(t,SD1,SB1)));};
+const sawing=t=>t>SR0+.3&&t<ST1+.15;
+const clampE=t=>ease(seg(t,5.7,6.0))*(1-ease(seg(t,9.55,9.85)));
+const trimmed=t=>t>=ST1-.05;
+// Offcut: the flap tips it into the bin.
+const flapA=t=>.62*ease(seg(t,9.7,10.2))*(1-ease(seg(t,10.9,11.3)));
+const offDrop=t=>ease(seg(t,10.1,10.6));
+// Finish: the column runs in from its park, the head lowers, sands right to left, lifts.
+// Coat: the spray bar runs left to right, then the column returns to its park.
+const HS=-.6, HC=.6; // sanding head and spray bar, along x from the column centre
+const GX=[[0,PK],[11.6,PK],[12.4,RL+.35-HS],[18.6,-.35-HS],[19.4,-.35-HS],[19.9,-.35-HC],[20.2,-.35-HC],[25.8,RL+.35-HC],[26.6,PK],[DUR,PK]];
+function gx(t){let i=0;while(i<GX.length-2&&t>=GX[i+1][0])i++;const a=GX[i],b=GX[i+1];const k=b[0]===a[0]?1:(t>12.3&&t<18.7)||(t>20.1&&t<25.9)?seg(t,a[0],b[0]):sst(seg(t,a[0],b[0]));return lerp(a[1],b[1],k);}
+const sandDown=t=>ease(seg(t,12.2,12.5))*(1-ease(seg(t,18.6,18.95)));
+const sanding=t=>t>12.4&&t<18.6;
+const spraying=t=>t>20.2&&t<25.8;
+const sandFrom=t=>t<12.4?RL+1:t<18.6?gx(t)+HS-.3:-1;   // u from which the edges are eased
+const coatTo=t=>t<20.2?-1:t<25.8?gx(t)+HC:RL+1;
+// Rack: the crane lifts the coated rib, carries it back and sets it on the rack's upper arms.
+const CR0=26.6,CRD=27.3,LF0=27.5,LF1=28.4,MV0=28.5,MV1=29.8,LW0=29.9,LW1=30.6,CU0=30.7,CU1=31.4;
+const ribDz=t=>t<LF0?0:t<MV1?1.7*ease(seg(t,LF0,LF1)):lerp(1.7,RZ1-RB,ease(seg(t,LW0,LW1)));
+const ribDy=t=>RACKY*ease(seg(t,MV0,MV1));
+// Exploded sanding head, in free paper, while the head sands.
+const EX0=12.1,EXO=.6,EXH=4.4,EXC=.5;
+const exAmt=t=>ease(seg(t,EX0,EX0+EXO))*(1-ease(seg(t,EX0+EXO+EXH,EX0+EXO+EXH+EXC)));
+
+/* ---- memo: identical machine states reuse their markup ---- */
+const MEMO=new Map();
+const memo=(key,fn)=>{if(MAT)key+='|m';let v=MEMO.get(key);if(v===undefined){if(MEMO.size>4000)MEMO.clear();v=fn();MEMO.set(key,v);}return v;};
+const face=(c,pts,o)=>{o=o||{};return`<path d="${pd(pts.map(p=>c.P(...p)))}" fill="${o.fill||S.paper}" stroke="${o.col||S.ink}" stroke-width="${o.w||1}" stroke-linejoin="round"/>`;};
+const sp=(pts,col,w,dash,op)=>`<path d="${pd(pts,false)}" fill="none" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:''} stroke-linecap="round" stroke-linejoin="round" ${op!=null?`opacity="${n1(op)}"`:''}/>`;
+function hatch(c,pts,step,o){o=o||{};const q=pts.map(p=>c.P(...p)),xs=q.map(p=>p[0]),ys=q.map(p=>p[1]),k=kk();
+ const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),h=y1-y0,s2=step*k;let d='';
+ for(let u=x0-h;u<x1;u+=s2)d+=`M${n1(u)} ${n1(y1)}L${n1(u+h)} ${n1(y0)}`;
+ const qd=pd(q);let hsh=0;for(let i=0;i<qd.length;i++)hsh=(hsh*31+qd.charCodeAt(i))|0;const id='h'+(hsh>>>0).toString(36);
+ return`<clipPath id="${id}"><path d="${qd}"/></clipPath><path clip-path="url(#${id})" d="${d}" stroke="${o.col||S.ink}" stroke-width="${o.w||.35}" fill="none"/>`;}
+
+/* ---- the rib on its side: lamellae across y, curved in plan (as at station 11) ---- */
+// R maps rib coordinates (u along the rib, absolute y, z) into the world with an offset.
+const ribC=(c,dx,dy,dz)=>({P:(u,y,z)=>c.P(u+dx,y+dy,z+dz)});
+const W5=1.5; // timber outline, about 1.2 times the machine stroke
+// Break mark across the top and the front face at u: a zigzag, as on a drafted long member.
+function breakMark(R,u){const y=Yt(u),zz=[];const n=6;
+ for(let k=0;k<=n;k++)zz.push([u+(k%2?.07:-.07)*(k>0&&k<n?1:0),lerp(y-HW,y+HW,k/n),RT]);
+ for(let k=1;k<=4;k++)zz.push([u+(k%2?.07:-.07)*(k<4?1:0),y+HW,lerp(RT,RB,k/4)]);
+ return edges(R,[zz],{w:1.1});}
+function ribSeg(R,ua,ub,o){o=o||{};const P=R.P,n=Math.max(2,Math.round((ub-ua)/.28));
+ const us=Array.from({length:n+1},(_,k)=>lerp(ua,ub,k/n)),Y=us.map(u=>Yt(u));
+ const pts=(dv,z)=>us.map((u,k)=>P(u,Y[k]+dv,z));
+ const tB=pts(-HW,RT),tF=pts(HW,RT),bF=pts(HW,RB),ye=Y[n],fill=MAT?MAT.wood:S.paper;
+ let s=`<path d="${pd(tB.concat(tF.slice().reverse()))}" fill="${fill}"/><path d="${pd(tF.concat(bF.slice().reverse()))}" fill="${fill}"/>`;
+ let d='';for(let j=1;j<NL;j++)d+=pd(pts(-HW+j*TL,RT),false);
+ s+=`<path d="${d}" fill="none" stroke="${S.ink}" stroke-width=".4" opacity=".75"/>`;
+ // Eased arrises behind the sanding head: a fine line just inside each top edge.
+ if(o.ease){const a=Math.max(ua,o.ease),k0=us.findIndex(u=>u>=a-1e-6);if(k0>=0&&a<ub){const sub=us.slice(k0);
+  const Ys=sub.map(u=>Yt(u)),L=(dv,z)=>sub.map((u,k)=>P(u,Ys[k]+dv,z));
+  s+=sp(L(HW-.08,RT),S.ink,.45)+sp(L(-HW+.08,RT),S.ink,.45)+sp(L(HW,RT-.08),S.ink,.45);}}
+ if(o.end==='cut'){const end=[P(ub,ye-HW,RT),P(ub,ye+HW,RT),P(ub,ye+HW,RB),P(ub,ye-HW,RB)];
+  let e='';for(let j=1;j<NL;j++){const a=P(ub,ye-HW+j*TL,RT),b=P(ub,ye-HW+j*TL,RB);e+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+  e+=hatchRect(P,ub,ye-HW,ye+HW,RB,RT,.14,1);
+  s+=`<path d="${pd(end)}" fill="${fill}"/><path d="${e}" fill="none" stroke="${S.ink}" stroke-width=".35"/><path d="${pd(end)}" fill="none" stroke="${S.ink}" stroke-width="${W5}" stroke-linejoin="round"/>`;}
+ s+=`<path d="${pd(tF,false)}" fill="none" stroke="${S.ink}" stroke-width=".6"/>`;
+ s+=`<path d="${pd(tB,false)}" fill="none" stroke="${S.ink}" stroke-width="${W5}"/><path d="${pd(bF,false)}" fill="none" stroke="${S.ink}" stroke-width="${W5}"/>`;
+ if(o.start==='cut')s+=`<path d="${pd([tB[0],tF[0],bF[0]],false)}" fill="none" stroke="${S.ink}" stroke-width="${W5}" stroke-linejoin="round"/>`;
+ if(o.start==='break')s+=breakMark(R,ua);
+ if(o.end==='break')s+=`<path d="${pd([P(ub,ye-HW,RT),P(ub,ye+HW,RT),P(ub,ye+HW,RB)])}" fill="${fill}"/>`+breakMark(R,ub);
+ if(o.edges)s+=edges(R,o.edges,{w:1.25});
+ return s;}
+// The half-lap from station 11: open on the front face to half the rib's depth.
+function notchFaces(R){const yc=Yt(XN),YF=yc+HW,P=R.P;let s='';
+ s+=`<path d="${pd([P(X0,yc,RT),P(X1,yc,RT),P(X1,YF,RT),P(X1,YF,RB),P(X0,YF,RB),P(X0,YF,RT)])}" fill="${MAT?MAT.wood:S.paper}"/>`;
+ const wall=[[X0,yc,RT],[X1,yc,RT],[X1,yc,RB],[X0,yc,RB]],cheek=[[X0,yc,RT],[X0,YF,RT],[X0,YF,RB],[X0,yc,RB]];
+ s+=face(R,wall,{w:.9})+hatch(R,wall,7,{w:.3})+face(R,cheek,{w:.9})+hatch(R,cheek,4.2);
+ return s;}
+// Carved ornament from station 11: a stem with leaves, each leaf a shallow hatched recess.
+function ornament(R){let s='';const pts=[];
+ for(let x=XO1;x>=XO0;x-=.05)pts.push([x,stemY(x),RT]);
+ for(let q=0;q<8;q++){const xk=XO0+.325+q*.65;if(xk>XO1-.1)continue;const sg=q%2?-1:1,y0=stemY(xk);
+  const tip=[xk+.48,y0+sg*.46],a=bez([xk,y0,RT],[xk+.04,y0+sg*.4,RT],[tip[0]-.2,tip[1],RT],[tip[0],tip[1],RT],7),b=bez([tip[0],tip[1],RT],[tip[0]-.02,tip[1]-sg*.26,RT],[xk+.3,y0+sg*.02,RT],[xk,y0,RT],7);
+  const leaf=a.concat(b.slice(1,-1));
+  s+=face(R,leaf,{w:.9})+hatch(R,leaf,3,{w:.35});}
+ s+=hose(R,pts,2.6);
+ return s;}
+// A whole rib between ua and ub, broken in the middle, with its notch and ornament.
+function rib(R,ua,ub,o){o=o||{};let s='';const e=o.ease;
+ s+=ribSeg(R,ua,X0,{start:o.start||'cut',ease:e});
+ s+=notchFaces(R);
+ const yc=Yt(XN);
+ s+=ribSeg(R,X1,B0,{end:'break',ease:e,edges:[[[X1,yc,RT],[X1,yc+HW,RT],[X1,yc+HW,RB]]]});
+ s+=ribSeg(R,B1,ub,{start:'break',end:'cut',ease:e});
+ s+=ornament(R);
+ return s;}
+// An offcut: the overlong end, tipped by angle a about the flap hinge and dropped dz.
+function offcut(c,sd,a,dz){const u0=sd<0?-OV:RL,u1=sd<0?0:RL+OV,hx=sd<0?-.15:RL+.15,y=Yt(sd<0?0:RL);
+ const ca=Math.cos(a),sa=Math.sin(a);
+ const f=frameC(c,[hx,0,RB-dz],[ca,0,sd<0?sa:-sa],[0,1,0],[sd<0?-sa:sa,0,ca]);
+ const xa=u0-hx,xb=u1-hx;let s=xt(f,'yz',rr(y-HW,0,y+HW,1),xa,xb,{m:'wood'});
+ const g=[];for(let j=1;j<NL;j++)g.push([[xa,y-HW+j*TL,1],[xb,y-HW+j*TL,1]]);
+ s+=edges(f,g,{w:.4});
+ return s;}
+
+/* ---- roller line: channel rails, rollers with axle nuts, legs on bolted feet, gear motor ---- */
+const RY=1.95;
+function rollerLine(c,{x0,x1,skip},part){let s='';const r=.075,zt=RB,zr=zt-r,pitch=.9;
+ const legX=[];const n=Math.max(2,Math.round((x1-x0)/2.4)+1);for(let k=0;k<n;k++)legX.push(lerp(x0+.25,x1-.25,k/(n-1)));
+ const rail=y=>xt(c,'yz',[[y-.05,zt-.22],[y+.05,zt-.22],[y+.05,zt-.02],[y-.05,zt-.02]],x0,x1,st)+edges(c,[[[x0,y+.05,zt-.06],[x1,y+.05,zt-.06]]],{w:.4});
+ const leg=(x,y)=>xt(c,'xy',rr(x-.13,y-.13,x+.13,y+.13),0,.035,dk)+hexes(c,'xy',[[x-.08,y-.08],[x+.08,y+.08]],.035,.025)+xt(c,'xy',rr(x-.055,y-.055,x+.055,y+.055),.035,zt-.22,st)
+  +xt(c,'xz',[[x-.05,zt-.62],[x+.05,zt-.62],[x+.42,zt-.24],[x+.32,zt-.24]],y-.02,y+.02,dk);
+ const rx=[];for(let x=x0+.35;x<x1-.1;x+=pitch)if(!(skip&&skip(x)))rx.push(x);
+ if(part==='back'){
+  s+=rail(-RY);for(const x of legX){s+=leg(x,-RY);s+=xt(c,'xz',rr(x-.04,.32,x+.04,.4),-RY,RY,dk);}
+  for(const x of rx)s+=cyl(c,'y',x,zr,r,-RY+.05,RY-.05,st,12);
+ }else{for(const x of legX)s+=leg(x,RY);s+=rail(RY);s+=hexes(c,'xz',rx.map(x=>[x,zr]),RY+.05,.03);}
+ return s;}
+function lineDrive(c,x){let s='';const zr=RB-.075,yr=RY;
+ s+=xt(c,'xz',hull(circ(x-.45,zr,.11,12).concat(circ(x+.45,zr,.11,12),circ(x,zr-.42,.12,12))),yr+.06,yr+.12,st);
+ s+=xt(c,'xy',rr(x-.18,yr+.12,x+.18,yr+.42),zr-.62,zr-.24,dk)+hexes(c,'xy',[[x-.12,yr+.2],[x+.12,yr+.2]],zr-.24,.025);
+ s+=cyl(c,'y',x,zr-.43,.13,yr+.42,yr+.86,st,14)+edges(c,[.55,.67,.79].map(y=>circ(x,zr-.43,.13,14).slice(0,8).map(p=>[p[0],yr+y,p[1]])));
+ return s+cyl(c,'y',x,zr-.43,.09,yr+.86,yr+.92,dk,12);}
+
+/* ---- up-cut trim saw: cabinet on feet, doors, louvres, top plate with a slot; the blade rises
+   and traverses across the rib; pop-up back stop, front side clamp, chip hood to extraction ---- */
+const CY=2.1;
+const sawX=sd=>sd<0?[-.15,.6]:[RL-.6,RL+.15];
+function sawCab(c,sd){const[x0,x1]=sawX(sd);let s='';const zt=RB-.06;
+ for(const y of[-CY+.25,CY-.25])for(const x of[x0+.12,x1-.12])s+=xt(c,'xy',rr(x-.1,y-.12,x+.1,y+.12),0,.05,dk);
+ s+=xt(c,'xy',rr(x0,-CY,x1,CY),.05,zt-.08,st);
+ // Door with hinges and handle on the front, louvres on the end
+ const yo=CY;s+=edges(c,[[[x0+.08,yo,.2],[x1-.08,yo,.2],[x1-.08,yo,zt-.25],[x0+.08,yo,zt-.25],[x0+.08,yo,.2]]],{w:.5});
+ s+=xt(c,'xz',rr(x1-.18,.75,x1-.13,1.05),yo,yo+.05,dk);
+ s+=edges(c,[[[x0+.06,yo,.4],[x0+.06,yo,.55]],[[x0+.06,yo,1.1],[x0+.06,yo,1.25]]],{w:1.1});
+ const xe=sd<0?x1:x1;const lv=[];for(let z=.5;z<1.2;z+=.12)lv.push([[xe,-1.2,z],[xe,-.2,z]]);s+=edges(c,lv,{w:.45});
+ s+=xt(c,'xy',rr(x0-.04,-CY-.04,x1+.04,CY+.04),zt-.08,zt,st);
+ s+=hexes(c,'xy',[[x0+.06,-CY+.08],[x1-.06,-CY+.08],[x0+.06,CY-.08],[x1-.06,CY-.08]],zt,.03);
+ const xs=sd<0?0:RL;s+=edges(c,[[[xs-.04,-CY+.2,zt],[xs-.04,CY-.2,zt]],[[xs+.04,-CY+.2,zt],[xs+.04,CY-.2,zt]]],{w:.45});
+ // Chip hood and spigot on the back, hose down to the extraction trough
+ s+=xt(c,'xy',rr(xs-.22,-CY-.38,xs+.22,-CY),zt-.5,zt,st)+cyl(c,'z',xs,-CY-.2,.11,zt,zt+.12,st,12);
+ s+=hose(c,bez([xs,-CY-.2,zt+.12],[xs,-CY-.2,zt+.6],[xs+(sd<0?.9:-.9),-CY-.6,.9],[xs+(sd<0?1.2:-1.2),-1.6,.3],8),2.6);
+ return s;}
+// Blade in the plane x = xs, centre (y, z): rim, teeth, hub, arbor nut. mv: red while it cuts.
+function blade(c,xs,y,z,mv){const R=.75,col=mv?S.acc:S.ink;let s='';
+ const rim=circ(y,z,R,36).map(p=>[xs,p[0],p[1]]);
+ s+=`<path d="${pd(rim.map(p=>c.P(...p)))}" fill="${MAT?MAT.steel:S.paper}" stroke="${col}" stroke-width="${mv?1.5:1}"/>`;
+ const tk=[];for(let k=0;k<36;k++){const a=k/36*TAU;tk.push([[xs,y+R*Math.cos(a),z+R*Math.sin(a)],[xs,y+(R+.06)*Math.cos(a+.06),z+(R+.06)*Math.sin(a+.06)]]);}
+ s+=edges(c,tk,{w:.5,col});
+ s+=rings(c,'yz',[[y,z]],xs,.22)+rings(c,'yz',[[y,z]],xs,.08,{fill:S.ink});
+ return s;}
+// Blade below the plate is hidden: a dashed circle; above the plate it shows in full.
+function sawBlade(c,sd,t){const xs=sd<0?0:RL,y0=Yt(xs),z=lerp(RB-.95,RB+.45,sawZ(t)),y=sawY(t,y0),mv=sawing(t)&&sawZ(t)>.4;
+ if(sawZ(t)<.02)return edges(c,[circ(y,z,.75,28).concat([circ(y,z,.75,28)[0]]).map(p=>[xs,p[0],p[1]])],{col:S.hid,dash:'2 2',w:.5});
+ return blade(c,xs,y,z,mv);}
+// Pop-up back stop and the front side clamp: a cylinder on a bracket pushes the pad onto the rib.
+function sawStop(c,sd,e){const xs=sd<0?.35:RL-.35,y=Yt(sd<0?0:RL)-HW;if(e<.02)return'';
+ return xt(c,'xy',rr(xs-.12,y-.16,xs+.12,y-.02),RB-.06,RB-.06+.55*e,{m:'steel',mv:e>.02&&e<.98});}
+function sawClamp(c,sd,e){const xs=sd<0?.35:RL-.35,y=Yt(sd<0?0:RL)+HW,zc=RB+.45;let s='';
+ s+=xt(c,'xz',[[xs-.18,RB-.06],[xs+.18,RB-.06],[xs+.12,zc+.2],[xs-.12,zc+.2]],CY-.3,CY-.1,dk);
+ s+=hexes(c,'xz',[[xs-.1,RB+.05],[xs+.1,RB+.05]],CY-.1,.03);
+ const yp=lerp(y+.75,y+.02,e);
+ s+=cyl(c,'y',xs,zc,.035,yp+.06,CY-.3,{m:'steel',mv:e>.95},8);
+ s+=cyl(c,'y',xs,zc,.1,CY-.75,CY-.3,st,12)+cyl(c,'y',xs,zc,.12,CY-.3,CY-.24,dk,12);
+ s+=xt(c,'yz',rr(zc-.2,yp,zc+.2,yp+.06).map(p=>[p[1],p[0]]).map(p=>[p[0],p[1]]),xs-.16,xs+.16,{m:'steel',mv:e>.95});
+ s+=hose(c,bez([xs,CY-.6,zc+.1],[xs,CY-.6,zc+.5],[xs+.3,CY+.1,zc+.4],[xs+.3,CY+.1,RB-.3],6),.9);
+ return s;}
+// Hinged flap beyond each saw tips the offcut into a bin; old offcuts lie in the bin.
+function flap(c,sd,a){const hx=sd<0?-.15:RL+.15,L=.65,y=0,ca=Math.cos(a),sa=Math.sin(a);
+ const f=frameC(c,[hx,0,RB-.06],[ca,0,sd<0?sa:-sa],[0,1,0],[sd<0?-sa:sa,0,ca]);
+ const x0=sd<0?-L:0,x1=sd<0?0:L;return xt(f,'xy',rr(x0,-1.7,x1,1.7),-.06,0,st)+cyl(c,'y',hx,RB-.12,.05,-1.75,1.75,dk,8);}
+function bin(c,sd,part){const x0=sd<0?-1.45:RL+.35,x1=x0+1.1,zt=.95;let s='';
+ if(part==='back'){s+=xt(c,'xy',rr(x0,-1.5,x1,1.5),0,.08,dk);
+  for(const x of[x0+.15,x1-.15])s+=cyl(c,'y',x,.12,.08,-1.3,1.3,dk,10);
+  s+=xt(c,'xz',rr(x0,.08,x1,zt),-1.5,-1.44,st)+xt(c,'yz',rr(-1.5,.08,1.5,zt),x0,x0+.06,st);
+  // Old offcuts at the bottom
+  const g=y=>xt(c,'yz',rr(y-.5,.14,y+.5,.42),x0+.2,x0+.5,{m:'wood'});s+=g(-.4)+xt(c,'xz',rr(x0+.5,.14,x0+.85,.4),.2,1.2,{m:'wood'});}
+ else{s+=xt(c,'yz',rr(-1.5,.08,1.5,zt),x1-.06,x1,st)+xt(c,'xz',rr(x0,.08,x1,zt),1.44,1.5,st);
+  s+=edges(c,[[[x0+.1,1.5,zt-.12],[x1-.1,1.5,zt-.12]]],{w:.45});
+  s+=xt(c,'xz',rr(x0+.35,zt-.3,x1-.35,zt-.18),1.5,1.56,dk);}
+ return s;}
+
+/* ---- downdraft extraction under the line, duct and fan ---- */
+function trough(c){let s='';const x0=.8,x1=RL-.8;
+ s+=xt(c,'yz',rr(-1.5,0,1.5,.36),x0,x1,st);
+ const g=[];for(let x=x0+.2;x<x1-.1;x+=.3)g.push([[x,-1.4,.36],[x,1.4,.36]]);s+=edges(c,g,{w:.35});
+ s+=edges(c,[[[x0,1.5,.3],[x1,1.5,.3]]],{w:.45});
+ const h=[];for(let x=x0+.5;x<x1;x+=1.5)h.push([x,.18]);s+=hexes(c,'xz',h,1.5,.035);
+ return s;}
+const FX=RL+2.2, FY=-3.4;
+function fan(c){let s='';
+ // Duct from the trough end, rising to the fan inlet
+ s+=xt(c,'yz',rr(-.9,.04,-.3,.36),RL-.8,FX-.45,st)+edges(c,[[[RL+.4,-.3,.04],[RL+.4,-.3,.36]]],{w:.6});
+ s+=xt(c,'xz',rr(FX-.45,.04,FX+.45,.36),-.9,FY+.5,st);
+ // Base frame on feet, scroll housing, motor and outlet stack
+ s+=xt(c,'xy',rr(FX-1.0,FY-.9,FX+1.0,FY+.6),0,.12,dk)+hexes(c,'xy',[[FX-.85,FY-.75],[FX+.85,FY-.75],[FX-.85,FY+.45],[FX+.85,FY+.45]],.12,.04);
+ const scroll=[];for(let k=0;k<=28;k++){const a=k/28*TAU*.95-1.4,r=.62+.18*k/28;scroll.push([FX+r*Math.cos(a),1.0+r*Math.sin(a)]);}
+ s+=xt(c,'xz',scroll.concat([[FX+.85,1.0],[FX+.85,.15],[FX-.6,.15]]),FY-.25,FY+.25,st);
+ s+=cyl(c,'y',FX,1.0,.32,FY+.25,FY+.5,st,16);
+ s+=hexes(c,'xz',circ(FX,1.0,.5,8),FY+.25,.03);
+ s+=xt(c,'xz',rr(FX+.48,1.55,FX+.85,1.8),FY-.25,FY+.25,st);
+ s+=xt(c,'xy',rr(FX+.5,FY-.22,FX+.83,FY+.22),1.8,5.0,st)+edges(c,[[[FX+.83,FY-.22,2.6],[FX+.83,FY+.22,2.6]],[[FX+.83,FY-.22,3.8],[FX+.83,FY+.22,3.8]]],{w:.45});
+ s+=xt(c,'xy',rr(FX+.44,FY-.28,FX+.89,FY+.28),5.0,5.08,dk);
+ s+=cyl(c,'y',FX,1.0,.08,FY-.6,FY-.25,dk,10);
+ s+=xt(c,'xy',rr(FX-.35,FY-1.5,FX+.35,FY-.85),.12,.3,dk);
+ s+=cyl(c,'y',FX,.62,.28,FY-1.45,FY-.75,st,16)+edges(c,[-1.3,-1.15,-1.0].map(y=>circ(FX,.62,.28,16).slice(0,9).map(p=>[p[0],FY+y,p[1]])));
+ s+=xt(c,'xz',hull(circ(FX,.62,.12,10).concat(circ(FX,1.0,.12,10))),FY-.75,FY-.6,dk);
+ return s;}
+
+/* ---- coating supply skid: tank with lid, pump and motor, filter, gauge; hoses to the chain ---- */
+const KX=4.6, KY=6.4;
+function supply(c){let s='';
+ s+=xt(c,'xy',rr(KX-1.1,KY-.55,KX+1.1,KY+.55),0,.14,dk)+hexes(c,'xy',[[KX-.95,KY-.4],[KX+.95,KY-.4],[KX-.95,KY+.4],[KX+.95,KY+.4]],.14,.035);
+ s+=cyl(c,'z',KX-.5,KY,.42,.14,1.35,st,20)+cyl(c,'z',KX-.5,KY,.45,1.35,1.43,dk,20);
+ s+=edges(c,[circ(KX-.5,KY,.42,20).slice(0,11).map(p=>[p[0],p[1],.75])],{w:.45});
+ s+=hexes(c,'xy',circ(KX-.5,KY,.36,6),1.43,.03)+cyl(c,'z',KX-.5,KY,.07,1.43,1.6,dk,10);
+ s+=xt(c,'xy',rr(KX+.1,KY-.2,KX+.5,KY+.2),.14,.5,st)+cyl(c,'x',KY,.36,.14,KX+.5,KX+1.0,st,14)+edges(c,[.65,.78,.9].map(x=>circ(KY,.36,.14,14).slice(0,8).map(p=>[KX+x,p[0],p[1]])));
+ s+=cyl(c,'z',KX+.3,KY-.32,.08,.5,.95,st,10)+rings(c,'xz',[[KX+.3,1.05]],KY-.32,.09,{n:14});
+ s+=hose(c,bez([KX-.5,KY,1.6],[KX-.5,KY,2.1],[KX+.3,KY-1.5,1.4],[KX+.4,TRY+1.25,.2],10),1.2);
+ s+=hose(c,bez([KX+.3,KY-.32,.95],[KX+.3,KY-.6,1.2],[KX+.6,TRY+1.6,.8],[KX+.6,TRY+1.25,.25],8),1.0);
+ return s;}
+
+/* ---- cantilever drying rack behind the line: I-section columns on bolted bases, braced, with
+   two levels of arms; each arm has a timber pad and a tip stop ---- */
+const RKX=[1.2,5.4,10.6,14.8], RCY=-9.6;
+function rack(c,part){let s='';
+ const arm=(x,z)=>xt(c,'xz',[[x-.09,z-.3],[x+.09,z-.3],[x+.09,z],[x-.09,z]],RCY+.2,RCY+4.3,st)
+  +xt(c,'yz',[[RCY+.2,z-.3],[RCY+.2,z-.75],[RCY+.9,z-.3]],x-.03,x+.03,dk)
+  +xt(c,'xy',rr(x-.12,RCY+.6,x+.12,RCY+4.1),z,z+.06,{m:'wood'})+xt(c,'xy',rr(x-.09,RCY+4.15,x+.09,RCY+4.3),z,z+.22,dk);
+ if(part==='cols'){
+  for(const x of RKX){s+=xt(c,'xy',rr(x-.4,RCY-.4,x+.4,RCY+1.2),0,.08,dk)+hexes(c,'xy',[[x-.28,RCY-.28],[x+.28,RCY-.28],[x-.28,RCY+1.05],[x+.28,RCY+1.05]],.08,.04);
+   const I=[[-.16,-.12],[.16,-.12],[.16,-.08],[.03,-.08],[.03,.08],[.16,.08],[.16,.12],[-.16,.12],[-.16,.08],[-.03,.08],[-.03,-.08],[-.16,-.08]];
+   s+=xt(c,'xy',I.map(p=>[x+p[0],RCY+p[1]]),.08,4.0,st);
+   s+=xt(c,'yz',[[RCY+.12,.08],[RCY+1.1,.08],[RCY+.12,1.0]],x-.03,x+.03,dk);}
+  // Bracing between the columns
+  for(let i=0;i<RKX.length-1;i++){const a=RKX[i],b=RKX[i+1];s+=edges(c,[[[a+.16,RCY-.1,.4],[b-.16,RCY-.1,2.2]],[[a+.16,RCY-.1,2.2],[b-.16,RCY-.1,.4]]],{w:1.0});
+   s+=xt(c,'xz',rr(a+.16,3.75,b-.16,3.9),RCY-.08,RCY+.08,st);}
+  for(const x of RKX)s+=arm(x,RZ0-.06);}
+ else for(const x of RKX)s+=arm(x,RZ1-.06);
+ return s;}
+
+/* ---- travelling column, cantilever arm and cross carriage; sanding head and spray bar ---- */
+// Sanding head in its own frame: origin where the drum meets the rib's top, x along the line.
+const SH={
+ drum:(f,mv,ph)=>{let s=cyl(f,'y',0,.28,.28,-.95,.95,{m:'steel',mv},20);
+  const fl=[];for(let k=0;k<8;k++){const a=ph+k/8*TAU;if(Math.sin(a)<-.2)continue;fl.push([[.28*Math.cos(a),-.95,.28+.28*Math.sin(a)],[.28*Math.cos(a),.95,.28+.28*Math.sin(a)]]);}
+  s+=edges(f,fl,{w:.45,col:mv?S.acc:S.ink});
+  const tk=[];for(let k=0;k<16;k++){const a=ph+k/16*TAU;tk.push([[0,.95,.28],[.27*Math.cos(a),.95,.28+.27*Math.sin(a)]]);}
+  return s+edges(f,tk,{w:.4,col:mv?S.acc:S.ink});},
+ shaft:f=>{let s=cyl(f,'y',0,.28,.06,-1.3,1.3,st,10);
+  for(const y of[-1.18,1.18]){s+=xt(f,'xz',[[-.2,.08],[.2,.08],[.2,.16],[.12,.16],[.1,.44],[-.1,.44],[-.12,.16],[-.2,.16]],y-.07,y+.07,st);
+   s+=cyl(f,'y',0,.28,.1,y+.07,y+.1,dk,12)+hexes(f,'xy',[[-.15,y],[.15,y]],.16,.03);}
+  return s;},
+ hood:f=>{const pr=[];for(let k=0;k<=12;k++){const a=k/12*Math.PI;pr.push([.4*Math.cos(a),.28+.4*Math.sin(a)]);}
+  let s=xt(f,'xz',pr.concat([[-.4,.12],[.4,.12]]),-1.05,1.05,st);
+  s+=edges(f,[[[.4,-1.05,.18],[.4,1.05,.18]]],{w:.45});
+  s+=hexes(f,'xz',[[-.3,.2],[.3,.2]],1.05,.03);
+  s+=cyl(f,'z',0,-.45,.13,.66,.95,st,14)+cyl(f,'z',0,-.45,.15,.95,1.0,dk,14);
+  return s;},
+ motor:f=>{let s=xt(f,'xy',rr(-.22,.5,.22,1.15),.68,.74,dk);
+  s+=cyl(f,'y',0,.96,.2,.55,1.12,st,16)+edges(f,[.7,.82,.94].map(y=>circ(0,.96,.2,16).slice(0,9).map(p=>[p[0],y,p[1]])));
+  s+=xt(f,'xy',rr(-.07,.65,.07,.8),1.14,1.24,dk)+cyl(f,'y',0,.96,.06,1.12,1.3,dk,8);return s;},
+ guard:f=>{let s=xt(f,'xz',hull(circ(0,.28,.17,14).concat(circ(0,.96,.15,14))),1.3,1.4,st);
+  s+=hexes(f,'xz',[[0,.28],[0,.96],[0,.62]],1.4,.03);return s;},
+ brushes:(f,mv)=>{let s='';for(const sd of[-1,1]){const g=alongC(f,[0,sd*.88,-.02],[0,sd*.7,-.7]);
+   s+=xt(g,'xy',circ(0,0,.14,14),-.22,-.02,{m:'steel',mv});
+   const b=[];for(let k=0;k<10;k++){const a=k/10*TAU;b.push([[.14*Math.cos(a),.14*Math.sin(a),-.02],[.12*Math.cos(a),.12*Math.sin(a),.05]]);}
+   s+=edges(g,b,{w:.4,col:mv?S.acc:S.ink});
+   s+=xt(g,'xy',circ(0,0,.04,8),-.5,-.22,st);
+   s+=xt(f,'yz',[[sd*.9,.5],[sd*1.0,.5],[sd*1.0,.62],[sd*.9,.62]],-.06,.06,dk);}
+  return s;},
+ plate:f=>{let s=xt(f,'xy',rr(-.32,-.95,.32,.3),1.2,1.28,st)+hexes(f,'xy',[[-.24,-.85],[.24,-.85],[-.24,.2],[.24,.2]],1.28,.03);
+  for(const y of[-.7,.05])s+=cyl(f,'z',0,y,.045,.68,1.2,dk,8);
+  return s;}
+};
+function sandHead(f,mv,ph){return SH.shaft(f)+SH.drum(f,mv,ph)+SH.brushes(f,mv)+SH.hood(f)+SH.motor(f)+SH.guard(f)+SH.plate(f);}
+// Spray bar: inverted U round the rib, three nozzles on top and two on each side, valve block.
+function sprayBar(f,part){let s='';const yb=1.35,zl=-(RT-RB)+.15;
+ const noz=(p,d)=>{const g=alongC(f,p,d);return xt(g,'xy',rr(-.05,-.05,.05,.05),0,.08,dk)+xt(g,'xy',circ(0,0,.03,6),.08,.14,st);};
+ if(part==='back'){s+=cyl(f,'z',0,-yb,.05,zl,.75,st,8);for(const z of[-.25,-.65])s+=noz([0,-yb+.05,z],[0,1,0]);return s;}
+ s+=cyl(f,'y',0,.75,.05,-yb,yb,st,8);
+ for(const y of[-.6,0,.6])s+=noz([0,y,.7],[0,0,-1]);
+ s+=cyl(f,'z',0,yb,.05,zl,.75,st,8);for(const z of[-.25,-.65])s+=noz([0,yb-.05,z],[0,-1,0]);
+ s+=xt(f,'xy',rr(-.14,-.2,.14,.2),.8,1.0,dk)+hexes(f,'xy',[[-.08,-.12],[.08,.12]],1.0,.025);
+ s+=cyl(f,'z',0,0,.04,1.0,1.28,st,8)+xt(f,'xy',rr(-.25,-.3,.25,.3),1.28,1.34,st);
+ return s;}
+// Spray fans in the restrained red while the bar coats: thin rays from each nozzle tip.
+function sprayFans(f){let d='';const yb=1.35;
+ for(const y of[-.6,0,.6])for(const k of[-1,-.5,0,.5,1]){const a=f.P(0,y,.56),b=f.P(k*.06,y+k*.32,0.02);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ for(const z of[-.25,-.65])for(const k of[-1,-.5,0,.5,1]){const a=f.P(0,yb-.19,z),b=f.P(k*.05,HW+.02,z+k*.2);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ return`<path d="${d}" stroke="${S.acc}" stroke-width=".6" fill="none"/>`;}
+function column(c,cx){let s='';const y=TRY,zb=1.28,zt=ZA+.65;
+ s+=xt(c,'xy',rr(cx-.5,y-.5,cx+.5,y+.5),zb,zb+.1,dk)+hexes(c,'xy',[[cx-.4,y-.4],[cx+.4,y-.4],[cx-.4,y+.4],[cx+.4,y+.4]],zb+.1,.04);
+ s+=xt(c,'xy',rr(cx-.32,y-.32,cx+.32,y+.32),zb+.1,zt,st);
+ s+=edges(c,[[[cx+.32,y-.22,zb+.3],[cx+.32,y-.22,zt-.2]],[[cx+.32,y+.22,zb+.3],[cx+.32,y+.22,zt-.2]]],{w:.4});
+ for(const sd of[-1,1])s+=xt(c,'xz',[[cx+sd*.32,zb+.1],[cx+sd*.6,zb+.1],[cx+sd*.32,zb+.7]],y-.03,y+.03,dk);
+ // Panel and cable entry on the column face
+ s+=xt(c,'xz',rr(cx-.2,2.0,cx+.2,2.7),y+.32,y+.4,dk)+rings(c,'xz',[[cx-.08,2.5],[cx+.08,2.5]],y+.4,.04,{n:8});
+ return s;}
+function arm(c,cx){let s='';const y0=-2.7,y1=TRY+.32;
+ s+=xt(c,'yz',[[TRY-.32,ZA-1.3],[TRY-.32,ZA],[TRY-1.7,ZA]],cx-.04,cx+.04,dk);
+ s+=xt(c,'yz',rr(y0,ZA,y1,ZA+.45),cx-.22,cx+.22,st);
+ s+=edges(c,[[[cx+.22,y0+.1,ZA+.1],[cx+.22,y1-.1,ZA+.1]],[[cx+.22,y0+.1,ZA+.35],[cx+.22,y1-.1,ZA+.35]]],{w:.4});
+ s+=xt(c,'xy',rr(cx-.25,y0-.08,cx+.25,y0),ZA-.05,ZA+.5,dk);
+ s+=xt(c,'xy',rr(cx-.38,TRY-.38,cx+.38,TRY+.38),ZA+.65,ZA+.72,dk);
+ // Rack and pinion drive motor for the cross carriage, at the column end
+ s+=cyl(c,'z',cx+.05,TRY-.75,.14,ZA+.45,ZA+.95,st,14)+xt(c,'xy',rr(cx-.05,TRY-.95,cx+.15,TRY-.55),ZA+.95,ZA+1.03,dk);
+ return s;}
+function carriage(c,cx,yc,zs,zp){let s='';
+ s+=xt(c,'xy',rr(cx-.36,yc-.36,cx+.36,yc+.36),ZA-.28,ZA+.06,st)+hexes(c,'yz',[[yc-.24,ZA-.18],[yc+.24,ZA-.18]],cx+.36,.03);
+ s+=xt(c,'xy',rr(cx-1.0,yc-.28,cx+1.0,yc+.28),ZA-.42,ZA-.28,st)+hexes(c,'xy',[[cx-.9,yc-.18],[cx+.9,yc+.18],[cx-.9,yc+.18],[cx+.9,yc-.18]],ZA-.28,.03);
+ for(const[x,z]of[[cx+HS,zs],[cx+HC,zp]]){s+=xt(c,'xy',rr(x-.2,yc-.22,x+.2,yc+.22),ZA-.95,ZA-.42,st);
+  s+=cyl(c,'z',x,yc+.1,.035,z,ZA-.95,st,8)+cyl(c,'z',x,yc-.1,.035,z,ZA-.95,st,8);}
+ return s;}
+
+/* ---- crane spreader: lifts the coated rib to the drying rack ---- */
+const SLX=(()=>{const a=3.4,y=Yt(a);let lo=9,hi=15;for(let k=0;k<40;k++){const m=(lo+hi)/2;if(Yt(m)<y)lo=m;else hi=m;}return[a,(lo+hi)/2];})();
+function crane(c,t,fl){const a=seamA(t,fl||{})*seg(t,CR0-.3,CR0)*(1-seg(t,CU0+.2,CU1));if(a<.01)return'';
+ const held=t>=CRD&&t<CU0,dz=ribDz(t),dy=ribDy(t),drop=t<CRD?1.6*(1-ease(seg(t,CR0,CRD))):t>=CU0?1.6*ease(seg(t,CU0,CU1)):0;
+ const slings=held?SLX.map(x=>({x,top:RT+dz,bot:RB+dz})):[];
+ return`<g opacity="${n1(a)}">${spreaderBeam(c,{x0:1.8,x1:14.2,y:Yt(SLX[0])+dy,z:RT+1.0+dz+drop,w:HW,slings,rope:1.8})}</g>`;}
+
+/* ---- scene ---- */
+const MOMENT={steel:'#e8ecee',wood:'#fbf6ec',grain:'#a2845a'};
+const LIN={x0:-3.6,x1:-1.5}, MAIN={x0:.65,x1:RL-.65};
+function brkClip(c){const A=c.P(XBRK,-3,0),B=c.P(XBRK,3,0),d=[B[0]-A[0],B[1]-A[1]],k=4,up=[0,-400];
+ const a=[A[0]-d[0]*k,A[1]-d[1]*k],b=[B[0]+d[0]*k,B[1]+d[1]*k];
+ return{poly:[[a[0]+up[0],a[1]+up[1]],a,b,[b[0]+4000,b[1]],[a[0]+4000,a[1]-400]],A,B};}
+function breakLine(c){const A=c.P(XBRK,-2.6,0),B=c.P(XBRK,2.6,RB+1.4),n=14,L=Math.hypot(B[0]-A[0],B[1]-A[1]),u=[(B[0]-A[0])/L,(B[1]-A[1])/L],v=[-u[1],u[0]];
+ const pts=[];for(let k=0;k<=n;k++){const m=k/n,z=(k===6?5:k===7?-5:0);pts.push([A[0]+u[0]*L*m+v[0]*z,A[1]+u[1]*L*m+v[1]*z]);}
+ return`<path d="${pd(pts,false)}" fill="none" stroke="${S.ink}" stroke-width=".6"/>`;}
+function shopBack(c){let s='';
+ s+=S.floor(c);
+ s+=rack(c,'cols');
+ s+=fan(c)+trough(c);
+ const{poly}=brkClip(c);
+ s+=`<defs><clipPath id="brk"><path d="${pd(poly)}"/></clipPath></defs><g clip-path="url(#brk)">${rollerLine(c,LIN,'back')}</g>`;
+ s+=rollerLine(c,MAIN,'back');
+ for(const sd of[-1,1])s+=bin(c,sd,'back')+sawCab(c,sd);
+ return s;}
+function shopFront(c){const{poly}=brkClip(c);let s='';
+ s+=`<g clip-path="url(#brk)">${rollerLine(c,LIN,'front')}</g>`+breakLine(c);
+ s+=rollerLine(c,MAIN,'front')+lineDrive(c,3.2);
+ for(const sd of[-1,1])s+=bin(c,sd,'front');
+ s+=trackBase(c,{x0:-1.8,x1:20.8,y:TRY});
+ return s;}
+// The coated rib on the lower level: dry from an earlier loop.
+function rackRib(c){const R=ribC(c,0,RACKY,RZ0-RB);return rib(R,0,RL,{ease:-1});}
+function drawScene(c,t,flags){let s='';const sa=seamA(t,flags),dx=ribDx(t),dz=ribDz(t),dy=ribDy(t),tr=trimmed(t);
+ s+=memo('back',()=>shopBack(c));
+ s+=memo('rackrib',()=>rackRib(c)+rack(c,'upper'));
+ // The subject, faded only at the loop seam.
+ let sub='';const R=ribC(c,dx,dy,dz),ez=sandFrom(t);
+ const ribKey=`rib|${f3(dx)}|${f3(dz)}|${f3(dy)}|${tr}|${f3(Math.min(ez,RL+1))}`;
+ const fa=flapA(t),od=offDrop(t);
+ // Offcuts: after the cut, drop and roll onto the broad face below the bin rim.
+ const offL=tr?offcut(c,-1,lerp(fa,Math.PI/2,od),od*1.4):'',offR=tr?offcut(c,1,lerp(fa,Math.PI/2,od),od*1.4):'';
+ const A=x=>!x||sa>.995?x:sa<.005?'':`<g opacity="${n1(sa)}">${x}</g>`;
+ s+=A(offL);
+ s+=memo('flapL|'+f3(fa),()=>flap(c,-1,fa));
+ sub+=memo(ribKey,()=>tr?rib(R,0,RL,{ease:ez}):rib(R,-OV,RL+OV,{ease:ez}));
+ // Kerf on the top face behind each blade while it traverses
+ if(!tr&&t>SR1){for(const xs of[0,RL]){const y0=Yt(xs),yb=sawY(t,y0);if(yb>y0-HW)sub+=edges(c,[[[xs+dx,y0-HW,RT],[xs+dx,Math.min(yb,y0+HW),RT]]],{w:.9});}}
+ s+=`<g clip-path="url(#brk)">${A(sub)}</g>`;
+ // Blades draw over the timber so the cut reads; below the plate they show dashed.
+ s+=sawBlade(c,-1,t)+sawBlade(c,1,t);
+ s+=A(offR);
+ s+=memo('flapR|'+f3(fa),()=>flap(c,1,fa));
+ const ce=clampE(t);
+ s+=memo('clamp|'+f3(ce),()=>sawStop(c,-1,ce)+sawStop(c,1,ce)+sawClamp(c,-1,ce)+sawClamp(c,1,ce));
+ s+=memo('front',()=>shopFront(c));
+ // Gantry: column on the track carriage, arm, cross carriage, sanding head and spray bar.
+ const cx=gx(t),uh=clamp(cx+HS,0,RL),up=clamp(cx+HC,0,RL),yc=Yt(clamp(cx,0,RL));
+ const ys=Yt(uh),yp=Yt(up),zs=RT+.5*(1-sandDown(t)),mvS=sanding(t)&&uh>0&&uh<RL&&(uh<B0-.1||uh>B1+.1),mvP=spraying(t);
+ const yC=(ys+yp)/2;
+ s+=trackCarriage(c,{cx,y:TRY,riser:.3});
+ s+=memo('col|'+f3(cx),()=>column(c,cx));
+ const fS=frameC(c,[cx+HS,ys,zs],[1,0,0],[0,1,0],[0,0,1]),fP=frameC(c,[cx+HC,yp,RT],[1,0,0],[0,1,0],[0,0,1]);
+ s+=memo(`sp|${f3(cx)}|${f3(yp)}`,()=>sprayBar(fP,'back'));
+ if(mvP)s+=sprayFans(fP);
+ const ph=mvS?t*9:0;
+ s+=memo(`head|${f3(cx)}|${f3(ys)}|${f3(zs)}|${mvS}|${f3(ph%TAU)}`,()=>sandHead(fS,mvS,ph));
+ s+=memo(`sp2|${f3(cx)}|${f3(yp)}`,()=>sprayBar(fP,'front'));
+ s+=memo(`arm|${f3(cx)}|${f3(yC)}|${f3(zs)}`,()=>arm(c,cx)+carriage(c,cx,yC,zs+1.28,RT+1.34)
+  +hose(c,bez([cx+HS,ys-.45,zs+1.0],[cx+HS,ys-.45,ZA-.2],[cx-.3,TRY-1.6,ZA+.9],[cx,TRY-.6,ZA+.5],8),2.4)
+  +hose(c,bez([cx+HC,yp,RT+1.34],[cx+HC+.1,yp,ZA],[cx+.3,TRY-1.2,ZA+.9],[cx+.1,TRY-.5,ZA+.5],8),1.2));
+ s+=memo('trough',()=>trackTrough(c,{x0:-1.8,x1:20.8,y:TRY}));
+ s+=cableChain(c,{xf:-.6,xc:cx+1.0,xb:(cx+1.0-.6)/2+10,y:TRY});
+ s+=memo('supply',()=>supply(c));
+ s+=crane(c,t,flags);
+ return s;}
+
+/* ===== Style B: drafted. cut / profile / hidden weights, one restrained second colour ===== */
+S.ink='#22262a';S.dim='#9aa0a6';S.hid='#80868c';S.acc='#b4492f';S.paper='#fdfcf9';S.mut='#6b7178';
+S.solid=(h,cap,o)=>{const f=MAT?(o.m==='wood'?MAT.wood:MAT.steel):S.paper;return`<path d="${pd(h)}" fill="${f}" stroke="${o.mv?S.acc:S.ink}" stroke-width="${o.mv?1.5:o.m==='wood'?W5:1.25}" stroke-linejoin="round"/><path d="${pd(cap)}" fill="none" stroke="${S.ink}" stroke-width=".5" stroke-linejoin="round"/>`;};
+S.floor=c=>{const P=c.P;let s='';const r=[P(-3.6,-10.6,0),P(21.6,-10.6,0),P(21.6,7.4,0),P(-3.6,7.4,0)];
+ s+=`<path d="${pd(r)}" fill="none" stroke="${S.dim}" stroke-width=".5"/>`;
+ let d='';for(let x=-2;x<=21;x+=2){const a=P(x,7.4,0),b=P(x,7.1,0);d+=`M${n1(a[0])} ${n1(a[1])}L${n1(b[0])} ${n1(b[1])}`;}
+ s+=`<path d="${d}" stroke="${S.dim}" stroke-width=".5"/>`;
+ for(const y of[0,TRY]){const cl=[P(-3.6,y,0),P(21.6,y,0)];s+=`<path d="${pd(cl,false)}" stroke="${S.dim}" stroke-width=".5" stroke-dasharray="14 3 2 3" fill="none"/>`;}
+ return s;};
+
+/* ---- exploded sanding head, at a larger scale in free paper ---- */
+const DET={sc:80};
+// The detail turns the head so its drum axis runs straight across the paper.
+const detC=()=>{const a=mainC.P(-1.0,-3.0,8.0);return frameC({P:mkP(a[0]+DET.dx,a[1]+DET.dy,DET.sc)},[0,0,0],[-.243,-.97,0],[.97,-.243,0],[0,0,1]);};
+DET.dx=-55;DET.dy=80;
+// Offsets keep a clear gap between parts at full hold (engine rule). Slot: where each part leaves.
+const XP=[
+ {id:'plate',off:[0,0,2.5],slot:[0,-.3,1.24],lab:'slide plate and guide rods',top:[0,.32,1.28],dir:[1,0]},
+ {id:'hood',off:[0,0,1.35],slot:[0,-.45,.9],lab:'hood and extraction spigot',top:[0,-1.05,.45],dir:[-1,0]},
+ {id:'motor',off:[0,2.2,1.65],slot:[0,.85,.96],lab:'motor',top:[0,1.3,.96],dir:[1,0]},
+ {id:'guard',off:[0,2.9,.95],slot:[0,1.35,.62],lab:'belt guard and pulleys',top:[0,1.4,.62],dir:[1,0]},
+ {id:'drum',off:[0,0,0],slot:[0,0,.28],lab:'flap drum',top:[0,-.95,.28],dir:[-1,0],fixed:1},
+ {id:'shaft',off:[0,0,-1.0],slot:[0,0,.28],lab:'shaft and bearings',top:[0,-1.3,.28],dir:[-1,0]},
+ {id:'brushes',off:[0,0,-2.1],slot:[0,0,0],lab:'edge brushes ease the arrises',top:[0,-1.0,.0],dir:[-1,0]}];
+const XDRAW={plate:f=>SH.plate(f),hood:f=>SH.hood(f),motor:f=>SH.motor(f),guard:f=>SH.guard(f),drum:f=>SH.drum(f,false,0),shaft:f=>SH.shaft(f),brushes:f=>SH.brushes(f,false)};
+const XORDER=['brushes','shaft','drum','hood','motor','guard','plate'];
+function detail(t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';const c=detC();
+ const sh=p=>frameC(c,p.off.map(v=>v*ex),[1,0,0],[0,1,0],[0,0,1]);
+ MAT=MOMENT;
+ const s=memo('xd|'+f3(ex),()=>{let q='';
+  for(const p of XP)if(!p.fixed)q+=explodeAxis(c,p.slot,p.slot.map((v,i)=>v+p.off[i]*ex),{w:.6,op:.9});
+  for(const id of XORDER){const p=XP.find(q2=>q2.id===id);q+=XDRAW[id](sh(p));}
+  return q;});
+ MAT=null;
+ return`<g opacity="${n1(seg(ex,0,.2))}">${s}</g>`;}
+function detailLabels(t,fl){const la=fl.static?0:seg(t,EX0+EXO+.15,EX0+EXO+.4)*(1-seg(t,EX0+EXO+EXH-.05,EX0+EXO+EXH+.15));if(la<.02)return'';
+ const c=detC();let s='';
+ for(const p of XP)s+=tag(c,p.top.map((v,i)=>v+p.off[i]),p.dir[0],p.dir[1],p.lab,la,{id:'x-'+p.id,tick:1});
+ return s;}
+function detailRing(c,t,fl){const ex=fl.static?0:exAmt(t);if(ex<.01)return'';
+ const cx=gx(t),p=c.P(cx+HS,Yt(clamp(cx+HS,0,RL)),RT+.5),r=26*kk(),q=detC().P(0,.6,-2.3);
+ const d=Math.hypot(q[0]-p[0],q[1]-p[1]),u=[(q[0]-p[0])/d,(q[1]-p[1])/d];
+ return`<g opacity="${n1(seg(ex,0,.3))}"><circle cx="${n1(p[0])}" cy="${n1(p[1])}" r="${n1(r)}" fill="none" stroke="${S.ink}" stroke-width=".6"/><path d="M${n1(p[0]+u[0]*r)} ${n1(p[1]+u[1]*r)}L${n1(q[0])} ${n1(q[1])}" stroke="${S.ink}" stroke-width=".5" stroke-dasharray="10 3 2 3" fill="none"/></g>`;}
+
+/* ---- overlay: annotations ---- */
+S.overlay=(c,t,fl)=>{const w=(a,b)=>win(t,a,b);
+ let s=detail(t,fl)+detailLabels(t,fl)+`<g transform="translate(0 ${n1(holdDrop(t))})">`+detailRing(c,t,fl);
+ const dx=ribDx(t);
+ // Arrive
+ {let u=Math.max(4.0,XBRK-dx+3.8);if(u>B0-.1&&u<B1+.1)u=B1+.1;s+=lead(c,[u+dx,Yt(u)+HW,RT],0,0,'rib from station 11, ornament already carved',w(.6,5.3),{id:'arrive',at:[-1.5,-1.5,6.6],side:-1});}
+ s+=lead(c,[-.9,RY+.05,RB-.12],-30,70,'driven infeed rollers',w(.9,5.3),{id:'infeed',side:-1});
+ // Trim
+ s+=lead(c,[.2,CY,1.0],-40,80,'up-cut saws trim both ends',w(5.6,11.3),{id:'saws',side:-1});
+ s+=dimLine(c,[0,Yt(0)+HW,RT],[RL,Yt(RL)+HW,RT],[0,6.5,-RT],'22 m rib',w(6.0,11.3),{});
+ // The Trim sequence carries the offcut drop; its bin is occluded at park.
+ // Finish
+ {const cx=gx(t);s+=lead(c,[cx,TRY+.32,ZA+.15],0,0,'sanding head on a travelling column',win(t,18.3,22.1,.1),{id:'sand',at:[-1.5,1.5,5.8],side:-1});}
+ s+=lead(c,[9.0,1.5,.3],50,60,'downdraft extraction to the fan',w(14.0,18.2),{id:'extract'});
+ // Coat
+ {const cx=gx(t);s+=lead(c,[cx+HC,Yt(clamp(cx+HC,0,RL))+1.35,RT+.4],0,0,'spray bar coats the top and both sides',w(21.3,25.9),{id:'spray',at:[6.0,-9.0,7.6],side:-1});}
+ s+=lead(c,[KX-.5,KY+.42,1.2],-40,40,'coating supply: product not yet chosen',w(14.0,18.0),{id:'supply',side:-1});
+ s+=lead(c,[2.5+dx,Yt(2.5)-HW+ribDy(t),RT+ribDz(t)],0,0,'use class 3: outdoors, wet, not in ground contact',w(22.5,26.5),{id:'use',at:[-1.5,-1.5,6.6],side:-1});
+ // Rack
+ s+=lead(c,[RKX[3],RCY,3.9],30,-40,'drying rack, then on toward testing',w(27.2,31.4),{id:'rack',side:-1});
+ return s+'</g>';};
+const STEPS=[
+ ['Arrive','The rib from station 11 slides into the finishing booth.'],
+ ['Trim','Saws trim both ends. Offcuts tip into bins.'],
+ ['Finish','A sanding head runs the length and eases the edges.'],
+ ['Coat','A spray bar on the gantry coats the rib along its length.'],
+ ['Rack','The crane sets the coated rib on the drying rack.']];
+const mainC={P:mkP(0,0,30)};
+
+// The exploded head sits above the line and widens the fit upward. Outside the hold, lift the
+// whole drawing so it sits centred; translation keeps the fitted scale (as stations 06 and 08 do).
+const finishScene=drawScene, finishOverlay=S.overlay;
+// Keep the enlarged brushes above the rib during the hold without changing the fit.
+const holdDrop=t=>VB?VB[3]*.10*exAmt(t):0;
+function finishLift(t){return VB?-VB[3]*.20*(1-ease(seg(t,11.5,12.1))+ease(seg(t,EX0+EXO+EXH+EXC,EX0+EXO+EXH+EXC+.6))):0;}
+drawScene=(c,t,fl)=>`<g transform="translate(0 ${n1(finishLift(t)+holdDrop(t))})">${finishScene(c,t,fl)}</g>`;
+S.overlay=(c,t,fl)=>`<g transform="translate(0 ${n1(finishLift(t))})">${finishOverlay(c,t,fl)}</g>`;
+
+/* ---- page plumbing ---- */
+const $=id=>document.getElementById(id);
+const svg=$('s'),root=$('g');
+let VB=null;
+// Loop seam: only transient parts fade, over 0.5 s at each end. The shop (bed, pins, yokes,
+// track, robot) stays at full strength. Overlays always fade; a station wraps its own transient
+// geometry (the rib) in seamA(t, flags) inside drawScene.
+const seamA=(t,flags)=>flags&&flags.static?1:Math.min(seg(t,0,.5),1-seg(t,DUR-.5,DUR));
+function frame(t,flags){
+  const started=performance.now();flags=flags||{};
+  const a=seamA(t,flags);
+  let inner=drawScene(mainC,t,flags);
+  const over=S.overlay?S.overlay(mainC,t,flags):'';
+  if(over&&a>.005)inner+=`<g opacity="${n1(a)}">${over}</g>`;
+  root.innerHTML=inner;
+  collectAnnotations();window.__frameMS=performance.now()-started;
+}
+// Fit the viewBox tightly to the drawing over FIT_TIMES. The svg fills the stage and scales
+// with "meet", centred, so the machine is as large as the free stage allows.
+function fit(){
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  // Geometry only: labels are placed inside the fitted area, so they must not widen it.
+  for(const t of FIT_TIMES){root.innerHTML=drawScene(mainC,t,{})+(S.overlay?S.overlay(mainC,t,{}):'');for(const e of root.querySelectorAll('[data-label],[data-dimension]'))e.style.display='none';const b=root.getBBox();x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height);}
+  const pad=24;VB=[x0-pad,y0-pad,x1-x0+2*pad,y1-y0+2*pad];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  // A constant whole-drawing lift balances the main machine when exploded details leave.
+  // Keep each station's scale fixed across every step. Offsets are viewBox fractions.
+  const station=DRAWING_META.number;
+  const lift=0;
+  root.setAttribute('transform',`translate(0 ${n1(-VB[3]*lift)})`);
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+}
+
+
+const factoryMedia = matchMedia('(prefers-reduced-motion: reduce)');
+let factoryActive=false, factoryIntent=true, factoryRaf=0, factoryLast=0, factoryEmit=0;
+let factoryTime=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:STATIC_T;
+let factoryStatic=factoryMedia.matches;
+let factoryDraws=0;
+const factoryReady = () => window.__ready===true;
+function factoryState(){
+  const index=typeof stepOf==='function'?stepOf(factoryTime):0;
+  const item=typeof STEPS!=='undefined'?STEPS[index]:null;
+  return {id:DRAWING_META.id,title:DRAWING_META.title,duration:DUR,time:factoryTime,
+    playing:!!factoryRaf,active:factoryActive,reducedMotion:factoryMedia.matches,
+    step:item?item[0]:'Process overview',caption:item?item[1]:DRAWING_META.whatHappens,
+    stepIndex:index,static:factoryStatic,ready:factoryReady(),renderCount:factoryDraws};
+}
+function factoryNotify(){
+  const state=factoryState();
+  window.dispatchEvent(new CustomEvent('bower:factory-state',{detail:state}));
+  if(parent!==window)parent.postMessage({type:'bower-factory:state',state},'*');
+}
+function factoryRender(){frame(factoryTime,{static:factoryStatic});factoryDraws++;}
+function factoryFit(){
+  // Some scenes place insets after the initial viewBox is known. Reconcile their
+  // full timeline with the compact deck viewport, retaining one stable camera.
+  VB=null;root.removeAttribute('transform');fit();
+  if(DRAWING_META.id==='overview')return;
+  const times=[...new Set([...FIT_TIMES,...(typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:[]),STATIC_T])];
+  for(let pass=0;pass<8;pass++){
+    let x0=VB[0],y0=VB[1],x1=x0+VB[2],y1=y0+VB[3];
+    const pad=8*Math.max(VB[2]/Math.max(1,svg.clientWidth),VB[3]/Math.max(1,svg.clientHeight));
+    for(const value of times){
+      frame(value,{});
+      // SVG getBBox includes geometry outside clip paths. The visible inset
+      // outlines already bound those details; invisible shearing tools must
+      // not enlarge the camera by several metres as they leave the inset.
+      for(const clipped of root.querySelectorAll('[clip-path]'))clipped.style.display='none';
+      const b=root.getBBox();
+      x0=Math.min(x0,b.x-pad);y0=Math.min(y0,b.y-pad);
+      x1=Math.max(x1,b.x+b.width+pad);y1=Math.max(y1,b.y+b.height+pad);
+    }
+    if(Math.abs(x0-VB[0])+Math.abs(y0-VB[1])+Math.abs(x1-VB[0]-VB[2])+Math.abs(y1-VB[1]-VB[3])<.5)break;
+    VB=[x0,y0,x1-x0,y1-y0];svg.setAttribute('viewBox',VB.map(n1).join(' '));
+  }
+}
+function factoryStop(){
+  if(factoryRaf)cancelAnimationFrame(factoryRaf);
+  factoryRaf=0;factoryLast=0;
+}
+function factoryTick(now){
+  factoryRaf=0;
+  if(!factoryActive||!factoryIntent||document.hidden||factoryMedia.matches)return;
+  if(factoryLast)factoryTime=(factoryTime+(now-factoryLast)/1000)%DUR;
+  factoryLast=now;factoryStatic=false;factoryRender();
+  factoryRaf=requestAnimationFrame(factoryTick);
+  if(now-factoryEmit>120){factoryEmit=now;factoryNotify();}
+}
+function factoryStart(){
+  if(factoryReady()&&factoryActive&&factoryIntent&&!document.hidden&&!factoryMedia.matches&&!factoryRaf){
+    factoryLast=0;factoryRaf=requestAnimationFrame(factoryTick);
+  }
+}
+function factorySeek(value){
+  const parsed=Number(value);if(!Number.isFinite(parsed))return factoryState();
+  factoryStop();factoryIntent=false;factoryStatic=false;
+  factoryTime=Math.max(0,Math.min(DUR,parsed));
+  if(factoryReady())factoryRender();factoryNotify();return factoryState();
+}
+window.__ready=false;
+window.__duration=DUR;
+window.__reviewTimes=typeof REVIEW_TIMES!=='undefined'?REVIEW_TIMES:null;
+window.__viewportT=typeof VIEWPORT_T!=='undefined'?VIEWPORT_T:null;
+window.__setT=factorySeek;
+window.BOWER_FACTORY=Object.freeze({
+  setActive(value){factoryActive=!!value;if(factoryActive)factoryStart();else factoryStop();factoryNotify();return factoryState();},
+  play(){factoryIntent=true;factoryStatic=false;factoryStart();factoryNotify();return factoryState();},
+  pause(){factoryIntent=false;factoryStop();factoryNotify();return factoryState();},
+  seek:factorySeek,
+  renderStatic(){factoryIntent=false;factoryStop();factoryStatic=true;factoryTime=STATIC_T;
+    if(factoryReady())factoryRender();factoryNotify();return factoryState();},
+  getState:factoryState,
+  exportSvg(){
+    const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    copy.setAttribute('width',svg.clientWidth);copy.setAttribute('height',svg.clientHeight);
+    copy.setAttribute('style','background:#fdfcf9;color:#23272b');
+    return new XMLSerializer().serializeToString(copy);
+  }
+});
+// The file:// preview has opaque origins. Only its actual parent may issue the small
+// public drawing API; no arbitrary code, URLs, storage or DOM commands are accepted.
+window.addEventListener('message',async event=>{
+  if(event.source!==parent||parent===window||event.data?.type!=='bower-factory:command')return;
+  const {requestId,action,args}=event.data;
+  const allowed={state:'getState',getState:'getState',setActive:'setActive',play:'play',pause:'pause',seek:'seek',renderStatic:'renderStatic',exportSvg:'exportSvg'};
+  const method=Object.hasOwn(allowed,action)?allowed[action]:null;
+  if(!method)return;
+  try{
+    await window.BOWER_FACTORY_READY;
+    const result=window.BOWER_FACTORY[method](...(Array.isArray(args)?args:[]));
+    parent.postMessage({type:'bower-factory:reply',requestId,result},'*');
+  }catch(error){parent.postMessage({type:'bower-factory:reply',requestId,error:String(error?.message||error)},'*');}
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)factoryStop();else factoryStart();factoryNotify();});
+factoryMedia.addEventListener('change',()=>{
+  factoryStop();factoryStatic=factoryMedia.matches;
+  if(factoryStatic){factoryTime=STATIC_T;if(factoryReady())factoryRender();}
+  else factoryStart();factoryNotify();
+});
+let factoryWidth=0,factoryHeight=0;
+const factoryResize=new ResizeObserver(()=>{
+  if(!factoryReady()||!svg.clientWidth||!svg.clientHeight)return;
+  if(svg.clientWidth===factoryWidth&&svg.clientHeight===factoryHeight)return;
+  factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  factoryFit();factoryRender();
+});
+factoryResize.observe(svg);
+window.BOWER_FACTORY_READY=(async()=>{
+  await document.fonts.load('11.5px Safiro');await document.fonts.ready;
+  S.fontSize=DRAWING_META.id==='overview'?11:11.5;
+  factoryFit();factoryWidth=svg.clientWidth;factoryHeight=svg.clientHeight;
+  if(factoryStatic)factoryTime=STATIC_T;
+  factoryRender();window.__ready=true;factoryNotify();factoryStart();
+  if(parent!==window)parent.postMessage({type:'bower-factory:ready',state:factoryState()},'*');
+  return window.BOWER_FACTORY;
+})();
+
+})();</script></body></html>

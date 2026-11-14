@@ -1,6 +1,6 @@
 # Buildings That Grow
 
-A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen scenes; editions 03 and 04 have fifteen after combining the first market and prospect conversations. The website is the dynamic version; its PDF is a deliberate static counterpart.
+A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen scenes; editions 03 and 04 have fifteen after combining the first market and prospect conversations. Edition 05 has sixteen, including a new detailed manufacturing scene. The website is the dynamic version; its PDF is a deliberate static counterpart.
 
 ## Routes
 
@@ -8,9 +8,11 @@ A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen 
 - `/designx/2` and `/designx/2/`: second visual edition, using the architectural-editorial style guide.
 - `/designx/3` and `/designx/3/`: third edition, opening with the material problem and manufacturing challenge.
 - `/designx/4` and `/designx/4/`: fourth edition, pairing Argesta architectural typography with Safiro technical diagrams and a dark laboratory sequence.
+- `/designx/5` and `/designx/5/`: fifth edition, integrating Daniel’s animated factory drawings and a second manufacturing scene.
 - `/designx/pdf` and `/designx/pdf/`: original-edition PDF served inline.
 - `/designx/3/pdf` and `/designx/3/pdf/`: matching third-edition PDF served inline.
 - `/designx/4/pdf` and `/designx/4/pdf/`: matching fourth-edition PDF served inline.
+- `/designx/5/pdf` and `/designx/5/pdf/`: matching fifth-edition PDF served inline.
 - `/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf`: underlying exported file.
 
 Vite development/preview and Vercel use the same routes. Presentation code, media and PDF stay under `public/designx/`. The marketing router yields to this document. Its navigation and sitemap remain unchanged. No external fonts, analytics or runtime APIs are required. Noindex headers discourage indexing.
@@ -34,9 +36,15 @@ Edition 03 uses the supplied botanical logo as complete artwork, copied byte-for
 
 Run `npm run dev`; preview at `http://localhost:5333/designx`. Deep links run from `#slide-01` to `#slide-16` for editions 01/02 and `#slide-15` for editions 03/04. Add `?print=1` to inspect all static compositions. The file can also run offline; its PDF link uses the local exported file.
 
+Edition 05 preserves the Argesta/Safiro system and uses Daniel’s source factory drawings on their original paper and line colours. Slide 7 contains the whole process and all fourteen selectable stations. Slide 8 opens up Form, Measure and Machine through the press, scan and cutting studies. Each drawing has play/pause, a timeline, restart, enlargement and source notes. Animation pauses offscreen and in hidden tabs; reduced motion uses an authored still with manual timeline inspection. The PDF uses four vector SVG stills from the same supplied engine, not replacement artwork. Its team heading reads “Architecture. Ecology. / Software. Manufacturing.”
+
+`5/factory/` contains the drawing-only exports, selected descriptive metadata and source hashes. `scripts/designx/import-factory.mjs` reproduces them from the read-only `C:/BOWER/bower-factory` source checkout. Source geometry and timing are preserved; adaptation concerns the drawing viewport, lifecycle and parent controls. Original station research pages are not published. These are proposed manufacturing studies, not evidence of an operating factory. The overview is a process arrangement rather than a validated floor plan. Source notes distinguish established processes, Bower-specific proposals and assumptions to test. Scan deviations are schematic.
+
+The fifth edition removes edition 04’s invented commercial-stage illustrations. Slide 12 instead carries a short implementation note for Clay and Daniel: supply one coherent Bower across Commission, Bower, Reference, Demand and Reinvest, changing the central visual with the selected stage. Earlier versions remain available. The first-customers scene is now slide 10, the team is slide 14 and the closing is slide 16.
+
 ## Current work
 
-The founder explicitly authorized simple sticky notes for central visuals being supplied later. Assembly animation, engine diagram, factory drawing and Clay's plant-growth simulation have visible notes. These notes appear in the working PDF too. The current growth playback crossfades illustrative concepts; it is not a botanical simulation.
+The founder explicitly authorized simple sticky notes for central visuals being supplied later. Assembly animation, engine diagram and Clay's plant-growth simulation still have visible notes. Edition 05 replaces the factory placeholder with supplied drawings and leaves commercial stage artwork to Clay and Daniel. These notes appear in the working PDF too. The current growth playback crossfades illustrative concepts; it is not a botanical simulation.
 
 The technical and commercial flywheels have selectable stages, changing causal explanations, controlled playback and pause offscreen. In edition 04, `4/commercial-visuals.js` draws six distinct commercial-loop states: a selected site, the Bower concept, a reference spread, interest in further sites, reusable production capabilities and the return into the next cycle. These are purpose-drawn SVG illustrations; all image crops use the same existing Bower concept, not completed project evidence. `4/edition.js` follows the existing controller's phase, keeping image, text, keyboard and playback states synchronized. The PDF shows the five stages together as a sequence with a return arrow. The coupled scene brings the two systems together and reveals their directional connections. Growth has a keyboard-accessible scrubber and bounded playback. The customer slide uses existing Higgsfield concepts and a user-triggered eight-second film; no new media was generated. Print states are designed separately, and reduced motion is supported.
 
@@ -68,6 +76,10 @@ node scripts/designx/check-4.mjs --before-export
 node scripts/designx/export.mjs --edition=4
 python scripts/designx/verify-pdf.py output/pdf/Bower_DesignX_Buildings_That_Grow_04.pdf --expected-pages 15
 node scripts/designx/check-4.mjs
+node scripts/designx/check-5.mjs --before-export
+node scripts/designx/export.mjs --edition=5
+python scripts/designx/verify-pdf.py output/pdf/Bower_DesignX_Buildings_That_Grow_05.pdf --expected-pages 16
+node scripts/designx/check-5.mjs
 npm run build
 ```
 
@@ -76,6 +88,8 @@ Export before building so production includes the latest PDF. The export writes 
 The `--edition=3` export instead writes its public file to `3/downloads/` and captures static compositions under `qa-out/designx/edition-03/print/`. It does not overwrite the original PDF. The third-edition browser check covers the visual opening, controlled ambient motion and founder theses, existing interactive scenes, mobile viewport fitting, reduced motion, and earlier-edition isolation.
 
 The `--edition=4` export similarly writes `4/downloads/Bower_DesignX_Buildings_That_Grow_04.pdf` and captures `qa-out/designx/edition-04/print/`. Edition-04 checks include actual font loading, the model-view control, responsive composition, prior-edition isolation and the separate PDF alias. The supplied fonts are embedded in the PDF.
+
+The `--edition=5` export writes `5/downloads/Bower_DesignX_Buildings_That_Grow_05.pdf` and captures `qa-out/designx/edition-05/print/`. It awaits `DESIGNX_FACTORY_READY` and the four vector posters before export. Edition-05 checks cover all fifteen drawing URLs, station selection, playback, seeking, enlargement, notes, offscreen and reduced-motion behaviour, offline messaging, typography, responsive composition and prior-edition isolation. The drawing adapter has separately been reviewed at 127 supplied review frames across all fifteen drawings. That integration check does not replace the source repository’s more extensive engineering acceptance suite.
 
 The twenty-one browser checks cover navigation, scene interactions, keyboard/modal focus, five viewports, print composition, offline use, isolated resource loading and PDF route headers/byte equality. Inspect the actual rendered PDF too. Reports are under `qa-out/designx/`.
 
