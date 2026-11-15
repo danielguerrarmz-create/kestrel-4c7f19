@@ -12,11 +12,11 @@
         <p class="v8-reference-evidence">International Cultural institutions, estate owners and private prospects repeatedly wanted to see <strong>one completed Bower.</strong></p>
       </div>
       <figure class="v8-reference-visual">
-        <img src="assets/room.webp" alt="Bower concept of a complete timber pavilion covered in flowering climbers, with people gathered beneath its arches." width="2400" height="1610" decoding="async">
+        <img src="v8/assets/time-experiment/orbit-poster.jpg" alt="Ghosted view of the complete six-bay Bower from the existing geometry and provisional growth study." width="1600" height="900" decoding="async">
       </figure>
     </section>`,
-    notes: 'The founder reports a repeated finding from international conversations with cultural institutions, estate owners and private prospects: they wanted to see a completed Bower. This is a paraphrase of the founder’s account, not a direct quotation or independently measured market research. It identifies a specific role for the first project: a completed, visitable reference would let prospective clients experience the room, examine its making and discuss establishment and care. The first built Bower remains to be delivered. The illustration imagines a planted Bower at maturity; an installation would begin with younger plants and develop through establishment and care. Longer-term establishment and seasonal performance would require observation over time. These conversations indicate interest and a condition prospects want to assess. They are not orders, named endorsements, a conversion forecast or evidence that a first project will finance later development.',
-    source: 'Founder-reported international customer discovery, revised during the 15 November 2026 deck review. No direct quotations, counts, commitments or conversion data are asserted. The existing whole-pavilion concept, assets/room.webp, is reused from the original deck as a full-bleed image. It is a concept illustration, not a photograph of a completed Bower or a validated growth outcome. The browser reveals the same image from a pale monochrome ghost into colour, then holds it.'
+    notes: 'The founder reports a repeated finding from international conversations with cultural institutions, estate owners and private prospects: they wanted to see a completed Bower. This is a paraphrase of the founder’s account, not a direct quotation or independently measured market research. It identifies a specific role for the first project: a completed, visitable reference would let prospective clients experience the room, examine its making and discuss establishment and care. The first built Bower remains to be delivered. The background reuses the existing six-bay model and provisional growth scenario; it shows a digital study, not a completed Bower. An installation would begin with younger plants and develop through establishment and care. Longer-term establishment and seasonal performance would require observation over time. These conversations indicate interest and a condition prospects want to assess. They are not orders, named endorsements, a conversion forecast or evidence that a first project will finance later development.',
+    source: 'Founder-reported international customer discovery, revised during the 15 November 2026 deck review. No direct quotations, counts, commitments or conversion data are asserted. The background is assets/time-experiment/orbit-poster.jpg from the existing six-bay-radial-v1 geometry and trained-10y growth record, rendered in the drawings-in-code studio. Its provenance is recorded in assets/time-experiment/SOURCES.md. CSS makes this existing model render monochrome and translucent; geometry and plant behaviour are unchanged. The model remains ghosted after a single reveal. It is not a photograph, measured growth outcome or completed-project reference.'
   };
 
   (window.DESIGNX_MOUNTS ||= []).push(root => {
@@ -25,18 +25,18 @@
     const picture = scene.querySelector('.v8-reference-visual img');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const printing = new URL(location.href).searchParams.get('print') === '1';
-    const duration = 6500;
+    const duration = 3000;
     const animation = picture.animate([
-      { opacity:.18, filter:'grayscale(1)', offset:0 },
-      { opacity:.35, filter:'grayscale(1)', offset:.2 },
-      { opacity:1, filter:'grayscale(0)', offset:1 }
+      { opacity:.03, filter:'grayscale(1)', offset:0 },
+      { opacity:.1, filter:'grayscale(1)', offset:.3 },
+      { opacity:.24, filter:'grayscale(1)', offset:1 }
     ], { duration, fill:'both', easing:'ease-in-out' });
     animation.pause(); animation.currentTime = 0;
     let active = false, complete = false, printEvent = false, ready = false;
     function holdFinal() {
       complete = true;
-      picture.style.opacity = '1';
-      picture.style.filter = 'none';
+      picture.style.opacity = '.24';
+      picture.style.filter = 'grayscale(1)';
       animation.cancel();
     }
     function sync() {

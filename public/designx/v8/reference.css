@@ -1,14 +1,13 @@
-/* One complete planted pavilion, with the argument held over its quieter edge. */
-.designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#f3f4e9;background:#0b1d18;font-family:var(--sans)}
-.designx-v8 .v8-reference-visual{position:absolute;inset:0;margin:0}
-.designx-v8 .v8-reference-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
-.designx-v8 .v8-reference-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(7,22,17,.12) 52%,rgba(7,22,17,.78) 72%,rgba(7,22,17,.89) 100%);pointer-events:none}
-.designx-v8 .v8-reference-copy{position:absolute;z-index:1;left:1040px;right:80px;top:92px}
-.designx-v8 .v8-reference-kicker{margin:0 0 32px;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#e0e8d7}
-.designx-v8 .v8-reference-title{margin:0;font:400 90px/1.04 var(--display);letter-spacing:-.04em}
+/* The built reference is absent: the existing digital Bower stays a ghost. */
+.designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#101310;background:#EEF3EA;font-family:var(--sans);isolation:isolate}
+.designx-v8 .v8-reference-visual{position:absolute;left:320px;top:110px;width:1280px;height:720px;margin:0;mix-blend-mode:multiply;pointer-events:none}
+.designx-v8 .v8-reference-visual img{display:block;width:100%;height:100%;object-fit:contain;opacity:.24;filter:grayscale(1)}
+.designx-v8 .v8-reference-copy{position:absolute;z-index:1;inset:0}
+.designx-v8 .v8-reference-kicker{position:absolute;left:80px;top:76px;margin:0;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#101310}
+.designx-v8 .v8-reference-title{position:absolute;left:70px;top:174px;margin:0;font:400 188px/.98 var(--display);letter-spacing:-.045em}
 .designx-v8 .v8-reference-title em{font:inherit;font-style:italic}
-.designx-v8 .v8-reference-evidence{max-width:420px;margin:52px 0 0;font:400 29px/1.38 var(--sans);letter-spacing:-.02em;color:#e0e8d7}
-.designx-v8 .v8-reference-evidence strong{font-weight:400;color:#fffef4}
-.designx-v8 .v8-reference-scene~.folio{color:#e0e8d7}
-.designx-v8.print-mode .v8-reference-visual img{opacity:1!important;filter:none!important}
-@media print{.designx-v8 .v8-reference-visual img{opacity:1!important;filter:none!important}}
+.designx-v8 .v8-reference-evidence{position:absolute;left:80px;bottom:72px;width:845px;margin:0;font:400 28px/1.35 var(--sans);letter-spacing:-.02em;color:#101310}
+.designx-v8 .v8-reference-evidence strong{font-weight:400}
+.designx-v8 .v8-reference-scene~.folio{color:#101310}
+.designx-v8.print-mode .v8-reference-visual img{opacity:.24!important;filter:grayscale(1)!important}
+@media print{.designx-v8 .v8-reference-visual img{opacity:.24!important;filter:grayscale(1)!important}}

@@ -167,17 +167,17 @@ try {
     assert.equal(await learning.locator('[data-v7flow-select="growing"]').getAttribute('aria-pressed'),'true');
     await screenshot('slide-17-learning-initial',learning);
   });
-  await test('Reference reveal plays once and holds its final image without controls', async () => {
+  await test('Reference reveal plays once and holds its ghosted model without controls', async () => {
     const reference = await activate('v8-reference-slide');
     const picture = reference.locator('.v8-reference-visual img');
-    assert.match(await picture.getAttribute('src'),/assets\/room\.webp$/);
-    assert.equal(await picture.evaluate(el=>getComputedStyle(el).objectFit),'cover');
+    assert.match(await picture.getAttribute('src'),/time-experiment\/orbit-poster\.jpg$/);
+    assert.equal(await picture.evaluate(el=>getComputedStyle(el).objectFit),'contain');
     assert.equal(await reference.locator('input,button').count(),0);
-    await page.waitForFunction(() => document.querySelector('.v8-reference-visual img').style.opacity === '1', null, {timeout:12000});
-    assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'1');
+    await page.waitForFunction(() => document.querySelector('.v8-reference-visual img').style.opacity === '0.24', null, {timeout:12000});
+    assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'0.24');
     assert.equal(await picture.evaluate(el=>el.getAnimations().length),0);
     await activate('buyers-slide'); await activate('v8-reference-slide'); await frames(12);
-    assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'1');
+    assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'0.24');
     assert.equal(await picture.evaluate(el=>el.getAnimations().length),0);
     await screenshot('slide-14-reference-complete',reference);
   });
