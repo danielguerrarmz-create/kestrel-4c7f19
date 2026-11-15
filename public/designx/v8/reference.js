@@ -3,13 +3,13 @@
   'use strict';
 
   window.DESIGNX_V8_REFERENCE = {
-    title: 'The first Bower is the missing reference.',
+    title: 'Help us make it real.',
     theme: 'commercial-loop-slide v8-reference-slide',
     html: `<section class="v8-reference-scene" aria-labelledby="v8-reference-title">
       <div class="v8-reference-copy">
         <p class="v8-reference-kicker">The first Bower</p>
-        <h2 id="v8-reference-title" class="v8-reference-title">The missing<br><em>reference.</em></h2>
-        <p class="v8-reference-evidence">International Cultural institutions, estate owners and private prospects repeatedly wanted to see <strong>one completed Bower.</strong></p>
+        <h2 id="v8-reference-title" class="v8-reference-title">Help us<br><em>make it real.</em></h2>
+        <p class="v8-reference-evidence">International cultural institutions, estate owners and private prospects repeatedly wanted to see <strong>one completed Bower.</strong></p>
       </div>
       <figure class="v8-reference-visual">
         <img src="v8/assets/reference/bower-shadow.webp" alt="Ghosted view of the complete six-bay Bower from the existing geometry and provisional growth study." width="2400" height="1200" decoding="async">

@@ -1,4 +1,4 @@
-/* Edition 08: twenty-two scenes, including Time and learning-flow comparisons. */
+/* Edition 08: twenty scenes with one complete learning flowchart. */
 window.DESIGNX_V8_STORY = [
   {
     "number": 1,
@@ -94,24 +94,11 @@ window.DESIGNX_V8_STORY = [
     "stays": "The coordinated scene export, baseline and opened-pier alternatives, stable anchors and quantities. Preserve the distinction between selecting an authored alternative and running an evaluator.",
     "drawing": "Inspect Plant support, Entrance, Making and Designer review through one large scene view. Toggle baseline and opened-pier alternatives, or play and scrub the explanation. Reuse the inhabited-room export's fixed images, masks, stable threshold anchors and geometry-derived quantities. Changes select existing alternatives; they do not regenerate the design.",
     "status": "The coordinated scene export supplies the displayed geometry and quantities. Its footing arrangements are authored, unengineered proposals; exported review flags remain visible. Quantities are derived from digital geometry before playback, not physical measurements. Integrated plantability and calibrated cost checks remain proposed.",
-    "transition": "This particular decision reveals the questions that a design engine must help us assess across the form.",
-    "speakerBridge": "The pier drawing makes the consequences visible. The engine is the method we are developing to assess making, growth and budget together."
+    "transition": "A place-specific decision changes the parts we must make. Explain how a repeatable production method can accommodate that variation.",
+    "speakerBridge": "Opening this pier changes more than one part. The challenge is to make that kind of variation manufacturable."
   },
   {
     "number": 9,
-    "baseSlide": 6,
-    "engine": true,
-    "title": "Can we make it? Can it grow? Can we afford it?",
-    "theme": "v8-engine-slide",
-    "purpose": "Restore the engine’s distinct role: fabrication, intended growth and the client’s budget inform shared geometry, with the designer weighing their trade-offs.",
-    "stays": "The successful v7 engine explanation, Daniel’s development work, the proposed plantability extension and designer review. Affordability joins making and growth as a feasibility question.",
-    "drawing": "Keep the original drawing-board composition and selectable considerations. Fabricatability, Plantability and Cost lead into shared geometry and an authored example response. A later coordinated drawing could connect these checks to the pier and manufacturing studies; this slide does not run an integrated evaluator.",
-    "status": "Geometry and joint code and growth studies exist. Daniel’s fabrication engine remains in development; integrated plantability and calibrated cost or budget checks remain proposed. No prices, validated savings or feasibility certification are claimed.",
-    "transition": "The engine helps make place-specific variation workable. That leads to the production challenge: different forms, made through a repeatable process.",
-    "speakerBridge": "The aim is to reconcile these questions within an agreed budget while preserving what makes each place particular. That means making variability manufacturable."
-  },
-  {
-    "number": 10,
     "baseSlide": 2,
     "title": "Nature builds by growing.",
     "theme": "variability-slide",
@@ -123,7 +110,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Variability is the essence of nature and the enemy of industry. Bower’s bet is to make variability manufacturable."
   },
   {
-    "number": 11,
+    "number": 10,
     "baseSlide": 7,
     "title": "Different parts. A repeatable process.",
     "theme": "factory-slide v5-factory-overview",
@@ -135,7 +122,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The parts can differ while the method repeats. Forming, measuring and machining show how we intend to carry the design through that process."
   },
   {
-    "number": 12,
+    "number": 11,
     "baseSlide": 8,
     "title": "Form. Measure. Machine.",
     "theme": "factory-focus-slide v5-factory-focus",
@@ -147,31 +134,31 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "These processes support a practical first commission. The conversations we are having show where that commission might begin."
   },
   {
-    "number": 13,
+    "number": 12,
     "baseSlide": 12,
     "title": "The first customers.",
     "theme": "buyers-slide",
     "purpose": "Introduce prospective buyers after the audience has encountered the room, its design decisions and the means of making it.",
     "stays": "The three customer settings, existing still concept images and original layout. Name Eden Project, The Newt, 25hours and Canary Wharf Group under ‘In conversation with’.",
     "drawing": "Keep the three customer images as stills and show the four organisation logos under ‘In conversation with’, without a meeting caption. Remove the hospitality film and all its controls.",
-    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group is at an earlier stage: contact through cold outreach and the website led to a CEO introduction and a forthcoming discussion with the head of development, not a completed CWG meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
-    "transition": "International customer discovery identified a concrete barrier: prospects wanted a completed Bower they could see.",
-    "speakerBridge": "Our international customer conversations returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
+    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group is at an earlier stage: contact through cold outreach and the website led to a CEO introduction and a forthcoming discussion with the head of development, not a completed CWG meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations. Founder-reported international conversations with cultural institutions, estate owners and private prospects repeatedly identified a desire to see one completed Bower. This is customer-discovery context, not orders or guaranteed conversion.",
+    "transition": "Invite support for making the first Bower real, informed by what prospective clients want to experience.",
+    "speakerBridge": "Across these conversations, people repeatedly wanted to see one completed Bower. That is the next place we are asking people to help bring into being."
+  },
+  {
+    "number": 13,
+    "baseSlide": 14,
+    "title": "Help us make it real.",
+    "theme": "commercial-loop-slide",
+    "purpose": "Invite support for bringing the first completed Bower into being, informed by the repeated desire prospective clients expressed to see one built.",
+    "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. A supporting sentence states the finding; fuller discovery context stays in the notes.",
+    "drawing": "Keep the ghosted planted six-bay model and its complete shadow behind the dominant black editorial invitation: Help us make it real. Retain the international customer-discovery sentence beneath.",
+    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image comes from the existing six-bay-radial-v1 model and provisional trained-10y growth scenario. It is not physical observation or a photograph of a completed project.",
+    "transition": "Explain the proposed commission, build and care process for bringing that place into being.",
+    "speakerBridge": "Help us make the first Bower real. This is how we propose to commission, deliver and care for it."
   },
   {
     "number": 14,
-    "baseSlide": 14,
-    "title": "The first Bower is the missing reference.",
-    "theme": "commercial-loop-slide",
-    "purpose": "Explain the specific commercial barrier found in international customer discovery: prospective clients want a completed Bower they can visit and assess.",
-    "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. A supporting sentence states the finding; fuller discovery context stays in the notes.",
-    "drawing": "Place a dominant black Argesta headline over a ghosted view of the existing planted six-bay model, using assets/reference/bower-shadow.webp. Keep the pale deck background and discovery finding below. The model remains translucent and monochrome after one reveal; no caption or divider.",
-    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image comes from the existing six-bay-radial-v1 model and provisional trained-10y growth scenario. It is not physical observation or a photograph of a completed project.",
-    "transition": "The missing reference gives the first commission a concrete purpose. Explain how a client would commission and receive that place.",
-    "speakerBridge": "The first Bower needs to work for its client and be a place others can experience. This is the proposed route to commissioning it."
-  },
-  {
-    "number": 15,
     "baseSlide": 13,
     "title": "One Bower. Three steps.",
     "theme": "v7-commercial-model-slide",
@@ -183,7 +170,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The third step matters as much as the first two. Care has to be designed into the room, as well as agreed in the offer."
   },
   {
-    "number": 16,
+    "number": 15,
     "baseSlide": null,
     "title": "Care is part of the architecture",
     "theme": "v8-care-slide",
@@ -195,7 +182,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "We already revise designs through our digital studies. Making and caring for a real Bower will give us another kind of evidence."
   },
   {
-    "number": 17,
+    "number": 16,
     "baseSlide": 11,
     "title": "How the system learns.",
     "theme": "v7-learning-flow-slide",
@@ -203,24 +190,11 @@ window.DESIGNX_V8_STORY = [
     "stays": "The complete interactive information flow, its making, growing and cost traces, and the shared geometry linking them. Consolidate the separate shared-object, project-cycle and coupled-system slides into this explanation.",
     "drawing": "Begin with the Growing trace: a proposed support route, future establishment and care observations, evidence review, and a possible revision. Select a node directly or explore Design, Making, Cost and Whole system within this one drawing. No playback strip is needed for this information flow.",
     "status": "Existing digital geometry and growth studies support design iteration. Integrated checks and feedback from built Bowers remain in development. Designing each Bower and Making and living with it describe project phases, not software readiness. The trace is authored and reports no field observations.",
-    "transition": "Compare this complete flowchart with a second version that begins with the three design questions and reveals detail progressively.",
-    "speakerBridge": "We are keeping this flowchart while testing a calmer way into the same system: begin with making, growth and budget, then follow the relevant evidence."
-  },
-  {
-    "number": 18,
-    "baseSlide": 11,
-    "learningQuestions": true,
-    "title": "How the system learns — question study",
-    "theme": "v8-learning-questions-slide",
-    "purpose": "Compare a question-led explanation of the learning system with the original flowchart: Can we make it? Can it grow? Can we afford it? Bring each question into a shared design decision, then show how reviewed evidence could improve the next Bower.",
-    "stays": "The engine on slide 9 and the original learning flowchart on slide 17 remain. This separate comparison study preserves their making, growing and cost relationships, shared geometry and designer review while testing a calmer hierarchy.",
-    "drawing": "Integrate the three questions into the flowchart, showing the main relationships first and revealing relevant detail when a question is selected. Connect shared geometry and the designer’s decision to future making, growth and care evidence, review and possible rule revision.",
-    "status": "Authored interface and explanation study for comparison, retained beside the original pending a design decision. Existing geometry and growth studies do not constitute an integrated evaluator. Calibrated cost checks and feedback from built Bowers remain in development; no field observations, automatic rule updates or validated outcomes are claimed.",
     "transition": "Delivering the first place and learning from it requires the complementary work of the founders.",
-    "speakerBridge": "Each project can provide both a place future clients can visit and evidence that improves our work. Building that connection is how we work together."
+    "speakerBridge": "Connecting design, making and the life of the place is the work we are bringing together as founders."
   },
   {
-    "number": 19,
+    "number": 17,
     "baseSlide": 16,
     "title": "Architecture. Ecology. Software. Manufacturing.",
     "theme": "team-slide",
@@ -232,7 +206,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "This is the team and the work we are beginning with. The reason to develop the method reaches well beyond one garden room."
   },
   {
-    "number": 20,
+    "number": 18,
     "baseSlide": 1,
     "title": "We’re about to build the world again.",
     "theme": "material-problem-slide",
@@ -244,7 +218,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "If we are about to build so much, the way those places participate in the living world matters. A room is where we begin to develop that approach."
   },
   {
-    "number": 21,
+    "number": 19,
     "baseSlide": 17,
     "title": "A room is the beginning.",
     "theme": "v7-future-slide",
@@ -256,7 +230,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "That is the horizon. The useful next step is to make the first Bower real and establish how we will deliver and learn from it."
   },
   {
-    "number": 22,
+    "number": 20,
     "baseSlide": 18,
     "title": "Buildings that grow.",
     "theme": "closing image-slide",

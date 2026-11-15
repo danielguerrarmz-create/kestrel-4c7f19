@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/BOWER/Bower_Web/node_modules/playwright');
 const href = process.env.DECK_URL || 'http://localhost:5312/designx/v8/';
 const origin = new URL(href).origin;
-const expectedThemes = ['cover', 'v7-growth-slide', 'v8-time-experiment-slide', 'v8-light-slide', 'v8-space-slide', 'v8-ground-slide', 'v7-anatomy-slide', 'v7-computation-slide', 'v8-engine-slide', 'variability-slide', 'factory-slide', 'factory-focus-slide', 'buyers-slide', 'commercial-loop-slide', 'v7-commercial-model-slide', 'v8-care-slide', 'v7-learning-flow-slide', 'v8-learning-questions-slide', 'team-slide', 'material-problem-slide', 'v7-future-slide', 'closing'];
+const expectedThemes = ['cover', 'v7-growth-slide', 'v8-time-experiment-slide', 'v8-light-slide', 'v8-space-slide', 'v8-ground-slide', 'v7-anatomy-slide', 'v7-computation-slide', 'variability-slide', 'factory-slide', 'factory-focus-slide', 'buyers-slide', 'commercial-loop-slide', 'v7-commercial-model-slide', 'v8-care-slide', 'v7-learning-flow-slide', 'team-slide', 'material-problem-slide', 'v7-future-slide', 'closing'];
 const result = { passed: [], failures: [], errors: [], missingAssets: [], failedRequests: [], externalRequests: [], slides: [] };
 const dependencies = new Set();
 const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_PATH || 'C:/Users/cseif/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe' });
@@ -146,27 +146,22 @@ await mkdir(resolve(root, '.qa'), { recursive: true });
 try {
   console.log('[v8 QA] Loading edition 08'); await page.goto(href); await page.waitForFunction(() => Boolean(window.DESIGNX && window.DESIGNX_V8_STORY));
   result.slides = await page.evaluate(() => window.DESIGNX_SLIDES.map((slide, i) => ({ number: i + 1, title: slide.title, theme: slide.theme })));
-  await test('Twenty-two-slide narrative preserves the original Time drawing beside its experiment', async () => {
+  await test('Twenty-slide narrative preserves the original Time drawing beside its experiment', async () => {
+    assert.equal(await page.locator('.slide.v8-engine-slide, .slide.v8-learning-questions-slide').count(),0);
+    assert.equal(await page.locator('[data-v7-flow]').count(),1);
     assert.deepEqual(result.slides.map(slide => slide.theme.split(' ')[0]), expectedThemes); assert.equal(await page.evaluate(() => window.DESIGNX_V8_STORY.length), expectedThemes.length);
     assert.match(await page.locator('body').getAttribute('class'), /designx-v7/); assert.match(await page.locator('body').getAttribute('class'), /designx-v8/);
   });
-  await test('Learning phases and first-reference evidence remain clear', async () => {
-    const proof = await activate('commercial-loop-slide');
-    assert.match(await proof.innerText(), /missing\s+reference/i);
-    assert.doesNotMatch(await proof.innerText(), /Conversations in England|Drawing to make/);
-    assert.match(await proof.innerText(), /International Cultural institutions, estate owners and private prospects/);
-    assert.match(await proof.innerText(), /wanted to see one completed Bower/);
-    assert.equal(await proof.locator('[data-flywheel]').count(),0);
-    assert.ok(Number.isFinite(await page.evaluate(() => window.DESIGNX_SLIDES.find(slide => slide.theme.includes('v8-reference-slide')).sourceIndex)),'Reference slide must retain its original comparison target');
-    await screenshot('slide-14-reference',proof);
+  await test('Learning phases remain clear in the original complex flowchart', async () => {
     const learning = await activate('v7-learning-flow-slide');
     assert.deepEqual(await learning.locator('.v7flow-phase').allTextContents(),['Designing each Bower','Making and living with it']);
     for (const phase of await learning.locator('.v7flow-phase').all()) assert.ok(await phase.isVisible(),'Learning phase label should be visible');
     assert.equal(await learning.locator('.v7flow-status').isVisible(),false);
     assert.equal(await learning.locator('[data-v7flow-readout]').isVisible(),false);
     assert.equal(await learning.locator('[data-v7flow-select="growing"]').getAttribute('aria-pressed'),'true');
-    await screenshot('slide-17-learning-initial',learning);
+    await screenshot('slide-16-learning-initial',learning);
   });
+
   await test('Reference reveal plays once and holds its ghosted model without controls', async () => {
     const reference = await activate('v8-reference-slide');
     const picture = reference.locator('.v8-reference-visual img');
@@ -179,7 +174,9 @@ try {
     await activate('buyers-slide'); await activate('v8-reference-slide'); await frames(12);
     assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'0.24');
     assert.equal(await picture.evaluate(el=>el.getAnimations().length),0);
-    await screenshot('slide-14-reference-complete',reference);
+    assert.match((await reference.innerText()).replace(/\s+/g,' '),/Help us make it real/);
+    assert.match(await reference.innerText(),/International cultural institutions/);
+    await screenshot('slide-13-invitation',reference);
   });
   await test('Construction slide retains its image and citations without the label or pause control', async () => {
     const slide = await activate('material-problem-slide');
@@ -187,22 +184,9 @@ try {
     assert.doesNotMatch(await slide.innerText(),/Generated illustration|Pause motion/);
     assert.equal(await slide.locator('.construction-film').count(),1);
     assert.equal(await slide.locator('.opening-sources a').count(),2);
-    await screenshot('slide-20-world',slide);
+    await screenshot('slide-18-world',slide);
   });
-  await test('Engine keeps making, growth and budget distinct from the pier example', async () => {
-    const engine = await activate('v8-engine-slide');
-    for (const text of ['Can we make it?', 'Can it grow?', 'Can we afford it?', 'Fabricatability', 'Plantability', 'Cost']) assert.ok((await engine.innerText()).replace(/\s+/g,' ').includes(text));
-    assert.equal(await engine.locator('[data-v8-engine-check]').count(),9);
-    await engine.getByRole('button',{name:'Installation',exact:true}).click();
-    assert.match(await engine.locator('[data-v8-engine-text]').innerText(),/installed cost against the budget/);
-    assert.equal(await engine.locator('[aria-pressed="true"]').count(),1);
-    await engine.getByRole('button',{name:'Light',exact:true}).click();
-    assert.match(await engine.locator('[data-v8-engine-text]').innerText(),/orientation and openings/);
-    await screenshot('slide-09-engine',engine);
-    await activate('v7-computation-slide');
-    assert.equal(await page.locator('[data-v8-engine]').count(),1);
-    assert.equal(await page.locator('[data-v8-consequences]').count(),1);
-  });
+
   await test('Customer discussions and proposed commercial terms remain intact', async () => {
     const buyers = await activate('buyers-slide');
     for (const label of ['Private gardens', 'Cultural destinations', 'Hospitality', 'In conversation']) assert.match(await buyers.innerText(), new RegExp(label, 'i'));
@@ -211,10 +195,10 @@ try {
     assert.equal(await buyers.locator('.buyer-triptych figure').count(),3);
     assert.equal(await buyers.locator('.prospect-logo').count(),4);
     assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled/i);
-    assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-13-customers', buyers);
+    assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-12-customers', buyers);
     const offer = await activate('v7-commercial-model-slide');
     for (const pattern of [/\u00a365,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
-    await screenshot('slide-15-commercial', offer);
+    await screenshot('slide-14-commercial', offer);
   });
   await test('Original eye-level Time film autoplays assembly and preserves pause and scrubbing', async () => {
     const slide = await activate('v7-growth-slide'); await ready('growth');
@@ -294,13 +278,14 @@ try {
     for(const sample of motion.samples) for(const person of sample.people) {
       for(const pier of piers) assert.ok(Math.hypot(person.point[0]-pier[0],person.point[1]-pier[1])>1.2,'Walkers must clear the timber piers');
     }
-    const through=motion.samples.slice(0,180).flatMap(s=>s.people.filter(p=>p.id==='through'));
+    const through=motion.samples.slice(0,220).flatMap(s=>s.people.filter(p=>p.id==='through'));
     assert.ok(through.some(p=>p.point[0]>6)&&through.some(p=>Math.hypot(p.point[0],p.point[1])<.3)&&through.some(p=>p.point[0]<-6),'A person should arrive, cross the room and leave');
     for(const id of ['through','around']) {
       const a=motion.samples.find(s=>s.time===21).people.find(p=>p.id===id),b=motion.samples.find(s=>s.time===22).people.find(p=>p.id===id);
       const moved=Math.hypot(...a.point.map((v,i)=>v-b.point[i]));
-      assert.ok(moved>1&&moved<1.3,'Walk cycles must accompany visible travel at an everyday pace');
-      assert.ok(Math.abs(a.cycle-b.cycle)>.05,'Feet must advance with travelled distance');
+      assert.ok(moved>.65&&moved<1.85,'Walk cycles must accompany visible travel at a varied everyday pace');
+      const step=motion.samples.find(s=>Math.abs(s.time-21.3)<.001).people.find(p=>p.id===id);
+      assert.ok(Math.abs(a.cycle-step.cycle)>.1,'Feet must advance within a stride, even when a full second repeats a similar pose');
     }
     assert.equal(motion.before,null);assert.equal(motion.between,null);
     assert.equal(motion.arriving.flying,true);assert.equal(motion.perched.flying,false);assert.equal(motion.leaving.flying,true);
@@ -312,6 +297,28 @@ try {
     await experimentSeek(29/51);await experimentSeek(26/51);
     assert.equal(await canvas.evaluate(el=>el.toDataURL()),image,'Scrubbing back must reproduce the same authored moment');
     await screenshot('slide-03-time-inhabitants-and-bird',slide);
+  });
+  await test('Time renders one coherent pose per person without double exposure', async () => {
+    const slide=await activate('v8-time-experiment-slide');await experimentReady();
+    await page.waitForFunction(()=>document.querySelector('[data-v8-time-experiment]').dataset.gesturesReady==='true');
+    await page.evaluate(()=>{
+      const proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage,clear=proto.clearRect,counts=new WeakMap();
+      window.personPoseCounts=[];
+      const sprite=canvas=>!canvas.isConnected&&canvas.width===112&&canvas.height===176;
+      proto.clearRect=function(...args){if(sprite(this.canvas))counts.set(this,0);return clear.apply(this,args);};
+      proto.drawImage=function(image,...args){
+        if(sprite(this.canvas))counts.set(this,(counts.get(this)||0)+1);
+        if(image instanceof HTMLCanvasElement&&sprite(image)&&this.canvas.closest('[data-v8-time-experiment]'))window.personPoseCounts.push(counts.get(image.getContext('2d')));
+        return draw.call(this,image,...args);
+      };
+      window.restorePoseCount=()=>{proto.drawImage=draw;proto.clearRect=clear;};
+    });
+    try{
+      for(const time of [13.3,18.2,19.8,24.4,40.2,49.25,50.2])await experimentSeek(time/51);
+      const counts=await page.evaluate(()=>window.personPoseCounts);
+      assert.ok(counts.length>=7);assert.ok(counts.every(n=>n===1),'Each person must use one complete pose, not overlaid views or animation frames');
+      await screenshot('slide-03-single-flower-visitor',slide);
+    }finally{await page.evaluate(()=>window.restorePoseCount());}
   });
   await test('Time camera alternatives preserve the selected year and original drawing', async () => {
     const slide = await activate('v8-time-experiment-slide'); await experimentReady();
@@ -331,6 +338,55 @@ try {
     assert.match(await host('growth').locator('video').getAttribute('src'),/approach-ink-16x9\.(mp4|webm)$/);
     assert.equal(await page.locator('.slide.v7-growth-slide').count(),1);
     assert.equal(await page.locator('.slide.v8-time-experiment-slide').count(),1);
+  });
+  await test('Time depth hides people behind members and leaves in all three cameras', async () => {
+    const slide=await activate('v8-time-experiment-slide');await experimentReady();
+    await page.waitForFunction(()=>document.querySelector('[data-v8-time-experiment]').dataset.gesturesReady==='true');
+    for(const variant of ['orbit','fixed','rise']){
+      await experiment().locator(`[data-time-variant="${variant}"]`).click();await experimentReady();
+      const samples=[];let proof=false;
+      for(const time of [17,19,22,25,28,32,36,40,41.2,45,48,50.2]){
+        await experimentSeek(time/51);const state=await experimentState();
+        assert.equal(state.depthReady,true,'The selected movie frame needs its matching depth');
+        samples.push(...state.occlusion);
+        if(!proof&&state.occlusion.some(p=>p.hidden>.08&&p.hidden<.85)){
+          await screenshot(`slide-03-depth-${variant}`,slide);proof=true;
+        }
+      }
+      assert.ok(samples.some(p=>p.hidden>.9),`${variant}: people behind the structure should disappear`);
+      assert.ok(samples.some(p=>p.hidden>.02&&p.hidden<.9),`${variant}: individual members and leaves should partly hide people`);
+      assert.ok(samples.some(p=>p.hidden<.01),`${variant}: people in clear view should remain visible`);
+    }
+    await experiment().locator('[data-time-variant="orbit"]').click();await experimentReady();
+    await experimentSeek(26/51);
+    const canvas=experiment().locator('canvas'),image=await canvas.evaluate(el=>el.toDataURL());
+    await frames();assert.equal(await canvas.evaluate(el=>el.toDataURL()),image);
+    await experimentSeek(27/51);await experimentSeek(26/51);
+    assert.equal(await canvas.evaluate(el=>el.toDataURL()),image,'Depth, gait and gestures should reproduce a scrubbed moment');
+    await experimentSeek(25.9/51);await experiment().getByRole('button',{name:'Play drawing',exact:true}).click();
+    await page.waitForFunction(()=>document.querySelector('[data-v8-time-experiment]').v8Controller.getState().time>27.1);
+    await experiment().getByRole('button',{name:'Pause drawing',exact:true}).click();
+    assert.equal((await experimentState()).depthReady,true,'Autoplay should cross depth chunk boundaries without losing inhabitants');
+  });
+  await test('Time reduced-motion mode opens at a still, depth-composited summer', async () => {
+    await page.emulateMedia({reducedMotion:'reduce'});await page.goto(href+'#slide-03');await page.reload();await experimentReady();
+    const state=await experimentState();assert.equal(state.playing,false);assert.equal(state.depthReady,true);assert.equal(state.time,49);
+    const canvas=experiment().locator('canvas'),image=await canvas.evaluate(el=>el.toDataURL());await frames();
+    assert.equal(await canvas.evaluate(el=>el.toDataURL()),image);
+    await page.emulateMedia({reducedMotion:'no-preference'});
+  });
+  await test('Missing Time depth retains the film without see-through inhabitants', async () => {
+    expectingLoadFailure=true;
+    const pattern=/\/v8\/assets\/time-experiment\/depth\/.*\.webp(?:\?|$)/;
+    await page.route(pattern,route=>route.abort('failed'));
+    try{
+      await page.goto(href+'#slide-03');await page.reload();await experimentReady();
+      await experimentSeek(26/51);const state=await experimentState();
+      assert.equal(state.error,null);assert.equal(state.depthReady,false);assert.deepEqual(state.occlusion,[]);
+      assert.ok(await experiment().locator('video').evaluate(el=>el.readyState>=2));
+    }finally{await page.unroute(pattern);expectingLoadFailure=false;}
+    await page.reload();await experimentReady();await experimentSeek(26/51);
+    assert.equal((await experimentState()).depthReady,true);
   });
   await test('Missing Time experiment film shows its still and recovers on retry', async () => {
     expectingLoadFailure = true;
@@ -478,34 +534,15 @@ try {
     });
     assert.ok(layout.padded,'Intent and site text should fit with padding on every side');
     assert.ok(layout.phaseClear,'The design phase should sit above its input, clear of tabs');
-    await screenshot('slide-17-learning-design',slide);
+    await screenshot('slide-16-learning-design',slide);
     await slide.locator('[data-v7flow-select="design"]').focus();await page.keyboard.press('ArrowRight');
     assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-v7flow-mode'),'making');
     assert.match(await slide.locator('[data-v7flow-readout]').innerText(),/released geometry/);
     await slide.locator('[data-v7flow-node="inputs"]').click();
     assert.equal(await slide.locator('[data-v7flow-select="design"]').getAttribute('aria-pressed'),'true');
-    await slide.locator('[data-v7flow-select="all"]').click();await screenshot('slide-17-learning-whole',slide);
+    await slide.locator('[data-v7flow-select="all"]').click();await screenshot('slide-16-learning-whole',slide);
   });
-  await test('Question study remains separate and supports keyboard comparison', async () => {
-    const slide = await activate('v8-learning-questions-slide');
-    const scene = slide.locator('[data-v8-learning-questions]');
-    assert.equal(await slide.locator('[data-v8-lq-question]').count(),3);
-    assert.equal(await slide.locator('[data-v7-flow], input[type="range"]').count(),0);
-    assert.equal(await page.locator('[data-v7-flow]').count(),1);
-    await slide.locator('[data-v8-lq-question="growing"]').click();
-    assert.equal(await scene.getAttribute('data-v8-lq-selected'),'growing');
-    assert.match(await slide.locator('[data-v8-lq-detail]').innerText(),/root zone.*opening/);
-    await screenshot('slide-18-learning-questions',slide);
-    await page.keyboard.press('ArrowRight');
-    assert.equal(await scene.getAttribute('data-v8-lq-selected'),'cost');
-    assert.match(await slide.locator('[data-v8-lq-detail]').innerText(),/exceed the budget/);
-    assert.equal(await page.evaluate(()=>window.DESIGNX.current),18);
-    await page.keyboard.press('Home');
-    assert.equal(await scene.getAttribute('data-v8-lq-selected'),'making');
-    const overflow = await slide.locator('.v8lq-node, .v8lq-question').evaluateAll(nodes => nodes.filter(el => el.scrollWidth > el.clientWidth + 2 || el.scrollHeight > el.clientHeight + 2).map(el=>el.innerText));
-    assert.deepEqual(overflow,[],'Flowchart nodes should contain their labels');
-    assert.equal(await page.locator('#v8-lq-title').count(),1);
-  });
+
   await test('Pier exploration preserves time and other intentions remain placeholders', async () => {
     const slide = await activate('v7-anatomy-slide'); await slide.locator('[data-v7-intent="1"]').click();
     assert.equal(await slide.locator('.v7-drawing-note').isVisible(), true); assert.equal(await slide.locator('.v8-pier-example').isVisible(), false);
@@ -516,7 +553,7 @@ try {
     await closeStudy(); await openStudy('pier'); assert.deepEqual(await pausedStable('pier'), before, 'Reopening must retain the paused pier'); await closeStudy();
   });
   await test('Original factory overview and Form / Measure / Machine controls work', async () => {
-    const overview = await activate('factory-slide'); await factoryReady('overview', 'overview'); await screenshot('slide-11-factory', overview);
+    const overview = await activate('factory-slide'); await factoryReady('overview', 'overview'); await screenshot('slide-10-factory', overview);
     assert.equal(await overview.locator('[data-factory-focus]').count(), 1); await overview.locator('[data-factory-notes]').click(); await page.locator('#factory-notes[open]').waitFor();
     await page.locator('#factory-notes').getByRole('button', { name: 'Close drawing dialog', exact: true }).click();
     await page.frameLocator('.slide.is-active [data-factory-surface] iframe').locator('[data-factory-station="05-press"]').press('Enter');
@@ -530,16 +567,16 @@ try {
     await focus.locator('[data-factory-seek]').evaluate(el => { el.value = '42'; el.dispatchEvent(new Event('input', { bubbles: true })); });
     await page.waitForFunction(() => { const state = window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus'); return Math.abs(state.time / state.duration - .42) < .001 && !state.playing; });
     const before = await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time); await frames();
-    assert.equal(await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time), before); await screenshot('slide-12-factory-focus', focus);
+    assert.equal(await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time), before); await screenshot('slide-11-factory-focus', focus);
   });
   await test('Index, notes, new drawing slots and print link remain usable', async () => {
-    await screenshot('slide-06-ground', await activate('v8-ground-slide')); await screenshot('slide-16-care', await activate('v8-care-slide'));
+    await screenshot('slide-06-ground', await activate('v8-ground-slide')); await screenshot('slide-15-care', await activate('v8-care-slide'));
     await page.locator('#open-index').click(); assert.equal(await page.locator('#slide-index[open] [data-go]').count(), expectedThemes.length);
     await page.locator('#slide-index [data-go]').last().click(); assert.equal(await page.evaluate(() => window.DESIGNX.current), expectedThemes.length);
     await page.locator('#show-notes').click(); assert.match(await page.locator('#notes-content').innerText(), /Story connection|Continue to the next slide|Drawing plan/); await page.locator('[data-close-dialog="speaker-notes"]').click();
     const print = new URL(await page.locator('#pdf-link').getAttribute('href'), href); assert.equal(print.searchParams.get('print'), '1'); assert.ok(print.pathname.includes('/v8'));
   });
-  await test('Static reading view has twenty-two scenes, complete factory diagrams and no broken images', async () => {
+  await test('Static reading view has twenty scenes, complete factory diagrams and no broken images', async () => {
     const print = new URL(href); print.search = '?print=1'; await page.goto(print.href); await page.waitForFunction(() => Boolean(window.DESIGNX));
     await page.evaluate(() => Promise.race([Promise.all([window.DESIGNX_READY, window.DESIGNX_FACTORY_READY]), new Promise((_, reject) => setTimeout(() => reject(new Error('Static factory preparation exceeded 20 seconds')), 20000))]));
     await page.waitForFunction(()=>document.querySelector('[data-v8-consequences]')?.dataset.ready==='true');
@@ -555,14 +592,9 @@ try {
     await screenshot('print-04-light',page.locator('.slide.v8-light-slide'));
     await screenshot('print-05-space',page.locator('.slide.v8-space-slide'));
     await screenshot('print-08-consequences',page.locator('.slide.v7-computation-slide'));
-    await screenshot('print-12-manufacturing',page.locator('.slide.factory-focus-slide'));
-    await screenshot('print-17-learning',page.locator('.slide.v7-learning-flow-slide'));
-    const questions = page.locator('.slide.v8-learning-questions-slide');
-    assert.equal(await questions.locator('.v8lq-readout').isVisible(),false);
-    assert.equal(await questions.locator('.v8lq-print-detail').isVisible(),true);
-    assert.equal(await questions.locator('.v8lq-print-detail p').count(),3);
-    for (const question of await questions.locator('[data-v8-lq-question]').all()) assert.ok(await question.isVisible(),'The three questions must remain visible in print');
-    await screenshot('print-18-learning-questions',questions);
+    await screenshot('print-11-manufacturing',page.locator('.slide.factory-focus-slide'));
+    await screenshot('print-16-learning',page.locator('.slide.v7-learning-flow-slide'));
+    await screenshot('print-13-invitation',page.locator('.slide.v8-reference-slide'));
   });
   await test('Story map loads and no edition 09 dependencies remain', async () => {
     await page.goto(new URL('story-map.html', href).href); await page.waitForLoadState('domcontentloaded'); assert.match(await page.locator('body').innerText(), /story|presentation|drawing/i);
