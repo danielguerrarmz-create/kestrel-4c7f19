@@ -132,9 +132,10 @@
     }
     video.addEventListener('loadedmetadata',()=>{video.currentTime=clamp(pendingTime,0,state.duration-.01);});
     const ready=()=>{if(video.readyState<2)return;clearTimeout(loadTimer);state.ready=true;state.error=null;showMessage('');paint();start();};
-    video.addEventListener('loadeddata',ready);video.addEventListener('seeked',ready);video.addEventListener('error',()=>{if(video.src)fail();});
+    video.addEventListener('loadeddata',ready);video.addEventListener('seeked',ready);video.addEventListener('canplay',ready);
+    video.addEventListener('waiting',()=>{if(usable()&&!state.error)showMessage('Loading the selected moment…');});video.addEventListener('error',()=>{if(video.src)fail();});
     play.onclick=()=>{state.playing=!state.playing;if(state.playing)start();else{stop();paint();}controls();};
-    range.addEventListener('input',()=>{state.playing=false;stop();state.time=Number(range.value);pendingTime=state.time;if(video.readyState>=1){state.ready=false;video.currentTime=state.time;}controls();});
+    range.addEventListener('input',()=>{state.playing=false;stop();state.time=Number(range.value);pendingTime=state.time;if(video.readyState>=1){state.ready=false;showMessage('Loading the selected moment…');video.currentTime=state.time;}controls();});
     root.querySelectorAll('[data-time-variant]').forEach(button=>button.onclick=()=>{if(state.variant===button.dataset.timeVariant)return;state.variant=button.dataset.timeVariant;loadFilm();});
     $('[data-time-retry]').onclick=()=>{state.error=null;if(manifest)loadFilm();else load();};
     root.addEventListener('keydown',event=>event.stopPropagation());
