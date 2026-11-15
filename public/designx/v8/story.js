@@ -223,7 +223,7 @@ window.DESIGNX_V8_STORY = [
     "title": "A room is the beginning.",
     "theme": "v7-future-slide",
     "purpose": "Open the ambition from the first room to buildings, streets and urban places, carrying the same relationships with ground, water, other life, occupation and care into larger settings.",
-    "stays": "The five existing future concepts and their progression from garden room to cultural pavilion, living building, planted street and urban fabric.",
+    "stays": "The five new founder-supplied concepts: sanctuary, civic promenade, living street, living building and garden city. Keep the full-image explorer and five-image print composition.",
     "drawing": "Keep the conceptual sequence. Carry forward the relationships established in the first room—ground, water, light, other life, occupation and care—rather than suggesting that size alone is the innovation.",
     "status": "Founder-supplied architectural concepts expressing ambition. They are not engineered proposals, a delivery pipeline or a forecast of what the first product can already achieve.",
     "transition": "Return from the wider ambition to the first place and the specific work DesignX could help advance.",

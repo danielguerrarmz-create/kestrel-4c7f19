@@ -14,7 +14,7 @@
     notes:item.purpose,source:item.theme === 'v8-ground-slide' ? 'Inhabited-room scene: six-bay-radial-v1 baseline; site.json and ground.json contain provisional design proposals. First arrival and section renders are linked in the story map.' : 'V7 proposed annual-care offer and the inhabited-room scene brief. No operating service or observed outcomes asserted.'
   });
   window.DESIGNX_SLIDES = story.map(item => {
-    const slide = item.baseSlide === 1 ? window.DESIGNX_V8_PROBLEM(prior[item.baseSlide - 1]) : item.baseSlide === 12 ? window.DESIGNX_V8_CUSTOMERS(prior[item.baseSlide - 1]) : item.baseSlide === 14 ? { ...prior[item.baseSlide - 1], ...window.DESIGNX_V8_REFERENCE } : item.baseSlide ? prior[item.baseSlide - 1] : newDrawing(item);
+    const slide = item.baseSlide === 1 ? window.DESIGNX_V8_PROBLEM(prior[item.baseSlide - 1]) : item.baseSlide === 12 ? window.DESIGNX_V8_CUSTOMERS(prior[item.baseSlide - 1]) : item.baseSlide === 14 ? { ...prior[item.baseSlide - 1], ...window.DESIGNX_V8_REFERENCE } : item.baseSlide === 17 ? { ...prior[item.baseSlide - 1], ...window.DESIGNX_V8_FUTURE } : item.baseSlide ? prior[item.baseSlide - 1] : newDrawing(item);
     const template = document.createElement('template'); template.innerHTML = slide.html;
     if (item.baseSlide === 6) template.innerHTML = window.DESIGNX_V8_COMPUTATION.html;
     const content = template.content;

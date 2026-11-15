@@ -1,0 +1,57 @@
+{
+  "supplied": "2026-11-15",
+  "treatment": "WebP encoding at original dimensions; no crop or visual edits.",
+  "evidence": "Founder-supplied generated architectural concepts expressing longer-term ambition, not completed projects or engineered proposals.",
+  "assets": [
+    {
+      "id": "sanctuary",
+      "originalFilename": "Golden Garden Cathedral Sanctuary.png",
+      "width": 1672,
+      "height": 941,
+      "originalSha256": "b92cb081f9e3a1fb5c87beb7de07e0b3f94be3b94b1c28b55ab3476d772e5955",
+      "file": "sanctuary.webp",
+      "bytes": 648172,
+      "sha256": "bed747d514cb6bd9b37f59ff3157dcc12a6c8fa6337484a6eeaca3c473d53d2f"
+    },
+    {
+      "id": "civic-promenade",
+      "originalFilename": "Wisteria Canopy Civic Promenade.png",
+      "width": 1672,
+      "height": 941,
+      "originalSha256": "4ed698faeaf49a837c4f80e7438f8689109d04fb1e1b12b70a4272dc6152ea66",
+      "file": "civic-promenade.webp",
+      "bytes": 691238,
+      "sha256": "45f1a146c65a772a0ca8864f1c16b7aa734e352da8e80e8f05e744907b7ec285"
+    },
+    {
+      "id": "living-street",
+      "originalFilename": "ChatGPT Image Nov 15, 2026, 08_47_43 PM.png",
+      "width": 1672,
+      "height": 941,
+      "originalSha256": "355a96a266b6fd3858260d324e8087f83592a5caaf5e12ecb23ee24c80b06910",
+      "file": "living-street.webp",
+      "bytes": 772292,
+      "sha256": "103541290b6b954a1dbb548e5c40d0a1c65b8cb5811660f3e5048ad77b7cecc7"
+    },
+    {
+      "id": "living-building",
+      "originalFilename": "ChatGPT Image Nov 15, 2026, 08_47_53 PM.png",
+      "width": 1672,
+      "height": 941,
+      "originalSha256": "e71b0c843be5403f961c6943bbb8b0971a0b4ff90502c1d5a921dc4c2689ce4d",
+      "file": "living-building.webp",
+      "bytes": 776316,
+      "sha256": "70876275a8578b7103fbb50be94fe49a2a95b8ae2328c8c87a52a4245b867a22"
+    },
+    {
+      "id": "garden-city",
+      "originalFilename": "Golden-Hour Living Timber Garden City.png",
+      "width": 1672,
+      "height": 941,
+      "originalSha256": "ac65ceebdc423f53526900a337eac262df973e6864045de7d19912dc16e329e2",
+      "file": "garden-city.webp",
+      "bytes": 694994,
+      "sha256": "27ec573b38f278a425c23ee7195ee936c3c6a64b3fd972a43b0e7baf1c449e76"
+    }
+  ]
+}
