@@ -1,9 +1,10 @@
 # From room to canopy — additional v8 camera test
 
-This is a new slide after the two existing Time drawings. Their source, films,
-players and slide definitions are unchanged. `canopy-orbit.js` inserts the test
-after the original edition has assembled its eighteen scenes; the displayed
-sequence therefore contains nineteen slides. The story map uses the same insert.
+The user selected this orbit as the main Time drawing on 15 November 2026.
+It is slide 02 in the sixteen-slide deck at `/designx`, also served at
+`/designx/v8/`. The two earlier Time studies remain in source outside the main
+sequence, and the empty care placeholder is removed. All other slide content
+is retained. The story map uses the same selection.
 
 ## The two projections
 

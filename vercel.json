@@ -98,12 +98,20 @@
       "destination": "/designx/2/index.html"
     },
     {
-      "source": "/designx",
+      "source": "/designx/1",
       "destination": "/designx/index.html"
     },
     {
-      "source": "/designx/",
+      "source": "/designx/1/",
       "destination": "/designx/index.html"
+    },
+    {
+      "source": "/designx",
+      "destination": "/designx/v8/index.html"
+    },
+    {
+      "source": "/designx/",
+      "destination": "/designx/v8/index.html"
     },
     {
       "source": "/((?!designx(?:/|$)|api/|_vercel/|assets/|agent/|hero/|fonts/|bimi/|favicon\\.svg|robots\\.txt|llms\\.txt|sitemap\\.xml).*)",

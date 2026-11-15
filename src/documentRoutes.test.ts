@@ -3,10 +3,17 @@ import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, designxDocumentUrl, designxPdf
 
 describe('the standalone presentation document', () => {
   it('keeps print and deep-link query parameters when serving its HTML', () => {
-    expect(designxDocumentUrl('/designx')).toBe('/designx/index.html');
-    expect(designxDocumentUrl('/designx/')).toBe('/designx/index.html');
-    expect(designxDocumentUrl('/designx?print=1&from=pdf')).toBe('/designx/index.html?print=1&from=pdf');
-    expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/index.html?print=1');
+    expect(designxDocumentUrl('/designx')).toBe('/designx/v8/index.html');
+    expect(designxDocumentUrl('/designx/')).toBe('/designx/v8/index.html');
+    expect(designxDocumentUrl('/designx?print=1&from=pdf')).toBe('/designx/v8/index.html?print=1&from=pdf');
+    expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/v8/index.html?print=1');
+  });
+
+  it('retains the original edition and the v8 alias independently', () => {
+    expect(designxDocumentUrl('/designx/1')).toBe('/designx/index.html');
+    expect(designxDocumentUrl('/designx/1/?print=1')).toBe('/designx/index.html?print=1');
+    expect(designxDocumentUrl('/designx/v8')).toBe('/designx/v8/index.html');
+    expect(designxDocumentUrl('/designx/v8/?print=1')).toBe('/designx/v8/index.html?print=1');
   });
 
   it('serves the second edition independently and preserves its query parameters', () => {

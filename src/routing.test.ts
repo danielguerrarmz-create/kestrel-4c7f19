@@ -295,11 +295,18 @@ describe('the Vercel SPA rewrite', () => {
     for (const path of ['/designx', '/designx/']) {
       expect(re.test(path)).toBe(false);
       expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
-        .toBe('/designx/index.html');
+        .toBe('/designx/v8/index.html');
     }
     expect(re.test('/designx-other')).toBe(true);
     expect(cfg.headers.find((h: { source: string }) => h.source === '/designx')?.headers)
       .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
+  });
+
+  it('preserves the original edition at its archive route and keeps v8 as an alias', () => {
+    for (const [path, destination] of [['/designx/1', '/designx/index.html'], ['/designx/1/', '/designx/index.html'], ['/designx/v8', '/designx/v8/index.html'], ['/designx/v8/', '/designx/v8/index.html']]) {
+      expect(re.test(path)).toBe(false);
+      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination).toBe(destination);
+    }
   });
 
   it('serves the second edition at its own URL and retains the deck noindex header', () => {

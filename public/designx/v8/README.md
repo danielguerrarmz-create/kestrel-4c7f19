@@ -1,8 +1,8 @@
 # Edition 08: one continuous story
 
-Open the [story map](http://localhost:5312/designx/v8/story-map.html) or the [working deck](http://localhost:5312/designx/v8/). Run `node deck/serve.mjs` from the repository root if needed.
+Open the [story map](http://localhost:5312/designx/v8/story-map.html) or the [main deck](http://localhost:5312/designx). Run `node deck/serve.mjs` from the repository root if needed.
 
-This is the replacement v8 requested on 15 November 2026. It uses v7's visual system and viewer in an eighteen-slide story. Slide 6, the living place, is the rendered place page from the inhabited-room study (`pieces/the-place`); care keeps its drawing space. The two pier slides (design decision, computational consequences) are set aside in `set-aside.js`, not loaded. The separate shared-model, learning-cycle and coupled-system slides are consolidated into one explorable learning drawing. The original complex flowchart is retained. The standalone design engine and question-led flowchart copy have been removed from the sequence and resource list. The ghosted Bower slide retains The missing reference as its headline, with the discovery sentence and a separate invitation below: Help us make it real. The earlier arrangement and standalone v9 narrative are superseded. V7 and earlier editions are unchanged. No repository-root document was changed by this revision.
+This is the current sixteen-slide main presentation at `/designx`, also available at `/designx/v8/`. It uses v7’s visual system and viewer. The approved orbit is the main Time drawing; its earlier variants are retained in source, and the empty care slide is removed. The living-place study, manufacturing drawings, customer and commercial material, learning flow and wider ambition remain. The selected sequence is listed below. Earlier deck assets and repository-root documents are unchanged.
 
 ## The story
 
@@ -10,7 +10,19 @@ We encounter a Bower and understand why someone would want it. Looking more clos
 
 `story.js` is the slide-by-slide editorial map. Every entry records the source v7 slide, its role, what stays, the intended drawing, current evidence status and the connection to the next slide. `story-map.html` presents that map with links to each slide. The deck's Notes include the same connections and drawing briefs alongside the original source notes.
 
-The eighteen-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → nature makes space → the living place → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
+## Selected main deck — 15 November 2026
+
+The approved orbit is now the main Time drawing, on slide 02. The two earlier Time slides are set aside from the presentation, with their players, media and original definitions retained in source. The empty care drawing is removed. All other slide content is retained.
+
+The **sixteen-slide** sequence is: Bower → From room to canopy → Light through the day → Nature makes space → The living place → variability → manufacturing → Form/Measure/Machine → customers → the missing reference and invitation → Design/Build/Grow → learning → team → construction at scale → future possibilities → close.
+
+`canopy-orbit.js` applies this final selection to the source story and edition. The story map, index, keyboard navigation and print view use the same selection. Perspective remains the default, with Axonometric available at the same moment through the quiet projection switch.
+
+**Publication:** `/designx` and `/designx/` serve this v8 deck. `/designx/v8/` remains an alias. The earlier first edition remains available at `/designx/1/`; its files are retained. Both the local deck server and the website route configuration resolve these addresses without moving shared assets. Repository-root documents are unchanged.
+
+## Earlier development notes
+
+The following describes the earlier studies and their original slide positions. The selected sequence above is current.
 
 ## What is present
 

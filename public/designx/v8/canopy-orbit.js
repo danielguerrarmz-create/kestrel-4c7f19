@@ -1,10 +1,10 @@
-/* An additional camera test. Existing slide definitions and players stay intact. */
+/* The selected Time drawing. Earlier studies remain in source, outside the main sequence. */
 (()=>{
   'use strict';
   const BASE='v8/assets/canopy-orbit/',clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   const item={title:'From room to canopy',theme:'v8-canopy-orbit-slide',baseSlide:4,
-    purpose:'Compare the experience of an orbit through changing eye heights with an overhead reading of the same living room.',
-    stays:'Both existing Time drawings remain intact. This is an additional camera comparison using the same frozen room and growth scenario.',
+    purpose:'See the room assemble and become inhabited, then rise from changing eye heights to an overhead reading of the living canopy.',
+    stays:'The approved full orbit, ink-to-timber transition, inhabitants and shared timeline. The earlier Time studies remain in source outside the main sequence.',
     drawing:'A full orbit varies its height, then rises into a true top-down view and holds. Perspective and Axonometric use the same camera route and scenario clock; Axonometric uses parallel projection. The full-size films autoplay, pause and scrub with the shared black timeline.',
     status:'Pre-rendered full-model camera studies with authored 3D people and birds. Growth is a provisional scenario, timber appearance is illustrative, and the assembly sequence is not a validated erection method. The final overhead view is held for six seconds.',
     transition:'Return to the changing light and enclosure of the same room.'};
@@ -77,15 +77,17 @@
     const controller={setActive(active){state.active=active;if(active)load();else stop();},getState:()=>({...state}),destroy(){destroyed=true;stop();clearTimeout(timeout);video.removeAttribute('src');video.load();}};
     root.v8Controller=controller;controls();return controller;
   }
-  // Insert only this test; the source story/edition and existing HTML stay as authored.
+  // Promote the approved orbit, set aside the two earlier Time studies and omit
+  // the empty care drawing. Every other slide retains its authored content.
+  const retired=new Set(['v7-growth-slide','v8-time-experiment-slide','v8-care-slide']);
+  const retained=s=>!s.theme.split(' ').some(theme=>retired.has(theme));
   const sourceStory=window.DESIGNX_V8_STORY;
   if(sourceStory&&!sourceStory.some(s=>s.theme===item.theme)){
-    const at=sourceStory.findIndex(s=>s.timeExperiment)+1;
-    const next=sourceStory.slice();next.splice(at,0,item);window.DESIGNX_V8_STORY=next.map((s,i)=>({...s,number:i+1}));
+    const next=sourceStory.filter(retained);next.splice(1,0,item);window.DESIGNX_V8_STORY=next.map((s,i)=>({...s,number:i+1}));
   }
   if(window.DESIGNX_SLIDES&&!window.DESIGNX_SLIDES.some(s=>s.theme===item.theme)){
-    const at=window.DESIGNX_SLIDES.findIndex(s=>s.theme.includes('v8-time-experiment-slide'))+1;
-    window.DESIGNX_SLIDES.splice(at,0,{title:item.title,theme:item.theme,act:'A living place',sourceIndex:3,comparisonIndex:3,html,notes:`${item.purpose}<br><br>${item.drawing}<br><br>${item.status}`,source:item.status});
+    window.DESIGNX_SLIDES=window.DESIGNX_SLIDES.filter(retained);
+    window.DESIGNX_SLIDES.splice(1,0,{title:item.title,theme:item.theme,act:'A living place',sourceIndex:3,comparisonIndex:3,html,notes:`${item.purpose}<br><br>${item.drawing}<br><br>${item.status}`,source:item.status});
     window.DESIGNX_META=Object.freeze({...window.DESIGNX_META,targetSlideCount:window.DESIGNX_SLIDES.length});
   }
   window.DESIGNX_V8_CANOPY_ORBIT={html,mount};
