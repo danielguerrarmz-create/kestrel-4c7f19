@@ -17,10 +17,7 @@ export function designxDocumentUrl(requestUrl: string): string | null {
   const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/1`, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`, `${DESIGNX_ROOT}/6`, `${DESIGNX_ROOT}/v7`, `${DESIGNX_ROOT}/v8`]
     .find(root => pathname === root || pathname === `${root}/`);
   if (!documentRoot) return null;
-  const document = documentRoot === DESIGNX_ROOT ? `${DESIGNX_ROOT}/v8/index.html`
-    : documentRoot === `${DESIGNX_ROOT}/1` ? `${DESIGNX_ROOT}/index.html`
-    : `${documentRoot}/index.html`;
-  return `${document}${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
+  return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
 }
 
 /** The PDF alias serves a file, never the interactive document or the marketing SPA. */

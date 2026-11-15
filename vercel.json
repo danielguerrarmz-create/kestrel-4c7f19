@@ -99,19 +99,19 @@
     },
     {
       "source": "/designx/1",
-      "destination": "/designx/index.html"
+      "destination": "/designx/1/index.html"
     },
     {
       "source": "/designx/1/",
-      "destination": "/designx/index.html"
+      "destination": "/designx/1/index.html"
     },
     {
       "source": "/designx",
-      "destination": "/designx/v8/index.html"
+      "destination": "/designx/index.html"
     },
     {
       "source": "/designx/",
-      "destination": "/designx/v8/index.html"
+      "destination": "/designx/index.html"
     },
     {
       "source": "/((?!designx(?:/|$)|api/|_vercel/|assets/|agent/|hero/|fonts/|bimi/|favicon\\.svg|robots\\.txt|llms\\.txt|sitemap\\.xml).*)",

@@ -18,7 +18,7 @@ The **sixteen-slide** sequence is: Bower → From room to canopy → Light throu
 
 `canopy-orbit.js` applies this final selection to the source story and edition. The story map, index, keyboard navigation and print view use the same selection. Perspective remains the default, with Axonometric available at the same moment through the quiet projection switch.
 
-**Publication:** `/designx` and `/designx/` serve this v8 deck. `/designx/v8/` remains an alias. The earlier first edition remains available at `/designx/1/`; its files are retained. Both the local deck server and the website route configuration resolve these addresses without moving shared assets. Repository-root documents are unchanged.
+**Publication:** `/designx` and `/designx/` serve this v8 deck. `/designx/v8/` remains an alias. The earlier first edition remains available at `/designx/1/`; its files are retained. The root entry document loads the same v8 modules, because the production host serves directory index files before rewrites. The archived first edition has its own entry under `1/`. Shared assets stay at their existing paths. Repository-root documents are unchanged.
 
 ## Earlier development notes
 

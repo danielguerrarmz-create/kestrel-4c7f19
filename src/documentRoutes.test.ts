@@ -1,17 +1,28 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './documentRoutes';
 
 describe('the standalone presentation document', () => {
+  it('publishes the selected deck in the physical root index before filesystem routing', () => {
+    const main = readFileSync(new URL('../public/designx/index.html', import.meta.url), 'utf8');
+    const v8 = readFileSync(new URL('../public/designx/v8/index.html', import.meta.url), 'utf8');
+    const original = readFileSync(new URL('../public/designx/1/index.html', import.meta.url), 'utf8');
+    expect(main).toContain("'v8/canopy-orbit.js'");
+    expect(main.replace("new URL('./', location.href)", "new URL('../', location.href)")).toBe(v8);
+    expect(original).toContain('<title>Buildings That Grow — Bower × MIT–LUMA</title>');
+    expect(original).not.toContain('v8/canopy-orbit.js');
+  });
+
   it('keeps print and deep-link query parameters when serving its HTML', () => {
-    expect(designxDocumentUrl('/designx')).toBe('/designx/v8/index.html');
-    expect(designxDocumentUrl('/designx/')).toBe('/designx/v8/index.html');
-    expect(designxDocumentUrl('/designx?print=1&from=pdf')).toBe('/designx/v8/index.html?print=1&from=pdf');
-    expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/v8/index.html?print=1');
+    expect(designxDocumentUrl('/designx')).toBe('/designx/index.html');
+    expect(designxDocumentUrl('/designx/')).toBe('/designx/index.html');
+    expect(designxDocumentUrl('/designx?print=1&from=pdf')).toBe('/designx/index.html?print=1&from=pdf');
+    expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/index.html?print=1');
   });
 
   it('retains the original edition and the v8 alias independently', () => {
-    expect(designxDocumentUrl('/designx/1')).toBe('/designx/index.html');
-    expect(designxDocumentUrl('/designx/1/?print=1')).toBe('/designx/index.html?print=1');
+    expect(designxDocumentUrl('/designx/1')).toBe('/designx/1/index.html');
+    expect(designxDocumentUrl('/designx/1/?print=1')).toBe('/designx/1/index.html?print=1');
     expect(designxDocumentUrl('/designx/v8')).toBe('/designx/v8/index.html');
     expect(designxDocumentUrl('/designx/v8/?print=1')).toBe('/designx/v8/index.html?print=1');
   });
