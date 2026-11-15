@@ -1,0 +1,19 @@
+{
+  "schema": "bower.time-depth/1",
+  "width": 768,
+  "height": 432,
+  "fps": 12,
+  "start": 13,
+  "end": 51,
+  "perChunk": 12,
+  "columns": 3,
+  "range": 64,
+  "encoding": "R*256+G; 0..65534 = 0..64 metres along camera axis; 65535 = clear",
+  "variants": [
+    "orbit",
+    "rise",
+    "fixed"
+  ],
+  "source": "six-bay-radial-v1 / trained-10y; original organ deformation shaders and film camera matrices",
+  "evidence": "Generated depth of the illustrative growth scenario; not measured geometry."
+}

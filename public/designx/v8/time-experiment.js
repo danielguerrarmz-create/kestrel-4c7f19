@@ -46,21 +46,33 @@
       const elapsed=(time-walk.start)%(walk.duration+walk.gap),beat=walk.sequence.find(s=>elapsed>=s.start&&elapsed<s.start+s.duration);
       if(!beat)return [];
       const t=elapsed-beat.start;
-      let distance=beat.distance,walkWeight=1,heading,action=beat.action,phase=t/beat.duration;
+      let distance=beat.distance,walkWeight=0,heading,action=beat.action,phase=t/beat.duration,speed=0;
       if(action==='walk'){
-        // Integrate a cosine acceleration/deceleration ramp; feet follow distance.
+        // Ease the beginning/end, then vary pace within a walk without moving
+        // the authored stops. Distance, rather than the clock, drives the feet.
         const rampDistance=u=>walk.speed*.5*(u-beat.ramp/Math.PI*Math.sin(Math.PI*u/beat.ramp));
-        distance+=t<beat.ramp?rampDistance(t):t>beat.duration-beat.ramp?beat.length-rampDistance(beat.duration-t):walk.speed*(t-beat.ramp/2);
+        const travelled=t<beat.ramp?rampDistance(t):t>beat.duration-beat.ramp?beat.length-rampDistance(beat.duration-t):walk.speed*(t-beat.ramp/2);
+        const p=travelled/beat.length,sign=walk.id==='through'?1:-1;
+        distance+=beat.length*(p+sign*.035*Math.sin(p*Math.PI*2)+.012*Math.sin(p*Math.PI*4));
+        const rampSpeed=t<beat.ramp?.5*(1-Math.cos(Math.PI*t/beat.ramp)):t>beat.duration-beat.ramp?.5*(1-Math.cos(Math.PI*(beat.duration-t)/beat.ramp)):1;
+        speed=walk.speed*rampSpeed*(1+sign*.07*Math.PI*Math.cos(p*Math.PI*2)+.048*Math.PI*Math.cos(p*Math.PI*4));
+        walkWeight=smooth(speed/.7);
       }else{
-        const here=along(walk.path,distance).point,incoming=along(walk.path,distance-.05).heading,outgoing=along(walk.path,distance+.05).heading;
+        const here=along(walk.path,distance).point,before=along(walk.path,distance-.28).point,after=along(walk.path,distance+.35).point;
+        const incoming=Math.atan2(here[1]-before[1],here[0]-before[0]),outgoing=Math.atan2(after[1]-here[1],after[0]-here[0]);
         const facing=Math.atan2(beat.target[1]-here[1],beat.target[0]-here[0]);
         heading=turn(turn(incoming,facing,smooth(t/.6)),outgoing,smooth((t-beat.duration+.6)/.6));
-        walkWeight=1-Math.min(smooth(t/.24),smooth((beat.duration-t)/.24));
         // The source flowers are in bloom at the held final summer.
         if(action==='smell'&&time<48.94)action='look';
       }
-      const position=along(walk.path,distance);
-      return [{id:walk.id,...position,heading:heading??position.heading,distance,cycle:fract(distance/1.4),action,phase,walkWeight,alpha:Math.min(1,distance/1.6,(walk.path.length-distance)/1.6)}];
+      const positionAt=d=>{
+        const p=along(walk.path,d),progress=clamp((d-beat.distance)/(beat.length||1),0,1);
+        const envelope=action==='walk'?Math.sin(progress*Math.PI)**2:0,offset=walk.id==='around'?1.7:0;
+        return [p.point[0]+.16*envelope*Math.sin(d*.61+offset),p.point[1]+.18*envelope*Math.sin(d*.47+offset),p.point[2]];
+      };
+      const point=positionAt(distance),behind=positionAt(Math.max(beat.distance,distance-.28)),ahead=positionAt(Math.min(beat.distance+(beat.length||0),distance+.35));
+      const tangent=action==='walk'?Math.atan2(ahead[1]-behind[1],ahead[0]-behind[0]):along(walk.path,distance).heading;
+      return [{id:walk.id,point,heading:heading??tangent,distance,speed,cycle:fract(distance/1.4),action,phase,walkWeight,alpha:Math.min(1,distance/1.6,(walk.path.length-distance)/1.6)}];
     });
   }
   const perch=[3.228,-4.444,3.32]; // Timber surface at lap:R1.B2.hoop0:R1.fine.cw.15.
@@ -96,6 +108,16 @@
     }
     return {kind:'hummingbird',point,heading,target,feeding,flying:true,flap:Math.sin(time*83),alpha:Math.min(1,(time-48.25)/.15,(50.95-time)/.15)};
   }
+  // Interpolate *coverage*, not depth across an edge: a near timber member
+  // must not turn into an imaginary surface halfway to the background.
+  function depthVisibility(data,width,height,x,y,depth,range=64){
+    const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,threshold=(depth-.06)/range*65534;
+    const index=iy*width+ix,a=data[index],b=data[index+1],c=data[index+width],d=data[index+width+1];
+    const top=iy<0||iy>=height,bottom=iy+1<0||iy+1>=height,left=ix<0||ix>=width,right=ix+1<0||ix+1>=width;
+    const va=top||left||a===65535||a>=threshold,vb=top||right||b===65535||b>=threshold;
+    const vc=bottom||left||c===65535||c>=threshold,vd=bottom||right||d===65535||d>=threshold;
+    return va*(1-fx)*(1-fy)+vb*fx*(1-fy)+vc*(1-fx)*fy+vd*fx*fy;
+  }
   const asset = file => new URL(file.startsWith('v8/') ? file : BASE+file,document.baseURI).href;
   const html = `<section class="v7-scene v8-time-experiment-scene">
     <h2 class="v7-title">A room through time</h2>
@@ -116,8 +138,67 @@
     const state={ready:false,active:false,playing:!motion.matches,running:false,time:motion.matches?49:0,duration:51,variant:'orbit',error:null};
     const range=$('input'), play=$('[data-time-play]'), message=$('.v8-time-message');
     let manifest=null, manifestPromise=null, atlas=null, gestures=null, raf=0, loadedVariant='', loadTimer=0, pendingTime=0, destroyed=false;
+    let depthInfo=null,depthFailed=false,depthSerial=0,depthWaitingKey='';
+    const depthCache=new Map(),depthJobs=new Map(),prefetchFailures=new Set();
+    const sprite=document.createElement('canvas'),spriteCtx=sprite.getContext('2d',{willReadFrequently:true});
+    const birdCanvas=document.createElement('canvas'),birdCtx=birdCanvas.getContext('2d',{willReadFrequently:true});
+    sprite.width=112;sprite.height=176;
     const current=()=>manifest?.variants.find(v=>v.id===state.variant);
     const usable=()=>state.active&&!document.hidden&&!destroyed;
+    function loadDepthInfo(){
+      fetch(asset('depth/manifest.json')).then(r=>{if(!r.ok)throw Error('Depth unavailable');return r.json();}).then(info=>{
+        if(info.schema!=='bower.time-depth/1'||info.fps!==12||info.perChunk!==12||info.start!==13||info.end!==51)throw Error('Incompatible depth');
+        if(destroyed)return;depthInfo=info;depthFailed=false;fetchDepth(depthKey(13)).catch(()=>{});paint();start();
+      }).catch(()=>{if(destroyed)return;depthFailed=true;paint();start();});
+    }
+    function depthIndex(time=state.time){return clamp(Math.floor((time-(depthInfo?.start||13))*(depthInfo?.fps||12)+1e-5),0,455);}
+    function depthKey(time=state.time){return `${state.variant}-${String(Math.floor(depthIndex(time)/(depthInfo?.perChunk||12))).padStart(2,'0')}`;}
+    function fetchDepth(key){
+      if(depthCache.has(key))return Promise.resolve(depthCache.get(key));
+      if(depthJobs.has(key))return depthJobs.get(key);
+      const job=(async()=>{
+        const response=await fetch(asset(`depth/${key}.webp`));if(!response.ok)throw Error('Depth unavailable');
+        const image=await createImageBitmap(await response.blob(),{colorSpaceConversion:'none'});
+        if(destroyed){image.close();return null;}
+        const tile=document.createElement('canvas');tile.width=image.width;tile.height=image.height;
+        const dc=tile.getContext('2d',{willReadFrequently:true});dc.drawImage(image,0,0);image.close();
+        const rgba=dc.getImageData(0,0,tile.width,tile.height).data,data=new Uint16Array(tile.width*tile.height);
+        for(let i=0;i<data.length;i++)data[i]=rgba[i*4]*256+rgba[i*4+1];
+        const decoded={data,width:tile.width,height:tile.height};tile.width=tile.height=0;
+        depthCache.set(key,decoded);
+        while(depthCache.size>3){const old=[...depthCache.keys()].find(k=>k!==depthKey()&&k!==key);if(!old)break;depthCache.delete(old);}
+        return decoded;
+      })().finally(()=>depthJobs.delete(key));
+      depthJobs.set(key,job);return job;
+    }
+    function depthFrame(){
+      if(!depthInfo||depthFailed||state.time<depthInfo.start)return null;
+      const index=depthIndex();
+      const key=depthKey(),chunk=depthCache.get(key);
+      if(!chunk)return null;
+      const cell=index%depthInfo.perChunk;
+      return {...chunk,x:cell%depthInfo.columns*depthInfo.width,y:Math.floor(cell/depthInfo.columns)*depthInfo.height};
+    }
+    function ensureDepth(){
+      if(state.time<13||depthFailed)return true;
+      if(!depthInfo){video.pause();state.running=false;return false;}
+      const key=depthKey();
+      if(depthCache.has(key)){
+        root.dataset.depthReady='true';
+        const next=depthKey(state.time+1);
+        if(state.playing&&state.time<50&&!depthCache.has(next)&&!depthJobs.has(next)&&!prefetchFailures.has(next))fetchDepth(next).catch(()=>prefetchFailures.add(next));
+        return true;
+      }
+      root.dataset.depthReady='false';video.pause();state.running=false;
+      if(depthWaitingKey!==key){
+        depthWaitingKey=key;
+        const serial=++depthSerial;
+        fetchDepth(key).then(()=>{if(destroyed||serial!==depthSerial)return;depthWaitingKey='';showMessage('');paint();start();}).catch(()=>{
+          if(destroyed||serial!==depthSerial)return;depthWaitingKey='';depthFailed=true;root.dataset.depthReady='unavailable';paint();start();
+        });
+      }
+      return false;
+    }
     function showMessage(text,error=false) { message.hidden=!text; message.querySelector('span').textContent=text||''; $('[data-time-retry]').hidden=!error; }
     function yearAt(t) {
       const points=manifest?.timeline?.filter(p=>Number.isFinite(p.year))||[{time:13,year:0},{time:49,year:9.2758}];
@@ -136,7 +217,7 @@
     }
     function controls() {
       const [main,sub]=timeText();
-      root.dataset.ready=String(state.ready);root.dataset.playing=String(state.playing);root.dataset.variant=state.variant;
+      root.dataset.ready=String(state.ready&&(state.time<13||depthFailed||!!depthFrame()));root.dataset.playing=String(state.playing);root.dataset.variant=state.variant;
       range.max=String(state.duration);range.value=String(state.time);range.disabled=!manifest;
       range.setAttribute('aria-valuetext',`${main}. ${sub}`);
       $('[data-time-readout]').textContent=main;$('[data-time-date]').textContent=sub;
@@ -150,17 +231,21 @@
       let index=clamp(Math.floor(t/state.duration*(frames.length-1)),0,frames.length-1);
       while(index>0&&frames[index].time>t)index--;
       while(index<frames.length-2&&frames[index+1].time<t)index++;
-      const a=frames[index],b=frames[Math.min(index+1,frames.length-1)],p=clamp((t-a.time)/(b.time-a.time||1),0,1);
-      return {matrix:a.matrix.map((v,i)=>v+(b.matrix[i]-v)*p),eye:a.eye?.map((v,i)=>v+(b.eye[i]-v)*p)};
+      // Match the held 12 fps rendered camera, rather than sliding silhouettes
+      // across it between film frames. The eye-level camera is fixed.
+      while(index<frames.length-1&&frames[index+1].time<=t+1e-5)index++;
+      return frames[index];
     }
     function project(matrix,point) {
       // Source model: east, north, up. Three: east, up, south.
       const [x,north,z]=point,y=z,south=-north,m=matrix;
       const w=m[3]*x+m[7]*y+m[11]*south+m[15];
-      return w<=0?null:{x:(m[0]*x+m[4]*y+m[8]*south+m[12])/w,y:(m[1]*x+m[5]*y+m[9]*south+m[13])/w};
+      return w<=0?null:{x:(m[0]*x+m[4]*y+m[8]*south+m[12])/w,y:(m[1]*x+m[5]*y+m[9]*south+m[13])/w,w};
     }
     function ghosts(rect) {
+      state.occlusion=[];
       if(!atlas||state.time<13)return;
+      const depth=depthFrame();if(!depth)return;
       const camera=cameraAt(state.time);if(!camera)return;
       const shown=[];
       const people=occupationAt(state.time).sort((a,b)=>camera.eye?Math.hypot(b.point[0]-camera.eye[0],b.point[1]-camera.eye[1])-Math.hypot(a.point[0]-camera.eye[0],a.point[1]-camera.eye[1]):0);
@@ -170,30 +255,75 @@
         const x=rect.x+(foot.x+1)/2*rect.w,y=rect.y+(1-foot.y)/2*rect.h;
         const height=Math.abs(head.y-foot.y)*rect.h/2;if(height<6)continue;
         const toward=camera.eye?Math.atan2(camera.eye[1]-p[1],camera.eye[0]-p[0]):0;
-        const direction=(Math.round((toward-person.heading)/(Math.PI/4))+16)%8;
-        const row=atlas.directions[direction],frame=Math.floor(person.cycle*atlas.frames),scale=height/160;
-        const pose=gestures?.actions.find(action=>action.id===person.action),walkWeight=pose?person.walkWeight:1;
+        const angle=fract((toward-person.heading)/(Math.PI*2))*8,first=Math.floor(angle),blend=angle-first;
+        const row=atlas.directions[first],frame=person.cycle*atlas.frames,scale=height/160;
+        const pose=gestures?.actions.find(action=>action.id===(person.action==='walk'?'idle':person.action)),walkWeight=pose?person.walkWeight:1;
         let separation=1;
         for(const other of shown) if(y>other.y-other.height&&y-height<other.y) separation=Math.min(separation,clamp(Math.abs(x-other.x)/(Math.max(height,other.height)*.42),0,1));
         shown.push({x,y,height});
         const alpha=.34*person.alpha*separation;
-        ctx.save();ctx.globalAlpha=alpha*walkWeight;
-        if(walkWeight>0)ctx.drawImage(atlas.image,frame*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,x-row.anchor.x*scale,y-row.anchor.y*scale,atlas.cellWidth*scale,atlas.cellHeight*scale);
-        if(pose&&walkWeight<1){
-          const poseFrame=Math.min(pose.frames-1,Math.floor(person.phase*pose.frames)),anchor=gestures.directions[direction].anchor;
-          ctx.globalAlpha=alpha*(1-walkWeight);
-          ctx.drawImage(gestures.image,poseFrame*gestures.cellWidth,(pose.rowOffset+direction)*gestures.cellHeight,gestures.cellWidth,gestures.cellHeight,x-anchor.x*scale,y-anchor.y*scale,gestures.cellWidth*scale,gestures.cellHeight*scale);
+        spriteCtx.clearRect(0,0,sprite.width,sprite.height);
+        // Blend adjoining views and cycle frames. Turns and slow steps no
+        // longer snap between eight directions or freeze in a long stride.
+        spriteCtx.globalCompositeOperation='lighter';
+        for(const [direction,weight] of [[first,1-blend],[(first+1)%8,blend]]){
+          if(walkWeight>0)for(const [f,w] of [[Math.floor(frame),1-fract(frame)],[(Math.floor(frame)+1)%atlas.frames,fract(frame)]]){
+            spriteCtx.globalAlpha=weight*walkWeight*w;
+            spriteCtx.drawImage(atlas.image,f*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,0,0,sprite.width,sprite.height);
+          }
+          if(pose&&walkWeight<1){
+            const poseFrame=Math.min(pose.frames-1,Math.floor(person.phase*pose.frames));
+            spriteCtx.globalAlpha=weight*(1-walkWeight);
+            spriteCtx.drawImage(gestures.image,poseFrame*gestures.cellWidth,(pose.rowOffset+direction)*gestures.cellHeight,gestures.cellWidth,gestures.cellHeight,0,0,sprite.width,sprite.height);
+          }
         }
-        ctx.restore();
+        spriteCtx.globalCompositeOperation='source-over';spriteCtx.globalAlpha=1;
+        const pixels=spriteCtx.getImageData(0,0,sprite.width,sprite.height),left=x-row.anchor.x*scale,top=y-row.anchor.y*scale;
+        let sourceAlpha=0,visibleAlpha=0;
+        for(let sy=0;sy<sprite.height;sy++){
+          const q=(row.anchor.y-sy-.5)/160,z=1/((1-q)/foot.w+q/head.w);
+          const dy=depth.y+(top+(sy+.5)*scale-rect.y)/rect.h*depthInfo.height-.5;
+          for(let sx=0;sx<sprite.width;sx++){
+            const a=(sy*sprite.width+sx)*4+3;if(!pixels.data[a])continue;
+            sourceAlpha+=pixels.data[a];
+            const dx=depth.x+(left+(sx+.5)*scale-rect.x)/rect.w*depthInfo.width-.5;
+            pixels.data[a]*=depthVisibility(depth.data,depth.width,depth.height,dx,dy,z,depthInfo.range);
+            visibleAlpha+=pixels.data[a];
+          }
+        }
+        state.occlusion.push({id:person.id,hidden:sourceAlpha?1-visibleAlpha/sourceAlpha:0});
+        spriteCtx.putImageData(pixels,0,0);ctx.save();ctx.globalAlpha=alpha;
+        ctx.drawImage(sprite,left,top,sprite.width*scale,sprite.height*scale);ctx.restore();
       }
     }
     function wildlife(rect) {
       const camera=cameraAt(state.time);if(!camera)return;
+      const depth=depthFrame();if(!depth)return;
+      const target=ctx;
       for(const bird of [birdAt(state.time),hummingbirdAt(state.time)].filter(Boolean)){
+      const centre=project(camera.matrix,bird.point);if(!centre)continue;
+      const corners=[];
+      for(const dx of [-.5,.5])for(const dy of [-.5,.5])for(const dz of [-.5,.5]){
+        const p=project(camera.matrix,bird.point.map((v,i)=>v+[dx,dy,dz][i]));
+        if(p)corners.push([rect.x+(p.x+1)*rect.w/2,rect.y+(1-p.y)*rect.h/2]);
+      }
+      const left=Math.floor(Math.min(...corners.map(p=>p[0])))-1,top=Math.floor(Math.min(...corners.map(p=>p[1])))-1;
+      const width=Math.ceil(Math.max(...corners.map(p=>p[0]))-left)+1,height=Math.ceil(Math.max(...corners.map(p=>p[1]))-top)+1;
+      birdCanvas.width=width;birdCanvas.height=height;
+      const ctx=birdCtx;
+      const composite=()=>{
+        const pixels=ctx.getImageData(0,0,width,height);
+        for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+          const a=(y*width+x)*4+3;if(!pixels.data[a])continue;
+          const dx=depth.x+(left+x+.5-rect.x)/rect.w*depthInfo.width-.5,dy=depth.y+(top+y+.5-rect.y)/rect.h*depthInfo.height-.5;
+          pixels.data[a]*=depthVisibility(depth.data,depth.width,depth.height,dx,dy,centre.w,depthInfo.range);
+        }
+        ctx.putImageData(pixels,0,0);target.drawImage(birdCanvas,left,top);
+      };
       const c=Math.cos(bird.heading),s=Math.sin(bird.heading);
       const screen=([forward,side,up])=>{
         const p=project(camera.matrix,[bird.point[0]+forward*c-side*s,bird.point[1]+forward*s+side*c,bird.point[2]+up]);
-        return p?[rect.x+(p.x+1)*rect.w/2,rect.y+(1-p.y)*rect.h/2]:null;
+        return p?[rect.x+(p.x+1)*rect.w/2-left,rect.y+(1-p.y)*rect.h/2-top]:null;
       };
       const shape=points=>{
         const pixels=points.map(screen);if(pixels.some(p=>!p))return;
@@ -212,7 +342,7 @@
         shape([[-.045,-.025,.045],[-.16,-.025,-.015],[-.15,.025,-.015],[-.045,.025,.045]]);
         shape(Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2;return [.065*Math.cos(a),0,.065+.045*Math.sin(a)];}));
         shape([[.02,0,.095],[.045,0,.13],[.08,0,.13],[.10,0,.10],[.198,0,.09],[.10,0,.088],[.055,0,.055]]);
-        ctx.restore();continue;
+        ctx.restore();composite();continue;
       }
       // A small volumetric silhouette: tapered wings, tail, breast and beak.
       // The wings fold on landing; there is no screen-fixed bird icon.
@@ -224,12 +354,13 @@
       shape(Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2;return [.105*Math.cos(a),0,.085+.066*Math.sin(a)];}));
       shape([[.04,0,.12],[.07,0,.18],[.13,0,.18],[.16,0,.14],[.215,0,.12],[.15,0,.105],[.10,0,.07]]);
       if(!bird.flying) for(const side of [-.025,.025])shape([[-.01,side,.04],[0,side,0],[.045,side,0],[.045,side,.008],[.01,side,.012],[.005,side,.05]]);
-      ctx.restore();
+      ctx.restore();composite();
       }
     }
     function paint() {
       if(!usable()||video.readyState<2||video.seeking)return;
       state.time=video.currentTime;
+      if(!ensureDepth()){controls();return;}
       const box=root.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),w=Math.round(box.width*dpr),h=Math.round(box.height*dpr);
       if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
       const crop=current()?.crop||{x:0,y:0,width:video.videoWidth,height:video.videoHeight};
@@ -243,12 +374,13 @@
     function stop(){cancelAnimationFrame(raf);raf=0;state.running=false;video.pause();if(video.readyState>=2&&!video.seeking)state.time=video.currentTime;}
     function tick(){raf=0;if(!usable()||!state.playing)return;state.time=video.currentTime;paint();raf=requestAnimationFrame(tick);}
     function start(){
-      if(!usable()||!state.playing||!state.ready||video.seeking||state.error)return;
+      if(!usable()||!state.playing||!state.ready||video.seeking||state.error||!ensureDepth())return;
       video.play().then(()=>{if(!usable()||!state.playing){video.pause();return;}state.running=true;if(!raf)raf=requestAnimationFrame(tick);}).catch(error=>{if(error.name==='NotAllowedError'){state.playing=false;controls();}else if(error.name!=='AbortError')fail();});
     }
     function fail(){stop();canvas.style.visibility='hidden';state.error='Film unavailable';state.ready=false;showMessage('The film could not load. The still shows the established room.',true);controls();}
     function loadFilm(){
       const variant=current();if(!variant)return;
+      depthSerial++;depthWaitingKey='';if(depthInfo)depthFailed=false;
       stop();canvas.style.visibility='hidden';state.ready=false;state.error=null;pendingTime=state.time;loadedVariant=state.variant;
       const poster=root.previousElementSibling;poster.src=asset(variant.poster);poster.style.objectFit='cover';
       poster.alt=`Established timber and planting scenario: ${variant.label}`;
@@ -259,6 +391,7 @@
     async function load(){
       if(!manifestPromise)manifestPromise=(async()=>{
         const response=await fetch(asset('manifest.json'));if(!response.ok)throw new Error('Manifest unavailable');manifest=await response.json();state.duration=manifest.duration;
+        loadDepthInfo();
         const axis=$('.v8-time-axis');axis.innerHTML='';
         const marks=[{time:0,label:'Assembly'},{time:13,label:'Planted'},...manifest.timeline.filter(p=>[2,5,9].includes(p.year))];
         for(const mark of marks){const span=document.createElement('span');span.textContent=mark.label;span.style.left=`${100*mark.time/state.duration}%`;axis.append(span);}
@@ -275,14 +408,14 @@
     play.onclick=()=>{state.playing=!state.playing;if(state.playing)start();else{stop();paint();}controls();};
     range.addEventListener('input',()=>{state.playing=false;stop();state.time=Number(range.value);pendingTime=state.time;if(video.readyState>=1){state.ready=false;showMessage('Loading the selected moment…');video.currentTime=state.time;}controls();});
     root.querySelectorAll('[data-time-variant]').forEach(button=>button.onclick=()=>{if(state.variant===button.dataset.timeVariant)return;state.variant=button.dataset.timeVariant;loadFilm();});
-    $('[data-time-retry]').onclick=()=>{state.error=null;if(manifest)loadFilm();else load();};
+    $('[data-time-retry]').onclick=()=>{state.error=null;depthFailed=false;if(manifest){if(!depthInfo)loadDepthInfo();loadFilm();}else load();};
     root.addEventListener('keydown',event=>event.stopPropagation());
     const resize=new ResizeObserver(paint);resize.observe(root);
     motion.addEventListener('change',()=>{if(motion.matches){state.playing=false;stop();controls();}});
-    const controller={setActive(active){state.active=active;if(!active)stop();else load();},getState(){return {...state};},destroy(){destroyed=true;stop();clearTimeout(loadTimer);resize.disconnect();video.removeAttribute('src');video.load();atlas?.image.close();gestures?.image.close();}};
+    const controller={setActive(active){state.active=active;if(!active)stop();else load();},getState(){return {...state,ready:state.ready&&(state.time<13||depthFailed||!!depthFrame()),depthReady:!!depthFrame()};},destroy(){destroyed=true;stop();clearTimeout(loadTimer);resize.disconnect();video.removeAttribute('src');video.load();atlas?.image.close();gestures?.image.close();depthCache.clear();}};
     root.v8Controller=controller;controls();return controller;
   }
-  window.DESIGNX_V8_TIME_EXPERIMENT={html,mount,occupationAt,birdAt,hummingbirdAt};
+  window.DESIGNX_V8_TIME_EXPERIMENT={html,mount,occupationAt,birdAt,hummingbirdAt,depthVisibility};
   (window.DESIGNX_MOUNTS||=[]).push(deck=>{
     if(location.protocol==='file:'||new URL(location.href).searchParams.has('print'))return;
     const root=deck.querySelector('[data-v8-time-experiment]');if(!root)return;

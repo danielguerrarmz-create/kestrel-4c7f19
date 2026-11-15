@@ -63,8 +63,11 @@ Two ghost inhabitants follow curved routes: one crosses the room between the
 southeast and northwest bays, pausing to look up at the timber. The other skirts
 the east perimeter, enters the room, stops to look toward the canopy, then
 approaches the flowering honeysuckle. Travel eases into and out of stops at
-approximately 1.2 m per playback second, with the walk atlas advancing once per
-1.4 m. During pauses the feet stay planted while the skeleton changes pose.
+an average of approximately 1.2 m per playback second. Pace varies gently
+within each walk, with small deviations from the centre of the route. The walk
+atlas advances once per 1.4 m; adjoining views and animation frames blend as
+people turn or slow down. The standing pose blends in as speed approaches zero.
+During pauses the feet stay planted while the skeleton changes pose.
 The first route has a hidden interval before repeating.
 These everyday vignettes sit over accelerated scenario years; they do not
 represent a person taking years to cross the room.
@@ -92,8 +95,32 @@ is an authored geographic possibility, not a British wildlife forecast or
 evidence that these specific planting taxa support it. See
 [Smithsonian hummingbird guidance](https://nationalzoo.si.edu/migratory-birds/hummingbirds).
 People, wingbeats and flight all share the film clock, so pause and scrub
-remain deterministic across the three cameras. These transparent overlays
-have no depth buffer against the rendered timber and leaves.
+remain deterministic across the three cameras.
+
+## Occlusion against the building and planting
+
+The browser compares the inhabitants with a separately exported depth pass
+from the same timber meshes, full growth record, organ deformation shaders
+and film camera matrices. Timber and leaves in front hide the corresponding
+part of a person or bird; openings preserve the view through the structure.
+The film remains pre-rendered. This does not load plant geometry or create a
+live plant simulation in the presentation.
+
+`depth/manifest.json` describes 768 × 432 depth frames sampled at 12 fps, packed
+in lossless WebP tiles. Red and green store a 16-bit camera-axis depth over
+64 m; 65535 marks the clear background. Each tile contains one second, and only
+three decoded tiles are retained. The current camera loads on demand and the
+next second is prefetched. Film playback briefly waits if a required tile is
+still loading; if depth is unavailable, the film remains usable with the
+inhabitants suppressed rather than drawn through solid objects.
+
+The people are still projected sprites. Their depth varies from foot to head;
+they are not articulated 3D meshes in the runtime scene. Depth-edge coverage
+is interpolated instead of mixing near and far surface distances. A 6 cm bias
+avoids surface flicker. The depth pass matches the 12 fps orbit films; the fixed
+30 fps source is sampled at 12 fps, so fine moving leaf edges can differ between
+samples. The birds use the depth of their body centre. These are presentation
+approximations, not collision or occupancy evidence.
 
 The run's planting includes ivy and honeysuckles. Climbers can provide cover,
 bird nesting opportunities and flowers for pollinating insects; see the
@@ -113,6 +140,8 @@ node deck/designx/v8/scripts/render-time-experiment.mjs --fixed
 node deck/designx/v8/scripts/render-time-experiment.mjs --render=orbit
 node deck/designx/v8/scripts/render-time-experiment.mjs --render=roof
 node deck/designx/v8/scripts/render-time-experiment.mjs --manifest
+node deck/designx/v8/scripts/render-time-depth.mjs
+node deck/designx/v8/scripts/check-time-life.mjs
 ```
 
 Run the rendering jobs serially. Intermediate images and visual proofs go to
