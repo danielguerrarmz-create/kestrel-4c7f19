@@ -1,0 +1,19 @@
+/* One slider vocabulary for the edition; one control edge for Time, Light and Space. */
+.designx-v8 .slide input[type=range]{appearance:none;-webkit-appearance:none;height:22px;background:transparent;accent-color:#000;cursor:ew-resize;margin:0}
+.designx-v8 .slide input[type=range]::-webkit-slider-runnable-track{height:1px;background:#000}
+.designx-v8 .slide input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:9px;height:18px;margin-top:-8px;border:0;border-radius:0;background:#000}
+.designx-v8 .slide input[type=range]::-moz-range-track,.designx-v8 .slide input[type=range]::-moz-range-progress{height:1px;background:#000}
+.designx-v8 .slide input[type=range]::-moz-range-thumb{width:9px;height:18px;border:0;border-radius:0;background:#000}
+.designx-v8 .slide input[type=range]:focus-visible{outline:1px solid #000;outline-offset:5px}
+.designx-v8 .v8-drawing-timeline{position:absolute;left:52px;right:52px;bottom:42px;display:grid;grid-template-columns:60px 245px minmax(0,1fr);gap:23px;align-items:center;z-index:4;min-height:0;padding:16px 0 7px;background:transparent;text-shadow:0 1px 3px var(--drawing-paper,#fdfcf9),0 -1px 3px var(--drawing-paper,#fdfcf9)}
+.designx-v8 .slide .v8-drawing-timeline>button{appearance:none;background:transparent;border:0;padding:6px 0;min-width:0;color:#000;font:400 18px/1.3 var(--sans);text-align:left;text-decoration:none;cursor:pointer}
+.designx-v8 .v8-drawing-timeline .v8-drawing-when{display:flex;flex-direction:column;gap:6px;min-width:0;width:auto;max-width:none;overflow:visible;text-align:left;color:#000}
+.designx-v8 .v8-drawing-readout{font:400 25px/1.15 var(--sans);white-space:nowrap}
+.designx-v8 .v8-drawing-context{font:400 13px/1.3 var(--sans);white-space:nowrap;color:#000}
+.designx-v8 .v8-drawing-track{position:relative;min-width:0;padding-bottom:28px}
+.designx-v8 .v8-drawing-track input{display:block;width:100%}
+.designx-v8 .v8-drawing-axis{height:18px;position:absolute;left:4.5px;right:4.5px;top:28px;font:400 13px/1.3 var(--sans);color:#000}
+.designx-v8 .v8-drawing-axis span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.designx-v8 .v8-drawing-axis span:before{content:'';position:absolute;left:50%;width:1px;height:6px;top:-12px;background:#000}
+.designx-v8 .v8-drawing-axis span:first-child{transform:none}
+.designx-v8 .v8-drawing-axis span:first-child:before{left:0}

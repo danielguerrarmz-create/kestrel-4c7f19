@@ -25,11 +25,12 @@
       <span class="v8-growth-view-label"></span>
       <div class="v8-light-labels" aria-label="Growth stages"><span>At installation</span><span>Establishing</span><span>Mature</span></div>
     </div>
-    <div class="v8-study-timeline">
+    <div class="v8-study-timeline v8-drawing-timeline">
       <button type="button" data-v8-study-play disabled>Play</button>
-      <input type="range" min="0" max="1000" step="1" value="0" aria-label="Position in growth scenario" disabled>
-      <output class="v8-study-caption" aria-live="off"></output>
-      <details><summary>Inspect</summary><div class="v8-growth-details">
+      <output class="v8-study-caption v8-drawing-when" aria-live="off"><span class="v8-drawing-readout"></span> <span class="v8-drawing-context"></span></output>
+      <div class="v8-drawing-track"><input type="range" min="0" max="1000" step="1" value="0" aria-label="Position in growth scenario" disabled><div class="v8-drawing-axis" aria-hidden="true"></div></div>
+    </div>
+      <details class="v8-growth-inspect"><summary>Inspect</summary><div class="v8-growth-details">
         <nav class="v8-growth-views" aria-label="Choose a view of the room"></nav>
         <nav class="v8-study-chapters" aria-label="Choose a moment in the drawing"></nav>
         <div class="v8-growth-options"><button type="button" class="v8-growth-occupation" data-v8-occupation aria-pressed="true">Inhabitants <span>on</span></button><button type="button" data-v8-study-reset disabled>Restart</button></div>
@@ -38,7 +39,7 @@
         <strong>Authored occupation</strong><p>Walking silhouettes suggest movement and scale. Their paths are authored, without collision or behaviour modelling. They pause and scrub with the drawing. No furniture is proposed. <a href="v8/assets/inhabitants/SOURCES.md" target="_blank" rel="noopener">Character source and CC0 licence</a>.</p>
         <strong>Views</strong><p>Original ink restores the eye-level film, including its assembly and ten-year growth sequence. The timber views remain available alongside it. Light compares three stages through the same midsummer day. Space is an unrolled panorama; drag to turn.</p>
       </div></details>
-    </div><span data-v8-growth-disclosure class="v8-growth-evidence">Pre-rendered growth scenario · authored occupation</span>`;
+    <span data-v8-growth-disclosure class="v8-growth-evidence">Pre-rendered growth scenario · authored occupation</span>`;
     host.append(root);
     const $ = selector => root.querySelector(selector);
     const canvas = $('canvas'), ctx = canvas.getContext('2d');
@@ -80,8 +81,11 @@
       resetButton.disabled = range.disabled = !manifest;
       range.value = String(Math.round(1000 * state.time / state.duration));
       range.setAttribute('aria-valuetext', state.ready ? state.caption : `Requested ${state.requestedCaption || 'moment'}. ${state.caption ? `Shown: ${state.caption}.` : 'Loading drawing.'}`);
-      output.textContent = state.caption || (state.error ? 'Drawing unavailable' : 'Loading drawing');
-      output.title = output.textContent;
+      const caption=state.caption || (state.error ? 'Drawing unavailable' : 'Loading drawing'),parts=caption.split(' · ');
+      const lightTime=state.mode==='light'&&parts[0]==='Midsummer';
+      $('.v8-drawing-readout').textContent=(lightTime?parts.slice(1).join(' · '):parts[0]).replace(/^./,letter=>letter.toUpperCase());
+      $('.v8-drawing-context').textContent=lightTime?'Midsummer':parts.slice(1).join(' · ')||(state.mode==='space'?'Growth and seasons':original()?'Original eye-level film':'Growth scenario');
+      output.title = caption;
       views.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.v8View) === state.view)));
       const mode = currentMode();
       chapterHost.querySelectorAll('button').forEach(button => {
@@ -123,6 +127,15 @@
         button.addEventListener('click', () => seek(time)); return button;
       }));
       $('.v8-growth-history').hidden = state.mode !== 'time' || original();
+      const marks=original()?[['Assembly',0],['Planted',13],['Growing',27],['Summer',49]]
+        :state.mode==='light'?[['6 am',0],['9 am',9],['Noon',18],['3 pm',27],['6 pm',36]]
+        :state.mode==='space'?[['Installation',0],['Establishing',3],['Summer',7],['Winter',11],['Summer',14]]
+        :[...(state.assembly?[['Assembly',0]]:[]),['Installation',16],['Established',25],['Winter',30],['Summer',33]];
+      $('.v8-drawing-axis').replaceChildren(...marks.map(([label,index])=>{
+        const span=document.createElement('span');span.textContent=label;
+        span.style.left=`${100*(original()?index:mode?timeForFrame(index):0)/state.duration}%`;return span;
+      }));
+      range.setAttribute('aria-label',state.mode==='light'?'Time of day':state.mode==='space'?'Growth and seasons':'Position in growth scenario');
       controls();
     }
 
