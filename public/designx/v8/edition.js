@@ -18,6 +18,10 @@
     const template = document.createElement('template'); template.innerHTML = slide.html;
     if (item.baseSlide === 6) template.innerHTML = window.DESIGNX_V8_COMPUTATION.html;
     const content = template.content;
+    if (item.baseSlide === 13) {
+      content.querySelector('.v7commercial-scene').setAttribute('aria-label', 'Design, build and grow a Bower');
+      content.querySelector('#v7commercial-commission').innerHTML = '<span>01</span> Design';
+    }
     content.querySelectorAll('a[href="https://www.bowerbuild.org/designx/v7"]').forEach(link => { link.href = 'v8/'; link.textContent = 'Bower · Edition 08 ↗'; });
     if (item.baseSlide === 4) {
       const mode = item.growthMode || 'time';

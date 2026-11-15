@@ -6,8 +6,10 @@
 .designx-v8 .v8-reference-kicker{position:absolute;left:80px;top:76px;margin:0;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#101310}
 .designx-v8 .v8-reference-title{position:absolute;left:70px;top:174px;margin:0;font:400 188px/.98 var(--display);letter-spacing:-.045em}
 .designx-v8 .v8-reference-title em{font:inherit;font-style:italic}
-.designx-v8 .v8-reference-evidence{position:absolute;left:80px;bottom:72px;width:845px;margin:0;font:400 28px/1.35 var(--sans);letter-spacing:-.02em;color:#101310}
-.designx-v8 .v8-reference-evidence strong{font-weight:400}
+.designx-v8 .v8-reference-support{position:absolute;left:80px;bottom:60px;width:960px}
+.designx-v8 .v8-reference-evidence{margin:0;font:400 28px/1.35 var(--sans);letter-spacing:-.02em;color:#101310}
+.designx-v8 .v8-reference-evidence strong{font-weight:600}
+.designx-v8 .v8-reference-ask{margin:18px 0 0;font:italic 400 42px/1.1 var(--display);letter-spacing:-.025em;color:#101310}
 .designx-v8 .v8-reference-scene~.folio{color:#101310}
 .designx-v8.print-mode .v8-reference-visual img{opacity:.24!important;filter:grayscale(1)!important}
 @media print{.designx-v8 .v8-reference-visual img{opacity:.24!important;filter:grayscale(1)!important}}

@@ -148,11 +148,11 @@ window.DESIGNX_V8_STORY = [
   {
     "number": 13,
     "baseSlide": 14,
-    "title": "Help us make it real.",
+    "title": "The first Bower is the missing reference.",
     "theme": "commercial-loop-slide",
     "purpose": "Invite support for bringing the first completed Bower into being, informed by the repeated desire prospective clients expressed to see one built.",
     "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. A supporting sentence states the finding; fuller discovery context stays in the notes.",
-    "drawing": "Keep the ghosted planted six-bay model and its complete shadow behind the dominant black editorial invitation: Help us make it real. Retain the international customer-discovery sentence beneath.",
+    "drawing": "Keep the ghosted planted six-bay model and complete shadow behind the dominant black headline: The missing reference. Below it, retain the international customer-discovery sentence, then the separate italic invitation: Help us make it real.",
     "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image comes from the existing six-bay-radial-v1 model and provisional trained-10y growth scenario. It is not physical observation or a photograph of a completed project.",
     "transition": "Explain the proposed commission, build and care process for bringing that place into being.",
     "speakerBridge": "Help us make the first Bower real. This is how we propose to commission, deliver and care for it."
@@ -164,7 +164,7 @@ window.DESIGNX_V8_STORY = [
     "theme": "v7-commercial-model-slide",
     "purpose": "Make the proposed transaction legible: a commissioned design, an agreed fixed build price and separately priced annual care connect responsibility for the place across its life.",
     "stays": "Agree a credible indicative installed budget first. The £65,000 commission is credited once against the total build price if the client proceeds. Agree a fixed build price before construction, with defined scope and site assumptions; annual care is separate.",
-    "drawing": "Keep the three-stage offer and its controls. Link each stage verbally to the same room: design its relationships, deliver the agreed place, then establish and tend it.",
+    "drawing": "Keep the three-stage offer labelled Design, Build and Grow. Link each stage verbally to the same room: design its relationships, deliver the agreed place, then establish and tend it.",
     "status": "Founder-approved proposed offer, not completed sales or achieved margins. Commission deliverables and feasibility/budget outcomes require agreement; care staffing, frequency, price, establishment commitment and inspection responsibilities remain to be scoped.",
     "transition": "The Grow stage is an architectural commitment. Show what establishment and care mean in the room itself.",
     "speakerBridge": "The third step matters as much as the first two. Care has to be designed into the room, as well as agreed in the offer."

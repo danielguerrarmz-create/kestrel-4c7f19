@@ -2,7 +2,7 @@
 
 Open the [story map](http://localhost:5312/designx/v8/story-map.html) or the [working deck](http://localhost:5312/designx/v8/). Run `node deck/serve.mjs` from the repository root if needed.
 
-This is the replacement v8 requested on 15 November 2026. It uses v7's visual system and viewer in a twenty-slide story, with two drawing spaces for ground and care. The separate shared-model, learning-cycle and coupled-system slides are consolidated into one explorable learning drawing. The original complex flowchart is retained. The standalone design engine and question-led flowchart copy have been removed from the sequence and resource list. The ghosted Bower slide is retained as an invitation: Help us make it real. The earlier arrangement and standalone v9 narrative are superseded. V7 and earlier editions are unchanged. No repository-root document was changed by this revision.
+This is the replacement v8 requested on 15 November 2026. It uses v7's visual system and viewer in a twenty-slide story, with two drawing spaces for ground and care. The separate shared-model, learning-cycle and coupled-system slides are consolidated into one explorable learning drawing. The original complex flowchart is retained. The standalone design engine and question-led flowchart copy have been removed from the sequence and resource list. The ghosted Bower slide retains The missing reference as its headline, with the discovery sentence and a separate invitation below: Help us make it real. The earlier arrangement and standalone v9 narrative are superseded. V7 and earlier editions are unchanged. No repository-root document was changed by this revision.
 
 ## The story
 
@@ -10,7 +10,7 @@ We encounter a Bower and understand why someone would want it. Looking more clos
 
 `story.js` is the slide-by-slide editorial map. Every entry records the source v7 slide, its role, what stays, the intended drawing, current evidence status and the connection to the next slide. `story-map.html` presents that map with links to each slide. The deck's Notes include the same connections and drawing briefs alongside the original source notes.
 
-The twenty-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → plants make space → ground → design decision → computational consequences → variability → manufacturing → form/measure/machine → customers → help us make it real → commission/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
+The twenty-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → plants make space → ground → design decision → computational consequences → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
 
 ## What is present
 
@@ -50,7 +50,7 @@ The room/site/plant–footing study, generators, exports, stable IDs and release
 
 ## Editorial consolidation
 
-Slide 13 retains the ghosted, planted Bower and complete shadow under “Help us make it real.” The supporting sentence reads: “International cultural institutions, estate owners and private prospects repeatedly wanted to see one completed Bower.” This is an invitation grounded in founder-reported customer discovery, not a claim of completed commissions or guaranteed demand.
+Slide 13 retains the ghosted, planted Bower and complete shadow under “The missing reference.” The supporting sentence reads: “International cultural institutions, estate owners and private prospects repeatedly wanted to see one completed Bower.” A separate italic line below says “Help us make it real.” This is an invitation grounded in founder-reported customer discovery, not a claim of completed commissions or guaranteed demand.
 
 The removed engine and question-led modules remain available in the repository for reuse, but the deck no longer loads them. The reference render remains on the invitation slide. The original learning diagram is slide 16, team slide 17, construction slide 18, future possibilities slide 19 and the close slide 20.
 
