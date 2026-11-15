@@ -139,7 +139,7 @@ async function screenshot(name, locator = page.locator('.slide.is-active')) {
   await frames(2); await locator.screenshot({ path: resolve(root, `.qa/${name}.png`) });
 }
 async function openStudy(kind) { await page.locator(`.slide.is-active [data-v8-open="${kind}"]`).click(); await page.locator('.v8-study-dialog[open]').waitFor(); await ready(kind); }
-async function closeStudy() { await page.locator('.v8-study-dialog[open]').getByRole('button', { name: 'Return to slide Ã—', exact: true }).click(); await page.waitForFunction(() => !document.querySelector('.v8-study-dialog')?.open); }
+async function closeStudy() { await page.locator('.v8-study-dialog[open]').getByRole('button', { name: 'Return to slide \u00d7', exact: true }).click(); await page.waitForFunction(() => !document.querySelector('.v8-study-dialog')?.open); }
 async function factoryReady(viewer, id) { await page.waitForFunction(({ viewer, id }) => { const state = window.DESIGNX_FACTORY?.getStates().find(item => item.viewer === viewer); return state?.id === id && state.duration > 0; }, { viewer, id }); }
 
 await mkdir(resolve(root, '.qa'), { recursive: true });
@@ -162,7 +162,8 @@ try {
     const learning = await activate('v7-learning-flow-slide');
     assert.deepEqual(await learning.locator('.v7flow-phase').allTextContents(),['Designing each Bower','Making and living with it']);
     for (const phase of await learning.locator('.v7flow-phase').all()) assert.ok(await phase.isVisible(),'Learning phase label should be visible');
-    assert.match(await learning.locator('.v7flow-status').innerText(),/Digital geometry and growth studies exist/);
+    assert.equal(await learning.locator('.v7flow-status').isVisible(),false);
+    assert.equal(await learning.locator('[data-v7flow-readout]').isVisible(),false);
     assert.equal(await learning.locator('[data-v7flow-select="growing"]').getAttribute('aria-pressed'),'true');
     await screenshot('slide-17-learning-initial',learning);
   });
@@ -212,7 +213,7 @@ try {
     assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled/i);
     assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-13-customers', buyers);
     const offer = await activate('v7-commercial-model-slide');
-    for (const pattern of [/Â£65,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
+    for (const pattern of [/\u00a365,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
     await screenshot('slide-15-commercial', offer);
   });
   await test('Original eye-level Time film autoplays assembly and preserves pause and scrubbing', async () => {
