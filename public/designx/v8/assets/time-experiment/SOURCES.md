@@ -65,10 +65,12 @@ the east perimeter, enters the room, stops to look toward the canopy, then
 approaches the flowering honeysuckle. Travel eases into and out of stops at
 an average of approximately 1.2 m per playback second. Pace varies gently
 within each walk, with small deviations from the centre of the route. The walk
-atlas advances once per 1.4 m; adjoining views and animation frames blend as
-people turn or slow down. The standing pose blends in as speed approaches zero.
+atlas advances once per 1.4 m. Each person uses one complete rendered pose at a
+time: mixing raster views caused doubled silhouettes. The standing pose takes
+over as speed approaches zero.
 During pauses the feet stay planted while the skeleton changes pose.
-The first route has a hidden interval before repeating.
+The first walker leaves before the later flower visit and does not return
+within the film. This keeps the flower visitor clear in the low and fixed views.
 These everyday vignettes sit over accelerated scenario years; they do not
 represent a person taking years to cross the room.
 

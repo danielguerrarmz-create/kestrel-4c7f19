@@ -28,7 +28,7 @@
   // Existing honeysuckle flower records, in bloom in the held June 2036 frame.
   const flowers=[[2.1835,5.006,1.4599],[2.4542,5.0492,1.825]];
   const walks=[
-    {id:'through',start:13,speed:1.18,gap:7,path:route([[9,-5.2,0],[4.65,-2.6845,0],[0,-.2,0],[-4.65,2.6845,0],[-9,5.2,0]]),stops:[{knot:1,duration:2,action:'look',target:[3.228,-4.444,3.32]}]},
+    {id:'through',start:13,speed:1.18,gap:20,path:route([[9,-5.2,0],[4.65,-2.6845,0],[0,-.2,0],[-4.65,2.6845,0],[-9,5.2,0]]),stops:[{knot:1,duration:2,action:'look',target:[3.228,-4.444,3.32]}]},
     {id:'around',start:17.4,speed:1.18,gap:8,path:route([[11,-8,0],[8,-6,0],[8.2,-2,0],[8,2,0],[6.8,4,0],[4.65,2.6845,0],[.2,0,0],[-3.8,1.3,0],[.3,2.2,0],[1.55,4.8,0],[1,3.2,0],[0,6,0],[0,11,0]]),stops:[{knot:7,duration:2,action:'look',target:[0,0,4.6]},{knot:9,duration:2.4,action:'smell',target:flowers[0]}]}
   ];
   for(const walk of walks){
@@ -247,7 +247,6 @@
       if(!atlas||state.time<13)return;
       const depth=depthFrame();if(!depth)return;
       const camera=cameraAt(state.time);if(!camera)return;
-      const shown=[];
       const people=occupationAt(state.time).sort((a,b)=>camera.eye?Math.hypot(b.point[0]-camera.eye[0],b.point[1]-camera.eye[1])-Math.hypot(a.point[0]-camera.eye[0],a.point[1]-camera.eye[1]):0);
       for(const person of people){
         const p=person.point;
@@ -255,29 +254,20 @@
         const x=rect.x+(foot.x+1)/2*rect.w,y=rect.y+(1-foot.y)/2*rect.h;
         const height=Math.abs(head.y-foot.y)*rect.h/2;if(height<6)continue;
         const toward=camera.eye?Math.atan2(camera.eye[1]-p[1],camera.eye[0]-p[0]):0;
-        const angle=fract((toward-person.heading)/(Math.PI*2))*8,first=Math.floor(angle),blend=angle-first;
-        const row=atlas.directions[first],frame=person.cycle*atlas.frames,scale=height/160;
+        const direction=Math.round(fract((toward-person.heading)/(Math.PI*2))*8)%8;
+        const row=atlas.directions[direction],frame=Math.floor(person.cycle*atlas.frames),scale=height/160;
         const pose=gestures?.actions.find(action=>action.id===(person.action==='walk'?'idle':person.action)),walkWeight=pose?person.walkWeight:1;
-        let separation=1;
-        for(const other of shown) if(y>other.y-other.height&&y-height<other.y) separation=Math.min(separation,clamp(Math.abs(x-other.x)/(Math.max(height,other.height)*.42),0,1));
-        shown.push({x,y,height});
-        const alpha=.34*person.alpha*separation;
+        const alpha=.34*person.alpha;
         spriteCtx.clearRect(0,0,sprite.width,sprite.height);
-        // Blend adjoining views and cycle frames. Turns and slow steps no
-        // longer snap between eight directions or freeze in a long stride.
-        spriteCtx.globalCompositeOperation='lighter';
-        for(const [direction,weight] of [[first,1-blend],[(first+1)%8,blend]]){
-          if(walkWeight>0)for(const [f,w] of [[Math.floor(frame),1-fract(frame)],[(Math.floor(frame)+1)%atlas.frames,fract(frame)]]){
-            spriteCtx.globalAlpha=weight*walkWeight*w;
-            spriteCtx.drawImage(atlas.image,f*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,0,0,sprite.width,sprite.height);
-          }
-          if(pose&&walkWeight<1){
-            const poseFrame=Math.min(pose.frames-1,Math.floor(person.phase*pose.frames));
-            spriteCtx.globalAlpha=weight*(1-walkWeight);
-            spriteCtx.drawImage(gestures.image,poseFrame*gestures.cellWidth,(pose.rowOffset+direction)*gestures.cellHeight,gestures.cellWidth,gestures.cellHeight,0,0,sprite.width,sprite.height);
-          }
-        }
+        // One articulated silhouette per person. Crossfading raster views or
+        // neighbouring poses produced doubled heads, torsos and feet.
         spriteCtx.globalCompositeOperation='source-over';spriteCtx.globalAlpha=1;
+        if(pose&&walkWeight<.5){
+          const poseFrame=Math.min(pose.frames-1,Math.floor(person.phase*pose.frames));
+          spriteCtx.drawImage(gestures.image,poseFrame*gestures.cellWidth,(pose.rowOffset+direction)*gestures.cellHeight,gestures.cellWidth,gestures.cellHeight,0,0,sprite.width,sprite.height);
+        }else{
+          spriteCtx.drawImage(atlas.image,frame*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,0,0,sprite.width,sprite.height);
+        }
         const pixels=spriteCtx.getImageData(0,0,sprite.width,sprite.height),left=x-row.anchor.x*scale,top=y-row.anchor.y*scale;
         let sourceAlpha=0,visibleAlpha=0;
         for(let sy=0;sy<sprite.height;sy++){
