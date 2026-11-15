@@ -1,14 +1,14 @@
-/* An editorial spread using the deck's established planted interior. */
-.designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#102820;background:#EEF3EA;font-family:var(--sans)}
-.designx-v8 .v8-reference-copy{position:absolute;left:80px;top:82px;width:485px}
-.designx-v8 .v8-reference-kicker{margin:0 0 61px;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#4d6559}
-.designx-v8 .v8-reference-title{margin:0;font:400 106px/1.03 var(--display);letter-spacing:-.045em}
-.designx-v8 .v8-reference-title em,.designx-v8 .v8-reference-visual figcaption em{font:inherit;font-style:italic}
-.designx-v8 .v8-reference-evidence{max-width:420px;margin:53px 0 0;padding-top:26px;border-top:1px solid #b1c1b5;font:400 29px/1.38 var(--sans);letter-spacing:-.02em;color:#4d6559}
-.designx-v8 .v8-reference-evidence strong{font-weight:400;color:#102820}
-.designx-v8 .v8-reference-visual{position:absolute;left:630px;right:80px;top:82px;margin:0}
-.designx-v8 .v8-reference-visual img{display:block;width:100%;height:645px;object-fit:cover;object-position:50% 50%}
-.designx-v8 .v8-reference-visual figcaption{margin-top:24px;font:400 43px/1.1 var(--display);letter-spacing:-.025em}
-.designx-v8 .v8-reference-scene~.folio{color:#4D6559}
+/* One complete planted pavilion, with the argument held over its quieter edge. */
+.designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#f3f4e9;background:#0b1d18;font-family:var(--sans)}
+.designx-v8 .v8-reference-visual{position:absolute;inset:0;margin:0}
+.designx-v8 .v8-reference-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.designx-v8 .v8-reference-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(7,22,17,.12) 52%,rgba(7,22,17,.78) 72%,rgba(7,22,17,.89) 100%);pointer-events:none}
+.designx-v8 .v8-reference-copy{position:absolute;z-index:1;left:1040px;right:80px;top:92px}
+.designx-v8 .v8-reference-kicker{margin:0 0 32px;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#e0e8d7}
+.designx-v8 .v8-reference-title{margin:0;font:400 90px/1.04 var(--display);letter-spacing:-.04em}
+.designx-v8 .v8-reference-title em{font:inherit;font-style:italic}
+.designx-v8 .v8-reference-evidence{max-width:420px;margin:52px 0 0;font:400 29px/1.38 var(--sans);letter-spacing:-.02em;color:#e0e8d7}
+.designx-v8 .v8-reference-evidence strong{font-weight:400;color:#fffef4}
+.designx-v8 .v8-reference-scene~.folio{color:#e0e8d7}
 .designx-v8.print-mode .v8-reference-visual img{opacity:1!important;filter:none!important}
 @media print{.designx-v8 .v8-reference-visual img{opacity:1!important;filter:none!important}}

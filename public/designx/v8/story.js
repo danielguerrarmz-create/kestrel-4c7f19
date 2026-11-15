@@ -165,8 +165,8 @@ window.DESIGNX_V8_STORY = [
     "theme": "commercial-loop-slide",
     "purpose": "Explain the specific commercial barrier found in international customer discovery: prospective clients want a completed Bower they can visit and assess.",
     "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. A supporting sentence states the finding; fuller discovery context stays in the notes.",
-    "drawing": "Reuse the closing slide’s existing assets/close.webp concept image in an editorial split layout. A small ‘The first Bower’ kicker introduces the large ‘The missing reference’ headline, with a supporting sentence and the figure caption ‘A place they can visit’.",
-    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image is the existing Bower closing concept, not physical observation, a photograph of a completed project or a plant-growth simulation.",
+    "drawing": "Reuse the original deck’s assets/room.webp whole-pavilion concept as a full-bleed image. Place the ‘The first Bower’ kicker, ‘The missing reference’ headline and discovery finding over the quieter right edge. No caption or section divider.",
+    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image is an existing Bower pavilion concept, not physical observation, a photograph of a completed project or a plant-growth simulation.",
     "transition": "The missing reference gives the first commission a concrete purpose. Explain how a client would commission and receive that place.",
     "speakerBridge": "The first Bower needs to work for its client and be a place others can experience. This is the proposed route to commissioning it."
   },

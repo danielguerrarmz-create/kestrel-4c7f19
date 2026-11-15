@@ -1,0 +1,74 @@
+/* Edition 08: spacing and typography separate the editorial content.
+   Load after the edition styles. Keep button states, focus outlines, timeline
+   tracks/ticks, diagram connections/node frames and factory drawings intact. */
+
+/* Common viewer rule; the edition indicator and progress bar remain controls. */
+.designx-v8 .viewer-header {
+  border-bottom:0;
+}
+
+/* Ground/care drawing spaces and the pier study: remove editorial framing. */
+.designx-v8 .v8-reserved-drawing,
+.designx-v8 .v7-anatomy-drawing {
+  border-top:0;
+  border-bottom:0;
+}
+
+/* Consequence tabs retain their individual selected-state underlines. */
+.designx-v8 .v8-drawing-tabs {
+  border-bottom:0;
+}
+.designx-v8 .v8-consequence-body dl,
+.designx-v8 .v8-sequence-controls {
+  border-top:0;
+}
+
+/* Engine question dividers are decorative. Selection still has colour and
+   the underline on each chosen consideration; the response needs no rule. */
+.designx-v8 .v8-engine .v7-check-panel .v8-engine-question {
+  border-bottom:0;
+}
+.designx-v8 .v8-engine .v7-nudge-readout,
+.designx-v8 .v8-engine .v7-check-summary {
+  border-top:0;
+}
+
+/* The variability illustration does not need a rule beneath its parts. */
+.designx-v8 .living-parts {
+  border-bottom:0;
+}
+
+/* Manufacturing's surrounding control bands and print captions, not the
+   station drawings, grid, button outlines or selected-operation indicator. */
+.designx-v8 .factory-explore-controls,
+.designx-v8 .factory-station-picker,
+.designx-v8 .factory-inline .factory-controls,
+.designx-v8 .factory-focus-exhibit .factory-controls,
+.designx-v8 .factory-print-heroes figure {
+  border-top:0;
+}
+.designx-v8 .factory-focus-exhibit .factory-hero-picker,
+.designx-v8 .factory-dialog-heading {
+  border-bottom:0;
+}
+
+/* Reference copy and commercial steps remain separated by their spacing. */
+.designx-v8 .v8-reference-evidence,
+.designx-v8 .v7commercial-steps > section {
+  border-top:0;
+}
+.designx-v8 .v7commercial-budget {
+  border-left:0;
+}
+
+/* Only the question study's explanatory footer rules; its complete diagram,
+   semantic node outlines and selected-question inset marker are preserved. */
+.designx-v8 .v8lq-readout,
+.designx-v8 .v8lq-print-detail {
+  border-top:0;
+}
+
+/* The floor-area projection keeps its hierarchy without an accent rule. */
+.designx-v8 .construction-future {
+  border-top:0;
+}
