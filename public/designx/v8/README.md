@@ -2,7 +2,7 @@
 
 Open the [story map](http://localhost:5312/designx/v8/story-map.html) or the [working deck](http://localhost:5312/designx/v8/). Run `node deck/serve.mjs` from the repository root if needed.
 
-This is the replacement v8 requested on 15 November 2026. It uses v7's visual system and viewer in a twenty-slide story, with two drawing spaces for ground and care. The separate shared-model, learning-cycle and coupled-system slides are consolidated into one explorable learning drawing. The original complex flowchart is retained. The standalone design engine and question-led flowchart copy have been removed from the sequence and resource list. The ghosted Bower slide retains The missing reference as its headline, with the discovery sentence and a separate invitation below: Help us make it real. The earlier arrangement and standalone v9 narrative are superseded. V7 and earlier editions are unchanged. No repository-root document was changed by this revision.
+This is the replacement v8 requested on 15 November 2026. It uses v7's visual system and viewer in an eighteen-slide story. Slide 6, the living place, is the rendered place page from the inhabited-room study (`pieces/the-place`); care keeps its drawing space. The two pier slides (design decision, computational consequences) are set aside in `set-aside.js`, not loaded. The separate shared-model, learning-cycle and coupled-system slides are consolidated into one explorable learning drawing. The original complex flowchart is retained. The standalone design engine and question-led flowchart copy have been removed from the sequence and resource list. The ghosted Bower slide retains The missing reference as its headline, with the discovery sentence and a separate invitation below: Help us make it real. The earlier arrangement and standalone v9 narrative are superseded. V7 and earlier editions are unchanged. No repository-root document was changed by this revision.
 
 ## The story
 
@@ -10,7 +10,7 @@ We encounter a Bower and understand why someone would want it. Looking more clos
 
 `story.js` is the slide-by-slide editorial map. Every entry records the source v7 slide, its role, what stays, the intended drawing, current evidence status and the connection to the next slide. `story-map.html` presents that map with links to each slide. The deck's Notes include the same connections and drawing briefs alongside the original source notes.
 
-The twenty-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → plants make space → ground → design decision → computational consequences → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
+The eighteen-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → plants make space → the living place → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
 
 ## What is present
 
@@ -52,11 +52,11 @@ The room/site/plant–footing study, generators, exports, stable IDs and release
 
 Slide 13 retains the ghosted, planted Bower and complete shadow under “The missing reference.” The supporting sentence reads: “International cultural institutions, estate owners and private prospects repeatedly wanted to see one completed Bower.” A separate italic line below says “Help us make it real.” This is an invitation grounded in founder-reported customer discovery, not a claim of completed commissions or guaranteed demand.
 
-The removed engine and question-led modules remain available in the repository for reuse, but the deck no longer loads them. The reference render remains on the invitation slide. The original learning diagram is slide 16, team slide 17, construction slide 18, future possibilities slide 19 and the close slide 20.
+The removed engine and question-led modules remain available in the repository for reuse, but the deck no longer loads them. The reference render remains on the invitation slide. The original learning diagram is slide 14, team slide 17, construction slide 18, future possibilities slide 19 and the close slide 20.
 
 The shared-model, making, growth, cost and learning arguments remain within the original complex flowchart, How the system learns. Its project phases read Designing each Bower and Making and living with it; software readiness is stated separately. The trace begins with the Growing question. Categories and individual nodes remain selectable; the playback strip has been removed. The design phase label sits above Intent + site, clear of the category tabs, and the input box has consistent text padding.
 
-The First customers slide now sits at slide 12, after manufacturing and before the invitation and commission offer. Its original triptych is retained, with the hospitality video omitted and four logos under “In conversation with”: Eden Project, The Newt, 25hours and Canary Wharf Group. No meeting caption is shown. Speaker notes record that Canary Wharf Group contact through cold outreach and the website led to a CEO introduction and an upcoming discussion with the head of development; they do not claim a completed CWG meeting or commission.
+The First customers slide now sits at slide 10, after manufacturing and before the invitation and commission offer. Its original triptych is retained, with the hospitality video omitted and four logos under “In conversation with”: Eden Project, The Newt, 25hours and Canary Wharf Group. No meeting caption is shown. Speaker notes record that Canary Wharf Group contact through cold outreach and the website led to a CEO introduction and an upcoming discussion with the head of development; they do not claim a completed CWG meeting or commission.
 
 Slide 18 keeps the construction background image, existing typography, floor-area projection and source citations. Only the Pause motion control and bottom Generated illustration label are removed. The generated-image provenance remains in the notes; the background animation and its reduced-motion behavior are retained.
 

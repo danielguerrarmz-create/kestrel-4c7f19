@@ -62,3 +62,17 @@
 .designx-v8 .v8-growth-print-status{display:none;position:absolute;left:48px;bottom:30px;font:400 13px/1.3 var(--sans);color:#64796d}
 .designx-v8.print-mode .v8-growth-print-status{display:block}
 @media print{.designx-v8 .v8-growth-print-status{display:block}}
+
+/* Slide 6, the living place: the rendered place page fills the slide (v8/edition.js, placeDrawing). Its still stands
+   under it for print and until the page has loaded; the page brings its own title and time line. */
+.designx-v8 .v8-place-scene{background:#0b1a14}
+.designx-v8 .v8-place-print{position:absolute;inset:0;overflow:hidden}
+.designx-v8 .v8-place-print>img{width:100%;height:100%;object-fit:cover;display:block}
+.designx-v8 .v8-place-scene .v7-title{left:52px;right:auto;top:34px;font-size:84px;line-height:1.08;max-width:1300px;font-style:italic;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5),0 0 12px rgba(0,0,0,.3);z-index:1;pointer-events:none}
+.designx-v8 .v8-place-host{position:absolute;inset:0;display:none;z-index:2;background:#0b1a14}
+.designx-v8 .v8-place-host.v8-mounted{display:block}
+.designx-v8 .v8-place-host iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.designx-v8 .v8-place-scene .v8-growth-print-status{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6);z-index:1}
+.designx-v8 .v8-place-scene~.folio{display:none}
+.designx-v8.print-mode .v8-place-host{display:none!important}
+@media print{.designx-v8 .v8-place-host{display:none!important}}

@@ -1,4 +1,4 @@
-/* Edition 08: twenty scenes with one complete learning flowchart. */
+/* Edition 08: eighteen scenes with one complete learning flowchart. The two pier slides are set aside in set-aside.js. */
 window.DESIGNX_V8_STORY = [
   {
     "number": 1,
@@ -64,53 +64,29 @@ window.DESIGNX_V8_STORY = [
   {
     "number": 6,
     "baseSlide": null,
-    "title": "The ground sustains the room",
+    "title": "The living place",
     "theme": "v8-ground-slide",
     "purpose": "Reveal the conditions that sustain the desired room: roots, water, sunlight, supports, foundations and access for care belong to one inhabited place.",
-    "stays": "The same room, site and architectural intention introduced in the arrival and growth views. This new drawing gives its supporting relationships an explicit place in the story.",
-    "drawing": "Develop the first section draft at bower-blender/studies/inhabited-room/views/section.png into a presentation view of the occupied, furniture-free room. Show approach and ground, roots, water provision, foundations, sunlight, supports and access for care. Simplify and recompose the annotations while retaining people and the space they inhabit.",
-    "status": "First scene drafts exist; presentation composition and integration are pending. The section derives from the six-bay-radial-v1 scene and provisional site.json proposals. Rooting, water, footings and access require coordinated development and appropriate checks; the drawing does not establish performance.",
-    "transition": "These relationships affect geometry. Show a specific decision where helping growth also changes the entrance.",
-    "speakerBridge": "Once we draw these relationships together, they begin to change the design. The pier gives us a concrete example."
+    "stays": "The same room, site and architectural intention introduced in the growth views, now as one rendered place: the inhabited-room study on its designed, sloping site.",
+    "drawing": "The place page from the inhabited-room study (pieces/the-place) fills the slide. It opens on the whole place from above and plays its ten years by itself; small targets lead to arriving, looking out, one pier cut open from under its roots to its first joints, and the whole place cut through its ground. Each view steps through the ten years on rendered frames.",
+    "status": "Rendered scene of a designed, unsurveyed site on snapshot six-bay-meadow-v2. Climbers are one run of the plant simulator on provisional species numbers; roots are a sketch by a stated rule; sole, piles, water and planting are authored proposals. Nothing is measured or engineered, and the drawing does not establish performance.",
+    "transition": "A place like this is particular: its ground, its light and its plants are its own. Name what that asks of the way it is made.",
+    "speakerBridge": "Every part of this place answers to its own site and its own plants. That is the difficulty, and it is where the making has to begin."
   },
   {
     "number": 7,
-    "baseSlide": 5,
-    "title": "Growth changes the geometry.",
-    "theme": "v7-anatomy-slide",
-    "purpose": "Show one consequential decision: opening a pier changes the conditions for planting while narrowing the entrance people use. Keep the plant response and the experience of entering in the same argument.",
-    "stays": "The link from architectural intention to geometry. Replace the generic illustration with the available pier comparison within this slide, retaining its place in the argument.",
-    "drawing": "Enter the existing shaded-at-the-pier study, compare the baseline and opened pier, and pause at the entrance trade-off. Eventually connect that close view to the same room’s arrival, ground, rooting space and path through the opening.",
-    "status": "Existing comparison of generated, tended-growth scenarios on two digital geometries. Light and growth assumptions remain provisional, not field validation. First inhabited scene drafts exist; the presentation link between this pier decision, the entrance and ground remains pending.",
-    "transition": "A decision with competing consequences needs a method for assessing the same geometry from several directions.",
-    "speakerBridge": "We cannot judge this change from the plant study alone. We also have to ask what it means for making, cost and the way people enter."
-  },
-  {
-    "number": 8,
-    "baseSlide": 6,
-    "title": "One change, several consequences",
-    "theme": "v7-computation-slide",
-    "purpose": "Follow one authored pier change through plant support, entrance and making, so the trade-offs can be seen in a particular place.",
-    "stays": "The coordinated scene export, baseline and opened-pier alternatives, stable anchors and quantities. Preserve the distinction between selecting an authored alternative and running an evaluator.",
-    "drawing": "Inspect Plant support, Entrance, Making and Designer review through one large scene view. Toggle baseline and opened-pier alternatives, or play and scrub the explanation. Reuse the inhabited-room export's fixed images, masks, stable threshold anchors and geometry-derived quantities. Changes select existing alternatives; they do not regenerate the design.",
-    "status": "The coordinated scene export supplies the displayed geometry and quantities. Its footing arrangements are authored, unengineered proposals; exported review flags remain visible. Quantities are derived from digital geometry before playback, not physical measurements. Integrated plantability and calibrated cost checks remain proposed.",
-    "transition": "A place-specific decision changes the parts we must make. Explain how a repeatable production method can accommodate that variation.",
-    "speakerBridge": "Opening this pier changes more than one part. The challenge is to make that kind of variation manufacturable."
-  },
-  {
-    "number": 9,
     "baseSlide": 2,
     "title": "Nature builds by growing.",
     "theme": "variability-slide",
-    "purpose": "Name the challenge the previous decision has exposed: nature and sites vary, while delivery needs reliability. Make the variability thesis the reason for developing a repeatable method of making.",
+    "purpose": "Name the challenge the place has exposed: nature and sites vary, while delivery needs reliability. Make the variability thesis the reason for developing a repeatable method of making.",
     "stays": "The forest, distinct digital timber parts and the founder’s variability thesis. Keep the distinction between an existing digital model and a manufactured component.",
-    "drawing": "Retain the forest and distinct digital timber parts. Read them now as the underlying challenge revealed by the room and pier: a place-specific design needs a reliable way to make varied components.",
+    "drawing": "Retain the forest and distinct digital timber parts. Read them now as the underlying challenge revealed by the room and its site: a place-specific design needs a reliable way to make varied components.",
     "status": "Existing digital component studies and generated woodland illustration. No measured lifecycle performance or manufactured-part evidence is asserted.",
     "transition": "Move from the variability thesis to the proposed process that could manufacture different parts reliably.",
     "speakerBridge": "Variability is the essence of nature and the enemy of industry. Bower’s bet is to make variability manufacturable."
   },
   {
-    "number": 10,
+    "number": 8,
     "baseSlide": 7,
     "title": "Different parts. A repeatable process.",
     "theme": "factory-slide v5-factory-overview",
@@ -122,7 +98,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The parts can differ while the method repeats. Forming, measuring and machining show how we intend to carry the design through that process."
   },
   {
-    "number": 11,
+    "number": 9,
     "baseSlide": 8,
     "title": "Form. Measure. Machine.",
     "theme": "factory-focus-slide v5-factory-focus",
@@ -134,7 +110,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "These processes support a practical first commission. The conversations we are having show where that commission might begin."
   },
   {
-    "number": 12,
+    "number": 10,
     "baseSlide": 12,
     "title": "The first customers.",
     "theme": "buyers-slide",
@@ -146,7 +122,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Across these conversations, people repeatedly wanted to see one completed Bower. That is the next place we are asking people to help bring into being."
   },
   {
-    "number": 13,
+    "number": 11,
     "baseSlide": 14,
     "title": "The first Bower is the missing reference.",
     "theme": "commercial-loop-slide",
@@ -158,7 +134,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Help us make the first Bower real. This is how we propose to commission, deliver and care for it."
   },
   {
-    "number": 14,
+    "number": 12,
     "baseSlide": 13,
     "title": "One Bower. Three steps.",
     "theme": "v7-commercial-model-slide",
@@ -170,7 +146,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The third step matters as much as the first two. Care has to be designed into the room, as well as agreed in the offer."
   },
   {
-    "number": 15,
+    "number": 13,
     "baseSlide": null,
     "title": "Care is part of the architecture",
     "theme": "v8-care-slide",
@@ -182,7 +158,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "We already revise designs through our digital studies. Making and caring for a real Bower will give us another kind of evidence."
   },
   {
-    "number": 16,
+    "number": 14,
     "baseSlide": 11,
     "title": "How the system learns.",
     "theme": "v7-learning-flow-slide",
@@ -194,7 +170,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Connecting design, making and the life of the place is the work we are bringing together as founders."
   },
   {
-    "number": 17,
+    "number": 15,
     "baseSlide": 16,
     "title": "Architecture. Ecology. Software. Manufacturing.",
     "theme": "team-slide",
@@ -206,7 +182,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "This is the team and the work we are beginning with. The reason to develop the method reaches well beyond one garden room."
   },
   {
-    "number": 18,
+    "number": 16,
     "baseSlide": 1,
     "title": "We’re about to build the world again.",
     "theme": "material-problem-slide",
@@ -218,7 +194,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "If we are about to build so much, the way those places participate in the living world matters. A room is where we begin to develop that approach."
   },
   {
-    "number": 19,
+    "number": 17,
     "baseSlide": 17,
     "title": "A room is the beginning.",
     "theme": "v7-future-slide",
@@ -230,7 +206,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "That is the horizon. The useful next step is to make the first Bower real and establish how we will deliver and learn from it."
   },
   {
-    "number": 20,
+    "number": 18,
     "baseSlide": 18,
     "title": "Buildings that grow.",
     "theme": "closing image-slide",

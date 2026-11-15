@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening the pier</title>
+<!--
+  One study shown as a design tool would show it: a parameter, its two values, the picture for each and the
+  figures the two grown runs reported. Every number and picture was made beforehand (manifest.js, the pier block,
+  from drawings-in-code's pier study); nothing is calculated on this page. ?state=opened ?still
+-->
+<link rel="stylesheet" href="place.css">
+</head>
+<body class="pier">
+<div id="stage">
+  <header>
+    <p class="kicker" id="kicker"></p>
+    <h1 id="title"></h1>
+    <p class="pre" id="pre"></p>
+  </header>
+  <aside id="design">
+    <h2>Design</h2>
+    <p class="param" id="param"></p>
+    <div id="stops2" role="radiogroup"></div>
+    <p class="note" id="ringnote"></p>
+    <p class="note" id="setup"></p>
+  </aside>
+  <main id="centre">
+    <div id="shots"></div>
+    <p class="note" id="picnote"></p>
+    <div id="status"><span id="statustext"></span><i id="bar"></i></div>
+  </main>
+  <aside id="after">
+    <h2>After ten years</h2>
+    <div id="rows"></div>
+    <p class="reading" id="reading"></p>
+    <button id="srcbtn" type="button" aria-expanded="false">Sources ▸</button>
+    <ul id="sources" hidden></ul>
+  </aside>
+  <p id="missing" hidden></p>
+</div>
+<script src="manifest.js"></script>
+<script src="pier-study.js"></script>
+</body>
+</html>
