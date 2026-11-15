@@ -49,7 +49,6 @@
       <div class="v7future-print">
         ${views.map(view => `<figure><img src="${image(view)}" alt="${view.alt}" loading="lazy" style="object-position:${view.position}"><figcaption>${view.label}</figcaption></figure>`).join('')}
       </div>
-      <p class="v7future-status">Concept images · possibilities beyond the first Bower.</p>
     </section>`,
     notes: 'Begin with the inhabitable room: a place where structure, planting and human use can be tested together. These five user-supplied concept images expand that experience through a sanctuary, civic promenade, living street, larger building and garden city. They express the ambition that a repeatable design and manufacturing capability could eventually support. They are not photographs of completed Bowers or evidence that these larger applications have been engineered. Feasibility, maintenance, safety, lifecycle performance and the requirements of each scale remain to be demonstrated. Online, select a scale to inspect its image. The PDF presents all five concepts together.',
     source: 'Five replacement concept images supplied by the founder on 15 November 2026. Original filenames and image dimensions are recorded in v8/assets/future/provenance.json. Architectural possibilities, not completed projects or an engineered delivery roadmap.',
