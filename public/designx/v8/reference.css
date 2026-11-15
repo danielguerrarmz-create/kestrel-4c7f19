@@ -1,13 +1,14 @@
-/* A customer finding beside an isolated botanical drawing of the complete Bower. */
+/* An editorial spread using the deck's established planted interior. */
 .designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#102820;background:#EEF3EA;font-family:var(--sans)}
-.designx-v8 .v8-reference-title{position:absolute;top:57px;left:80px;right:80px;margin:0;font:400 104px/1.02 var(--display);letter-spacing:-.045em}
-.designx-v8 .v8-reference-title>span{display:block}
+.designx-v8 .v8-reference-copy{position:absolute;left:80px;top:82px;width:485px}
+.designx-v8 .v8-reference-kicker{margin:0 0 61px;font:400 23px/1.2 var(--sans);letter-spacing:-.015em;color:#4d6559}
+.designx-v8 .v8-reference-title{margin:0;font:400 106px/1.03 var(--display);letter-spacing:-.045em}
 .designx-v8 .v8-reference-title em,.designx-v8 .v8-reference-visual figcaption em{font:inherit;font-style:italic}
-.designx-v8 .v8-reference-body{position:absolute;top:292px;left:80px;right:65px;display:grid;grid-template-columns:360px minmax(0,1fr);gap:45px}
-.designx-v8 .v8-reference-evidence>p{margin:72px 0 0;font:400 33px/1.24 var(--sans);letter-spacing:-.025em}
-.designx-v8 .v8-reference-visual{position:relative;min-width:0;margin:0}
-.designx-v8 .v8-reference-visual img{display:block;width:100%;height:530px;object-fit:contain}
-.designx-v8 .v8-reference-visual figcaption{margin-top:10px;font:400 42px/1.07 var(--display);letter-spacing:-.025em;text-align:center}
+.designx-v8 .v8-reference-evidence{max-width:420px;margin:53px 0 0;padding-top:26px;border-top:1px solid #b1c1b5;font:400 29px/1.38 var(--sans);letter-spacing:-.02em;color:#4d6559}
+.designx-v8 .v8-reference-evidence strong{font-weight:400;color:#102820}
+.designx-v8 .v8-reference-visual{position:absolute;left:630px;right:80px;top:82px;margin:0}
+.designx-v8 .v8-reference-visual img{display:block;width:100%;height:645px;object-fit:cover;object-position:50% 50%}
+.designx-v8 .v8-reference-visual figcaption{margin-top:24px;font:400 43px/1.1 var(--display);letter-spacing:-.025em}
 .designx-v8 .v8-reference-scene~.folio{color:#4D6559}
 .designx-v8.print-mode .v8-reference-visual img{opacity:1!important;filter:none!important}
 @media print{.designx-v8 .v8-reference-visual img{opacity:1!important;filter:none!important}}

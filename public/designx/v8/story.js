@@ -1,4 +1,4 @@
-/* Edition 08: twenty-one scenes, including a comparison of two Time drawings. */
+/* Edition 08: twenty-two scenes, including Time and learning-flow comparisons. */
 window.DESIGNX_V8_STORY = [
   {
     "number": 1,
@@ -164,9 +164,9 @@ window.DESIGNX_V8_STORY = [
     "title": "The first Bower is the missing reference.",
     "theme": "commercial-loop-slide",
     "purpose": "Explain the specific commercial barrier found in international customer discovery: prospective clients want a completed Bower they can visit and assess.",
-    "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. Keep that discovery context in the notes.",
-    "drawing": "An isolated, plant-covered Bower appears in botanical architectural linework with restrained colour, without landscape or background. Based on the arrival geometry, the generated concept illustration reveals once from pale linework into colour, then holds its final state without controls. “A place they can visit” is the editorial caption.",
-    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The generated concept illustration uses the arrival geometry as a visual reference; it is not physical observation, a completed-project photograph, a construction sequence or an exact plant-growth simulation.",
+    "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. A supporting sentence states the finding; fuller discovery context stays in the notes.",
+    "drawing": "Reuse the closing slide’s existing assets/close.webp concept image in an editorial split layout. A small ‘The first Bower’ kicker introduces the large ‘The missing reference’ headline, with a supporting sentence and the figure caption ‘A place they can visit’.",
+    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The image is the existing Bower closing concept, not physical observation, a photograph of a completed project or a plant-growth simulation.",
     "transition": "The missing reference gives the first commission a concrete purpose. Explain how a client would commission and receive that place.",
     "speakerBridge": "The first Bower needs to work for its client and be a place others can experience. This is the proposed route to commissioning it."
   },
@@ -203,11 +203,24 @@ window.DESIGNX_V8_STORY = [
     "stays": "The complete interactive information flow, its making, growing and cost traces, and the shared geometry linking them. Consolidate the separate shared-object, project-cycle and coupled-system slides into this explanation.",
     "drawing": "Begin with the Growing trace: a proposed support route, future establishment and care observations, evidence review, and a possible revision. Select a node directly or explore Design, Making, Cost and Whole system within this one drawing. No playback strip is needed for this information flow.",
     "status": "Existing digital geometry and growth studies support design iteration. Integrated checks and feedback from built Bowers remain in development. Designing each Bower and Making and living with it describe project phases, not software readiness. The trace is authored and reports no field observations.",
+    "transition": "Compare this complete flowchart with a second version that begins with the three design questions and reveals detail progressively.",
+    "speakerBridge": "We are keeping this flowchart while testing a calmer way into the same system: begin with making, growth and budget, then follow the relevant evidence."
+  },
+  {
+    "number": 18,
+    "baseSlide": 11,
+    "learningQuestions": true,
+    "title": "How the system learns — question study",
+    "theme": "v8-learning-questions-slide",
+    "purpose": "Compare a question-led explanation of the learning system with the original flowchart: Can we make it? Can it grow? Can we afford it? Bring each question into a shared design decision, then show how reviewed evidence could improve the next Bower.",
+    "stays": "The engine on slide 9 and the original learning flowchart on slide 17 remain. This separate comparison study preserves their making, growing and cost relationships, shared geometry and designer review while testing a calmer hierarchy.",
+    "drawing": "Integrate the three questions into the flowchart, showing the main relationships first and revealing relevant detail when a question is selected. Connect shared geometry and the designer’s decision to future making, growth and care evidence, review and possible rule revision.",
+    "status": "Authored interface and explanation study for comparison, retained beside the original pending a design decision. Existing geometry and growth studies do not constitute an integrated evaluator. Calibrated cost checks and feedback from built Bowers remain in development; no field observations, automatic rule updates or validated outcomes are claimed.",
     "transition": "Delivering the first place and learning from it requires the complementary work of the founders.",
     "speakerBridge": "Each project can provide both a place future clients can visit and evidence that improves our work. Building that connection is how we work together."
   },
   {
-    "number": 18,
+    "number": 19,
     "baseSlide": 16,
     "title": "Architecture. Ecology. Software. Manufacturing.",
     "theme": "team-slide",
@@ -219,19 +232,19 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "This is the team and the work we are beginning with. The reason to develop the method reaches well beyond one garden room."
   },
   {
-    "number": 19,
+    "number": 20,
     "baseSlide": 1,
     "title": "We’re about to build the world again.",
     "theme": "material-problem-slide",
     "purpose": "Now that the means are tangible, explain why extending them matters: the scale of upcoming construction makes our relationship with the living world a consequential architectural choice.",
     "stays": "The strong v7 headline, its sourced floor-area projection and material context. Preserve the projection’s baseline and date. It appears here because the audience now understands the place and means whose wider significance it establishes.",
-    "drawing": "Keep the existing construction image and cited context. This late widening of scale connects the credible first-room method to the stakes of future construction; it does not add a new product or environmental performance claim.",
+    "drawing": "Keep the existing construction background, typographic layout, projection and source citations. Remove only the Pause motion control and bottom Generated illustration label; image provenance stays in the notes. This late widening of scale connects the credible first-room method to the stakes of future construction without adding a new product or environmental performance claim.",
     "status": "Existing slide and cited projection. The architectural image is generated illustration, not a named project or measured environmental outcome.",
     "transition": "Translate that scale into the longer architectural horizon, beginning with what the first room could teach us.",
     "speakerBridge": "If we are about to build so much, the way those places participate in the living world matters. A room is where we begin to develop that approach."
   },
   {
-    "number": 20,
+    "number": 21,
     "baseSlide": 17,
     "title": "A room is the beginning.",
     "theme": "v7-future-slide",
@@ -243,7 +256,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "That is the horizon. The useful next step is to make the first Bower real and establish how we will deliver and learn from it."
   },
   {
-    "number": 21,
+    "number": 22,
     "baseSlide": 18,
     "title": "Buildings that grow.",
     "theme": "closing image-slide",
