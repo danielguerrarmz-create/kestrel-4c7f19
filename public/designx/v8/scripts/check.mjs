@@ -170,7 +170,7 @@ try {
   await test('Reference reveal plays once and holds its ghosted model without controls', async () => {
     const reference = await activate('v8-reference-slide');
     const picture = reference.locator('.v8-reference-visual img');
-    assert.match(await picture.getAttribute('src'),/time-experiment\/orbit-poster\.jpg$/);
+    assert.match(await picture.getAttribute('src'),/reference\/bower-shadow\.webp$/);
     assert.equal(await picture.evaluate(el=>getComputedStyle(el).objectFit),'contain');
     assert.equal(await reference.locator('input,button').count(),0);
     await page.waitForFunction(() => document.querySelector('.v8-reference-visual img').style.opacity === '0.24', null, {timeout:12000});

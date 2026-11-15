@@ -1,4 +1,33 @@
-# Planted Bower reference illustration
+# Current reference: expanded model render
+
+`bower-shadow.webp` is the active image on slide 14. It is rendered directly
+from `six-bay-radial-v1` and the complete provisional `trained-10y` growth
+record at day 3399 (20 June 2036 in the scenario). It is not an AI-generated
+image, measured growth outcome or completed building.
+
+The camera matches the end of the existing low-orbit Time drawing: source
+coordinates eye `[-1.2, 21, 2.6]`, target `[0, 0, 3]`, zoom 1.23. The original
+1600 by 900 view cut through the cast shadow at its left edge. This export
+extends the render by 600 pixels left, 200 right, 100 above and 200 below,
+without moving the camera, changing the light or altering geometry.
+
+The 2400 by 1200 lossless WebP has a transparent background, including the
+openings. All visible pixels, including the shadow, lie within
+`x=76..1986, y=150..988`; every border has a clear margin. The slide applies
+the same monochrome, translucent treatment and one-time reveal as before.
+The original Time assets are retained unchanged.
+
+Reproduce from the repository root:
+
+```powershell
+node deck/designx/v8/scripts/render-reference.mjs
+```
+
+`render.json` records the camera and expanded projection. The script uses
+the existing drawings-in-code studio and full growth record. No site,
+engineering, growth performance or completed commission is demonstrated.
+
+# Earlier, unused generated illustration
 
 Generated 15 November 2026 with the built-in image-generation tool for the first-reference slide.
 
