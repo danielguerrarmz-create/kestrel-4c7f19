@@ -1,0 +1,28 @@
+/* The three questions lead; detail and controls sit beneath their own question. */
+.designx-v8 .v8-engine .v8-engine-kicker{position:absolute;left:80px;top:66px;margin:0;font:400 26px/1.2 var(--sans);letter-spacing:-.015em;color:#B1C1B5}
+.designx-v8 .v8-engine .v7-check-panel{top:160px;width:440px;height:490px;padding:0;border:0}
+.designx-v8 .v8-engine .v7-fabrication-panel{left:80px;right:auto}
+.designx-v8 .v8-engine .v7-planting-panel{left:580px;right:auto}
+.designx-v8 .v8-engine .v7-cost-panel{left:auto;right:80px}
+.designx-v8 .v8-engine .v7-check-panel .v8-engine-question{margin:0;height:205px;font:400 80px/1.02 var(--display);letter-spacing:-.035em;border-bottom:1px solid #B1C1B559}
+.designx-v8 .v8-engine .v8-engine-question em{font:inherit;font-style:italic;transition:color .2s ease}
+.designx-v8 .v8-engine .v7-check-panel h4{margin:28px 0 0;font:500 29px/1.15 var(--sans);letter-spacing:-.025em}
+.designx-v8 .v8-engine .v7-check-description{margin:18px 0 0;min-height:68px;font:400 25px/1.32 var(--sans);max-width:405px;color:#B1C1B5}
+.designx-v8 .v8-engine .v7-check-choices{margin-top:28px;gap:18px;flex-wrap:nowrap}
+.designx-v8 .v8-engine .v7-check-choices button{cursor:pointer;font:400 20px/1.2 var(--sans);padding:0 0 9px;white-space:nowrap;border-bottom:1px solid #B1C1B559;color:#EEF3EA;transition:color .2s ease,border-color .2s ease}
+.designx-v8 .v8-engine .v7-check-choices button[aria-pressed=true]{color:#B7CD7B;border-bottom-color:#B7CD7B}
+.designx-v8 .v8-engine .v7-capability{margin:28px 0 0;font:400 17px/1.35 var(--sans);color:#96AAA0}
+.designx-v8 .v8-engine .v7-study-link{margin-top:28px;font-size:17px;line-height:1.35;color:#96AAA0}
+.designx-v8 .v8-engine[data-v8-engine-side=fabrication] .v7-fabrication-panel .v8-engine-question,
+.designx-v8 .v8-engine[data-v8-engine-side=planting] .v7-planting-panel .v8-engine-question,
+.designx-v8 .v8-engine[data-v8-engine-side=cost] .v7-cost-panel .v8-engine-question{border-color:#B7CD7B}
+.designx-v8 .v8-engine[data-v8-engine-side=fabrication] .v7-fabrication-panel .v8-engine-question em,
+.designx-v8 .v8-engine[data-v8-engine-side=planting] .v7-planting-panel .v8-engine-question em,
+.designx-v8 .v8-engine[data-v8-engine-side=cost] .v7-cost-panel .v8-engine-question em{color:#B7CD7B}
+.designx-v8 .v8-engine .v7-nudge-readout{top:718px;padding-top:25px;grid-template-columns:260px 1fr;gap:45px}
+.designx-v8 .v8-engine .v7-nudge-readout>span{font-size:18px;line-height:1.35;max-width:190px;padding-top:5px}
+.designx-v8 .v8-engine .v7-nudge-readout>p{margin:0;font:400 36px/1.2 var(--display);letter-spacing:-.02em;max-width:1080px}
+.designx-v8.print-mode .v8-engine .v7-check-summary{top:718px;grid-template-columns:repeat(3,minmax(0,1fr));gap:60px}
+.designx-v8 .v8-engine .v7-check-summary p{margin:0}
+@media print{.designx-v8 .v8-engine .v7-check-summary{top:718px;grid-template-columns:repeat(3,minmax(0,1fr));gap:60px}}
+@media(prefers-reduced-motion:reduce){.designx-v8 .v8-engine .v8-engine-question em,.designx-v8 .v8-engine .v7-check-choices button{transition:none}}

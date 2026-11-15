@@ -1,0 +1,355 @@
+{
+  "name": "v8-light-establishment",
+  "source": "04-plants-make-space-timber",
+  "snapshot": "six-bay-radial-v1",
+  "run": "trained-10y",
+  "sourcePlateSha256": "fb2733f2a13f7d3325a0318e084fcc3c0ec836efd536f4e85465b95bf7b16982",
+  "originalEstablishingDate": "2029-06-21",
+  "establishingDate": "2033-06-21",
+  "matureDate": "2036-06-21",
+  "panels": [
+    "At installation",
+    "Establishing",
+    "Mature"
+  ],
+  "seconds": 22,
+  "gutter": 0.012533572068039392,
+  "width": 2234,
+  "height": 652,
+  "frames": [
+    {
+      "src": "frames/light-00.webp",
+      "stage": "Midsummer · 6 am",
+      "sun": [
+        172,
+        6
+      ],
+      "sha256": "dcdbdef0ff3ffa617c9d88ca98d75bb2a9a6fa1dd2c5dba18694d99a5905c23e"
+    },
+    {
+      "src": "frames/light-01.webp",
+      "stage": "Midsummer · 6:20 am",
+      "sun": [
+        172,
+        6.333
+      ],
+      "sha256": "c11eb3cde32fed74c55a78ddfd527e52206842d25fb723f2c1380c6e75349f64"
+    },
+    {
+      "src": "frames/light-02.webp",
+      "stage": "Midsummer · 6:40 am",
+      "sun": [
+        172,
+        6.667
+      ],
+      "sha256": "09034631f78568c10d118c79e1560e80660e457081da484c44361531921c9a20"
+    },
+    {
+      "src": "frames/light-03.webp",
+      "stage": "Midsummer · 7 am",
+      "sun": [
+        172,
+        7
+      ],
+      "sha256": "93692006043a330946027592159459c92e66918082ec3ec57c08ff2e577de7dd"
+    },
+    {
+      "src": "frames/light-04.webp",
+      "stage": "Midsummer · 7:20 am",
+      "sun": [
+        172,
+        7.333
+      ],
+      "sha256": "cb2fbf9ae9e834db08ea96bb7d78f0a6dfc9f11b6511f4ba9a146a4f507b367a"
+    },
+    {
+      "src": "frames/light-05.webp",
+      "stage": "Midsummer · 7:40 am",
+      "sun": [
+        172,
+        7.667
+      ],
+      "sha256": "e13082cba8ae1bd26df0a92d9ee7a347bec1085f501fe79d0121adaad6217c2e"
+    },
+    {
+      "src": "frames/light-06.webp",
+      "stage": "Midsummer · 8 am",
+      "sun": [
+        172,
+        8
+      ],
+      "sha256": "8f8c68b456de7f08527f26ab7440716209403a9b627bfe145eb73d62a7c38882"
+    },
+    {
+      "src": "frames/light-07.webp",
+      "stage": "Midsummer · 8:20 am",
+      "sun": [
+        172,
+        8.333
+      ],
+      "sha256": "869a8b70697be0dc6e71610b18006d2dcd09916e8375253d22a01c94425da865"
+    },
+    {
+      "src": "frames/light-08.webp",
+      "stage": "Midsummer · 8:40 am",
+      "sun": [
+        172,
+        8.667
+      ],
+      "sha256": "d2452d004e23b1112e0177e762189d8ffe005f333015cd20143af2f0dadae3dd"
+    },
+    {
+      "src": "frames/light-09.webp",
+      "stage": "Midsummer · 9 am",
+      "sun": [
+        172,
+        9
+      ],
+      "sha256": "a371c9c2c8adce90f01a3929fcc9fefa3800c1a6f63b87db01e52488a4b2dc61"
+    },
+    {
+      "src": "frames/light-10.webp",
+      "stage": "Midsummer · 9:20 am",
+      "sun": [
+        172,
+        9.333
+      ],
+      "sha256": "6432bf89901de21635180e711c412c4bde1b0cf114a679c230a190b2c3698aea"
+    },
+    {
+      "src": "frames/light-11.webp",
+      "stage": "Midsummer · 9:40 am",
+      "sun": [
+        172,
+        9.667
+      ],
+      "sha256": "e44539dcd3d44310fe7f78502f99c79fa75468d4af57c7085cd061d2a1cff0aa"
+    },
+    {
+      "src": "frames/light-12.webp",
+      "stage": "Midsummer · 10 am",
+      "sun": [
+        172,
+        10
+      ],
+      "sha256": "b787c97bacf6b410f50bf103cd408d831ff2c35aea3e8e74ab062a825473a026"
+    },
+    {
+      "src": "frames/light-13.webp",
+      "stage": "Midsummer · 10:20 am",
+      "sun": [
+        172,
+        10.333
+      ],
+      "sha256": "7411afb482c0cac47cefe6bf2fb4ba792d9af24f07ac53368de7f8c46ef1de88"
+    },
+    {
+      "src": "frames/light-14.webp",
+      "stage": "Midsummer · 10:40 am",
+      "sun": [
+        172,
+        10.667
+      ],
+      "sha256": "42cc66a3a3ca19f056bf0696dabb3f894b9dd23d62fa7f7750212cac13ff1a69"
+    },
+    {
+      "src": "frames/light-15.webp",
+      "stage": "Midsummer · 11 am",
+      "sun": [
+        172,
+        11
+      ],
+      "sha256": "759b807332f23fab2b854fe868c9c534613ccca696deac96693b8f66e7113bf5"
+    },
+    {
+      "src": "frames/light-16.webp",
+      "stage": "Midsummer · 11:20 am",
+      "sun": [
+        172,
+        11.333
+      ],
+      "sha256": "4c0fc50ab42df95935ec47221d363a29fc6fe7df5c26f9b358ffdcceb0bb394a"
+    },
+    {
+      "src": "frames/light-17.webp",
+      "stage": "Midsummer · 11:40 am",
+      "sun": [
+        172,
+        11.667
+      ],
+      "sha256": "73433b09bb9311fbfba39ec6287703bcb081b2b764cafde7e5dbc3c756d8a275"
+    },
+    {
+      "src": "frames/light-18.webp",
+      "stage": "Midsummer · noon",
+      "sun": [
+        172,
+        12
+      ],
+      "sha256": "651e3e43a896f0eadc9f4d808628c844f2318b9a42866541de1c924329a820fe"
+    },
+    {
+      "src": "frames/light-19.webp",
+      "stage": "Midsummer · 12:20 pm",
+      "sun": [
+        172,
+        12.333
+      ],
+      "sha256": "97cfaf9e22d0a1cb694304635df7cd4988e276f571db00d0c3bd4a6b5a457608"
+    },
+    {
+      "src": "frames/light-20.webp",
+      "stage": "Midsummer · 12:40 pm",
+      "sun": [
+        172,
+        12.667
+      ],
+      "sha256": "888dcc5c2a700c4aeace1d83b60a1d02e58f63390ede5c8f26dcfc3133114c56"
+    },
+    {
+      "src": "frames/light-21.webp",
+      "stage": "Midsummer · 1 pm",
+      "sun": [
+        172,
+        13
+      ],
+      "sha256": "159f1be6860f46a818d79f18b6fefa52e3e4f856b792537849e22fd2493c453e"
+    },
+    {
+      "src": "frames/light-22.webp",
+      "stage": "Midsummer · 1:20 pm",
+      "sun": [
+        172,
+        13.333
+      ],
+      "sha256": "cda8b6e8014b8b12d92ee5b443a4316b006e59b3896b1406fb7ff248f964a9b1"
+    },
+    {
+      "src": "frames/light-23.webp",
+      "stage": "Midsummer · 1:40 pm",
+      "sun": [
+        172,
+        13.667
+      ],
+      "sha256": "50201ec9263652baa1391038914e9ae9a253992553b912914285f259a380caeb"
+    },
+    {
+      "src": "frames/light-24.webp",
+      "stage": "Midsummer · 2 pm",
+      "sun": [
+        172,
+        14
+      ],
+      "sha256": "2e0033125907c0c2e7294f3ea590c636c9d9c93db17bc204900387105e79d940"
+    },
+    {
+      "src": "frames/light-25.webp",
+      "stage": "Midsummer · 2:20 pm",
+      "sun": [
+        172,
+        14.333
+      ],
+      "sha256": "863820f3a9f5cd28bb95d58adc4d842a3ea90c59dc7517ae7809386306a7c885"
+    },
+    {
+      "src": "frames/light-26.webp",
+      "stage": "Midsummer · 2:40 pm",
+      "sun": [
+        172,
+        14.667
+      ],
+      "sha256": "619cf9ff63dc91e891a2a7e9b1f396e18ae2c2daf45408a642dc774f534f6236"
+    },
+    {
+      "src": "frames/light-27.webp",
+      "stage": "Midsummer · 3 pm",
+      "sun": [
+        172,
+        15
+      ],
+      "sha256": "ff4d14fab1db925cb1019d7d8a76473ee1d68e643f891b7bdb7439e504832842"
+    },
+    {
+      "src": "frames/light-28.webp",
+      "stage": "Midsummer · 3:20 pm",
+      "sun": [
+        172,
+        15.333
+      ],
+      "sha256": "ab2e4a43c1f0a4d6fe89f304aa10348245ec2c7bc74a6a8a2fe02bfb92f68ae9"
+    },
+    {
+      "src": "frames/light-29.webp",
+      "stage": "Midsummer · 3:40 pm",
+      "sun": [
+        172,
+        15.667
+      ],
+      "sha256": "8d2f09b6211010c21470c85035571cdd08e209101754df96a6e6640a4fbb123f"
+    },
+    {
+      "src": "frames/light-30.webp",
+      "stage": "Midsummer · 4 pm",
+      "sun": [
+        172,
+        16
+      ],
+      "sha256": "fe53f6424390453cc7f5a711ea2e4253d6cad6669d78bf9da4260155e214bf20"
+    },
+    {
+      "src": "frames/light-31.webp",
+      "stage": "Midsummer · 4:20 pm",
+      "sun": [
+        172,
+        16.333
+      ],
+      "sha256": "51516cf05ef5b3915a57e2074e2b3a68151c295ccdff3ce1942935efa826aee8"
+    },
+    {
+      "src": "frames/light-32.webp",
+      "stage": "Midsummer · 4:40 pm",
+      "sun": [
+        172,
+        16.667
+      ],
+      "sha256": "58e78c2ec4b6415c6b40a097fd07a2c3abe4898139c143816f6964e40a99d512"
+    },
+    {
+      "src": "frames/light-33.webp",
+      "stage": "Midsummer · 5 pm",
+      "sun": [
+        172,
+        17
+      ],
+      "sha256": "a0f4decfc4b07b1d211f69bc93b599d6c62fa77a5b8edb2e185cc4dba5894de2"
+    },
+    {
+      "src": "frames/light-34.webp",
+      "stage": "Midsummer · 5:20 pm",
+      "sun": [
+        172,
+        17.333
+      ],
+      "sha256": "45137051f86119de7a57655c4fb96863abbd3e04886908dfa2f033034d787f93"
+    },
+    {
+      "src": "frames/light-35.webp",
+      "stage": "Midsummer · 5:40 pm",
+      "sun": [
+        172,
+        17.667
+      ],
+      "sha256": "e4279fe1eaddc757020baab97825220d89961aab279a508bdaae7d92d79442c8"
+    },
+    {
+      "src": "frames/light-36.webp",
+      "stage": "Midsummer · 6 pm",
+      "sun": [
+        172,
+        18
+      ],
+      "sha256": "176eb8867a4b19d88f8364e06342e240262f2c275923a7cfd1570a06934ea4de"
+    }
+  ],
+  "statement": "A later state of the existing growth scenario was selected to depict intermediate establishment. The approximate half-cover intention is editorial, not measured canopy performance. Camera, midsummer sun path and shadow settings match the source drawing. Installation and mature panels are retained from its existing images."
+}

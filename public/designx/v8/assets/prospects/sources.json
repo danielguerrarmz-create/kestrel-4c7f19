@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "file": "canary-wharf-group.png",
+      "organisation": "Canary Wharf Group plc",
+      "source_title": "Canary Wharf Group Logo Usage Guidelines, April 2021",
+      "source_url": "https://cwg.com/wp-content/uploads/2021/04/canary-wharf-brand-identity-logo-guidelines-apr-2021.pdf",
+      "official_site": "https://group.canarywharf.com/",
+      "official_site_redirect": "https://cwg.com/",
+      "retrieved_on": "2026-11-15",
+      "source_page": 2,
+      "source_variant": "Secondary single-colour black full brand mark on a light background: architectural symbol, CANARY WHARF and GROUP PLC.",
+      "source_sha256": "ba87c1736455db2634b124d4644561de28f5d35b2013011715b1b6401a7083f2",
+      "processing": "Rendered the official PDF page with Poppler pdftoppm, scaling the page's longest edge to 4800 pixels, and cropped its original black full brand mark using viewport x=1410, y=2355, width=786, height=409. Original artwork, lettering, proportions and colours preserved. No redrawing, synthesis, recolouring or background removal. The white page background is retained.",
+      "width": 786,
+      "height": 409,
+      "colour_mode": "RGB",
+      "background": "White",
+      "bytes": 18497,
+      "sha256": "b71707d80f54cde0c5ad02ec3186307beb7c58303f6fb4e21b7d85b128d8d1ab",
+      "usage_context": "Identifies the organisation on Bower's prospective-customer slide. The user reports a meeting scheduled this week. This is not a signed commission or endorsement. The artwork is sourced from the April 2021 official guidelines and is not asserted to be the latest brand revision."
+    }
+  ]
+}

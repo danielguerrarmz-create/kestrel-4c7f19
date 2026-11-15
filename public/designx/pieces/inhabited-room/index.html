@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One room, its ground, and a pier</title>
+<!--
+  A drawing to explore: one garden room, the ground it stands in, one of its piers, and what changes
+  when that pier is designed differently. The viewer goes where they like and comes back to the whole.
+
+  Everything shown was made beforehand from one Blender scene (bower-blender/studies/inhabited-room):
+  a picture from each of three fixed cameras in each configuration, a mask of each layer in the same
+  frame, where each named place falls in each picture, and the numbers (manifest.js). This page only
+  chooses what to show. It computes nothing, and opens from its folder with no server.
+
+  ?embed leaves out everything but the picture and its marks, for a slide that brings its own controls.
+  ?station=, ?configuration=, ?layers=a,b, ?paper=, ?ink=, ?still (no movement between pictures).
+  Hooks: __goTo(station), __setConfiguration(id), __setLayers([ids]), __state(), __ready; the same by
+  postMessage (README.md).
+-->
+<link rel="stylesheet" href="explore.css">
+</head>
+<body>
+<div id="page">
+  <header>
+    <button id="home" type="button" title="Back to the whole place">← The whole place</button>
+    <h1 id="title"></h1>
+    <nav id="configurations" aria-label="Which design"></nav>
+  </header>
+  <p id="caption"></p>
+  <div id="stage" aria-live="polite"></div>
+  <div id="below">
+    <nav id="stations" aria-label="Where to look"></nav>
+    <ul id="layers" aria-label="What to pick out"></ul>
+  </div>
+  <table id="measures"></table>
+  <footer><p id="small"></p></footer>
+</div>
+<script src="manifest.js"></script>
+<script src="explore.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+/* The drawing is the slide. Inspection controls sit on one quiet lower edge. */
+.v8-growth-player{position:relative;gap:0;padding:0;overflow:visible;--growth-rule:#b1c1b580}
+.v8-growth-player .v8-growth-screen{position:absolute;inset:0;min-height:0;overflow:hidden}
+.v8-growth-player .v8-growth-canvas{display:block;width:100%;height:100%;position:absolute;inset:0;touch-action:pan-y;outline-offset:-3px}
+.v8-growth-player .v8-growth-canvas:focus-visible{outline:2px solid #789951}
+.v8-growth-player .v8-growth-view-label{display:none}
+.v8-growth-player .v8-light-labels{display:none;position:absolute;left:0;right:0;top:155px;grid-template-columns:repeat(3,1fr);text-align:center;font:400 23px/1.2 var(--sans);color:#355248;pointer-events:none}
+.v8-growth-player[data-mode=light] .v8-light-labels{display:grid}
+.v8-growth-player .v8-growth-message{position:absolute;left:38px;right:38px;bottom:108px;display:flex;align-items:center;justify-content:center;gap:20px;padding:10px 14px;font:400 14px/1.4 var(--sans);background:#eef3eaf0;z-index:4;text-align:center}
+.v8-growth-player .v8-growth-message button{text-decoration:underline;text-underline-offset:4px}
+.v8-growth-player .v8-growth-message.is-error{color:#574c39}
+.v8-growth-player .v8-study-timeline{position:absolute;left:38px;right:38px;bottom:28px;z-index:3;display:grid;grid-template-columns:56px 1fr 260px 68px;gap:22px;align-items:center;min-height:44px;padding:12px 14px;background:color-mix(in srgb,var(--drawing-paper,#eef3ea) 88%,transparent)}
+.v8-growth-player .v8-study-timeline>button{font-size:16px;min-width:0;text-decoration:none}
+.v8-growth-player .v8-study-timeline input[type=range]{height:18px;width:100%;accent-color:#536d59}
+.designx-v8 .v8-growth-player .v8-study-caption{width:auto;max-width:none;font-size:16px;color:#355248;text-align:right}
+.v8-growth-player .v8-growth-evidence{position:absolute;bottom:8px;left:52px;font:400 12px/1.2 var(--sans);color:#64796d;z-index:3}
+.v8-growth-player details summary{cursor:pointer;font-size:15px;color:#536d59;list-style:none;text-align:right;white-space:nowrap}
+.v8-growth-player details summary::-webkit-details-marker{display:none}
+.v8-growth-player details summary::after{content:' +'}
+.v8-growth-player details[open] summary::after{content:' −'}
+.v8-growth-player .v8-growth-details{position:absolute;right:0;bottom:66px;max-width:520px;width:calc(100% - 32px);max-height:680px;overflow:auto;z-index:5;background:#eef3eafa;border:1px solid #b1c1b5;padding:24px 28px;box-shadow:0 8px 25px #10282015;color:#284639;font:400 15px/1.45 var(--sans)}
+.v8-growth-player .v8-growth-details strong{font-size:14px;font-weight:500;color:#102820}
+.v8-growth-player .v8-growth-details p{margin:5px 0 16px}
+.v8-growth-player .v8-growth-details p:last-child{margin-bottom:0}
+.v8-growth-player .v8-growth-views,.v8-growth-player .v8-study-chapters,.v8-growth-player .v8-growth-options{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:0;margin:0 0 18px}
+.v8-growth-player .v8-growth-views button,.v8-growth-player .v8-study-chapters button,.v8-growth-player .v8-growth-options button{font:400 15px/1.3 var(--sans)}
+.v8-growth-player .v8-growth-selector-label{width:100%;font-size:12px;color:#536d59}
+.v8-growth-player .v8-growth-history{display:flex;align-items:center;gap:10px;font-size:14px;margin:0 0 22px}
+.v8-growth-player .v8-growth-history input{width:auto;flex:none}
+@media(max-width:650px){.v8-growth-player .v8-study-timeline{grid-template-columns:42px 1fr 200px 56px;gap:12px}.v8-growth-player .v8-study-timeline>button,.v8-growth-player .v8-study-caption{font-size:14px}.v8-growth-player .v8-growth-details{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.v8-growth-player *{scroll-behavior:auto}}

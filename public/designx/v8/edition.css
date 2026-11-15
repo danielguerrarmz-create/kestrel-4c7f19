@@ -28,3 +28,37 @@
 .designx-v8.print-mode .v8-study-host,.designx-v8.print-mode .v8-open-study,.designx-v8.print-mode .v7-intent-summary{display:none!important}
 @media print{.designx-v8 .v8-study-host,.designx-v8 .v8-open-study,.designx-v8 .v8-study-dialog,.designx-v8 .v7-intent-summary{display:none!important}}
 @media(max-width:650px){.designx-v8 dialog.v8-study-dialog{width:98vw;height:92vh;padding:10px}.designx-v8 .v8-study-dialog h2{font-size:22px}.designx-v8 .v8-study-dialog header button{font-size:13px}}
+
+/* One principal drawing, with a compact heading and a consistent control edge. */
+.designx-v8 .v7-growth .v7-title{top:48px;font-size:82px}
+.designx-v8 .v7-growth .v7-choices{left:auto;right:80px;top:65px}
+.designx-v8 .v7-growth .v7-choices button{font-size:22px;margin-right:22px;padding:10px 0}
+.designx-v8 .v7-growth .v7-growth-line{top:149px;font:400 25px/1.3 var(--sans);max-width:1200px}
+.designx-v8 .v7-growth .v8-growth-slot{top:205px;height:595px;border-bottom:0}
+.designx-v8 .v7-growth .v8-open-study{top:816px;font-size:18px}
+.designx-v8 .v7-growth .v7-status{right:340px;font-size:14px;bottom:30px}
+.designx-v8 .v8-time-poster{flex-direction:column;gap:10px}
+.designx-v8 .v8-static-view{position:relative;overflow:hidden;width:570px;height:510px;flex:none}
+.designx-v8 .v8-static-view img{position:absolute;height:100%;width:306.9%;max-width:none;right:0;top:0;object-fit:fill}
+.designx-v8 .v8-time-poster p{font:400 20px/1.3 var(--sans);margin:0;color:#4d6559}
+.designx-v8.print-mode .v7-growth .v7-growth-summary{display:none}
+@media print{.designx-v8 .v7-growth .v7-growth-summary{display:none}.designx-v8 .v7-growth .v7-choices{display:none}}
+
+/* Titles sit within the drawing rather than reserving a header above it. */
+.designx-v8 .v8-growth-scene{--drawing-paper:#eef3ea}
+.designx-v8 .v8-growth-scene:after{content:'';position:absolute;inset:0 0 auto;height:175px;background:linear-gradient(var(--drawing-paper),transparent);opacity:.85;pointer-events:none;z-index:1}
+.designx-v8 .v8-growth-scene .v7-title{left:52px;right:auto;top:34px;font-size:84px;line-height:1.08;max-width:1300px;font-style:italic;z-index:2;pointer-events:none;text-shadow:0 1px 18px var(--drawing-paper)}
+.designx-v8 .v8-growth-scene .v8-growth-slot{position:absolute;inset:0;border:0;height:auto}
+.designx-v8 .v8-growth-time:has([data-renderer=film]),.designx-v8.print-mode .v8-growth-time{--drawing-paper:#fdfcf9}
+.designx-v8 .v8-growth-print{position:absolute;inset:0;overflow:hidden}
+.designx-v8 .v8-growth-print>img{width:100%;height:100%;object-fit:contain}
+.designx-v8 .v8-growth-time .v8-growth-print>img{position:absolute;width:140.26%;height:140.26%;max-width:none;left:-20.13%;top:-16.88%;object-fit:fill}
+.designx-v8 .v8-light-print-panels{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr)}
+.designx-v8 .v8-light-print-panels>div{position:relative;overflow:hidden}
+.designx-v8 .v8-light-print-panels img{position:absolute;width:369.26%;height:auto;max-width:none;left:calc(-10% - var(--panel)*124.63%);top:calc(50% - 257px)}
+.designx-v8 .v8-print-occupants span{position:absolute;width:98px;height:154px;left:45%;top:73%;background:url('assets/inhabitants/walk-atlas.webp') -980px -924px / 2352px 1386px;opacity:.38}
+.designx-v8 .v8-print-occupants span+span{width:64px;height:100px;left:57%;top:73%;background-position:-512px -200px;background-size:1536px 900px;opacity:.3}
+.designx-v8 .v8-print-stages{position:absolute;inset:155px 0 auto;display:grid;grid-template-columns:repeat(3,1fr);text-align:center;font:400 23px/1.2 var(--sans);color:#355248}
+.designx-v8 .v8-growth-print-status{display:none;position:absolute;left:48px;bottom:30px;font:400 13px/1.3 var(--sans);color:#64796d}
+.designx-v8.print-mode .v8-growth-print-status{display:block}
+@media print{.designx-v8 .v8-growth-print-status{display:block}}

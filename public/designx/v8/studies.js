@@ -34,7 +34,7 @@
     const state = { kind, active: false, ready: false, mode: kind === 'growth' ? 'space' : null,
       time: 0, duration: kind === 'growth' ? 30 : 32, playing: !motion.matches, caption: '', error: null };
     const savedModes = new Map();
-    let frame = null, raf = 0, poll = 0, token = 0, last = 0, lastDraw = 0, destroyed = false;
+    let frame = null, raf = 0, poll = 0, deadlineTimer = 0, token = 0, last = 0, lastDraw = 0, destroyed = false;
     let chapters = [];
 
     function updateControls() {
@@ -134,7 +134,7 @@
 
     function stopFrame() {
       token++;
-      clearTimeout(poll); cancelAnimationFrame(raf); raf = poll = 0;
+      clearTimeout(poll); clearTimeout(deadlineTimer); cancelAnimationFrame(raf); raf = poll = 0;
       frame?.remove(); frame = null; state.ready = false;
       updateControls();
     }
@@ -142,7 +142,10 @@
     function unavailable(message) {
       stopFrame(); state.error = message;
       loading.hidden = false;
-      loading.textContent = message;
+      loading.replaceChildren(document.createTextNode(message + ' '));
+      const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'Retry drawing';
+      retry.onclick = () => { if (state.active) createFrame(); };
+      loading.append(retry);
     }
 
     function createFrame() {
@@ -150,6 +153,9 @@
       state.error = null; state.ready = false;
       loading.hidden = false; loading.textContent = 'Loading the drawing…';
       const generation = ++token;
+      deadlineTimer = setTimeout(() => {
+        if (generation === token && state.active) unavailable('Drawing unavailable. The static comparison remains on the slide.');
+      }, 20000);
       frame = document.createElement('iframe');
       frame.title = config.title; frame.tabIndex = -1;
       frame.src = new URL(config.src + (kind === 'growth' ? `&mode=${state.mode}` : ''), document.baseURI).href;
@@ -184,6 +190,7 @@
               state.duration = win.__duration;
               state.time = Math.min(state.time, state.duration - .01);
               state.ready = true;
+              clearTimeout(deadlineTimer);
               makeChapters(); draw(); loading.hidden = true; startClock();
               return;
             }

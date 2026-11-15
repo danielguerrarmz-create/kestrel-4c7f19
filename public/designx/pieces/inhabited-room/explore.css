@@ -1,0 +1,66 @@
+:root { --paper: #EEF3EA; --ink: #102820; --red: #B4492F; --rule: rgba(16, 40, 32, .2); --soft: rgba(16, 40, 32, .62); --move: 320ms; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
+#page { max-width: 1320px; margin: 0 auto; padding: 0 22px 14px; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+header { display: flex; align-items: baseline; gap: 18px; padding-top: 14px; }
+h1 { font: 400 24px/1.1 Georgia, "Times New Roman", serif; margin: 0; flex: 1; }
+#home { font-size: 12px; color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+#home[disabled] { visibility: hidden; }
+#caption { font-size: 15px; min-height: 1.5em; margin: 4px 0 6px; color: var(--soft); }
+
+#configurations { display: flex; gap: 2px; border: 1px solid var(--rule); border-radius: 3px; padding: 2px; }
+#configurations button { padding: 3px 10px; font-size: 12px; color: var(--soft); border-radius: 2px; }
+#configurations button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* the picture: a stack of pictures of the same frame; one is on top, the one before fades beneath it */
+#stage { position: relative; width: 100%; aspect-ratio: 1280 / 800; overflow: hidden; background: var(--paper); }
+.shot { position: absolute; inset: 0; opacity: 0; transition: opacity var(--move) ease, transform var(--move) ease; will-change: opacity, transform; }
+.shot.on { opacity: 1; }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.shot img.base { transition: opacity var(--move) ease, filter var(--move) ease; }
+.shot.opened img.base { opacity: .42; filter: grayscale(.75) contrast(.85) brightness(1.12); }   /* the ground opened: the room stays in place, pale, under what it stands on */
+.shot img.mask { opacity: 0; transition: opacity var(--move) ease; }   /* a layer: its own picture, already in its colour */
+.shot img.mask.on { opacity: .85; }
+.shot.picking img.mask.on { opacity: .2; }
+.shot.picking img.mask.on.picked { opacity: 1; }
+svg.marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.marks text { font: 600 21px "Segoe UI", system-ui, sans-serif; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.marks .leader { stroke: var(--ink); stroke-width: 1.4; fill: none; }
+.marks .dot { fill: var(--ink); }
+.marks .span { stroke: var(--red); stroke-width: 2.5; fill: none; }
+.marks .span-text { fill: var(--red); }
+.marks .hot { cursor: pointer; }
+.marks .hot circle.ring { fill: rgba(238, 243, 234, .25); stroke: var(--paper); stroke-width: 3; }
+.marks .hot circle.core { fill: var(--red); stroke: var(--paper); stroke-width: 2; }
+.marks .hot text { font-weight: 600; font-size: 16px; opacity: 0; transition: opacity 160ms ease; pointer-events: none; }
+.marks .hot:hover text, .marks .hot:focus text { opacity: 1; }
+.marks .hot:hover circle.ring, .marks .hot:focus circle.ring { fill: rgba(180, 73, 47, .3); }
+.marks .hot:focus { outline: none; }
+
+#below { display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: baseline; padding-top: 8px; }
+#stations { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+#stations button { padding: 4px 0; color: var(--soft); border-bottom: 2px solid transparent; }
+#stations button[aria-current="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+#layers { display: flex; flex-wrap: wrap; gap: 4px 14px; list-style: none; margin: 0 0 0 auto; padding: 0; font-size: 12px; }
+#layers button { display: inline-flex; align-items: center; gap: 6px; color: var(--soft); padding: 4px 0; }
+#layers button[aria-pressed="true"] { color: var(--ink); }
+#layers i { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid currentColor; display: inline-block; }
+#layers button[aria-pressed="true"] i { background: var(--c); border-color: var(--c); }
+#layers button[disabled] { opacity: .35; cursor: default; }
+
+#measures { border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+#measures th, #measures td { text-align: left; padding: 3px 22px 3px 0; font-weight: 400; vertical-align: baseline; }
+#measures thead th { color: var(--soft); font-size: 12px; border-bottom: 1px solid var(--rule); }
+#measures tbody th { color: var(--soft); }
+#measures td.now, #measures thead th.now { color: var(--ink); font-weight: 600; }
+#measures td { color: var(--soft); }
+footer { font-size: 11px; color: var(--soft); padding-top: 10px; }
+footer p { margin: 0; }
+
+/* in a slide: the picture and its marks only; the slide brings its own controls */
+.embed #page { max-width: none; padding: 0; }
+.embed header, .embed #caption, .embed #below, .embed #measures, .embed footer { display: none; }
+.still .shot, .still .shot img { transition: none; }
+@media (prefers-reduced-motion: reduce) { .shot, .shot img { transition: none; } }

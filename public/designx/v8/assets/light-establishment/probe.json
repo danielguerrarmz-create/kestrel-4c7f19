@@ -1,0 +1,37 @@
+{
+  "metric": "Additional noon projected-shadow alpha within the mature extra-shadow footprint, normalized from installation=0 to mature=1. A digital image comparison, not a physical canopy-coverage measurement.",
+  "results": [
+    {
+      "date": "2029-06-21",
+      "additionalNoonShadowFraction": 0.022765259512925694
+    },
+    {
+      "date": "2030-06-21",
+      "additionalNoonShadowFraction": 0.07853828480949246
+    },
+    {
+      "date": "2031-06-21",
+      "additionalNoonShadowFraction": 0.17007147254524152
+    },
+    {
+      "date": "2032-06-21",
+      "additionalNoonShadowFraction": 0.3206527625027727
+    },
+    {
+      "date": "2033-06-21",
+      "additionalNoonShadowFraction": 0.5060400700304689
+    },
+    {
+      "date": "2034-06-21",
+      "additionalNoonShadowFraction": 0.6911776203655924
+    },
+    {
+      "date": "2036-06-21",
+      "additionalNoonShadowFraction": 1
+    }
+  ],
+  "suggested": {
+    "date": "2033-06-21",
+    "additionalNoonShadowFraction": 0.5060400700304689
+  }
+}

@@ -1,0 +1,18 @@
+/* A customer finding beside a provisional drawing of a Bower becoming real. */
+.designx-v8 .v8-reference-scene{position:absolute;inset:0;color:#102820;background:#EEF3EA;font-family:var(--sans)}
+.designx-v8 .v8-reference-title{position:absolute;top:57px;left:80px;right:80px;margin:0;font:400 104px/1.02 var(--display);letter-spacing:-.045em}
+.designx-v8 .v8-reference-title>span{display:block}
+.designx-v8 .v8-reference-title em,.designx-v8 .v8-reference-visual figcaption em{font:inherit;font-style:italic}
+.designx-v8 .v8-reference-body{position:absolute;top:310px;left:80px;right:80px;display:grid;grid-template-columns:440px minmax(0,1fr);gap:85px;padding-top:25px;border-top:1px solid #B1C1B5}
+.designx-v8 .v8-reference-evidence h3{margin:4px 0 0;color:#4D6559;font:400 23px/1.2 var(--sans);letter-spacing:-.015em}
+.designx-v8 .v8-reference-evidence>p{margin:27px 0 0;font:400 33px/1.24 var(--sans);letter-spacing:-.025em}
+.designx-v8 .v8-reference-visual{position:relative;min-width:0;margin:0}
+.designx-v8 .v8-reference-visual img{display:block;width:100%;height:455px;object-fit:cover;object-position:center 49%;background:#EEF3EA}
+.designx-v8 .v8-reference-visual figcaption{margin-top:17px;font:400 46px/1.07 var(--display);letter-spacing:-.025em}
+.designx-v8 .v8-reference-note{left:85px;right:auto;bottom:70px;width:395px;padding:22px 25px;transform:rotate(-1.5deg)}
+.designx-v8 .v8-reference-note strong{font-size:23px}
+.designx-v8 .v8-reference-note p{font-size:20px;line-height:1.35;margin:11px 0 0}
+.designx-v8 .v8-reference-note .v8-reference-draft{font-size:16px;line-height:1.3;margin-top:16px;color:#4D6559}
+.designx-v8 .v8-reference-scene~.folio{color:#4D6559}
+.designx-v8.print-mode .v8-reference-visual img{opacity:1!important;filter:none!important}
+@media print{.designx-v8 .v8-reference-visual img{opacity:1!important;filter:none!important}}

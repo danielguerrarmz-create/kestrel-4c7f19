@@ -1,0 +1,6 @@
+/* Keep the three customer settings; make room for a fourth prospect mark. */
+.designx-v8 .buyers-slide .prospect-strip{grid-template-columns:240px repeat(4,minmax(0,1fr));gap:36px}
+.designx-v8 .buyers-slide .prospect-strip>p{font-size:27px}
+.designx-v8 .buyers-slide .prospect-logo-canary{flex-direction:column;gap:9px}
+.designx-v8 .buyers-slide .prospect-logo-canary>img{width:100%;max-width:190px;max-height:85px;filter:none;opacity:1;mix-blend-mode:multiply}
+.designx-v8 .buyers-slide .prospect-logo-canary>span{font:400 14px/1.1 var(--sans);color:var(--quiet);text-align:center}

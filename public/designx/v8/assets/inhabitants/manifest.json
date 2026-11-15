@@ -1,0 +1,119 @@
+{
+  "image": "walk-atlas.webp",
+  "atlas": "walk-atlas.webp",
+  "width": 2688,
+  "height": 1584,
+  "cellWidth": 112,
+  "cellHeight": 176,
+  "columns": 24,
+  "rows": 9,
+  "frames": 24,
+  "sourceClip": "Human Armature|Walk",
+  "sourceCycleSeconds": 1,
+  "duration": 1.35,
+  "suggestedCycleSeconds": 1.35,
+  "foot": {
+    "x": 56,
+    "y": 168
+  },
+  "directions": [
+    {
+      "row": 0,
+      "name": "front",
+      "angle": 0,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 1,
+      "name": "front-left",
+      "angle": 45,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 2,
+      "name": "left",
+      "angle": 90,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 3,
+      "name": "back-left",
+      "angle": 135,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 4,
+      "name": "back",
+      "angle": 180,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 5,
+      "name": "back-right",
+      "angle": 225,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 6,
+      "name": "right",
+      "angle": 270,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 7,
+      "name": "front-right",
+      "angle": 315,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 8,
+      "name": "plan",
+      "angle": 0,
+      "plan": true,
+      "anchor": {
+        "x": 56,
+        "y": 88
+      }
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.368769897495098,
+      -0.007471491187826421,
+      -0.5501000991539823
+    ],
+    "max": [
+      0.3845825425764172,
+      1.8206002419032121,
+      0.6151261575872569
+    ]
+  },
+  "sourceSha256": "edd4fde3a73afe2a22ddb5a10a215373a0880d9a4ee32a0815879a260b8e8445",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/animated-human-low-poly"
+}
