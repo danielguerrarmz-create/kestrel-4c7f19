@@ -10,9 +10,11 @@ We encounter a Bower and understand why someone would want it. Looking more clos
 
 `story.js` is the slide-by-slide editorial map. Every entry records the source v7 slide, its role, what stays, the intended drawing, current evidence status and the connection to the next slide. `story-map.html` presents that map with links to each slide. The deck's Notes include the same connections and drawing briefs alongside the original source notes.
 
-The eighteen-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → plants make space → the living place → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
+The eighteen-slide sequence is: Bower → original room through time → Time camera comparison → light through the day → nature makes space → the living place → variability → manufacturing → form/measure/machine → customers → help us make it real → design/build/grow → care → how the system learns → team → construction at scale → future possibilities → the first Bower and the means to make many.
 
 ## What is present
+
+- **Additional camera test (slide 04): From room to canopy.** `canopy-orbit.js` inserts one separate test after the existing Time comparison, giving nineteen displayed slides while preserving all eighteen existing slide definitions. Perspective and Axonometric follow the same full orbit, vary in height, and finish directly overhead with a six-second hold. Both are full-model films with authored people and birds rendered into the geometry; the browser loads no meshes. Projection switching preserves the current moment. See [camera-test provenance](assets/canopy-orbit/SOURCES.md). The original Time players, films and controls are unchanged; subsequent displayed slide numbers move on by one.
 
 - The original customer settings as three still images, four organisations named under “In conversation with” (Eden Project, The Newt, 25hours and Canary Wharf Group), the proposed £65,000 commission credited against the build, fixed build price and annual care. Speaker notes distinguish the earlier Canary Wharf Group contact from the other customer meetings.
 - A computational consequence drawing using the scene owner's existing handoff, the original complex learning flow, customer-discovery context in speaker notes, both founder theses, team and future imagery.

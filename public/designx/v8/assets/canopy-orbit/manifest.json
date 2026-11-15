@@ -1,0 +1,42 @@
+{
+  "schema": "bower.canopy-orbit/1",
+  "width": 1600,
+  "height": 900,
+  "fps": 12,
+  "duration": 55,
+  "motionEnd": 49,
+  "assemblyEnd": 12,
+  "transition": [
+    12,
+    14
+  ],
+  "plantedDay": 11,
+  "lastSummerDay": 3399,
+  "variants": [
+    {
+      "id": "perspective",
+      "label": "Perspective",
+      "src": "perspective.mp4",
+      "poster": "perspective-poster.jpg",
+      "bytes": 41084887,
+      "sha256": "6e4307710e4de2f0638fe59e81dfe1e44229dd0d410344d12dcb6171cc8a7955",
+      "projection": "perspective"
+    },
+    {
+      "id": "axonometric",
+      "label": "Axonometric",
+      "src": "axonometric.mp4",
+      "poster": "axonometric-poster.jpg",
+      "bytes": 38582525,
+      "sha256": "cb1969b7f4e62116f3e3b380dce23976010d95a558ece08d3f4a0e08eca5316a",
+      "projection": "orthographic"
+    }
+  ],
+  "startDate": "2027-03-12",
+  "endDate": "2036-06-20",
+  "sources": {
+    "snapshot": "six-bay-radial-v1",
+    "run": "trained-10y"
+  },
+  "evidence": "Pre-rendered camera comparison of the existing generated room and provisional growth scenario, with authored 3D inhabitants. Neither projection is measured evidence."
+}
