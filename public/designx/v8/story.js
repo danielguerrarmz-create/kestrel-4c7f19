@@ -1,4 +1,4 @@
-/* Edition 08: twenty scenes, from the living place to its first customers and continuing life. */
+/* Edition 08: twenty-one scenes, including a comparison of two Time drawings. */
 window.DESIGNX_V8_STORY = [
   {
     "number": 1,
@@ -26,10 +26,22 @@ window.DESIGNX_V8_STORY = [
     "growthMode": "time"
   },
   {
+    "number": 3,
+    "baseSlide": 4,
+    "title": "A room through time",
+    "theme": "v8-time-experiment-slide",
+    "timeExperiment": true,
+    "purpose": "Compare an experiential orbit with the original still eye-level drawing, and make the passage from assembly to a living timber room explicit.",
+    "stays": "The original Time slide remains immediately before this duplicate, unchanged. The same six-bay geometry and trained growth scenario are used.",
+    "drawing": "Ink assembly phases into timber after completion. A labelled timeline shows assembly separately from elapsed years after planting. A constant-radius low orbit rises gently; Eye level and Rise compare a fixed camera and a higher roof view at the same moment.",
+    "status": "Pre-rendered full-model camera studies, with authored ghost occupation projected into the view. The timber colour is illustrative. March 2027 to June 2036 is scenario time, not a forecast; assembly playback is not a construction schedule.",
+    "transition": "The room changes through years; now compare the light within a single day."
+  },
+  {
     "baseSlide": 4,
     "stays": "The existing six-bay timber and planting images, source assumptions and inspectable timeline.",
     "status": "Pre-rendered scenario on provisional assumptions. The selected middle state gives 50.6% of mature additional noon shadow in a digital image comparison, not physical canopy coverage, a measured outcome or a forecast.",
-    "number": 3,
+    "number": 4,
     "growthMode": "light",
     "title": "Light through the day",
     "theme": "v8-light-slide",
@@ -41,7 +53,7 @@ window.DESIGNX_V8_STORY = [
     "baseSlide": 4,
     "stays": "The existing six-bay timber and planting images, source assumptions and inspectable timeline.",
     "status": "Pre-rendered scenario on provisional assumptions; not a measured outcome or forecast.",
-    "number": 4,
+    "number": 5,
     "growthMode": "space",
     "title": "Plants make space",
     "theme": "v8-space-slide",
@@ -50,7 +62,7 @@ window.DESIGNX_V8_STORY = [
     "transition": "The room depends on relationships below and around it: ground, roots, water and foundations."
   },
   {
-    "number": 5,
+    "number": 6,
     "baseSlide": null,
     "title": "The ground sustains the room",
     "theme": "v8-ground-slide",
@@ -62,7 +74,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Once we draw these relationships together, they begin to change the design. The pier gives us a concrete example."
   },
   {
-    "number": 6,
+    "number": 7,
     "baseSlide": 5,
     "title": "Growth changes the geometry.",
     "theme": "v7-anatomy-slide",
@@ -74,7 +86,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "We cannot judge this change from the plant study alone. We also have to ask what it means for making, cost and the way people enter."
   },
   {
-    "number": 7,
+    "number": 8,
     "baseSlide": 6,
     "title": "One change, several consequences",
     "theme": "v7-computation-slide",
@@ -86,7 +98,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The pier drawing makes the consequences visible. The engine is the method we are developing to assess making, growth and budget together."
   },
   {
-    "number": 8,
+    "number": 9,
     "baseSlide": 6,
     "engine": true,
     "title": "Can we make it? Can it grow? Can we afford it?",
@@ -99,7 +111,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The aim is to reconcile these questions within an agreed budget while preserving what makes each place particular. That means making variability manufacturable."
   },
   {
-    "number": 9,
+    "number": 10,
     "baseSlide": 2,
     "title": "Nature builds by growing.",
     "theme": "variability-slide",
@@ -111,7 +123,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Variability is the essence of nature and the enemy of industry. Bower’s bet is to make variability manufacturable."
   },
   {
-    "number": 10,
+    "number": 11,
     "baseSlide": 7,
     "title": "Different parts. A repeatable process.",
     "theme": "factory-slide v5-factory-overview",
@@ -123,7 +135,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The parts can differ while the method repeats. Forming, measuring and machining show how we intend to carry the design through that process."
   },
   {
-    "number": 11,
+    "number": 12,
     "baseSlide": 8,
     "title": "Form. Measure. Machine.",
     "theme": "factory-focus-slide v5-factory-focus",
@@ -135,7 +147,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "These processes support a practical first commission. The conversations we are having show where that commission might begin."
   },
   {
-    "number": 12,
+    "number": 13,
     "baseSlide": 12,
     "title": "The first customers.",
     "theme": "buyers-slide",
@@ -147,7 +159,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Many of our conversations in England returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
   },
   {
-    "number": 13,
+    "number": 14,
     "baseSlide": 14,
     "title": "The first Bower is the missing reference.",
     "theme": "commercial-loop-slide",
@@ -159,7 +171,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The first Bower needs to work for its client and be a place others can experience. This is the proposed route to commissioning it."
   },
   {
-    "number": 14,
+    "number": 15,
     "baseSlide": 13,
     "title": "One Bower. Three steps.",
     "theme": "v7-commercial-model-slide",
@@ -171,7 +183,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "The third step matters as much as the first two. Care has to be designed into the room, as well as agreed in the offer."
   },
   {
-    "number": 15,
+    "number": 16,
     "baseSlide": null,
     "title": "Care is part of the architecture",
     "theme": "v8-care-slide",
@@ -183,7 +195,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "We already revise designs through our digital studies. Making and caring for a real Bower will give us another kind of evidence."
   },
   {
-    "number": 16,
+    "number": 17,
     "baseSlide": 11,
     "title": "How the system learns.",
     "theme": "v7-learning-flow-slide",
@@ -195,7 +207,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "Each project can provide both a place future clients can visit and evidence that improves our work. Building that connection is how we work together."
   },
   {
-    "number": 17,
+    "number": 18,
     "baseSlide": 16,
     "title": "Architecture. Ecology. Software. Manufacturing.",
     "theme": "team-slide",
@@ -207,7 +219,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "This is the team and the work we are beginning with. The reason to develop the method reaches well beyond one garden room."
   },
   {
-    "number": 18,
+    "number": 19,
     "baseSlide": 1,
     "title": "We’re about to build the world again.",
     "theme": "material-problem-slide",
@@ -219,7 +231,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "If we are about to build so much, the way those places participate in the living world matters. A room is where we begin to develop that approach."
   },
   {
-    "number": 19,
+    "number": 20,
     "baseSlide": 17,
     "title": "A room is the beginning.",
     "theme": "v7-future-slide",
@@ -231,7 +243,7 @@ window.DESIGNX_V8_STORY = [
     "speakerBridge": "That is the horizon. The useful next step is to make the first Bower real and establish how we will deliver and learn from it."
   },
   {
-    "number": 20,
+    "number": 21,
     "baseSlide": 18,
     "title": "Buildings that grow.",
     "theme": "closing image-slide",

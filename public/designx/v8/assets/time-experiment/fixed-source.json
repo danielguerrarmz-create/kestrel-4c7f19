@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "file": "C:\\BOWER\\drawings-in-code\\exports\\approach-ink\\approach-ink-16x9.mp4",
+      "bytes": 29371227,
+      "sha256": "13f1a8eabd58a27446224af532faad6c921cfd34912f43ce58ac70ea3043ea8c"
+    },
+    {
+      "file": "C:\\BOWER\\drawings-in-code\\exports\\approach-timber\\approach-timber-16x9.mp4",
+      "bytes": 29823050,
+      "sha256": "83bdcb62fa2862aabe07b7e45df8f2df80924160f10cf7615eaeb62608012918"
+    }
+  ],
+  "transition": [
+    12,
+    14
+  ],
+  "crop": "source x=0,y=130,w=1920,h=770; cover-fitted to 1600x900"
+}

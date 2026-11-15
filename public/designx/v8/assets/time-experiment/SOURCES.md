@@ -1,0 +1,73 @@
+# A room through time: camera and material experiment
+
+This is a separate v8 study. The original `approach-ink` film and the existing
+Time slide are retained. These films do not load timber or plant meshes in the
+presentation browser: they are rendered beforehand from the existing model.
+
+## The same room, three camera treatments
+
+- **Low orbit:** a 180-degree arc at a constant 21.03 m plan radius, using the
+  original approach lens. Eye height rises gradually from 1.7 m to 2.6 m. It
+  ends opposite the original approach, looking through the corresponding bay.
+- **Rising orbit:** the same radial arc and timing, with eye height rising to
+  16 m. This is an elevated comparison of enclosure and canopy, not the
+  preferred representation of standing inside the room.
+- **Eye-level:** the matching original ink and timber approach films, with
+  their fixed camera preserved. The baked title and old timeline are cropped
+  from y=130 to y=900; the remaining image is cover-fitted to the slide.
+
+Assembly is shown in ink. Once the timber is standing at 12 seconds, a two-second
+crossfade introduces the source renderer's timber colour, grain and shading.
+This is an authored presentation transition, not a material simulation. Timber
+species, finish, weathering and colour remain illustrative design information.
+
+## Source and clock
+
+The orbit films use the unchanged `six-bay-radial-v1` release and the full
+`trained-10y` growth record in `drawings-in-code`. They use the existing studio's
+perspective camera, plant renderer, timber materials, light and shadows. No
+building or plant geometry is invented for this export. The studio and generators
+are not edited; the export page temporarily disables interactive camera damping
+so that the authored camera path can be set precisely for each frame.
+
+Each film is 51 seconds: 12 assembly, 1 planting, 36 growth, 2 final hold.
+The source growth record begins on 1 March 2027; planting is day 11, 12 March 2027.
+The film ends at the final midsummer, 20 June 2036, day 3399: approximately 9.28
+years after planting. The dates identify a simulated scenario; they are neither
+a forecast nor measured establishment. Assembly's internal negative-day clock
+is a playback device and must not be presented as elapsed construction time.
+
+The fixed camera sources are read from
+`C:/BOWER/drawings-in-code/exports/approach-ink/` and `approach-timber/`.
+`fixed-source.json` records their hashes and the presentation crop.
+
+## Playback and authored inhabitants
+
+The orbit images are rendered at 1600 × 900 and 12 frames per second from the full
+growth record, then encoded as 24 fps H.264 using repeated frames. This controls
+export cost without substituting simplified plant geometry. The fixed film uses
+the original 30 fps source renders. All films are silent and use yuv420p and
+fast-start metadata for browser playback.
+
+`manifest.json` records film hashes, the scenario timeline and camera matrices.
+Matrix samples map Three.js world coordinates to clip space and are stored
+column-major. Convert a source building point `[x,y,z]` (east,north,up) to
+`[x,z,-y,1]` before multiplying. Eye positions remain in source building axes.
+The fixed-view matrices include the crop transform. These projections support
+the separately authored ghost inhabitants; those paths are not behavioural or
+collision simulations and are not part of the rendered films.
+
+## Reproduction
+
+From the Auxin repository root, with the existing local dependencies installed:
+
+```powershell
+node deck/designx/v8/scripts/render-time-experiment.mjs --probe
+node deck/designx/v8/scripts/render-time-experiment.mjs --fixed
+node deck/designx/v8/scripts/render-time-experiment.mjs --render=orbit
+node deck/designx/v8/scripts/render-time-experiment.mjs --render=roof
+node deck/designx/v8/scripts/render-time-experiment.mjs --manifest
+```
+
+Run the rendering jobs serially. Intermediate images and visual proofs go to
+ignored `v8/.qa/time-experiment/`; runtime media and provenance stay here.

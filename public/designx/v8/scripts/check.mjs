@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'C:/BOWER/Bower_Web/node_modules/playwright');
 const href = process.env.DECK_URL || 'http://localhost:5312/designx/v8/';
 const origin = new URL(href).origin;
-const expectedThemes = ['cover', 'v7-growth-slide', 'v8-light-slide', 'v8-space-slide', 'v8-ground-slide', 'v7-anatomy-slide', 'v7-computation-slide', 'v8-engine-slide', 'variability-slide', 'factory-slide', 'factory-focus-slide', 'buyers-slide', 'commercial-loop-slide', 'v7-commercial-model-slide', 'v8-care-slide', 'v7-learning-flow-slide', 'team-slide', 'material-problem-slide', 'v7-future-slide', 'closing'];
+const expectedThemes = ['cover', 'v7-growth-slide', 'v8-time-experiment-slide', 'v8-light-slide', 'v8-space-slide', 'v8-ground-slide', 'v7-anatomy-slide', 'v7-computation-slide', 'v8-engine-slide', 'variability-slide', 'factory-slide', 'factory-focus-slide', 'buyers-slide', 'commercial-loop-slide', 'v7-commercial-model-slide', 'v8-care-slide', 'v7-learning-flow-slide', 'team-slide', 'material-problem-slide', 'v7-future-slide', 'closing'];
 const result = { passed: [], failures: [], errors: [], missingAssets: [], failedRequests: [], externalRequests: [], slides: [] };
 const dependencies = new Set();
 const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_PATH || 'C:/Users/cseif/AppData/Local/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-win64/chrome-headless-shell.exe' });
@@ -97,6 +97,32 @@ async function inspectGrowth(mode = 'time', open = true) {
   const details = host('growth', mode).locator('details');
   if (await details.evaluate(el => el.open) !== open) await details.locator('summary').click();
 }
+
+const experiment = () => page.locator('[data-v8-time-experiment]');
+async function experimentState() { return experiment().evaluate(el => el.v8Controller.getState()); }
+async function experimentReady() {
+  await page.waitForFunction(() => {
+    const state = document.querySelector('[data-v8-time-experiment]')?.v8Controller?.getState();
+    return state?.ready && !state.error;
+  });
+}
+async function experimentPaused() {
+  const before = await experimentState(); assert.equal(before.playing, false, 'Time experiment should be paused');
+  await frames(); const after = await experimentState();
+  assert.equal(after.time, before.time, 'Experiment time moved while paused');
+  return after;
+}
+async function experimentSeek(fraction) {
+  await experiment().getByRole('slider', { name:'Time since planting', exact:true }).evaluate((el, fraction) => {
+    el.value = String(Number(el.min || 0) + fraction * (Number(el.max || 100) - Number(el.min || 0)));
+    el.dispatchEvent(new Event('input', { bubbles:true }));
+  }, fraction);
+  await experimentReady(); await frames(2);
+  const state = await experimentPaused();
+  assert.ok(Math.abs(state.time / state.duration - fraction) < .003, `Experiment seek differs from ${fraction}`);
+  return state;
+}
+
 async function drawingDominates(slide) {
   const layout = await slide.evaluate(el => {
     const drawing = el.querySelector('.v8-growth-screen').getBoundingClientRect(), bounds = el.getBoundingClientRect();
@@ -120,8 +146,8 @@ await mkdir(resolve(root, '.qa'), { recursive: true });
 try {
   console.log('[v8 QA] Loading edition 08'); await page.goto(href); await page.waitForFunction(() => Boolean(window.DESIGNX && window.DESIGNX_V8_STORY));
   result.slides = await page.evaluate(() => window.DESIGNX_SLIDES.map((slide, i) => ({ number: i + 1, title: slide.title, theme: slide.theme })));
-  await test('Twenty-slide narrative distinguishes the engine from a particular design decision', async () => {
-    assert.deepEqual(result.slides.map(slide => slide.theme.split(' ')[0]), expectedThemes); assert.equal(await page.evaluate(() => window.DESIGNX_V8_STORY.length), 20);
+  await test('Twenty-one-slide narrative preserves the original Time drawing beside its experiment', async () => {
+    assert.deepEqual(result.slides.map(slide => slide.theme.split(' ')[0]), expectedThemes); assert.equal(await page.evaluate(() => window.DESIGNX_V8_STORY.length), expectedThemes.length);
     assert.match(await page.locator('body').getAttribute('class'), /designx-v7/); assert.match(await page.locator('body').getAttribute('class'), /designx-v8/);
   });
   await test('Learning phases and first-reference evidence remain clear', async () => {
@@ -131,13 +157,13 @@ try {
     assert.match(await proof.innerText(), /wanted to see one completed Bower/);
     assert.equal(await proof.locator('[data-flywheel]').count(),0);
     assert.ok(Number.isFinite(await page.evaluate(() => window.DESIGNX_SLIDES.find(slide => slide.theme.includes('v8-reference-slide')).sourceIndex)),'Reference slide must retain its original comparison target');
-    await screenshot('slide-13-reference',proof);
+    await screenshot('slide-14-reference',proof);
     const learning = await activate('v7-learning-flow-slide');
     assert.deepEqual(await learning.locator('.v7flow-phase').allTextContents(),['Designing each Bower','Making and living with it']);
     for (const phase of await learning.locator('.v7flow-phase').all()) assert.ok(await phase.isVisible(),'Learning phase label should be visible');
     assert.match(await learning.locator('.v7flow-status').innerText(),/Digital geometry and growth studies exist/);
     assert.equal(await learning.locator('[data-v7flow-select="growing"]').getAttribute('aria-pressed'),'true');
-    await screenshot('slide-16-learning-initial',learning);
+    await screenshot('slide-17-learning-initial',learning);
   });
   await test('Reference reveal plays once and holds its final image without controls', async () => {
     const reference = await activate('v8-reference-slide');
@@ -149,7 +175,7 @@ try {
     await activate('buyers-slide'); await activate('v8-reference-slide'); await frames(12);
     assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'1');
     assert.equal(await picture.evaluate(el=>el.getAnimations().length),0);
-    await screenshot('slide-13-reference-complete',reference);
+    await screenshot('slide-14-reference-complete',reference);
   });
   await test('Engine keeps making, growth and budget distinct from the pier example', async () => {
     const engine = await activate('v8-engine-slide');
@@ -160,7 +186,7 @@ try {
     assert.equal(await engine.locator('[aria-pressed="true"]').count(),1);
     await engine.getByRole('button',{name:'Light',exact:true}).click();
     assert.match(await engine.locator('[data-v8-engine-text]').innerText(),/orientation and openings/);
-    await screenshot('slide-08-engine',engine);
+    await screenshot('slide-09-engine',engine);
     await activate('v7-computation-slide');
     assert.equal(await page.locator('[data-v8-engine]').count(),1);
     assert.equal(await page.locator('[data-v8-consequences]').count(),1);
@@ -173,10 +199,10 @@ try {
     assert.equal(await buyers.locator('.buyer-triptych figure').count(),3);
     assert.equal(await buyers.locator('.prospect-logo').count(),3);
     assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled|Canary Wharf Group/i);
-    assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-12-customers', buyers);
+    assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-13-customers', buyers);
     const offer = await activate('v7-commercial-model-slide');
     for (const pattern of [/£65,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
-    await screenshot('slide-14-commercial', offer);
+    await screenshot('slide-15-commercial', offer);
   });
   await test('Original eye-level Time film autoplays assembly and preserves pause and scrubbing', async () => {
     const slide = await activate('v7-growth-slide'); await ready('growth');
@@ -211,6 +237,80 @@ try {
     await activate('v7-anatomy-slide'); await activate('v7-growth-slide'); await ready('growth');
     assert.deepEqual(await pausedStable('growth'),paused,'An explicitly paused original film must retain its moment on return');
   });
+  await test('Time experiment exposes elapsed years and preserves autoplay, pause and scrubbing', async () => {
+    const slide = await activate('v8-time-experiment-slide'); await experimentReady();
+    const initial = await experimentState();
+    assert.equal(initial.variant,'orbit'); assert.equal(initial.playing,true); assert.equal(initial.active,true);
+    assert.ok(initial.duration > 30, 'The experiment should retain time to inspect assembly and growth');
+    await page.waitForFunction(time => document.querySelector('[data-v8-time-experiment]').v8Controller.getState().time > time + .1, initial.time);
+    const axis = experiment().locator('.v8-time-axis');
+    assert.ok(await axis.isVisible());
+    for (const label of [/Assembly/i,/Planted/i,/Year\s*2/i,/Year\s*5/i,/Year\s*9/i]) assert.match(await axis.innerText(),label);
+    await experiment().getByRole('button',{name:'Pause drawing',exact:true}).click();
+    await experimentPaused();
+    await experimentSeek(.12); assert.match(await experiment().locator('[data-time-readout]').innerText(),/assembly/i);
+    await screenshot('slide-03-time-experiment-assembly',slide);
+    await experimentSeek(.64); assert.match(await experiment().locator('[data-time-readout]').innerText(),/Year\s*\d/i);
+    const canvas = experiment().locator('canvas');
+    const image = await canvas.evaluate(el=>el.toDataURL()); await frames();
+    assert.equal(await canvas.evaluate(el=>el.toDataURL()),image,'Paused experimental camera, material and occupants must stay still');
+    await screenshot('slide-03-time-experiment-orbit',slide);
+    const paused = await experimentState();
+    await activate('v8-light-slide');
+    assert.equal((await experimentState()).running,false);
+    assert.equal((await experimentState()).active,false);
+    for (const video of await experiment().locator('video').all()) assert.equal(await video.evaluate(el=>el.paused),true);
+    await frames(); assert.equal((await experimentState()).time,paused.time);
+    await activate('v8-time-experiment-slide'); await experimentReady();
+    assert.equal((await experimentPaused()).time,paused.time,'An explicitly paused experiment should retain its moment on return');
+    await experiment().getByRole('button',{name:'Play drawing',exact:true}).click();
+    await page.waitForFunction(time=>document.querySelector('[data-v8-time-experiment]').v8Controller.getState().time>time+.1,paused.time);
+    await activate('v8-light-slide'); const stopped = await experimentState();
+    assert.equal(stopped.running,false); await frames(); assert.equal((await experimentState()).time,stopped.time);
+    await activate('v8-time-experiment-slide'); await experimentReady();
+    await page.waitForFunction(time=>document.querySelector('[data-v8-time-experiment]').v8Controller.getState().time>time+.1,stopped.time);
+    await experiment().getByRole('button',{name:'Pause drawing',exact:true}).click();
+  });
+  await test('Time camera alternatives preserve the selected year and original drawing', async () => {
+    const slide = await activate('v8-time-experiment-slide'); await experimentReady();
+    const moment = await experimentSeek(.64);
+    const details = experiment().locator('details');
+    if(await details.count() && !(await details.evaluate(el=>el.open))) await details.locator('summary').click();
+    for (const id of ['fixed','rise','orbit']) {
+      await experiment().locator(`[data-time-variant="${id}"]`).click(); await experimentReady();
+      const state = await experimentPaused(); assert.equal(state.variant,id);
+      assert.ok(Math.abs(state.time-moment.time)<.15,'Changing the camera must preserve the selected year');
+      assert.equal(await experiment().locator(`[data-time-variant="${id}"]`).getAttribute('aria-pressed'),'true');
+      assert.match(await experiment().locator('[data-time-readout]').innerText(),/Year\s*\d/i);
+      await screenshot(`slide-03-time-experiment-${id}`,slide);
+    }
+    if(await details.count() && await details.evaluate(el=>el.open)) await details.locator('summary').click();
+    await activate('v7-growth-slide'); await ready('growth');
+    assert.match(await host('growth').locator('video').getAttribute('src'),/approach-ink-16x9\.(mp4|webm)$/);
+    assert.equal(await page.locator('.slide.v7-growth-slide').count(),1);
+    assert.equal(await page.locator('.slide.v8-time-experiment-slide').count(),1);
+  });
+  await test('Missing Time experiment film shows its still and recovers on retry', async () => {
+    expectingLoadFailure = true;
+    const pattern = /\/v8\/assets\/time-experiment\/[^?]+\.(mp4|webm)(?:\?|$)/;
+    await page.route(pattern,route=>route.abort('failed'));
+    try {
+      await page.goto(href+'#slide-03'); await page.reload();
+      await page.waitForFunction(()=>document.querySelector('[data-v8-time-experiment]')?.v8Controller?.getState().error);
+      const state = await experimentState(); assert.equal(state.ready,false); assert.equal(state.running,false);
+      assert.match(await experiment().locator('.v8-time-message').innerText(),/film could not load.*still shows the established room/i);
+      assert.ok(await experiment().getByRole('button',{name:'Retry drawing',exact:true}).isVisible());
+      const poster = page.locator('.slide.v8-time-experiment-slide .v8-time-experiment-poster');
+      assert.ok(await poster.isVisible()); await poster.evaluate(el=>el.decode());
+      assert.ok(await poster.evaluate(el=>el.complete&&el.naturalWidth>0),'Load failure must retain a usable still');
+      await screenshot('slide-03-time-experiment-fallback',page.locator('.slide.v8-time-experiment-slide'));
+      await page.unroute(pattern);
+      await experiment().getByRole('button',{name:'Retry drawing',exact:true}).click(); await experimentReady();
+      assert.equal((await experimentState()).error,null);
+      assert.ok(await experiment().locator('.v8-time-message').isHidden());
+      assert.ok(await experiment().locator('video').evaluate(el=>el.readyState>=2&&el.videoWidth>0));
+    } finally { await page.unroute(pattern); expectingLoadFailure = false; }
+  });
   await test('Timber views remain available alongside the original film', async () => {
     const slide = await activate('v7-growth-slide'); await ready('growth'); await inspectGrowth();
     assert.deepEqual(await host('growth').locator('[data-v8-view]').allTextContents(),['Original ink','Above','Approach','Inside']);
@@ -243,7 +343,7 @@ try {
     assert.equal(await host('growth','light').locator('[data-v8-view]').count(),0);
     await inspectGrowth('light'); await host('growth','light').getByRole('button',{name:'Noon',exact:true}).click(); await ready('growth','light');
     assert.ok([...dependencies].some(url=>url.includes('/v8/assets/light-establishment/frames/light-18.webp')),'Light should load the revised establishment drawing');
-    assert.match((await pausedStable('growth','light')).caption,/noon/i); await inspectGrowth('light',false); await screenshot('slide-03-light',light);
+    assert.match((await pausedStable('growth','light')).caption,/noon/i); await inspectGrowth('light',false); await screenshot('slide-04-light',light);
     const lightPaused=await snapshot('growth','light');
     const space=await activate('v8-space-slide'); await ready('growth','space');
     await drawingDominates(space);
@@ -252,7 +352,7 @@ try {
     const pan=await host('growth','space').evaluate(el=>el.v8Controller.getState().pan);
     await host('growth','space').locator('canvas').press('Shift+ArrowRight');
     assert.notEqual(await host('growth','space').evaluate(el=>el.v8Controller.getState().pan),pan,'Panorama should remain turnable');
-    await pausedStable('growth','space'); await screenshot('slide-04-space',space);
+    await pausedStable('growth','space'); await screenshot('slide-05-space',space);
     await activate('v8-light-slide'); await ready('growth','light'); assert.deepEqual(await pausedStable('growth','light'),lightPaused,'Each drawing keeps its own paused moment');
     assert.equal(await host('growth','space').evaluate(el=>el.v8Controller.getState().running),false);
   });
@@ -264,7 +364,7 @@ try {
     assert.match(await slide.innerText(),/3.61 m between the legs/);
     await slide.getByRole('button',{name:'Baseline',exact:true}).click();
     await page.waitForFunction(()=>document.querySelector('[data-v8-consequences]')?.dataset.configuration==='baseline');
-    assert.match(await slide.innerText(),/4.87 m between the legs/);await screenshot('slide-07-consequences',slide);
+    assert.match(await slide.innerText(),/4.87 m between the legs/);await screenshot('slide-08-consequences',slide);
     await slide.getByRole('button',{name:'Opened pier',exact:true}).click();await slide.getByRole('button',{name:'Designer review',exact:true}).click();
     await page.waitForFunction(()=>document.querySelector('[data-v8-consequences]')?.dataset.stage==='3');
     assert.match(await slide.innerText(),/0.23 m/);assert.match(await slide.innerText(),/0.24 m/);
@@ -313,6 +413,8 @@ try {
     for (const [mode,theme] of [['light','v8-light-slide'],['space','v8-space-slide']]) {
       await activate(theme); await ready('growth',mode); assert.equal((await snapshot('growth',mode)).play,'Play');
     }
+    await activate('v8-time-experiment-slide'); await experimentReady(); assert.equal((await experimentState()).playing,false);
+    await experimentSeek(.64); await experimentPaused();
     await activate('v7-computation-slide');assert.equal(await host('growth').evaluate(el=>el.v8Controller.getState().running),false);
     await page.emulateMedia({reducedMotion:'no-preference'});
   });
@@ -334,25 +436,25 @@ try {
     });
     assert.ok(layout.padded,'Intent and site text should fit with padding on every side');
     assert.ok(layout.phaseClear,'The design phase should sit above its input, clear of tabs');
-    await screenshot('slide-16-learning-design',slide);
+    await screenshot('slide-17-learning-design',slide);
     await slide.locator('[data-v7flow-select="design"]').focus();await page.keyboard.press('ArrowRight');
     assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-v7flow-mode'),'making');
     assert.match(await slide.locator('[data-v7flow-readout]').innerText(),/released geometry/);
     await slide.locator('[data-v7flow-node="inputs"]').click();
     assert.equal(await slide.locator('[data-v7flow-select="design"]').getAttribute('aria-pressed'),'true');
-    await slide.locator('[data-v7flow-select="all"]').click();await screenshot('slide-16-learning-whole',slide);
+    await slide.locator('[data-v7flow-select="all"]').click();await screenshot('slide-17-learning-whole',slide);
   });
   await test('Pier exploration preserves time and other intentions remain placeholders', async () => {
     const slide = await activate('v7-anatomy-slide'); await slide.locator('[data-v7-intent="1"]').click();
     assert.equal(await slide.locator('.v7-drawing-note').isVisible(), true); assert.equal(await slide.locator('.v8-pier-example').isVisible(), false);
-    await slide.locator('[data-v7-intent="0"]').click(); assert.equal(await slide.locator('.v8-pier-example').isVisible(), true); await screenshot('slide-06-pier', slide); await openStudy('pier');
+    await slide.locator('[data-v7-intent="0"]').click(); assert.equal(await slide.locator('.v8-pier-example').isVisible(), true); await screenshot('slide-07-pier', slide); await openStudy('pier');
     for (const name of ['Planted', 'Shaded', 'Piers open', 'Grown again']) { await host('pier').getByRole('button', { name, exact: true }).click(); assert.ok((await pausedStable('pier')).caption.length); }
     await setRange('pier', 555); await host('pier').locator('[data-v8-study-play]').click(); await page.waitForFunction(() => Number(document.querySelector('[data-v8-study="pier"] input').value) > 555);
     await host('pier').locator('[data-v8-study-play]').click(); const before = await pausedStable('pier'); await screenshot('pier-enlarged', page.locator('.v8-study-dialog[open]'));
     await closeStudy(); await openStudy('pier'); assert.deepEqual(await pausedStable('pier'), before, 'Reopening must retain the paused pier'); await closeStudy();
   });
   await test('Original factory overview and Form / Measure / Machine controls work', async () => {
-    const overview = await activate('factory-slide'); await factoryReady('overview', 'overview'); await screenshot('slide-10-factory', overview);
+    const overview = await activate('factory-slide'); await factoryReady('overview', 'overview'); await screenshot('slide-11-factory', overview);
     assert.equal(await overview.locator('[data-factory-focus]').count(), 1); await overview.locator('[data-factory-notes]').click(); await page.locator('#factory-notes[open]').waitFor();
     await page.locator('#factory-notes').getByRole('button', { name: 'Close drawing dialog', exact: true }).click();
     await page.frameLocator('.slide.is-active [data-factory-surface] iframe').locator('[data-factory-station="05-press"]').press('Enter');
@@ -366,28 +468,33 @@ try {
     await focus.locator('[data-factory-seek]').evaluate(el => { el.value = '42'; el.dispatchEvent(new Event('input', { bubbles: true })); });
     await page.waitForFunction(() => { const state = window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus'); return Math.abs(state.time / state.duration - .42) < .001 && !state.playing; });
     const before = await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time); await frames();
-    assert.equal(await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time), before); await screenshot('slide-11-factory-focus', focus);
+    assert.equal(await page.evaluate(() => window.DESIGNX_FACTORY.getStates().find(item => item.viewer === 'focus').time), before); await screenshot('slide-12-factory-focus', focus);
   });
   await test('Index, notes, new drawing slots and print link remain usable', async () => {
-    await screenshot('slide-05-ground', await activate('v8-ground-slide')); await screenshot('slide-15-care', await activate('v8-care-slide'));
-    await page.locator('#open-index').click(); assert.equal(await page.locator('#slide-index[open] [data-go]').count(), 20);
-    await page.locator('#slide-index [data-go]').last().click(); assert.equal(await page.evaluate(() => window.DESIGNX.current), 20);
+    await screenshot('slide-06-ground', await activate('v8-ground-slide')); await screenshot('slide-16-care', await activate('v8-care-slide'));
+    await page.locator('#open-index').click(); assert.equal(await page.locator('#slide-index[open] [data-go]').count(), expectedThemes.length);
+    await page.locator('#slide-index [data-go]').last().click(); assert.equal(await page.evaluate(() => window.DESIGNX.current), expectedThemes.length);
     await page.locator('#show-notes').click(); assert.match(await page.locator('#notes-content').innerText(), /Story connection|Continue to the next slide|Drawing plan/); await page.locator('[data-close-dialog="speaker-notes"]').click();
     const print = new URL(await page.locator('#pdf-link').getAttribute('href'), href); assert.equal(print.searchParams.get('print'), '1'); assert.ok(print.pathname.includes('/v8'));
   });
-  await test('Static reading view has twenty scenes, complete factory diagrams and no broken images', async () => {
+  await test('Static reading view has twenty-one scenes, complete factory diagrams and no broken images', async () => {
     const print = new URL(href); print.search = '?print=1'; await page.goto(print.href); await page.waitForFunction(() => Boolean(window.DESIGNX));
     await page.evaluate(() => Promise.race([Promise.all([window.DESIGNX_READY, window.DESIGNX_FACTORY_READY]), new Promise((_, reject) => setTimeout(() => reject(new Error('Static factory preparation exceeded 20 seconds')), 20000))]));
     await page.waitForFunction(()=>document.querySelector('[data-v8-consequences]')?.dataset.ready==='true');
-    assert.equal(await page.locator('.slide.is-active').count(), 20); assert.equal(await page.locator('[data-v8-study] iframe').count(), 0); assert.equal(await page.locator('[data-factory-poster] svg').count(), 4);
+    assert.equal(await page.locator('.slide.is-active').count(), expectedThemes.length); assert.equal(await page.locator('[data-v8-study] iframe').count(), 0); assert.equal(await page.locator('[data-factory-poster] svg').count(), 4);
     const images = await page.locator('.slide img').evaluateAll(images => images.map(img => ({ src: img.currentSrc || img.src, complete: img.complete, width: img.naturalWidth })));
     assert.ok(images.length); assert.deepEqual(images.filter(img => !img.complete || !img.width), []);
-    await screenshot('print-02-time',page.locator('#slide-02'));
-    await screenshot('print-03-light',page.locator('#slide-03'));
-    await screenshot('print-04-space',page.locator('#slide-04'));
-    await screenshot('print-07-consequences',page.locator('#slide-07'));
-    await screenshot('print-11-manufacturing',page.locator('#slide-11'));
-    await screenshot('print-16-learning',page.locator('#slide-16'));
+    await screenshot('print-02-time',page.locator('.slide.v7-growth-slide'));
+    const experimentPrint = page.locator('.slide.v8-time-experiment-slide');
+    assert.ok(await experimentPrint.locator('.v8-time-experiment-poster').isVisible());
+    assert.match(await experimentPrint.locator('[data-time-print-caption]').innerText(),/Year\s*9/i);
+    assert.equal(await experimentPrint.locator('video').count(),0,'Print should load a stable experiment poster');
+    await screenshot('print-03-time-experiment',experimentPrint);
+    await screenshot('print-04-light',page.locator('.slide.v8-light-slide'));
+    await screenshot('print-05-space',page.locator('.slide.v8-space-slide'));
+    await screenshot('print-08-consequences',page.locator('.slide.v7-computation-slide'));
+    await screenshot('print-12-manufacturing',page.locator('.slide.factory-focus-slide'));
+    await screenshot('print-17-learning',page.locator('.slide.v7-learning-flow-slide'));
   });
   await test('Story map loads and no edition 09 dependencies remain', async () => {
     await page.goto(new URL('story-map.html', href).href); await page.waitForLoadState('domcontentloaded'); assert.match(await page.locator('body').innerText(), /story|presentation|drawing/i);
