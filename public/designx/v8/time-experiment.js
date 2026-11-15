@@ -5,6 +5,8 @@
   const BASE = 'v8/assets/time-experiment/';
   const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
   const fract = x => ((x%1)+1)%1;
+  const smooth = x => {x=clamp(x,0,1);return x*x*(3-2*x);};
+  const turn = (a,b,p) => a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*p;
   // Author routes in building metres, then sample by distance, not spline parameter.
   // These vignettes play at an everyday pace over the accelerated growth film.
   function route(points) {
@@ -14,7 +16,7 @@
       const point=b.map((v,k)=>.5*((2*v)+(-a[k]+c[k])*t+(2*a[k]-5*v+4*c[k]-d[k])*t*t+(-a[k]+3*v-3*c[k]+d[k])*t*t*t));
       const last=samples.at(-1);samples.push({point,distance:last.distance+Math.hypot(...point.map((v,k)=>v-last.point[k]))});
     }
-    return {samples,length:samples.at(-1).distance};
+    return {samples,length:samples.at(-1).distance,knots:points.map((_,i)=>samples[i*40].distance)};
   }
   function along(path,distance) {
     const s=path.samples,d=clamp(distance,0,path.length);
@@ -23,28 +25,76 @@
     const a=s[lo],b=s[hi],p=(d-a.distance)/(b.distance-a.distance||1);
     return {point:a.point.map((v,i)=>v+(b.point[i]-v)*p),heading:Math.atan2(b.point[1]-a.point[1],b.point[0]-a.point[0])};
   }
+  // Existing honeysuckle flower records, in bloom in the held June 2036 frame.
+  const flowers=[[2.1835,5.006,1.4599],[2.4542,5.0492,1.825]];
   const walks=[
-    {id:'through',start:13,speed:1.12,gap:7,path:route([[9,-5.2,0],[4.65,-2.6845,0],[0,-.2,0],[-4.65,2.6845,0],[-9,5.2,0]])},
-    {id:'around',start:18,speed:1.18,gap:8,path:route([[11,-8,0],[8,-6,0],[8.2,-2,0],[8,2,0],[6.8,4,0],[4.65,2.6845,0],[.2,0,0],[-4.65,-2.6845,0],[-10,-5.8,0]])}
+    {id:'through',start:13,speed:1.18,gap:7,path:route([[9,-5.2,0],[4.65,-2.6845,0],[0,-.2,0],[-4.65,2.6845,0],[-9,5.2,0]]),stops:[{knot:1,duration:2,action:'look',target:[3.228,-4.444,3.32]}]},
+    {id:'around',start:17.4,speed:1.18,gap:8,path:route([[11,-8,0],[8,-6,0],[8.2,-2,0],[8,2,0],[6.8,4,0],[4.65,2.6845,0],[.2,0,0],[-3.8,1.3,0],[.3,2.2,0],[1.55,4.8,0],[1,3.2,0],[0,6,0],[0,11,0]]),stops:[{knot:7,duration:2,action:'look',target:[0,0,4.6]},{knot:9,duration:2.4,action:'smell',target:flowers[0]}]}
   ];
+  for(const walk of walks){
+    let distance=0,time=0;walk.sequence=[];
+    for(const stop of [...walk.stops,{knot:walk.path.knots.length-1,duration:0}]){
+      const end=walk.path.knots[stop.knot],length=end-distance,ramp=Math.min(.55,length/walk.speed),duration=length/walk.speed+ramp;
+      walk.sequence.push({start:time,duration,distance,length,ramp,action:'walk'});time+=duration;distance=end;
+      if(stop.duration){walk.sequence.push({...stop,start:time,distance});time+=stop.duration;}
+    }
+    walk.duration=time;
+  }
   function occupationAt(time) {
     return walks.flatMap(walk=>{
       if(time<walk.start)return [];
-      const elapsed=(time-walk.start)%(walk.path.length/walk.speed+walk.gap),distance=elapsed*walk.speed;
-      if(distance>=walk.path.length)return [];
-      return [{id:walk.id,...along(walk.path,distance),distance,cycle:fract(distance/1.4),alpha:Math.min(1,distance/1.6,(walk.path.length-distance)/1.6)}];
+      const elapsed=(time-walk.start)%(walk.duration+walk.gap),beat=walk.sequence.find(s=>elapsed>=s.start&&elapsed<s.start+s.duration);
+      if(!beat)return [];
+      const t=elapsed-beat.start;
+      let distance=beat.distance,walkWeight=1,heading,action=beat.action,phase=t/beat.duration;
+      if(action==='walk'){
+        // Integrate a cosine acceleration/deceleration ramp; feet follow distance.
+        const rampDistance=u=>walk.speed*.5*(u-beat.ramp/Math.PI*Math.sin(Math.PI*u/beat.ramp));
+        distance+=t<beat.ramp?rampDistance(t):t>beat.duration-beat.ramp?beat.length-rampDistance(beat.duration-t):walk.speed*(t-beat.ramp/2);
+      }else{
+        const here=along(walk.path,distance).point,incoming=along(walk.path,distance-.05).heading,outgoing=along(walk.path,distance+.05).heading;
+        const facing=Math.atan2(beat.target[1]-here[1],beat.target[0]-here[0]);
+        heading=turn(turn(incoming,facing,smooth(t/.6)),outgoing,smooth((t-beat.duration+.6)/.6));
+        walkWeight=1-Math.min(smooth(t/.24),smooth((beat.duration-t)/.24));
+        // The source flowers are in bloom at the held final summer.
+        if(action==='smell'&&time<48.94)action='look';
+      }
+      const position=along(walk.path,distance);
+      return [{id:walk.id,...position,heading:heading??position.heading,distance,cycle:fract(distance/1.4),action,phase,walkWeight,alpha:Math.min(1,distance/1.6,(walk.path.length-distance)/1.6)}];
     });
   }
   const perch=[3.228,-4.444,3.32]; // Timber surface at lap:R1.B2.hoop0:R1.fine.cw.15.
-  const approach=route([[14,-14,6],[9,-10,6.2],[5,-6,4.4],perch]);
-  const departure=route([perch,[1,-3,4.1],[-4,1,5.8],[-14,10,7]]);
+  const visits=[
+    {start:22,perch,heading:-2.5,approach:route([[14,-14,6],[9,-10,6.2],[5,-6,4.4],perch]),departure:route([perch,[1,-3,4.1],[-4,1,5.8],[-14,10,7]])},
+    {start:38.5,perch:[2.235,5.018,3.32],heading:2.1,approach:route([[-12,12,5.1],[-4,9,4.8],[1,7,3.9],[2.235,5.018,3.32]]),departure:route([[2.235,5.018,3.32],[5,6,4],[9,1,4.8],[14,-8,6]])}
+  ];
   function birdAt(time) {
-    const start=[22,41.5].find(t=>time>=t&&time<t+9);if(start===undefined)return null;
-    const t=time-start;
+    const visit=visits.find(v=>time>=v.start&&time<v.start+9);if(!visit)return null;
+    const t=time-visit.start,{approach,departure}=visit;
     if(t<3.4){const p=t/3.4;return {...along(approach,approach.length*(1-Math.pow(1-p,1.35))),flying:true,flap:Math.sin(t*Math.PI*13),alpha:clamp(t/.4,0,1)};}
-    if(t<5.6)return {point:perch,heading:-2.5+.2*Math.sin((t-3.4)*2),flying:false,flap:0,alpha:1};
+    if(t<5.6)return {point:visit.perch,heading:visit.heading+.2*Math.sin((t-3.4)*2),flying:false,flap:0,alpha:1};
     const p=(t-5.6)/3.4;
     return {...along(departure,departure.length*Math.pow(p,1.3)),flying:true,flap:Math.sin((t-5.6)*Math.PI*14),alpha:clamp((1-p)*7,0,1)};
+  }
+  const hoverPoint=flower=>[flower[0]-.17,flower[1]-.1,flower[2]-.09];
+  const hummingbirdIn=route([[-7,9,3.3],[-1,7,2.7],hoverPoint(flowers[0])]);
+  const hummingbirdOut=route([hoverPoint(flowers[1]),[1,7,2.8],[-5,11,4.3]]);
+  function hummingbirdAt(time){
+    if(time<48.25||time>=50.95)return null;
+    let point,heading,target=null,feeding=false;
+    if(time<49){
+      ({point,heading}=along(hummingbirdIn,hummingbirdIn.length*smooth((time-48.25)/.75)));
+      heading=turn(heading,Math.atan2(.1,.17),smooth((time-48.85)/.15));
+    }
+    else if(time<50.35){
+      const p=smooth((time-49.5)/.3);target=flowers[0].map((v,i)=>v+(flowers[1][i]-v)*p);point=hoverPoint(target);
+      point[0]+=.012*Math.sin(time*17);point[2]+=.016*Math.sin(time*21);
+      heading=Math.atan2(target[1]-point[1],target[0]-point[0]);feeding=true;
+    }else{
+      ({point,heading}=along(hummingbirdOut,hummingbirdOut.length*smooth((time-50.35)/.6)));
+      heading=turn(Math.atan2(.1,.17),heading,smooth((time-50.35)/.2));
+    }
+    return {kind:'hummingbird',point,heading,target,feeding,flying:true,flap:Math.sin(time*83),alpha:Math.min(1,(time-48.25)/.15,(50.95-time)/.15)};
   }
   const asset = file => new URL(file.startsWith('v8/') ? file : BASE+file,document.baseURI).href;
   const html = `<section class="v7-scene v8-time-experiment-scene">
@@ -65,7 +115,7 @@
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
     const state={ready:false,active:false,playing:!motion.matches,running:false,time:motion.matches?49:0,duration:51,variant:'orbit',error:null};
     const range=$('input'), play=$('[data-time-play]'), message=$('.v8-time-message');
-    let manifest=null, manifestPromise=null, atlas=null, raf=0, loadedVariant='', loadTimer=0, pendingTime=0, destroyed=false;
+    let manifest=null, manifestPromise=null, atlas=null, gestures=null, raf=0, loadedVariant='', loadTimer=0, pendingTime=0, destroyed=false;
     const current=()=>manifest?.variants.find(v=>v.id===state.variant);
     const usable=()=>state.active&&!document.hidden&&!destroyed;
     function showMessage(text,error=false) { message.hidden=!text; message.querySelector('span').textContent=text||''; $('[data-time-retry]').hidden=!error; }
@@ -92,7 +142,7 @@
       $('[data-time-readout]').textContent=main;$('[data-time-date]').textContent=sub;
       play.textContent=state.playing?'Pause':'Play';play.setAttribute('aria-label',`${state.playing?'Pause':'Play'} drawing`);play.disabled=!manifest||!!state.error;
       root.querySelectorAll('[data-time-variant]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.timeVariant===state.variant)));
-      canvas.setAttribute('aria-label',`${current()?.label||'Low orbit'}. ${main}. ${sub}. Rendered model with authored walking occupants and occasional bird visits.`);
+      canvas.setAttribute('aria-label',`${current()?.label||'Low orbit'}. ${main}. ${sub}. Rendered model with authored people walking, pausing and looking, and occasional bird visits.`);
     }
     function cameraAt(t) {
       const frames=current()?.cameraFrames;
@@ -122,15 +172,24 @@
         const toward=camera.eye?Math.atan2(camera.eye[1]-p[1],camera.eye[0]-p[0]):0;
         const direction=(Math.round((toward-person.heading)/(Math.PI/4))+16)%8;
         const row=atlas.directions[direction],frame=Math.floor(person.cycle*atlas.frames),scale=height/160;
+        const pose=gestures?.actions.find(action=>action.id===person.action),walkWeight=pose?person.walkWeight:1;
         let separation=1;
         for(const other of shown) if(y>other.y-other.height&&y-height<other.y) separation=Math.min(separation,clamp(Math.abs(x-other.x)/(Math.max(height,other.height)*.42),0,1));
         shown.push({x,y,height});
-        ctx.save();ctx.globalAlpha=.34*person.alpha*separation;
-        ctx.drawImage(atlas.image,frame*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,x-row.anchor.x*scale,y-row.anchor.y*scale,atlas.cellWidth*scale,atlas.cellHeight*scale);ctx.restore();
+        const alpha=.34*person.alpha*separation;
+        ctx.save();ctx.globalAlpha=alpha*walkWeight;
+        if(walkWeight>0)ctx.drawImage(atlas.image,frame*atlas.cellWidth,direction*atlas.cellHeight,atlas.cellWidth,atlas.cellHeight,x-row.anchor.x*scale,y-row.anchor.y*scale,atlas.cellWidth*scale,atlas.cellHeight*scale);
+        if(pose&&walkWeight<1){
+          const poseFrame=Math.min(pose.frames-1,Math.floor(person.phase*pose.frames)),anchor=gestures.directions[direction].anchor;
+          ctx.globalAlpha=alpha*(1-walkWeight);
+          ctx.drawImage(gestures.image,poseFrame*gestures.cellWidth,(pose.rowOffset+direction)*gestures.cellHeight,gestures.cellWidth,gestures.cellHeight,x-anchor.x*scale,y-anchor.y*scale,gestures.cellWidth*scale,gestures.cellHeight*scale);
+        }
+        ctx.restore();
       }
     }
     function wildlife(rect) {
-      const bird=birdAt(state.time),camera=cameraAt(state.time);if(!bird||!camera)return;
+      const camera=cameraAt(state.time);if(!camera)return;
+      for(const bird of [birdAt(state.time),hummingbirdAt(state.time)].filter(Boolean)){
       const c=Math.cos(bird.heading),s=Math.sin(bird.heading);
       const screen=([forward,side,up])=>{
         const p=project(camera.matrix,[bird.point[0]+forward*c-side*s,bird.point[1]+forward*s+side*c,bird.point[2]+up]);
@@ -141,6 +200,20 @@
         ctx.beginPath();pixels.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fill();
       };
       ctx.save();ctx.globalAlpha=.7*bird.alpha;ctx.fillStyle='#46564c';
+      if(bird.kind==='hummingbird'){
+        // Swept, translucent wing positions suggest hovering rather than an
+        // aliased literal wingbeat frequency in a 24 fps architectural film.
+        for(const blur of [-.8,0,.8])for(const side of [-1,1]){
+          ctx.globalAlpha=.22*bird.alpha;
+          const flap=clamp(bird.flap+blur,-1,1);
+          shape([[.01,side*.018,.08],[-.02,side*.08,.09+flap*.06],[-.13,side*.18,.06+flap*.12],[-.08,side*.045,.055]]);
+        }
+        ctx.globalAlpha=.8*bird.alpha;ctx.fillStyle='#42685b';
+        shape([[-.045,-.025,.045],[-.16,-.025,-.015],[-.15,.025,-.015],[-.045,.025,.045]]);
+        shape(Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2;return [.065*Math.cos(a),0,.065+.045*Math.sin(a)];}));
+        shape([[.02,0,.095],[.045,0,.13],[.08,0,.13],[.10,0,.10],[.198,0,.09],[.10,0,.088],[.055,0,.055]]);
+        ctx.restore();continue;
+      }
       // A small volumetric silhouette: tapered wings, tail, breast and beak.
       // The wings fold on landing; there is no screen-fixed bird icon.
       for(const side of [-1,1]) {
@@ -152,6 +225,7 @@
       shape([[.04,0,.12],[.07,0,.18],[.13,0,.18],[.16,0,.14],[.215,0,.12],[.15,0,.105],[.10,0,.07]]);
       if(!bird.flying) for(const side of [-.025,.025])shape([[-.01,side,.04],[0,side,0],[.045,side,0],[.045,side,.008],[.01,side,.012],[.005,side,.05]]);
       ctx.restore();
+      }
     }
     function paint() {
       if(!usable()||video.readyState<2||video.seeking)return;
@@ -190,6 +264,7 @@
         for(const mark of marks){const span=document.createElement('span');span.textContent=mark.label;span.style.left=`${100*mark.time/state.duration}%`;axis.append(span);}
         const source=new URL('v8/assets/inhabitants/',document.baseURI);
         fetch(new URL('manifest.json',source)).then(r=>r.json()).then(async data=>{const image=await createImageBitmap(await(await fetch(new URL(data.atlas,source))).blob());atlas={...data,image};paint();}).catch(()=>{});
+        fetch(new URL('gestures.json',source)).then(r=>{if(!r.ok)throw new Error('Gesture atlas unavailable');return r.json();}).then(async data=>{const image=await createImageBitmap(await(await fetch(new URL(data.atlas,source))).blob());if(destroyed){image.close();return;}gestures={...data,image};root.dataset.gesturesReady='true';paint();}).catch(()=>{});
       })().catch(()=>{manifestPromise=null;fail();});
       await manifestPromise;if(manifest&&usable()){if(loadedVariant!==state.variant)loadFilm();else{paint();start();}}controls();
     }
@@ -204,10 +279,10 @@
     root.addEventListener('keydown',event=>event.stopPropagation());
     const resize=new ResizeObserver(paint);resize.observe(root);
     motion.addEventListener('change',()=>{if(motion.matches){state.playing=false;stop();controls();}});
-    const controller={setActive(active){state.active=active;if(!active)stop();else load();},getState(){return {...state};},destroy(){destroyed=true;stop();clearTimeout(loadTimer);resize.disconnect();video.removeAttribute('src');video.load();atlas?.image.close();}};
+    const controller={setActive(active){state.active=active;if(!active)stop();else load();},getState(){return {...state};},destroy(){destroyed=true;stop();clearTimeout(loadTimer);resize.disconnect();video.removeAttribute('src');video.load();atlas?.image.close();gestures?.image.close();}};
     root.v8Controller=controller;controls();return controller;
   }
-  window.DESIGNX_V8_TIME_EXPERIMENT={html,mount,occupationAt,birdAt};
+  window.DESIGNX_V8_TIME_EXPERIMENT={html,mount,occupationAt,birdAt,hummingbirdAt};
   (window.DESIGNX_MOUNTS||=[]).push(deck=>{
     if(location.protocol==='file:'||new URL(location.href).searchParams.has('print'))return;
     const root=deck.querySelector('[data-v8-time-experiment]');if(!root)return;

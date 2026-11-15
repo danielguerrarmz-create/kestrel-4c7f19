@@ -59,18 +59,38 @@ collision simulations and are not part of the rendered films.
 
 ## Authored everyday life
 
-Two ghost inhabitants now follow longer, curved routes: one crosses the room
-between the southeast and northwest bays; the other skirts the east perimeter and
-passes through opposing diagonal bays. Travel is approximately 1.1–1.2 m per
-playback second, with the existing walk atlas advancing once per 1.4 m. They
-enter and leave beyond the room, with a hidden interval before repeating.
+Two ghost inhabitants follow curved routes: one crosses the room between the
+southeast and northwest bays, pausing to look up at the timber. The other skirts
+the east perimeter, enters the room, stops to look toward the canopy, then
+approaches the flowering honeysuckle. Travel eases into and out of stops at
+approximately 1.2 m per playback second, with the walk atlas advancing once per
+1.4 m. During pauses the feet stay planted while the skeleton changes pose.
+The first route has a hidden interval before repeating.
 These everyday vignettes sit over accelerated scenario years; they do not
 represent a person taking years to cross the room.
 
-After establishment begins, an occasional small bird approaches, folds its
-wings onto a timber perch beside the planting, then departs. Its perch is
-the surface above joint `lap:R1.B2.hoop0:R1.fine.cw.15`, at source coordinates
-`[3.228, -4.444, 3.32]` m. The bird is an original, projected canvas silhouette.
+After establishment begins, two occasional bird visits take different routes.
+One arrives from the southeast at the surface above joint
+`lap:R1.B2.hoop0:R1.fine.cw.15`, at `[3.228, -4.444, 3.32]` m. The other arrives
+from the northwest at `lap:R1.B4.hoop0:R1.fine.cw.23`, at
+`[2.235, 5.018, 3.32]` m, and departs eastward. Both fold their wings to perch.
+
+The requested hummingbird visits the held final summer, day 3399 (20 June 2036).
+It hovers between two actual generated honeysuckle flower records:
+`P4.honeysuckle/side_shoot5933`, at `[2.1835, 5.006, 1.4599]` m,
+open day 3395 / spent day 3414; and `P4.evergreen-honeysuckle/side_shoot58238`, at
+`[2.4542, 5.0492, 1.825]` m, open 3387 / spent 3408. The lower cluster has
+begun opening; the upper cluster is fully open at the held moment. This
+two-second hold makes the relationship
+inspectable; individual blooms during accelerated growth pass in fractions
+of a playback second. A nearby person leans toward the lower cluster.
+
+The birds are original projected canvas silhouettes. Swept transparent wing
+positions suggest the hummingbird's hover without claiming a literal wingbeat
+frequency. Hummingbirds are native to the Americas; this user-requested visit
+is an authored geographic possibility, not a British wildlife forecast or
+evidence that these specific planting taxa support it. See
+[Smithsonian hummingbird guidance](https://nationalzoo.si.edu/migratory-birds/hummingbirds).
 People, wingbeats and flight all share the film clock, so pause and scrub
 remain deterministic across the three cameras. These transparent overlays
 have no depth buffer against the rendered timber and leaves.

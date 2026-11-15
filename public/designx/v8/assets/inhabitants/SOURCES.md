@@ -1,8 +1,9 @@
 # Authored occupants for the v8 drawings
 
 These sprites depict possible occupation, not observed or simulated human behaviour.
-The player only loads `manifest.json` and `walk-atlas.webp`; no human mesh or WebGL
-is required in the deck.
+The players load `manifest.json` and `walk-atlas.webp`. The separate Time camera
+study also loads `gestures.json` and `gestures.webp`; no human mesh or WebGL is
+required in the deck.
 
 ## Source and licence
 
@@ -39,6 +40,23 @@ included in the delivered assets.
 - Use opacity in the player (around 0.35) rather than baking it into the atlas.
 
 `walk-preview.png` is a contact sheet for visual inspection, not a runtime asset.
+
+## Pausing, looking and smelling
+
+`gestures.webp` uses the same CC0 clothed character, palette, directions, scale
+and grounded foot anchors as the walk atlas. The source Idle animation is
+relaxed into a standing stance; authored spine, head and forearm rotations
+create looking and leaning toward flowers. These are presentation gestures,
+not motion capture or a behavioural model.
+
+There are 24 frames per action and eight azimuth directions. `gestures.json`
+records the idle/look/smell action row offsets, durations, anchors, source hash
+and pose edits. Gesture phases begin and end in the relaxed pose. The Time
+player eases travel into a stop, holds the feet, turns toward a target and
+crossfades briefly between walking and the gesture.
+
+Reproduce with `node deck/designx/v8/scripts/render-inhabitant-gestures.mjs`.
+The contact sheet and detailed checks are written under ignored `.qa/`.
 
 ## Reproduce
 

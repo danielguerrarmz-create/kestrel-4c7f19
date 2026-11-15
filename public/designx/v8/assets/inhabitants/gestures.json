@@ -1,0 +1,147 @@
+{
+  "schema": "bower.inhabitant-gestures/1",
+  "atlas": "gestures.webp",
+  "width": 2688,
+  "height": 4224,
+  "cellWidth": 112,
+  "cellHeight": 176,
+  "frames": 24,
+  "directions": [
+    {
+      "row": 0,
+      "name": "front",
+      "angle": 0,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 1,
+      "name": "front-left",
+      "angle": 45,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 2,
+      "name": "left",
+      "angle": 90,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 3,
+      "name": "back-left",
+      "angle": 135,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 4,
+      "name": "back",
+      "angle": 180,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 5,
+      "name": "back-right",
+      "angle": 225,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 6,
+      "name": "right",
+      "angle": 270,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    },
+    {
+      "row": 7,
+      "name": "front-right",
+      "angle": 315,
+      "anchor": {
+        "x": 56,
+        "y": 168
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "idle",
+      "duration": 4,
+      "loop": true,
+      "rowOffset": 0,
+      "frames": 24
+    },
+    {
+      "id": "look",
+      "duration": 4.5,
+      "loop": false,
+      "rowOffset": 8,
+      "frames": 24
+    },
+    {
+      "id": "smell",
+      "duration": 5.5,
+      "loop": false,
+      "rowOffset": 16,
+      "frames": 24
+    }
+  ],
+  "referenceAtlas": "walk-atlas.webp",
+  "referenceHeight": 160,
+  "foot": {
+    "x": 56,
+    "y": 168
+  },
+  "sourceClip": "Human Armature|Idle",
+  "evidence": "Authored relaxed stance and upper-body gestures based on the CC0 Idle clip. Knees and feet are repositioned before rendering. No behavioural simulation.",
+  "authoredActions": {
+    "idle": "Subtle breathing and head motion.",
+    "look": "Slow head and upper-body turn with a lifted gaze.",
+    "smell": "Torso leans toward planting; head inclines and one forearm reaches gently."
+  },
+  "bounds": {
+    "min": [
+      -0.41072260714006203,
+      -0.007471490069642636,
+      -0.2329775767400981
+    ],
+    "max": [
+      0.40411640215239847,
+      1.8280814664886071,
+      0.5554024410863316
+    ]
+  },
+  "referenceBounds": {
+    "min": [
+      -0.368769897495098,
+      -0.007471491187826421,
+      -0.5501000991539823
+    ],
+    "max": [
+      0.3845825425764172,
+      1.8206002419032121,
+      0.6151261575872569
+    ]
+  },
+  "sourceSha256": "edd4fde3a73afe2a22ddb5a10a215373a0880d9a4ee32a0815879a260b8e8445",
+  "author": "Quaternius; authored gesture poses by Bower",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/animated-human-low-poly"
+}
