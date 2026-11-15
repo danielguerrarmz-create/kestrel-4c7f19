@@ -1,3 +1,4 @@
-/* Restore the original three-logo customer-conversation strip. */
-.designx-v8 .buyers-slide .prospect-strip{grid-template-columns:320px repeat(3,minmax(0,1fr));gap:42px}
-.designx-v8 .buyers-slide .prospect-strip>p{font-size:28px}
+/* Four conversations share one heading; individual meeting status stays in notes. */
+.designx-v8 .buyers-slide .prospect-strip{grid-template-columns:240px repeat(4,minmax(0,1fr));gap:36px}
+.designx-v8 .buyers-slide .prospect-strip>p{font-size:27px}
+.designx-v8 .buyers-slide .prospect-logo-canary>img{width:100%;max-width:190px;max-height:90px;filter:none;opacity:1;mix-blend-mode:multiply}

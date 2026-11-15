@@ -152,9 +152,9 @@ window.DESIGNX_V8_STORY = [
     "title": "The first customers.",
     "theme": "buyers-slide",
     "purpose": "Introduce prospective buyers after the audience has encountered the room, its design decisions and the means of making it.",
-    "stays": "The three customer settings, existing still concept images and original layout. Retain Eden Project, The Newt and 25hours as the three named conversations.",
-    "drawing": "Keep the three customer images as stills and the original three-logo strip. Remove the hospitality film and all its controls.",
-    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group remains in speaker notes as early interest: a CEO introduction following cold outreach and a forthcoming discussion with the head of development, not a completed meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
+    "stays": "The three customer settings, existing still concept images and original layout. Name Eden Project, The Newt, 25hours and Canary Wharf Group under ‘In conversation with’.",
+    "drawing": "Keep the three customer images as stills and show the four organisation logos under ‘In conversation with’, without a meeting caption. Remove the hospitality film and all its controls.",
+    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group is at an earlier stage: contact through cold outreach and the website led to a CEO introduction and a forthcoming discussion with the head of development, not a completed CWG meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
     "transition": "The England conversations identified a concrete barrier: prospects wanted a completed Bower they could see.",
     "speakerBridge": "Many of our conversations in England returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
   },

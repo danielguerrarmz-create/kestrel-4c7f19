@@ -193,12 +193,12 @@ try {
   });
   await test('Customer discussions and proposed commercial terms remain intact', async () => {
     const buyers = await activate('buyers-slide');
-    for (const label of ['Private gardens', 'Cultural destinations', 'Hospitality', 'In discussion']) assert.match(await buyers.innerText(), new RegExp(label, 'i'));
-    for (const name of ['Eden Project', 'The Newt', '25hours']) assert.equal(await buyers.getByRole('img', { name, exact: true }).count(), 1);
+    for (const label of ['Private gardens', 'Cultural destinations', 'Hospitality', 'In conversation']) assert.match(await buyers.innerText(), new RegExp(label, 'i'));
+    for (const name of ['Eden Project', 'The Newt', '25hours', 'Canary Wharf Group']) assert.equal(await buyers.getByRole('img', { name, exact: true }).count(), 1);
     assert.equal(await buyers.locator('video, [data-customer-play], .film-explore').count(),0);
     assert.equal(await buyers.locator('.buyer-triptych figure').count(),3);
-    assert.equal(await buyers.locator('.prospect-logo').count(),3);
-    assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled|Canary Wharf Group/i);
+    assert.equal(await buyers.locator('.prospect-logo').count(),4);
+    assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled/i);
     assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-13-customers', buyers);
     const offer = await activate('v7-commercial-model-slide');
     for (const pattern of [/£65,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
