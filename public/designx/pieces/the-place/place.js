@@ -131,6 +131,7 @@
     const v = view(s), first = v.frames[0].day, last = v.frames.at(-1).day;
     $('title').textContent = s.title;
     $('back').hidden = s.id === P.start;
+    $('hint').hidden = s.id !== P.start;   // on the whole place only: the ways in are small, so say that they are there
     document.title = s.id === P.start ? s.title : `${s.title}: the living place`;
     Object.assign($('scrub'), { min: first, max: last, disabled: first === last });
     const width = $('ticks').clientWidth, days = new Set(v.frames.map((f) => f.day));
@@ -139,7 +140,7 @@
       li.dataset.moment = m.id; li.dataset.x = share * width; li.style.left = `${share * 100}%`;
       li.classList.toggle('missing', !days.has(m.day));   // no picture of that day: it shows the one before
       button.type = 'button'; button.title = m.says; button.textContent = m.month;
-      button.addEventListener('click', () => setMoment(m.id));
+      button.addEventListener('click', () => handTo(m.id));
       li.append(button);
       return li;
     }));
@@ -206,7 +207,7 @@
     const settle = () => {
       if (shot !== next) return;
       buildMarks(s);
-      if (!calm && v.frames.length > 1) play(true);
+      if (!calm && v.frames.length > 1) { pausedByHand = false; play(true); }   // each view starts playing
       changed();
     };
     if (!before) settle();
@@ -263,15 +264,20 @@
     const frames = view().frames, i = Math.max(0, Math.min(frames.length - 1, Math.floor((seconds * 1000) / rate())));
     return setMoment(`day:${frames[i].day}`);
   }
-  const nudge = (by) => { const frames = view().frames, f = frames[frames.indexOf(frame()) + by]; if (f) setMoment(`day:${f.day}`); };
+  /** The hand moving through time (the slider let go, a named moment, an arrow key): to that day, and on from there.
+      It stays still only if the hand has pressed Pause. */
+  let pausedByHand = false;
+  function handTo(at) { const out = setMoment(at); return pausedByHand || calm ? out : play(true); }
+  const nudge = (by) => { const frames = view().frames, f = frames[frames.indexOf(frame()) + by]; if (f) handTo(`day:${f.day}`); };
 
   // ---- the page's controls ----
   $('scrub').addEventListener('input', (e) => {   // snaps to the nearest frame there is: never a day without a picture
     const day = Number(e.target.value), near = view().frames.reduce((a, f) => (Math.abs(f.day - day) < Math.abs(a.day - day) ? f : a));
-    setMoment(`day:${near.day}`);
+    setMoment(`day:${near.day}`);   // held while the slider is in the hand
   });
+  $('scrub').addEventListener('change', () => { if (!pausedByHand && !calm) play(true); });   // let go: it carries on from there
   $('back').addEventListener('click', () => goTo(P.start));
-  $('play').addEventListener('click', () => play());
+  $('play').addEventListener('click', () => { play(); pausedByHand = !state.playing; });
   $('reallines').replaceChildren(...P.real.lines.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
   $('realfrom').textContent = `From ${P.real.from}`;
   $('realbtn').addEventListener('click', () => { const open = $('real').hidden; $('real').hidden = !open; $('realbtn').setAttribute('aria-expanded', String(open)); });
@@ -288,7 +294,7 @@
     if (e.target === $('scrub')) return;   // the slider steps itself
     if (e.key === 'ArrowRight') nudge(1);
     if (e.key === 'ArrowLeft') nudge(-1);
-    if (e.key === ' ' && e.target === body) { e.preventDefault(); play(); }
+    if (e.key === ' ' && e.target === body) { e.preventDefault(); play(); pausedByHand = !state.playing; }
   });
   // the stage is a 1600 x 900 slide, scaled into the window (or the iframe) and centred
   W = 1600; H = 900;

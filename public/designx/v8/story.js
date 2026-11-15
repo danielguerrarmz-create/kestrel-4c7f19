@@ -55,7 +55,7 @@ window.DESIGNX_V8_STORY = [
     "status": "Pre-rendered scenario on provisional assumptions; not a measured outcome or forecast.",
     "number": 5,
     "growthMode": "space",
-    "title": "Plants make space",
+    "title": "Nature makes space",
     "theme": "v8-space-slide",
     "purpose": "Experience how planting changes the enclosure of the room.",
     "drawing": "A large unrolled interior panorama autoplays through growth and seasons. Drag to turn; pause or scrub to inspect the changing edge.",

@@ -76,6 +76,8 @@ button:disabled { cursor: default; }
 .place.foot-ink.foot-firm { --foot-h: var(--ink-firm); --foot-s: rgba(238, 243, 234, .95); }
 .place h1 { position: absolute; left: 52px; top: 34px; margin: 0; max-width: 1300px; font: italic 400 84px/1.08 var(--display);
   letter-spacing: -.045em; color: var(--title-c); text-shadow: var(--title-h); pointer-events: none; }
+/* under the title of the whole place, where the way back stands in the other views */
+#hint { position: absolute; left: 56px; top: 134px; margin: 0; font: 400 22px/1.3 var(--sans); color: var(--title-c); text-shadow: var(--title-h); pointer-events: none; }
 #back { position: absolute; left: 56px; top: 136px; font: 400 18px/1.3 var(--sans); color: var(--title-c); text-decoration: underline; text-underline-offset: 4px; text-shadow: var(--title-h); }
 /* "What is real" is not shown: on the slide it read as an oddity. Where each part comes from stays in the manifest
    (real, figures) and in the study's README. */
