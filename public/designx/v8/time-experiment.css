@@ -9,10 +9,10 @@
 .v8-time-cameras button,[data-time-play]{appearance:none;background:transparent;border:0;padding:6px 0;color:#536d59;font:inherit;cursor:pointer}
 .v8-time-cameras button[aria-pressed=true]{color:#102820;border-bottom:1px solid #102820}
 .v8-time-cameras button:focus-visible,[data-time-play]:focus-visible{outline:2px solid #536d59;outline-offset:5px}
-.v8-time-footer{position:absolute;left:52px;right:52px;bottom:42px;display:grid;grid-template-columns:60px 220px 1fr;gap:23px;align-items:center;z-index:4;background:#fdfcf9eb;padding:16px 0 7px}
+.v8-time-footer{position:absolute;left:52px;right:52px;bottom:42px;display:grid;grid-template-columns:60px 245px 1fr;gap:23px;align-items:center;z-index:4;background:transparent;padding:16px 0 7px;text-shadow:0 1px 3px #fdfcf9,0 -1px 3px #fdfcf9}
 [data-time-play]{color:#102820;font:400 18px/1.3 var(--sans);text-align:left}
 .v8-time-when{display:flex;flex-direction:column;gap:6px;color:#102820}
-[data-time-readout]{font:400 25px/1.15 var(--sans)}
+[data-time-readout]{font:400 25px/1.15 var(--sans);white-space:nowrap}
 [data-time-date]{font:400 13px/1.3 var(--sans);color:#64796d}
 .v8-time-track{position:relative;padding-bottom:28px}
 .v8-time-track input{appearance:none;-webkit-appearance:none;width:100%;height:22px;background:transparent;cursor:ew-resize;margin:0}

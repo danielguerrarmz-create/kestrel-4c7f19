@@ -57,6 +57,32 @@ The fixed-view matrices include the crop transform. These projections support
 the separately authored ghost inhabitants; those paths are not behavioural or
 collision simulations and are not part of the rendered films.
 
+## Authored everyday life
+
+Two ghost inhabitants now follow longer, curved routes: one crosses the room
+between the southeast and northwest bays; the other skirts the east perimeter and
+passes through opposing diagonal bays. Travel is approximately 1.1–1.2 m per
+playback second, with the existing walk atlas advancing once per 1.4 m. They
+enter and leave beyond the room, with a hidden interval before repeating.
+These everyday vignettes sit over accelerated scenario years; they do not
+represent a person taking years to cross the room.
+
+After establishment begins, an occasional small bird approaches, folds its
+wings onto a timber perch beside the planting, then departs. Its perch is
+the surface above joint `lap:R1.B2.hoop0:R1.fine.cw.15`, at source coordinates
+`[3.228, -4.444, 3.32]` m. The bird is an original, projected canvas silhouette.
+People, wingbeats and flight all share the film clock, so pause and scrub
+remain deterministic across the three cameras. These transparent overlays
+have no depth buffer against the rendered timber and leaves.
+
+The run's planting includes ivy and honeysuckles. Climbers can provide cover,
+bird nesting opportunities and flowers for pollinating insects; see the
+[RHS growing guide](https://www.rhs.org.uk/plants/types/climbers/growing-guide).
+The visits suggest possible use as cover develops. They do not validate a
+species, arrival date, nesting outcome or habitat performance. Added plant
+weight, wind loading, moisture and maintenance effects are not demonstrated
+by these films; no structural response is animated or claimed.
+
 ## Reproduction
 
 From the Auxin repository root, with the existing local dependencies installed:
