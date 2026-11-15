@@ -168,10 +168,11 @@ try {
   await test('Customer discussions and proposed commercial terms remain intact', async () => {
     const buyers = await activate('buyers-slide');
     for (const label of ['Private gardens', 'Cultural destinations', 'Hospitality', 'In discussion']) assert.match(await buyers.innerText(), new RegExp(label, 'i'));
-    for (const name of ['Eden Project', 'The Newt', '25hours', 'Canary Wharf Group']) assert.equal(await buyers.getByRole('img', { name, exact: true }).count(), 1);
+    for (const name of ['Eden Project', 'The Newt', '25hours']) assert.equal(await buyers.getByRole('img', { name, exact: true }).count(), 1);
     assert.equal(await buyers.locator('video, [data-customer-play], .film-explore').count(),0);
     assert.equal(await buyers.locator('.buyer-triptych figure').count(),3);
-    assert.match(await buyers.locator('.prospect-logo-canary').innerText(),/Meeting scheduled/);
+    assert.equal(await buyers.locator('.prospect-logo').count(),3);
+    assert.doesNotMatch(await buyers.innerText(),/Meeting scheduled|Canary Wharf Group/i);
     assert.match(await buyers.innerText(), /not signed commissions/i); await screenshot('slide-12-customers', buyers);
     const offer = await activate('v7-commercial-model-slide');
     for (const pattern of [/£65,000/, /Deducted from total build cost/i, /Fixed\s+build price/i, /Annual\s+care/i]) assert.match(await offer.innerText(), pattern);
@@ -315,12 +316,31 @@ try {
     await activate('v7-computation-slide');assert.equal(await host('growth').evaluate(el=>el.v8Controller.getState().running),false);
     await page.emulateMedia({reducedMotion:'no-preference'});
   });
-  await test('Learning trace can be played, paused, scrubbed and left without motion',async()=>{
+  await test('Learning diagram supports direct inspection without a playback strip',async()=>{
     const slide=await activate('v7-learning-flow-slide');await slide.locator('[data-v7flow-select="growing"]').click();
     assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-trace-step'),'plantability');
-    await slide.locator('[data-sequence-range]').fill('600');
-    assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-trace-step'),'validation');await screenshot('slide-16-learning',slide);
-    const before=await slide.locator('[data-sequence-range]').inputValue();await frames();assert.equal(await slide.locator('[data-sequence-range]').inputValue(),before);
+    assert.equal(await slide.locator('input[type="range"], [data-sequence-play]').count(),0);
+    await slide.locator('[data-v7flow-node="validation"]').click();
+    assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-trace-step'),'validation');
+    assert.match(await slide.locator('[data-v7flow-readout]').innerText(),/Compare observations/);
+    await slide.locator('[data-v7flow-node="rules"]').focus();await page.keyboard.press('Enter');
+    assert.match(await slide.locator('[data-v7flow-readout]').innerText(),/support spacing or the care plan/);
+    await slide.locator('[data-v7flow-select="design"]').click();
+    const layout=await slide.evaluate(el=>{
+      const input=el.querySelector('[data-v7flow-node="inputs"]'),box=input.querySelector('rect').getBoundingClientRect();
+      const lines=[...input.querySelectorAll('text')].map(text=>text.getBoundingClientRect());
+      const phase=el.querySelector('.v7flow-phase').getBoundingClientRect(),tabs=el.querySelector('.v7flow-controls').getBoundingClientRect();
+      return {padded:lines.every(line=>line.left>box.left+8&&line.right<box.right-8&&line.top>box.top+8&&line.bottom<box.bottom-8),phaseClear:phase.top>tabs.bottom+12&&phase.bottom<box.top-12};
+    });
+    assert.ok(layout.padded,'Intent and site text should fit with padding on every side');
+    assert.ok(layout.phaseClear,'The design phase should sit above its input, clear of tabs');
+    await screenshot('slide-16-learning-design',slide);
+    await slide.locator('[data-v7flow-select="design"]').focus();await page.keyboard.press('ArrowRight');
+    assert.equal(await slide.locator('[data-v7-flow]').getAttribute('data-v7flow-mode'),'making');
+    assert.match(await slide.locator('[data-v7flow-readout]').innerText(),/released geometry/);
+    await slide.locator('[data-v7flow-node="inputs"]').click();
+    assert.equal(await slide.locator('[data-v7flow-select="design"]').getAttribute('aria-pressed'),'true');
+    await slide.locator('[data-v7flow-select="all"]').click();await screenshot('slide-16-learning-whole',slide);
   });
   await test('Pier exploration preserves time and other intentions remain placeholders', async () => {
     const slide = await activate('v7-anatomy-slide'); await slide.locator('[data-v7-intent="1"]').click();
@@ -367,6 +387,7 @@ try {
     await screenshot('print-04-space',page.locator('#slide-04'));
     await screenshot('print-07-consequences',page.locator('#slide-07'));
     await screenshot('print-11-manufacturing',page.locator('#slide-11'));
+    await screenshot('print-16-learning',page.locator('#slide-16'));
   });
   await test('Story map loads and no edition 09 dependencies remain', async () => {
     await page.goto(new URL('story-map.html', href).href); await page.waitForLoadState('domcontentloaded'); assert.match(await page.locator('body').innerText(), /story|presentation|drawing/i);

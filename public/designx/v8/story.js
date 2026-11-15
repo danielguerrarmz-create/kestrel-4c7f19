@@ -140,9 +140,9 @@ window.DESIGNX_V8_STORY = [
     "title": "The first customers.",
     "theme": "buyers-slide",
     "purpose": "Introduce prospective buyers after the audience has encountered the room, its design decisions and the means of making it.",
-    "stays": "The three customer settings, existing still concept images and original layout. Retain Eden Project, The Newt and 25hours, and add Canary Wharf Group with an upcoming-meeting status.",
-    "drawing": "Keep the three customer images as stills. Remove the hospitality film and all its controls. Add the official Canary Wharf Group mark beside the other prospects, preserving the slide’s visual language.",
-    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. On 15 November the founder reported an upcoming Canary Wharf Group meeting and requested its logo. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
+    "stays": "The three customer settings, existing still concept images and original layout. Retain Eden Project, The Newt and 25hours as the three named conversations.",
+    "drawing": "Keep the three customer images as stills and the original three-logo strip. Remove the hospitality film and all its controls.",
+    "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group remains in speaker notes as early interest: a CEO introduction following cold outreach and a forthcoming discussion with the head of development, not a completed meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
     "transition": "The England conversations identified a concrete barrier: prospects wanted a completed Bower they could see.",
     "speakerBridge": "Many of our conversations in England returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
   },
@@ -189,7 +189,7 @@ window.DESIGNX_V8_STORY = [
     "theme": "v7-learning-flow-slide",
     "purpose": "Explain one learning process through a specific support-route question: design a relationship, observe establishment and tending, review the evidence, then revise a support or care decision. Keep digital iteration and physical evidence distinct.",
     "stays": "The complete interactive information flow, its making, growing and cost traces, and the shared geometry linking them. Consolidate the separate shared-object, project-cycle and coupled-system slides into this explanation.",
-    "drawing": "Begin with the Growing trace: a proposed support route, future establishment and care observations, evidence review, and a possible revision. Allow the presenter to pause, select a node, or explore Design, Making, Cost and Whole system within this one drawing.",
+    "drawing": "Begin with the Growing trace: a proposed support route, future establishment and care observations, evidence review, and a possible revision. Select a node directly or explore Design, Making, Cost and Whole system within this one drawing. No playback strip is needed for this information flow.",
     "status": "Existing digital geometry and growth studies support design iteration. Integrated checks and feedback from built Bowers remain in development. Designing each Bower and Making and living with it describe project phases, not software readiness. The trace is authored and reports no field observations.",
     "transition": "Delivering the first place and learning from it requires the complementary work of the founders.",
     "speakerBridge": "Each project can provide both a place future clients can visit and evidence that improves our work. Building that connection is how we work together."

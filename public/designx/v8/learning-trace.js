@@ -12,30 +12,42 @@
     const scene=root.querySelector('[data-v7-flow]');if(!scene)return;
     scene.classList.add('v8-learning-trace');
     scene.querySelector('.v7flow-diagram').setAttribute('role','group');
-    const bar=document.createElement('div');bar.className='v8-sequence-controls slide-interaction';
-    bar.innerHTML='<button type="button" data-sequence-play>Play</button><input type="range" min="0" max="1000" value="0" data-sequence-range aria-label="Follow evidence through the learning system"><output data-sequence-caption>Whole system</output>';
-    scene.append(bar);
-    let mode='all',selected=-1;
+    let mode=scene.dataset.v7flowMode;
     const nodes=[...scene.querySelectorAll('[data-v7flow-node]')];
-    const clock=window.DESIGNX_V8_SEQUENCE(scene,6,index=>{
-      const trace=traces[mode],step=Math.min(trace.length-1,Math.floor(index*trace.length/6));
-      const [id,copy]=trace[step];selected=step;
-      nodes.forEach(node=>node.classList.toggle('v8-trace-current',node.dataset.v7flowNode===id));
+    function inspect(id){
+      const [,copy]=traces[mode].find(step=>step[0]===id);
+      nodes.forEach(node=>{
+        const selected=node.dataset.v7flowNode===id;
+        node.classList.toggle('v8-trace-current',selected);
+        node.setAttribute('aria-pressed',String(selected));
+      });
       scene.querySelector('[data-v7flow-readout]').textContent=copy;
-      bar.querySelector('output').textContent=`${step+1} / ${trace.length} · ${mode==='all'?'Whole system':mode[0].toUpperCase()+mode.slice(1)}`;
       scene.dataset.traceStep=id;
+    }
+    function selectMode(){
+      mode=scene.dataset.v7flowMode;
+      inspect(traces[mode][0][0]);
+    }
+    scene.querySelectorAll('[data-v7flow-select]').forEach(button=>{
+      button.addEventListener('click',selectMode);
+      // The inherited diagram selects arrow-key destinations without a click.
+      button.addEventListener('keydown',event=>{
+        if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key)) selectMode();
+      });
     });
-    scene.querySelectorAll('[data-v7flow-select]').forEach(button=>button.addEventListener('click',()=>{mode=button.dataset.v7flowSelect;clock.seek(0);}));
     nodes.forEach(node=>{
       node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label','Inspect '+node.querySelector('text')?.textContent);
       function select(){
-        let index=traces[mode].findIndex(([id])=>id===node.dataset.v7flowNode);
-        if(index<0){const next=Object.keys(traces).find(key=>traces[key].some(([id])=>id===node.dataset.v7flowNode));if(!next)return;scene.querySelector(`[data-v7flow-select="${next}"]`).click();index=traces[mode].findIndex(([id])=>id===node.dataset.v7flowNode);}
-        clock.seek(Math.ceil(index*6/traces[mode].length));
+        const id=node.dataset.v7flowNode;
+        if(!traces[mode].some(step=>step[0]===id)){
+          const next=Object.keys(traces).find(key=>traces[key].some(step=>step[0]===id));
+          if(!next)return;
+          scene.querySelector(`[data-v7flow-select="${next}"]`).click();
+        }
+        inspect(id);
       }
       node.addEventListener('click',select);node.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();event.stopPropagation();select();}});
     });
-    document.addEventListener('designx:slidechange',event=>clock.setActive(event.detail.element===scene.closest('.slide')));
-    scene.v8Controller=clock;
+    selectMode();
   });
 })();

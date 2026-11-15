@@ -1,4 +1,5 @@
 .designx-v8 .v8-learning-consolidated .v7flow-phase{display:block;font-size:22px}
+.designx-v8 .v8-learning-consolidated .v7flow-readout{top:812px;padding-top:18px;border-top:1px solid #d4dfd1}
 .designx-v8 .v8-learning-consolidated .v7flow-status{font-size:14px;line-height:1.25;bottom:9px}
 .designx-v8.print-mode .v8-learning-consolidated .v7flow-print-summary{font-size:22px;top:825px}
 @media print{.designx-v8 .v8-learning-consolidated .v7flow-print-summary{font-size:22px;top:825px}}
