@@ -1,0 +1,204 @@
+/* A drawing to turn, scrub and play. It takes its paper and ink from its manifest. */
+:root {
+  --paper: #eef3ea;
+  --ink: #102820;
+  --muted: #4d6559;
+  --rule: #b1c1b580;
+}
+html,
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Safiro, 'Helvetica Neue', Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  padding: 28px;
+}
+body.embed {
+  padding: 0;
+  overflow: hidden;
+}
+
+.piece {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  outline: none;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y;
+}
+.piece:focus-visible {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+#sheet {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+.piece.held #sheet {
+  cursor: grabbing;
+}
+#poster {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+
+/* what each panel of a row is: a word or two at its head */
+.panels {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  pointer-events: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+}
+.panels span {
+  justify-self: start;
+  padding: 3px 7px 3px 1px;
+  /* a panel that runs to its edges is drawn under its own heading: the heading keeps a little paper behind it */
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+}
+
+/* the line of time: along the foot of the drawing, light enough to draw through */
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto minmax(120px, auto) 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 7px 12px 6px 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--paper) 94%, transparent) 55%, transparent);
+  font-size: 12px;
+}
+.bar button {
+  font: inherit;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  padding: 2px 0;
+  cursor: pointer;
+  min-width: 42px;
+  text-align: left;
+}
+#stage {
+  font-weight: 600;
+  white-space: nowrap;
+}
+#hint {
+  color: var(--muted);
+  white-space: nowrap;
+}
+#scrub {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  cursor: ew-resize;
+}
+#scrub::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--ink);
+}
+#scrub::-moz-range-track {
+  height: 1px;
+  background: var(--ink);
+}
+#scrub::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 7px;
+  height: 15px;
+  margin-top: -7px;
+  background: var(--ink);
+  border: 0;
+  border-radius: 0;
+}
+#scrub::-moz-range-thumb {
+  width: 7px;
+  height: 15px;
+  background: var(--ink);
+  border: 0;
+  border-radius: 0;
+}
+.piece.still #scrub,
+.piece.still #play {
+  visibility: hidden;
+}
+
+/* on its own page the drawing brings its own tabs and words; set into a slide it leaves those to the slide */
+.modes {
+  display: flex;
+  gap: 22px;
+  margin: 0 0 14px;
+}
+.modes button {
+  font: 500 17px/1.2 inherit;
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 8px 18px 8px 0;
+  cursor: pointer;
+}
+.modes button[aria-pressed='true'] {
+  border-bottom: 3px solid currentColor;
+  padding-bottom: 6px;
+}
+.line {
+  margin: 14px 0 0;
+  font-size: 19px;
+}
+.statement {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+body.embed .modes,
+body.embed .line,
+body.embed .statement {
+  display: none;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* on paper, and where a still is asked for, one picture and nothing to press */
+@media print {
+  #sheet,
+  .bar,
+  .modes {
+    display: none !important;
+  }
+  #poster {
+    display: block !important;
+  }
+}
+body.print #sheet,
+body.print .bar,
+body.print .modes {
+  display: none;
+}
+body.print #poster {
+  display: block;
+}

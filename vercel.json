@@ -2,6 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/designx/v8",
+      "destination": "/designx/v8/index.html"
+    },
+    {
+      "source": "/designx/v8/",
+      "destination": "/designx/v8/index.html"
+    },
+    {
       "source": "/designx/v7/pdf",
       "destination": "/designx/v7/downloads/Bower_DesignX_Buildings_That_Grow_07.pdf"
     },

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bower drawing</title>
+    <link rel="stylesheet" href="player.css" />
+  </head>
+  <body>
+    <nav class="modes" id="modes" role="group" aria-label="What the drawing shows"></nav>
+    <figure class="piece" id="piece" tabindex="0" aria-roledescription="drawing">
+      <canvas id="sheet"></canvas>
+      <img id="poster" alt="" />
+      <div class="panels" id="panels"></div>
+      <div class="bar">
+        <button id="play" type="button" aria-label="Pause">Pause</button>
+        <span id="stage" aria-live="polite"></span>
+        <input id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Through time" />
+        <span id="hint"></span>
+      </div>
+    </figure>
+    <p class="line" id="line"></p>
+    <p class="statement" id="statement"></p>
+    <!-- the same as manifest.json, as a script, so that the page also opens straight from a folder -->
+    <script src="manifest.js"></script>
+    <script src="player.js"></script>
+  </body>
+</html>

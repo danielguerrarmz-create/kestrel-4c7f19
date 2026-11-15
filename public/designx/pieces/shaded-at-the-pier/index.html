@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The plants were shading each other</title>
+<!--
+  A finding from growing a planting on the room, and the change to the building it led to: at a
+  tight pier the plants stand in each other's shade, so the piers open. It plays by itself as a
+  loop of four named steps (We want, We ask, We reconsider, We ask again); the viewer may pause
+  it, move along it, or go to a step.
+
+  The pictures are the studio's own drawing, made beforehand by `node pipeline/vignette.mjs
+  shaded-at-the-pier` (manifest.js says which, and where each pier falls in each view). This
+  page only shows them in turn and draws the annotation over them. Every number on it comes from
+  the two grown runs and the two buildings (data.js). It opens from its folder; add ?embed to
+  leave out the small print. Hooks: __setT(seconds), __play(), __duration, __ready.
+-->
+<style>
+  :root { --paper: #EEF3EA; --ink: #102820; --red: #B4492F; --rule: rgba(16, 40, 32, .2); --soft: rgba(16, 40, 32, .62); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
+  #page { max-width: 1320px; margin: 0 auto; padding: 0 22px; }
+  header { display: flex; align-items: baseline; gap: 16px; padding-top: 14px; }
+  h1 { font: 400 24px/1.1 Georgia, "Times New Roman", serif; margin: 0; flex: 1; }
+  #pp { font: inherit; font-size: 12px; color: var(--soft); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  #cap { font-size: 15px; min-height: 1.5em; margin: 4px 0 2px; color: var(--soft); }
+  #stage { position: relative; width: 100%; aspect-ratio: 1260 / 640; overflow: hidden; }
+  #stage img { position: absolute; opacity: 0; pointer-events: none; }
+  #over { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; }   /* the annotation lies over the pictures */
+  #bar { height: 16px; position: relative; cursor: pointer; touch-action: none; margin-top: 6px; }
+  #bar::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: var(--rule); }
+  #fill { position: absolute; left: 0; top: 6px; height: 3px; width: 0; background: var(--ink); }
+  #steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 2px 0 0; gap: 8px; }
+  #steps button { font: inherit; background: none; border: 0; padding: 4px 0; text-align: left; width: 100%; color: var(--soft); cursor: pointer; }
+  #steps .on button { color: var(--ink); }
+  footer { font-size: 11px; color: var(--soft); padding: 10px 0 14px; }
+  footer p { margin: 0 0 4px; }
+  .embed footer { display: none; }
+</style>
+</head>
+<body>
+<div id="page">
+  <header><h1>The plants were shading each other</h1><button id="pp" aria-pressed="false">Pause</button></header>
+  <p id="cap"></p>
+  <div id="stage"><canvas id="over"></canvas></div>
+  <div id="bar"><div id="fill"></div></div>
+  <ol id="steps"></ol>
+  <footer>
+    <p>Schematic of a simulated scenario.</p>
+  </footer>
+</div>
+<script src="manifest.js"></script>
+<script src="data.js"></script>
+<script>
+(() => {
+  const V = window.VIGNETTE, D = window.VIGNETTE_DATA;
+  const $ = (id) => document.getElementById(id);
+  if (new URLSearchParams(location.search).has("embed")) document.body.classList.add("embed");
+  const INK = "16,40,32", RED = "180,73,47", PAPER = "#EEF3EA";
+  const seg = (t, a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+  const ease = (u) => u * u * (3 - 2 * u);
+  const win = (t, a, b, f = 0.35) => Math.min(seg(t, a, a + f), 1 - seg(t, b - f, b));
+  const WORD = ["No", "One", "Two", "Three", "Four", "Five"][D.years] || String(D.years);
+
+  // ---- the loop -------------------------------------------------------------------------------
+  const DUR = 32, BND = [0, 7, 13, 21, 32], STATIC_T = 29, DAYS = V.sets["grown-was"].days.at(-1);
+  const STEPS = [
+    ["Planted", "A room in leaf within a few years."],
+    ["Shaded", "At a tight pier the plants shade each other."],
+    ["Piers open", "So the piers open. Each way through narrows."],
+    ["Grown again", "The same planting again: more of it in the sun."],
+  ];
+  const stepOf = (t) => Math.max(0, BND.findIndex((b, i) => t >= b && t < BND[i + 1]));
+  const end = (t) => 1 - seg(t, 31.2, 32);
+
+  // ---- the pictures ----------------------------------------------------------------------------
+  const stage = $("stage"), canvas = $("over"), ctx = canvas.getContext("2d");
+  const IMG = { room: new Map(), close: new Map() };
+  for (const [id, set] of Object.entries(V.sets)) for (const [view, files] of Object.entries(set.views)) files.forEach((file, i) => {
+    const img = new Image();
+    img.decoding = "sync"; img.alt = ""; img.src = file;   // a picture is ready before it is shown, so none comes in late
+    stage.insertBefore(img, canvas);
+    IMG[view].set(`${id}:${i}`, img);
+  });
+  const lit = { room: new Map(), close: new Map() };
+  function show(view, list) {
+    const now = new Map(list.filter(([, a]) => a > 0.002));
+    for (const key of lit[view].keys()) if (!now.has(key)) IMG[view].get(key).style.opacity = 0;
+    let z = 1;
+    for (const [key, a] of now) { const img = IMG[view].get(key); img.style.opacity = a; img.style.zIndex = z++; }
+    lit[view] = now;
+  }
+  const grownAt = (id, day) => {
+    const days = V.sets[id].days, f = Math.max(0, Math.min(days.length - 1, day / DAYS * (days.length - 1))), lo = Math.min(days.length - 2, Math.floor(f));
+    return [`${id}:${lo}`, `${id}:${lo + 1}`, f - lo];
+  };
+
+  let W = 0, H = 0, U = 1, RECT = { room: null, close: null };
+  function layout() {
+    const r = stage.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    const a = V.views.room.size, b = V.views.close.size, gap = 30, k = Math.min(W / (a[0] + gap + b[0]), H / Math.max(a[1], b[1] + 20));
+    const x0 = (W - (a[0] + gap + b[0]) * k) / 2;
+    RECT.room = { x: x0, y: (H - a[1] * k) / 2, w: a[0] * k, h: a[1] * k };
+    RECT.close = { x: x0 + (a[0] + gap) * k, y: (H - b[1] * k) / 2 + 8, w: b[0] * k, h: b[1] * k };
+    for (const view of ["room", "close"]) for (const img of IMG[view].values()) Object.assign(img.style, { left: RECT[view].x + "px", top: RECT[view].y + "px", width: RECT[view].w + "px", height: RECT[view].h + "px" });
+    U = Math.max(0.8, Math.min(1.25, W / 1000));
+  }
+  const at = (view, p) => [RECT[view].x + p[0] * RECT[view].w, RECT[view].y + p[1] * RECT[view].h];
+
+  // ---- annotation: paper boxes, leaders and marks, as the factory drawings have them -------------------
+  function box(x, y, text, alpha, red, anchor) {
+    const lines = text.split("\n"), size = 12.5 * U, pad = 3;
+    ctx.font = `${size}px "Segoe UI", system-ui, sans-serif`;
+    const w = Math.max(...lines.map((l) => ctx.measureText(l).width)), h = lines.length * size * 1.3;
+    const x0 = Math.max(4, Math.min(W - w - 4 - 2 * pad, anchor === "end" ? x - w - 2 * pad : x));
+    y = Math.max(h / 2 + pad + 2, Math.min(H - h / 2 - pad - 2, y));   // a label stays on the sheet
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = PAPER; ctx.fillRect(x0, y - h / 2 - pad, w + 2 * pad, h + 2 * pad);
+    ctx.fillStyle = red ? `rgb(${RED})` : `rgb(${INK})`; ctx.textBaseline = "middle";
+    lines.forEach((l, i) => ctx.fillText(l, x0 + pad, y - h / 2 + size * 0.65 + i * size * 1.3));
+    ctx.globalAlpha = 1;
+  }
+  function note(p, dx, dy, text, alpha, red) {
+    if (alpha <= 0.01) return;
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = red ? `rgb(${RED})` : `rgb(${INK})`; ctx.fillStyle = ctx.strokeStyle; ctx.lineWidth = 0.9;
+    ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] + dx * U, p[1] + dy * U); ctx.stroke();
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
+    box(p[0] + dx * U, p[1] + dy * U, text, alpha, red, dx < 0 ? "end" : "start");
+  }
+  function ring(p, rx, alpha) {   // where the building is at issue
+    if (alpha <= 0.01) return;
+    ctx.globalAlpha = alpha;
+    ctx.beginPath(); ctx.ellipse(p[0], p[1], rx, rx * 0.5, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgb(${RED})`; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  function small(x, y, text) {
+    ctx.font = `${10.5 * U}px "Segoe UI", system-ui, sans-serif`;
+    ctx.fillStyle = "rgba(16,40,32,.62)"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(text.toUpperCase().split("").join(" "), x, y);
+  }
+
+  // ---- one moment of the loop ---------------------------------------------------------------------
+  const P = { room: V.views.room.points, close: V.views.close.points };
+  const f2 = (x) => x.toFixed(2), f1 = (x) => x.toFixed(1), f0 = (x) => x.toFixed(0);
+  function frame(t) {
+    const first = t < 13;
+    const day = (first ? ease(seg(t, 0.6, 6.4)) : ease(seg(t, 21.6, 27.6))) * DAYS;
+    const off = ease(seg(t, 13, 13.8));          // the plants are taken off the room as it was drawn
+    const opens = ease(seg(t, 14.2, 16.8));      // one building gives way to the other
+    const again = seg(t, 21, 21.6);              // and the planting goes in again
+    const [lo, hi, mix] = grownAt(first || t < 21 ? "grown-was" : "grown-now", first || t < 21 ? Math.min(day, DAYS) : day);
+    for (const view of ["room", "close"]) {
+      if (t < 21) show(view, [[first ? lo : "grown-was:" + (V.sets["grown-was"].days.length - 1), Math.min(seg(t, 0, 0.5), 1)], first ? [hi, mix] : ["bare-was:0", off], ["bare-now:0", opens]]);
+      else show(view, [["bare-now:0", end(t)], [lo, again * end(t)], [hi, again * mix * end(t)]]);
+    }
+    const dpr = window.devicePixelRatio || 1;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    const issue = win(t, 7.2, 12.8);
+    for (const p of P.room.piers) ring(at("room", p), 17 * U, issue);
+    const here = at("room", P.room.pier), R2 = RECT.close;
+    ctx.strokeStyle = "rgba(16,40,32,.38)"; ctx.lineWidth = 0.8;
+    const bw = 34 * U, bh = 58 * U;
+    ctx.strokeRect(here[0] - bw / 2, here[1] - bh * 0.62, bw, bh);
+    ctx.beginPath(); ctx.moveTo(here[0] + bw / 2, here[1] - bh * 0.62); ctx.lineTo(R2.x, R2.y); ctx.moveTo(here[0] + bw / 2, here[1] + bh * 0.38); ctx.lineTo(R2.x, R2.y + R2.h); ctx.stroke();
+    ctx.strokeStyle = "rgba(16,40,32,.3)";
+    ctx.strokeRect(R2.x, R2.y, R2.w, R2.h);
+    small(R2.x, R2.y - 7, "One pier");
+    const planted = first ? 1 - off : again * end(t);
+    small(RECT.room.x, RECT.room.y + 14 * U, t >= 13 && t < 21 ? (opens > 0.5 ? "Reconsidered" : "As drawn") : `year ${Math.max(1, Math.ceil(day / 365.25 - 0.02))}`);
+
+    // annotation: never more than two leaders at a time
+    const pierRoom = at("room", P.room.pier), pierClose = at("close", P.close.pier), bay = at("room", P.room.bay);
+    note(pierRoom, -70, 74, `${f1(D.was.sunHours)} h of sun a plant`, win(t, 7.6, 12.7), true);
+    note(pierClose, 40, 150, `feet ${f2(D.feetApart[1])} m apart, were ${f2(D.feetApart[0])}`, win(t, 15.2, 20.6), false);
+    note(bay, 30, 60, `${f2(D.wayThrough[1])} m through, was ${f2(D.wayThrough[0])}`, win(t, 17, 20.8), true);
+    note(pierRoom, -70, 74, `${f1(D.now.sunHours)} h of sun a plant`, win(t, 22.6, 30.9), false);
+    if (D.now.frameworkM != null) note(pierClose, 40, 150, `${f0(D.now.frameworkM)} m grown, was ${f0(D.was.frameworkM)}`, win(t, 26.8, 30.9), false);
+  }
+
+  // ---- page: steps, caption, playing ----------------------------------------------------------------
+  let shown = -1, paused = false, tp = 0, t0 = performance.now();
+  function ui(t) {
+    const k = stepOf(t);
+    if (k !== shown) {
+      shown = k;
+      $("cap").textContent = STEPS[k][1];
+      [...$("steps").children].forEach((li, i) => li.classList.toggle("on", i === k));
+    }
+    $("fill").style.width = (100 * t / DUR) + "%";
+  }
+  function loop(ms) {
+    if (!paused) tp = ((ms - t0) / 1000) % DUR;
+    frame(tp); ui(tp);
+    requestAnimationFrame(loop);
+  }
+  function seek(t, play) {
+    tp = Math.max(0, Math.min(DUR - 0.01, t));
+    paused = !play; t0 = performance.now() - tp * 1000;
+    $("pp").textContent = paused ? "Play" : "Pause"; $("pp").setAttribute("aria-pressed", paused);
+    frame(tp); ui(tp);
+  }
+  STEPS.forEach(([name], i) => {
+    const li = document.createElement("li"), b = document.createElement("button");
+    b.textContent = name;
+    b.onclick = () => seek(BND[i] + 0.01, true);
+    li.append(b); $("steps").append(li);
+  });
+  $("pp").onclick = () => seek(tp, paused);
+  const bar = $("bar"), scrub = (e) => { const r = bar.getBoundingClientRect(); seek(DUR * (e.clientX - r.left) / r.width, false); };
+  bar.onpointerdown = (e) => { bar.setPointerCapture(e.pointerId); scrub(e); bar.onpointermove = scrub; };
+  bar.onpointerup = () => { bar.onpointermove = null; };
+
+  new ResizeObserver(() => { layout(); frame(tp); }).observe(stage);
+  layout();
+  ui(0);
+  window.__duration = DUR;
+  window.__setT = (t) => seek(t, false);
+  window.__play = () => seek(tp, true);
+  const every = [...stage.querySelectorAll("img")];
+  Promise.all(every.map((img) => img.decode().catch(() => {}))).then(() => {   // start once every picture can be drawn
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { seek(STATIC_T, false); $("pp").hidden = true; }
+    else { t0 = performance.now(); requestAnimationFrame(loop); }
+    window.__ready = true;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+.v8-study { width:100%;height:100%;display:flex;flex-direction:column;gap:5px;padding:5px 0;color:#102820;background:#eef3ea;font:400 16px/1.2 var(--sans,Arial,sans-serif);overflow:hidden;box-sizing:border-box }
+.v8-study * { box-sizing:border-box }
+.v8-study [hidden] { display:none!important }
+.v8-study button { border:0;border-bottom:1px solid transparent;border-radius:0;background:none;color:inherit;font:500 16px/1.2 var(--sans,Arial,sans-serif);padding:3px 0;cursor:pointer;white-space:nowrap }
+.v8-study button:hover:not(:disabled) { color:#597533;background:none }
+.v8-study button:disabled { opacity:.4;cursor:default }
+.v8-study button[aria-pressed=true] { border-bottom-color:currentColor;background:none;color:#102820 }
+.v8-study button:focus-visible,.v8-study input:focus-visible { outline:2px solid #789951;outline-offset:3px }
+.v8-study-chapters { display:flex;align-items:center;gap:22px;flex:0 0 auto;min-height:25px;padding:0 8px }
+.v8-study-hint { margin-left:auto;color:#4d6559;font-size:13px }
+.v8-study-screen { flex:1;min-height:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center }
+.v8-study-screen iframe { border:0;display:block;width:100%;height:100%;background:#eef3ea }
+.v8-study-loading { position:absolute;inset:0;display:grid;place-items:center;margin:0;padding:12px;text-align:center;font:400 17px/1.4 var(--sans,Arial,sans-serif);background:#eef3ea }
+.v8-study-timeline { display:flex;gap:18px;align-items:center;min-height:28px;flex:0 0 auto;padding:0 8px }
+.v8-study-timeline button { min-width:45px;text-align:left;text-decoration:underline;text-underline-offset:4px }
+.v8-study-timeline input { flex:1;min-width:40px;margin:0;accent-color:#355a42;cursor:ew-resize }
+.v8-study-caption { width:270px;min-width:0;text-align:right;font-size:15px;color:#4d6559;overflow:hidden;white-space:nowrap;text-overflow:ellipsis }
+.v8-study-pier .v8-study-caption { width:410px;font-size:14px }
+@media(max-width:650px) {
+  .v8-study-chapters { gap:12px;flex-wrap:wrap }
+  .v8-study button { font-size:13px }
+  .v8-study-hint { font-size:11px }
+  .v8-study-timeline { gap:12px;flex-wrap:wrap }
+  .v8-study-timeline .v8-study-caption { width:100%;text-align:left;font-size:12px }
+}
+.print-mode .v8-study { display:none!important }
+@media print { .v8-study { display:none!important } }
