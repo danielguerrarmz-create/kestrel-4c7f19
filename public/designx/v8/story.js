@@ -155,18 +155,18 @@ window.DESIGNX_V8_STORY = [
     "stays": "The three customer settings, existing still concept images and original layout. Name Eden Project, The Newt, 25hours and Canary Wharf Group under ‘In conversation with’.",
     "drawing": "Keep the three customer images as stills and show the four organisation logos under ‘In conversation with’, without a meeting caption. Remove the hospitality film and all its controls.",
     "status": "Existing discussions with Eden Project, The Newt and 25hours were founder-confirmed on 13 November 2026. Canary Wharf Group is at an earlier stage: contact through cold outreach and the website led to a CEO introduction and a forthcoming discussion with the head of development, not a completed CWG meeting. No signed commissions or endorsements. The images are Bower concepts, not designs commissioned by these organisations.",
-    "transition": "The England conversations identified a concrete barrier: prospects wanted a completed Bower they could see.",
-    "speakerBridge": "Many of our conversations in England returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
+    "transition": "International customer discovery identified a concrete barrier: prospects wanted a completed Bower they could see.",
+    "speakerBridge": "Our international customer conversations returned to the same condition: they wanted to see one built. That gives the first project a specific commercial role."
   },
   {
     "number": 14,
     "baseSlide": 14,
     "title": "The first Bower is the missing reference.",
     "theme": "commercial-loop-slide",
-    "purpose": "Explain the specific commercial barrier found in England conversations: prospective clients want a completed Bower they can visit and assess.",
-    "stays": "The value of a built reference, grounded in founder-reported conversations with cultural institutions, estate owners and private prospects.",
-    "drawing": "A provisional timing sketch reveals the same inhabited-room arrival image from a pale ghost into full colour, then holds it at full opacity. It plays once, without controls. “A place they can visit” is the editorial caption. The sticky note briefs the final coordinated drawing; the current render is an early scene draft.",
-    "status": "Founder-reported customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The reveal changes opacity and colour in an existing design render; it is not a completed-project photograph, construction sequence or growth simulation.",
+    "purpose": "Explain the specific commercial barrier found in international customer discovery: prospective clients want a completed Bower they can visit and assess.",
+    "stays": "The value of a built reference, grounded in founder-reported international conversations with cultural institutions, estate owners and private prospects. Keep that discovery context in the notes.",
+    "drawing": "An isolated, plant-covered Bower appears in botanical architectural linework with restrained colour, without landscape or background. Based on the arrival geometry, the generated concept illustration reveals once from pale linework into colour, then holds its final state without controls. “A place they can visit” is the editorial caption.",
+    "status": "Founder-reported international customer discovery supplied in November 2026. Repeated interest conditional on seeing a completed Bower; no orders or guaranteed conversion are asserted. The first built reference remains to be delivered. The generated concept illustration uses the arrival geometry as a visual reference; it is not physical observation, a completed-project photograph, a construction sequence or an exact plant-growth simulation.",
     "transition": "The missing reference gives the first commission a concrete purpose. Explain how a client would commission and receive that place.",
     "speakerBridge": "The first Bower needs to work for its client and be a place others can experience. This is the proposed route to commissioning it."
   },

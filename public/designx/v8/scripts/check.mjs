@@ -153,7 +153,8 @@ try {
   await test('Learning phases and first-reference evidence remain clear', async () => {
     const proof = await activate('commercial-loop-slide');
     assert.match(await proof.innerText(), /missing reference/i);
-    assert.match(await proof.innerText(), /Conversations in England/);
+    assert.doesNotMatch(await proof.innerText(), /Conversations in England|Drawing to make/);
+    assert.match(await proof.innerText(), /International Cultural institutions, estate owners and private prospects/);
     assert.match(await proof.innerText(), /wanted to see one completed Bower/);
     assert.equal(await proof.locator('[data-flywheel]').count(),0);
     assert.ok(Number.isFinite(await page.evaluate(() => window.DESIGNX_SLIDES.find(slide => slide.theme.includes('v8-reference-slide')).sourceIndex)),'Reference slide must retain its original comparison target');
@@ -168,6 +169,8 @@ try {
   await test('Reference reveal plays once and holds its final image without controls', async () => {
     const reference = await activate('v8-reference-slide');
     const picture = reference.locator('.v8-reference-visual img');
+    assert.match(await picture.getAttribute('src'),/reference\/planted-bower\.png$/);
+    assert.equal(await picture.evaluate(el=>getComputedStyle(el).objectFit),'contain');
     assert.equal(await reference.locator('input,button').count(),0);
     await page.waitForFunction(() => document.querySelector('.v8-reference-visual img').style.opacity === '1', null, {timeout:12000});
     assert.equal(await picture.evaluate(el=>getComputedStyle(el).opacity),'1');
