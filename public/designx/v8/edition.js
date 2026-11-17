@@ -26,11 +26,15 @@
     const template = document.createElement('template'); template.innerHTML = slide.html;
     if (item.baseSlide === 6) template.innerHTML = window.DESIGNX_V8_COMPUTATION.html;
     const content = template.content;
+    if (document.body.dataset.presentationAudience === 'public') {
+      content.querySelectorAll('[data-factory-notes]').forEach(button => button.remove());
+      content.querySelectorAll('.source-note').forEach(note => { note.textContent = note.textContent.replace(' Methods and assumptions in Drawing notes.', ''); });
+    }
     if (item.baseSlide === 13) {
       content.querySelector('.v7commercial-scene').setAttribute('aria-label', 'Design, build and grow a Bower');
       content.querySelector('#v7commercial-commission').innerHTML = '<span>01</span> Design';
     }
-    content.querySelectorAll('a[href="https://www.bowerbuild.org/designx/v7"]').forEach(link => { link.href = 'v8/'; link.textContent = 'Bower · Edition 08 ↗'; });
+    content.querySelectorAll('a[href="https://www.bowerbuild.org/designx/v7"]').forEach(link => { link.href = '/designx'; link.textContent = 'bowerbuild.org/designx ↗'; });
     if (item.baseSlide === 4) {
       const mode = item.growthMode || 'time';
       const image = mode === 'time' ? 'v8/assets/approach-ink/approach-ink-16x9.jpg' : mode === 'light' ? 'v8/assets/light-establishment/frames/light-18.webp' : 'pieces/04-plants-make-space-timber/frames/space-07.webp';
@@ -58,8 +62,8 @@
     const seventh = document.querySelector('[data-edition-seven]');
     const printUrl = new URL(location.href); printUrl.search = '?print=1'; printUrl.hash = '';
     queueMicrotask(() => { document.getElementById('pdf-link').href = printUrl.href; });
-    if (location.protocol === 'file:') seventh.href = new URL('../v7/index.html',location.href).href;
-    document.addEventListener('designx:slidechange',event => { seventh.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].comparisonIndex + 1).padStart(2,'0')}`; });
+    if (seventh && location.protocol === 'file:') seventh.href = new URL('../v7/index.html',location.href).href;
+    if (seventh) document.addEventListener('designx:slidechange',event => { seventh.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].comparisonIndex + 1).padStart(2,'0')}`; });
     const anatomy = root.querySelector('[data-v7-scene="anatomy"]');   // absent while the pier slides are set aside
     anatomy?.addEventListener('click',event => {
       const button = event.target.closest('[data-v7-intent]'); if (!button) return;

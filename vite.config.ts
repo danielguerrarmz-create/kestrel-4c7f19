@@ -38,6 +38,29 @@ function designxDocument(): Plugin {
   };
 }
 
+/** A compiled entry for the static HTML, sharing the site's SDK and public env. */
+function designxAnalytics(): Plugin {
+  let building = false;
+  return {
+    name: 'bower:designx-analytics',
+    configResolved(config) { building = config.command === 'build'; },
+    buildStart() {
+      if (!building) return;
+      this.emitFile({
+        type: 'chunk',
+        id: resolve('src/designxAnalytics.ts'),
+        fileName: 'designx/analytics.js',
+      });
+    },
+    configureServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        if (req.url?.split('?')[0] === '/designx/analytics.js') req.url = '/src/designxAnalytics.ts';
+        next();
+      });
+    },
+  };
+}
+
 /**
  * Serve `api/contact.ts` under `npm run dev`, so the contact form is testable without deploying.
  *
@@ -97,7 +120,7 @@ function contactEndpointDev(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), contactEndpointDev(), designxDocument()],
+  plugins: [react(), contactEndpointDev(), designxDocument(), designxAnalytics()],
   // Dedicated dev port. strictPort: fail loudly instead of drifting onto a
   // neighbour's port (5173 portfolio, 5188 LSSC, 8787 Axon also run locally).
   server: { port: 5333, strictPort: true, open: true },

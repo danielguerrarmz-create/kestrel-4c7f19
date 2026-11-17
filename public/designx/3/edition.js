@@ -104,14 +104,14 @@
   (window.DESIGNX_MOUNTS ||= []).push(() => {
     const secondLink = document.querySelector('[data-edition-two]');
     if (location.protocol === 'file:') {
-      secondLink.href = new URL('../2/index.html', location.href).href;
+      if (secondLink) secondLink.href = new URL('../2/index.html', location.href).href;
       // The shared viewer sets its original offline PDF after mounting scenes.
       queueMicrotask(() => { document.getElementById('pdf-link').href = '3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf'; });
     }
     document.addEventListener('designx:slidechange', event => {
       const sourceIndex = window.DESIGNX_SLIDES[event.detail.index].sourceIndex;
       const index = editionTwo.findIndex(slide => slide.sourceIndex === sourceIndex);
-      secondLink.hash = `slide-${String(index + 1).padStart(2, '0')}`;
+      if (secondLink) secondLink.hash = `slide-${String(index + 1).padStart(2, '0')}`;
     });
   });
 })();

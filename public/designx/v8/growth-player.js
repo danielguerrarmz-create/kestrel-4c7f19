@@ -35,9 +35,9 @@
         <nav class="v8-study-chapters" aria-label="Choose a moment in the drawing"></nav>
         <div class="v8-growth-options"><button type="button" class="v8-growth-occupation" data-v8-occupation aria-pressed="true">Inhabitants <span>on</span></button><button type="button" data-v8-study-reset disabled>Restart</button></div>
         <label class="v8-growth-history"><input type="checkbox" data-v8-assembly> Include assembly before installation</label>
-        <strong>Scenario and drawing</strong><p>Existing six-bay timber and planting study. The browser selects and blends pre-rendered images. Growth and light depend on provisional assumptions; they are not measured performance or a forecast.</p>
-        <strong>Authored occupation</strong><p>Walking silhouettes suggest movement and scale. Their paths are authored, without collision or behaviour modelling. They pause and scrub with the drawing. No furniture is proposed. <a href="v8/assets/inhabitants/SOURCES.md" target="_blank" rel="noopener">Character source and CC0 licence</a>.</p>
-        <strong>Views</strong><p>Original ink restores the eye-level film, including its assembly and ten-year growth sequence. The timber views remain available alongside it. Light compares three stages through the same midsummer day. Space is an unrolled panorama; drag to turn.</p>
+        <strong>Scenario and drawing</strong><p>Digital study of a six-bay timber structure and planting. Growth and light depend on provisional assumptions; they are not measured performance or a forecast.</p>
+        <strong>Authored occupation</strong><p>Walking silhouettes suggest movement and scale. Their paths are authored, without collision or behaviour modelling. They pause and scrub with the drawing. <a href="https://opengameart.org/content/animated-human-low-poly" target="_blank" rel="noopener">Character by Quaternius, CC0</a>.</p>
+        <strong>Views</strong><p>Light compares three stages through the same midsummer day. Space is an unrolled panorama; drag to turn.</p>
       </div></details>
     <span data-v8-growth-disclosure class="v8-growth-evidence">Pre-rendered growth scenario · authored occupation</span>`;
     host.append(root);

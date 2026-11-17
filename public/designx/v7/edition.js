@@ -110,17 +110,17 @@
     const fifthLink = document.querySelector('[data-edition-five]');
     const sixthLink = document.querySelector('[data-edition-six]');
     if (location.protocol === 'file:') {
-      thirdLink.href = new URL('../3/index.html', location.href).href;
-      fourthLink.href = new URL('../4/index.html', location.href).href;
-      fifthLink.href = new URL('../5/index.html', location.href).href;
-      sixthLink.href = new URL('../6/index.html', location.href).href;
+      if (thirdLink) thirdLink.href = new URL('../3/index.html', location.href).href;
+      if (fourthLink) fourthLink.href = new URL('../4/index.html', location.href).href;
+      if (fifthLink) fifthLink.href = new URL('../5/index.html', location.href).href;
+      if (sixthLink) sixthLink.href = new URL('../6/index.html', location.href).href;
       queueMicrotask(() => { document.getElementById('pdf-link').href = 'v7/downloads/Bower_DesignX_Buildings_That_Grow_07.pdf'; });
     }
     document.addEventListener('designx:slidechange', event => {
       const selected = window.DESIGNX_SLIDES[event.detail.index];
       const priorIndex = priorSlides.findIndex(slide => slide.sourceIndex === selected.sourceIndex);
-      thirdLink.hash = fourthLink.hash = `slide-${String(Math.max(0, priorIndex) + 1).padStart(2, '0')}`;
-      fifthLink.hash = sixthLink.hash = `slide-${String(selected.comparisonIndex + 1).padStart(2, '0')}`;
+      [thirdLink, fourthLink].forEach(link => { if (link) link.hash = `slide-${String(Math.max(0, priorIndex) + 1).padStart(2, '0')}`; });
+      [fifthLink, sixthLink].forEach(link => { if (link) link.hash = `slide-${String(selected.comparisonIndex + 1).padStart(2, '0')}`; });
     });
   });
 })();

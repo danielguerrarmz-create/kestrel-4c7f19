@@ -4,7 +4,7 @@
   const emblem = '2/assets/bower-emblem.svg';
   document.querySelector('[data-brand-emblem]').src = emblem;
   const originalLink = document.querySelector('.version-link');
-  if (location.protocol === 'file:') originalLink.href = new URL('../index.html', location.href).href;
+  if (originalLink && location.protocol === 'file:') originalLink.href = new URL('../index.html', location.href).href;
   const editionUrl = location.protocol === 'file:' ? location.href.split('#')[0] : 'https://www.bowerbuild.org/designx/2';
   const sourceSlides = window.DESIGNX_SLIDES;
   // The invention precedes market segmentation. All sixteen scenes remain.
@@ -155,7 +155,7 @@
       } else {
         hint.textContent = 'Scroll to explore · or use the arrows';
       }
-      originalLink.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].sourceIndex + 1).padStart(2, '0')}`;
+      if (originalLink) originalLink.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].sourceIndex + 1).padStart(2, '0')}`;
     });
 
     // Wheel navigation is an optional companion to keyboard, arrows, index and swipe.

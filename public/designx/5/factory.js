@@ -149,6 +149,7 @@
   }
 
   function showNotes(id) {
+    if (document.body.dataset.presentationAudience === 'public') return;
     const item = catalog.get(id);
     const dialog = makeDialog('factory-notes', 'factory-notes-dialog', `${item.number ? item.number + ' · ' : ''}${item.title}`);
     const content = document.createElement('div'); content.className = 'factory-drawing-notes';
@@ -183,10 +184,13 @@
     const surface = document.createElement('div'); surface.className = 'factory-dialog-surface'; dialog.append(surface);
     const controls = document.createElement('div'); controls.className = 'factory-controls';
     controls.innerHTML = `<button type="button" data-factory-play aria-label="Play factory drawing">Play</button><button type="button" data-factory-reset aria-label="Restart factory drawing">Restart</button><input data-factory-seek type="range" min="0" max="100" step="0.1" value="0" aria-label="Position in factory drawing"><span data-factory-phase></span><button type="button" data-factory-notes>Drawing notes ↗</button>`;
+    const publicView = document.body.dataset.presentationAudience === 'public';
+    if (publicView) controls.querySelector('[data-factory-notes]').remove();
     dialog.append(controls);
     const caption = document.createElement('p'); caption.className = 'factory-dialog-caption'; dialog.append(caption);
     const qualification = document.createElement('p'); qualification.className = 'factory-dialog-status';
-    qualification.textContent = 'Proposed process. Scan deviations are illustrative. Methods and assumptions in Drawing notes.'; dialog.append(qualification);
+    const processQualification = 'Proposed process. Scan deviations are illustrative.' + (publicView ? '' : ' Methods and assumptions in Drawing notes.');
+    qualification.textContent = processQualification; dialog.append(qualification);
     if (isExplorer) {
       const navigation = document.createElement('nav'); navigation.className = 'factory-detail-navigation'; navigation.setAttribute('aria-label', 'Explore stations');
       navigation.innerHTML = '<button type="button" data-factory-previous>← Previous station</button><span data-factory-detail-count></span><button type="button" data-factory-next>Next station →</button>';
@@ -210,7 +214,7 @@
     enlarged = session; syncActivity();
     if (inline) dialog.show(); else dialog.showModal();
     wireControls(controls, () => session.control);
-    controls.querySelector('[data-factory-notes]').addEventListener('click', () => showNotes(session.control.id));
+    controls.querySelector('[data-factory-notes]')?.addEventListener('click', () => showNotes(session.control.id));
     async function loadStation(id) {
       session.control?.destroy(); surface.replaceChildren();
       const item = catalog.get(id);
@@ -219,7 +223,7 @@
       dialog.dataset.factoryStation = id;
       dialog.querySelector('h2').textContent = `${item.number ? item.number + ' · ' : ''}${item.title}`;
       caption.textContent = mapView ? 'Click a station. See how it works.' : captions[id];
-      qualification.textContent = mapView ? 'Factory development study. Process arrangement, not a validated floor plan.' : 'Proposed process. Scan deviations are illustrative. Methods and assumptions in Drawing notes.';
+      qualification.textContent = mapView ? 'Factory development study. Process arrangement, not a validated floor plan.' : processQualification;
       controls.hidden = mapView;
       if (exploreMap) {
         close.textContent = mapView ? 'Close ×' : '← Whole factory';
@@ -350,7 +354,7 @@
       const viewer = { element, control: null }; viewers.push(viewer);
       wireControls(element.querySelector('.factory-controls'), () => viewer.control);
       element.querySelectorAll('[data-factory-id]').forEach(button => button.addEventListener('click', () => { select(viewer, button.dataset.factoryId).catch(console.error); }));
-      element.querySelector('[data-factory-notes]').addEventListener('click', () => showNotes(viewer.control.id));
+      element.querySelector('[data-factory-notes]')?.addEventListener('click', () => showNotes(viewer.control.id));
       element.querySelector('[data-factory-focus]')?.addEventListener('click', () => enlarge(viewer, null, element.dataset.factoryViewer === 'overview'));
       element.querySelectorAll('.factory-station-picker,.factory-hero-picker').forEach(picker => picker.addEventListener('keydown', event => event.stopPropagation()));
     });

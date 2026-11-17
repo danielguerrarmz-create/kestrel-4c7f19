@@ -1,4 +1,4 @@
-/* Standalone presentation. No framework, analytics, network API or external font. */
+/* Standalone presentation viewer. Analytics loads separately from its controls. */
 (() => {
   'use strict';
   const slides = window.DESIGNX_SLIDES;
@@ -23,6 +23,7 @@
     target.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
   }
   function updateNotes() {
+    if (!notesDialog) return;
     const slide = slides[current];
     document.getElementById('notes-content').innerHTML = `<p class="notes-eyebrow">${String(current + 1).padStart(2, '0')} / ${slide.act}</p><h3>${slide.title}</h3><p>${slide.notes}</p><p class="notes-source">${slide.source}</p>`;
   }
@@ -63,7 +64,7 @@
   document.querySelector('.skip-link').addEventListener('click', event => { event.preventDefault(); deck.focus(); });
   document.getElementById('next-slide').addEventListener('click', () => show(current + 1));
   document.getElementById('open-index').addEventListener('click', () => indexDialog.showModal());
-  document.getElementById('show-notes').addEventListener('click', () => { updateNotes(); notesDialog.showModal(); });
+  document.getElementById('show-notes')?.addEventListener('click', () => { updateNotes(); notesDialog?.showModal(); });
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.closeDialog).close()));
   indexGrid.addEventListener('click', event => {
     const button = event.target.closest('[data-go]');
@@ -77,14 +78,14 @@
   document.getElementById('fullscreen').addEventListener('click', fullscreen);
   document.addEventListener('fullscreenchange', () => { fit(); document.getElementById('fullscreen').setAttribute('aria-label', document.fullscreenElement ? 'Exit fullscreen' : 'Enter fullscreen'); });
   document.addEventListener('keydown', event => {
-    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || printMode || indexDialog.open || notesDialog.open) return;
+    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || printMode || indexDialog.open || notesDialog?.open) return;
     if (/INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
     if (event.key === 'ArrowRight' || event.key === 'PageDown' || (event.key === ' ' && event.target === document.body)) { event.preventDefault(); show(current + 1); }
     else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); show(current - 1); }
     else if (event.key === 'Home') { event.preventDefault(); show(0); }
     else if (event.key === 'End') { event.preventDefault(); show(slides.length - 1); }
     else if (event.key.toLowerCase() === 'g') indexDialog.showModal();
-    else if (event.key.toLowerCase() === 'n') { updateNotes(); notesDialog.showModal(); }
+    else if (event.key.toLowerCase() === 'n' && notesDialog) { updateNotes(); notesDialog.showModal(); }
     else if (event.key.toLowerCase() === 'f') fullscreen();
   });
   let touchStart;
