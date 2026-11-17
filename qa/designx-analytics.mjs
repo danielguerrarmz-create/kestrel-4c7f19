@@ -33,6 +33,9 @@ async function setup() {
     // SDK bot filtering intentionally excludes the browser's default HeadlessChrome UA.
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
   });
+  // Only in this fully intercepted local test: exercise the human-reader SDK
+  // path, since PostHog correctly drops events from WebDriver automation.
+  await context.addInitScript(() => Object.defineProperty(navigator, 'webdriver', { get: () => false }));
   const events = [], errors = [], analyticsRequests = [], decodeErrors = [];
   context.on('page', page => page.on('pageerror', error => errors.push(error.message)));
   await context.route('**/*', async route => {
