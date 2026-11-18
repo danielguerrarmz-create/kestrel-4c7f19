@@ -1,33 +1,36 @@
 # Bower for CRE retail
 
-A separate ten-slide discussion edition at `/cre-retail`, with a matching PDF at `/cre-retail/pdf`. The `/designx/retail/` paths remain aliases. Other DesignX editions are unchanged.
+A separate seventeen-slide discussion edition at `/cre-retail`, with a matching PDF at `/cre-retail/pdf`. The `/designx/retail/` paths remain aliases.
 
-## Condensed revision — 18 November 2026
+## Sales-story revision - 18 November 2026
 
-The visible deck contains 173 words across ten slides, including source captions and evidence qualifications. Each slide carries 7–28 words. Detailed methods, project requirements and commercial qualifications remain in the Sources drawer rather than the main composition.
+Restores the commercial evidence, coordinated design approach, growth and seasonal planting, delivery requirements, commission scope and ongoing care. These are spread across concise slides rather than returned to dense paragraphs. Essential evidence qualifications remain visible; full methods and source links are available in the Sources drawer.
 
-The sequence is: proposition, pavilion, retail uses, one public-realm finding, Hammerson context, site requirements, commercial model, evaluation, team and next step. The previous extra statistics, long tables, biographies and source appendix have been removed from the main sequence.
+The sequence is: complete retail place, pavilion, visitor uses, integrated garden, coordinated design, activity evidence, rental evidence, shopper preferences, growth, Hammerson context, operations, delivery, commission, build and care, evaluation, team and next step.
 
-Typography retains the supplied Argesta Display regular/italic and Safiro regular/medium files through `../4/fonts.css`. The botanical Bower logo is unchanged.
+Typography uses the supplied Argesta Display regular/italic and Safiro regular/medium files through `../4/fonts.css`. The Bower logo is unchanged.
 
 ## Images
 
-Two new built-in ImageGen concepts show one pavilion in a recognisable outdoor shopping-centre square. They use the existing six-bay model as a reference; they are illustrative interpretations, not exact-model renders, a real site, a commissioned project or a completed installation. Both are visibly labelled. They replace the garden, manor and future-street settings.
+The latest built-in ImageGen concepts show a cohesive retail garden: connected planting beds, integrated seating, layered vegetation, clear paths and visible contemporary shopfronts. They reference the current six-bay model and remain labelled as illustrative interpretations. They are not exact-model renders, surveyed locations, commissioned projects, engineering validations or completed installations.
 
-- `assets/retail-square.png`: wider retail square.
-- `assets/retail-seating.png`: closer view of seating and shopfronts.
-- `assets/provenance.json`: complete prompts, reference paths, mode and evidence limits.
+- `assets/retail-garden-square.png`: whole garden and pavilion in a retail square.
+- `assets/retail-garden-seating.png`: closer view of planting, seating and shops.
+- `assets/garden-provenance.json`: full new prompts and reference roles.
+- `assets/provenance.json`: previous generation provenance; previous images retained for history.
 
-The product slide shows the middle approach view of the original transparent model triptych via a CSS crop. The site slide retains the existing isolated planted-model study. No source geometry is edited.
+The product and growth slides crop the approach view of the original transparent model triptychs using CSS. `time-16.webp` shows the frame; `time-33.webp` shows a canopy scenario. The source geometry is unchanged. These are digital states, not observed growth or a maturity forecast.
 
-## Evidence
+## Evidence and commercial terms
 
-The visible research finding is TfL/UCL's +216% leisure-based stationary activity in improved London streets compared with comparator streets. It is an activity count, not dwell duration or a forecast for Bower. The source link and whole-street qualification remain visible. Hammerson's project links and no-commission qualification remain visible. The first completed Bower is still pending.
+TfL/UCL's comparative London street study reports 93% more walking activity, 216% more leisure-based stationary activity and additional retail rental growth equivalent to 7.5% per annum. These reflect whole-street interventions, not a Bower forecast. The stationary measure is an activity count, not visit duration.
 
-The proposed £65,000 commission, credit if proceeding, indicative installed budget agreed first, scoped fixed build price and separately priced annual care retain the existing commercial model. Full terms remain in Sources.
+Wolf's mature-tree research concerns stated willingness to pay, not recorded sales. The 2019 shopping-centre survey concerns emotional response and visit intention, not actual footfall. Hammerson's published project context implies no Bower commission. The first completed Bower is pending.
+
+The proposed GBP65,000 commission follows agreement of an indicative installed budget and develops design, planting strategy, feasibility and a construction offer. It is credited once against the build price if proceeding. A scoped fixed build price is agreed before construction, with annual care separately scoped and priced.
 
 ## Check and export
 
-Edit `slides.js` and `retail.css`. Run `node scripts/designx/retail.mjs`. It checks ten slides, a 45-word ceiling, navigation, source drawer, three viewport sizes, brand-font loading, asset resolution and rendered text bounds. It captures every slide and writes the matching PDF to `output/pdf/` and `downloads/`. Review `qa-out/designx/retail/` and render the PDF with Poppler before publishing.
+Edit `slides.js` and `retail.css`. Run `node scripts/designx/retail.mjs`. It checks seventeen slides, a 60-word ceiling, navigation, source drawer, three viewport sizes, brand-font loading, asset resolution and rendered text bounds. It captures every slide and writes the matching PDF to `output/pdf/` and `downloads/`. Review `qa-out/designx/retail/` and render the PDF with Poppler before publishing.
 
 The shared viewer supplies keyboard and touch navigation, the index, source notes, fullscreen and print layout. Route tests live in `src/documentRoutes.test.ts` and `src/routing.test.ts`.

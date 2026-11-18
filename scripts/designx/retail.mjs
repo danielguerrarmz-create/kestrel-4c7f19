@@ -29,7 +29,7 @@ try {
   });
   await page.goto(base, { waitUntil: 'domcontentloaded' });
   await waitForDeck(page);
-  if (await page.locator('.slide').count() !== 10) throw new Error('Expected 10 retail slides.');
+  if (await page.locator('.slide').count() !== 17) throw new Error('Expected 17 retail slides.');
   const fonts = await page.evaluate(async () => {
     await document.fonts.load('400 76px "Argesta Display"');
     await document.fonts.load('italic 76px "Argesta Display"');
@@ -73,7 +73,7 @@ try {
     const text = slide.innerText.replace(/\n\d{2}\s*$/, '').trim();
     return { title: slide.getAttribute('aria-label'), words: text.split(/\s+/).filter(Boolean).length };
   }));
-  if (wordCounts.some(slide => slide.words > 45)) throw new Error(`Too much slide copy: ${JSON.stringify(wordCounts)}`);
+  if (wordCounts.some(slide => slide.words > 60)) throw new Error(`Too much slide copy: ${JSON.stringify(wordCounts)}`);
   const text = await page.locator('#deck').innerText();
   for (const [index] of slides.entries()) await page.locator(`#slide-${String(index + 1).padStart(2, '0')}`).screenshot({ path: resolve(capture, `slide-${String(index + 1).padStart(2, '0')}.png`), animations: 'disabled' });
   await page.pdf({ path: output, preferCSSPageSize: true, printBackground: true, displayHeaderFooter: false, tagged: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
