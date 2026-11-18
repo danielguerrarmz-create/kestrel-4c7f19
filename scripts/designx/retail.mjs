@@ -29,7 +29,7 @@ try {
   });
   await page.goto(base, { waitUntil: 'domcontentloaded' });
   await waitForDeck(page);
-  if (await page.locator('.slide').count() !== 14) throw new Error('Expected 14 retail slides.');
+  if (await page.locator('.slide').count() !== 10) throw new Error('Expected 10 retail slides.');
   const fonts = await page.evaluate(async () => {
     await document.fonts.load('400 76px "Argesta Display"');
     await document.fonts.load('italic 76px "Argesta Display"');
@@ -69,16 +69,21 @@ try {
   await waitForDeck(page);
   const slides = await inspectSlides(page);
   assertPrintSlides(slides);
+  const wordCounts = await page.locator('.slide').evaluateAll(slides => slides.map(slide => {
+    const text = slide.innerText.replace(/\n\d{2}\s*$/, '').trim();
+    return { title: slide.getAttribute('aria-label'), words: text.split(/\s+/).filter(Boolean).length };
+  }));
+  if (wordCounts.some(slide => slide.words > 45)) throw new Error(`Too much slide copy: ${JSON.stringify(wordCounts)}`);
   const text = await page.locator('#deck').innerText();
   for (const [index] of slides.entries()) await page.locator(`#slide-${String(index + 1).padStart(2, '0')}`).screenshot({ path: resolve(capture, `slide-${String(index + 1).padStart(2, '0')}.png`), animations: 'disabled' });
   await page.pdf({ path: output, preferCSSPageSize: true, printBackground: true, displayHeaderFooter: false, tagged: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
   await copyFile(output, resolve(downloads, 'Bower_CRE_Retail.pdf'));
   if (errors.length || failures.length) throw new Error(JSON.stringify({ errors, failures }));
-  await writeFile(resolve(capture, 'report.json'), JSON.stringify({ url: base, fonts, slides, errors, failures, output }, null, 2));
+  await writeFile(resolve(capture, 'report.json'), JSON.stringify({ url: base, fonts, slides, wordCounts, errors, failures, output }, null, 2));
   await writeFile(resolve(capture, 'slide-text.txt'), text);
   const thumbs = await Promise.all(slides.map((_, index) => sharp(resolve(capture, `slide-${String(index + 1).padStart(2, '0')}.png`)).resize(480, 270).png().toBuffer()));
-  await sharp({ create: { width: 1440, height: 1350, channels: 3, background: '#d7ddcf' } }).composite(thumbs.map((input, index) => ({ input, left: (index % 3) * 480, top: Math.floor(index / 3) * 270 }))).png().toFile(resolve(capture, 'montage.png'));
-  console.log(JSON.stringify({ slides: slides.length, fonts, output, capture, errors, failures }, null, 2));
+  await sharp({ create: { width: 1440, height: Math.ceil(slides.length / 3) * 270, channels: 3, background: '#d7ddcf' } }).composite(thumbs.map((input, index) => ({ input, left: (index % 3) * 480, top: Math.floor(index / 3) * 270 }))).png().toFile(resolve(capture, 'montage.png'));
+  console.log(JSON.stringify({ slides: slides.length, wordCounts, fonts, output, capture, errors, failures }, null, 2));
 } finally {
   await browser.close();
 }

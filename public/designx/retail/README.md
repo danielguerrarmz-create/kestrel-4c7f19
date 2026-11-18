@@ -1,24 +1,33 @@
 # Bower for CRE retail
 
-A separate fourteen-slide discussion edition, dated 18 November 2026. The canonical URL is `/cre-retail`; the PDF is at `/cre-retail/pdf`. The `/designx/retail/` paths remain aliases. It does not change the current DesignX deck.
+A separate ten-slide discussion edition at `/cre-retail`, with a matching PDF at `/cre-retail/pdf`. The `/designx/retail/` paths remain aliases. Other DesignX editions are unchanged.
 
-The audience is retail asset management, with a Hammerson-specific context slide. The sequence covers the proposed pavilion, retail uses, research evidence, Hammerson's public-realm priorities, site requirements, growth and care, public use, founders, proposed commercial model, evaluation and next steps. The last slide contains linked primary sources. Per-slide Sources also provides evidence qualifications and image provenance.
+## Condensed revision — 18 November 2026
 
-Typography uses the authentic supplied Argesta Display regular/italic and Safiro regular/medium files through `../4/fonts.css`. The botanical Bower logo is the existing original artwork. All architectural images are existing concepts or digital studies. There are no new generated images or claims of completed installations.
+The visible deck contains 173 words across ten slides, including source captions and evidence qualifications. Each slide carries 7–28 words. Detailed methods, project requirements and commercial qualifications remain in the Sources drawer rather than the main composition.
 
-## Evidence decisions
+The sequence is: proposition, pavilion, retail uses, one public-realm finding, Hammerson context, site requirements, commercial model, evaluation, team and next step. The previous extra statistics, long tables, biographies and source appendix have been removed from the main sequence.
 
-- TfL/UCL's +93% walking and +216% leisure-based stationary activity are comparative whole-street findings, not Bower forecasts. The latter is not a dwell-duration increase.
-- The reported 7.5% rental metric is additional retail rental growth **per annum**, not a one-off rent premium.
-- Wolf's 9–12% figure is stated willingness to pay. The 403-consumer shopping-centre study measures responses and visit intentions.
-- Quakers Friars and Cabot Gate are published project contexts, not selected sites, budget commitments or Bower consents.
-- The £65,000 commission, credit against the build price and separately scoped care retain the existing proposed offer. Installed price and tax treatment are not invented.
-- Bower's first completed reference remains to be delivered. Growth images are scenarios; no guaranteed establishment date, cooling result or commercial uplift is asserted.
+Typography retains the supplied Argesta Display regular/italic and Safiro regular/medium files through `../4/fonts.css`. The botanical Bower logo is unchanged.
 
-## Maintain and export
+## Images
 
-Edit `slides.js` and `retail.css`. The shared viewer provides keyboard navigation, index, source notes, fullscreen, touch navigation and print layout. `viewer.js` only corrects this edition's offline logo/PDF paths.
+Two new built-in ImageGen concepts show one pavilion in a recognisable outdoor shopping-centre square. They use the existing six-bay model as a reference; they are illustrative interpretations, not exact-model renders, a real site, a commissioned project or a completed installation. Both are visibly labelled. They replace the garden, manor and future-street settings.
 
-Run `node scripts/designx/retail.mjs` from the repository root. It serves local public files through Playwright for sandboxed checks, checks navigation, responsive fitting, loaded fonts, asset resolution and slide bounds, captures every slide, and exports the matching PDF to `output/pdf/` and this edition's `downloads/` directory. Review the captures under `qa-out/designx/retail/`, then render the exported PDF with Poppler for final visual review. Route tests live in `src/documentRoutes.test.ts`.
+- `assets/retail-square.png`: wider retail square.
+- `assets/retail-seating.png`: closer view of seating and shopfronts.
+- `assets/provenance.json`: complete prompts, reference paths, mode and evidence limits.
 
-Earlier deck files are reused as read-only assets; this edition does not load v8's slide transformations or animations. No analytics, mailing, publishing or deployment is triggered by the export.
+The product slide shows the middle approach view of the original transparent model triptych via a CSS crop. The site slide retains the existing isolated planted-model study. No source geometry is edited.
+
+## Evidence
+
+The visible research finding is TfL/UCL's +216% leisure-based stationary activity in improved London streets compared with comparator streets. It is an activity count, not dwell duration or a forecast for Bower. The source link and whole-street qualification remain visible. Hammerson's project links and no-commission qualification remain visible. The first completed Bower is still pending.
+
+The proposed £65,000 commission, credit if proceeding, indicative installed budget agreed first, scoped fixed build price and separately priced annual care retain the existing commercial model. Full terms remain in Sources.
+
+## Check and export
+
+Edit `slides.js` and `retail.css`. Run `node scripts/designx/retail.mjs`. It checks ten slides, a 45-word ceiling, navigation, source drawer, three viewport sizes, brand-font loading, asset resolution and rendered text bounds. It captures every slide and writes the matching PDF to `output/pdf/` and `downloads/`. Review `qa-out/designx/retail/` and render the PDF with Poppler before publishing.
+
+The shared viewer supplies keyboard and touch navigation, the index, source notes, fullscreen and print layout. Route tests live in `src/documentRoutes.test.ts` and `src/routing.test.ts`.
