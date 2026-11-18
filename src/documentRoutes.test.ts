@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './documentRoutes';
+import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, DESIGNX_RETAIL_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './documentRoutes';
 
 describe('the standalone presentation document', () => {
   it('publishes the selected deck in the physical root index before filesystem routing', () => {
@@ -33,6 +33,44 @@ describe('the standalone presentation document', () => {
     expect(designxDocumentUrl('/designx/2?print=1&from=compare')).toBe('/designx/2/index.html?print=1&from=compare');
     expect(designxDocumentUrl('/designx/2/?print=1')).toBe('/designx/2/index.html?print=1');
     expect(isDesignxDocumentPath('/designx/2')).toBe(true);
+  });
+
+  it('serves the CRE retail edition independently, including print and PDF aliases', () => {
+    expect(designxDocumentUrl('/cre-retail')).toBe('/designx/retail/index.html');
+    expect(designxDocumentUrl('/cre-retail/')).toBe('/designx/retail/index.html');
+    expect(designxDocumentUrl('/cre-retail?print=1&from=pdf')).toBe('/designx/retail/index.html?print=1&from=pdf');
+    expect(designxDocumentUrl('/cre-retail/?print=1')).toBe('/designx/retail/index.html?print=1');
+    expect(isDesignxDocumentPath('/cre-retail')).toBe(true);
+    expect(isDesignxDocumentPath('/cre-retail/pdf')).toBe(true);
+    expect(isDesignxDocumentPath('/cre-retailer')).toBe(false);
+    expect(designxDocumentUrl('/designx/retail')).toBe('/designx/retail/index.html');
+    expect(designxDocumentUrl('/designx/retail/')).toBe('/designx/retail/index.html');
+    expect(designxDocumentUrl('/designx/retail?print=1&from=pdf')).toBe('/designx/retail/index.html?print=1&from=pdf');
+    expect(designxDocumentUrl('/designx/retail/?print=1')).toBe('/designx/retail/index.html?print=1');
+    expect(isDesignxDocumentPath('/designx/retail')).toBe(true);
+    for (const alias of ['/cre-retail/pdf', '/cre-retail/pdf/', '/designx/retail/pdf', '/designx/retail/pdf/']) {
+      expect(designxPdfUrl(alias)).toBe(DESIGNX_RETAIL_PDF_ASSET);
+      expect(designxPdfUrl(`${alias}?from=deck`)).toBe(`${DESIGNX_RETAIL_PDF_ASSET}?from=deck`);
+      expect(designxDocumentUrl(alias)).toBeNull();
+    }
+    for (const path of ['/cre-retailer', '/cre-retail/pdf/notes', '/designx/retail/deck.js', '/designx/retail/index.html', '/designx/retailer', '/designx/retail/pdf/notes', DESIGNX_RETAIL_PDF_ASSET]) {
+      expect(designxDocumentUrl(path), path).toBeNull();
+      expect(designxPdfUrl(path), path).toBeNull();
+    }
+  });
+
+  it('keeps the CRE retail production rewrites and PDF headers aligned with local routing', () => {
+    const config = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+    for (const path of ['/cre-retail', '/cre-retail/', '/designx/retail', '/designx/retail/']) {
+      expect(config.rewrites).toContainEqual({ source: path, destination: designxDocumentUrl(path) });
+    }
+    for (const path of ['/cre-retail/pdf', '/cre-retail/pdf/', '/designx/retail/pdf', '/designx/retail/pdf/']) {
+      expect(config.rewrites).toContainEqual({ source: path, destination: designxPdfUrl(path) });
+      expect(config.headers).toContainEqual({ source: path, headers: [
+        { key: 'Content-Type', value: 'application/pdf' },
+        { key: 'Content-Disposition', value: 'inline; filename="Bower_CRE_Retail.pdf"' },
+      ] });
+    }
   });
 
   it('serves the third edition independently and preserves its query parameters', () => {

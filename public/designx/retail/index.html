@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0B1D18">
+  <meta name="description" content="Bower: a proposed planted architectural centrepiece for retail destinations. Evidence, site requirements and a first commission.">
+  <title>Bower · Retail destinations</title>
+  <link rel="canonical" href="https://www.bowerbuild.org/cre-retail">
+  <script>
+    const base = document.createElement('base');
+    base.href = location.protocol === 'file:' ? new URL('../', location.href).href : '/designx/';
+    document.head.append(base);
+    for (const file of ['safiro-regular-webfont.woff2', 'argestadisplay-regular-webfont.woff2']) {
+      const font = document.createElement('link');
+      font.rel = 'preload'; font.as = 'font'; font.type = 'font/woff2';
+      font.crossOrigin = 'anonymous'; font.href = `4/assets/fonts/${file}`;
+      document.head.append(font);
+    }
+    for (const file of ['deck.css', '4/fonts.css', 'retail/retail.css']) {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = file;
+      document.head.append(css);
+    }
+  </script>
+</head>
+<body class="retail-deck" data-presentation-audience="public">
+  <a class="skip-link" href="#deck">Skip to presentation</a>
+  <header class="viewer-header" aria-label="Presentation information">
+    <a href="https://www.bowerbuild.org" class="viewer-brand" target="_blank" rel="noopener"><img src="/designx/3/assets/bower-logo.png" alt="Bower"></a>
+    <span class="viewer-edition">Retail destinations · November 2026</span>
+  </header>
+  <main id="deck" class="deck-stage" aria-label="Bower for retail destinations" tabindex="-1"></main>
+  <nav class="viewer-controls" aria-label="Presentation controls">
+    <div class="controls-left"><button id="open-index" aria-label="Open slide index" title="Slide index (G)"><span class="grid-icon" aria-hidden="true">▦</span></button><span id="current-act"></span></div>
+    <div class="controls-centre"><button id="prev-slide" aria-label="Previous slide">←</button><span id="slide-counter" aria-hidden="true"></span><button id="next-slide" aria-label="Next slide">→</button></div>
+    <div class="controls-right"><button id="show-notes" title="Notes and sources (N)">Sources</button><a id="pdf-link" href="retail/downloads/Bower_CRE_Retail.pdf" target="_blank" rel="noopener">PDF ↗</a><button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button></div>
+  </nav>
+  <div class="viewer-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  <p id="slide-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+  <dialog id="slide-index" class="index-dialog" aria-labelledby="index-title"><div class="dialog-heading"><h2 id="index-title">Retail destinations</h2><button data-close-dialog="slide-index" aria-label="Close slide index">×</button></div><div id="index-grid"></div><p class="dialog-hint">← → Navigate · G Index · N Sources · F Fullscreen · Esc Close</p></dialog>
+  <dialog id="speaker-notes" class="notes-dialog" aria-label="Slide notes and sources"><div class="dialog-heading"><h2>Notes &amp; sources</h2><button data-close-dialog="speaker-notes" aria-label="Close notes">×</button></div><div id="notes-content"></div></dialog>
+  <noscript><p class="no-script">This presentation needs JavaScript. <a href="downloads/Bower_CRE_Retail.pdf">Read the PDF</a>.</p></noscript>
+  <script>
+    for (const file of ['retail/slides.js', 'deck.js', 'retail/viewer.js']) {
+      const script = document.createElement('script'); script.src = file; script.async = false; document.body.append(script);
+    }
+  </script>
+</body>
+</html>

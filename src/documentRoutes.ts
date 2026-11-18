@@ -1,20 +1,25 @@
 /** Standalone documents have their own HTML and must bypass the marketing SPA. */
 export const DESIGNX_ROOT = '/designx';
+export const CRE_RETAIL_ROOT = '/cre-retail';
 export const DESIGNX_PDF_ASSET = '/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf';
 export const DESIGNX_V3_PDF_ASSET = '/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf';
 export const DESIGNX_V4_PDF_ASSET = '/designx/4/downloads/Bower_DesignX_Buildings_That_Grow_04.pdf';
 export const DESIGNX_V5_PDF_ASSET = '/designx/5/downloads/Bower_DesignX_Buildings_That_Grow_05.pdf';
 export const DESIGNX_V7_PDF_ASSET = '/designx/v7/downloads/Bower_DesignX_Buildings_That_Grow_07.pdf';
+export const DESIGNX_RETAIL_PDF_ASSET = '/designx/retail/downloads/Bower_CRE_Retail.pdf';
 
 export function isDesignxDocumentPath(pathname: string): boolean {
-  return pathname === DESIGNX_ROOT || pathname.startsWith(`${DESIGNX_ROOT}/`);
+  return [DESIGNX_ROOT, CRE_RETAIL_ROOT].some(root => pathname === root || pathname.startsWith(`${root}/`));
 }
 
 /** Vite's public directory needs an explicit index document at the extensionless URL. */
 export function designxDocumentUrl(requestUrl: string): string | null {
   const queryIndex = requestUrl.indexOf('?');
   const pathname = queryIndex === -1 ? requestUrl : requestUrl.slice(0, queryIndex);
-  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/1`, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`, `${DESIGNX_ROOT}/6`, `${DESIGNX_ROOT}/v7`, `${DESIGNX_ROOT}/v8`]
+  if (pathname === CRE_RETAIL_ROOT || pathname === `${CRE_RETAIL_ROOT}/`) {
+    return `${DESIGNX_ROOT}/retail/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
+  }
+  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/1`, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`, `${DESIGNX_ROOT}/6`, `${DESIGNX_ROOT}/v7`, `${DESIGNX_ROOT}/v8`, `${DESIGNX_ROOT}/retail`]
     .find(root => pathname === root || pathname === `${root}/`);
   if (!documentRoot) return null;
   return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
@@ -25,6 +30,8 @@ export function designxPdfUrl(requestUrl: string): string | null {
   const queryIndex = requestUrl.indexOf('?');
   const pathname = queryIndex === -1 ? requestUrl : requestUrl.slice(0, queryIndex);
   const aliases: Record<string, string> = {
+    [`${CRE_RETAIL_ROOT}/pdf`]: DESIGNX_RETAIL_PDF_ASSET,
+    [`${CRE_RETAIL_ROOT}/pdf/`]: DESIGNX_RETAIL_PDF_ASSET,
     [`${DESIGNX_ROOT}/pdf`]: DESIGNX_PDF_ASSET,
     [`${DESIGNX_ROOT}/pdf/`]: DESIGNX_PDF_ASSET,
     [`${DESIGNX_ROOT}/3/pdf`]: DESIGNX_V3_PDF_ASSET,
@@ -35,6 +42,8 @@ export function designxPdfUrl(requestUrl: string): string | null {
     [`${DESIGNX_ROOT}/5/pdf/`]: DESIGNX_V5_PDF_ASSET,
     [`${DESIGNX_ROOT}/v7/pdf`]: DESIGNX_V7_PDF_ASSET,
     [`${DESIGNX_ROOT}/v7/pdf/`]: DESIGNX_V7_PDF_ASSET,
+    [`${DESIGNX_ROOT}/retail/pdf`]: DESIGNX_RETAIL_PDF_ASSET,
+    [`${DESIGNX_ROOT}/retail/pdf/`]: DESIGNX_RETAIL_PDF_ASSET,
   };
   const asset = aliases[pathname];
   if (!asset) return null;

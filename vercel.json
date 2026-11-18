@@ -2,6 +2,38 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/cre-retail/pdf",
+      "destination": "/designx/retail/downloads/Bower_CRE_Retail.pdf"
+    },
+    {
+      "source": "/cre-retail/pdf/",
+      "destination": "/designx/retail/downloads/Bower_CRE_Retail.pdf"
+    },
+    {
+      "source": "/cre-retail",
+      "destination": "/designx/retail/index.html"
+    },
+    {
+      "source": "/cre-retail/",
+      "destination": "/designx/retail/index.html"
+    },
+    {
+      "source": "/designx/retail/pdf",
+      "destination": "/designx/retail/downloads/Bower_CRE_Retail.pdf"
+    },
+    {
+      "source": "/designx/retail/pdf/",
+      "destination": "/designx/retail/downloads/Bower_CRE_Retail.pdf"
+    },
+    {
+      "source": "/designx/retail",
+      "destination": "/designx/retail/index.html"
+    },
+    {
+      "source": "/designx/retail/",
+      "destination": "/designx/retail/index.html"
+    },
+    {
       "source": "/designx/v8",
       "destination": "/designx/v8/index.html"
     },
@@ -114,11 +146,47 @@
       "destination": "/designx/index.html"
     },
     {
-      "source": "/((?!designx(?:/|$)|api/|_vercel/|assets/|agent/|hero/|fonts/|bimi/|favicon\\.svg|robots\\.txt|llms\\.txt|sitemap\\.xml).*)",
+      "source": "/((?!designx(?:/|$)|cre-retail(?:/|$)|api/|_vercel/|assets/|agent/|hero/|fonts/|bimi/|favicon\\.svg|robots\\.txt|llms\\.txt|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/cre-retail/pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+      ]
+    },
+    {
+      "source": "/cre-retail/pdf/",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+      ]
+    },
+    {
+      "source": "/cre-retail",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/cre-retail/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/designx/retail/pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+      ]
+    },
+    {
+      "source": "/designx/retail/pdf/",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+      ]
+    },
     {
       "source": "/designx/v7/pdf",
       "headers": [

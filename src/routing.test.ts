@@ -130,6 +130,13 @@ describe('the click delegate decides which links the router takes over', () => {
     // Do not accidentally reserve every path that merely begins with the same word.
     expect(claimsLink({ href: '/designx-other' }, here)).toBe(true);
   });
+
+  it('leaves the canonical CRE retail deck and its PDF to the browser', () => {
+    for (const href of ['/cre-retail', '/cre-retail/', '/cre-retail?print=1#slide-04', '/cre-retail/pdf', '/cre-retail/pdf/?from=deck', '/designx/retail']) {
+      expect(claimsLink({ href }, here), href).toBe(false);
+    }
+    expect(claimsLink({ href: '/cre-retailer' }, here)).toBe(true);
+  });
 });
 
 /**
@@ -300,6 +307,24 @@ describe('the Vercel SPA rewrite', () => {
     expect(re.test('/designx-other')).toBe(true);
     expect(cfg.headers.find((h: { source: string }) => h.source === '/designx')?.headers)
       .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
+  });
+
+  it('serves the canonical CRE retail routes outside the SPA with noindex headers', () => {
+    for (const path of ['/cre-retail', '/cre-retail/']) {
+      expect(re.test(path)).toBe(false);
+      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
+        .toBe('/designx/retail/index.html');
+    }
+    for (const path of ['/cre-retail/pdf', '/cre-retail/pdf/']) {
+      expect(re.test(path)).toBe(false);
+      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
+        .toBe('/designx/retail/downloads/Bower_CRE_Retail.pdf');
+    }
+    for (const source of ['/cre-retail', '/cre-retail/(.*)']) {
+      expect(cfg.headers.find((h: { source: string }) => h.source === source)?.headers)
+        .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
+    }
+    expect(re.test('/cre-retailer')).toBe(true);
   });
 
   it('preserves the original edition at its archive route and keeps v8 as an alias', () => {
