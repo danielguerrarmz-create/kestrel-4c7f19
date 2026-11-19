@@ -1,0 +1,131 @@
+.v10-dreaming-slide {
+  background: #edf1e7;
+  color: #142e25;
+}
+
+.dreaming-scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 50px 72px 80px;
+}
+
+.dreaming-scene .dreaming-title {
+  margin: 0;
+  font: 400 82px/1.05 var(--display);
+  letter-spacing: -.037em;
+}
+
+.dreaming-exhibit {
+  display: grid;
+  grid-template-columns: 13.5% minmax(0, 1fr);
+  gap: 32px;
+  min-height: 0;
+  margin-top: 22px;
+}
+
+.dreaming-lenses {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px 0 0;
+}
+
+.designx-v10 .dreaming-lenses button {
+  min-height: 57px;
+  padding: 0 7px 0 0;
+  border: 0;
+  background: transparent;
+  color: #4c6658;
+  font: 400 21px/1.22 var(--sans);
+  text-align: left;
+}
+
+.designx-v10 .dreaming-lenses button[aria-pressed="true"] {
+  background: transparent;
+  color: #142e25;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: .28em;
+}
+
+.dreaming-figure {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+}
+
+.dreaming-drawing { position: relative; }
+.dreaming-diagram {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dreaming-diagram .node { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.dreaming-diagram .node rect {
+  fill: var(--card, #f3f5ed);
+  stroke: var(--edge, #9cafa1);
+  stroke-width: 1.2;
+}
+.dreaming-diagram .node text {
+  fill: #142e25;
+  font: 500 19px var(--sans);
+  text-anchor: middle;
+}
+.dreaming-diagram .node .detail { fill: #4c6557; font: 400 12.5px var(--sans); }
+.dreaming-diagram .node[data-kind="geometry"] { --card: #18382c; --edge: #18382c; }
+.dreaming-diagram .node[data-kind="geometry"] text { fill: #f0f4e8; }
+.dreaming-diagram .node[data-kind="geometry"] .detail { fill: #d5e1cf; }
+.dreaming-diagram .node[data-kind="making"] { --card: #f2e9df; --edge: #ad8269; }
+.dreaming-diagram .node[data-kind="growing"] { --card: #e1ebd9; --edge: #829878; }
+.dreaming-diagram .node[data-kind="cost"] { --card: #eee9d8; --edge: #a69875; }
+.dreaming-diagram .node[data-kind="designer"] { --card: #e9efdf; --edge: #81937f; }
+.dreaming-diagram .node[data-kind="evidence"] { --card: #e2eae1; --edge: #8fa59a; }
+.dreaming-diagram .node:not(.is-emphasis, [data-kind="geometry"]) rect { fill: #f0f3ec; stroke: #aebdb0; }
+.dreaming-diagram .node:not(.is-emphasis, [data-kind="geometry"]) text { fill: #425c50; }
+.dreaming-diagram .node:not(.is-emphasis, [data-kind="geometry"]) .detail { fill: #617368; }
+.dreaming-diagram .node:focus { outline: none; }
+.dreaming-diagram .node:is([aria-expanded="true"], :focus-visible) rect { stroke: #3b6552; stroke-width: 2.8; }
+.dreaming-diagram .node[data-kind="geometry"]:is([aria-expanded="true"], :focus-visible) rect { stroke: #80a579; }
+@media (hover: hover) and (pointer: fine) {
+  .dreaming-diagram .node:hover:not([aria-expanded="true"], :focus-visible) rect { stroke-width: 2.3; }
+}
+
+.dreaming-diagram .link {
+  fill: none;
+  stroke: var(--wire, #728479);
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.dreaming-diagram .link[data-kind="making"] { --wire: #905638; }
+.dreaming-diagram .link[data-kind="growing"] { --wire: #526e45; }
+.dreaming-diagram .link[data-kind="cost"] { --wire: #866a32; }
+.dreaming-diagram .link[data-kind="evidence"] { --wire: #557369; stroke-dasharray: 5 5; }
+.dreaming-diagram .link.is-emphasis { stroke-width: 1.9; }
+.dreaming-diagram .link:not(.is-emphasis) { stroke: #778b7f; opacity: .51; }
+
+.dreaming-scene .readout {
+  min-height: 105px;
+  margin-top: 5px;
+  padding-top: 42px;
+  color: #314d40;
+  font: 400 19.5px/1.42 var(--sans);
+}
+.dreaming-scene .node-details h3 {
+  display: inline;
+  margin: 0 .55em 0 0;
+  color: #142e25;
+  font: 500 1em/1.42 var(--sans);
+  letter-spacing: normal;
+}
+.dreaming-scene .node-details p { display: inline; margin: 0; }
+.print-mode .dreaming-exhibit { grid-template-columns: minmax(0, 1fr); }
+@media print {
+  .dreaming-exhibit { grid-template-columns: minmax(0, 1fr); }
+}

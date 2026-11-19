@@ -34,6 +34,14 @@
       "destination": "/designx/retail/index.html"
     },
     {
+      "source": "/designx/v10",
+      "destination": "/designx/v10/index.html"
+    },
+    {
+      "source": "/designx/v10/",
+      "destination": "/designx/v10/index.html"
+    },
+    {
       "source": "/designx/v8",
       "destination": "/designx/v8/index.html"
     },

@@ -1,0 +1,114 @@
+/* Shared by the deck and the embedded living-place study. */
+.designx-v8 button:is([data-canopy-play], [data-v8-study-play], [data-sequence-play], [data-transport-play], [data-gallery-play])[aria-label],
+.place #play {
+  min-inline-size: 44px;
+  min-block-size: 40px;
+  font-size: 0;
+  text-decoration: none;
+}
+
+.designx-v8 button:is([data-canopy-play], [data-v8-study-play], [data-sequence-play], [data-transport-play], [data-gallery-play])[aria-label]::before,
+.place #play::before {
+  content: "";
+  display: inline-block;
+  box-sizing: border-box;
+  inline-size: 12px;
+  block-size: 14px;
+  vertical-align: middle;
+  background: currentColor;
+  clip-path: polygon(12% 0, 100% 50%, 12% 100%);
+  forced-color-adjust: none;
+}
+
+.designx-v8 button:is([data-canopy-play], [data-v8-study-play], [data-sequence-play], [data-transport-play], [data-gallery-play])[aria-label^="Pause"]::before,
+.place #play[aria-label^="Pause"]::before {
+  border-inline: 3px solid currentColor;
+  background: none;
+  clip-path: none;
+}
+
+.designx-v8 .v8-playback-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3px;
+}
+.designx-v8 .v8-playback-controls > button:is([data-transport-play], [data-transport-restart]) {
+  display: grid;
+  place-content: center;
+  min-inline-size: 44px;
+  min-block-size: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #18382c;
+}
+.designx-v8 .v8-playback-controls > button:disabled { opacity: .42; cursor: default; }
+.v8-playback-controls > progress {
+  appearance: none;
+  inline-size: var(--playback-rail-width, 260px);
+  max-inline-size: 60%;
+  block-size: 2px;
+  margin-inline-start: 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 2px;
+  color: #355248;
+  background: #a5b5ab;
+}
+.v8-playback-controls > progress::-webkit-progress-bar { background: #a5b5ab; }
+.v8-playback-controls > progress::-webkit-progress-value { background: #355248; }
+.v8-playback-controls > progress::-moz-progress-bar { background: #355248; }
+
+/* Native sliders share a quiet rail and a small playhead. Keep the input hit area. */
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"],
+.place #scrub {
+  --v8-timeline-ink: #355248;
+  --v8-timeline-rest: #9aaba0;
+  --v8-timeline-rail: linear-gradient(to right,
+    var(--v8-timeline-ink) 0 min(var(--v8-progress, 0%), var(--v8-planting, 0%)),
+    var(--v8-growth-ink, var(--v8-timeline-ink)) 0 var(--v8-progress, 0%),
+    var(--v8-timeline-rest) 0);
+  appearance: none;
+  -webkit-appearance: none;
+  height: 22px;
+  background: transparent;
+  margin: 0;
+}
+.place #scrub {
+  --v8-timeline-ink: var(--foot-c);
+  --v8-timeline-rest: color-mix(in srgb, var(--foot-c) 65%, transparent);
+}
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"]::-webkit-slider-runnable-track,
+.place #scrub::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: var(--v8-timeline-rail);
+}
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"]::-webkit-slider-thumb,
+.place #scrub::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 7px;
+  height: 12px;
+  margin-top: -5px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--v8-timeline-ink);
+}
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"]::-moz-range-track,
+.place #scrub::-moz-range-track {
+  height: 2px;
+  border-radius: 1px;
+  background: var(--v8-timeline-rail);
+}
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"]::-moz-range-progress,
+.place #scrub::-moz-range-progress { background: transparent; }
+.designx-v8 :is(.slide, .factory-enlarged-dialog) input[type="range"]::-moz-range-thumb,
+.place #scrub::-moz-range-thumb {
+  width: 7px;
+  height: 12px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--v8-timeline-ink);
+}

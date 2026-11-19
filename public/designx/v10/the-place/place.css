@@ -1,0 +1,160 @@
+/* The deck's design language (deck/designx/v7): Safiro and Argesta, evergreen ink on floral paper, one red for
+   what can be acted on. Fonts are copied beside the page by package_place.py; system fonts stand in without them. */
+@font-face { font-family: 'Safiro'; src: url('../../pieces/the-place/fonts/safiro-regular-webfont.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Safiro'; src: url('../../pieces/the-place/fonts/safiro-medium-webfont.woff2') format('woff2'); font-weight: 500 700; }
+@font-face { font-family: 'Argesta Display'; src: url('../../pieces/the-place/fonts/argestadisplay-regular-webfont.woff2') format('woff2'); }
+@font-face { font-family: 'Argesta Display'; font-style: italic; src: url('../../pieces/the-place/fonts/argestadisplay-regularitalic-webfont.woff2') format('woff2'); }
+@font-face { font-family: 'Argesta Text'; src: url('../../pieces/the-place/fonts/argestatext-regular-webfont.woff2') format('woff2'); }
+:root {
+  --paper: #EEF3EA; --ink: #102820; --muted: #4D6559; --rule: #B1C1B580; --red: #B4492F; --leaf: #B7CD7B;
+  --sans: 'Safiro', 'Segoe UI', system-ui, sans-serif; --display: 'Argesta Display', Georgia, serif; --serif: 'Argesta Text', Georgia, serif;
+  --k: 1;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--paper); color: var(--ink); font: 16px/1.4 var(--sans); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:disabled { cursor: default; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--k)); overflow: hidden; }
+
+/* ---- the place: a 1600 x 900 slide set like the deck's v8 full-slide drawings (deck/designx/v8/drawings.css,
+   drawing-timeline.css, growth-player.css). The picture fills it; letterboxed on a dark ground in any other window. ---- */
+.place { background: #0b1a14; }
+.place #stage { --drawing-paper: #eef3ea; background: #0b1a14; }
+#world { position: absolute; inset: 0; transform-origin: 50% 50%; }
+.drift #world { animation: drift 18s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: none; } to { transform: scale(1.035) translate(-6px, -4px); } }
+.shot { position: absolute; inset: 0; overflow: hidden; opacity: 0; will-change: transform, opacity;
+  transition: opacity 600ms ease-out, transform 600ms cubic-bezier(.2, .7, .3, 1); }
+.shot img { position: absolute; display: block; }
+.shot.on { opacity: 1; transform: none; }
+.shot.enter { transform: scale(1.08); }
+.shot.enter.back { transform: scale(2.4); }
+.shot.leave { opacity: 1; transform: scale(2.4); transition: transform 600ms cubic-bezier(.55, 0, 1, .45); }   /* into the bubble */
+.shot.shrink { opacity: 1; transform: scale(.82); transition: transform 600ms cubic-bezier(.55, 0, 1, .45); }
+.calm .shot, .calm .shot.enter, .calm .shot.leave, .calm .shot.shrink { transform: none; transition: opacity 480ms ease; }
+.still .shot { transition: none; }
+
+#life, #marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+#life { pointer-events: none; }
+.bird { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: 0; }
+
+/* bubbles: a 9 px red dot in a thin 20 px ring with a soft 1 px dark halo; the name only when wanted */
+.hot { cursor: pointer; outline: none; }
+.gone { visibility: hidden; }
+.hot .hit { fill: transparent; }   /* 44 px to hit, though the dot is small */
+.hot .ring { fill: none; stroke: rgba(255, 255, 255, .85); stroke-width: 1.25; }
+.hot .core { fill: var(--red); }
+.lab .core { fill: none; stroke: #fff; stroke-width: 1.5; }   /* a part named: hollow, opens nothing */
+.ring, .core { filter: drop-shadow(0 0 1px rgba(0, 0, 0, .6)); }
+.hot .pulse { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1; transform-box: fill-box; transform-origin: center; animation: breathe 3.2s ease-out infinite; }
+@keyframes breathe { from { transform: scale(1); opacity: .8; } to { transform: scale(1.5); opacity: 0; } }
+#marks text { font: 500 12px var(--sans); letter-spacing: .08em; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .7)); opacity: 0; transition: opacity 250ms ease; pointer-events: none; }
+#marks.names text, #marks .near text, #marks .hot:focus text { opacity: 1; }
+.hot:focus-visible .ring { stroke: #fff; stroke-width: 2; }
+.in { transform-box: fill-box; transform-origin: center; animation: arrive 360ms ease-out backwards; }   /* in turn */
+@keyframes arrive { from { opacity: 0; transform: scale(.5); } }
+.calm .in, .calm .pulse { animation: none !important; }
+.calm .pulse { display: none; }
+.calm #marks text { transition: none; }
+
+/* The picture is whole to its edges: no fade of paper over its top or foot. The words stand on it in white, with only
+   a soft dark shadow to hold them where the picture is pale. */
+.veil { display: none; }
+/* White or ink, by what package_place.py measured on each view's frames under the title and under the time line
+   (manifest: views.<view>.words); place.js sets title-ink, foot-ink and, where neither colour reads on four fifths of
+   the zone, title-firm, foot-firm: a firmer halo. */
+.place {
+  --white-halo: 0 1px 2px rgba(0, 0, 0, .5), 0 0 12px rgba(0, 0, 0, .3); --white-firm: 0 1px 3px rgba(0, 0, 0, .8), 0 0 16px rgba(0, 0, 0, .6);
+  --ink-halo: 0 0 2px rgba(238, 243, 234, .6), 0 0 12px rgba(238, 243, 234, .4); --ink-firm: 0 0 3px rgba(238, 243, 234, .95), 0 0 14px rgba(238, 243, 234, .85);
+  --title-c: #fff; --title-h: var(--white-halo); --foot-c: #fff; --foot-h: var(--white-halo); --foot-s: rgba(0, 0, 0, .55);
+}
+.place.title-firm { --title-h: var(--white-firm); }
+.place.title-ink { --title-c: var(--ink); --title-h: var(--ink-halo); }
+.place.title-ink.title-firm { --title-h: var(--ink-firm); }
+.place.foot-firm { --foot-h: var(--white-firm); --foot-s: rgba(0, 0, 0, .8); }
+.place.foot-ink { --foot-c: var(--ink); --foot-h: var(--ink-halo); --foot-s: rgba(238, 243, 234, .6); }
+.place.foot-ink.foot-firm { --foot-h: var(--ink-firm); --foot-s: rgba(238, 243, 234, .95); }
+.place h1 { position: absolute; left: 52px; top: 34px; margin: 0; max-width: 1300px; font: italic 400 84px/1.08 var(--display);
+  letter-spacing: -.045em; color: var(--title-c); text-shadow: var(--title-h); pointer-events: none; }
+/* under the title of the whole place, where the way back stands in the other views */
+#hint { position: absolute; left: 56px; top: 134px; margin: 0; font: 400 22px/1.3 var(--sans); color: var(--title-c); text-shadow: var(--title-h); pointer-events: none; }
+#back { position: absolute; left: 56px; top: 136px; font: 400 18px/1.3 var(--sans); color: var(--title-c); text-decoration: underline; text-underline-offset: 4px; text-shadow: var(--title-h); }
+/* "What is real" is not shown: on the slide it read as an oddity. Where each part comes from stays in the manifest
+   (real, figures) and in the study's README. */
+.inspect { display: none; }
+#realbtn { font: 400 14px/1.3 var(--sans); color: var(--title-c); padding: 6px 0; white-space: nowrap; text-decoration: underline; text-underline-offset: .25em; }
+#real { position: absolute; right: 0; top: 38px; width: 520px; background: #eef3eafa; border: 1px solid #b1c1b5; padding: 24px 28px; box-shadow: 0 8px 25px #10282015; color: #284639; font: 400 15px/1.45 var(--sans); }
+#real ul { margin: 0; padding: 0; list-style: none; }
+#real li { margin: 0 0 8px; }
+.from { margin: 12px 0 0; font-size: 12px; color: #536d59; }
+
+/* the time line as v8's bottom playback controls (drawing-timeline.css .v8-drawing-timeline and its slider) */
+#dial { position: absolute; left: 52px; right: 52px; bottom: 42px; display: grid; max-width: 1180px; grid-template-columns: 44px 190px minmax(0, 1fr); gap: 12px; align-items: center;
+  padding: 16px 0 7px; color: var(--foot-c); text-shadow: var(--foot-h); }
+#play { padding: 6px 0; color: var(--foot-c); font: 400 18px/1.3 var(--sans); text-align: left; }
+.when { display: flex; flex-direction: column; gap: 6px; }
+#date { font: 400 19px/1.15 var(--sans); white-space: nowrap; }
+#rendering { font: 400 13px/1.3 var(--sans); white-space: nowrap; }
+#rendering:empty { display: none; }
+.track { position: relative; min-width: 0; padding-bottom: 28px; }
+#scrub { display: block; width: 100%; appearance: none; -webkit-appearance: none; height: 22px; background: transparent; cursor: ew-resize; margin: 0; }
+#scrub { filter: drop-shadow(0 0 2px var(--foot-s)); }
+#scrub::-webkit-slider-runnable-track { height: 2px; background: var(--foot-c); }
+#scrub::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 9px; height: 18px; margin-top: -8px; border: 0; border-radius: 0; background: var(--foot-c); }
+#scrub::-moz-range-track, #scrub::-moz-range-progress { height: 2px; background: var(--foot-c); }
+#scrub::-moz-range-thumb { width: 9px; height: 18px; border: 0; border-radius: 0; background: var(--foot-c); }
+#scrub:focus-visible { outline: 1px solid var(--foot-c); outline-offset: 5px; }
+#scrub:disabled { cursor: default; }
+#ticks { list-style: none; margin: 0; padding: 0; position: absolute; left: 3.5px; right: 3.5px; top: 28px; height: 18px; }
+#ticks li { position: absolute; top: 0; transform: translateX(-50%); }
+#ticks li:first-child { transform: none; }
+#ticks li:last-child:not(:first-child) { transform: translateX(-100%); }
+#ticks button { position: relative; font: 400 13px/1.3 var(--sans); color: var(--foot-c); white-space: nowrap; }
+#ticks button::before { content: ''; position: absolute; left: 50%; top: -12px; width: 1px; height: 6px; background: var(--foot-c); box-shadow: 0 0 2px var(--foot-s); }
+#ticks li:first-child button::before { left: 0; }
+#ticks li:last-child:not(:first-child) button::before { left: auto; right: 0; }
+#ticks button[aria-current="true"] { text-decoration: underline; text-underline-offset: 3px; }
+#ticks li.missing button { opacity: .5; }
+#ticks li.quiet button { color: transparent; text-shadow: none; }   /* no room for its label beside a nearer one: the mark stays */
+.place button:focus-visible { outline: 2px solid var(--foot-c); outline-offset: 5px; }
+#real, #real button { text-shadow: none; }   /* the opened panel is paper: its own dark words, no shadow */
+
+/* ?embed: the same slide, filling its iframe; title and controls are already set as v8 sets them */
+
+/* ---- the pier study, as a design tool ---- */
+.pier header { position: absolute; left: 48px; right: 48px; top: 24px; height: 80px; }
+.kicker { margin: 0; font-size: 14px; color: var(--muted); }
+.pier h1 { margin: 2px 0 0; font: 400 44px/1 var(--display); letter-spacing: -.03em; }
+.pre { position: absolute; right: 0; top: 0; margin: 0; font-size: 12px; color: var(--muted); border: 1px solid var(--rule); padding: 3px 8px; }
+.pier h2 { margin: 0 0 14px; font: 500 13px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+#design { position: absolute; left: 48px; top: 124px; width: 270px; height: 740px; padding-right: 22px; border-right: 1px solid var(--rule); }
+.param { margin: 0 0 12px; font: 400 21px/1.2 var(--serif); }
+#stops2 { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule); }
+#stops2 button { padding: 10px 12px; text-align: left; display: grid; gap: 2px; }
+#stops2 button span { font-size: 13px; color: var(--muted); }
+#stops2 button b { font: 500 26px var(--sans); }
+#stops2 button small { font-size: 11px; color: var(--muted); }
+#stops2 button[aria-checked="true"] { background: var(--ink); color: var(--paper); }
+#stops2 button[aria-checked="true"] span, #stops2 button[aria-checked="true"] small { color: var(--leaf); }
+.note { font-size: 12px; line-height: 1.4; color: var(--muted); margin: 14px 0 0; }
+#centre { position: absolute; left: 342px; top: 124px; width: 838px; height: 740px; }
+#shots { display: flex; gap: 10px; height: 600px; align-items: center; justify-content: center; }
+#shots img { height: 100%; max-width: 100%; object-fit: contain; min-width: 0; flex: 0 1 auto; }
+.placeholder { width: 100%; height: 100%; display: grid; place-items: center; border: 1px dashed var(--red); color: var(--red); }
+#status { position: relative; margin-top: 16px; padding-bottom: 8px; font: 500 15px var(--sans); }
+#status i { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--red); transition: width 800ms linear; }
+.rested #status i { background: var(--rule); }
+#after { position: absolute; left: 1204px; top: 124px; width: 348px; height: 740px; padding-left: 22px; border-left: 1px solid var(--rule); }
+.cols, #rows .fig { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; }
+.cols { font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+.cols span:first-child { display: none; }
+#rows .fig { padding: 10px 0 8px; border-bottom: 1px solid var(--rule); align-items: baseline; }
+#rows .fig .name { font-size: 14px; }
+#rows .fig em { font: normal 500 16px var(--sans); color: var(--red); text-align: right; }
+#rows .fig b { font: 500 25px/1.15 var(--sans); color: var(--muted); letter-spacing: -.02em; }
+#rows .fig b.now { color: var(--ink); }
+#rows .sub { margin: 14px 0 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+#srcbtn { margin-top: 12px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--rule); }
+#sources { margin: 6px 0 0; padding-left: 14px; font-size: 10px; line-height: 1.35; color: var(--muted); max-height: 220px; overflow: auto; }
+.reading { font-size: 13px; line-height: 1.45; margin: 18px 0 0; }
+#missing { position: absolute; left: 342px; bottom: 6px; margin: 0; color: var(--red); font-size: 12px; }

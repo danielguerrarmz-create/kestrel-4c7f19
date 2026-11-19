@@ -2,6 +2,7 @@ import { readdir, readFile, realpath, unlink, writeFile } from 'node:fs/promises
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { runInNewContext } from 'node:vm';
+import { prepareV10Factory } from './prepare-v10-factory.mjs';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const STORY_FIELDS = ['number', 'baseSlide', 'title', 'theme', 'growthMode', 'timeExperiment'];
@@ -61,5 +62,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   // Resolve the actual target before unlinking anything; a symlinked dist is not a build output.
   if (await realpath(output) !== output) throw new Error('DesignX build output must remain inside this repository.');
   const removed = await preparePublicDeck(output);
+  await prepareV10Factory(output);
   console.log(`DesignX publication: excluded ${removed.length} internal files and published the scene manifest without editorial briefs.`);
 }

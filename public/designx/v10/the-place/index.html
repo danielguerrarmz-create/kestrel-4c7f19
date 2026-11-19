@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The living place</title>
+<base href="../../pieces/the-place/">
+<!--
+  A drawing to explore: the whole place first, then into it. Pictures and places were made beforehand
+  (manifest.js, by package_place.py); this page only chooses what to show, and opens from its folder.
+  A 1600 x 900 slide like the deck's (v8) full-slide drawings: the picture fills it and the title, the time line
+  and one small link float over it. ?embed ?station= ?moment= (a moment id or day:<n>) ?life=1 ?still.
+-->
+<link rel="stylesheet" href="../../v10/the-place/place.css">
+<link rel="stylesheet" href="../../v10/playback.css">
+</head>
+<body class="place">
+<div id="stage">
+  <div id="world" aria-live="polite">
+    <svg id="life" aria-hidden="true"></svg>
+    <svg id="marks"></svg>
+  </div>
+  <div class="veil top"></div><div class="veil foot"></div>
+  <h1 id="title"></h1>
+  <p id="hint">Click to explore</p>
+  <button id="back" type="button">The living place</button>
+  <div class="inspect">
+    <button id="realbtn" type="button" aria-expanded="false">What is real</button>
+    <div id="real" hidden><ul id="reallines"></ul><p class="from" id="realfrom"></p></div>
+  </div>
+  <nav id="dial" aria-label="When">
+    <button id="play" type="button" aria-label="Play growth study"></button>
+    <div class="when"><strong id="date"></strong><span id="rendering"></span></div>
+    <div class="track">
+      <input id="scrub" type="range" min="0" max="1" step="1" value="0" aria-label="Day">
+      <ol id="ticks"></ol>
+    </div>
+  </nav>
+</div>
+<script src="manifest.js"></script>
+<script src="../../v10/the-place/place.js"></script>
+</body>
+</html>
