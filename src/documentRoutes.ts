@@ -19,7 +19,7 @@ export function designxDocumentUrl(requestUrl: string): string | null {
   if (pathname === CRE_RETAIL_ROOT || pathname === `${CRE_RETAIL_ROOT}/`) {
     return `${DESIGNX_ROOT}/retail/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
   }
-  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/1`, `${DESIGNX_ROOT}/2`, `${DESIGNX_ROOT}/3`, `${DESIGNX_ROOT}/4`, `${DESIGNX_ROOT}/5`, `${DESIGNX_ROOT}/6`, `${DESIGNX_ROOT}/v7`, `${DESIGNX_ROOT}/v8`, `${DESIGNX_ROOT}/retail`]
+  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/v10`, `${DESIGNX_ROOT}/retail`]
     .find(root => pathname === root || pathname === `${root}/`);
   if (!documentRoot) return null;
   return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
@@ -34,18 +34,16 @@ export function designxPdfUrl(requestUrl: string): string | null {
     [`${CRE_RETAIL_ROOT}/pdf/`]: DESIGNX_RETAIL_PDF_ASSET,
     [`${DESIGNX_ROOT}/pdf`]: DESIGNX_PDF_ASSET,
     [`${DESIGNX_ROOT}/pdf/`]: DESIGNX_PDF_ASSET,
-    [`${DESIGNX_ROOT}/3/pdf`]: DESIGNX_V3_PDF_ASSET,
-    [`${DESIGNX_ROOT}/3/pdf/`]: DESIGNX_V3_PDF_ASSET,
-    [`${DESIGNX_ROOT}/4/pdf`]: DESIGNX_V4_PDF_ASSET,
-    [`${DESIGNX_ROOT}/4/pdf/`]: DESIGNX_V4_PDF_ASSET,
-    [`${DESIGNX_ROOT}/5/pdf`]: DESIGNX_V5_PDF_ASSET,
-    [`${DESIGNX_ROOT}/5/pdf/`]: DESIGNX_V5_PDF_ASSET,
-    [`${DESIGNX_ROOT}/v7/pdf`]: DESIGNX_V7_PDF_ASSET,
-    [`${DESIGNX_ROOT}/v7/pdf/`]: DESIGNX_V7_PDF_ASSET,
     [`${DESIGNX_ROOT}/retail/pdf`]: DESIGNX_RETAIL_PDF_ASSET,
     [`${DESIGNX_ROOT}/retail/pdf/`]: DESIGNX_RETAIL_PDF_ASSET,
   };
   const asset = aliases[pathname];
   if (!asset) return null;
   return `${asset}${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
+}
+
+/** Archived entry pages retire independently of the shared artwork they used. */
+export function isArchivedDesignxDocument(requestUrl: string): boolean {
+  const pathname = requestUrl.split('?')[0];
+  return /^\/designx\/(?:[1-6]|v7|v8)(?:\/?|\/(?:index|story-map)\.html|\/pdf\/?)$/.test(pathname);
 }

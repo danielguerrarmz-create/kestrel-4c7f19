@@ -1,0 +1,70 @@
+.designx-v10 .mission-cover .cover-proposition { max-width: 900px; }
+.designx-v10 .mission-scene.is-active { animation: none; }
+
+.mission-visit { position: absolute; inset: 0; overflow: hidden; background: #102820; }
+.mission-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.mission-caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 148px 80px 68px;
+  color: #faf8f0;
+  background: linear-gradient(to top, #081a15f2, #081a15a6 48%, transparent);
+}
+.mission-caption h2, .mission-moment h2 {
+  color: inherit;
+  font: 400 96px/1 'Argesta Display', Georgia, serif;
+  letter-spacing: -.045em;
+}
+.mission-caption p, .mission-moment p { margin-top: 16px; font: 400 29px/1.3 var(--sans); letter-spacing: -.015em; }
+.designx-v10 .mission-scene > .folio { color: #faf8f0; }
+
+/* In print, the five visits read left to right across two rows. */
+.mission-room {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-content: center;
+  gap: 36px 28px;
+  padding: 54px 70px;
+  color: #faf8f0;
+}
+.mission-moment { position: relative; grid-column: span 2; min-width: 0; margin: 0; }
+.mission-moment:nth-of-type(4) { grid-column: 2 / span 2; }
+.mission-moment .mission-photo { position: static; display: block; height: auto; aspect-ratio: 16 / 9; }
+.mission-moment figcaption { padding-top: 14px; }
+.mission-moment h2 { font-size: 36px; }
+.mission-moment p { margin-top: 6px; font-size: 19px; }
+
+@media screen {
+  .designx-v10:not(.print-mode) .mission-room { display: block; padding: 0; }
+  .designx-v10:not(.print-mode) .mission-moment,
+  .designx-v10:not(.print-mode) .mission-moment .mission-photo { position: absolute; inset: 0; height: 100%; }
+  .designx-v10:not(.print-mode) .mission-moment { visibility: hidden; }
+  .designx-v10:not(.print-mode) .mission-moment.is-previous { visibility: visible; }
+  .designx-v10:not(.print-mode) .mission-moment.is-current { z-index: 1; visibility: visible; }
+  .designx-v10:not(.print-mode) .mission-moment figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 148px 80px 68px;
+    background: linear-gradient(to top, #081a15f2, #081a15a6 48%, transparent);
+  }
+  .designx-v10:not(.print-mode) .mission-moment h2 { font-size: 96px; }
+  .designx-v10:not(.print-mode) .mission-moment p { margin-top: 12px; font-size: 29px; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  .designx-v10:not(.print-mode) .mission-moment.is-dissolving {
+    animation: mission-season-in var(--mission-dissolve) cubic-bezier(.45, 0, .55, 1) both;
+  }
+  .designx-v10:not(.print-mode) .mission-moment.is-previous figcaption > * {
+    animation: mission-caption-out var(--mission-dissolve) ease-out both;
+  }
+  .designx-v10:not(.print-mode) .mission-moment.is-dissolving figcaption > * {
+    animation: mission-caption-in var(--mission-dissolve) ease-in-out both;
+  }
+  .designx-v10:not(.print-mode) .mission-scene.is-active .mission-street {
+    animation: mission-pullback 1400ms cubic-bezier(.23, 1, .32, 1) both;
+  }
+}
+@keyframes mission-season-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mission-caption-out { from { opacity: 1; } 40%, to { opacity: 0; } }
+@keyframes mission-caption-in { from, 40% { opacity: 0; } to { opacity: 1; } }
+@keyframes mission-pullback { from { transform: scale(1.09); } to { transform: scale(1); } }

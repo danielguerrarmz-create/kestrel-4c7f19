@@ -67,3 +67,4 @@ qa/shots/
 
 # Local exports and private agent handoff bundles. The deck's public PDF lives in public/designx/downloads/.
 /output/
+.vercel/

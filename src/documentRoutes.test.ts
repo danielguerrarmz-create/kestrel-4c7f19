@@ -1,12 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, DESIGNX_RETAIL_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './documentRoutes';
+import { DESIGNX_PDF_ASSET, DESIGNX_V3_PDF_ASSET, DESIGNX_RETAIL_PDF_ASSET, designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath, isArchivedDesignxDocument } from './documentRoutes';
 
 describe('the standalone presentation document', () => {
   it('publishes the selected deck in the physical root index before filesystem routing', () => {
     const main = readFileSync(new URL('../public/designx/index.html', import.meta.url), 'utf8');
-    const v8 = readFileSync(new URL('../public/designx/v8/index.html', import.meta.url), 'utf8');
-    const original = readFileSync(new URL('../public/designx/1/index.html', import.meta.url), 'utf8');
+    const v8 = readFileSync(new URL('../archive/designx/2026-11-19/v8/index.html', import.meta.url), 'utf8');
+    const original = readFileSync(new URL('../archive/designx/2026-11-19/1/index.html', import.meta.url), 'utf8');
     expect(main).toContain("'v8/canopy-orbit.js'");
     expect(main.replace("new URL('./', location.href)", "new URL('../', location.href)")).toBe(v8);
     expect(original).toContain('<title>Buildings That Grow — Bower × MIT–LUMA</title>');
@@ -20,19 +20,20 @@ describe('the standalone presentation document', () => {
     expect(designxDocumentUrl('/designx/?print=1')).toBe('/designx/index.html?print=1');
   });
 
-  it('retains the original edition and the v8 alias independently', () => {
-    expect(designxDocumentUrl('/designx/1')).toBe('/designx/1/index.html');
-    expect(designxDocumentUrl('/designx/1/?print=1')).toBe('/designx/1/index.html?print=1');
-    expect(designxDocumentUrl('/designx/v8')).toBe('/designx/v8/index.html');
-    expect(designxDocumentUrl('/designx/v8/?print=1')).toBe('/designx/v8/index.html?print=1');
-  });
-
-  it('serves the second edition independently and preserves its query parameters', () => {
-    expect(designxDocumentUrl('/designx/2')).toBe('/designx/2/index.html');
-    expect(designxDocumentUrl('/designx/2/')).toBe('/designx/2/index.html');
-    expect(designxDocumentUrl('/designx/2?print=1&from=compare')).toBe('/designx/2/index.html?print=1&from=compare');
-    expect(designxDocumentUrl('/designx/2/?print=1')).toBe('/designx/2/index.html?print=1');
-    expect(isDesignxDocumentPath('/designx/2')).toBe(true);
+  it('serves Version 10 and retires older entry routes while preserving shared resources', () => {
+    expect(designxDocumentUrl('/designx/v10')).toBe('/designx/v10/index.html');
+    expect(designxDocumentUrl('/designx/v10/?print=1')).toBe('/designx/v10/index.html?print=1');
+    for (const edition of ['1', '2', '3', '4', '5', '6', 'v7', 'v8']) {
+      for (const suffix of ['', '/', '/index.html', '/pdf']) {
+        const path = '/designx/' + edition + suffix;
+        expect(isArchivedDesignxDocument(path)).toBe(true);
+        expect(designxDocumentUrl(path)).toBeNull();
+        expect(designxPdfUrl(path)).toBeNull();
+      }
+    }
+    for (const path of ['/designx', '/designx/v10/', '/cre-retail', '/designx/retail', '/designx/5/factory/07-scan.html', '/designx/4/assets/fonts/safiro-regular-webfont.woff2']) {
+      expect(isArchivedDesignxDocument(path)).toBe(false);
+    }
   });
 
   it('serves the CRE retail edition independently, including print and PDF aliases', () => {
@@ -73,14 +74,6 @@ describe('the standalone presentation document', () => {
     }
   });
 
-  it('serves the third edition independently and preserves its query parameters', () => {
-    expect(designxDocumentUrl('/designx/3')).toBe('/designx/3/index.html');
-    expect(designxDocumentUrl('/designx/3/')).toBe('/designx/3/index.html');
-    expect(designxDocumentUrl('/designx/3?print=1&from=compare')).toBe('/designx/3/index.html?print=1&from=compare');
-    expect(designxDocumentUrl('/designx/3/?print=1')).toBe('/designx/3/index.html?print=1');
-    expect(isDesignxDocumentPath('/designx/3')).toBe(true);
-  });
-
   it('never rewrites presentation media or unrelated routes to HTML', () => {
     for (const url of ['/designx/deck.js', '/designx/assets/cover.webp', '/designx/index.html', '/designx/2/editorial.css', '/designx/2/index.html', '/designx/3/editorial.css', '/designx/3/index.html', '/designx/20', '/designx/30', '/designx/2/pdf', '/designx/3/pdf', '/designx/pdf', '/designx/pdf/', '/designx-other', '/', '/gallery']) {
       expect(designxDocumentUrl(url), url).toBeNull();
@@ -96,15 +89,6 @@ describe('the standalone presentation document', () => {
     expect(designxPdfUrl('/designx/pdf?from=deck')).toBe(`${DESIGNX_PDF_ASSET}?from=deck`);
     expect(designxPdfUrl('/designx/pdf/?from=deck')).toBe(`${DESIGNX_PDF_ASSET}?from=deck`);
     expect(isDesignxDocumentPath('/designx/pdf')).toBe(true);
-  });
-
-  it('serves the third edition PDF without replacing the original submission', () => {
-    expect(designxPdfUrl('/designx/3/pdf')).toBe(DESIGNX_V3_PDF_ASSET);
-    expect(designxPdfUrl('/designx/3/pdf/')).toBe(DESIGNX_V3_PDF_ASSET);
-    expect(designxPdfUrl('/designx/3/pdf?from=deck')).toBe(`${DESIGNX_V3_PDF_ASSET}?from=deck`);
-    expect(designxPdfUrl('/designx/3/pdf/?from=deck')).toBe(`${DESIGNX_V3_PDF_ASSET}?from=deck`);
-    expect(isDesignxDocumentPath('/designx/3/pdf')).toBe(true);
-    expect(DESIGNX_V3_PDF_ASSET).not.toBe(DESIGNX_PDF_ASSET);
   });
 
   it('does not turn the interactive deck, nearby paths or PDF assets into aliases', () => {

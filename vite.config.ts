@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
-import { designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath } from './src/documentRoutes';
+import { designxDocumentUrl, designxPdfUrl, isDesignxDocumentPath, isArchivedDesignxDocument } from './src/documentRoutes';
 
 /** Serve the independent presentation in development and production preview. */
 function designxDocument(): Plugin {
@@ -11,6 +11,12 @@ function designxDocument(): Plugin {
     const requestUrl = req.url ?? '/';
     if (isDesignxDocumentPath(requestUrl.split('?')[0])) {
       res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+    if (isArchivedDesignxDocument(requestUrl)) {
+      res.statusCode = 404;
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.end('This presentation version is archived. Open /designx or /designx/v10/.');
+      return;
     }
     const pdfUrl = designxPdfUrl(requestUrl);
     if (pdfUrl) {

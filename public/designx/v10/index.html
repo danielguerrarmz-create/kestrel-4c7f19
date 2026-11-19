@@ -13,15 +13,21 @@
     const base = document.createElement('base');
     base.href = location.protocol === 'file:' ? new URL('../', location.href).href : '/designx/';
     document.head.append(base);
+    const missionOpening = new URLSearchParams(location.search).get('opening') === 'mission';
     for (const file of ['safiro-regular-webfont.woff2', 'argestadisplay-regular-webfont.woff2']) {
       const font = document.createElement('link');
       font.rel = 'preload'; font.as = 'font'; font.type = 'font/woff2';
       font.crossOrigin = 'anonymous'; font.href = `4/assets/fonts/${file}`;
       document.head.append(font);
     }
-    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css', '3/problem.css', '3/editorial.css', '4/fonts.css', '4/editorial.css', '5/editorial.css', 'v8/baseline/living.css', 'v7/learning-flow.css', 'v7/commercial.css', 'v7/future.css', 'v7/editorial.css', 'v8/studies.css', 'v8/growth-player.css', 'v8/time-experiment.css', 'v8/canopy-orbit.css', 'v8/drawings.css', 'v8/edition.css', 'v8/customers.css', 'v8/reference.css', 'v8/learning-editorial.css', 'v8/drawing-timeline.css', 'v8/no-dividers.css', 'v10/redlines.css', 'v10/dreaming-systems.css']) {
+    for (const file of ['deck.css', 'editorial.css', 'scenes/growth.css', 'scenes/flywheels.css', '2/editorial.css', '2/experience.css', '3/problem.css', '3/editorial.css', '4/fonts.css', '4/editorial.css', '5/editorial.css', 'v8/baseline/living.css', 'v7/learning-flow.css', 'v7/commercial.css', 'v7/future.css', 'v7/editorial.css', 'v8/studies.css', 'v8/growth-player.css', 'v8/time-experiment.css', 'v8/canopy-orbit.css', 'v8/drawings.css', 'v8/edition.css', 'v8/customers.css', 'v8/reference.css', 'v8/learning-editorial.css', 'v8/drawing-timeline.css', 'v8/no-dividers.css', 'v10/redlines.css', 'v10/dreaming-systems.css', 'v10/ecology.css']) {
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet'; stylesheet.href = file;
+      document.head.append(stylesheet);
+    }
+    if (missionOpening) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet'; stylesheet.href = 'v10/mission-opening.css';
       document.head.append(stylesheet);
     }
   </script>
@@ -57,7 +63,12 @@
   </dialog>
   <noscript><p class="no-script">This presentation needs JavaScript.</p></noscript>
   <script>
-    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', '3/problem.js', '3/edition.js', '5/factory/catalog.js', 'v8/baseline/living.js', 'v7/learning-flow.js', 'v7/commercial.js', 'v7/future.js', 'v7/edition.js', 'v8/story.js', 'v8/studies.js', 'v10/growth-player.js', 'v8/time-experiment.js', 'v8/drawing-tools.js', 'v8/consequences.js', 'v8/learning-trace.js', 'v10/manufacturing.js', 'v8/customers.js', 'v8/reference.js', 'v10/future.js', 'v8/learning-editorial.js', 'v8/problem-editorial.js', 'v10/edition.js', 'v10/canopy-orbit.js', 'v10/dreaming-systems.js', 'v10/redlines.js', 'v10/factory.js', 'v10/deck.js']) {
+    for (const file of ['scenes/growth.js', 'scenes/flywheels.js', 'scenes/customers.js', 'slides.js', '2/edition.js', '3/problem.js', '3/edition.js', '5/factory/catalog.js', 'v8/baseline/living.js', 'v7/learning-flow.js', 'v7/commercial.js', 'v7/future.js', 'v7/edition.js', 'v8/story.js', 'v8/studies.js', 'v10/growth-player.js', 'v8/time-experiment.js', 'v8/drawing-tools.js', 'v8/consequences.js', 'v8/learning-trace.js', 'v10/manufacturing.js', 'v8/customers.js', 'v8/reference.js', 'v10/future.js', 'v8/learning-editorial.js', 'v8/problem-editorial.js', 'v10/edition.js', 'v10/canopy-orbit.js', 'v10/dreaming-systems.js', 'v10/redlines.js', 'v10/ecology.js', 'v10/ecology-edition.js', 'v10/factory.js', 'v10/deck.js']) {
+      if (missionOpening && file === 'v10/deck.js') {
+        const opening = document.createElement('script');
+        opening.src = 'v10/mission-opening.js'; opening.async = false;
+        document.body.append(opening);
+      }
       const script = document.createElement('script');
       script.src = file; script.async = false;
       document.body.append(script);
