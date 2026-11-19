@@ -1,4 +1,4 @@
-/* Optional opening for editorial review, loaded before the viewer builds its index. */
+/* Version 10 opening, loaded before the viewer builds its index. */
 (() => {
   'use strict';
   const slides = window.DESIGNX_SLIDES;

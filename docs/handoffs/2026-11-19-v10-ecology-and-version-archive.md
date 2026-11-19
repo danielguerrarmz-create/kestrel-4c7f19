@@ -2,7 +2,7 @@
 
 ## What changed
 
-The five ecology drawings and latest review edits are installed under public/designx/v10/. ecology-edition.js replaces the space and site views and inserts the three approved new drawings. It runs after Version 10's editorial pass and before its optional mission opening. The seasonal room, street, manufacturing sequence and Dreaming Systems remain part of that edition.
+The five ecology drawings and latest review edits are installed under public/designx/v10/. ecology-edition.js replaces the space and site views and inserts the three approved new drawings. It runs after Version 10's editorial pass and before its mission opening. The seasonal room, street, manufacturing sequence and Dreaming Systems remain part of that edition.
 
 The site drawing omits its annotation column and scale bar. Space and six-pier slides omit their main titles. Opening previews avoid the full-growth flash while animation loads. Finished stills serve print and reduced motion.
 
@@ -14,7 +14,7 @@ The review changes belong to Version 10. The earlier integration was prepared in
 
 ## How to verify
 
-Run npm run build and npm run preview with host 127.0.0.1 and port 5338. Open /designx/v10/?opening=mission for the mission opening and 21-slide sequence, or /designx/v10/ for the 19-slide sequence. Check ecology, index, print, Dreaming Systems and manufacturing. The root /designx retains its 16-slide sequence. Retail stays active. Old edition entry paths return 404.
+Run npm run build and npm run preview with host 127.0.0.1 and port 5338. Open /designx/v10/ for the default mission opening and 21-slide sequence. The opening=original query provides the earlier 19-slide sequence for rollback. Check ecology, index, print, Dreaming Systems and manufacturing. The root /designx retains its 16-slide sequence. Retail stays active. Old edition entry paths return 404.
 
 ## Files touched
 

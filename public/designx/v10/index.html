@@ -13,7 +13,7 @@
     const base = document.createElement('base');
     base.href = location.protocol === 'file:' ? new URL('../', location.href).href : '/designx/';
     document.head.append(base);
-    const missionOpening = new URLSearchParams(location.search).get('opening') === 'mission';
+    const missionOpening = new URLSearchParams(location.search).get('opening') !== 'original';
     for (const file of ['safiro-regular-webfont.woff2', 'argestadisplay-regular-webfont.woff2']) {
       const font = document.createElement('link');
       font.rel = 'preload'; font.as = 'font'; font.type = 'font/woff2';
