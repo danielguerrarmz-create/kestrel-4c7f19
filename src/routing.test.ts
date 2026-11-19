@@ -327,43 +327,23 @@ describe('the Vercel SPA rewrite', () => {
     expect(re.test('/cre-retailer')).toBe(true);
   });
 
-  it('preserves the original edition at its archive route and keeps v8 as an alias', () => {
-    for (const [path, destination] of [['/designx/1', '/designx/1/index.html'], ['/designx/1/', '/designx/1/index.html'], ['/designx/v8', '/designx/v8/index.html'], ['/designx/v8/', '/designx/v8/index.html']]) {
-      expect(re.test(path)).toBe(false);
-      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination).toBe(destination);
-    }
-  });
-
-  it('serves the second edition at its own URL and retains the deck noindex header', () => {
-    for (const path of ['/designx/2', '/designx/2/']) {
+  it('publishes Version 10 and retires archived edition entry aliases', () => {
+    for (const path of ['/designx/v10', '/designx/v10/']) {
       expect(re.test(path)).toBe(false);
       expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
-        .toBe('/designx/2/index.html');
+        .toBe('/designx/v10/index.html');
+    }
+    for (const edition of ['1', '2', '3', '4', '5', '6', 'v7', 'v8']) {
+      for (const suffix of ['', '/', '/pdf', '/pdf/']) {
+        const path = '/designx/' + edition + suffix;
+        expect(re.test(path)).toBe(false);
+        expect(cfg.rewrites.find((r: { source: string }) => r.source === path)).toBeUndefined();
+      }
     }
     expect(cfg.headers.find((h: { source: string }) => h.source === '/designx/(.*)')?.headers)
       .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
   });
 
-  it('serves the third edition at its own URL and retains the deck noindex header', () => {
-    for (const path of ['/designx/3', '/designx/3/']) {
-      expect(re.test(path)).toBe(false);
-      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
-        .toBe('/designx/3/index.html');
-    }
-    expect(cfg.headers.find((h: { source: string }) => h.source === '/designx/(.*)')?.headers)
-      .toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
-  });
-
-  it('serves the third edition PDF as an inline PDF at either alias', () => {
-    for (const path of ['/designx/3/pdf', '/designx/3/pdf/']) {
-      expect(re.test(path)).toBe(false);
-      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
-        .toBe('/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf');
-      const headers = cfg.headers.find((h: { source: string }) => h.source === path)?.headers;
-      expect(headers).toContainEqual({ key: 'Content-Type', value: 'application/pdf' });
-      expect(headers).toContainEqual({ key: 'Content-Disposition', value: 'inline; filename="Bower_DesignX_Buildings_That_Grow_03.pdf"' });
-    }
-  });
 });
 
 /**

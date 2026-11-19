@@ -60,7 +60,7 @@
   (window.DESIGNX_MOUNTS ||= []).push(root => {
     const printing = new URL(location.href).searchParams.get('print') === '1';
     const seventh = document.querySelector('[data-edition-seven]');
-    const printUrl = new URL(location.href); printUrl.search = '?print=1'; printUrl.hash = '';
+    const printUrl = new URL(location.href); printUrl.searchParams.set('print', '1'); printUrl.hash = '';
     queueMicrotask(() => { document.getElementById('pdf-link').href = printUrl.href; });
     if (seventh && location.protocol === 'file:') seventh.href = new URL('../v7/index.html',location.href).href;
     if (seventh) document.addEventListener('designx:slidechange',event => { seventh.hash = `slide-${String(window.DESIGNX_SLIDES[event.detail.index].comparisonIndex + 1).padStart(2,'0')}`; });

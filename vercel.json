@@ -42,108 +42,12 @@
       "destination": "/designx/v10/index.html"
     },
     {
-      "source": "/designx/v8",
-      "destination": "/designx/v8/index.html"
-    },
-    {
-      "source": "/designx/v8/",
-      "destination": "/designx/v8/index.html"
-    },
-    {
-      "source": "/designx/v7/pdf",
-      "destination": "/designx/v7/downloads/Bower_DesignX_Buildings_That_Grow_07.pdf"
-    },
-    {
-      "source": "/designx/v7/pdf/",
-      "destination": "/designx/v7/downloads/Bower_DesignX_Buildings_That_Grow_07.pdf"
-    },
-    {
-      "source": "/designx/v7",
-      "destination": "/designx/v7/index.html"
-    },
-    {
-      "source": "/designx/v7/",
-      "destination": "/designx/v7/index.html"
-    },
-    {
-      "source": "/designx/6",
-      "destination": "/designx/6/index.html"
-    },
-    {
-      "source": "/designx/6/",
-      "destination": "/designx/6/index.html"
-    },
-    {
-      "source": "/designx/5/pdf",
-      "destination": "/designx/5/downloads/Bower_DesignX_Buildings_That_Grow_05.pdf"
-    },
-    {
-      "source": "/designx/5/pdf/",
-      "destination": "/designx/5/downloads/Bower_DesignX_Buildings_That_Grow_05.pdf"
-    },
-    {
-      "source": "/designx/5",
-      "destination": "/designx/5/index.html"
-    },
-    {
-      "source": "/designx/5/",
-      "destination": "/designx/5/index.html"
-    },
-    {
-      "source": "/designx/4/pdf",
-      "destination": "/designx/4/downloads/Bower_DesignX_Buildings_That_Grow_04.pdf"
-    },
-    {
-      "source": "/designx/4/pdf/",
-      "destination": "/designx/4/downloads/Bower_DesignX_Buildings_That_Grow_04.pdf"
-    },
-    {
-      "source": "/designx/4",
-      "destination": "/designx/4/index.html"
-    },
-    {
-      "source": "/designx/4/",
-      "destination": "/designx/4/index.html"
-    },
-    {
-      "source": "/designx/3/pdf",
-      "destination": "/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf"
-    },
-    {
-      "source": "/designx/3/pdf/",
-      "destination": "/designx/3/downloads/Bower_DesignX_Buildings_That_Grow_03.pdf"
-    },
-    {
       "source": "/designx/pdf",
       "destination": "/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf"
     },
     {
       "source": "/designx/pdf/",
       "destination": "/designx/downloads/Bower_DesignX_Buildings_That_Grow.pdf"
-    },
-    {
-      "source": "/designx/3",
-      "destination": "/designx/3/index.html"
-    },
-    {
-      "source": "/designx/3/",
-      "destination": "/designx/3/index.html"
-    },
-    {
-      "source": "/designx/2",
-      "destination": "/designx/2/index.html"
-    },
-    {
-      "source": "/designx/2/",
-      "destination": "/designx/2/index.html"
-    },
-    {
-      "source": "/designx/1",
-      "destination": "/designx/1/index.html"
-    },
-    {
-      "source": "/designx/1/",
-      "destination": "/designx/1/index.html"
     },
     {
       "source": "/designx",
@@ -162,124 +66,134 @@
     {
       "source": "/cre-retail/pdf",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_CRE_Retail.pdf\""
+        }
       ]
     },
     {
       "source": "/cre-retail/pdf/",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_CRE_Retail.pdf\""
+        }
       ]
     },
     {
       "source": "/cre-retail",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     },
     {
       "source": "/cre-retail/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     },
     {
       "source": "/designx/retail/pdf",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_CRE_Retail.pdf\""
+        }
       ]
     },
     {
       "source": "/designx/retail/pdf/",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_CRE_Retail.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/v7/pdf",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_07.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/v7/pdf/",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_07.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/5/pdf",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_05.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/5/pdf/",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_05.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/4/pdf",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_04.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/4/pdf/",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_04.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/3/pdf",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_03.pdf\"" }
-      ]
-    },
-    {
-      "source": "/designx/3/pdf/",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow_03.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_CRE_Retail.pdf\""
+        }
       ]
     },
     {
       "source": "/designx/pdf",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow.pdf\""
+        }
       ]
     },
     {
       "source": "/designx/pdf/",
       "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow.pdf\"" }
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bower_DesignX_Buildings_That_Grow.pdf\""
+        }
       ]
     },
     {
       "source": "/designx",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     },
     {
       "source": "/designx/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     },
     {
       "source": "/agent/(.*)",
-      "headers": [{ "key": "Content-Type", "value": "text/markdown; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        }
+      ]
     },
     {
       "source": "/sitemap.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/xml; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
+      ]
     }
   ]
 }

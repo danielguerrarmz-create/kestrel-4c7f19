@@ -226,7 +226,7 @@
 
 .designx-v8 .v7commercial-budget { padding-left: 0; }
 .designx-v8 .v7commercial-scene { background: #354d40; }
-.designx-v8 #slide-11 > .folio { display: none; }
+.designx-v8 .v7-commercial-model-slide > .folio { display: none; }
 .designx-v8 .v8-gallery-play {
   position: absolute;
   z-index: 5;
