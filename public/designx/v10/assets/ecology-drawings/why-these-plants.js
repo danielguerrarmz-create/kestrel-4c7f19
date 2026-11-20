@@ -1,17 +1,16 @@
 /* Imported drawing routines from ecology-drawings, 0270bbb. See SOURCES.md. */
-/* ---------- drawing 6: why these plants, shown one plant at a time across four small diagrams ---------- */
+/* Six seasonal calendars use the trial planting and the original botanical sprigs. */
 /* Months, leaf habit, climbing habit, height and role are read from the taxon files in the Auxin model (Horti-code-ture/species).
    Piers are the trial planting (scenes/six-bay-radial-open-pier/planting.json). Akebia and Lonicera henryi are left out;
-   star jasmine and ivy stand in for them. The elevation and the climbing route are the six-bay model itself (window.BW_MODEL). */
+   star jasmine and ivy stand in for them. */
 (function(){
-  const S0=document.getElementById('logicS'),MD=window.BW_MODEL;if(!S0)return;let s=S0;const OFF=document.createElementNS(NS,'g');
+  const s = document.getElementById('logicS');
   const INK='var(--pencil)',MUTE='var(--mute)',WH='var(--white)';
   const T=(p,x,y,txt,o)=>{o=o||{};return el(p,'text',{x,y,'text-anchor':o.a||'start','font-size':o.z||17,style:'fill:'+(o.f||'var(--ink)')+(o.w?';font-weight:500':'')+(o.d?';font-family:var(--display);font-style:italic':'')},txt);};
   const L=(p,x1,y1,x2,y2,w,op,dash)=>el(p,'line',{x1,y1,x2,y2,stroke:INK,'stroke-width':w||1,'stroke-opacity':op==null?.8:op,'stroke-dasharray':dash||'none','stroke-linecap':'round'});
   const C=(p,cx,cy,r,o)=>el(p,'circle',Object.assign({cx,cy,r,fill:'none',stroke:INK,'stroke-width':1},o||{}));
   const G=(p,o)=>el(p||s,'g',o||{});
-  el(s,'style',{},'#logicS .fd{transition:opacity .5s ease}#logicS .gr{transition:stroke-dasharray .9s ease}#logicS .pk{cursor:pointer}');
-  const defs=el(s,'defs',{}),pat=el(defs,'pattern',{id:'lgCool',width:9,height:9,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'});el(pat,'line',{x1:0,y1:0,x2:0,y2:9,stroke:INK,'stroke-width':.6,'stroke-opacity':.5});
+
 
   /* a small pen that writes canvas calls as SVG paths, so the leaves and flowers are the same ones the other drawings use */
   const pen=(p,tint)=>{let d='';const f=v=>(+v).toFixed(1);return{fillStyle:'',strokeStyle:'',lineWidth:1,beginPath(){d='';},moveTo(x,y){d+='M'+f(x)+','+f(y);},lineTo(x,y){d+=(d?'L':'M')+f(x)+','+f(y);},
@@ -48,132 +47,81 @@
    {n:'Trumpet vine',role:'Late orange flower on the warm side.',mo:[8,9,10,11],when:'Flowers from August to November',pier:[5],where:'West pier',grip:2,how:'Clings to bare timber by rootlets',h:[8,12],leaf:'pinnate9',ls:.6,fl:'trumpet',fs:.85},
    {n:'Crimson glory vine',role:'Red leaf in autumn, high in the frame.',mo:[10,11],when:'Red leaf in October and November',pier:[5],where:'West pier',grip:1,how:'Clasps fine laths with tendrils',h:[12,null],leaf:'heart',ls:.72,fl:'bunch',fs:.75}];
   [['#9a7fcb',0],['#b9a3e3',0],['#e08fa3',1],['#ecd98a',1],['#d8c79a',0],['#e6a93c',1],['#7a4aa8',0],['#c3d6a4',0],['#b4b84e',0],['#efc2b6',1],['#e2743a',0],['#b5452f',0]].forEach((q,i)=>{PL[i].c=q[0];PL[i].scent=q[1];PL[i].lc=PL[i].ever?'#86ab7f':'#b7d39a';});
-  const N=PL.length,upd=[];
 
-  s=OFF;
-  /* ---- the field: seventeen in the model, twelve planted ---- */
-  T(s,40,46,'Seventeen climbers in the model',{z:19,w:1});
-  for(let i=0;i<17;i++){const x=356+i*26,y=40;
-    if(i<12)C(s,x,y,8,{fill:INK});else if(i<15)C(s,x,y,8,{'stroke-width':1.3});else{C(s,x,y,8,{'stroke-width':1.3,'stroke-opacity':.5});L(s,x-5,y-5,x+5,y+5,1.5,.9);L(s,x-5,y+5,x+5,y-5,1.5,.9);}}
-  T(s,820,46,'12 planted',{z:16});T(s,930,46,'3 set aside',{z:16,f:MUTE});T(s,1044,46,'2 left out as invasive risks in Britain',{z:16,f:MUTE});
-
-  /* ---- the roster: one sprig each. The dark one is the plant the four diagrams are showing. ---- */
-  s=S0;
-  const ros=PL.map((p,i)=>{const cx=103+i*126.7,cy=160,g=G(s,{class:'fd pk',transform:'translate(0,-78)'});
-    const ring=C(g,cx,cy,50,{fill:WH,'stroke-width':1});sprig(g,cx,cy,p);
-    const w=p.n.split(' '),two=w.length>1&&p.n.length>11,l1=two?w.slice(0,Math.ceil(w.length/2)).join(' '):p.n,l2=two?w.slice(Math.ceil(w.length/2)).join(' '):'';
-    const t1=T(g,cx,236,l1,{a:'middle',z:15}),t2=l2?T(g,cx,255,l2,{a:'middle',z:15}):null;
-    upd.push(k=>{const on=k===i;g.setAttribute('opacity',on?1:.9);ring.setAttribute('stroke-width',on?3:1);[t1,t2].forEach(t=>{if(t)t.style.fontWeight=on?500:400;});});
-    return g;});
-  s=OFF;
-  const nameT=T(s,40,330,'',{z:44,d:1}),roleT=T(s,40,366,'',{z:19,f:MUTE});
-  upd.push(k=>{nameT.textContent=PL[k].n;roleT.textContent=PL[k].role;});
-  L(s,40,398,1560,398,1,.35);
-
-  const X0=[40,440,840,1240],CYD=660,capT=[];
-  ['When it works','Where it stands','How it holds on','How high it climbs'].forEach((h,i)=>{C(s,X0[i]+16,446,16,{'stroke-width':1.3});T(s,X0[i]+16,453,String(i+1),{a:'middle',z:19,w:1});T(s,X0[i]+44,455,h,{z:27,d:1});
-    capT.push(T(s,X0[i],898,'',{z:18,w:1}));});
-  const everT=T(s,X0[0],922,'Leaf all year',{z:16,f:MUTE});everT.setAttribute('class','fd');
-
-  /* ---- 1. when: a year wheel. One ring of dots per plant at work in that month; the active plant's dots fill. ---- */
-  {const cx=X0[0]+170,cy=CYD,g=G(s),pol=(r,m)=>{const a=(m-.5)/12*6.2832-Math.PI/2;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];};
-    C(g,cx,cy,90,{'stroke-opacity':.5});C(g,cx,cy,160,{'stroke-opacity':.5});
-    for(let m=0;m<12;m++){const a=m/12*6.2832-Math.PI/2;L(g,cx+90*Math.cos(a),cy+90*Math.sin(a),cx+160*Math.cos(a),cy+160*Math.sin(a),.6,.3);const p=pol(178,m+1);T(g,p[0],p[1]+5,'JFMAMJJASOND'[m],{a:'middle',z:14,f:MUTE});}
-    const wd=[];for(let m=0;m<12;m++){const a0=m/12*6.2832-Math.PI/2,a1=(m+1)/12*6.2832-Math.PI/2,q=(r,a)=>(cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1);
-      const w=el(g,'path',{d:'M'+q(90,a0)+'A90,90 0 0 1 '+q(90,a1)+'L'+q(160,a1)+'A160,160 0 0 0 '+q(160,a0)+'Z',fill:INK,'fill-opacity':.1,stroke:'none',class:'fd'});wd.push(w);}
-    const stack={},dots=PL.map(()=>[]);
-    PL.forEach((p,i)=>p.mo.forEach(m=>{const k=stack[m]=(stack[m]||0)+1,q=pol(88+k*12.6,m);dots[i].push(C(g,q[0],q[1],5,{fill:p.c,'stroke-width':.8}));}));
-    const evr=C(g,cx,cy,78,{'stroke-width':7,'stroke-opacity':.75,'stroke-dasharray':'2 4'});evr.setAttribute('class','fd');
-    const arc=el(g,'path',{fill:'none',stroke:INK,'stroke-width':3,'stroke-linecap':'round'});
-    T(g,cx,cy+5,'the year',{a:'middle',z:14,f:MUTE});
-    upd.push(k=>{dots.forEach((ds,i)=>ds.forEach(d=>{d.setAttribute('stroke-width',i===k?2.4:.8);d.setAttribute('opacity',i===k?1:.7);}));
-      wd.forEach((w,m)=>{w.setAttribute('fill',PL[k].c);w.setAttribute('fill-opacity',.32);w.setAttribute('opacity',PL[k].mo.indexOf(m+1)>=0?1:0);});
-      const mo=PL[k].mo,st=mo.find(m=>mo.indexOf(m===1?12:m-1)<0),a0=(st-1)/12*6.2832-Math.PI/2+.05,a1=(st-1+mo.length)/12*6.2832-Math.PI/2-.05,R=167;
-      arc.setAttribute('d','M'+(cx+R*Math.cos(a0)).toFixed(1)+','+(cy+R*Math.sin(a0)).toFixed(1)+'A'+R+','+R+' 0 '+(a1-a0>Math.PI?1:0)+' 1 '+(cx+R*Math.cos(a1)).toFixed(1)+','+(cy+R*Math.sin(a1)).toFixed(1));
-      evr.setAttribute('opacity',PL[k].ever?1:0);everT.setAttribute('opacity',PL[k].ever?1:0);capT[0].textContent=PL[k].when;});}
-
-  /* ---- 2. where: the room in plan, north up. Sun to the south, the cool side hatched. ---- */
-  {const cx=X0[1]+170,cy=CYD,g=G(s),sc=17.4,PR=[[-3.1,-5.369],[3.1,-5.369],[6.2,0],[3.1,5.369],[-3.1,5.369],[-6.2,0]];
-    el(g,'path',{d:'M'+(cx-150)+','+cy+' A150,150 0 0 1 '+(cx+150)+','+cy+' Z',fill:'url(#lgCool)',stroke:'none'});
-    C(g,cx,cy,150,{'stroke-opacity':.3,'stroke-dasharray':'3 5'});C(g,cx,cy,5.5*sc,{fill:WH,'stroke-opacity':.6});
-    el(g,'path',{d:PR.map((p,i)=>(i?'L':'M')+(cx+p[0]*sc).toFixed(1)+','+(cy-p[1]*sc).toFixed(1)).join('')+'Z',fill:'none',stroke:INK,'stroke-width':1,'stroke-opacity':.45});
-    L(g,cx,cy+22,cx,cy-20,1.4,.9);el(g,'path',{d:'M'+(cx-7)+','+(cy-8)+' L'+cx+','+(cy-24)+' L'+(cx+7)+','+(cy-8),fill:'none',stroke:INK,'stroke-width':1.4});T(g,cx,cy-32,'N',{a:'middle',z:15,w:1});
-    {const Rs=172,p=d=>[cx+Rs*Math.cos(d*Math.PI/180),cy+Rs*Math.sin(d*Math.PI/180)],A=p(25),B=p(155);
-      el(g,'path',{d:'M'+A[0].toFixed(1)+','+A[1].toFixed(1)+' A'+Rs+','+Rs+' 0 0 1 '+B[0].toFixed(1)+','+B[1].toFixed(1),fill:'none',stroke:INK,'stroke-width':1,'stroke-dasharray':'2 6','stroke-opacity':.7});
-      [45,90,135].forEach(d=>{const q=p(d);C(g,q[0],q[1],6.5,{fill:WH});for(let i=0;i<8;i++){const a=i*Math.PI/4;L(g,q[0]+Math.cos(a)*9.5,q[1]+Math.sin(a)*9.5,q[0]+Math.cos(a)*13,q[1]+Math.sin(a)*13,.8,.7);}});}
-    T(g,cx,cy-160,'cool side',{a:'middle',z:14,f:MUTE});T(g,cx,cy+204,'most sun',{a:'middle',z:14,f:MUTE});
-    const pd=PR.map(p=>{const x=cx+p[0]*sc,y=cy-p[1]*sc;return[C(g,x,y,9,{fill:WH,'stroke-width':1.6}),C(g,x,y,16,{'stroke-width':1.2,'stroke-opacity':.8})];});
-    pd.forEach(q=>q[1].setAttribute('class','fd'));
-    upd.push(k=>{pd.forEach((q,i)=>{const on=PL[k].pier.indexOf(i)>=0;q[0].setAttribute('fill',on?PL[k].c:WH);q[1].setAttribute('opacity',on?1:0);});capT[1].textContent=PL[k].where;});}
-
-  /* ---- 3. how: four ways to hold on, each with the support it needs ---- */
-  {const gl=[['twines','cable'],['clasps','fine laths'],['clings','bare timber'],['is tied','tie points']].map((q,i)=>{const x=X0[2]+92+(i%2)*170,y=CYD-92+(i>>1)*186,g=G(s,{class:'fd'}),k=1.7,h=30*k;
-      if(i===0){L(g,x,y-h,x,y+h,1.2,.9);let d='';for(let j=0;j<=60;j++){const u=j/60;d+=(j?'L':'M')+(x+11*Math.sin(u*15)).toFixed(1)+','+(y+h-u*2*h).toFixed(1);}el(g,'path',{d,fill:'none',stroke:INK,'stroke-width':3.2,'stroke-linecap':'round'});}
-      else if(i===1){[-20,0,20].forEach(o=>L(g,x+o,y-h,x+o,y+h,1.1,.8));el(g,'path',{d:'M'+(x-10)+','+(y+h)+' C'+(x-14)+','+(y+14)+' '+(x+10)+','+(y-10)+' '+(x+8)+','+(y-h),fill:'none',stroke:INK,'stroke-width':2.8,'stroke-linecap':'round'});
-        [[-10,24,-20],[4,-2,20],[8,-30,0]].forEach(q2=>el(g,'path',{d:'M'+(x+q2[0])+','+(y+q2[1])+' q'+((q2[2]-q2[0])*.6)+',-14 '+(q2[2]-q2[0])+',-3 q3,8 -5,8',fill:'none',stroke:INK,'stroke-width':1.3,'stroke-linecap':'round'}));}
-      else if(i===2){el(g,'rect',{x:x-24,y:y-h,width:27,height:2*h,fill:WH,stroke:INK,'stroke-width':1.6});[-15,-6].forEach(o=>L(g,x+o,y-h,x+o,y+h,.6,.35));L(g,x+11,y-h,x+11,y+h,3.2,.9);for(let j=0;j<10;j++)L(g,x+11,y-h+8+j*10,x+3,y-h+11+j*10,1,.85);}
-      else{el(g,'rect',{x:x-24,y:y-h,width:17,height:2*h,fill:WH,stroke:INK,'stroke-width':1.6});el(g,'path',{d:'M'+(x+6)+','+(y+h)+' C'+(x+20)+','+(y+10)+' '+(x+2)+','+(y-12)+' '+(x+16)+','+(y-h),fill:'none',stroke:INK,'stroke-width':3.2,'stroke-linecap':'round'});
-        [30,-22].forEach(o=>{L(g,x-7,y+o,x+13,y+o,2,.95);C(g,x-7,y+o,3.4,{fill:WH,'stroke-width':1.2});});}
-      T(g,x,y+h+24,q[0],{a:'middle',z:17,w:1});T(g,x,y+h+43,q[1],{a:'middle',z:14,f:MUTE});return g;});
-    upd.push(k=>{gl.forEach((g,i)=>g.setAttribute('opacity',PL[k].grip===i?1:.3));capT[2].textContent=PL[k].how;});}
-
-  /* ---- 4. how high: half the frame in elevation, from the model, and the plant's reach along one cable to the crown ---- */
-  {const g=G(s),sc=47,x0=X0[3]+8,yb=CYD+178,X=y=>x0+(y+6.5)*sc,Y=z=>yb-z*sc;
-    L(g,x0-4,yb,x0+6.9*sc,yb,1.4,.9);
-    [0,2,4,6].forEach(z=>{L(g,x0-4,Y(z),x0+4,Y(z),1,.8);T(g,x0-10,Y(z)+5,z+(z===6?' m':''),{a:'end',z:13,f:MUTE});});
-    L(g,X(0),Y(0),X(0),Y(6.6),.7,.5,'8 4 2 4');
-    if(MD){let d='';MD.m.forEach(m=>{const p=m[3];for(let i=0;i<p.length-1;i++){if(p[i][1]>.05||p[i+1][1]>.05)continue;d+='M'+X(p[i][1]).toFixed(1)+','+Y(p[i][2]).toFixed(1)+'L'+X(p[i+1][1]).toFixed(1)+','+Y(p[i+1][2]).toFixed(1);}});
-      el(g,'path',{d,fill:'none',stroke:INK,'stroke-width':.7,'stroke-opacity':.3,'stroke-linecap':'round'});}
-    const cab=MD?MD.c[0].map(p=>[p[1],p[2]]):[[-4.42,.05],[-4.42,3.28],[-3.8,4.41],[-2.07,4.98],[-1.03,5.01]];cab.push([-.72,5.6],[-.6,6.3]);
-    const dP=cab.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1)).join('');let len=0;for(let i=1;i<cab.length;i++)len+=Math.hypot(cab[i][0]-cab[i-1][0],cab[i][1]-cab[i-1][1]);
-    el(g,'path',{d:dP,fill:'none',stroke:INK,'stroke-width':1,'stroke-opacity':.8,'stroke-dasharray':'3 4'});
-    const may=el(g,'path',{d:dP,fill:'none',stroke:INK,'stroke-width':2.2,'stroke-opacity':.55,'stroke-linecap':'round',class:'gr'}),sure=el(g,'path',{d:dP,fill:'none',stroke:INK,'stroke-width':5.5,'stroke-linecap':'round',class:'gr'});
-    T(g,X(-.6)+10,Y(6.3)+4,'crown',{z:13,f:MUTE});T(g,X(-4.42)-8,Y(1.25),'hand',{a:'end',z:13,f:MUTE});L(g,X(-4.42)-5,Y(1.3),X(-4.42)+5,Y(1.3),1,.8);
-    T(g,X(0)-6,Y(0)+22,'route to the crown '+len.toFixed(1)+' m',{a:'end',z:13,f:MUTE});
-    upd.push(k=>{const h=PL[k].h,a=Math.min(h[0],len)*sc,b=Math.min(h[1]==null?len:h[1],len)*sc;sure.setAttribute('stroke-dasharray',a.toFixed(0)+' 9999');may.setAttribute('stroke-dasharray',b.toFixed(0)+' 9999');
-      capT[3].textContent=h[1]==null?'Climbs past '+h[0]+' m':'Climbs '+h[0]+' to '+h[1]+' m';});}
-
-  /* ---- palettes: stack every plant at a pier across the year. Colour is flower or autumn leaf, the green line is leaf held all year,
-     and the haze that rises off a band is scent. ---- */
-  s=S0;
-  {const g=G(s,{transform:'translate(0,-748)'}),x0=330,x1=1560,mw=(x1-x0)/12,y0=1076,rh=80,bh=40,NM=['South-west pier','South-east pier','East pier','North-east pier','North-west pier','West pier'];
-    L(s,40,956,1560,956,1,.35);T(g,40,1004,'What each pier adds up to through the year',{z:27,d:1});T(g,x1,1004,'colour is flower or autumn leaf, haze is scent, the green line is leaf all year',{a:'end',z:14,f:MUTE});
-    'JFMAMJJASOND'.split('').forEach((c,m)=>T(g,x0+(m+.5)*mw,1044,c,{a:'middle',z:14,f:MUTE}));
-    const fl=el(defs,'filter',{id:'lgHaze',x:'-10%',y:'-80%',width:'120%',height:'260%'});el(fl,'feGaussianBlur',{stdDeviation:'7 5'});
-    const runs=mo=>{const st=mo.find(m=>mo.indexOf(m===1?12:m-1)<0),e=st-1+mo.length;return e>12?[[st-1,12],[0,e-12]]:[[st-1,e]];};
-    const bands=PL.map(()=>[]);
-    NM.forEach((nm,pi)=>{const y=y0+pi*rh,here=PL.map((p,i)=>i).filter(i=>PL[i].pier.indexOf(pi)>=0);
-      T(g,40,y+13,nm,{z:16,w:1});T(g,40,y+31,here.map(i=>PL[i].n.toLowerCase()).join(', ').replace(/(.{38}[^,]*,) /,'$1\n').split('\n')[0],{z:12.5,f:MUTE});
-      {const rest=here.map(i=>PL[i].n.toLowerCase()).join(', ').replace(/(.{38}[^,]*,) /,'$1\n').split('\n')[1];if(rest)T(g,40,y+46,rest,{z:12.5,f:MUTE});}
-      for(let m=0;m<=12;m++)L(g,x0+m*mw,y-22,x0+m*mw,y+bh,.5,.14);
-      L(g,x0,y+bh,x1,y+bh,.8,.5);
-      if(here.some(i=>PL[i].ever))el(g,'rect',{x:x0,y:y+bh+3,width:x1-x0,height:5,fill:'#86ab7f',stroke:'none'});
-      here.forEach(i=>{const p=PL[i];runs(p.mo).forEach(r=>{const xa=x0+r[0]*mw+3,w=(r[1]-r[0])*mw-6;
-          if(p.scent){el(g,'rect',{x:xa+6,y:y-14,width:w-12,height:22,fill:p.c,'fill-opacity':.5,filter:'url(#lgHaze)',stroke:'none'});
-            for(let q=0;q<Math.round(w/34);q++){const cx=xa+17+q*34;let d='';for(let z=0;z<=10;z++)d+=(z?'L':'M')+(cx+5*Math.sin(z*.9+q)).toFixed(1)+','+(y-2-z*2).toFixed(1);el(g,'path',{d,fill:'none',stroke:p.c,'stroke-width':1.2,'stroke-opacity':.75,'stroke-linecap':'round'});}}
-          bands[i].push(el(g,'rect',{x:xa,y:y,width:w,height:bh,rx:9,fill:p.c,'fill-opacity':.6,stroke:INK,'stroke-width':0,style:'mix-blend-mode:multiply'}));});});});
-    upd.push(k=>bands.forEach((bs,i)=>bs.forEach(b=>b.setAttribute('stroke-width',i===k?1.6:0))));}
-
-  /* ---- one plant at a time, in a loop. Pointing at a sprig holds on that plant. ---- */
-
-  let cur = 0;
-  let holdUntil = 0;
-  let lastChange = 0;
-  function show(k) { cur = k; upd.forEach(fn => fn(k)); }
-  function holdPlant(index, duration) {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    holdUntil = performance.now() + duration;
-    show(index);
+  const names = ['South-west', 'South-east', 'East', 'North-east', 'North-west', 'West'];
+  const months = 'JFMAMJJASOND';
+  const plants = [], petals = [], descriptions = [];
+  let selected = null;
+  function selectPlant(index) {
+    selected = index;
+    plants.forEach((g, i) => {
+      g.setAttribute('aria-pressed', String(i === index));
+      g.querySelector('circle').setAttribute('stroke-width', i === index ? 3 : .8);
+    });
+    petals.forEach(({group, species}) => group.setAttribute('opacity',
+      index === null || species === index ? 1 : .16));
+    descriptions.forEach(({label, pier}) => {
+      const present = index === null || PL[index].pier.includes(pier);
+      label.setAttribute('opacity', present ? 1 : .48);
+    });
+    readout.textContent = index === null ? 'Each petal is a month, clockwise from January.' :
+      PL[index].n + ' · ' + PL[index].when + '.';
   }
-  ros.forEach((g, index) => {
-    g.addEventListener('pointerenter', () => holdPlant(index, 5000));
-    g.addEventListener('click', () => holdPlant(index, 9000));
+  PL.forEach((p, i) => {
+    const x = 95 + i * 128;
+    const g = G(s, {class:'plant-choice', role:'button', tabindex:0, 'aria-label':p.n, 'aria-pressed':'false'});
+    C(g, x, 68, 46, {fill:WH});
+    sprig(g, x, 68, p);
+    const words = p.n.split(' ');
+    const lines = p.n.length > 12 ? [words.slice(0,-1).join(' '), words.at(-1)] : [p.n];
+    lines.forEach((line, j) => T(g, x, 140 + 19*j, line, {a:'middle',z:17}));
+    const toggle = () => selectPlant(selected === i ? null : i);
+    g.addEventListener('click', toggle);
+    g.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); toggle(); }
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); selectPlant(null); }
+    });
+    plants.push(g);
   });
-  loopDrawing(s, elapsed => {
-    if (elapsed === 0) show(0);
-    else if (elapsed - lastChange >= 2800 && performance.now() >= holdUntil) {
-      show((cur + 1) % N);
-      lastChange = elapsed;
+  T(s, 44, 220, 'A year at each pier', {z:34,d:1});
+  const readout = T(s, 1550, 217, '', {z:19,f:MUTE,a:'end'});
+  readout.setAttribute('aria-live','polite');
+  L(s, 44, 243, 1550, 243, .8, .36);
+  names.forEach((name, pier) => {
+    const col = pier % 3, row = Math.floor(pier / 3);
+    const x = 159 + 515 * col, y = 392 + 282 * row;
+    const yearly = PL.map((p,i) => ({p,i})).filter(({p}) => p.pier.includes(pier));
+    const group = G(s, {role:'group','aria-label':name + ' pier'});
+    const charts = G(group, {transform:`translate(${x} ${y})`});
+    C(charts,0,0,105,{stroke:'#ced4c7','stroke-width':.8,'stroke-dasharray':'1 5'});
+    if (yearly.some(({p})=>p.ever)) C(charts, 0, 0, 20, {stroke:'#75946e','stroke-width':4,fill:'#f6f7ef'});
+    for (let m = 0; m < 12; m++) {
+      const angle = m * Math.PI/6 - Math.PI/2;
+      const arm = G(charts, {transform:`rotate(${m*30})`});
+      L(arm,0,-94,0,-107,.8,.35);
+      const active = yearly.filter(({p})=>p.mo.includes(m+1));
+      el(arm,'path',{d:'M-3 -26 Q-8 -36 0 -45 Q8 -36 3 -26 Z',fill:'#e9ebe2',stroke:'#c6cdbe','stroke-width':.7});
+      active.forEach(({p,i}, j) => {
+        const inner = 25 + 22*j, outer = inner+38, width = 9+j*2.5;
+        const layer = G(arm);
+        const d = `M0 ${-inner} C${-width} ${-inner-3} ${-width-2} ${-outer+8} 0 ${-outer}
+          C${width+2} ${-outer+8} ${width} ${-inner-3} 0 ${-inner} Z`;
+        el(layer,'path',{d,fill:p.c,stroke:'#4e544b','stroke-width':.7,'fill-opacity':.91});
+        if (p.scent) C(layer,0,-inner-15,1.9,{fill:'#3d473a',stroke:'none'});
+        petals.push({group:layer,species:i});
+      });
+      T(charts, 121*Math.cos(angle), 121*Math.sin(angle)+5, months[m], {z:15,a:'middle',f:MUTE});
     }
-  }, () => show(0), 2800);
+    const label = G(group);
+    T(label, x+151, y-28, name+' pier', {z:26,d:1});
+    yearly.forEach(({p}, i) => {
+      C(label, x+155, y-1+22*i, 4, {fill:p.c,stroke:'none'});
+      T(label, x+169, y+4+22*i, p.n, {z:16,f:MUTE});
+    });
+    descriptions.push({label,pier});
+  });
+  T(s,44,853,'Colour marks flower or autumn leaf. A dot marks scent. A green centre marks evergreen foliage.',{z:18,f:MUTE});
+  selectPlant(null);
+  document.documentElement.dataset.drawn = 'true';
+  document.dispatchEvent(new Event('ecology:drawn'));
 })();

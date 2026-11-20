@@ -240,3 +240,20 @@
 .designx-v8 .v7future-choices .v7future-choice { border: 0; }
 .designx-v8 .v7future-choice > span { font-size: 20px; }
 .designx-v8 .v7future-choice[aria-pressed="true"] > span { text-decoration: underline; text-underline-offset: .3em; }
+.canopy-end-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #fdfcf9;
+  opacity: 0;
+  pointer-events: none;
+}
+.canopy-end-mark img {
+  height: 64%;
+  width: auto;
+  max-width: 73%;
+  object-fit: contain;
+  transform: translateY(-6%);
+  mix-blend-mode: multiply;
+}

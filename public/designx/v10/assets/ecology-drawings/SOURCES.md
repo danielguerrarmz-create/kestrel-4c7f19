@@ -1,5 +1,11 @@
 # Bower ecology working drawings
 
+## November 20 V10 drawing revisions
+
+The seasonal elevation keeps the original timber, figures and distant garden. Its new crown shoots and extending roots illustrate establishment and seasonal enclosure. Wisteria flowers in the spring view, rose and honeysuckle in summer, crimson glory vine changes colour in autumn, and ivy keeps leaves in winter. The amount of cover and the root paths are drawing choices.
+
+The foundation section studies a stainless steel sleeve at grade on a buried frame. Sleeve thickness, drainage, inspection access and durability require engineering review. The pier drawing brings together the four plants from the south-west trial schedule on one illustrative timber fan. Flowers identify each species across the year. The calendar uses the same twelve plant records, months, scent attributes and pier assignments as the earlier bands.
+
 These five drawings come from draft 20 of the Bower LUMA Studio Pitch ecology set, commit `0270bbb`. The source package contains a standalone HTML page for each drawing and a full-page PNG under `ecology-drawings/slides/`. The deck's `stills/` contains fresh 1600 px wide captures of the drawings at full growth with reduced motion enabled. Each capture contains the artwork alone so the deck can supply its own title and caption.
 
 ## What comes from where

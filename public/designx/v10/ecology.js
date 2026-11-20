@@ -30,7 +30,7 @@
         </div>
         <figcaption>${escape(item.caption)}</figcaption>
       </figure>
-      ${space || place ? '' : '<p class="v8-ecology-note">Working drawing, not reviewed by a horticulturist.</p>'}
+      ${space || place ? '' : `<p class="v8-ecology-note">${escape(item.note || 'Working drawing, not reviewed by a horticulturist.')}</p>`}
     </section>`;
   }
 
@@ -45,7 +45,8 @@
     let printing = false;
 
     function sync() {
-      const target = !document.hidden && !printing && !reducedMotion.matches ? selected : null;
+      const interactive = ['nature-makes-space', 'why-these-plants'].includes(selected?.dataset.ecologyDrawing);
+      const target = !document.hidden && !printing && (interactive || !reducedMotion.matches) ? selected : null;
       if (frame && frame.parentElement !== target) {
         frame.parentElement.querySelector('img').removeAttribute('aria-hidden');
         frame.remove();
@@ -54,7 +55,7 @@
       if (!target || frame) return;
       const next = document.createElement('iframe');
       next.title = target.closest('section').getAttribute('aria-label');
-      next.tabIndex = -1;
+      next.tabIndex = interactive ? 0 : -1;
       next.src = assets + target.dataset.ecologyDrawing + '.html';
       next.addEventListener('load', () => {
         const drawing = next.contentDocument;
@@ -69,7 +70,7 @@
         // Iframe input does not bubble into the viewer. Delegate navigation
         // to the existing deck handlers so inspecting a plant never traps it.
         drawing.addEventListener('keydown', event => {
-          if (event.defaultPrevented) return;
+          if (event.defaultPrevented || (event.target.closest?.('button') && [' ', 'Enter'].includes(event.key))) return;
           const key = new KeyboardEvent('keydown', event);
           if (!document.body.dispatchEvent(key)) event.preventDefault();
         });

@@ -19,7 +19,7 @@
   const currentCast = prefix === 'cast-';
   const seasonalWeather = currentCast || prefix === 'weather-';
   const assets = 'v10/assets/mission-opening/';
-  const imagePath = name => assets + prefix + name;
+  const imagePath = name => assets + (currentCast && name === 'winter-two.webp' ? 'urban-' : prefix) + name;
   const visits = [
     {
       stage: 'day', file: 'opening-day.webp', title: 'Opening day.',
@@ -43,8 +43,10 @@
     },
     {
       stage: 'winter', file: 'winter-two.webp', title: 'Second winter.',
-      weatherAlt: 'The family crosses the frosted square hand in hand. A cyclist fades into dense blue fog. In the warm light of the café doorway, a worker sets out chairs.',
-      caption: meadow ? 'Frost settles on the empty bench. Two figures follow the worn path into the meadow.' : 'Frost settles on the bench. She takes her father’s hand as they cross the square.',
+      weatherAlt: currentCast
+        ? 'The family crosses the wet paving beneath bare ribs. Through the arch, the pale corner building and green café are visible beyond the bench.'
+        : 'The family crosses the frosted square hand in hand. A cyclist fades into blue fog.',
+      caption: meadow ? 'Frost settles on the empty bench. Two figures follow the worn path into the meadow.' : 'She takes her father’s hand as they cross the winter square.',
       alt: meadow
         ? 'Two adults in winter coats walk away together. Frost picks out the bench slats and grass below bare branches.'
         : 'The child in a mustard scarf holds her father’s hand as her mother walks alongside them with a travel mug. The bench is frosted and warm café windows glow beyond the bare vines.'

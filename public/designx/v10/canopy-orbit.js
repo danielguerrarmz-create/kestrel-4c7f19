@@ -6,13 +6,14 @@
     purpose:'See the room assemble and become inhabited, then rise from changing eye heights to an overhead reading of the living canopy.',
     stays:'The approved full orbit, ink-to-timber transition, inhabitants and shared timeline. The earlier Time studies remain in source outside the main sequence.',
     drawing:'A full orbit varies its height, then rises into a true top-down view and holds. Perspective and Axonometric use the same camera route and scenario clock; Axonometric uses parallel projection. The full-size films autoplay, pause and scrub with the shared black timeline.',
-    status:'Pre-rendered full-model camera studies with authored 3D people and birds. Growth is a provisional scenario, timber appearance is illustrative, and the assembly sequence is not a validated erection method. The final overhead view is held for six seconds.',
+    status:'Pre-rendered camera studies with authored people and birds. Growth and timber appearance are illustrative. During the final overhead hold, the presentation dissolves from the canopy to the Bower emblem.',
     transition:'Return to the changing light and enclosure of the same room.'};
   const html=`<section class="v7-scene v8-canopy-orbit-scene">
     <h2 class="v7-title">From room to canopy</h2>
     <img class="v8-canopy-poster" src="${BASE}axonometric-poster.jpg" alt="The established living room, seen directly from above">
     <div data-v8-canopy class="slide-interaction">
       <video muted playsinline loop preload="metadata" aria-label="An orbit from changing eye heights to a bird’s-eye view"></video>
+      <div class="canopy-end-mark" aria-hidden="true"><img src="/assets/brand/bower-logo-evergreen-emblem.png" alt=""></div>
       <nav class="v8-canopy-projections" aria-label="Projection"><button data-canopy-projection="perspective" aria-pressed="false">Perspective</button><button data-canopy-projection="axonometric" aria-pressed="true">Axonometric</button></nav>
       <div class="v8-canopy-message" role="status" hidden><span></span><button data-canopy-retry hidden>Retry drawing</button></div>
       <div class="v8-drawing-timeline"><button data-canopy-play aria-label="Pause drawing">Pause</button><div class="v8-drawing-when"><output data-canopy-readout class="v8-drawing-readout">Assembly</output><span data-canopy-date class="v8-drawing-context">Before planting</span></div><div class="v8-drawing-track"><input type="range" aria-label="Time since planting" min="0" max="55" step="0.01" value="0" disabled><div class="v8-drawing-axis" aria-hidden="true"></div></div></div>
@@ -35,6 +36,8 @@
       return [`Year ${y}${m?` · ${m} ${m===1?'month':'months'}`:''}`,new Date(start+(end-start)*p).toLocaleDateString('en-GB',{month:'short',year:'numeric',timeZone:'UTC'})+(t>=49?' · Overhead hold':'')];
     }
     function controls(){
+      const dissolve = clamp((state.time - 50.2) / 2.8, 0, 1);
+      root.querySelector('.canopy-end-mark').style.opacity = String(dissolve * dissolve * (3 - 2 * dissolve));
       const [main,sub]=textAt(state.time);root.dataset.ready=String(state.ready);root.dataset.projection=state.projection;root.dataset.playing=String(state.playing);
       range.value=state.time;range.max=state.duration;range.disabled=!manifest;range.setAttribute('aria-valuetext',`${main}. ${sub}`);
       range.style.setProperty('--v8-progress', `${100 * state.time / state.duration}%`);

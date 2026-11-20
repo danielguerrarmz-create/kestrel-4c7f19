@@ -10,7 +10,8 @@
     designer: ['Designer review', 'Weigh the trade-offs', 'designer', 174],
     making: ['Build', 'Press · scan · assemble', 'making', 177],
     living: ['Garden + site', 'Grip · growth · care', 'growing', 161],
-    evidence: ['Review evidence', 'Factory · garden · costs', 'evidence', 178]
+    evidence: ['Review evidence', 'Factory · garden · costs', 'evidence', 178],
+    site: ['Growing conditions', 'Light · soil moisture', 'growing', 172]
   };
 
   // Clay’s Trellis Loop stages, paired with the Bower One geometry and DesignX process studies.
@@ -22,8 +23,9 @@
     cost: 'Compare model quantities and supplier quotes with actual build and care costs.',
     designer: 'Weigh screening, planting and cost. Revise the form or release it to build.',
     making: 'The first press step is prototyped. Proposed scans would measure rib springback.',
-    living: 'Test wisteria grip and weigh stems. Observe shoot growth, shade and care.',
-    evidence: 'Factory scans and garden data would refine the next design and cost checks.'
+    living: 'Record where stems grip, which shoots reach the crown and where the canopy shades the bed.',
+    evidence: 'Factory scans and garden data would refine the next design and cost checks.',
+    site: 'Canopy cover changes the light at the bed. A trial could track soil moisture through leaf-out, dry spells and winter.'
   };
   const nodeIds = Object.keys(nodes);
   const cardHeight = 62;
@@ -32,7 +34,7 @@
     all: ['Whole system', 'A dreaming system imagines what could be, then lets what happens shape what it imagines next.'],
     design: ['Design', 'Set constraints and test one form for timber, growth and cost before release.'],
     making: ['Making', 'Screen bends and set the pins. Release scans would measure rib springback.'],
-    growing: ['Growing', 'Forecast how plants climb and what they weigh. Garden trials would check both.'],
+    growing: ['Growing', 'As the canopy closes, the bed receives less light. Field observations would inform the next growth forecast.'],
     cost: ['Cost', 'Use quantities and quotes to test the budget, then compare with actual costs.']
   };
 
@@ -53,7 +55,9 @@
     ['cost', 'evidence', 'cost', 'cost'],
     ['evidence', 'geometry', 'evidence', 'making growing cost'],
     ['fabrication', 'planting', 'making', 'design making growing'],
-    ['planting', 'fabrication', 'growing', 'design making growing']
+    ['planting', 'fabrication', 'growing', 'design making growing'],
+    ['living', 'site', 'growing', 'growing'],
+    ['site', 'planting', 'growing', 'growing design']
   ];
 
   const layouts = {
@@ -101,12 +105,14 @@
       [quoteOut, [quoteOut[0], evidenceY - 4], at('evidence', 'L', -4)],
       down(at('evidence', 'B', -17), at('geometry', 'B', -18), 522),
       down(at('fabrication', 'B', -18), at('planting', 'T', -18), exchangeRow),
-      down(at('planting', 'T', 18), at('fabrication', 'B', 18), exchangeRow)
+      down(at('planting', 'T', 18), at('fabrication', 'B', 18), exchangeRow),
+      down(at('living', 'B', 20), at('site', 'B', 12), 505),
+      across(at('site', 'R'), at('planting', 'L', 15), 376)
     ];
   }
 
   function view(mode) {
-    const positions = Object.fromEntries(nodeIds.map((id, i) => [id, layouts[mode][i]]));
+    const positions = Object.fromEntries(nodeIds.map((id, i) => [id, id === 'site' ? [232, 425] : layouts[mode][i]]));
     return { positions, routes: routesFor(positions) };
   }
 
@@ -136,7 +142,7 @@
           <div class="dreaming-drawing">
             <svg id="learning-diagram" class="dreaming-diagram" viewBox="0 0 1120 545" role="group" aria-labelledby="diagram-name" aria-describedby="diagram-description">
               <title id="diagram-name">Bower’s intended design and evidence flow</title>
-              <desc id="diagram-description">The commission informs the candidate form. Timber screening sends the rib layout to the growth forecast, which returns estimated plant loads. Buildability, growth and cost inform designer review, which can revise the form or release it for making. Factory measurements, garden and site observations, and cost records can refine the next design.</desc>
+              <desc id="diagram-description">The commission informs the candidate form. Timber screening sends the rib layout to the growth forecast, which returns estimated plant loads. Buildability, growth and cost inform designer review. The canopy changes light in the bed. Observations of light and soil moisture could inform the next forecast.</desc>
               <defs>
                 <marker id="terminal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
                   <path d="M1 1 7 4 1 7" stroke="context-stroke" fill="none" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
@@ -188,6 +194,14 @@
     function expand(node) {
       expandedNode?.setAttribute('aria-expanded', 'false');
       expandedNode = node;
+      root.classList.toggle('has-selection', Boolean(node));
+      const adjacent = new Set();
+      wires.forEach(wire => {
+        const incident = Boolean(node) && [wire.dataset.from, wire.dataset.to].includes(node.dataset.node);
+        wire.classList.toggle('is-connected', incident);
+        if (incident) { adjacent.add(wire.dataset.from); adjacent.add(wire.dataset.to); }
+      });
+      nodeElements.forEach(el => el.classList.toggle('is-connected', adjacent.has(el.dataset.node)));
       if (node) {
         detailHeading.textContent = nodes[node.dataset.node][0];
         detailText.textContent = nodeContext[node.dataset.node];
@@ -238,6 +252,7 @@
 
     function select(mode, motion = false) {
       if (mode === selected) return;
+      expand(null);
       selected = mode;
       buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
       caption.textContent = modes[mode][1];

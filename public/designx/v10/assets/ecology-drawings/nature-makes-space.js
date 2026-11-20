@@ -71,8 +71,7 @@
   a.fillStyle=PAPER;a.fillRect(0,GY,W,H-GY);
   for(let i=0;i<4200;i++){const x=t()*W,d=Math.pow(t(),1.4)*98,fd=clamp(1-d/110,.1,1);if(t()<.25)ln(a,x,GY+2+d,x+2+t()*4,GY+2+d+(t()-.5)*3,.6,.3*fd);else{a.fillStyle=ink(.3*fd);a.beginPath();a.arc(x,GY+2+d,.5+t()*.5,0,7);a.fill();}}
   for(let i=0;i<26;i++){const x=t()*W,d=30+t()*60,sz=3+t()*4;a.beginPath();for(let q=0;q<7;q++){const an=q*.9,rr=sz*(.7+t()*.5);a.lineTo(x+rr*1.3*Math.cos(an),GY+d+rr*.8*Math.sin(an));}a.closePath();a.fillStyle=PAPER;a.fill();a.strokeStyle=ink(.4);a.lineWidth=.6;a.stroke();}
-  PX.forEach(px=>{[-1,1].forEach(s=>{for(let q=0;q<9;q++){let x=px+s*(40+t()*18),y=GY+3,an=Math.PI/2-s*(.2+t()*1.1),w=2.6-q*.2;a.beginPath();a.moveTo(x,y);for(let z=0;z<14+t()*16;z++){an+=(t()-.5)*.5;x+=Math.cos(an)*5;y=Math.max(GY+3,y+Math.sin(an)*5);a.lineTo(x,y);}a.strokeStyle=ink(.5*clamp(1-(y-GY)/120,.2,1));a.lineWidth=Math.max(.5,w);a.stroke();}});
-    a.fillStyle=ink(.95);a.fillRect(px-44,GY-8,88,8);});
+  PX.forEach(px=>{a.fillStyle=ink(.95);a.fillRect(px-44,GY-8,88,8);});
   ln(a,0,GY,W,GY,1.6,.9);
 
   /* ---- plants ---- */
@@ -111,7 +110,10 @@
   }
   function plant(c,S){
     const wf=.45+.55*S.g;
-    stems.forEach(st=>{const sp=st.sp;LEAFC=sp.lc;FLOWC=sp.fc||sp.c;const lf=sp.ever?1:S.leaf,fl=sp.barNote||S.g<sp.ff?0:S.fl*(S.mo==null?1:clamp(Math.min(S.mo-sp.bar[0],sp.bar[1]-S.mo)/.4,0,1)),lfA=j=>clamp(lf*1.4-j*.4,0,1),q=clamp((clamp(GH(sp,S.g)/4.94,0,1)-st.t0*.75)/(1-st.t0*.75),0,1),n=Math.floor(q*(st.P.length-1));if(n<1)return;
+    stems.forEach(st=>{const sp=st.sp;
+      LEAFC=st.sp.ever||S.autumn<.5 ? sp.lc : sp===SP.vine ? '#b85b40' : '#c2aa71';
+      FLOWC=sp.fc||sp.c;
+      const lf=sp.ever?1:S.leaf,fl=S.g<sp.ff?0:sp===SP.wisteria?S.spring:sp===SP.rose||sp===SP.honeysuckle?S.summer:0,lfA=j=>clamp(lf*1.4-j*.4,0,1),q=clamp((clamp(GH(sp,S.g)/4.94,0,1)-st.t0*.75)/(1-st.t0*.75),0,1),n=Math.floor(q*(st.P.length-1));if(n<1)return;
       const hang=sp.flower==='raceme'||sp.flower==='bunch';
       st.lats.forEach(L=>{if(L.i>=n)return;const lp=clamp((n-L.i)/18,0,1),m=Math.max(1,Math.floor(lp*L.L.length)),h2=Math.ceil(m/2);
         c.beginPath();c.moveTo(st.P[L.i][0],st.P[L.i][1]);for(let z=0;z<h2;z++)c.lineTo(L.L[z][0],L.L[z][1]);c.strokeStyle=ink(.88);c.lineWidth=1.7*wf+.3;c.stroke();
@@ -124,25 +126,105 @@
       if(fl>.03)st.flowers.forEach(fw=>{if(fw[0]<n-4)flowerAt(c,st.P[fw[0]][0],st.P[fw[0]][1]+(hang?5:9),sp.flower,FS*fl*(.7+.9*fw[1]));});
     });
   }
-  const CY=27000;
-  function state(e){const age=Math.pow(clamp(e/23000,0,1),1.2);
-    if(e<1500)return{g:0,leaf:0,fl:0,mo:null,age,t:'At installation'};
-    if(e<7500){const u=(e-1500)/6000;return{g:.6*u,leaf:1,fl:0,mo:null,age,t:'Establishing'};}
-    if(e<10000){const u=(e-7500)/2500;return{g:.6+.08*u,leaf:1,fl:Math.sin(Math.PI*u),mo:4.8,age,t:'May, wisteria in flower'};}
-    if(e<12500){const u=(e-10000)/2500;return{g:.68+.07*u,leaf:1,fl:Math.sin(Math.PI*u),mo:6.6,age,t:'July, rose and honeysuckle'};}
-    if(e<15500){const u=(e-12500)/3000;return{g:.75,leaf:1-clamp(u*1.6,0,1),fl:0,mo:null,age,t:'January, ivy holds its leaf'};}
-    if(e<22000){const u=(e-15500)/6500;return{g:.75+.25*u,leaf:clamp(u*2.2,0,1),fl:clamp((u-.3)/.3,0,1),mo:4.4+1.4*clamp((u-.3)/.7,0,1),age,t:'Years on, May into June'};}
-    return{g:1,leaf:1,fl:1,mo:5.8,age:1,t:'Years on, late June'};
+  const crown = makeSeasonalCanopy(PX, HZ, GY, k);
+  const rear = document.createElement('canvas'), front = document.createElement('canvas');
+  for (const sheet of [rear, front]) { sheet.width = canvas.width; sheet.height = canvas.height; }
+  const backPen = mk(rear), frontPen = mk(front);
+  const stages = [
+    [0, 'Young climbers are planted beside the piers.'],
+    [11000, 'Wisteria hangs over the path in May.'],
+    [17000, 'Rose and honeysuckle flower beneath the summer canopy.'],
+    [23000, 'Crimson glory vine turns one bay red.'],
+    [29000, 'The sky opens between bare stems. Ivy stays green.']
+  ];
+  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  // The deck scales a fixed-width slide on phones. Use the viewer width for
+  // the toolbar so it remains readable on the scaled presentation surface.
+  const narrowViewer = (window.frameElement ? window.parent : window).matchMedia('(max-width: 620px)');
+  const fitToolbar = () => document.documentElement.classList.toggle('compact-viewer', narrowViewer.matches);
+  fitToolbar();
+  narrowViewer.addEventListener('change', fitToolbar);
+  window.addEventListener('pagehide', () => narrowViewer.removeEventListener('change', fitToolbar), {once:true});
+  const buttons = [...document.querySelectorAll('[data-stage]')];
+  const toggle = document.getElementById('play');
+  let elapsed = motion.matches ? stages[1][0] : 0;
+  let running = !motion.matches;
+  let previous = null, request = 0, drawnAt = -1, activeStage = -1;
+  const end = stages[4][0];
+  function ramp(time, start, finish) {
+    const u = clamp((time - start) / (finish - start), 0, 1);
+    return u * u * (3 - 2 * u);
   }
-  let shown='';
-  function draw(S,al,sec){
+  function paintPlanting(time) {
+    const growth = ramp(time, 800, 10200);
+    const spring = ramp(time, 7300, 10500) * (1 - ramp(time, 12700, 15200));
+    const summer = ramp(time, 13700, 16000) * (1 - ramp(time, 18600, 20900));
+    const leaf = (.76 + .24 * ramp(time, 12200, 16200)) * (1 - ramp(time, 24100, 28500));
+    const autumn = ramp(time, 18800, 22600);
+    const state = {g: growth, age: growth, leaf, autumn, spring, summer, fl: Math.max(spring, summer)};
+    backPen.clearRect(0, 0, W, H);
+    frontPen.clearRect(0, 0, W, H);
+    crown.paint(backPen, state, false);
+    crown.paint(frontPen, state, true);
+    crown.paintRoots(frontPen, growth);
+    plant(frontPen, state);
+    for (const bed of herbs) herb(frontPen, bed, state);
+    return growth;
+  }
+  let weathering = 0;
+  function draw(time) {
+    // The pencil figures can move independently of the more slowly growing foliage.
+    const plantTime = Math.floor(time / 140) * 140;
+    if (drawnAt !== plantTime) { weathering = paintPlanting(plantTime); drawnAt = plantTime; }
+    const sec = time / 1000;
     g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,canvas.width,canvas.height);g.drawImage(cB,0,0);g.restore();
+    g.drawImage(rear, 0, 0, W, H);
     people(g,sec,true);
-    g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(cF,0,0);g.globalAlpha=S.age*al;g.drawImage(cW,0,0);g.restore();g.globalAlpha=1;
+    g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(cF,0,0);g.globalAlpha=weathering;g.drawImage(cW,0,0);g.restore();
+    g.drawImage(front, 0, 0, W, H);
     people(g,sec,false);
-    g.globalAlpha=al;plant(g,S);g.globalAlpha=1;if(S.t!==shown){shown=S.t;lab.textContent=S.t;}}
-  loopDrawing(canvas, now => {
-    const e = now % CY;
-    draw(state(e), Math.min((CY - e) / 1000, 1), now / 1000);
-  }, () => draw(state(CY - 1500), 1, 3));
+    const stage = time < 8500 ? 0 : time < 14400 ? 1 : time < 20700 ? 2 : time < 26800 ? 3 : 4;
+    if (stage !== activeStage) {
+      buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === stage)));
+      activeStage = stage;
+    }
+    const caption = stage === 0 && time > 2800 ? 'Over the years, roots spread and stems reach the crown.' : stages[stage][1];
+    if (lab.textContent !== caption) lab.textContent = caption;
+  }
+  function showTransport() {
+    toggle.toggleAttribute('data-paused', !running);
+    toggle.setAttribute('aria-label', running ? 'Pause growth sequence' : elapsed === end ? 'Replay growth sequence' : 'Play growth sequence');
+  }
+  function tick(now) {
+    request = 0;
+    if (!running || document.hidden) return;
+    if (previous !== null) elapsed = Math.min(end, elapsed + now - previous);
+    previous = now;
+    draw(elapsed);
+    if (elapsed < end) request = requestAnimationFrame(tick);
+    else { running = false; showTransport(); }
+  }
+  function sync() {
+    cancelAnimationFrame(request);
+    previous = null;
+    if (running && !document.hidden) request = requestAnimationFrame(tick);
+    showTransport();
+  }
+  buttons.forEach((button, i) => button.addEventListener('click', () => {
+    running = false;
+    elapsed = stages[i][0];
+    sync();
+    draw(elapsed);
+  }));
+  toggle.addEventListener('click', () => {
+    if (!running && elapsed === end) elapsed = 0;
+    running = !running;
+    sync();
+  });
+  motion.addEventListener('change', () => { if (motion.matches) { running = false; sync(); } });
+  document.addEventListener('visibilitychange', sync);
+  draw(elapsed);
+  document.documentElement.dataset.drawn = 'true';
+  document.dispatchEvent(new Event('ecology:drawn'));
+  sync();
 })();

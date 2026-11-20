@@ -6,12 +6,26 @@
   <title>Nature makes space</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="drawing.css">
+  <link rel="stylesheet" href="seasonal-room.css">
   <script src="drawing.js" defer></script>
   <script src="walker.js" defer></script>
+  <script src="seasonal-canopy.js" defer></script>
   <script src="nature-makes-space.js" defer></script>
 </head>
 <body>
-  <main aria-label="Nature makes space"><canvas id="arcE" role="img" aria-label="Pencil elevation in perspective of three bays of a Bower, with the far side of the room and a garden beyond. Climbers grow, flower, stand bare in winter and return fuller the next summer."></canvas>
-  <p id="season" class="visually-hidden"></p></main>
+  <main aria-label="Nature makes space">
+    <canvas id="arcE" role="img" aria-describedby="season" aria-label="Three timber piers in section, with another row and a garden behind them."></canvas>
+    <footer>
+      <nav aria-label="Planting and seasons">
+        <button id="play" aria-label="Pause growth sequence"><span aria-hidden="true"></span></button>
+        <button data-stage="0">Planting</button>
+        <button data-stage="1">Spring</button>
+        <button data-stage="2">Summer</button>
+        <button data-stage="3">Autumn</button>
+        <button data-stage="4">Winter</button>
+      </nav>
+      <p id="season"></p>
+    </footer>
+  </main>
 </body>
 </html>

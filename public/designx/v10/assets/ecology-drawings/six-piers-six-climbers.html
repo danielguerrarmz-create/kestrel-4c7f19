@@ -3,13 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Six piers, six climbers</title>
+  <title>One pier, four climbers</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="drawing.css">
+  <style>
+    .shared-pier { display:grid; grid-template-columns:54% 46%; align-items:center; }
+    .shared-pier canvas { width:100%; height:100%; min-height:0; object-fit:contain; }
+    .plant-notes { max-width:36vw; padding:1.4vh 0; color:#253b2e; }
+    .plant-notes h2 { margin:0 0 4.5vh; font:italic 400 4.4vw/1.04 var(--display); }
+    .plant-notes dl { margin:0; }
+    .plant-notes dt { margin:2.7vh 0 .65vh; font:italic 400 2.05vw/1.1 var(--display); }
+    .plant-notes dd { margin:0; max-width:32vw; font:400 1.35vw/1.4 Safiro,Arial,sans-serif; }
+  </style>
   <script src="drawing.js" defer></script>
   <script src="six-piers-six-climbers.js" defer></script>
 </head>
 <body>
-  <main aria-label="Six piers, six climbers"><div class="six" id="six"></div></main>
+  <main class="shared-pier" aria-label="One pier, four climbers">
+    <canvas id="shared-pier" role="img" aria-label="One fan of timber ribs carries four climbers. Wisteria follows the left rib, rose follows the right, jasmine winds up a cable and clematis clasps short laths lower down."></canvas>
+    <section class="plant-notes">
+      <h2>One pier, four climbers</h2>
+      <dl>
+        <dt>Chinese wisteria</dt><dd>A woody stem winds up the outer cable and flowers over the path in spring.</dd>
+        <dt>Climbing rose</dt><dd>Ties hold the canes against the opposite rib, with flowers at head height.</dd>
+        <dt>Star jasmine</dt><dd>An inner cable carries evergreen leaves and scented summer flowers.</dd>
+        <dt>Winter clematis</dt><dd>Leaf stalks clasp the fine laths lower on the pier, where the winter flowers are visible.</dd>
+      </dl>
+    </section>
+  </main>
 </body>
 </html>

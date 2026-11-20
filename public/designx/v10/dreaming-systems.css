@@ -129,3 +129,13 @@
 @media print {
   .dreaming-exhibit { grid-template-columns: minmax(0, 1fr); }
 }
+.dreaming-scene.has-selection .dreaming-diagram .link:not(.is-connected) { opacity: .17; }
+.dreaming-scene.has-selection .dreaming-diagram .link.is-connected {
+  stroke: #216444;
+  stroke-width: 3;
+  opacity: 1;
+}
+.dreaming-scene.has-selection .dreaming-diagram .node:not(.is-connected) { opacity: .58; }
+.dreaming-scene.has-selection .dreaming-diagram .node.is-connected rect { stroke: #548064; stroke-width: 1.8; }
+.dreaming-scene.has-selection .dreaming-diagram .node[aria-expanded="true"] rect { fill: #173f30; stroke: #173f30; stroke-width: 3; }
+.dreaming-scene.has-selection .dreaming-diagram .node[aria-expanded="true"] text { fill: #fff; }

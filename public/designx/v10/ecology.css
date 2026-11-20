@@ -72,6 +72,19 @@
   font-size: 21px;
 }
 
+.v8-ecology[data-ecology-layout="space"] iframe {
+  height: calc(100% + 49px);
+}
+.v8-ecology[data-ecology-layout="space"] iframe.is-ready {
+  pointer-events: auto;
+}
+.v8-ecology[data-ecology-layout="space"] figure:has(iframe.is-ready) figcaption {
+  visibility: hidden;
+}
+@media print {
+  .v8-ecology[data-ecology-layout="space"] figure:has(iframe.is-ready) figcaption { visibility: visible; }
+}
+
 .v8-ecology[data-ecology-layout="place"] .v8-ecology-art {
   position: absolute;
   inset: 6px 28px 113px;
@@ -108,7 +121,7 @@
 
 .v8-ecology[data-ecology-layout="piers"] .v8-ecology-art {
   position: absolute;
-  inset: 112px 48px 122px;
+  inset: 28px 48px 115px;
 }
 
 .v8-ecology[data-ecology-layout="palette"] .v8-ecology-art {

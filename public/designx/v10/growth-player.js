@@ -331,8 +331,11 @@
       const width = bitmap.width, height = bitmap.height;
       const gap = (mode.gutter || 0) * width;
       if (state.mode === 'light') {
-        const sw = (width - gap * 2) / 3, col = cw / 3, scale = col / sw * 1.2;
-        const w = sw * scale, h = height * scale, y = (ch - h) / 2 + ch / 30;
+        // The sun is part of each authored frame, including its rays near the
+        // frame edge. Keep the full compass path inside its own panel.
+        const sw = (width - gap * 2) / 3, col = cw / 3;
+        const scale = Math.min(col * .96 / sw, ch * .95 / height);
+        const w = sw * scale, h = height * scale, y = (ch - h) / 2;
         return { x:0, y:0, w:cw, h:ch, sh:height, col,
           panels:[0,1,2].map(i => ({sx:i * (sw + gap), sw, clipX:i * col, x:i * col + (col-w)/2, y, w, h})) };
       }

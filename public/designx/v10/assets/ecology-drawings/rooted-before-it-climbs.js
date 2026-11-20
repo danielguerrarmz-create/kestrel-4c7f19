@@ -40,12 +40,18 @@ function scene(canvas,o){
     for(let q=1;q<n;q++){a.beginPath();for(let y=286;y>=top;y-=6)a.lineTo(cxAt(L,y)-L.w/2+q*lam,y);a.strokeStyle=ink(.42);a.lineWidth=.55*LW;a.stroke();
       if(L.w>30){const fy=top+48+t()*(H-110),fx=cxAt(L,fy)-L.w/2+q*lam;a.beginPath();for(let z=0;z<=6;z++)a.lineTo(fx-lam+z*lam/6,fy+(z%2?4:-4));a.strokeStyle=ink(.45);a.lineWidth=.5*LW;a.stroke();}}
     a.restore();legPath(L,0);a.strokeStyle=ink(.95);a.lineWidth=2;a.stroke();
-    a.fillStyle=ink(.95);a.fillRect(L.x-2,244,4,56);a.fillRect(L.x-L.w/2-6,294,L.w+12,6);a.fillRect(L.x-L.w/2-4,290,4,4);a.fillRect(L.x+L.w/2,290,4,4);
-    [256,272].forEach(y=>{a.beginPath();a.arc(L.x,y,2.8,0,7);a.fillStyle=PAPER;a.fill();a.strokeStyle=ink(.95);a.lineWidth=1;a.stroke();dot(a,L.x,y,.9,.9);});});
+    const base = S + 52;
+    a.fillStyle=PAPER; a.fillRect(L.x-L.w/2,284,L.w,base-284);
+    for (let offset=0; offset<=L.w; offset+=L.w/n) ln(a,L.x-L.w/2+offset,284,L.x-L.w/2+offset,base,offset===0||offset===L.w?1.6:.55,.7);
+  });
   // steel frame
+  const frameDrop = S + 64 - F;
+  a.save();
+  a.translate(0,frameDrop);
   a.fillStyle=PAPER;a.fillRect(633,F,374,30);a.strokeStyle=ink(.9);a.lineWidth=1.2;a.strokeRect(633,F,374,30);
   ln(a,634,F+4.5,1006,F+4.5,.5,.5);ln(a,634,F+25.5,1006,F+25.5,.5,.5);for(let x=640;x<1004;x+=3)ln(a,x,F+26.5,x+2,F+29,.35,.3);
   [648,757,950].forEach(x=>{a.fillStyle=ink(.95);a.fillRect(x-15,F,30,30);a.fillStyle=PAPER;a.fillRect(x-10,F+5,20,20);});
+  a.restore();
   // root zone, mulch chips, ground line, grass
   a.setLineDash([7,6]);a.lineWidth=.9*LW;a.strokeStyle=ink(.6);a.strokeRect(CX-125,S,250,150);a.setLineDash([]);
   for(let i=0;i<330;i++){const x=446+t()*612;if(Math.abs(x-CX)<17)continue;const y=S-3-t()*11,an=(t()-.5)*1.2,w=3+t()*4,h=1.2+t()*1.6,co=Math.cos(an),sn=Math.sin(an);
@@ -58,11 +64,26 @@ function scene(canvas,o){
   const cabA=y=>cxAt(legs[3],y)-legs[3].w/2-12,cabB=y=>cxAt(legs[2],y)-legs[2].w/2-12;
   function fixed(c){
     [950,757].forEach(px=>{
-      c.fillStyle=PAPER;c.fillRect(px-11,330,22,668);
-      ln(c,px-11,330,px-11,998,1.8/LW,.95);ln(c,px+11,330,px+11,998,1.8/LW,.95);[4.5,7,9].forEach((of,i)=>ln(c,px+of,338,px+of,996,.4,.22+i*.08));
+      const head = 330 + frameDrop;
+      c.fillStyle=PAPER;c.fillRect(px-11,head,22,998-head);
+      ln(c,px-11,head,px-11,998,1.8/LW,.95);ln(c,px+11,head,px+11,998,1.8/LW,.95);[4.5,7,9].forEach((of,i)=>ln(c,px+of,head+8,px+of,996,.4,.22+i*.08));
       c.beginPath();c.moveTo(px-11,998);c.lineTo(px,1022);c.lineTo(px+11,998);c.fillStyle=PAPER;c.fill();c.strokeStyle=ink(.95);c.lineWidth=1.8;c.stroke();
       [4,0].forEach(dy=>{c.beginPath();c.ellipse(px,950+dy,38,7,-.14,0,7);c.fillStyle=PAPER;c.fill();c.strokeStyle=ink(.95);c.lineWidth=1.4;c.stroke();});
-      c.fillStyle=ink(.95);c.fillRect(px-20,330,40,6);c.fillRect(px-17,336,4,4);c.fillRect(px+13,336,4,4);});
+      c.fillStyle=ink(.95);c.fillRect(px-20,head,40,6);c.fillRect(px-17,head+6,4,4);c.fillRect(px+13,head+6,4,4);});
+    // Cut the sleeves in section so the timber ends and the metal at the
+    // soil interface can both be read. Their thickness is illustrative.
+    for (const leg of legs) {
+      const left = leg.x - leg.w/2 - 3, right = leg.x + leg.w/2 + 3;
+      const top = S - 10, bottom = F + frameDrop;
+      c.fillStyle = '#edf0ed';
+      c.fillRect(left, top, right-left, bottom-top);
+      c.fillStyle = PAPER;
+      c.fillRect(left+3,top,right-left-6,bottom-top-5);
+      for (let x=left+8; x<right-4; x+=6) ln(c,x,top,x,bottom-8,.5,.4);
+      [left,right].forEach(x=>ln(c,x,top,x,bottom,2,.88));
+      ln(c,left,bottom,right,bottom,3,.88);
+      ln(c,left-1,top,right+1,top,.8,.62);
+    }
     dot(c,CX+42,S-7,4.2,.95);c.fillStyle=PAPER;c.beginPath();c.arc(CX+42,S-7,1.7,0,7);c.fill();
     [cabA,cabB].forEach(cb=>{c.beginPath();for(let y=292;y>=top;y-=6)c.lineTo(cb(y),y);c.strokeStyle=ink(.85);c.lineWidth=.9*LW;c.stroke();
       c.fillStyle=PAPER;c.fillRect(cb(284)-2.5,277,5,13);c.strokeStyle=ink(.9);c.lineWidth=.8;c.strokeRect(cb(284)-2.5,277,5,13);
@@ -147,7 +168,8 @@ function scene(canvas,o){
   const A=[
     ['Wisteria, tied to a cable beside the rib',sc.cabA(70)-9,70],
     ['Glulam legs of the pier',sc.cxAt(sc.legs[0],170)+32,170],
-    ['Steel frame holds the timber clear of the soil',1007,316],
+    ['Stainless steel sleeve at the soil line',986,sc.S+18],
+    ['Buried steel frame on screw piles',1007,sc.S+78],
     ['Open soil kept for the roots',sc.CX+125,sc.S+90],
     ['Screw piles in place of a concrete pad',961,640]
   ].map(q=>({txt:q[0],x:q[1]-V.x,y:q[2]})).sort((p,q)=>p.y-q.y);
