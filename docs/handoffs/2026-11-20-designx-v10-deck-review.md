@@ -32,3 +32,15 @@ The full test suite reported 1,026 passing tests and one unrelated stale generat
 ## Files touched
 
 Deck edits live under `public/designx/v10/` in the mission opening, orbit, growth player, ecology and Dreaming Systems modules. Editable artwork and print stills live under `assets/ecology-drawings/` within that directory. That folder's `SOURCES.md` records the drawing assumptions.
+
+## Local revision following the slide annotations
+
+The local V10 deck uses a shared white, sage, leaf green and dark green palette. Smaller captions sit lower on the drawing slides. Slide 11 supplies the green accent used for the factory introduction and the site-partner invitation. Individual words in titles now use the surrounding title style.
+
+On slide 6 the nearest walker passes behind the timber columns. Slide 9 pairs each climber with its support, and slide 10 places the calendar legend above the six pier diagrams. The factory overview introduces the proposed factory before inviting visitors to select a station. The three manufacturing drawings sit lower. The deck omits the recurring working-drawing footers. Source records remain in the drawing package.
+
+Slide 2 opens with an ink illustration based on the original opening-day image. Use the [opening-day review view](http://127.0.0.1:5376/designx/v10/?study=opening-day#slide-02) to hold that frame on screen. Daniel will direct the remaining seasonal artwork.
+
+The shared styles are in `public/designx/v10/presentation.css`. Ecology artwork and print stills are in `public/designx/v10/assets/ecology-drawings/`. The opening image is in `public/designx/v10/assets/mission-opening/`. The deck uses the same V10 route and the existing 21-slide sequence.
+
+Slide 6 shows all three near piers in section, including sleeves, a buried steel frame and two screw piles at each pier. Slide 8 uses the same foundation drawing at detail scale and carries timber grain and lamination lines through the soil line. Slide 9 uses the botanical sprigs from slide 10 beside the four climbing habits. Slide 15 pairs the pavilion drawing with an invitation for a site partner. The six revised opening and full-growth stills support print and reduced motion.

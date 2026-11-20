@@ -3,7 +3,7 @@ const NS='http://www.w3.org/2000/svg';
 function el(p,n,a,t){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;p.appendChild(e);return e;}
 function rng(seed){return()=>{seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const PAPER='#fdfdfb',ink=a=>`rgba(40,40,38,${a})`;
+const PAPER=getComputedStyle(document.documentElement).getPropertyValue('--white').trim(),ink=a=>`rgba(40,40,38,${a})`;
 const CYCLE=17000,GROW=11500,FADE=1000;
 
 const SP={

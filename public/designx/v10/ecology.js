@@ -8,8 +8,6 @@
 
   function html(item) {
     const slug = escape(item.ecologyDrawing);
-    const space = item.ecologyDrawing === 'nature-makes-space';
-    const place = item.ecologyDrawing === 'the-living-place';
     const growth = item.ecologyDrawing !== 'why-these-plants';
     const layouts = {
       'nature-makes-space': 'space',
@@ -20,7 +18,7 @@
     };
     const layout = layouts[item.ecologyDrawing];
     return `<section class="v8-ecology" data-ecology-layout="${layout}" aria-label="${escape(item.title)}">
-      ${space || layout === 'piers' ? '' : `<h2>${escape(item.title)}</h2>`}
+      ${layout === 'piers' ? '' : `<h2>${escape(item.title)}</h2>`}
       <figure>
         <div class="v8-ecology-art" data-ecology-drawing="${slug}">
           <picture>
@@ -30,7 +28,6 @@
         </div>
         <figcaption>${escape(item.caption)}</figcaption>
       </figure>
-      ${space || place ? '' : `<p class="v8-ecology-note">${escape(item.note || 'Working drawing, not reviewed by a horticulturist.')}</p>`}
     </section>`;
   }
 

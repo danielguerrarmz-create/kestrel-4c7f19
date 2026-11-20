@@ -21,16 +21,30 @@
   edit('variability-slide', content => {
     content.querySelectorAll('.living-image-caption, [data-opening-motion], .living-parts-caption > span')
       .forEach(element => element.remove());
+    // Both passages turn from natural variation to production after the line break.
+    for (const passage of content.querySelectorAll('.living-explanation, .living-opportunity blockquote')) {
+      const lineBreak = passage.querySelector('br');
+      const production = document.createElement('span');
+      production.className = 'production-line';
+      while (lineBreak.nextSibling) production.append(lineBreak.nextSibling);
+      lineBreak.after(production);
+    }
   });
 
   edit('v5-factory-overview', content => {
     content.querySelector('.slide-heading h2').textContent = 'Variability in Manufacturing';
     content.querySelector('[data-factory-focus]').remove();
+    const intro = content.querySelector('.factory-explore-controls p');
+    intro.className = 'factory-intro v10-takeaway';
+    intro.innerHTML = 'We imagine a factory built around the shape of each timber rib. <span class="station-invitation">Select a station to see how it would work.</span>';
+    intro.parentElement.before(intro);
+    content.querySelector('.source-note').remove();
   }, 'Variability in Manufacturing');
 
   edit('v5-factory-focus', content => {
     const scene = content.querySelector('.factory-focus-exhibit');
     scene.removeAttribute('data-factory-viewer');
+    scene.querySelector('.source-note').remove();
     scene.setAttribute('data-factory-sequence', '');
     scene.setAttribute('aria-label', 'Form, measure, machine');
     scene.querySelectorAll('.slide-heading, .factory-hero-picker, .factory-surface, .factory-controls, .factory-caption')
@@ -54,13 +68,17 @@
   });
 
   edit('buyers-slide', content => {
+    content.querySelector('.source-note').remove();
     content.querySelector('.slide-heading h2').innerHTML = 'Our first <em>customers.</em>';
   }, 'Our first customers.');
 
   edit('v8-reference-slide', content => {
     content.querySelector('.v8-reference-kicker').remove();
-    content.querySelector('.v8-reference-title').innerHTML = 'Our missing<br> <em>reference</em>';
-  }, 'Our missing reference');
+    content.querySelector('.v8-reference-title').innerHTML = 'A Bower<br>people can visit';
+    content.querySelector('.v8-reference-evidence').textContent = 'In conversations with cultural institutions and estate owners, one request kept coming up. They wanted to see a completed Bower.';
+    content.querySelector('.v8-reference-ask').textContent = 'We’re looking for a site partner for the first Bower.';
+    content.querySelector('.v8-reference-ask').classList.add('v10-takeaway');
+  }, 'A Bower people can visit');
 
   edit('v7-commercial-model-slide', content => {
     content.querySelector('.v7commercial-title').innerHTML = 'Bower’s first <em>three steps</em>';
@@ -78,6 +96,7 @@
   for (const slide of slides) {
     const template = document.createElement('template');
     template.innerHTML = slide.html;
+    template.content.querySelectorAll('h1 em, h2 em, h3 em').forEach(em => em.replaceWith(...em.childNodes));
     template.content.querySelectorAll('a, button, .factory-explore-controls > p').forEach(element => {
       const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
       const arrows = /[\u2190-\u21ff\u27f0-\u27ff]/u;

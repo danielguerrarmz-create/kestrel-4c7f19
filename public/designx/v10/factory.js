@@ -92,11 +92,9 @@
 
   function mountTransport(element, label, { toggle, restart }) {
     element.classList.add('v8-playback-controls');
-    element.innerHTML = `<button type="button" data-transport-play aria-label="Play ${label}" disabled></button>
-      <button type="button" data-transport-restart aria-label="Restart ${label}" title="Restart" disabled>
-        <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a5.5 5.5 0 1 1-.2 4.7M3 2.7V6h3.3"/></svg>
-      </button>
-      <progress max="1" value="0" aria-label="${label} progress"></progress>`;
+    element.innerHTML = `<button type="button" data-transport-play aria-label="Play ${label}" disabled>Play</button>
+      <button type="button" data-transport-restart aria-label="Restart ${label}" disabled>Restart</button>
+      <progress class="sr-only" max="1" value="0" aria-label="${label} progress"></progress>`;
     const play = element.querySelector('[data-transport-play]');
     const reset = element.querySelector('[data-transport-restart]');
     const progress = element.querySelector('progress');
@@ -106,6 +104,7 @@
     return {
       setProgress(value) { progress.value = value; },
       setPlaying(playing, disabled) {
+        play.textContent = playing ? 'Pause' : 'Play';
         play.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${label}`);
         play.disabled = reset.disabled = disabled;
       }
@@ -227,7 +226,7 @@
     const caption = document.createElement('p'); caption.className = 'factory-dialog-caption'; controls.before(caption);
     const qualification = document.createElement('p'); qualification.className = 'factory-dialog-status';
     const processQualification = 'Proposed process. Scan deviations are illustrative.' + (publicView ? '' : ' Methods and assumptions in Drawing notes.');
-    qualification.textContent = processQualification; dialog.append(qualification);
+    if (!publicView) { qualification.textContent = processQualification; dialog.append(qualification); }
     if (isExplorer) {
       const navigation = document.createElement('nav'); navigation.className = 'factory-detail-navigation'; navigation.setAttribute('aria-label', 'Explore stations');
       navigation.innerHTML = `<button type="button" data-factory-previous>${currentEdition ? '' : '← '}Previous station</button><span data-factory-detail-count></span><button type="button" data-factory-next>Next station${currentEdition ? '' : ' →'}</button>`;

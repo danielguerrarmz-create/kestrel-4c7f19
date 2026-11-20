@@ -1,0 +1,389 @@
+/* Slide authors select a field with --v10-field. Use leaf for editorial emphasis. */
+.designx-v10 {
+  --v10-white: #fff;
+  --v10-sage: #eef3ea;
+  --v10-leaf: #c1d98a;
+  --v10-forest: #102820;
+  --v10-caption-size: 17px;
+  --v10-caption-bottom: 28px;
+  --title-column: 310px;
+  --nature-title: 'Argesta Display', Georgia, serif;
+  --nature-text: 'Argesta Text', Georgia, serif;
+  --technology: 'Safiro', Arial, sans-serif;
+}
+
+.designx-v10 .slide {
+  --v10-field: var(--v10-white);
+  background-color: var(--v10-field);
+}
+.designx-v10 :is(.v8-light-slide, .variability-slide, .v8-reference-slide, .v10-dreaming-slide) {
+  --v10-field: var(--v10-sage);
+}
+.designx-v10 :is(.cover, .closing, .mission-scene, .v7-commercial-model-slide, .v7-future-slide) {
+  --v10-field: var(--v10-forest);
+}
+.designx-v10 .slide :is(.v7-scene, .v8-study-growth, .v8-growth-screen, .v8-ecology,
+  .living-opportunity, .v8-reference-scene, .v7commercial-scene, .dreaming-scene, .v7future-scene, .mission-visit) {
+  --drawing-paper: var(--v10-field);
+  background-color: var(--v10-field);
+}
+.designx-v10 .living-opportunity blockquote { background-color: var(--v10-leaf); }
+.designx-v10 .v8-reference-title {
+  inset: 118px auto auto 80px;
+  width: 720px;
+  font-size: 96px;
+  line-height: 1.02;
+}
+.designx-v10 .v8-reference-visual {
+  inset: 88px 48px auto auto;
+  width: 890px;
+  height: 590px;
+  overflow: hidden;
+}
+/* V8 animates an inline ghost opacity. V10 presents this drawing at full strength. */
+.designx-v10 .v8-reference-scene .v8-reference-visual img {
+  opacity: .92 !important;
+  object-fit: contain;
+}
+.designx-v10 .v8-reference-support { position: static; }
+.designx-v10 .v8-reference-evidence {
+  position: absolute;
+  inset: 440px auto auto 80px;
+  width: 610px;
+  font-size: 31px;
+}
+.designx-v10 .slide .v10-takeaway {
+  position: absolute;
+  inset: auto 0 0;
+  box-sizing: border-box;
+  min-height: 148px;
+  margin: 0;
+  padding: 42px 80px 56px;
+  background: var(--v10-leaf);
+  color: #101310;
+  font: 500 42px/1.2 var(--sans);
+}
+.designx-v10 .mission-visit:has(.mission-street) { --street-band: 148px; }
+.designx-v10 .mission-visit .mission-street { height: calc(100% - var(--street-band)); }
+.designx-v10 .mission-visit .mission-caption {
+  bottom: var(--street-band);
+  max-width: calc((900px - var(--street-band)) * 16 / 9);
+  margin-inline: auto;
+}
+.designx-v10 .mission-scene:has(.mission-street) > .folio { color: #101310; }
+
+.designx-v10 .v8-ecology[data-ecology-layout] figcaption {
+  bottom: var(--v10-caption-bottom);
+  font: 400 var(--v10-caption-size)/1.35 var(--sans);
+}
+.designx-v10 .v10-drawing-player,
+.designx-v10 .v8-ecology[data-ecology-layout="roots"] {
+  background-image: linear-gradient(to right, var(--v10-leaf) var(--title-column), transparent var(--title-column));
+  print-color-adjust: exact;
+}
+.designx-v10 .slide .v10-drawing-player .v7-title {
+  inset: 96px auto auto 58px;
+  width: calc(var(--title-column) - 86px);
+  font-size: 52px;
+  text-align: left;
+  text-shadow: none;
+}
+.designx-v10 .v10-drawing-player :is(.v8-canopy-poster, video, .canopy-end-mark, .v8-growth-print, .v8-growth-screen) {
+  left: var(--title-column);
+  width: calc(100% - var(--title-column));
+}
+.designx-v10 .v8-canopy-orbit-scene :is(.v8-canopy-poster, video) {
+  object-fit: contain;
+  object-position: center top;
+  background: #fdfcf8;
+}
+.designx-v10 .v8-canopy-orbit-scene .canopy-end-mark {
+  bottom: auto;
+  aspect-ratio: 16 / 9;
+}
+.designx-v10 .v10-drawing-player .v8-study-host,
+.designx-v10 .v10-drawing-player .v8-growth-player { background: transparent; }
+.designx-v10 .v10-drawing-player::after,
+.designx-v10 .v10-drawing-player [data-v8-canopy]::after { content: none; }
+.designx-v10 .v10-drawing-player :is(.v8-canopy-projections, .v8-growth-player .v8-light-times) {
+  inset: 320px auto auto 58px;
+  width: calc(var(--title-column) - 86px);
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: start;
+  gap: 2px;
+}
+.designx-v10 .slide .v10-drawing-player :is(.v8-canopy-projections, .v8-light-times) button {
+  font: 400 25px/1.22 var(--technology);
+  text-align: left;
+  padding: 5px 0;
+}
+.designx-v10 .slide .v10-drawing-player button[aria-pressed="true"] {
+  font-weight: 700;
+  text-decoration: none;
+}
+.designx-v10 .slide .v10-drawing-player .v8-drawing-timeline {
+  inset: auto auto 48px 58px;
+  width: calc(var(--title-column) - 96px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  padding: 0;
+  text-shadow: none;
+  color: var(--v10-forest);
+}
+.designx-v10 .v10-drawing-player .v8-drawing-track { padding: 0; }
+.designx-v10 .v10-drawing-player .v8-drawing-readout { font: 500 26px/1.1 var(--technology); }
+.designx-v10 .v10-drawing-player .v8-drawing-context { font: 400 19px/1.25 var(--technology); }
+.designx-v10 .v10-drawing-player .canopy-milestones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
+  margin-top: 6px;
+}
+.designx-v10 .canopy-milestones button {
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #284639;
+  font: 400 18px/1.2 var(--technology);
+}
+.designx-v10 .v10-drawing-player .v8-drawing-axis {
+  position: static;
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  font-size: 17px;
+}
+.designx-v10 .v10-drawing-player .v8-drawing-axis span { position: static; transform: none; }
+.designx-v10 .v10-drawing-player .v8-drawing-axis span:not(:first-child, :last-child),
+.designx-v10 .v10-drawing-player .v8-drawing-axis span::before { display: none; }
+.designx-v10 .v10-drawing-player :is(.v8-canopy-message, .v8-growth-message) {
+  inset: 500px auto auto 58px;
+  max-width: calc(var(--title-column) - 96px);
+  padding: 0;
+  background: transparent;
+  font: 400 16px/1.3 var(--technology);
+  text-align: left;
+}
+.designx-v10 .v10-drawing-player .v8-growth-message { display: block; }
+.designx-v10 .v10-drawing-player :is(.v8-growth-message, .v8-canopy-message)[hidden] { display: none; }
+.designx-v10 .v10-drawing-player :is(.v8-light-labels, .v8-print-stages) {
+  top: 96px;
+  font: 400 26px/1.2 var(--nature-text);
+}
+.designx-v10 .v8-canopy-orbit-scene .v8-canopy-print-caption {
+  left: 58px;
+  max-width: calc(var(--title-column) - 86px);
+}
+.designx-v10 .v8-ecology[data-ecology-layout="space"] {
+  background-image: linear-gradient(to left, var(--v10-leaf) var(--title-column), transparent var(--title-column));
+  print-color-adjust: exact;
+}
+.designx-v10 .v8-ecology[data-ecology-layout="space"] :is(h2, figcaption) {
+  position: absolute;
+  right: 42px;
+  width: calc(var(--title-column) - 86px);
+}
+.designx-v10 .v8-ecology[data-ecology-layout="space"] h2 {
+  top: 96px;
+  font-size: 52px;
+  line-height: 1.12;
+  z-index: 2;
+  pointer-events: none;
+}
+.designx-v10 .v8-ecology[data-ecology-layout="space"] .v8-ecology-art { inset: 0; }
+.designx-v10 .v8-ecology[data-ecology-layout="space"] iframe { height: 100%; }
+.designx-v10 .v8-ecology[data-ecology-layout="space"] .v8-ecology-art img {
+  width: calc(100% - var(--title-column));
+  object-fit: contain;
+  object-position: center top;
+}
+.designx-v10 .v8-ecology[data-ecology-layout="roots"] :is(h2, figcaption) {
+  left: 58px;
+  width: calc(var(--title-column) - 86px);
+}
+.designx-v10 .v8-ecology[data-ecology-layout="roots"] .v8-ecology-art {
+  left: var(--title-column);
+}
+.designx-v10 .v8-ecology[data-ecology-layout="palette"] figcaption { max-width: 1030px; }
+.designx-v10 .v8-ecology[data-ecology-layout="piers"] .v8-ecology-art { bottom: 76px; }
+.designx-v10 .v8-ecology[data-ecology-layout="palette"] .v8-ecology-art { inset-block: 40px 104px; }
+.designx-v10 .v8-ecology[data-ecology-layout="palette"] h2 { right: 92px; bottom: 28px; }
+
+.designx-v10 .factory-overview-exhibit .factory-intro {
+  padding: 27px 160px 28px 80px;
+  font-size: 36px;
+}
+.designx-v10 .factory-intro .station-invitation { display: block; margin-top: 8px; font-size: 21px; font-weight: 400; }
+.designx-v10 .slide .factory-print-overview { height: 658px; }
+.designx-v10 .factory-overview-exhibit .factory-explore-controls {
+  left: auto;
+  bottom: 40px;
+  border: 0;
+}
+.designx-v10 .v8-factory-panels { inset-block: 154px 159px; }
+.designx-v10 .v8-factory-narrations { bottom: 108px; font-size: var(--v10-caption-size); }
+.designx-v10 .v8-factory-transport { bottom: 46px; }
+.designx-v10.print-mode .factory-focus-exhibit .factory-print-heroes { top: 184px; }
+@media print {
+  .designx-v10 .factory-focus-exhibit .factory-print-heroes { top: 184px; }
+  .designx-v10 .factory-intro .station-invitation { display: none; }
+}
+.designx-v10.print-mode .station-invitation { display: none; }
+.designx-v10 .dreaming-scene { padding-bottom: 165px; }
+.designx-v10 .dreaming-figure { grid-template-rows: minmax(0, 1fr); }
+.designx-v10 .dreaming-scene .readout {
+  display: grid;
+  align-content: center;
+  padding: 24px 100px 32px 80px;
+  font-size: 32px;
+}
+.designx-v10 .dreaming-scene .mode-readout { margin: 0; }
+.designx-v10 .living-parts-caption { margin-top: 22px; font-size: var(--v10-caption-size); }
+
+/* Keep architectural views, portraits and drawings in their authored proportions. */
+.designx-v10 .slide :is(.full-image, .construction-film, .living-film),
+.designx-v10 .slide.is-active .full-image {
+  object-fit: contain;
+  animation: none;
+  transform: none;
+}
+.designx-v10 .living-window { width: 596px; }
+.designx-v10 .living-title { left: 48px; font-size: 91px; }
+.designx-v10 .living-copy { left: 680px; right: 80px; }
+.designx-v10 .living-parts > img:nth-child(n) { transform: none; }
+.designx-v10 .buyers-slide .buyer-triptych {
+  grid-template-columns: minmax(0, 1.49fr) repeat(2, minmax(0, 1.79fr));
+}
+.designx-v10 .buyers-slide .buyer-triptych img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform: none;
+}
+.designx-v10 .buyers-slide .buyer-triptych figcaption {
+  position: static;
+  padding: 12px 28px;
+  background: transparent;
+}
+.designx-v10 .buyer-triptych p { max-width: none; font-size: 42px; }
+.designx-v10 .buyers-slide .buyer-triptych h3 { margin-top: 8px; }
+.designx-v10 .team-grid img { height: auto; object-fit: contain; }
+.designx-v10 .team-grid figure { align-items: start; }
+.designx-v10 .slide .v7future-print img { object-fit: contain; object-position: left bottom; }
+
+/* The founders' two voices follow the subject, including within mixed slides. */
+.designx-v10 .slide :is(.v10-drawing-player .v7-title, .v8-ecology h2,
+  .living-title, .mission-moment h2, .mission-caption h2, .v7future-title) {
+  font-family: var(--nature-title);
+  font-style: normal;
+}
+.designx-v10 .slide :is(.cover-proposition, .mission-moment figcaption p, .mission-visit .v10-takeaway, .living-promise,
+  .v8-ecology[data-ecology-layout="space"] figcaption,
+  .v8-ecology[data-ecology-layout="place"] figcaption,
+  .v8-ecology[data-ecology-layout="palette"] figcaption) {
+  font-family: var(--nature-text);
+}
+.designx-v10 .living-opportunity .living-explanation,
+.designx-v10 .living-opportunity blockquote {
+  font-family: var(--nature-text);
+  font-weight: 400;
+}
+.designx-v10 .living-opportunity .production-line {
+  font-family: var(--technology);
+}
+.designx-v10 .living-opportunity blockquote .production-line { font-weight: 700; }
+.designx-v10 .slide :is(.factory-exhibit .slide-heading h2, .factory-inline h2,
+  .factory-print-heroes h3, .v8-factory-panel h2, .dreaming-title, .v7commercial-title) {
+  font-family: var(--technology);
+  font-weight: 700;
+  letter-spacing: -.045em;
+}
+.designx-v10 .dreaming-diagram .node:is([data-node="living"], [data-node="site"]) text:not(.detail),
+.designx-v10 .dreaming-scene:has([data-mode="growing"][aria-pressed="true"]) .mode-readout {
+  font-family: var(--nature-text);
+  font-weight: 400;
+}
+.designx-v10 :is(button, input, select, .viewer-controls, .folio) { font-family: var(--technology); }
+.designx-v10 .slide .v10-drawing-player .v8-drawing-timeline > button,
+.designx-v10 .slide button[data-gallery-play],
+.designx-v10 .v8-playback-controls > button:is([data-transport-play], [data-transport-restart]) {
+  width: fit-content;
+  padding: 4px 0;
+  font: 500 22px/1.2 var(--technology);
+}
+.designx-v10 button:is([data-canopy-play], [data-v8-study-play], [data-gallery-play], [data-transport-play])[aria-label]::before {
+  content: none;
+}
+.designx-v10 .v8-playback-controls,
+.designx-v10 .factory-dialog .factory-controls.v8-playback-controls { gap: 24px; }
+.designx-v10 .v8-text-action, .designx-v10 .factory-dialog button,
+.designx-v10 .factory-mobile-launch, .designx-v10 .slide [data-canopy-retry],
+.designx-v10 .slide [data-v8-retry] { text-decoration: none; }
+.designx-v10 .dreaming-lenses button[aria-pressed="true"],
+.designx-v10 .index-dialog[data-titles-only] .index-item[aria-current="page"] strong {
+  text-decoration: none;
+  font-weight: 700;
+}
+.designx-v10 .v8-ecology[data-ecology-layout="roots"] .v8-ecology-art { inset-block: 0; }
+.designx-v10 .v8-ecology[data-ecology-layout="place"] .v8-ecology-art { top: 0; }
+
+/* The gallery and process sequence reserve space for their controls outside the artwork. */
+@media screen {
+  .designx-v10:not(.print-mode) .v7future-scene {
+    --gallery-column: 370px;
+    background: var(--v10-leaf);
+    color: var(--v10-forest);
+  }
+  .designx-v10:not(.print-mode) .v7future-images {
+    right: var(--gallery-column);
+    background: var(--v10-forest);
+  }
+  .designx-v10:not(.print-mode) .v7future-image > img { width: 100%; height: 100%; object-fit: contain; }
+  .designx-v10:not(.print-mode) .v7future-shade { display: none; }
+  .designx-v10:not(.print-mode) .v7future-scene .v7future-title {
+    inset: 70px 40px auto auto;
+    width: calc(var(--gallery-column) - 84px);
+    color: inherit;
+    font-size: 60px;
+    line-height: 1.02;
+    text-shadow: none;
+  }
+  .designx-v10:not(.print-mode) .v7future-choices {
+    inset: 325px 40px auto auto;
+    width: calc(var(--gallery-column) - 84px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .designx-v10:not(.print-mode) .v7future-choices .v7future-choice {
+    grid-template: auto / 82px minmax(0, 1fr);
+    gap: 16px;
+    padding: 0;
+    align-items: center;
+    color: var(--v10-forest);
+  }
+  .designx-v10:not(.print-mode) .v7future-choice > img { height: auto; object-fit: contain; }
+  .designx-v10:not(.print-mode) .v7future-choice[aria-pressed="true"] > span {
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .designx-v10:not(.print-mode) .v7future-choice:focus-visible { outline-color: var(--v10-forest); }
+  .designx-v10:not(.print-mode) .v8-gallery-play {
+    inset: auto auto 68px calc(100% - var(--gallery-column) + 44px);
+    color: var(--v10-forest);
+    filter: none;
+  }
+  .designx-v10:not(.print-mode) .v7-future-slide > .folio { color: var(--v10-forest); }
+  .designx-v10:not(.print-mode) .factory-focus-exhibit {
+    background: linear-gradient(to top, var(--v10-leaf) 155px, #fdfcf9 155px);
+  }
+}
+
+@media screen {
+  .designx-v10:not(.print-mode) .mission-moment figcaption,
+  .designx-v10:not(.print-mode) .mission-caption { padding-bottom: 42px; }
+  .designx-v10:not(.print-mode) .mission-moment p,
+  .designx-v10:not(.print-mode) .mission-caption p { font-size: 23px; }
+}

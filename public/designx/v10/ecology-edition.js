@@ -7,7 +7,7 @@
     "theme": "v8-space-slide",
     "ecologyDrawing": "nature-makes-space",
     "caption": "In spring, wisteria hangs below the planted canopy.",
-    "alt": "A cut through the planted timber room in spring. Roots spread beside the piers and wisteria flowers hang over the path. The seasonal study also shows a fuller summer canopy, crimson autumn leaves and bare winter stems alongside ivy.",
+    "alt": "A cut through the planted timber room in spring. Each foreground pier sits in steel sleeves on a buried frame and two screw piles. Roots spread beside the piers and wisteria flowers hang over the path. The seasonal study also shows a fuller summer canopy, crimson autumn leaves and bare winter stems alongside ivy.",
     "purpose": "Show how planting can change the enclosure of a timber room through the seasons.",
     "status": "Seasonal relationships are illustrative. Stems, leaves and flowers are drawn by eye."
   },
@@ -27,11 +27,10 @@
     "caption": "A stainless steel sleeve surrounds the timber where it enters the planting bed.",
     "alt": "Proposed section through a sleeved timber pier at the soil line. Wisteria roots spread beside a buried steel frame on screw piles.",
     "purpose": "Show how a footing proposal could leave soil available to a climber.",
-    "status": "Concept detail. Drainage, timber durability, access for inspection and the foundation require engineering review. Roots are illustrative.",
-    "note": "Concept detail. Drainage and timber durability need engineering review."
+    "status": "Concept detail. Drainage, timber durability, access for inspection and the foundation require engineering review. Roots are illustrative."
   },
   {
-    "title": "One pier, four climbers",
+    "title": "Building an Ecology",
     "theme": "v8-six-piers-slide",
     "ecologyDrawing": "six-piers-six-climbers",
     "caption": "The south-west pier planting, with each climber shown in flower.",
@@ -43,7 +42,7 @@
     "title": "Why these plants",
     "theme": "v8-plant-palette-slide",
     "ecologyDrawing": "why-these-plants",
-    "caption": "Twelve climbers make a different seasonal palette at each pier.",
+    "caption": "We pair climbers for different seasons, bringing spring flowers, summer scent, autumn colour and leaves that hold through winter.",
     "alt": "Twelve labelled sprigs sit above six flower-shaped calendars. Reading clockwise from January shows which plants flower, scent or turn red at each pier. The north-west pier has ivy alone.",
     "purpose": "Compare leaf habit, flowering periods and scent across the six piers.",
     "status": "Months and leaf habit come from the species records. This working palette substitutes star jasmine and ivy for two trial species. Planting approval and horticultural review remain open."

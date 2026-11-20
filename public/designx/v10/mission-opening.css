@@ -2,7 +2,7 @@
 .designx-v10 .mission-scene.is-active { animation: none; }
 
 .mission-visit { position: absolute; inset: 0; overflow: hidden; background: #102820; }
-.mission-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.mission-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .mission-caption {
   position: absolute;
   inset: auto 0 0;
@@ -60,11 +60,7 @@
   .designx-v10:not(.print-mode) .mission-moment.is-dissolving figcaption > * {
     animation: mission-caption-in var(--mission-dissolve) ease-in-out both;
   }
-  .designx-v10:not(.print-mode) .mission-scene.is-active .mission-street {
-    animation: mission-pullback 1400ms cubic-bezier(.23, 1, .32, 1) both;
-  }
 }
 @keyframes mission-season-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mission-caption-out { from { opacity: 1; } 40%, to { opacity: 0; } }
 @keyframes mission-caption-in { from, 40% { opacity: 0; } to { opacity: 1; } }
-@keyframes mission-pullback { from { transform: scale(1.09); } to { transform: scale(1); } }

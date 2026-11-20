@@ -40,7 +40,6 @@
 .v8-ecology-art iframe.is-ready { opacity: 1; }
 .v8-ecology-art[data-ecology-drawing="why-these-plants"] iframe.is-ready { pointer-events: auto; }
 .v8-ecology figcaption { font: 400 23px/1.25 var(--sans); }
-.v8-ecology-note { margin: 0; color: #465850; font: 400 17px/1.35 var(--sans); }
 
 /* The opening drawings use the frame as a field, with copy at its edges. */
 .designx-v8 .v8-ecology[data-ecology-layout="space"],
@@ -146,15 +145,6 @@
 }
 
 .v8-ecology[data-ecology-layout="palette"] figcaption { max-width: 820px; }
-
-.v8-ecology[data-ecology-layout="roots"] .v8-ecology-note,
-.v8-ecology[data-ecology-layout="piers"] .v8-ecology-note,
-.v8-ecology[data-ecology-layout="palette"] .v8-ecology-note {
-  position: absolute;
-  left: 58px;
-  bottom: 25px;
-  font-size: 15px;
-}
 
 @media print {
   .v8-ecology-art iframe { display: none; }

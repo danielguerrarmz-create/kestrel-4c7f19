@@ -5,14 +5,26 @@
 }
 
 @font-face {
+  font-family: Safiro;
+  src: url("../../../4/assets/fonts/safiro-bold-webfont.woff2") format("woff2");
+  font-weight: 700;
+}
+
+@font-face {
   font-family: Argesta;
   src: url("../../../4/assets/fonts/argestadisplay-regularitalic-webfont.woff2") format("woff2");
   font-style: italic;
 }
 
+@font-face {
+  font-family: Argesta;
+  src: url("../../../4/assets/fonts/argestadisplay-regular-webfont.woff2") format("woff2");
+  font-style: normal;
+}
+
 :root {
   color-scheme: light;
-  --white: #fdfdfb;
+  --white: #fff;
   --pencil: #3a3a38;
   --ink: #282826;
   --mute: #62625e;
@@ -34,6 +46,7 @@ main > canvas, main > svg, .root-section > * {
 .root-section { position: relative; width: 100%; height: 100%; }
 .root-section > svg { position: absolute; inset: 0; }
 svg text { font-family: Safiro, Arial, sans-serif; fill: var(--ink); }
+svg .plant-name { font-family: var(--display); }
 .pl {
   font-size: 19px;
   fill: var(--pencil);

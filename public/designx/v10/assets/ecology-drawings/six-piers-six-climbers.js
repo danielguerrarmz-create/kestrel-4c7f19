@@ -86,3 +86,8 @@
   function draw(p,al){g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,canvas.width,canvas.height);g.drawImage(cA,0,0);g.restore();g.globalAlpha=al;plant(g,p);g.globalAlpha=1;}
   loopDrawing(canvas, now => draw(clamp(now / 6500, 0, 1), 1), () => draw(1, 1), 180);
 })();
+
+document.querySelectorAll('.plant-notes dt').forEach(term => {
+  const species = botanicalSprigs.species.find(plant => plant.n === term.textContent);
+  botanicalSprigs.draw(term.parentElement.querySelector('svg'),50,50,species);
+});

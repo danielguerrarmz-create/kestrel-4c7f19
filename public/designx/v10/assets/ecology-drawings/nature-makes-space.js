@@ -2,7 +2,7 @@
 /* ---------- slide 4, third pass: walking people, lighter background, weathering timber ---------- */
 (function(){
   const canvas=document.getElementById('arcE'),lab=document.getElementById('season');
-  const W=1600,H=900,k=drawingScale(W,H,2),GY=800,HZ=640,VX=800,PX=[250,800,1350],LS=.66,FS=.6;
+  const W=1600,H=1000,k=drawingScale(W,H,2),GY=800,HZ=640,VX=800,PX=[250,800,1350],LS=.66,FS=.6;
   canvas.width=W*k;canvas.height=H*k;
   const cB=document.createElement('canvas'),cF=document.createElement('canvas'),cW=document.createElement('canvas');
   [cB,cF,cW].forEach(c=>{c.width=canvas.width;c.height=canvas.height;});
@@ -34,9 +34,9 @@
 
   const walker = makeWalker(k);
   const D1=HZ+160*.74,D2=HZ+160*.52;
-  const WALK=[{x0:1085,y:D1,h:168*.74,dir:-1,v:26,o:{coat:1},al:.82,mid:1},{x0:1048,y:D1,h:112*.74,dir:-1,v:26,o:{head:1.28},al:.82,mid:1,p0:1.3},
-    {x0:650,y:D2,h:164*.52,dir:1,v:17,o:{skirt:1},al:.72,mid:1},{x0:455,y:GY,h:166,dir:1,v:36,o:{skirt:1,bun:1,bag:1},al:.86}];
-  function people(c,sec,mid){WALK.forEach(p=>{if(!!p.mid!==mid)return;const d=p.v*sec,span=W+240,x=((p.x0+p.dir*d+120)%span+span)%span-120;walker(c,x,p.y,p.h,p.dir,(p.p0||0)+6.283*d/(.8*p.h),p.o,p.al);});}
+  const WALK=[{x0:1085,y:D1,h:168*.74,dir:-1,v:26,o:{coat:1},al:.82},{x0:1048,y:D1,h:112*.74,dir:-1,v:26,o:{head:1.28},al:.82,p0:1.3},
+    {x0:650,y:D2,h:164*.52,dir:1,v:17,o:{skirt:1},al:.72},{x0:455,y:HZ+160*.84,h:166*.84,dir:1,v:30,o:{skirt:1,bun:1,bag:1},al:.86}];
+  function people(c,sec){WALK.forEach(p=>{const d=p.v*sec,span=W+240,x=((p.x0+p.dir*d+120)%span+span)%span-120;walker(c,x,p.y,p.h,p.dir,(p.p0||0)+6.283*d/(.8*p.h),p.o,p.al);});}
 
   /* ---- back layer: garden, a lighter floor, the far side of the room ---- */
   bx.fillStyle=PAPER;bx.fillRect(0,0,W,H);
@@ -67,12 +67,52 @@
   ALL.forEach(px=>band([[px+275,304],[px+275,250]],8,1.3,.9));
   band([[-20,250],[1620,250]],20,1.8,.95);
   ALL.forEach(px=>{band(rib(px,3),26,2.4,.97,{clip:[px,px+275],mitre:px+275,my0:278,my1:318});band(rib(px,-3),26,2.4,.97,{clip:[px-275,px]});});
-  wx.save();wx.setTransform(1,0,0,1,0,0);wx.clearRect(0,(GY-8)*k,cW.width,cW.height);wx.restore();
+  // The lower grain darkens unevenly above each sleeve as the timber weathers.
+  const wearRandom = rng(7091);
+  const sleeveLip = GY - 2.8;
+  for (const pier of PX) {
+    for (const j of [-3,-2,-1,1,2,3]) {
+      const width = Math.abs(j) === 3 ? 26 : Math.abs(j) === 2 ? 8 : 7;
+      const left = pier + j*11 - width/2;
+      const height = 40 + 22*wearRandom();
+      wx.save();
+      wx.beginPath(); wx.rect(left,sleeveLip-height,width,height); wx.clip();
+      const stain = wx.createLinearGradient(0,sleeveLip-height,0,sleeveLip);
+      stain.addColorStop(0,'rgba(92,88,76,0)');
+      stain.addColorStop(1,'rgba(85,79,65,.48)');
+      wx.fillStyle = stain;
+      wx.fillRect(left,sleeveLip-height,width,height);
+      for (let x=left+1.5; x<left+width-1; x+=2+wearRandom()*2) {
+        const length = height*(.18+.8*wearRandom());
+        wx.beginPath(); wx.moveTo(x,sleeveLip);
+        wx.quadraticCurveTo(x+1.4,sleeveLip-length*.6,x-.6,sleeveLip-length);
+        wx.strokeStyle=ink(.28+.32*wearRandom()); wx.lineWidth=.7+wearRandom()*.6; wx.stroke();
+      }
+      wx.restore();
+    }
+  }
+  wx.save();wx.setTransform(1,0,0,1,0,0);wx.clearRect(0,sleeveLip*k,cW.width,cW.height);wx.restore();
   a.fillStyle=PAPER;a.fillRect(0,GY,W,H-GY);
-  for(let i=0;i<4200;i++){const x=t()*W,d=Math.pow(t(),1.4)*98,fd=clamp(1-d/110,.1,1);if(t()<.25)ln(a,x,GY+2+d,x+2+t()*4,GY+2+d+(t()-.5)*3,.6,.3*fd);else{a.fillStyle=ink(.3*fd);a.beginPath();a.arc(x,GY+2+d,.5+t()*.5,0,7);a.fill();}}
+  for(let i=0;i<4200;i++){const x=t()*W,d=Math.pow(t(),1.4)*(H-GY-2),fd=clamp(1-d/110,.1,1);if(t()<.25)ln(a,x,GY+2+d,x+2+t()*4,GY+2+d+(t()-.5)*3,.6,.3*fd);else{a.fillStyle=ink(.3*fd);a.beginPath();a.arc(x,GY+2+d,.5+t()*.5,0,7);a.fill();}}
   for(let i=0;i<26;i++){const x=t()*W,d=30+t()*60,sz=3+t()*4;a.beginPath();for(let q=0;q<7;q++){const an=q*.9,rr=sz*(.7+t()*.5);a.lineTo(x+rr*1.3*Math.cos(an),GY+d+rr*.8*Math.sin(an));}a.closePath();a.fillStyle=PAPER;a.fill();a.strokeStyle=ink(.4);a.lineWidth=.6;a.stroke();}
-  PX.forEach(px=>{a.fillStyle=ink(.95);a.fillRect(px-44,GY-8,88,8);});
   ln(a,0,GY,W,GY,1.6,.9);
+
+  // Continue the six visible ribs through grade to the steel frame.
+  const detailScale = .28;
+  const legSections = [-3,-2,-1,1,2,3].map(j => ({
+    x: j * 11 / detailScale,
+    w: (Math.abs(j) === 3 ? 26 : Math.abs(j) === 2 ? 8 : 7) / detailScale
+  }));
+  for (const pier of PX) {
+    for (const leg of legSections) {
+      const left = pier + (leg.x-leg.w/2)*detailScale;
+      const width = leg.w*detailScale;
+      a.fillStyle = PAPER;
+      a.fillRect(left,GY-1,width,1+59*detailScale);
+      for (let x=left+3; x<left+width; x+=4) ln(a,x,GY-1,x,GY+59*detailScale,.6,.5);
+    }
+    drawPierFoundation(a,pier,GY,detailScale,legSections);
+  }
 
   /* ---- plants ---- */
   const SPEC=[[SP.wisteria,SP.rose],[SP.honeysuckle,SP.ivy],[SP.vine,SP.wisteria]];
@@ -141,6 +181,11 @@
   // The deck scales a fixed-width slide on phones. Use the viewer width for
   // the toolbar so it remains readable on the scaled presentation surface.
   const narrowViewer = (window.frameElement ? window.parent : window).matchMedia('(max-width: 620px)');
+  if (window.frameElement) {
+    document.documentElement.classList.add('section-deck');
+    const slideStyle = getComputedStyle(window.frameElement);
+    document.documentElement.style.setProperty('--title-column',slideStyle.getPropertyValue('--title-column'));
+  }
   const fitToolbar = () => document.documentElement.classList.toggle('compact-viewer', narrowViewer.matches);
   fitToolbar();
   narrowViewer.addEventListener('change', fitToolbar);
@@ -179,10 +224,9 @@
     const sec = time / 1000;
     g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,canvas.width,canvas.height);g.drawImage(cB,0,0);g.restore();
     g.drawImage(rear, 0, 0, W, H);
-    people(g,sec,true);
+    people(g,sec);
     g.save();g.setTransform(1,0,0,1,0,0);g.drawImage(cF,0,0);g.globalAlpha=weathering;g.drawImage(cW,0,0);g.restore();
     g.drawImage(front, 0, 0, W, H);
-    people(g,sec,false);
     const stage = time < 8500 ? 0 : time < 14400 ? 1 : time < 20700 ? 2 : time < 26800 ? 3 : 4;
     if (stage !== activeStage) {
       buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === stage)));
@@ -192,8 +236,9 @@
     if (lab.textContent !== caption) lab.textContent = caption;
   }
   function showTransport() {
-    toggle.toggleAttribute('data-paused', !running);
-    toggle.setAttribute('aria-label', running ? 'Pause growth sequence' : elapsed === end ? 'Replay growth sequence' : 'Play growth sequence');
+    const action = running ? 'Pause' : elapsed === end ? 'Replay' : 'Play';
+    toggle.textContent = action;
+    toggle.setAttribute('aria-label', action + ' growth sequence');
   }
   function tick(now) {
     request = 0;

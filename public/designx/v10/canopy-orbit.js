@@ -8,7 +8,7 @@
     drawing:'A full orbit varies its height, then rises into a true top-down view and holds. Perspective and Axonometric use the same camera route and scenario clock; Axonometric uses parallel projection. The full-size films autoplay, pause and scrub with the shared black timeline.',
     status:'Pre-rendered camera studies with authored people and birds. Growth and timber appearance are illustrative. During the final overhead hold, the presentation dissolves from the canopy to the Bower emblem.',
     transition:'Return to the changing light and enclosure of the same room.'};
-  const html=`<section class="v7-scene v8-canopy-orbit-scene">
+  const html=`<section class="v7-scene v8-canopy-orbit-scene v10-drawing-player">
     <h2 class="v7-title">From room to canopy</h2>
     <img class="v8-canopy-poster" src="${BASE}axonometric-poster.jpg" alt="The established living room, seen directly from above">
     <div data-v8-canopy class="slide-interaction">
@@ -16,8 +16,7 @@
       <div class="canopy-end-mark" aria-hidden="true"><img src="/assets/brand/bower-logo-evergreen-emblem.png" alt=""></div>
       <nav class="v8-canopy-projections" aria-label="Projection"><button data-canopy-projection="perspective" aria-pressed="false">Perspective</button><button data-canopy-projection="axonometric" aria-pressed="true">Axonometric</button></nav>
       <div class="v8-canopy-message" role="status" hidden><span></span><button data-canopy-retry hidden>Retry drawing</button></div>
-      <div class="v8-drawing-timeline"><button data-canopy-play aria-label="Pause drawing">Pause</button><div class="v8-drawing-when"><output data-canopy-readout class="v8-drawing-readout">Assembly</output><span data-canopy-date class="v8-drawing-context">Before planting</span></div><div class="v8-drawing-track"><input type="range" aria-label="Time since planting" min="0" max="55" step="0.01" value="0" disabled><div class="v8-drawing-axis" aria-hidden="true"></div></div></div>
-      <p class="v8-canopy-evidence">Pre-rendered camera study · authored inhabitants · provisional growth</p>
+      <div class="v8-drawing-timeline"><button data-canopy-play aria-label="Pause drawing">Pause</button><div class="v8-drawing-when"><output data-canopy-readout class="v8-drawing-readout">Assembly</output><span data-canopy-date class="v8-drawing-context">Before planting</span></div><div class="v8-drawing-track"><input type="range" aria-label="Time since planting" min="0" max="55" step="0.01" value="0" disabled><nav class="canopy-milestones" aria-label="Jump to a growth stage"></nav></div></div>
     </div>
     <p class="v8-canopy-print-caption">Year 9 · June 2036 · Axonometric overhead</p>
   </section>`;
@@ -63,15 +62,15 @@
     async function load(){
       if(!job)job=fetch(asset('manifest.json')).then(r=>{if(!r.ok)throw Error('Manifest unavailable');return r.json();}).then(data=>{
         manifest=data;state.duration=data.duration;
-        const axis=$('.v8-drawing-axis'),start=Date.parse(data.startDate),end=Date.parse(data.endDate);
+        const axis=$('.canopy-milestones'),start=Date.parse(data.startDate),end=Date.parse(data.endDate);
         const marks=[{time:0,label:'Assembly'},{time:13,label:'Planted'},...[2,5,9].map(y=>({time:13+(Date.UTC(2027+y,2,12)-start)/(end-start)*36,label:`Year ${y}`}))];
         const planting = 100 * marks[1].time / data.duration;
         range.style.setProperty('--v8-planting', `${planting}%`);
-        axis.replaceChildren(...marks.map(({time, label}, index) => {
-          const marker = document.createElement('span');
+        axis.replaceChildren(...marks.map(({time, label}) => {
+          const marker = document.createElement('button');
+          marker.type = 'button';
           marker.textContent = label;
-          marker.style.left = `${100 * time / data.duration}%`;
-          if (index > 0) marker.classList.add(index === 1 ? 'v8-bud-mark' : 'v8-leaf-mark');
+          marker.addEventListener('click', () => seek(time));
           return marker;
         }));
       }).catch(()=>{job=null;fail();});
@@ -82,7 +81,8 @@
     video.addEventListener('loadeddata',ready);video.addEventListener('seeked',ready);video.addEventListener('canplay',ready);
     video.addEventListener('error',()=>{if(video.src)fail();});video.addEventListener('waiting',()=>{if(usable()&&!state.error)show('Loading the selected moment…');});
     play.onclick=()=>{state.playing=!state.playing;if(state.playing)start();else stop();controls();};
-    range.oninput=()=>{state.playing=false;stop();state.time=Number(range.value);pending=state.time;if(video.readyState>=1){state.ready=false;video.currentTime=state.time;show('Loading the selected moment…');}controls();};
+    function seek(time){state.playing=false;stop();state.time=time;pending=time;if(video.readyState>=1){state.ready=false;video.currentTime=time;show('Loading the selected moment…');}controls();}
+    range.oninput=()=>seek(Number(range.value));
     root.querySelectorAll('[data-canopy-projection]').forEach(b=>b.onclick=()=>{if(state.projection===b.dataset.canopyProjection)return;state.projection=b.dataset.canopyProjection;loadFilm();});
     $('[data-canopy-retry]').onclick=()=>{state.error=null;if(manifest)loadFilm();else load();};
     root.addEventListener('keydown',e=>e.stopPropagation());

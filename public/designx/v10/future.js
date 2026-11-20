@@ -82,6 +82,7 @@
       const sync = () => {
         clearTimeout(timer);
         playback.setAttribute('aria-label', playing ? 'Pause gallery' : 'Play gallery');
+        playback.textContent = playing ? 'Pause' : 'Play';
         playback.disabled = motion.matches;
         const active = scene.closest('.slide').classList.contains('is-active') && !document.hidden && !printing;
         announcement.setAttribute('aria-live', playing && active ? 'off' : 'polite');

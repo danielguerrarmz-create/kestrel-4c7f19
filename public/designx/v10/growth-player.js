@@ -38,8 +38,7 @@
         <strong>Scenario and drawing</strong><p>Digital study of a six-bay timber structure and planting. Growth and light depend on provisional assumptions; they are not measured performance or a forecast.</p>
         <strong>Authored occupation</strong><p>Walking silhouettes suggest movement and scale. Their paths are authored, without collision or behaviour modelling. They pause and scrub with the drawing. <a href="https://opengameart.org/content/animated-human-low-poly" target="_blank" rel="noopener">Character by Quaternius, CC0</a>.</p>
         <strong>Views</strong><p>Light compares three stages through the same midsummer day. Space is an unrolled panorama; drag to turn.</p>
-      </div></details>
-    <span data-v8-growth-disclosure class="v8-growth-evidence">Pre-rendered growth scenario · authored occupation</span>`;
+      </div></details>`;
     host.append(root);
     const $ = selector => root.querySelector(selector);
     const canvas = $('canvas'), ctx = canvas.getContext('2d');
@@ -54,6 +53,7 @@
       chapterHost.classList.add('v8-light-times');
       chapterHost.setAttribute('aria-label', 'Time of day presets');
       inspect.before(chapterHost);
+      inspect.before(message);
       inspect.hidden = true;
     }
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -102,7 +102,6 @@
       });
       $('[data-v8-occupation]').setAttribute('aria-pressed', String(state.occupation));
       $('[data-v8-occupation] span').textContent = state.occupation ? 'on' : 'off';
-      $('[data-v8-growth-disclosure]').textContent = `${original() ? 'Original eye-level film' : 'Pre-rendered growth scenario'} · ${state.occupation ? 'authored occupation' : 'occupation hidden'}`;
       canvas.style.cursor = state.mode === 'space' ? (held ? 'grabbing' : 'grab') : 'default';
     }
 

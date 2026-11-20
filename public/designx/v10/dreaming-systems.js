@@ -158,7 +158,7 @@
               }).join('')}
             </svg>
           </div>
-          <figcaption class="readout" aria-live="polite" aria-atomic="true">
+          <figcaption class="readout v10-takeaway" aria-live="polite" aria-atomic="true">
             <p id="learning-readout" class="mode-readout"></p>
             <section id="learning-node-details" class="node-details" aria-labelledby="learning-node-heading" hidden>
               <h3 id="learning-node-heading"></h3>

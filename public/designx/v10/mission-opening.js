@@ -19,7 +19,10 @@
   const currentCast = prefix === 'cast-';
   const seasonalWeather = currentCast || prefix === 'weather-';
   const assets = 'v10/assets/mission-opening/';
-  const imagePath = name => assets + (currentCast && name === 'winter-two.webp' ? 'urban-' : prefix) + name;
+  const imagePath = name => {
+    if (currentCast && name === 'opening-day.webp') return assets + 'ink-opening-day.webp';
+    return assets + (currentCast && name === 'winter-two.webp' ? 'urban-' : prefix) + name;
+  };
   const visits = [
     {
       stage: 'day', file: 'opening-day.webp', title: 'Opening day.',
@@ -93,12 +96,13 @@
       </figure>`).join('')}
     </section>`,
     notes: visits.map(visit => visit.caption).join(' '),
-    source: 'Five architectural concept renders of the same room. The sequence imagines seasonal change, weathering and occupation over five years.'
+    source: 'Five architectural views of the same room. The sequence imagines seasonal change, weathering and occupation over five years.'
   }, {
     title: 'A living street.', theme: 'mission-scene', act: cover.act, comparisonIndex: cover.comparisonIndex,
     html: `<section class="mission-visit">
       <img class="mission-photo mission-street" src="${streetImage}" alt="${streetAlt}">
-      <div class="mission-caption"><h2>A living street.</h2><p>Now imagine this on your walk home.</p></div>
+      <div class="mission-caption"><h2>A living street.</h2></div>
+      <p class="v10-takeaway">Now imagine this on your walk home.</p>
     </section>`,
     notes: 'Imagine encountering a planted timber canopy as part of an everyday walk.',
     source: 'Living street architectural concept render.'
@@ -111,6 +115,7 @@
     const slide = room.closest('.slide');
     const frames = [...room.querySelectorAll('.mission-moment')];
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const holdOpeningStudy = params.get('study') === 'opening-day';
     const openingHold = 3000;
     const visitHold = 2300;
     const fade = 900;
@@ -170,7 +175,7 @@
     }
 
     async function startClock() {
-      if (!active || printing || document.hidden || current === visits.length - 1) return;
+      if (holdOpeningStudy || !active || printing || document.hidden || current === visits.length - 1) return;
       const token = sequence;
       try { await imageAt(current).decode(); }
       catch { if (token === sequence) advance(token); return; }
