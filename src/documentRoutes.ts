@@ -19,7 +19,7 @@ export function designxDocumentUrl(requestUrl: string): string | null {
   if (pathname === CRE_RETAIL_ROOT || pathname === `${CRE_RETAIL_ROOT}/`) {
     return `${DESIGNX_ROOT}/retail/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
   }
-  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/v10`, `${DESIGNX_ROOT}/retail`]
+  const documentRoot = [DESIGNX_ROOT, `${DESIGNX_ROOT}/v8`, `${DESIGNX_ROOT}/v10`, `${DESIGNX_ROOT}/retail`]
     .find(root => pathname === root || pathname === `${root}/`);
   if (!documentRoot) return null;
   return `${documentRoot}/index.html${queryIndex === -1 ? '' : requestUrl.slice(queryIndex)}`;
@@ -45,5 +45,6 @@ export function designxPdfUrl(requestUrl: string): string | null {
 /** Archived entry pages retire independently of the shared artwork they used. */
 export function isArchivedDesignxDocument(requestUrl: string): boolean {
   const pathname = requestUrl.split('?')[0];
-  return /^\/designx\/(?:[1-6]|v7|v8)(?:\/?|\/(?:index|story-map)\.html|\/pdf\/?)$/.test(pathname);
+  return /^\/designx\/(?:[1-6]|v7)(?:\/?|\/(?:index|story-map)\.html|\/pdf\/?)$/.test(pathname)
+    || /^\/designx\/v8\/(?:story-map\.html|pdf\/?)$/.test(pathname);
 }

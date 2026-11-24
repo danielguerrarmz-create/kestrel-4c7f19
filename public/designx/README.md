@@ -4,7 +4,8 @@ A working presentation for Bower × MIT–LUMA. Editions 01 and 02 have sixteen 
 
 ## Routes
 
-- `/designx` and `/designx/`: interactive presentation.
+- `/designx` and `/designx/v10/` serve Version 10. The main and versioned HTML files share the same viewer and assets. When changing the V10 entry document, update both. The route tests check that they match apart from their offline base and print links.
+- `/designx/v8/` serves the previous main presentation. Each deck's Print view opens its own edition.
 - `/designx/2` and `/designx/2/`: second visual edition, using the architectural-editorial style guide.
 - `/designx/3` and `/designx/3/`: third edition, opening with the material problem and manufacturing challenge.
 - `/designx/4` and `/designx/4/`: fourth edition, pairing Argesta architectural typography with Safiro technical diagrams and a dark laboratory sequence.

@@ -327,13 +327,16 @@ describe('the Vercel SPA rewrite', () => {
     expect(re.test('/cre-retailer')).toBe(true);
   });
 
-  it('publishes Version 10 and retires archived edition entry aliases', () => {
-    for (const path of ['/designx/v10', '/designx/v10/']) {
-      expect(re.test(path)).toBe(false);
-      expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
-        .toBe('/designx/v10/index.html');
+  it('publishes Version 10 and the former main deck at their own URLs', () => {
+    for (const edition of ['v8', 'v10']) {
+      for (const suffix of ['', '/']) {
+        const path = '/designx/' + edition + suffix;
+        expect(re.test(path)).toBe(false);
+        expect(cfg.rewrites.find((r: { source: string }) => r.source === path)?.destination)
+          .toBe('/designx/' + edition + '/index.html');
+      }
     }
-    for (const edition of ['1', '2', '3', '4', '5', '6', 'v7', 'v8']) {
+    for (const edition of ['1', '2', '3', '4', '5', '6', 'v7']) {
       for (const suffix of ['', '/', '/pdf', '/pdf/']) {
         const path = '/designx/' + edition + suffix;
         expect(re.test(path)).toBe(false);
